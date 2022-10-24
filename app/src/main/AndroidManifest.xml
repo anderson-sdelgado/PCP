@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".TelaInicialActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
