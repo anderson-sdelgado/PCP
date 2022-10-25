@@ -9,20 +9,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.TelaInicialActivity">
+    tools:context=".view.ColabActivity">
 
     <TextView
-        android:id="@+id/textInicioApp"
-        style="@style/TextViewTituloLista"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_inicio" />
+        android:id="@+id/textViewPadrao"
+        style="@style/TextView"
+        android:text="@string/texto_colab" />
 
-    <ProgressBar
-        android:id="@+id/progressBarIniciandoApp"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <EditText
+        android:id="@+id/editTextPadrao"
+        style="@style/EditView"
+        />
+
+    <include
+        android:id="@+id/layout_novo_botoes"
+        layout="@layout/layout_botoes" />
 
 </LinearLayout>

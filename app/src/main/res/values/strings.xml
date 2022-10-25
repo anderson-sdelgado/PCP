@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">PCP</string>
+    <string name="texto_menu_principal">PRINCIPAL</string>
+    <string name="texto_item_list">TESTE</string>
+    <string name="texto_num1">1</string>
+    <string name="texto_num2">2</string>
+    <string name="texto_num3">3</string>
+    <string name="texto_num4">4</string>
+    <string name="texto_num5">5</string>
+    <string name="texto_num6">6</string>
+    <string name="texto_num7">7</string>
+    <string name="texto_num8">8</string>
+    <string name="texto_num9">9</string>
+    <string name="texto_padrao_apagar">APAGAR</string>
+    <string name="texto_num0">0</string>
+    <string name="texto_num00">00</string>
+    <string name="texto_virg">,</string>
+    <string name="texto_padrao_ok">OK</string>
+    <string name="texto_senha">SENHA:</string>
+    <string name="texto_padrao_canc">CANC.</string>
+    <string name="texto_padrao_cancelar">CANCELAR</string>
+    <string name="texto_colab">MATRIC. COLABORADOR:</string>
+    <string name="texto_inicio">INICIANDO O APLICATIVO...</string>
+    <string name="texto_num_linha_config">NUM. LINHA:</string>
+    <string name="texto_padrao_salvar">SALVAR</string>
+    <string name="texto_atual_dados">ATUALIZAR DADOS</string>
+    <string name="texto_titulo_log_proc">LOG - PROCESSO</string>
+    <string name="texto_titulo_log_base_dado">LOG - BASE DADO</string>
+    <string name="texto_titulo_log_erro">LOG - ERRO</string>
+    <string name="texto_padrao_avancar">AVANÇAR</string>
+    <string name="texto_padrao_retornar">RETORNAR</string>
+    <string name="texto_hist_apont">PARADA: VERIFICACAO INICIAL</string>
+    <string name="texto_hist_horario">10:08</string>
+    <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
 </resources>

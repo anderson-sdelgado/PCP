@@ -9,20 +9,33 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.TelaInicialActivity">
+    tools:context=".view.LogProcessoActivity">
 
     <TextView
-        android:id="@+id/textInicioApp"
+        android:id="@+id/textViewTituloLogProcesso"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_inicio" />
+        android:text="@string/texto_titulo_log_proc" />
 
-    <ProgressBar
-        android:id="@+id/progressBarIniciandoApp"
-        style="?android:attr/progressBarStyle"
+    <ListView
+        android:id="@+id/listViewLogProcesso"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonAvancaLogProcesso"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_avancar" />
+
+    <Button
+        android:id="@+id/buttonRetLogProcesso"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

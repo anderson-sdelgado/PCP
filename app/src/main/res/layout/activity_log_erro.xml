@@ -9,20 +9,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.TelaInicialActivity">
+    tools:context=".view.LogErroActivity">
 
     <TextView
-        android:id="@+id/textInicioApp"
+        android:id="@+id/textViewTituloLogErro"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_inicio" />
+        android:text="@string/texto_titulo_log_erro" />
 
-    <ProgressBar
-        android:id="@+id/progressBarIniciandoApp"
-        style="?android:attr/progressBarStyle"
+    <ListView
+        android:id="@+id/listViewLogErro"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonRetLogErro"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

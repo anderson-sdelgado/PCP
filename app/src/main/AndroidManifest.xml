@@ -14,7 +14,58 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
-            android:name=".TelaInicialActivity"
+            android:name=".LogErroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogBaseDadoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogProcessoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ConfigActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SenhaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VisitanteTerceiroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VeiculoVisitanteTerceiroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VeiculoProprioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TipoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlacaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ObservacaoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NotaFiscalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuInicialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListaVeiculoSecActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListaMovActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DestinoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ColabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.TelaInicialActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
