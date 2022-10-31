@@ -3,8 +3,8 @@ package br.com.usinasantafe.pcp;
 import android.app.Application;
 
 import br.com.usinasantafe.pcp.control.ConfigCTR;
-import br.com.usinasantafe.pcp.control.MovimentacaoVeicProprioCTR;
-import br.com.usinasantafe.pcp.control.MovimentacaoVeicVisTercCTR;
+import br.com.usinasantafe.pcp.control.MovVeicProprioCTR;
+import br.com.usinasantafe.pcp.control.MovVeicVisitTercCTR;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 
 public class PCPContext extends Application {
@@ -12,8 +12,8 @@ public class PCPContext extends Application {
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
     private ConfigCTR configCTR;
-    private MovimentacaoVeicProprioCTR movimentacaoVeicProprioCTR;
-    private MovimentacaoVeicVisTercCTR movimentacaoVeicVisTercCTR;
+    private MovVeicProprioCTR movVeicProprioCTR;
+    private MovVeicVisitTercCTR movVeicVisitTercCTR;
 
     public static String versaoWS = "1.00";
 
@@ -24,16 +24,16 @@ public class PCPContext extends Application {
         Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
-    public MovimentacaoVeicProprioCTR getMovimentacaoVeicProprioCTR(){
-        if (movimentacaoVeicProprioCTR == null)
-            movimentacaoVeicProprioCTR = new MovimentacaoVeicProprioCTR();
-        return movimentacaoVeicProprioCTR;
+    public MovVeicProprioCTR getMovimentacaoVeicProprioCTR(){
+        if (movVeicProprioCTR == null)
+            movVeicProprioCTR = new MovVeicProprioCTR();
+        return movVeicProprioCTR;
     }
 
-    public MovimentacaoVeicVisTercCTR getMovimentacaoVeicVisTercCTR(){
-        if (movimentacaoVeicVisTercCTR == null)
-            movimentacaoVeicVisTercCTR = new MovimentacaoVeicVisTercCTR();
-        return movimentacaoVeicVisTercCTR;
+    public MovVeicVisitTercCTR getMovimentacaoVeicVisitTercCTR(){
+        if (movVeicVisitTercCTR == null)
+            movVeicVisitTercCTR = new MovVeicVisitTercCTR();
+        return movVeicVisitTercCTR;
     }
 
     public ConfigCTR getConfigCTR(){

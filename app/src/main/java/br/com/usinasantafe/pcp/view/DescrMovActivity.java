@@ -4,11 +4,11 @@ import android.os.Bundle;
 
 import br.com.usinasantafe.pcp.R;
 
-public class VeiculoVisitanteTerceiroActivity extends ActivityGeneric {
+public class DescrMovActivity extends ActivityGeneric {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_veiculo_visitante_terceiro);
+        setContentView(R.layout.activity_descr_mov);
     }
 }

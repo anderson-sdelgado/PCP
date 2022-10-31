@@ -7,6 +7,7 @@ import android.os.Handler;
 import br.com.usinasantafe.pcp.PCPContext;
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
+import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
 public class TelaInicialActivity extends ActivityGeneric {
 
@@ -32,15 +33,41 @@ public class TelaInicialActivity extends ActivityGeneric {
                     "            clearBD();\n" +
                     "            goMenuInicial();", getLocalClassName());
             clearBD();
+
+            if(EnvioDadosServ.getInstance().verifDadosEnvio()){
+                LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().verifDadosEnvio()", getLocalClassName());
+                if(connectNetwork){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(connectNetwork){\n" +
+                            "EnvioDadosServ.getInstance().envioDados()", getLocalClassName());
+                    EnvioDadosServ.getInstance().envioDados(getLocalClassName());
+                }
+                else{
+                    LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                            "                EnvioDadosServ.status = 1;", getLocalClassName());
+                    EnvioDadosServ.status = 1;
+                }
+            }
+            else{
+                LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                        "            EnvioDadosServ.status = 3;", getLocalClassName());
+                EnvioDadosServ.status = 3;
+            }
+
             goMenuInicial();
         }
 
     };
 
     public void clearBD() {
-        LogProcessoDAO.getInstance().insertLogProcesso("piaContext.getInfestacaoCTR().deleteCabecEnviado();\n" +
-                "        piaContext.getConfigCTR().deleteLogs();", getLocalClassName());
-//        piaContext.getInfestacaoCTR().deleteCabecEnviado();
+        LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioEnviado();\n" +
+                "        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercEnviado();\n" +
+                "        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioAberto();\n" +
+                "        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercAberto();\n" +
+                "        pcpContext.getConfigCTR().deleteLogs();", getLocalClassName());
+        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioEnviado();
+        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercEnviado();
+        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioAberto();
+        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
         pcpContext.getConfigCTR().deleteLogs();
     }
 

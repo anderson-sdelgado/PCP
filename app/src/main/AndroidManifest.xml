@@ -14,6 +14,12 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
+            android:name=".NomeColabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DescrMovActivity"
+            android:exported="false" />
+        <activity
             android:name=".LogErroActivity"
             android:exported="false" />
         <activity

@@ -7,13 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import br.com.usinasantafe.pcp.PCPContext;
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 
-public class ColabActivity extends ActivityGeneric {
+public class VeiculoUsinaActivity extends ActivityGeneric {
 
     private PCPContext pcpContext;
     private ProgressDialog progressBar;
@@ -21,20 +20,13 @@ public class ColabActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_colab);
+        setContentView(R.layout.activity_veiculo_usina);
 
         pcpContext = (PCPContext) getApplication();
 
-        Button buttonOkColab = findViewById(R.id.buttonOkPadrao);
-        Button buttonCancColab = findViewById(R.id.buttonCancPadrao);
+        Button buttonOkVeicUsina = findViewById(R.id.buttonOkPadrao);
+        Button buttonCancVeicUsina = findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
-        TextView textViewPadrao = findViewById(R.id.textViewPadrao);
-
-        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
-            textViewPadrao.setText("MATRIC. VIGIA:");
-        } else {
-            textViewPadrao.setText("MATRIC. COLAB:");
-        }
 
         buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,10 +34,10 @@ public class ColabActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);\n" +
+                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(VeiculoUsinaActivity.this);\n" +
                         "                alerta.setTitle(\"ATENÇÃO\");\n" +
                         "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(VeiculoUsinaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -55,18 +47,17 @@ public class ColabActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
                                 "                    @Override\n" +
                                 "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-
                         if (connectNetwork) {
 
                             LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                                    "progressBar = new ProgressDialog(ColabActivity.this);\n" +
+                                    "progressBar = new ProgressDialog(VeiculoUsinaActivity.this);\n" +
                                     "                            progressBar.setCancelable(true);\n" +
                                     "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
                                     "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
                                     "                            progressBar.setProgress(0);\n" +
                                     "                            progressBar.setMax(100);\n" +
                                     "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(ColabActivity.this);
+                            progressBar = new ProgressDialog(VeiculoUsinaActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -74,12 +65,12 @@ public class ColabActivity extends ActivityGeneric {
                             progressBar.setMax(100);
                             progressBar.show();
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getMotoMecFertCTR().atualDados(ColabActivity.this, ColabActivity.class, progressBar, \"Colab\", 1, getLocalClassName());", getLocalClassName());
-                            pcpContext.getConfigCTR().atualDados(ColabActivity.this, ColabActivity.class, progressBar, "Colab", 1, getLocalClassName());
+                            LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getMotoMecFertCTR().atualDados(VeiculoUsinaActivity.this, VeiculoUsinaActivity.class, progressBar, \"Equip\", 1, getLocalClassName());", getLocalClassName());
+                            pcpContext.getConfigCTR().atualDados(VeiculoUsinaActivity.this, VeiculoUsinaActivity.class, progressBar, "Equip", 1, getLocalClassName());
 
                         } else {
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);\n" +
+                            LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder(VeiculoUsinaActivity.this);\n" +
                                     "                            alerta.setTitle(\"ATENÇÃO\");\n" +
                                     "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
                                     "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
@@ -88,7 +79,7 @@ public class ColabActivity extends ActivityGeneric {
                                     "                                }\n" +
                                     "                            });\n" +
                                     "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(VeiculoUsinaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -118,64 +109,54 @@ public class ColabActivity extends ActivityGeneric {
 
         });
 
-        buttonOkColab.setOnClickListener(new View.OnClickListener() {
+        buttonOkVeicUsina.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("rawtypes")
             @Override
             public void onClick(View v) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkColab.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkMotorista.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @SuppressWarnings(\"rawtypes\")\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
                     if (pcpContext.getConfigCTR().verColab(Long.parseLong(editTextPadrao.getText().toString()))) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().verColab(Long.parseLong(editTextPadrao.getText().toString()))) {", getLocalClassName());
-                        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
-                                    "                            pcpContext.getConfigCTR().setMatricVigia(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getConfigCTR().setMatricVigia(Long.parseLong(editTextPadrao.getText().toString()));
+                        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                                    "                            pcpContext.getMovimentacaoVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
+                            pcpContext.getMovimentacaoVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "                            pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicProprioCTR().setNroMatricColab(Long.parseLong(editTextPadrao.getText().toString()));
+                                    "                            pcpContext.getMovimentacaoVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
+                            pcpContext.getMovimentacaoVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));
                         }
-                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ColabActivity.this, NomeColabTercVisitActivity.class);", getLocalClassName());
-                        Intent it = new Intent(ColabActivity.this, NomeColabVisitTercActivity.class);
+                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
+                        Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);
                         startActivity(it);
                         finish();
                     } else {
+
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        String msg = \"\";", getLocalClassName());
-                        String msg = "";
-                        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
-                                    "                            msg = \"NUMERAÇÃO DO VIGIA INEXISTENTE! FAVOR VERIFICA A MESMA.\";", getLocalClassName());
-                            msg = "NUMERAÇÃO CRACHÁ DO VIGIA INEXISTENTE! FAVOR VERIFICA A MESMA.";
-                        } else {
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "                            msg = \"NUMERAÇÃO DO COLABORADOR INEXISTENTE! FAVOR VERIFICA A MESMA.\";", getLocalClassName());
-                            msg = "NUMERAÇÃO CRACHÁ DO COLABORADOR INEXISTENTE! FAVOR VERIFICA A MESMA.";
-                        }
-                        LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);\n" +
+                                "AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);\n" +
                                 "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(msg);\n" +
+                                "                        alerta.setMessage(\"NUMERAÇÃO DE EQUIPAMENTO INVÁLIDA! FAVOR, VERIFICAR A NUMERAÇÃO DIGITADA.\");\n" +
                                 "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
                                 "                            @Override\n" +
                                 "                            public void onClick(DialogInterface dialog, int which) {\n" +
                                 "                            }\n" +
                                 "                        });\n" +
                                 "                        alerta.show();", getLocalClassName());
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(VeiculoUsinaActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage(msg);
+                        alerta.setMessage("NUMERAÇÃO DE EQUIPAMENTO INVÁLIDA! FAVOR, VERIFICAR A NUMERAÇÃO DIGITADA.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         });
                         alerta.show();
+
                     }
                 }
 
@@ -183,10 +164,10 @@ public class ColabActivity extends ActivityGeneric {
 
         });
 
-        buttonCancColab.setOnClickListener(new View.OnClickListener() {
+        buttonCancVeicUsina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancColab.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancMotorista.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "if (editTextPadrao.getText().toString().length() > 0) {\n" +
@@ -201,20 +182,20 @@ public class ColabActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it;
-        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {\n" +
-                "        Intent it;", getLocalClassName());
-        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
-            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
-                    "            it = new Intent(ColabActivity.this, TelaInicialActivity.class);", getLocalClassName());
-            it = new Intent(ColabActivity.this, TelaInicialActivity.class);
+        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {", getLocalClassName());
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                    "            Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovActivity.class);", getLocalClassName());
+            Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovActivity.class);
+            startActivity(it);
+            finish();
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "            it = new Intent(ColabActivity.this, ListaMovActivity.class);", getLocalClassName());
-            it = new Intent(ColabActivity.this, ListaMovActivity.class);
+                    "            Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
+            Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);
+            startActivity(it);
+            finish();
         }
-        startActivity(it);
-        finish();
     }
 
 }

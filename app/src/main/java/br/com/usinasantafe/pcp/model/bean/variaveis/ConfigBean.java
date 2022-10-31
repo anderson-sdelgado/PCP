@@ -17,8 +17,18 @@ public class ConfigBean extends Entidade {
     @DatabaseField
 	private String senhaConfig;
 	@DatabaseField
+	private Long matricVigiaConfig;
+	@DatabaseField
+	private Long posicaoListaMov;
+	@DatabaseField
+	private Long tipoMov;
+	@DatabaseField
 	private Long posicaoTela;
 	// 1 - Configuração Inicial
+	// 2 - Log Inicial
+	// 3 - Vigia
+	// 4 - Inicio Movimento
+	// 5 - Veiculo Seg
 
 	public ConfigBean() {
 	}
@@ -54,4 +64,29 @@ public class ConfigBean extends Entidade {
 	public void setPosicaoTela(Long posicaoTela) {
 		this.posicaoTela = posicaoTela;
 	}
+
+	public Long getMatricVigiaConfig() {
+		return matricVigiaConfig;
+	}
+
+	public void setMatricVigiaConfig(Long matricVigiaConfig) {
+		this.matricVigiaConfig = matricVigiaConfig;
+	}
+
+	public Long getPosicaoListaMov() {
+		return posicaoListaMov;
+	}
+
+	public void setPosicaoListaMov(Long posicaoListaMov) {
+		this.posicaoListaMov = posicaoListaMov;
+	}
+
+	public Long getTipoMov() {
+		return tipoMov;
+	}
+
+	public void setTipoMov(Long tipoMov) {
+		this.tipoMov = tipoMov;
+	}
+
 }

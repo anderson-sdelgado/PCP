@@ -19,6 +19,8 @@ public class MovEquipProprioBean extends Entidade {
     @DatabaseField
     private String dthrMovEquipProprio;
     @DatabaseField
+    private Long dthrLongMovEquipProprio;
+    @DatabaseField
     private Long nroMatricVigiaMovEquipProprio;
     @DatabaseField
     private Long nroMatricColabMovEquipProprio;
@@ -27,9 +29,9 @@ public class MovEquipProprioBean extends Entidade {
     @DatabaseField
     private Long nroNotaFiscalMovEquipProprio;
     @DatabaseField
-    private Long observacaoMovEquipProprio;
+    private String observacaoMovEquipProprio;
     @DatabaseField
-    private Long statusMovEquipProprio;
+    private Long statusMovEquipProprio; // 1 - Aberto; 2 - Fechado; 3 - Enviado
 
     public MovEquipProprioBean() {
     }
@@ -98,19 +100,27 @@ public class MovEquipProprioBean extends Entidade {
         this.nroNotaFiscalMovEquipProprio = nroNotaFiscalMovEquipProprio;
     }
 
-    public Long getObservacaoMovEquipProprio() {
-        return observacaoMovEquipProprio;
-    }
-
-    public void setObservacaoMovEquipProprio(Long observacaoMovEquipProprio) {
-        this.observacaoMovEquipProprio = observacaoMovEquipProprio;
-    }
-
     public Long getStatusMovEquipProprio() {
         return statusMovEquipProprio;
     }
 
     public void setStatusMovEquipProprio(Long statusMovEquipProprio) {
         this.statusMovEquipProprio = statusMovEquipProprio;
+    }
+
+    public String getObservacaoMovEquipProprio() {
+        return observacaoMovEquipProprio;
+    }
+
+    public void setObservacaoMovEquipProprio(String observacaoMovEquipProprio) {
+        this.observacaoMovEquipProprio = observacaoMovEquipProprio;
+    }
+
+    public Long getDthrLongMovEquipProprio() {
+        return dthrLongMovEquipProprio;
+    }
+
+    public void setDthrLongMovEquipProprio(Long dthrLongMovEquipProprio) {
+        this.dthrLongMovEquipProprio = dthrLongMovEquipProprio;
     }
 }

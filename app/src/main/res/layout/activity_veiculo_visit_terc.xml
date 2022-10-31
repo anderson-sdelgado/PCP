@@ -9,33 +9,30 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaVeiculoSecActivity">
+    tools:context=".view.VeiculoVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewVeiculoSec"
+        android:id="@+id/textViewTituloVeiculoVisitanteTerceiro"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_veiculo_sec" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_titulo_veiculo" />
 
-    <ListView
-        android:id="@+id/listaVeiculoSec"
+    <EditText
+        android:id="@+id/editTextVeiculoVisitanteTerceiro"
+        style="@style/EditViewObs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/buttonInserirVeiculoSec"
-        style="@style/BotaoAvulso"
+    <LinearLayout
+        android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_inserir" />
-
-    <LinearLayout
-        android:id="@+id/rightRelLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancVeiculoSec"
+            android:id="@+id/buttonCancVeiculoVisitanteTerceiro"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -43,7 +40,7 @@
             android:text="@string/texto_padrao_cancelar" />
 
         <Button
-            android:id="@+id/buttonOkVeiculoSec"
+            android:id="@+id/buttonOkVeiculoVisitanteTerceiro"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

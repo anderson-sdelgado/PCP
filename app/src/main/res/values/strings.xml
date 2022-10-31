@@ -32,4 +32,17 @@
     <string name="texto_hist_apont">PARADA: VERIFICACAO INICIAL</string>
     <string name="texto_hist_horario">10:08</string>
     <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
+    <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
+    <string name="texto_entrada">ENTRADA</string>
+    <string name="texto_saida">SAÍDA</string>
+    <string name="texto_titulo_mov">CONTROLE VEÍCULO USINA</string>
+    <string name="texto_titulo_veiculo">VEÍCULO</string>
+    <string name="texto_veiculo_sec">VEÍCULO SECUNDÁRIO</string>
+    <string name="texto_inserir">INSERIR</string>
+    <string name="texto_titulo_destino">DESTINO</string>
+    <string name="texto_nota_fiscal">NOTA FISCAL</string>
+    <string name="texto_titulo_observacao">OBSERVAÇÃO</string>
+    <string name="texto_tipo">TIPO</string>
+    <string name="texto_cpf">CPF</string>
+    <string name="texto_nome">NOME</string>
 </resources>

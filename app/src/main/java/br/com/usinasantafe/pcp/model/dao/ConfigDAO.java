@@ -37,4 +37,28 @@ public class ConfigDAO {
         configBean.commit();
     }
 
+    public void setPosicaoTela(Long posicaoTela){
+        ConfigBean configBean = getConfig();
+        configBean.setPosicaoTela(posicaoTela);
+        configBean.update();
+    }
+
+    public void setMatricVigia(Long matricVigia){
+        ConfigBean configBean = getConfig();
+        configBean.setMatricVigiaConfig(matricVigia);
+        configBean.update();
+    }
+
+    public void setPosicaoListaMov(Long posicaoListaMov){
+        ConfigBean configBean = getConfig();
+        configBean.setPosicaoListaMov(posicaoListaMov);
+        configBean.update();
+    }
+
+    public void setTipoMov(Long tipoMov){
+        ConfigBean configBean = getConfig();
+        configBean.setTipoMov(tipoMov);
+        configBean.update();
+    }
+
 }

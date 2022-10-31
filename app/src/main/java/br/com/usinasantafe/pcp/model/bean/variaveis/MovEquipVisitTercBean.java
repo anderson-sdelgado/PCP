@@ -21,6 +21,8 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField
     private String dthrMovEquipVisitTerc;
     @DatabaseField
+    private Long dthrLongMovEquipVisitTerc;
+    @DatabaseField
     private Long nroMatricVigiaMovEquipProprio;
     @DatabaseField
     private String placaMovEquipVisitTerc;
@@ -31,7 +33,7 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField
     private String observacaoMovEquipVisitTerc;
     @DatabaseField
-    private String statusMovEquipVisitTerc;
+    private Long statusMovEquipVisitTerc;
 
     public MovEquipVisitTercBean() {
     }
@@ -116,11 +118,19 @@ public class MovEquipVisitTercBean extends Entidade {
         this.observacaoMovEquipVisitTerc = observacaoMovEquipVisitTerc;
     }
 
-    public String getStatusMovEquipVisitTerc() {
+    public Long getStatusMovEquipVisitTerc() {
         return statusMovEquipVisitTerc;
     }
 
-    public void setStatusMovEquipVisitTerc(String statusMovEquipVisitTerc) {
+    public void setStatusMovEquipVisitTerc(Long statusMovEquipVisitTerc) {
         this.statusMovEquipVisitTerc = statusMovEquipVisitTerc;
+    }
+
+    public Long getDthrLongMovEquipVisitTerc() {
+        return dthrLongMovEquipVisitTerc;
+    }
+
+    public void setDthrLongMovEquipVisitTerc(Long dthrLongMovEquipVisitTerc) {
+        this.dthrLongMovEquipVisitTerc = dthrLongMovEquipVisitTerc;
     }
 }

@@ -9,41 +9,39 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaVeiculoSecActivity">
+    tools:context=".view.NomeColabVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewVeiculoSec"
+        android:id="@+id/textViewTituloNome"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_veiculo_sec" />
-
-    <ListView
-        android:id="@+id/listaVeiculoSec"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/buttonInserirVeiculoSec"
-        style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_inserir" />
+        android:text="@string/texto_nome" />
+
+    <TextView
+        android:id="@+id/textViewNome"
+        style="@style/TextViewMsgDescr"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/texto_item_list" />
 
     <LinearLayout
-        android:id="@+id/rightRelLayout"
+        android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancVeiculoSec"
+            android:id="@+id/buttonCancNome"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_cancelar" />
+            android:text="@string/texto_padrao_canc" />
 
         <Button
-            android:id="@+id/buttonOkVeiculoSec"
+            android:id="@+id/buttonOkNome"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -51,5 +49,4 @@
             android:text="@string/texto_padrao_ok" />
 
     </LinearLayout>
-
 </LinearLayout>

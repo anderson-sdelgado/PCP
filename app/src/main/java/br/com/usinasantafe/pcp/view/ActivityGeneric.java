@@ -58,21 +58,33 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
     private class EventoBotao implements View.OnClickListener {
 
         private String numBotao;
+        private String localClassName;
 
-        public EventoBotao(String numBotao) {
+        public EventoBotao(String numBotao, String localClassName) {
             this.numBotao = numBotao;
+            this.localClassName = localClassName;
         }
 
         @Override
         public void onClick(View v) {
 
             String texto = editTextPadrao.getText().toString();
-            if (numBotao.equals(",")) {
-                if (!texto.contains(",")) {
+            if(!localClassName.equals("view.VisitanteTerceiroActivity")){
+                if (numBotao.equals(",")) {
+                    if (!texto.contains(",")) {
+                        editTextPadrao.setText(editTextPadrao.getText() + "" + numBotao);
+                    }
+                } else {
                     editTextPadrao.setText(editTextPadrao.getText() + "" + numBotao);
                 }
             } else {
-                editTextPadrao.setText(editTextPadrao.getText() + "" + numBotao);
+                if(texto.length() == 3){
+                    editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);
+                } else if(texto.length() == 6){
+                    editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);
+                } else if(texto.length() == 9){
+                    editTextPadrao.setText(editTextPadrao.getText() + "-" + numBotao);
+                }
             }
 
         }
@@ -96,62 +108,62 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
         if (findViewById(R.id.buttonNum0) != null) {
             Button buttonNum0 = findViewById(R.id.buttonNum0);
-            buttonNum0. setOnClickListener(new EventoBotao("0"));
+            buttonNum0. setOnClickListener(new EventoBotao("0", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum1) != null) {
             Button buttonNum1 = findViewById(R.id.buttonNum1);
-            buttonNum1.setOnClickListener(new EventoBotao("1"));
+            buttonNum1.setOnClickListener(new EventoBotao("1", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum2) != null) {
             Button buttonNum2 = findViewById(R.id.buttonNum2);
-            buttonNum2.setOnClickListener(new EventoBotao("2"));
+            buttonNum2.setOnClickListener(new EventoBotao("2", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum3) != null) {
             Button buttonNum3 = findViewById(R.id.buttonNum3);
-            buttonNum3.setOnClickListener(new EventoBotao("3"));
+            buttonNum3.setOnClickListener(new EventoBotao("3", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum4) != null) {
             Button buttonNum4 = findViewById(R.id.buttonNum4);
-            buttonNum4.setOnClickListener(new EventoBotao("4"));
+            buttonNum4.setOnClickListener(new EventoBotao("4", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum5) != null) {
             Button buttonNum5 = findViewById(R.id.buttonNum5);
-            buttonNum5.setOnClickListener(new EventoBotao("5"));
+            buttonNum5.setOnClickListener(new EventoBotao("5", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum6) != null) {
             Button buttonNum6 = findViewById(R.id.buttonNum6);
-            buttonNum6.setOnClickListener(new EventoBotao("6"));
+            buttonNum6.setOnClickListener(new EventoBotao("6", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum7) != null) {
             Button buttonNum7 = findViewById(R.id.buttonNum7);
-            buttonNum7.setOnClickListener(new EventoBotao("7"));
+            buttonNum7.setOnClickListener(new EventoBotao("7", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum8) != null) {
             Button buttonNum8 = findViewById(R.id.buttonNum8);
-            buttonNum8.setOnClickListener(new EventoBotao("8"));
+            buttonNum8.setOnClickListener(new EventoBotao("8", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum9) != null) {
             Button buttonNum9 = findViewById(R.id.buttonNum9);
-            buttonNum9.setOnClickListener(new EventoBotao("9"));
+            buttonNum9.setOnClickListener(new EventoBotao("9", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum00) != null) {
             Button buttonNum00 = findViewById(R.id.buttonNum00);
-            buttonNum00.setOnClickListener(new EventoBotao("00"));
+            buttonNum00.setOnClickListener(new EventoBotao("00", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonVirg) != null) {
             Button buttonVirg = findViewById(R.id.buttonVirg);
-            buttonVirg.setOnClickListener(new EventoBotao(","));
+            buttonVirg.setOnClickListener(new EventoBotao(",", this.getLocalClassName()));
         }
     }
 

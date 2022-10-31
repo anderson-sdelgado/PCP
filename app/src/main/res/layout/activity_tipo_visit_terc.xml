@@ -9,19 +9,24 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ColabActivity">
+    tools:context=".view.TipoVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewPadrao"
-        style="@style/TextView"
-        android:text="@string/texto_colab" />
+        android:id="@+id/textViewTipo"
+        style="@style/TextViewTituloLista"
+        android:text="@string/texto_tipo" />
 
-    <EditText
-        android:id="@+id/editTextPadrao"
-        style="@style/EditView" />
+    <ListView
+        android:id="@+id/listaTipo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <include
-        android:id="@+id/layout_novo_botoes"
-        layout="@layout/layout_botoes" />
+    <Button
+        android:id="@+id/buttonRetornarTipo"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

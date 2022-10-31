@@ -9,12 +9,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ColabActivity">
+    tools:context=".view.VisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewPadrao"
+        android:id="@+id/textViewCpfVisitTerc"
         style="@style/TextView"
-        android:text="@string/texto_colab" />
+        android:text="@string/texto_cpf" />
 
     <EditText
         android:id="@+id/editTextPadrao"

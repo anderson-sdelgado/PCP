@@ -22,8 +22,7 @@ import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 
 public class MenuInicialActivity extends ActivityGeneric {
 
-    private ListView listaMenuInicial;
-    private PCPContext piaContext;
+    private PCPContext pcpContext;
     private TextView textViewProcesso;
     private Handler customHandler = new Handler();
 
@@ -33,10 +32,9 @@ public class MenuInicialActivity extends ActivityGeneric {
         setContentView(R.layout.activity_menu_inicial);
 
         TextView textViewPrincipal = findViewById(R.id.textViewPrincipal);
-
 //        textViewPrincipal.setText("PRINCIPAL - V " + BuildConfig.VERSION_NAME);
 
-        piaContext = (PCPContext) getApplication();
+        pcpContext = (PCPContext) getApplication();
 
         LogProcessoDAO.getInstance().insertLogProcesso("textViewProcesso = findViewById(R.id.textViewProcesso);\n" +
                 "        customHandler.postDelayed(updateTimerThread, 0);\n" +
@@ -68,7 +66,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         itens.add("SAIR");
 
         AdapterList adapterList = new AdapterList(this, itens);
-        listaMenuInicial = findViewById(R.id.listaMenuInicial);
+        ListView listaMenuInicial = findViewById(R.id.listaMenuInicial);
         listaMenuInicial.setAdapter(adapterList);
 
         listaMenuInicial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,13 +86,53 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                 if (text.equals("CONTROLE VEÍCULO PRÓPRIO")) {
 
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"CONTROLE VEÍCULO PRÓPRIO\")) {\n" +
+                            "                    pcpContext.getConfigCTR().setTipoMov(1L);\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setTipoMov(1L);
+                    Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);
+                    startActivity(it);
+                    finish();
+
                 } else if (text.equals("CONTROLE VEÍCULO VISITANTE/TERCEIRO")) {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONTROLE VEÍCULO VISITANTE/TERCEIRO\")) {\n" +
+                            "                    pcpContext.getConfigCTR().setTipoMov(2L);\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setTipoMov(2L);
+                    Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);
+                    startActivity(it);
+                    finish();
 
                 } else if (text.equals("VIGIA")) {
 
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"VIGIA\")) {\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(3L);\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(3L);
+                    Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
+                    startActivity(it);
+                    finish();
+
                 } else if (text.equals("CONFIGURAÇÃO")) {
 
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(1L);\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(1L);
+                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
+                    startActivity(it);
+                    finish();
+
                 } else if (text.equals("LOG")) {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"LOG\")) {\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(2L);\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(2L);
+                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
+                    startActivity(it);
+                    finish();
 
                 } else if (text.equals("SAIR")) {
 
@@ -123,8 +161,8 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         public void run() {
 
-            if(!piaContext.getMovimentacaoVeicProprioCTR().verMovEquipProprioAberto()
-                    && !piaContext.getMovimentacaoVeicVisTercCTR().verMovEquipProprioAberto()){
+            if(!pcpContext.getMovimentacaoVeicProprioCTR().verMovEquipProprioAberto()
+                    && !pcpContext.getMovimentacaoVeicVisitTercCTR().verMovEquipVisitTercAberto()){
                 textViewProcesso.setTextColor(Color.GREEN);
                 textViewProcesso.setText("Todos os Dados já foram Enviados");
             }

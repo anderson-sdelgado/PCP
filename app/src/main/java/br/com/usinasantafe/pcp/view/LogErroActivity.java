@@ -23,15 +23,14 @@ public class LogErroActivity extends ActivityGeneric {
 
         Button buttonRetLogErro = findViewById(R.id.buttonRetLogErro);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("ListView listaHistorico = findViewById(R.id.listaHistorico);\n" +
-                "        AdapterListHistorico adapterListHistorico = new AdapterListHistorico(this, pmmContext.getConfigCTR().logProcessoList());\n" +
-                "        listaHistorico.setAdapter(adapterListHistorico);", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("ListView listViewLogErro = findViewById(R.id.listViewLogErro);\n" +
+                "        AdapterListErro adapterListErro = new AdapterListErro(this, pcpContext.getConfigCTR().logErroList());\n" +
+                "        listViewLogErro.setAdapter(adapterListErro);", getLocalClassName());
         ListView listViewLogErro = findViewById(R.id.listViewLogErro);
         AdapterListErro adapterListErro = new AdapterListErro(this, pcpContext.getConfigCTR().logErroList());
         listViewLogErro.setAdapter(adapterListErro);
 
         buttonRetLogErro.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonRetLogProcesso.setOnClickListener(new View.OnClickListener() {\n" +

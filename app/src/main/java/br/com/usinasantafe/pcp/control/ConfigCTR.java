@@ -6,10 +6,14 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.estaticas.ColabBean;
+import br.com.usinasantafe.pcp.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
+import br.com.usinasantafe.pcp.model.dao.ColabDAO;
 import br.com.usinasantafe.pcp.model.dao.ConfigDAO;
+import br.com.usinasantafe.pcp.model.dao.EquipDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
@@ -24,9 +28,29 @@ public class ConfigCTR {
         return configDAO.hasElements();
     }
 
+    public boolean verSenha(String senha){
+        ConfigDAO configDAO = new ConfigDAO();
+        return configDAO.verSenha(senha);
+    }
+
+    public boolean verColab(Long matricColab){
+        ColabDAO colabDAO = new ColabDAO();
+        return colabDAO.verColab(matricColab);
+    }
+
+    public ColabBean getColab(Long matricColab){
+        ColabDAO colabDAO = new ColabDAO();
+        return colabDAO.getColab(matricColab);
+    }
+
     public ConfigBean getConfig(){
         ConfigDAO configDAO = new ConfigDAO();
         return configDAO.getConfig();
+    }
+
+    public EquipBean getEquipId(Long idEquip) {
+        EquipDAO equipDAO = new EquipDAO();
+        return equipDAO.getEquipId(idEquip);
     }
 
     public void salvarConfig(Long numLinha, String senha){
@@ -34,9 +58,24 @@ public class ConfigCTR {
         configDAO.salvarConfig(numLinha, senha);
     }
 
-    public boolean verSenha(String senha){
+    public void setPosicaoTela(Long posicaoTela){
         ConfigDAO configDAO = new ConfigDAO();
-        return configDAO.verSenha(senha);
+        configDAO.setPosicaoTela(posicaoTela);
+    }
+
+    public void setMatricVigia(Long matricVigia){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setMatricVigia(matricVigia);
+    }
+
+    public void setPosicaoListaMov(Long posicaoListaMov){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setPosicaoListaMov(posicaoListaMov);
+    }
+
+    public void setTipoMov(Long tipoMov){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setTipoMov(tipoMov);
     }
 
     ////////////////////////////////////// ATUALIZAR DADOS ////////////////////////////////////////
@@ -46,7 +85,46 @@ public class ConfigCTR {
         AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog, activity);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    public void atualDados(String tipoAtual, int tipoReceb, String activity) {
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeAtual(tipoAtual);\n" +
+                "        AtualDadosServ.getInstance().atualGenericoBD(classeArrayList, tipoReceb, activity);", activity);
+        ArrayList classeArrayList = classeAtual(tipoAtual);
+        AtualDadosServ.getInstance().atualGenericoBD(classeArrayList, tipoReceb, activity);
+    }
+
+    public void atualDados(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String tipoAtual, int tipoReceb, String activity) {
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeAtual(tipoAtual);\n" +
+                "        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
+        ArrayList classeArrayList = classeAtual(tipoAtual);
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);
+    }
+
+    public void atualDados(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String tipoAtual, int tipoReceb, String activity, Class telaProxAlt, String dado) {
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeAtual(tipoAtual);\n" +
+                "        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity, telaProxAlt, dado);", activity);
+        ArrayList classeArrayList = classeAtual(tipoAtual);
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity, telaProxAlt, dado);
+    }
+
+    public ArrayList<String> classeAtual(String tipoAtual){
+        ArrayList<String> classeArrayList = new ArrayList();
+        switch (tipoAtual) {
+            case "Colab":
+                classeArrayList.add("ColabBean");
+                break;
+            case "Equip":
+                classeArrayList.add("EquipBean");
+                break;
+            case "VisitanteTerceiro":
+                classeArrayList.add("VisitanteBean");
+                classeArrayList.add("TerceiroBean");
+                break;
+        }
+        return classeArrayList;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /////////////////////////////////////////// LOG ///////////////////////////////////////////////
 
