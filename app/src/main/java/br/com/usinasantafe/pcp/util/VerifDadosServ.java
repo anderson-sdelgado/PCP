@@ -46,29 +46,8 @@ public class VerifDadosServ {
     public void manipularDadosHttp(String result, String activity) {
 
         ConfigCTR configCTR = new ConfigCTR();
-        CheckListCTR checkListCTR = new CheckListCTR();
-        CompostoCTR compostoCTR = new CompostoCTR();
-        CECCTR cecCTR = new CECCTR();
-        MecanicoCTR mecanicoCTR = new MecanicoCTR();
-        MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
         LogProcessoDAO.getInstance().insertLogProcesso("public void manipularDadosHttp(String result) {", activity);
-        if (this.classe.equals("Equip")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("if (this.tipo.equals(\"Equip\")) {\n" +
-                    "            configCTR.receberVerifEquip(" + result + ");", activity);
-            configCTR.receberVerifEquip(result, this.tipo);
-        } else if (this.classe.equals("OS")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OS\")) {\n" +
-                    "            configCTR.receberVerifOS(" + result + ");", activity);
-            configCTR.receberVerifOS(result);
-        } else if (this.classe.equals("Atividade")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"Atividade\")) {\n" +
-                    "            configCTR.receberVerifAtiv(" + result + ");", activity);
-            configCTR.receberVerifAtiv(result);
-        } else if (this.classe.equals("AtividadeECM")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"AtividadeECM\")) {\n" +
-                    "            configCTR.receberVerifAtivECM(" + result + ");", activity);
-            configCTR.receberVerifAtivECM(result);
-        } else if (this.classe.equals("Atualiza")) {
+        if (this.classe.equals("Atualiza")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"Atualiza\")) {\n" +
                     "            configCTR.recAtual(result.trim());\n" +
                     "            status = 3;", activity);
@@ -76,30 +55,6 @@ public class VerifDadosServ {
             status = 3;
             LogProcessoDAO.getInstance().insertLogProcesso("this.telaInicialActivity.goMenuInicial();", activity);
             this.telaInicialActivity.goMenuInicial();
-        } else if (this.classe.equals("CheckList")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"CheckList\")) {\n" +
-                    "            checkListCTR.receberVerifCheckList(" + result + ");", activity);
-            checkListCTR.receberVerifCheckList(result);
-        } else if(this.classe.equals("OrdCarreg")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if(this.tipo.equals(\"OrdCarreg\")) {\n" +
-                    "            compostoCTR.receberVerifOrdCarreg(" + result + ");", activity);
-            compostoCTR.receberVerifOrdCarreg(result, activity);
-        } else if (this.classe.equals("CEC")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"CEC\")) {\n" +
-                    "            cecCTR.receberVerifCEC(" + result + ");", activity);
-            cecCTR.receberVerifCEC(result);
-        } else if (this.classe.equals("OSMecan")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OS\")) {\n" +
-                    "            configCTR.receberVerifOS(" + result + ");", activity);
-            mecanicoCTR.receberVerifOSMecan(result);
-        } else if (this.classe.equals("Pneu")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"Pneu\")) {\n" +
-                    "            motoMecFertCTR.receberVerifPneu(" + result + ");", activity);
-            motoMecFertCTR.receberVerifPneu(result);
-        } else {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "            status = 1;", activity);
-            status = 1;
         }
 
     }

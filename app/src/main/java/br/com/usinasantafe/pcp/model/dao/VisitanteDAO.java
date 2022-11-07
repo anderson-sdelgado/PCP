@@ -9,6 +9,11 @@ public class VisitanteDAO {
     public VisitanteDAO() {
     }
 
+    public boolean hasElements(){
+        VisitanteBean visitanteBean = new VisitanteBean();
+        return visitanteBean.hasElements();
+    }
+
     public boolean verVisitanteCpf(String cpfVisitante){
         List<VisitanteBean> visitanteList = visitanteCpfList(cpfVisitante);
         boolean ret = visitanteList.size() > 0;

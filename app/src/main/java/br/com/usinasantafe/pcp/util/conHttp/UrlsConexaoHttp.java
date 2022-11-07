@@ -6,12 +6,12 @@ public class UrlsConexaoHttp {
 
     public static String versao = "versao_" + PCPContext.versaoWS.replace(".", "_");
 
-    public static String url = "https://www.usinasantafe.com.br/pcpdev/view/";
-//    public static String url = "https://www.usinasantafe.com.br/pmmqa/view/";
+//    public static String url = "https://www.usinasantafe.com.br/pcpdev/view/";
+    public static String url = "https://www.usinasantafe.com.br/pmmqa/view/";
 //    public static String url = "https://www.usinasantafe.com.br/pmmprod/" + versao + "/view/";
 
-    public static String localPSTEstatica = "br.com.usinasantafe.pmm.model.bean.estaticas.";
-    public static String localUrl = "br.com.usinasantafe.pmm.util.conHttp.UrlsConexaoHttp";
+    public static String localPSTEstatica = "br.com.usinasantafe.pcp.model.bean.estaticas.";
+    public static String localUrl = "br.com.usinasantafe.pcp.util.conHttp.UrlsConexaoHttp";
 
     public static String ColabBean = url + "colab.php";
     public static String EquipBean = url + "equip.php";

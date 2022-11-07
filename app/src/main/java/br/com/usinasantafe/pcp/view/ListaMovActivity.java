@@ -31,18 +31,26 @@ public class ListaMovActivity extends ActivityGeneric {
         Button buttonCancMov = findViewById(R.id.buttonCancMov);
         TextView textViewTituloMov = findViewById(R.id.textViewTituloMov);
 
+        TextView textViewVigia = findViewById(R.id.textViewVigia);
+
+        if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
+            textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+        } else {
+            textViewVigia.setText("");
+        }
+
         if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                     "            textViewTituloMov.setText(\"CONTROLE VEÍCULO USINA\");\n" +
-                    "            movEquipList = pcpContext.getMovimentacaoVeicProprioCTR().movEquipProprioAllList();", getLocalClassName());
+                    "            movEquipList = pcpContext.getMovVeicProprioCTR().movEquipProprioList();", getLocalClassName());
             textViewTituloMov.setText("CONTROLE VEÍCULO USINA");
-            movEquipList = pcpContext.getMovimentacaoVeicProprioCTR().movEquipProprioAllList();
+            movEquipList = pcpContext.getMovVeicProprioCTR().movEquipProprioList();
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            textViewTituloMov.setText(\"CONTROLE VEÍCULO VISITANTE/TERCEIRO\");\n" +
-                    "            movEquipList = pcpContext.getMovimentacaoVeicVisTercCTR().movEquipVisitTercAllList();", getLocalClassName());
+                    "            movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercList();", getLocalClassName());
             textViewTituloMov.setText("CONTROLE VEÍCULO VISITANTE/TERCEIRO");
-            movEquipList = pcpContext.getMovimentacaoVeicVisitTercCTR().movEquipVisitTercAllList();
+            movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercList();
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("ListView listaMov = findViewById(R.id.listaMov);\n" +
@@ -53,19 +61,17 @@ public class ListaMovActivity extends ActivityGeneric {
         listaMov.setAdapter(adapterListMov);
 
         listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("tipoFuncaoLeiraListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
-                        "                pmmContext.getCompostoCTR().setTipoMovLeira((long) (position + 1));\n" +
-                        "                Intent it = new Intent(ListaTipoMovLeiraActivity.this, ListaLeiraActivity.class);", getLocalClassName());
-
-                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position + 1));
+                        "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
+                        "                Intent it = new Intent(ListaMovActivity.this, DescrMovActivity.class);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
                 Intent it = new Intent(ListaMovActivity.this, DescrMovActivity.class);
                 startActivity(it);
                 finish();
@@ -88,13 +94,13 @@ public class ListaMovActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
                             "                    pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(1L);\n" +
                             "                    it = new Intent(ListaMovActivity.this, ColabActivity.class);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(1L);
+                    pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(1L);
                     it = new Intent(ListaMovActivity.this, ColabActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    pcpContext.getMovimentacaoVeicVisTercCTR().abrirMovEquipVisitTerc(1L);\n" +
                             "                    it = new Intent(ListaMovActivity.this, TipoVisitanteTerceiroActivity.class);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicVisitTercCTR().abrirMovEquipVisitTerc(1L);
+                    pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(1L);
                     it = new Intent(ListaMovActivity.this, TipoVisitTercActivity.class);
                 }
                 startActivity(it);
@@ -116,13 +122,13 @@ public class ListaMovActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
                             "                    pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(2L);\n" +
                             "                    it = new Intent(ListaMovActivity.this, ColabActivity.class);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(2L);
+                    pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(2L);
                     it = new Intent(ListaMovActivity.this, ColabActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    pcpContext.getMovimentacaoVeicVisTercCTR().abrirMovEquipVisitTerc(2L);\n" +
                             "                    it = new Intent(ListaMovActivity.this, TipoVisitanteTerceiroActivity.class);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);
+                    pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);
                     it = new Intent(ListaMovActivity.this, TipoVisitTercActivity.class);
                 }
                 startActivity(it);
@@ -143,4 +149,8 @@ public class ListaMovActivity extends ActivityGeneric {
             }
         });
     }
+
+    public void onBackPressed() {
+    }
+
 }

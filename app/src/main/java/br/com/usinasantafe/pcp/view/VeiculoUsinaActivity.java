@@ -120,16 +120,16 @@ public class VeiculoUsinaActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if (pcpContext.getConfigCTR().verColab(Long.parseLong(editTextPadrao.getText().toString()))) {
+                    if (pcpContext.getConfigCTR().verEquipNro(Long.parseLong(editTextPadrao.getText().toString()))) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().verColab(Long.parseLong(editTextPadrao.getText().toString()))) {", getLocalClassName());
                         if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
                             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                                     "                            pcpContext.getMovimentacaoVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));
+                            pcpContext.getMovVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                     "                            pcpContext.getMovimentacaoVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));
+                            pcpContext.getMovVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));
                         }
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
                         Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);

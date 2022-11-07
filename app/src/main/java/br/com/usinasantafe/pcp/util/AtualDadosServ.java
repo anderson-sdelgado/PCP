@@ -43,7 +43,7 @@ public class AtualDadosServ {
 	
     public static AtualDadosServ getInstance() {
         if (instance == null)
-        instance = new AtualDadosServ();
+        	instance = new AtualDadosServ();
         return instance;
     }
 	
@@ -275,35 +275,6 @@ public class AtualDadosServ {
 					}
 				});
 				alerta.show();
-
-			} else if(this.tipoReceb == 3) {
-
-				ConfigCTR configCTR = new ConfigCTR();
-				if(configCTR.verPropriedade(Long.parseLong(dado))){
-
-					Intent it = new Intent(telaAtual, telaProxAlt);
-					telaAtual.startActivity(it);
-
-				} else {
-
-					LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-							"                        AlertDialog.Builder alerta = new AlertDialog.Builder(PropriedadeActivity.this);\n" +
-							"                        alerta.setTitle(\"ATENÇÃO\");\n" +
-							"                        alerta.setMessage(\"CÓDIGO DA SEÇÃO INCORRETO, POR FAVOR CERTIFIQUE-SE DE QUE O CÓDIGO REGISTRADO ESTÁ CORRETO OU POSSUI O.S. DE COLHEITA ABERTA E TENTE NOVAMENTE.\");", activity);
-					AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
-					alerta.setTitle("ATENÇÃO");
-					alerta.setMessage("CÓDIGO DA SEÇÃO INCORRETO, POR FAVOR CERTIFIQUE-SE DE QUE O CÓDIGO REGISTRADO ESTÁ CORRETO OU POSSUI O.S. DE COLHEITA ABERTA E TENTE NOVAMENTE.");
-					alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-									"                            @Override\n" +
-									"                            public void onClick(DialogInterface dialog, int which) {", activity);
-						}
-					});
-					alerta.show();
-
-				}
 
 			}
 		}

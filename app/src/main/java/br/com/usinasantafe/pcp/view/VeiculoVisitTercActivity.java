@@ -38,7 +38,7 @@ public class VeiculoVisitTercActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextVeiculoVisitanteTerceiro.getText().toString().equals(\"\")) {\n" +
                             "                    pcpContext.getMovimentacaoVeicVisTercCTR().setVeiculoVisitTerc(editTextVeiculoVisitanteTerceiro.getText().toString());\n" +
                             "                    Intent it  = new Intent(VeiculoVisitanteTerceiroActivity.this, PlacaVisitanteTerceiroActivity.class);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicVisitTercCTR().setVeiculoVisitTerc(editTextVeiculoVisitanteTerceiro.getText().toString());
+                    pcpContext.getMovVeicVisitTercCTR().setVeiculoVisitTerc(editTextVeiculoVisitanteTerceiro.getText().toString());
                     Intent it  = new Intent(VeiculoVisitTercActivity.this, PlacaVisitTercActivity.class);
                     startActivity(it);
                     finish();

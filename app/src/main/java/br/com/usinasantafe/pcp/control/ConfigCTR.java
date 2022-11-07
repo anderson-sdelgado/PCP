@@ -3,9 +3,13 @@ package br.com.usinasantafe.pcp.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
@@ -19,13 +23,20 @@ import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipSegProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
+import br.com.usinasantafe.pcp.model.dao.VisitanteDAO;
 import br.com.usinasantafe.pcp.util.AtualDadosServ;
+import br.com.usinasantafe.pcp.util.VerifDadosServ;
 
 public class ConfigCTR {
 
     public boolean hasElemConfig(){
         ConfigDAO configDAO = new ConfigDAO();
         return configDAO.hasElements();
+    }
+
+    public boolean hasElemVisitante(){
+        VisitanteDAO visitanteDAO = new VisitanteDAO();
+        return visitanteDAO.hasElements();
     }
 
     public boolean verSenha(String senha){
@@ -36,6 +47,11 @@ public class ConfigCTR {
     public boolean verColab(Long matricColab){
         ColabDAO colabDAO = new ColabDAO();
         return colabDAO.verColab(matricColab);
+    }
+
+    public boolean verEquipNro(Long nroEquip){
+        EquipDAO equipDAO = new EquipDAO();
+        return equipDAO.verEquipNro(nroEquip);
     }
 
     public ColabBean getColab(Long matricColab){
@@ -51,6 +67,11 @@ public class ConfigCTR {
     public EquipBean getEquipId(Long idEquip) {
         EquipDAO equipDAO = new EquipDAO();
         return equipDAO.getEquipId(idEquip);
+    }
+
+    public EquipBean getEquipNro(Long nroEquip){
+        EquipDAO equipDAO = new EquipDAO();
+        return equipDAO.getEquipNro(nroEquip);
     }
 
     public void salvarConfig(Long numLinha, String senha){
@@ -121,6 +142,28 @@ public class ConfigCTR {
                 break;
         }
         return classeArrayList;
+    }
+
+
+    public AtualAplicBean recAtual(String result) {
+
+        AtualAplicBean atualAplicBean = new AtualAplicBean();
+
+        try {
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+                ConfigDAO configDAO = new ConfigDAO();
+                atualAplicBean = configDAO.recAtual(jsonArray);
+            }
+
+        } catch (Exception e) {
+            VerifDadosServ.status = 1;
+            LogErroDAO.getInstance().insertLogErro(e);
+        }
+        return atualAplicBean;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////

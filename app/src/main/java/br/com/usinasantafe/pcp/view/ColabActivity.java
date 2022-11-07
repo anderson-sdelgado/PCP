@@ -139,7 +139,7 @@ public class ColabActivity extends ActivityGeneric {
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                     "                            pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicProprioCTR().setNroMatricColab(Long.parseLong(editTextPadrao.getText().toString()));
+                            pcpContext.getMovVeicProprioCTR().setNroMatricColab(Long.parseLong(editTextPadrao.getText().toString()));
                         }
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ColabActivity.this, NomeColabTercVisitActivity.class);", getLocalClassName());
                         Intent it = new Intent(ColabActivity.this, NomeColabVisitTercActivity.class);

@@ -12,6 +12,16 @@
     tools:context=".view.ListaMovActivity">
 
     <TextView
+        android:id="@+id/textViewTituloVigia"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_menu_titulo_vigia" />
+
+    <TextView
+        android:id="@+id/textViewVigia"
+        style="@style/TextViewMenuNormal"
+        android:text="@string/texto_motorista" />
+
+    <TextView
         android:id="@+id/textViewTituloMov"
         style="@style/TextViewTituloLista"
         android:text="@string/texto_titulo_mov" />

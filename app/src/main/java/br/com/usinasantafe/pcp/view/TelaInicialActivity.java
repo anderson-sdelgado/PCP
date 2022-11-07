@@ -64,10 +64,10 @@ public class TelaInicialActivity extends ActivityGeneric {
                 "        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioAberto();\n" +
                 "        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercAberto();\n" +
                 "        pcpContext.getConfigCTR().deleteLogs();", getLocalClassName());
-        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioEnviado();
-        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercEnviado();
-        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipProprioAberto();
-        pcpContext.getMovimentacaoVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
+        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioEnviado();
+        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercEnviado();
+        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();
+        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
         pcpContext.getConfigCTR().deleteLogs();
     }
 

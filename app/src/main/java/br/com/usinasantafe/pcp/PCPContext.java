@@ -24,13 +24,13 @@ public class PCPContext extends Application {
         Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
-    public MovVeicProprioCTR getMovimentacaoVeicProprioCTR(){
+    public MovVeicProprioCTR getMovVeicProprioCTR(){
         if (movVeicProprioCTR == null)
             movVeicProprioCTR = new MovVeicProprioCTR();
         return movVeicProprioCTR;
     }
 
-    public MovVeicVisitTercCTR getMovimentacaoVeicVisitTercCTR(){
+    public MovVeicVisitTercCTR getMovVeicVisitTercCTR(){
         if (movVeicVisitTercCTR == null)
             movVeicVisitTercCTR = new MovVeicVisitTercCTR();
         return movVeicVisitTercCTR;

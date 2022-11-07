@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
 import br.com.usinasantafe.pcp.model.dao.EquipDAO;
@@ -10,6 +11,7 @@ import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipSegProprioDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
+import br.com.usinasantafe.pcp.util.Tempo;
 
 public class MovVeicProprioCTR {
 
@@ -29,6 +31,40 @@ public class MovVeicProprioCTR {
     public MovEquipProprioBean getMovEquipProprioAberto(){
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
         return movEquipProprioDAO.getMovEquipProprioAberto();
+    }
+
+    public ArrayList<String> getMovEquipProprio(MovEquipProprioBean movEquipProprioBean){
+        ArrayList<String> itens = new ArrayList<String>();
+        ConfigCTR configCTR = new ConfigCTR();
+        MovEquipSegProprioDAO movEquipSegProprioDAO = new MovEquipSegProprioDAO();
+        itens.add("DTHR: " + movEquipProprioBean.getDthrMovEquipProprio());
+        if(movEquipProprioBean.getTipoMovEquipProprio() == 1L){
+            itens.add("ENTRADA");
+        } else {
+            itens.add("SAÍDA");
+        }
+        itens.add("VEÍCULO: " + configCTR.getEquipId(movEquipProprioBean.getIdEquipMovEquipProprio()).getNroEquip());
+        itens.add("COLABORADOR: " + movEquipProprioBean.getNroMatricColabMovEquipProprio() + " - " + configCTR.getColab(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab());
+        itens.add("VIGIA: " + movEquipProprioBean.getNroMatricVigiaMovEquipProprio() + " - " + configCTR.getColab(movEquipProprioBean.getNroMatricVigiaMovEquipProprio()).getNomeColab());
+        itens.add("DESTINO: " +  movEquipProprioBean.getDescrDestinoMovEquipProprio());
+
+        String equipSec = "";
+        List<MovEquipSegProprioBean> movEquipSegProprioList = movEquipSegProprioDAO.movEquipSegProprioIdMovEquipList(movEquipProprioBean.getIdMovEquipProprio());
+        for(MovEquipSegProprioBean movEquipSegProprioBean : movEquipSegProprioList){
+            equipSec = equipSec + configCTR.getEquipId(movEquipSegProprioBean.getIdEquipMovEquipSegProprio()).getNroEquip() + " - ";
+        }
+        itens.add("VEÍCULO SECUNDÁRIO: " + equipSec);
+        if(movEquipProprioBean.getNroNotaFiscalMovEquipProprio() != null){
+            itens.add("NRO NOTA FISCAL: " +  movEquipProprioBean.getNroNotaFiscalMovEquipProprio());
+        } else {
+            itens.add("NRO NOTA FISCAL: ");
+        }
+        if(movEquipProprioBean.getObservacaoMovEquipProprio() != null){
+            itens.add("OBS.:\n" +  movEquipProprioBean.getObservacaoMovEquipProprio());
+        } else {
+            itens.add("OBS.:");
+        }
+        return itens;
     }
 
     public void abrirMovEquipProprio(Long tipoMov){
@@ -58,14 +94,15 @@ public class MovVeicProprioCTR {
         MovEquipSegProprioDAO movEquipSegProprioDAO = new MovEquipSegProprioDAO();
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioDAO.movEquipProprioAbertoList();
         for(MovEquipProprioBean movEquipProprioBean : movEquipProprioList){
-            movEquipSegProprioDAO.deleteMovEquipSegProprio(movEquipProprioBean.getIdMovEquipProprio());
+            movEquipSegProprioDAO.deleteMovEquipSegProprioIdMovEquip(movEquipProprioBean.getIdMovEquipProprio());
             movEquipProprioDAO.deleteMovEquipProprio(movEquipProprioBean.getIdMovEquipProprio());
         }
         movEquipProprioList.clear();
     }
 
     public void deleteMovEquipSegProprio(MovEquipSegProprioBean movEquipSegProprioBean){
-
+        MovEquipSegProprioDAO movEquipSegProprioDAO = new MovEquipSegProprioDAO();
+        movEquipSegProprioDAO.deleteMovEquipProprioIdMovEquipSeg(movEquipSegProprioBean.getIdMovEquipSegProprio());
     }
 
     public void setNroMatricColab(Long nroMatricColab){
@@ -92,6 +129,11 @@ public class MovVeicProprioCTR {
     public List<MovEquipProprioBean> movEquipProprioAllList(){
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
         return movEquipProprioDAO.movEquipProprioAllList();
+    }
+
+    public List<MovEquipProprioBean> movEquipProprioList(){
+        MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
+        return movEquipProprioDAO.movEquipProprioList();
     }
 
     public List<MovEquipSegProprioBean> movEquipSegProprioList() {
@@ -140,7 +182,7 @@ public class MovVeicProprioCTR {
         for (Long idMovEquipProprio : idMovEquipProprioArrayList) {
 
             MovEquipSegProprioDAO movEquipSegProprioDAO = new MovEquipSegProprioDAO();
-            movEquipSegProprioDAO.deleteMovEquipSegProprio(idMovEquipProprio);
+            movEquipSegProprioDAO.deleteMovEquipSegProprioIdMovEquip(idMovEquipProprio);
 
             movEquipProprioDAO.deleteMovEquipProprio(idMovEquipProprio);
 

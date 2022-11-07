@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +26,27 @@ public class PlacaVisitTercActivity extends ActivityGeneric {
 
         pcpContext = (PCPContext) getApplication();
 
-        editTextPlacaVisitanteTerceiro = findViewById(R.id.editTextPlacaVisitanteTerceiro);
-        Button buttonOkPlacaVisitanteTerceiro =  findViewById(R.id.buttonOkPlacaVisitanteTerceiro);
-        Button buttonCancPlacaVisitanteTerceiro = findViewById(R.id.buttonCancPlacaVisitanteTerceiro);
+        editTextPlacaVisitanteTerceiro = findViewById(R.id.editTextPlacaVisitTerc);
+        Button buttonOkPlacaVisitanteTerceiro =  findViewById(R.id.buttonOkPlacaVisitTerc);
+        Button buttonCancPlacaVisitanteTerceiro = findViewById(R.id.buttonCancPlacaVisitTerc);
+
+        editTextPlacaVisitanteTerceiro.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                editTextPlacaVisitanteTerceiro.getText().toString().toUpperCase();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
 
         buttonOkPlacaVisitanteTerceiro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,18 +58,16 @@ public class PlacaVisitTercActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextPlacaVisitanteTerceiro.getText().toString().equals(\"\")) {\n" +
                             "                    pcpContext.getMovimentacaoVeicVisTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiro.getText().toString());\n" +
                             "                    Intent it  = new Intent(PlacaVisitanteTerceiroActivity.this, PlacaVisitanteTerceiroActivity.class);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiro.getText().toString());
+                    pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiro.getText().toString());
 
                     Intent it;
-                    if(pcpContext.getMovimentacaoVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
+                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
                                 "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, DestinoActivity.class);", getLocalClassName());
                         it  = new Intent(PlacaVisitTercActivity.this, DestinoActivity.class);
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        pcpContext.getMovimentacaoVeicVisTercCTR().setDestinoVisitTerc(\"null\");\n" +
                                 "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                        pcpContext.getMovimentacaoVeicVisitTercCTR().setDestinoVisitTerc("null");
                         it  = new Intent(PlacaVisitTercActivity.this, ObservacaoActivity.class);
                     }
                     startActivity(it);

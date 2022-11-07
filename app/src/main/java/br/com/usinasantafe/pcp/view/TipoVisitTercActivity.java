@@ -51,11 +51,11 @@ public class TipoVisitTercActivity extends ActivityGeneric {
                 if (text.equals("TERCEIRO")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"TERCEIRO\")) {\n" +
                             "                    pcpContext.getMovimentacaoVeicVisTercCTR().setTipoVisitTerc(1L);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicVisitTercCTR().setTipoVisitTerc(1L);
+                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(1L);
                 } else if (text.equals("VISITANTE")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"VISITANTE\")) {\n" +
-                            "                    pcpContext.getConfigCTR().setTipoMov(2L);", getLocalClassName());
-                    pcpContext.getConfigCTR().setTipoMov(2L);
+                            "                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(2L);", getLocalClassName());
+                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(2L);
                 }
 
                 LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(TipoActivity.this, VisitanteTerceiroActivity.class);", getLocalClassName());

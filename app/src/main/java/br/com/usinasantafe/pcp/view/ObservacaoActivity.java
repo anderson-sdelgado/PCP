@@ -32,13 +32,9 @@ public class ObservacaoActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonOkObservacao.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                String observacao;
+                String observacao = null;
                 if(!editTextObservacao.getText().toString().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextObservacao.getText().toString().equals(\"\")) {\n" +
-                            "                    observacao = \"null\";", getLocalClassName());
-                    observacao = "null";
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    observacao = editTextObservacao.getText().toString();", getLocalClassName());
                     observacao = editTextObservacao.getText().toString();
                 }
@@ -46,11 +42,11 @@ public class ObservacaoActivity extends ActivityGeneric {
                 if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {\n" +
                             "                    pcpContext.getMovimentacaoVeicProprioCTR().fecharMovEquipProprio(observacao);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicProprioCTR().fecharMovEquipProprio(observacao, getLocalClassName());
+                    pcpContext.getMovVeicProprioCTR().fecharMovEquipProprio(observacao, getLocalClassName());
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    pcpContext.getMovimentacaoVeicVisTercCTR().fecharMovEquipVisitTerc(observacao);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao);
+                            "                    pcpContext.getMovVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao, getLocalClassName());", getLocalClassName());
+                    pcpContext.getMovVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao, getLocalClassName());
                 }
 
                 LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ObservacaoActivity.this, ListaMovActivity.class);", getLocalClassName());
@@ -68,7 +64,7 @@ public class ObservacaoActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
                 Intent it;
                 if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
-                    if (pcpContext.getMovimentacaoVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {
+                    if (pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){\n" +
                                 "                    it = new Intent(ObservacaoActivity.this, DestinoActivity.class);", getLocalClassName());
                         it = new Intent(ObservacaoActivity.this, DestinoActivity.class);
@@ -79,7 +75,7 @@ public class ObservacaoActivity extends ActivityGeneric {
                     }
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                    if(pcpContext.getMovimentacaoVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
+                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
                                 "                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);", getLocalClassName());
                         it = new Intent(ObservacaoActivity.this, DestinoActivity.class);

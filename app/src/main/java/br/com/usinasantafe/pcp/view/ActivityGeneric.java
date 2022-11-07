@@ -69,21 +69,25 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
         public void onClick(View v) {
 
             String texto = editTextPadrao.getText().toString();
-            if(!localClassName.equals("view.VisitanteTerceiroActivity")){
+            if(localClassName.equals("view.VisitTercActivity")){
+                if(texto.length() < 14){
+                    if(texto.length() == 3){
+                        editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);
+                    } else if(texto.length() == 7){
+                        editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);
+                    } else if(texto.length() == 11){
+                        editTextPadrao.setText(editTextPadrao.getText() + "-" + numBotao);
+                    } else {
+                        editTextPadrao.setText(editTextPadrao.getText() + "" + numBotao);
+                    }
+                }
+            } else {
                 if (numBotao.equals(",")) {
                     if (!texto.contains(",")) {
                         editTextPadrao.setText(editTextPadrao.getText() + "" + numBotao);
                     }
                 } else {
                     editTextPadrao.setText(editTextPadrao.getText() + "" + numBotao);
-                }
-            } else {
-                if(texto.length() == 3){
-                    editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);
-                } else if(texto.length() == 6){
-                    editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);
-                } else if(texto.length() == 9){
-                    editTextPadrao.setText(editTextPadrao.getText() + "-" + numBotao);
                 }
             }
 

@@ -3,7 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="br.com.usinasantafe.pcp">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
+        android:name=".PCPContext"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,68 +28,107 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
-            android:name=".NomeColabActivity"
-            android:exported="false" />
+            android:name=".view.NomeColabVisitTercActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".DescrMovActivity"
-            android:exported="false" />
+            android:name=".view.DescrMovActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LogErroActivity"
-            android:exported="false" />
+            android:name=".view.LogErroActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LogBaseDadoActivity"
-            android:exported="false" />
+            android:name=".view.LogBaseDadoActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LogProcessoActivity"
-            android:exported="false" />
+            android:name=".view.LogProcessoActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ConfigActivity"
-            android:exported="false" />
+            android:name=".view.ConfigActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".SenhaActivity"
-            android:exported="false" />
+            android:name=".view.SenhaActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".VisitanteTerceiroActivity"
-            android:exported="false" />
+            android:name=".view.VisitTercActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".VeiculoVisitanteTerceiroActivity"
-            android:exported="false" />
+            android:name=".view.VeiculoVisitTercActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".VeiculoProprioActivity"
-            android:exported="false" />
+            android:name=".view.VeiculoUsinaActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".TipoActivity"
-            android:exported="false" />
+            android:name=".view.TipoVisitTercActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".PlacaActivity"
-            android:exported="false" />
+            android:name=".view.PlacaVisitTercActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ObservacaoActivity"
-            android:exported="false" />
+            android:name=".view.ObservacaoActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".NotaFiscalActivity"
-            android:exported="false" />
+            android:name=".view.NotaFiscalActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".MenuInicialActivity"
-            android:exported="false" />
+            android:name=".view.MenuInicialActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ListaVeiculoSecActivity"
-            android:exported="false" />
+            android:name=".view.ListaVeiculoSecActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ListaMovActivity"
-            android:exported="false" />
+            android:name=".view.ListaMovActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".DestinoActivity"
-            android:exported="false" />
+            android:name=".view.DestinoActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ColabActivity"
-            android:exported="false" />
+            android:name=".view.ColabActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.TelaInicialActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

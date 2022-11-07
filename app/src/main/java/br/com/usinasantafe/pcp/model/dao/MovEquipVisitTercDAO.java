@@ -57,7 +57,7 @@ public class MovEquipVisitTercDAO {
 
     public void fecharMovEquipVisitTerc(Long nroMatricVigia, String observacao){
         MovEquipVisitTercBean movEquipVisitTercBean = getMovEquipVisitTercAberto();
-        movEquipVisitTercBean.setNroMatricVigiaMovEquipProprio(nroMatricVigia);
+        movEquipVisitTercBean.setNroMatricVigiaMovEquipVisitTerc(nroMatricVigia);
         movEquipVisitTercBean.setObservacaoMovEquipVisitTerc(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();
         movEquipVisitTercBean.setDthrLongMovEquipVisitTerc(dthr);
@@ -166,6 +166,13 @@ public class MovEquipVisitTercDAO {
         return movEquipVisitTercBean.orderBy("idMovEquipVisitTerc", false);
     }
 
+    public List<MovEquipVisitTercBean> movEquipVisitTercList(){
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqDtrhLongDia(Tempo.getInstance().dthrLongDiaMenos(1)));
+        MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
+        return movEquipVisitTercBean.getDateHour(pesqArrayList, "idMovEquipVisitTerc", false);
+    }
+
     public ArrayList<String> movEquipVisitTercAllArrayList(ArrayList<String> dadosArrayList){
         dadosArrayList.add("MovEquipVisitTerc");
         MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
@@ -253,6 +260,14 @@ public class MovEquipVisitTercDAO {
         pesquisa.setCampo("statusMovEquipVisitTerc");
         pesquisa.setValor(3L);
         pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqDtrhLongDia(Long dtrhLongDia){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("dthrLongMovEquipVisitTerc");
+        pesquisa.setValor(dtrhLongDia);
+        pesquisa.setTipo(2);
         return pesquisa;
     }
 

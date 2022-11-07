@@ -28,12 +28,12 @@ public class VisitTercActivity extends ActivityGeneric {
         Button buttonOkVisitanteTerceiro = findViewById(R.id.buttonOkPadrao);
         Button buttonCancVisitanteTerceiro = findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
-        TextView textViewPadrao = findViewById(R.id.textViewPadrao);
+        TextView textViewCpfVisitTerc = findViewById(R.id.textViewCpfVisitTerc);
 
-        if(pcpContext.getMovimentacaoVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
-            textViewPadrao.setText("CPF TERCEIRO:");
+        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
+            textViewCpfVisitTerc.setText("CPF TERCEIRO:");
         } else {
-            textViewPadrao.setText("CPF VISITANTE:");
+            textViewCpfVisitTerc.setText("CPF VISITANTE:");
         }
 
         buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
@@ -126,14 +126,14 @@ public class VisitTercActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcpContext.getMovimentacaoVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
+                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){", getLocalClassName());
-                        if (pcpContext.getMovimentacaoVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {
+                        if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovimentacaoVeicVisTercCTR().verTerceiro(editTextPadrao.getText().toString())) {\n" +
                                     "                            pcpContext.getMovimentacaoVeicVisTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisTercCTR().getTerceiro(editTextPadrao.getText().toString()).getIdTerceiro());\n" +
-                                    "                            Intent it = new Intent(VisitanteTerceiroActivity.this, VeiculoVisitanteTerceiroActivity.class);", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
-                            Intent it = new Intent(VisitTercActivity.this, VeiculoVisitTercActivity.class);
+                                    "                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
+                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);
                             startActivity(it);
                             finish();
                         } else {
@@ -159,12 +159,12 @@ public class VisitTercActivity extends ActivityGeneric {
                         }
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                        if (pcpContext.getMovimentacaoVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {
+                        if (pcpContext.getMovVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovimentacaoVeicVisTercCTR().verVisitante(editTextPadrao.getText().toString())) {\n" +
                                     "                            pcpContext.getMovimentacaoVeicVisTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisTercCTR().getVisitante(editTextPadrao.getText().toString()).getIdVisitante());\n" +
-                                    "                            Intent it = new Intent(VisitanteTerceiroActivity.this, VeiculoVisitanteTerceiroActivity.class);", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
-                            Intent it = new Intent(VisitTercActivity.this, VeiculoVisitTercActivity.class);
+                                    "                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
+                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);
                             startActivity(it);
                             finish();
                         } else {

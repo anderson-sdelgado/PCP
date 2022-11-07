@@ -12,18 +12,20 @@
     tools:context=".view.PlacaVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewTituloPlacaVisitanteTerceiro"
+        android:id="@+id/textViewTituloPlacaVisitTerc"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_titulo_veiculo" />
+        android:text="@string/texto_titulo_placa" />
 
     <EditText
-        android:id="@+id/editTextPlacaVisitanteTerceiro"
+        android:id="@+id/editTextPlacaVisitTerc"
         style="@style/EditViewObs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:maxLength="7"
+        android:inputType="textCapCharacters" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
@@ -32,7 +34,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancPlacaVisitanteTerceiro"
+            android:id="@+id/buttonCancPlacaVisitTerc"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -40,7 +42,7 @@
             android:text="@string/texto_padrao_cancelar" />
 
         <Button
-            android:id="@+id/buttonOkPlacaVisitanteTerceiro"
+            android:id="@+id/buttonOkPlacaVisitTerc"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

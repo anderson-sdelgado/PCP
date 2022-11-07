@@ -22,6 +22,13 @@ public class MovEquipSegProprioDAO {
         return movEquipSegProprioBean.get(pesqArrayList);
     }
 
+    public List<MovEquipSegProprioBean> movEquipSegProprioIdMovEquipSegList(Long idMovEquipSegProprio){
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdMovEquipSeg(idMovEquipSegProprio));
+        MovEquipSegProprioBean movEquipSegProprioBean = new MovEquipSegProprioBean();
+        return movEquipSegProprioBean.get(pesqArrayList);
+    }
+
     public void inserirMovEquipSegProprio(Long idMovEquipProprio, Long idEquip){
         MovEquipSegProprioBean movEquipSegProprioBean = new MovEquipSegProprioBean();
         movEquipSegProprioBean.setIdMovEquipProprio(idMovEquipProprio);
@@ -29,11 +36,19 @@ public class MovEquipSegProprioDAO {
         movEquipSegProprioBean.insert();
     }
 
-    public void deleteMovEquipSegProprio(Long idMovEquipProprio){
+    public void deleteMovEquipSegProprioIdMovEquip(Long idMovEquipProprio){
         List<MovEquipSegProprioBean> movEquipSegProprioList = movEquipSegProprioIdMovEquipList(idMovEquipProprio);
         for (MovEquipSegProprioBean movEquipSegProprioBean : movEquipSegProprioList){
             movEquipSegProprioBean.delete();
         }
+        movEquipSegProprioList.clear();
+    }
+
+    public void deleteMovEquipProprioIdMovEquipSeg(Long idMovEquipSegProprio){
+        List<MovEquipSegProprioBean> movEquipSegProprioList = movEquipSegProprioIdMovEquipSegList(idMovEquipSegProprio);
+        MovEquipSegProprioBean movEquipSegProprioBean  = movEquipSegProprioList.get(0);
+        movEquipSegProprioBean.delete();
+        movEquipSegProprioList.clear();
     }
 
     public ArrayList<String> movEquipSegProprioAllArrayList(ArrayList<String> dadosArrayList){
@@ -79,6 +94,14 @@ public class MovEquipSegProprioDAO {
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("idMovEquipProprio");
         pesquisa.setValor(idMovEquip);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqIdMovEquipSeg(Long idMovEquipSegProprio){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idMovEquipSegProprio");
+        pesquisa.setValor(idMovEquipSegProprio);
         pesquisa.setTipo(1);
         return pesquisa;
     }

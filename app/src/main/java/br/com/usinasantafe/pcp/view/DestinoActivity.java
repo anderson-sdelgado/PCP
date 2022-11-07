@@ -40,12 +40,10 @@ public class DestinoActivity extends ActivityGeneric {
                     if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
                                 "                        pcpContext.getMovimentacaoVeicProprioCTR().setDescrDestino(editTextDestino.getText().toString());", getLocalClassName());
-                        pcpContext.getMovimentacaoVeicProprioCTR().setDescrDestino(editTextDestino.getText().toString());
-                        if(pcpContext.getMovimentacaoVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){
+                        pcpContext.getMovVeicProprioCTR().setDescrDestino(editTextDestino.getText().toString());
+                        if(pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){
                             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){\n" +
-                                    "                        pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(0L);\n" +
                                     "                        it = new Intent(DestinoActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                            pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(0L);
                             it = new Intent(DestinoActivity.this, ObservacaoActivity.class);
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
@@ -55,7 +53,7 @@ public class DestinoActivity extends ActivityGeneric {
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getMovimentacaoVeicVisTercCTR().setDestinoVisitTerc(editTextDestino.getText().toString());\n" +
                                 "                        it = new Intent(DestinoActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                        pcpContext.getMovimentacaoVeicVisitTercCTR().setDestinoVisitTerc(editTextDestino.getText().toString());
+                        pcpContext.getMovVeicVisitTercCTR().setDestinoVisitTerc(editTextDestino.getText().toString());
                         it = new Intent(DestinoActivity.this, ObservacaoActivity.class);
                     }
                     startActivity(it);

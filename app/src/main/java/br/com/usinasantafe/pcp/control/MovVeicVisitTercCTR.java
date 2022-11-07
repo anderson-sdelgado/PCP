@@ -5,10 +5,9 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.estaticas.TerceiroBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.VisitanteBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipSegProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.model.dao.TerceiroDAO;
 import br.com.usinasantafe.pcp.model.dao.VisitanteDAO;
@@ -64,15 +63,51 @@ public class MovVeicVisitTercCTR {
         return movEquipVisitTercDAO.getMovEquipVisitTercAberto();
     }
 
+    public ArrayList<String> getMovEquipVisitTerc(MovEquipVisitTercBean movEquipVisitTercBean){
+        ArrayList<String> itens = new ArrayList<String>();
+        ConfigCTR configCTR = new ConfigCTR();
+        itens.add("DTHR: " + movEquipVisitTercBean.getDthrMovEquipVisitTerc());
+        if(movEquipVisitTercBean.getTipoMovEquipVisitTerc() == 1L){
+            itens.add("ENTRADA");
+        } else {
+            itens.add("SAÍDA");
+        }
+        itens.add("VEÍCULO: " + movEquipVisitTercBean.getVeiculoMovEquipVisitTerc());
+        itens.add("PLACA: " + movEquipVisitTercBean.getPlacaMovEquipVisitTerc());
+        if(movEquipVisitTercBean.getTipoVisitTercMovEquipVisitTerc() == 1L){
+            itens.add("TERCEIRO: " + getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfTerceiro() + " - " + getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());
+
+        } else {
+            itens.add("VISITANTE: " + getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfVisitante() + " - " + getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());
+        }
+        itens.add("VIGIA: " + movEquipVisitTercBean.getNroMatricVigiaMovEquipVisitTerc() + " - " + configCTR.getColab(movEquipVisitTercBean.getNroMatricVigiaMovEquipVisitTerc()).getNomeColab());
+        if(movEquipVisitTercBean.getDestinoMovEquipVisitTerc() != null) {
+            itens.add("DESTINO: " +  movEquipVisitTercBean.getDestinoMovEquipVisitTerc());
+        } else {
+            itens.add("DESTINO: ");
+        }
+
+        if(movEquipVisitTercBean.getObservacaoMovEquipVisitTerc() != null){
+            itens.add("OBS.:\n" +  movEquipVisitTercBean.getObservacaoMovEquipVisitTerc());
+        } else {
+            itens.add("OBS.:");
+        }
+        return itens;
+    }
+
     public void abrirMovEquipVisitTerc(Long tipoMov){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov);
     }
 
-    public void fecharMovEquipVisitTerc(String observacao){
+    public void fecharMovEquipVisitTerc(String observacao, String activity){
+
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         movEquipVisitTercDAO.fecharMovEquipVisitTerc(configCTR.getConfig().getMatricVigiaConfig(), observacao);
+
+        EnvioDadosServ.getInstance().envioDados(activity);
+
     }
 
     public void deleteMovEquipVisitTercAberto(){
@@ -114,12 +149,17 @@ public class MovVeicVisitTercCTR {
         return movEquipVisitTercDAO.movEquipVisitTercAllList();
     }
 
+    public List<MovEquipVisitTercBean> movEquipVisitTercList(){
+        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        return movEquipVisitTercDAO.movEquipVisitTercList();
+    }
+
     public String dadosEnvioMovEquipVisitTerc(){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         return movEquipVisitTercDAO.dadosEnvioMovEquipVisitTerc();
     }
 
-    public void updateMovEquipVisitFechado(String result, String activity){
+    public void updateMovEquipVisitTercFechado(String result, String activity){
 
         try {
 

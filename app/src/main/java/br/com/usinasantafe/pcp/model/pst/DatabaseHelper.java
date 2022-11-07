@@ -10,9 +10,14 @@ import com.j256.ormlite.table.TableUtils;
 
 import br.com.usinasantafe.pcp.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcp.model.bean.estaticas.TerceiroBean;
+import br.com.usinasantafe.pcp.model.bean.estaticas.VisitanteBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -70,10 +75,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			TableUtils.dropTable(cs, ColabBean.class, true);
 			TableUtils.dropTable(cs, EquipBean.class, true);
+			TableUtils.dropTable(cs, TerceiroBean.class, true);
+			TableUtils.dropTable(cs, VisitanteBean.class, true);
 
 			TableUtils.dropTable(cs, ConfigBean.class, true);
 			TableUtils.dropTable(cs, LogErroBean.class, true);
 			TableUtils.dropTable(cs, LogProcessoBean.class, true);
+			TableUtils.dropTable(cs, MovEquipProprioBean.class, true);
+			TableUtils.dropTable(cs, MovEquipSegProprioBean.class, true);
+			TableUtils.dropTable(cs, MovEquipVisitTercBean.class, true);
 
 		} catch (Exception e) {
 			LogErroDAO.getInstance().insertLogErro(e);
@@ -88,10 +98,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			TableUtils.createTable(cs, ColabBean.class);
 			TableUtils.createTable(cs, EquipBean.class);
+			TableUtils.createTable(cs, TerceiroBean.class);
+			TableUtils.createTable(cs, VisitanteBean.class);
 
 			TableUtils.createTable(cs, ConfigBean.class);
 			TableUtils.createTable(cs, LogErroBean.class);
 			TableUtils.createTable(cs, LogProcessoBean.class);
+			TableUtils.createTable(cs, MovEquipProprioBean.class);
+			TableUtils.createTable(cs, MovEquipSegProprioBean.class);
+			TableUtils.createTable(cs, MovEquipVisitTercBean.class);
 
 		} catch (Exception e) {
 			LogErroDAO.getInstance().insertLogErro(e);

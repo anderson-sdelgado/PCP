@@ -16,7 +16,6 @@ import br.com.usinasantafe.pcp.PCPContext;
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipSegProprioDAO;
 
 public class ListaVeiculoSecActivity extends ActivityGeneric {
 
@@ -36,10 +35,10 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        movEquipSegProprioList = pcpContext.getMovimentacaoVeicProprioCTR().movEquipSegProprioList();
+        movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipSegProprioList();
 
         for(MovEquipSegProprioBean movEquipSegProprioBean : movEquipSegProprioList){
-            itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipSegProprioBean.getIdMovEquipSegProprio()).getNroEquip()));
+            itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipSegProprioBean.getIdEquipMovEquipSegProprio()).getNroEquip()));
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -63,8 +62,12 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
                                 "                    @Override\n" +
                                 "                    public void onClick(DialogInterface dialog, int which) {\n" +
-                                "                        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));", getLocalClassName());
-                        pcpContext.getMovimentacaoVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));
+                                "                        pcpContext.getMovVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));\n" +
+                                "                        Intent it = new Intent(ListaVeiculoSecActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
+                        pcpContext.getMovVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));
+                        Intent it = new Intent(ListaVeiculoSecActivity.this, ListaVeiculoSecActivity.class);
+                        startActivity(it);
+                        finish();
                     }
 
                 });

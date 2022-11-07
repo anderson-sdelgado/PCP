@@ -13,17 +13,17 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField(generatedId=true)
     private Long idMovEquipVisitTerc;
     @DatabaseField
-    private Long tipoMovEquipVisitTerc;
+    private Long tipoMovEquipVisitTerc; //
     @DatabaseField
     private Long idVisitTercMovEquipVisitTerc;
     @DatabaseField
     private Long tipoVisitTercMovEquipVisitTerc;
     @DatabaseField
-    private String dthrMovEquipVisitTerc;
+    private String dthrMovEquipVisitTerc; //
     @DatabaseField
     private Long dthrLongMovEquipVisitTerc;
     @DatabaseField
-    private Long nroMatricVigiaMovEquipProprio;
+    private Long nroMatricVigiaMovEquipVisitTerc;
     @DatabaseField
     private String placaMovEquipVisitTerc;
     @DatabaseField
@@ -78,12 +78,12 @@ public class MovEquipVisitTercBean extends Entidade {
         this.dthrMovEquipVisitTerc = dthrMovEquipVisitTerc;
     }
 
-    public Long getNroMatricVigiaMovEquipProprio() {
-        return nroMatricVigiaMovEquipProprio;
+    public Long getNroMatricVigiaMovEquipVisitTerc() {
+        return nroMatricVigiaMovEquipVisitTerc;
     }
 
-    public void setNroMatricVigiaMovEquipProprio(Long nroMatricVigiaMovEquipProprio) {
-        this.nroMatricVigiaMovEquipProprio = nroMatricVigiaMovEquipProprio;
+    public void setNroMatricVigiaMovEquipVisitTerc(Long nroMatricVigiaMovEquipVisitTerc) {
+        this.nroMatricVigiaMovEquipVisitTerc = nroMatricVigiaMovEquipVisitTerc;
     }
 
     public String getPlacaMovEquipVisitTerc() {

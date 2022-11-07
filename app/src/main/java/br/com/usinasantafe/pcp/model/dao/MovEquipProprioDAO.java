@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
 import br.com.usinasantafe.pcp.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcp.util.Tempo;
@@ -55,14 +56,14 @@ public class MovEquipProprioDAO {
     }
 
     public void fecharMovEquipProprio(Long nroMatricVigia, String observacao){
-        MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
+        MovEquipProprioBean movEquipProprioBean = getMovEquipProprioAberto();
         movEquipProprioBean.setNroMatricVigiaMovEquipProprio(nroMatricVigia);
         movEquipProprioBean.setObservacaoMovEquipProprio(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();
         movEquipProprioBean.setDthrLongMovEquipProprio(dthr);
         movEquipProprioBean.setDthrMovEquipProprio(Tempo.getInstance().dthrLongToString(dthr));
         movEquipProprioBean.setStatusMovEquipProprio(2L);
-        movEquipProprioBean.insert();
+        movEquipProprioBean.update();
     }
 
     public void updateMovEquipProprioEnvio(ArrayList<Long> idMovEquipProprioArrayList){
@@ -131,6 +132,13 @@ public class MovEquipProprioDAO {
     public List<MovEquipProprioBean> movEquipProprioAllList(){
         MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
         return movEquipProprioBean.orderBy("idMovEquipProprio", false);
+    }
+
+    public List<MovEquipProprioBean> movEquipProprioList(){
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqDtrhLongDia(Tempo.getInstance().dthrLongDiaMenos(1)));
+        MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
+        return movEquipProprioBean.getDateHour(pesqArrayList, "idMovEquipProprio", false);
     }
 
     public List<MovEquipProprioBean> movEquipProprioAbertoList(){
@@ -257,4 +265,13 @@ public class MovEquipProprioDAO {
         pesquisa.setTipo(1);
         return pesquisa;
     }
+
+    private EspecificaPesquisa getPesqDtrhLongDia(Long dtrhLongDia){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("dthrLongMovEquipProprio");
+        pesquisa.setValor(dtrhLongDia);
+        pesquisa.setTipo(2);
+        return pesquisa;
+    }
+
 }

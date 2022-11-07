@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcp.view;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,14 +31,10 @@ public class NotaFiscalActivity extends ActivityGeneric {
                         "            @SuppressWarnings(\"rawtypes\")\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                if (editTextPadrao.getText().toString().equals("")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (editTextPadrao.getText().toString().equals(\"\")) {\n" +
-                            "                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(0L);", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(0L);
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                if (!editTextPadrao.getText().toString().equals("")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
                             "                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
-                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));
+                    pcpContext.getMovVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));
                 }
                 LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);", getLocalClassName());
                 Intent it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);

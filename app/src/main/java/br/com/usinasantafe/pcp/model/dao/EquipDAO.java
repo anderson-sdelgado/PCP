@@ -32,9 +32,9 @@ public class EquipDAO {
         return equipBean.get("idEquip", idEquip);
     }
 
-    private List<EquipBean> equipNroList(Long idEquip){
+    private List<EquipBean> equipNroList(Long nroEquip){
         EquipBean equipBean = new EquipBean();
-        return equipBean.get("nroEquip", idEquip);
+        return equipBean.get("nroEquip", nroEquip);
     }
 
 }

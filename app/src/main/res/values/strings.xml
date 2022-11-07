@@ -45,4 +45,8 @@
     <string name="texto_tipo">TIPO</string>
     <string name="texto_cpf">CPF</string>
     <string name="texto_nome">NOME</string>
+    <string name="texto_menu_titulo_vigia">VIGIA</string>
+    <string name="texto_motorista">Teste</string>
+    <string name="texto_titulo_descr_mov">MOVIMENTO</string>
+    <string name="texto_titulo_placa">PLACA</string>
 </resources>

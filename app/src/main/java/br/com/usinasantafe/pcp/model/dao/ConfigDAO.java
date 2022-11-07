@@ -1,7 +1,14 @@
 package br.com.usinasantafe.pcp.model.dao;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 
 public class ConfigDAO {
@@ -32,6 +39,7 @@ public class ConfigDAO {
         configBean.deleteAll();
         configBean.setNumLinhaConfig(numLinha);
         configBean.setSenhaConfig(senha);
+        configBean.setMatricVigiaConfig(0L);
         configBean.setPosicaoTela(0L);
         configBean.insert();
         configBean.commit();
@@ -60,5 +68,22 @@ public class ConfigDAO {
         configBean.setTipoMov(tipoMov);
         configBean.update();
     }
+
+
+    public AtualAplicBean recAtual(JSONArray jsonArray) throws JSONException {
+
+        JSONObject objeto = jsonArray.getJSONObject(0);
+        Gson gson = new Gson();
+        AtualAplicBean atualAplicBean = gson.fromJson(objeto.toString(), AtualAplicBean.class);
+
+//        ConfigBean configBean = getConfig();
+//        configBean.setDtServConfig(atualAplicBean.getDthr());
+//        configBean.setAtualCheckList(atualAplicBean.getFlagAtualCheckList());
+//        configBean.update();
+
+        return atualAplicBean;
+
+    }
+
 
 }

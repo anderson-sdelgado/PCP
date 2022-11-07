@@ -126,12 +126,12 @@ public class EnvioDadosServ {
             MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();
             movVeicProprioCTR.updateMovEquipProprioFechado(result, activity);
         }
-        else if (result.trim().startsWith("BOLFECHADOMM")) {
+        else if (result.trim().startsWith("MOVEQUIPVISITTERC")) {
             LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"BOLFECHADOMM\")) {\n" +
                     "            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();\n" +
                     "motoMecFertCTR.updateBolFechado(result)", activity);
             MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
-            movVeicVisitTercCTR.updateMovEquipVisitFechado(result, activity);
+            movVeicVisitTercCTR.updateMovEquipVisitTercFechado(result, activity);
         }
         else {
             LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +
