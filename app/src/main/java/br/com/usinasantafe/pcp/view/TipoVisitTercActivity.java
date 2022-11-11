@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ public class TipoVisitTercActivity extends ActivityGeneric {
         setContentView(R.layout.activity_tipo_visit_terc);
 
         pcpContext = (PCPContext) getApplication();
+
+        Button buttonRetornarTipo = findViewById(R.id.buttonRetornarTipo);
 
         ArrayList<String> itens = new ArrayList<String>();
 
@@ -65,6 +68,19 @@ public class TipoVisitTercActivity extends ActivityGeneric {
 
             }
 
+        });
+
+        buttonRetornarTipo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarTipo.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovActivity.class);", getLocalClassName());
+                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovActivity.class);
+                startActivity(it);
+                finish();
+            }
         });
 
     }

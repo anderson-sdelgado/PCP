@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.util.conHttp;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -56,6 +57,8 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
                 	url = "" + retClasse.getField(campo).get(object);
                }
             }
+
+			Log.i("PMM", "URL -> " + url);
 
 			URL urlCon = new URL(url);
 			HttpsURLConnection connection = (HttpsURLConnection) urlCon.openConnection();
