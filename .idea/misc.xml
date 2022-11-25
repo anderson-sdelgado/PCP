@@ -3,7 +3,47 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_colab.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_config.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_descr_mov.xml" value="0.25885416666666666" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_destino.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_historico.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_log_erro.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_log_processo.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov_proprio.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov_residencia.xml" value="0.25885416666666666" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov_visit_terc.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov_proprio.xml" value="0.262037037037037" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov_residencia.xml" value="0.2548717948717949" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov_visit_terc.xml" value="0.262037037037037" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_veiculo_sec.xml" value="0.25" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_log_base_dado.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_log_erro.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_log_processo.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_menu_inicial.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_nome_colab_terc_visit.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_nota_fiscal.xml" value="0.25" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_observacao.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_placa.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_placa_visit_terc.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_placa_visit_terc_residencia.xml" value="0.262037037037037" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_placa_visitante_terceiro.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_senha.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_tela_inicial.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_tipo.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_tipo_visit_terc.xml" value="0.1765625" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_tipo_visitante_terceiro.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_veiculo_proprio.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_veiculo_visit_terc_residencia.xml" value="0.262037037037037" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_veiculo_visitante_terceiro.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_visit_terc.xml" value="0.1" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_visitante_residencia.xml" value="0.262037037037037" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_visitante_terceiro.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/layout_botoes.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/layout_botoes_virgula.xml" value="0.12135416666666667" />
       </map>
     </option>
   </component>
