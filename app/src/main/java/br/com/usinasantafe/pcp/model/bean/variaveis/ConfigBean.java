@@ -22,6 +22,9 @@ public class ConfigBean extends Entidade {
 	private Long posicaoListaMov;
 	@DatabaseField
 	private Long tipoMov;
+	// 1 - Veículo Próprio
+	// 2 - Veículo Visitante/Terceiro
+	// 3 - Veículo Residência
 	@DatabaseField
 	private Long posicaoTela;
 	// 1 - Configuração Inicial

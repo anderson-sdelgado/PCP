@@ -72,8 +72,8 @@ public class MovEquipSegProprioDAO {
         JsonArray jsonArrayApont = new JsonArray();
 
         for (MovEquipSegProprioBean movEquipSegProprioBean : movEquipSegProprioList) {
-            Gson gsonItemImp = new Gson();
-            jsonArrayApont.add(gsonItemImp.toJsonTree(movEquipSegProprioBean, movEquipSegProprioBean.getClass()));
+            Gson gsonMovEquipSegProprio = new Gson();
+            jsonArrayApont.add(gsonMovEquipSegProprio.toJsonTree(movEquipSegProprioBean, movEquipSegProprioBean.getClass()));
         }
 
         movEquipSegProprioList.clear();

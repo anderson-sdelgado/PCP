@@ -186,7 +186,7 @@ public class VeiculoUsinaActivity extends ActivityGeneric {
         if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                     "            Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovActivity.class);", getLocalClassName());
-            Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovActivity.class);
+            Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovProprioActivity.class);
             startActivity(it);
             finish();
         } else {

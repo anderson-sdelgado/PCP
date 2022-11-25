@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.usinasantafe.pcp.control.MovVeicProprioCTR;
+import br.com.usinasantafe.pcp.control.MovVeicResidenciaCTR;
 import br.com.usinasantafe.pcp.control.MovVeicVisitTercCTR;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
@@ -46,6 +47,13 @@ public class EnvioDadosServ {
         envio(urlsConexaoHttp.getsInserirMovEquipVisitTerc(), movVeicVisitTercCTR.dadosEnvioMovEquipVisitTerc(), activity);
     }
 
+    public void enviarMovVeicResidencia(String activity) {
+        LogProcessoDAO.getInstance().insertLogProcesso("MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();\n" +
+                "        envio(urlsConexaoHttp.getsInserirMovEquipResidencia(), movVeicResidenciaCTR.dadosEnvioMovEquipResidencia(), activity);", activity);
+        MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();
+        envio(urlsConexaoHttp.getsInserirMovEquipResidencia(), movVeicResidenciaCTR.dadosEnvioMovEquipResidencia(), activity);
+    }
+
     public void envio(String url, String dados, String activity){
 
         String[] strings = {url, activity};
@@ -73,6 +81,11 @@ public class EnvioDadosServ {
         return movVeicVisitTercCTR.verEnvioMovEquipVisitTercFech();
     }
 
+    public Boolean verifMovEquipResidenciaFech() {
+        MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();
+        return movVeicResidenciaCTR.verEnvioMovEquipResidenciaFech();
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////MECANISMO DE ENVIO/////////////////////////////////////////
@@ -96,9 +109,16 @@ public class EnvioDadosServ {
                             "                    enviarMovVeicVisitTerc(activity);", activity);
                     enviarMovVeicVisitTerc(activity);
                 } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                                status = 3;", activity);
-                    status = 3;
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {", activity);
+                    if (verifMovEquipResidenciaFech()) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (verifMovEquipResidenciaFech()) {\n" +
+                                "                        enviarMovVeicResidencia(activity);", activity);
+                        enviarMovVeicResidencia(activity);
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                                status = 3;", activity);
+                        status = 3;
+                    }
                 }
             }
         }
@@ -106,7 +126,8 @@ public class EnvioDadosServ {
 
     public boolean verifDadosEnvio() {
         if ((!verifMovEquipProprioFech())
-                && (!verifMovEquipVisitTercFech())){
+                && (!verifMovEquipVisitTercFech())
+                && (!verifMovEquipResidenciaFech())){
             return false;
         } else {
             return true;
@@ -120,18 +141,25 @@ public class EnvioDadosServ {
     public void recDados(String result, String activity){
         LogProcessoDAO.getInstance().insertLogProcesso("public void recDados(String " + result + ", String activity){", activity);
         if (result.trim().startsWith("MOVEQUIPPROPRIO")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"BOLABERTOMM\")) {\n" +
-                    "            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();\n" +
-                    "motoMecFertCTR.updBolAberto(result)", activity);
+            LogProcessoDAO.getInstance().insertLogProcesso("if (result.trim().startsWith(\"MOVEQUIPPROPRIO\")) {\n" +
+                    "            MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();\n" +
+                    "            movVeicProprioCTR.updateMovEquipProprioFechado(result, activity);", activity);
             MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();
             movVeicProprioCTR.updateMovEquipProprioFechado(result, activity);
         }
         else if (result.trim().startsWith("MOVEQUIPVISITTERC")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"BOLFECHADOMM\")) {\n" +
-                    "            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();\n" +
-                    "motoMecFertCTR.updateBolFechado(result)", activity);
+            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"MOVEQUIPVISITTERC\")) {\n" +
+                    "            MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();\n" +
+                    "            movVeicVisitTercCTR.updateMovEquipVisitTercFechado(result, activity);", activity);
             MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
             movVeicVisitTercCTR.updateMovEquipVisitTercFechado(result, activity);
+        }
+        else if (result.trim().startsWith("MOVEQUIPRESIDENCIA")) {
+            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"MOVEQUIPRESIDENCIA\")) {\n" +
+                    "            MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();\n" +
+                    "            movVeicResidenciaCTR.updateMovEquipResidenciaFechado(result, activity);", activity);
+            MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();
+            movVeicResidenciaCTR.updateMovEquipResidenciaFechado(result, activity);
         }
         else {
             LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +

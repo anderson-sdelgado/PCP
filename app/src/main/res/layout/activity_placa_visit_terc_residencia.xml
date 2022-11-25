@@ -9,10 +9,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.PlacaVisitTercActivity">
+    tools:context=".view.PlacaVisitTercResidenciaActivity">
 
     <TextView
-        android:id="@+id/textViewTituloPlacaVisitTerc"
+        android:id="@+id/textViewTituloPlacaVisitTercResidencia"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancPlacaVisitTerc"
+            android:id="@+id/buttonCancPlacaVisitTercResidencia"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -42,7 +42,7 @@
             android:text="@string/texto_padrao_cancelar" />
 
         <Button
-            android:id="@+id/buttonOkPlacaVisitTerc"
+            android:id="@+id/buttonOkPlacaVisitTercResidencia"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

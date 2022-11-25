@@ -76,11 +76,6 @@ public class ConfigDAO {
         Gson gson = new Gson();
         AtualAplicBean atualAplicBean = gson.fromJson(objeto.toString(), AtualAplicBean.class);
 
-//        ConfigBean configBean = getConfig();
-//        configBean.setDtServConfig(atualAplicBean.getDthr());
-//        configBean.setAtualCheckList(atualAplicBean.getFlagAtualCheckList());
-//        configBean.update();
-
         return atualAplicBean;
 
     }

@@ -77,7 +77,7 @@ public class TipoVisitTercActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovActivity.class);", getLocalClassName());
-                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovActivity.class);
+                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovProprioActivity.class);
                 startActivity(it);
                 finish();
             }

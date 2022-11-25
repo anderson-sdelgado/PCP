@@ -9,57 +9,44 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaMovActivity">
+    tools:context=".view.VeiculoVisitTercResidenciaActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVigia"
-        style="@style/TextViewMenuNegrito"
-        android:text="@string/texto_menu_titulo_vigia" />
-
-    <TextView
-        android:id="@+id/textViewVigia"
-        style="@style/TextViewMenuNormal"
-        android:text="@string/texto_motorista" />
-
-    <TextView
-        android:id="@+id/textViewTituloMov"
+        android:id="@+id/textViewTituloVeiculoVisitTercResidencia"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_titulo_mov" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_titulo_veiculo" />
 
-    <ListView
-        android:id="@+id/listaMov"
+    <EditText
+        android:id="@+id/editTextVeiculoVisitTercResidencia"
+        style="@style/EditViewObs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <LinearLayout
-        android:id="@+id/rightRelLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/buttonEntradaMov"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_entrada" />
-
-        <Button
-            android:id="@+id/buttonSaidaMov"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_saida" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonCancMov"
-        style="@style/BotaoAvulso"
+        android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_cancelar" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonCancVeiculoVisitTercResidencia"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_padrao_cancelar" />
+
+        <Button
+            android:id="@+id/buttonOkVeiculoVisitTercResidencia"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_padrao_ok" />
+
+    </LinearLayout>
 
 </LinearLayout>

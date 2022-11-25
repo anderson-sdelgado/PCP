@@ -25,15 +25,17 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField
     private Long nroMatricVigiaMovEquipVisitTerc;
     @DatabaseField
-    private String placaMovEquipVisitTerc;
-    @DatabaseField
     private String veiculoMovEquipVisitTerc;
+    @DatabaseField
+    private String placaMovEquipVisitTerc;
     @DatabaseField
     private String destinoMovEquipVisitTerc;
     @DatabaseField
     private String observacaoMovEquipVisitTerc;
     @DatabaseField
-    private Long statusMovEquipVisitTerc;
+    private Long statusEntradaSaidaMovEquipVisitTerc; // 1 - Apenas Entrada; 2 - Entrada e Saída
+    @DatabaseField
+    private Long statusMovEquipVisitTerc; // 1 - Aberto; 2 - Fechado; 3 - Enviado
 
     public MovEquipVisitTercBean() {
     }
@@ -132,5 +134,13 @@ public class MovEquipVisitTercBean extends Entidade {
 
     public void setDthrLongMovEquipVisitTerc(Long dthrLongMovEquipVisitTerc) {
         this.dthrLongMovEquipVisitTerc = dthrLongMovEquipVisitTerc;
+    }
+
+    public Long getStatusEntradaSaidaMovEquipVisitTerc() {
+        return statusEntradaSaidaMovEquipVisitTerc;
+    }
+
+    public void setStatusEntradaSaidaMovEquipVisitTerc(Long statusEntradaSaidaMovEquipVisitTerc) {
+        this.statusEntradaSaidaMovEquipVisitTerc = statusEntradaSaidaMovEquipVisitTerc;
     }
 }

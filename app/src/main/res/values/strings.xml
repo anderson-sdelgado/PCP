@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PCP-QA</string>
+    <string name="app_name">PCP</string>
     <string name="texto_menu_principal">PRINCIPAL</string>
     <string name="texto_item_list">TESTE</string>
     <string name="texto_num1">1</string>
@@ -35,7 +35,7 @@
     <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
     <string name="texto_entrada">ENTRADA</string>
     <string name="texto_saida">SAÍDA</string>
-    <string name="texto_titulo_mov">CONTROLE VEÍCULO USINA</string>
+    <string name="texto_titulo_mov_proprio">CONTROLE VEÍCULO USINA</string>
     <string name="texto_titulo_veiculo">VEÍCULO</string>
     <string name="texto_veiculo_sec">VEÍCULO SECUNDÁRIO</string>
     <string name="texto_inserir">INSERIR</string>
@@ -49,4 +49,7 @@
     <string name="texto_motorista">Teste</string>
     <string name="texto_titulo_descr_mov">MOVIMENTO</string>
     <string name="texto_titulo_placa">PLACA</string>
+    <string name="texto_titulo_mov_visit_terc">ENTRADA VEÍCULO VISITANTE/TERCEIRO</string>
+    <string name="texto_titulo_mov_residencia">ENTRADA VEÍCULO RESIDÊNCIA</string>
+    <string name="texto_titulo_visit_residencia">VISITANTE RESIDÊNCIA</string>
 </resources>

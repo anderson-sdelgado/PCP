@@ -211,7 +211,7 @@ public class ColabActivity extends ActivityGeneric {
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            it = new Intent(ColabActivity.this, ListaMovActivity.class);", getLocalClassName());
-            it = new Intent(ColabActivity.this, ListaMovActivity.class);
+            it = new Intent(ColabActivity.this, ListaMovProprioActivity.class);
         }
         startActivity(it);
         finish();

@@ -9,32 +9,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.MenuInicialActivity">
+    tools:context=".view.DescrMovProprioActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVigiaMovProprio"
-        style="@style/TextViewMenuNegrito"
-        android:text="@string/texto_menu_titulo_vigia" />
-
-    <TextView
-        android:id="@+id/textViewVigiaMovProprio"
-        style="@style/TextViewMenuNormal"
-        android:text="@string/texto_motorista" />
-
-    <TextView
-        android:id="@+id/textViewPrincipal"
+        android:id="@+id/textViewTituloDescrMov"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_menu_principal" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_titulo_descr_mov" />
 
     <ListView
-        android:id="@+id/listaMenuInicial"
+        android:id="@+id/listViewDescrMov"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/textViewProcesso"
-        style="@style/TextViewItemList"
-        android:text="@string/texto_item_list" />
+    <Button
+        android:id="@+id/buttonRetDescrMov"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

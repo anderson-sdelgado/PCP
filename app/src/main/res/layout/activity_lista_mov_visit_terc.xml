@@ -9,26 +9,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.DescrMovActivity">
+    tools:context=".view.ListaMovVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewTituloDescrMov"
+        android:id="@+id/textViewTituloVigiaMovVisitTerc"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_menu_titulo_vigia" />
+
+    <TextView
+        android:id="@+id/textViewVigiaMovVisitTerc"
+        style="@style/TextViewMenuNormal"
+        android:text="@string/texto_motorista" />
+
+    <TextView
+        android:id="@+id/textViewTituloMovVisitTerc"
         style="@style/TextViewTituloLista"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_titulo_descr_mov" />
+        android:text="@string/texto_titulo_mov_visit_terc" />
 
     <ListView
-        android:id="@+id/listViewDescrMov"
+        android:id="@+id/listaMovVisitTerc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/buttonRetDescrMov"
+        android:id="@+id/buttonEntradaMovVisitTerc"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_retornar" />
+        android:text="@string/texto_entrada" />
+
+    <Button
+        android:id="@+id/buttonCancMovVisitTerc"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_cancelar" />
 
 </LinearLayout>

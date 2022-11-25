@@ -20,13 +20,6 @@ public class MovEquipProprioDAO {
     public MovEquipProprioDAO() {
     }
 
-    public boolean verMovEquipProprioAberto(){
-        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioAbertoList();
-        boolean ret = (movEquipProprioList.size() > 0);
-        movEquipProprioList.clear();
-        return ret;
-    }
-
     public boolean verMovEquipProprioFechado(){
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioFechadoList();
         boolean ret = (movEquipProprioList.size() > 0);
@@ -222,8 +215,8 @@ public class MovEquipProprioDAO {
         JsonArray jsonArrayMovEquipProprio = new JsonArray();
 
         for (MovEquipProprioBean movEquipProprioBean : movEquipProprioList) {
-            Gson gsonCabec = new Gson();
-            jsonArrayMovEquipProprio.add(gsonCabec.toJsonTree(movEquipProprioBean, movEquipProprioBean.getClass()));
+            Gson gsonMovEquipProprio = new Gson();
+            jsonArrayMovEquipProprio.add(gsonMovEquipProprio.toJsonTree(movEquipProprioBean, movEquipProprioBean.getClass()));
         }
 
         movEquipProprioList.clear();

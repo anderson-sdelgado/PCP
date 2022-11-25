@@ -13,21 +13,21 @@ import java.util.List;
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.control.ConfigCTR;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 
-public class AdapterListMov extends BaseAdapter {
+public class AdapterListMovProprio extends BaseAdapter {
 
     private List itens;
     private LayoutInflater layoutInflater;
-    private Long tipo;
     private TextView textViewDthrMov;
     private TextView textViewTipoMov;
+    private TextView textViewColabMov;
     private TextView textViewEquipMov;
 
-    public AdapterListMov(Context context, List itens, Long tipo) {
+    public AdapterListMovProprio(Context context, List itens) {
         this.itens = itens;
         layoutInflater = LayoutInflater.from(context);
-        this.tipo = tipo;
     }
 
     @Override
@@ -48,35 +48,34 @@ public class AdapterListMov extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        view = layoutInflater.inflate(R.layout.activity_item_mov, null);
+        view = layoutInflater.inflate(R.layout.activity_item_mov_proprio, null);
         textViewDthrMov = view.findViewById(R.id.textViewDthrMov);
         textViewTipoMov = view.findViewById(R.id.textViewTipoMov);
+        textViewColabMov = view.findViewById(R.id.textViewColabMov);
         textViewEquipMov = view.findViewById(R.id.textViewEquipMov);
 
-        if(tipo == 1L){
-            MovEquipProprioBean movEquipProprioBean = (MovEquipProprioBean) itens.get(position);
-            textViewDthrMov.setText("DTHR: " + movEquipProprioBean.getDthrMovEquipProprio());
-            tipoMov(movEquipProprioBean.getTipoMovEquipProprio());
-            equipMov(movEquipProprioBean.getIdEquipMovEquipProprio());
-        } else {
-            MovEquipVisitTercBean movEquipVisitTercBean = (MovEquipVisitTercBean) itens.get(position);
-            textViewDthrMov.setText("DTHR: " + movEquipVisitTercBean.getDthrMovEquipVisitTerc());
-            tipoMov(movEquipVisitTercBean.getTipoMovEquipVisitTerc());
-            textViewEquipMov.setText("VEÍCULO: " + movEquipVisitTercBean.getVeiculoMovEquipVisitTerc() + "\n" +
-                    "PLACA: " + movEquipVisitTercBean.getPlacaMovEquipVisitTerc());
-        }
+        MovEquipProprioBean movEquipProprioBean = (MovEquipProprioBean) itens.get(position);
+        textViewDthrMov.setText("DTHR: " + movEquipProprioBean.getDthrMovEquipProprio());
+        tipoMov(movEquipProprioBean.getTipoMovEquipProprio());
+        colabMov(movEquipProprioBean.getNroMatricColabMovEquipProprio());
+        equipMov(movEquipProprioBean.getIdEquipMovEquipProprio());
 
         return view;
     }
 
     public void tipoMov(Long tipoMov){
-        if(tipoMov == 1L) {
+        if(tipoMov == 2L) {
             textViewTipoMov.setText("ENTRADA");
             textViewTipoMov.setTextColor(Color.BLUE);
         } else {
             textViewTipoMov.setText("SAÍDA");
             textViewTipoMov.setTextColor(Color.RED);
         }
+    }
+
+    public void colabMov(Long nroMatric){
+        ConfigCTR configCTR = new ConfigCTR();
+        textViewColabMov.setText("COLABORADOR: " + nroMatric + " - " + configCTR.getColab(nroMatric).getNomeColab());
     }
 
     public void equipMov(Long idEquip){

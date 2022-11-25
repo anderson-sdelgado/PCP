@@ -9,32 +9,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.MenuInicialActivity">
+    tools:context=".view.ListaMovResidenciaActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVigiaMovProprio"
+        android:id="@+id/textViewTituloVigiaMovResidencia"
         style="@style/TextViewMenuNegrito"
         android:text="@string/texto_menu_titulo_vigia" />
 
     <TextView
-        android:id="@+id/textViewVigiaMovProprio"
+        android:id="@+id/textViewVigiaMovResidencia"
         style="@style/TextViewMenuNormal"
         android:text="@string/texto_motorista" />
 
     <TextView
-        android:id="@+id/textViewPrincipal"
+        android:id="@+id/textViewTituloMovResidencia"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_menu_principal" />
+        android:text="@string/texto_titulo_mov_residencia" />
 
     <ListView
-        android:id="@+id/listaMenuInicial"
+        android:id="@+id/listaMovResidencia"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/textViewProcesso"
-        style="@style/TextViewItemList"
-        android:text="@string/texto_item_list" />
+    <Button
+        android:id="@+id/buttonEntradaResidencia"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_entrada" />
+
+    <Button
+        android:id="@+id/buttonCancMovResidencia"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_cancelar" />
 
 </LinearLayout>

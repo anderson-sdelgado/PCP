@@ -4,6 +4,7 @@ import android.app.Application;
 
 import br.com.usinasantafe.pcp.control.ConfigCTR;
 import br.com.usinasantafe.pcp.control.MovVeicProprioCTR;
+import br.com.usinasantafe.pcp.control.MovVeicResidenciaCTR;
 import br.com.usinasantafe.pcp.control.MovVeicVisitTercCTR;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 
@@ -14,6 +15,7 @@ public class PCPContext extends Application {
     private ConfigCTR configCTR;
     private MovVeicProprioCTR movVeicProprioCTR;
     private MovVeicVisitTercCTR movVeicVisitTercCTR;
+    private MovVeicResidenciaCTR movVeicResidenciaCTR;
 
     public static String versaoWS = "1.00";
 
@@ -34,6 +36,12 @@ public class PCPContext extends Application {
         if (movVeicVisitTercCTR == null)
             movVeicVisitTercCTR = new MovVeicVisitTercCTR();
         return movVeicVisitTercCTR;
+    }
+
+    public MovVeicResidenciaCTR getMovVeicResidenciaCTR(){
+        if (movVeicResidenciaCTR == null)
+            movVeicResidenciaCTR = new MovVeicResidenciaCTR();
+        return movVeicResidenciaCTR;
     }
 
     public ConfigCTR getConfigCTR(){

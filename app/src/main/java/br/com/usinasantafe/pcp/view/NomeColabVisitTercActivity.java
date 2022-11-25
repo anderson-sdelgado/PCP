@@ -73,7 +73,7 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    Intent it = new Intent(NomeColabTercVisitActivity.this, VeiculoVisitanteTerceiroActivity.class);", getLocalClassName());
-                    it = new Intent(NomeColabVisitTercActivity.this, VeiculoVisitTercActivity.class);
+                    it = new Intent(NomeColabVisitTercActivity.this, VeiculoVisitTercResidenciaActivity.class);
                 }
                 startActivity(it);
                 finish();

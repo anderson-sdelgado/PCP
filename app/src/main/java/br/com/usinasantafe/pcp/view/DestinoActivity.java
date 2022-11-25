@@ -41,7 +41,7 @@ public class DestinoActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
                                 "                        pcpContext.getMovimentacaoVeicProprioCTR().setDescrDestino(editTextDestino.getText().toString());", getLocalClassName());
                         pcpContext.getMovVeicProprioCTR().setDescrDestino(editTextDestino.getText().toString());
-                        if(pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){
+                        if(pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 2L){
                             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){\n" +
                                     "                        it = new Intent(DestinoActivity.this, ObservacaoActivity.class);", getLocalClassName());
                             it = new Intent(DestinoActivity.this, ObservacaoActivity.class);
@@ -97,7 +97,7 @@ public class DestinoActivity extends ActivityGeneric {
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(DestinoActivity.this, PlacaVisitanteTerceiroActivity.class);", getLocalClassName());
-                    it = new Intent(DestinoActivity.this, PlacaVisitTercActivity.class);
+                    it = new Intent(DestinoActivity.this, PlacaVisitTercResidenciaActivity.class);
                 }
                 startActivity(it);
                 finish();

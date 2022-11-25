@@ -38,7 +38,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         pcpContext = (PCPContext) getApplication();
 
         textViewProcesso = findViewById(R.id.textViewProcesso);
-        TextView textViewVigia = findViewById(R.id.textViewVigia);
+        TextView textViewVigia = findViewById(R.id.textViewVigiaMovProprio);
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
         customHandler.postDelayed(updateTimerThread, 0);
 
@@ -78,6 +78,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         itens.add("CONTROLE VEÍCULO PRÓPRIO");
         itens.add("CONTROLE VEÍCULO VISITANTE/TERCEIRO");
+        itens.add("CONTROLE VEÍCULO RESIDÊNCIA");
         itens.add("VIGIA");
         itens.add("CONFIGURAÇÃO");
         itens.add("LOG");
@@ -110,9 +111,9 @@ public class MenuInicialActivity extends ActivityGeneric {
                         if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
                             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
                                     "                            pcpContext.getConfigCTR().setTipoMov(1L);\n" +
-                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);", getLocalClassName());
+                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
                             pcpContext.getConfigCTR().setTipoMov(1L);
-                            Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);
+                            Intent it = new Intent(MenuInicialActivity.this, ListaMovProprioActivity.class);
                             startActivity(it);
                             finish();
                         }
@@ -126,9 +127,25 @@ public class MenuInicialActivity extends ActivityGeneric {
                         if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {\n" +
                                     "                            pcpContext.getConfigCTR().setTipoMov(2L);\n" +
-                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);", getLocalClassName());
+                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
                             pcpContext.getConfigCTR().setTipoMov(2L);
-                            Intent it = new Intent(MenuInicialActivity.this, ListaMovActivity.class);
+                            Intent it = new Intent(MenuInicialActivity.this, ListaMovVisitTercActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
+                    }
+
+                } else if (text.equals("CONTROLE VEÍCULO RESIDÊNCIA")) {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONTROLE VEÍCULO RESIDÊNCIA\")) {", getLocalClassName());
+                    if(pcpContext.getConfigCTR().hasElemConfig()) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
+                        if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {\n" +
+                                    "                            pcpContext.getConfigCTR().setTipoMov(3L);\n" +
+                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
+                            pcpContext.getConfigCTR().setTipoMov(3L);
+                            Intent it = new Intent(MenuInicialActivity.this, ListaMovResidenciaActivity.class);
                             startActivity(it);
                             finish();
                         }
@@ -200,8 +217,9 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         public void run() {
 
-            if(!pcpContext.getMovVeicProprioCTR().verMovEquipProprioAberto()
-                    && !pcpContext.getMovVeicVisitTercCTR().verMovEquipVisitTercAberto()){
+            if(!pcpContext.getMovVeicProprioCTR().verEnvioMovEquipProprioFech()
+                    && !pcpContext.getMovVeicVisitTercCTR().verEnvioMovEquipVisitTercFech()
+                    && !pcpContext.getMovVeicResidenciaCTR().verEnvioMovEquipResidenciaFech()){
                 textViewProcesso.setTextColor(Color.GREEN);
                 textViewProcesso.setText("Todos os Dados já foram Enviados");
             }

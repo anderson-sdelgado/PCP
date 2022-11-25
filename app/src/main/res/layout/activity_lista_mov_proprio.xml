@@ -9,44 +9,57 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.VeiculoVisitTercActivity">
+    tools:context=".view.ListaMovProprioActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVeiculoVisitanteTerceiro"
-        style="@style/TextViewTituloLista"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_titulo_veiculo" />
+        android:id="@+id/textViewTituloVigiaMovProprio"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_menu_titulo_vigia" />
 
-    <EditText
-        android:id="@+id/editTextVeiculoVisitanteTerceiro"
-        style="@style/EditViewObs"
+    <TextView
+        android:id="@+id/textViewVigiaMovProprio"
+        style="@style/TextViewMenuNormal"
+        android:text="@string/texto_motorista" />
+
+    <TextView
+        android:id="@+id/textViewTituloMovProprio"
+        style="@style/TextViewTituloLista"
+        android:text="@string/texto_titulo_mov_proprio" />
+
+    <ListView
+        android:id="@+id/listaMovProprio"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <LinearLayout
-        android:id="@+id/rightRelativeLayout"
+        android:id="@+id/rightRelLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonCancVeiculoVisitanteTerceiro"
+            android:id="@+id/buttonEntradaMovProprio"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_cancelar" />
+            android:text="@string/texto_entrada" />
 
         <Button
-            android:id="@+id/buttonOkVeiculoVisitanteTerceiro"
+            android:id="@+id/buttonSaidaMovProprio"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_ok" />
+            android:text="@string/texto_saida" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonCancMovProprio"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_cancelar" />
 
 </LinearLayout>
