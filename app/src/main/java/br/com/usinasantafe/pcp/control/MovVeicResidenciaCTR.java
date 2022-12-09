@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipResidenciaDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
 public class MovVeicResidenciaCTR {
@@ -80,6 +78,8 @@ public class MovVeicResidenciaCTR {
             MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
             ArrayList<Long> movEquipResidenciaArrayList = movEquipResidenciaDAO.idMovEquipResidenciaArrayList(retorno[1]);
             movEquipResidenciaDAO.updateEquipResidenciaEnvio(movEquipResidenciaArrayList);
+
+//            deleteMovEquipResidenciaEnviado();
 
             EnvioDadosServ.getInstance().envioDados(activity);
 

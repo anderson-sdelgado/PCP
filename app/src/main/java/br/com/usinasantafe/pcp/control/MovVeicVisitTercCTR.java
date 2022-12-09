@@ -106,11 +106,6 @@ public class MovVeicVisitTercCTR {
         movEquipVisitTercDAO.setDestinoVisitTerc(destino);
     }
 
-    public List<MovEquipVisitTercBean> movEquipVisitTercAllList(){
-        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        return movEquipVisitTercDAO.movEquipVisitTercAllList();
-    }
-
     public List<MovEquipVisitTercBean> movEquipVisitTercEntradaList(){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         return movEquipVisitTercDAO.movEquipVisitTercEntradaList();
@@ -130,6 +125,8 @@ public class MovVeicVisitTercCTR {
             MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
             ArrayList<Long> movEquipVisitTercArrayList = movEquipVisitTercDAO.idMovEquipVisitTercArrayList(retorno[1]);
             movEquipVisitTercDAO.updateEquipVisitTercEnvio(movEquipVisitTercArrayList);
+
+            deleteMovEquipVisitTercEnviado();
 
             EnvioDadosServ.getInstance().envioDados(activity);
 

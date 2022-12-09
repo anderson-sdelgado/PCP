@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.control;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
 import br.com.usinasantafe.pcp.model.dao.EquipDAO;
@@ -11,7 +10,6 @@ import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipSegProprioDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
-import br.com.usinasantafe.pcp.util.Tempo;
 
 public class MovVeicProprioCTR {
 
@@ -158,6 +156,8 @@ public class MovVeicProprioCTR {
             MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
             ArrayList<Long> movEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(retorno[1]);
             movEquipProprioDAO.updateMovEquipProprioEnvio(movEquipProprioArrayList);
+
+            deleteMovEquipProprioEnviado();
 
             EnvioDadosServ.getInstance().envioDados(activity);
 

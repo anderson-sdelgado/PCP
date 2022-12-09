@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcp.util.Tempo;
 
@@ -83,15 +82,14 @@ public class MovEquipResidenciaDAO {
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqMovEnviado());
+        pesqArrayList.add(getPesqStatusEntradaFechado());
 
         MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
         List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaBean.get(pesqArrayList);
 
         ArrayList<Long> idMovEquipResidenciaList = new ArrayList<>();
         for (MovEquipResidenciaBean movEquipResidenciaBeanBD : movEquipResidenciaList) {
-            if(movEquipResidenciaBeanBD.getDthrLongMovEquipResidencia() < Tempo.getInstance().dthrLongDiaMenos(15)) {
-                idMovEquipResidenciaList.add(movEquipResidenciaBeanBD.getIdMovEquipResidencia());
-            }
+            idMovEquipResidenciaList.add(movEquipResidenciaBeanBD.getIdMovEquipResidencia());
         }
 
         movEquipResidenciaList.clear();
@@ -131,11 +129,11 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.update();
     }
 
-    public List<MovEquipResidenciaBean> movEquipResidenciaAbertoId(Long idMovEquipVisitTerc){
+    public List<MovEquipResidenciaBean> movEquipResidenciaAbertoId(Long idMovEquipResidencia){
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqMovId(idMovEquipVisitTerc));
-        MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
-        return movEquipVisitTercBean.get(pesqArrayList);
+        pesqArrayList.add(getPesqMovId(idMovEquipResidencia));
+        MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
+        return movEquipResidenciaBean.get(pesqArrayList);
     }
 
     public List<MovEquipResidenciaBean> movEquipResidenciaEntradaList(ArrayList<Long> idMovEquipResidenciaArrayList){
@@ -145,9 +143,10 @@ public class MovEquipResidenciaDAO {
 
     public List<MovEquipResidenciaBean> movEquipResidenciaEntradaList(){
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqStatusEntrada());
+        pesqArrayList.add(getPesqStatusEntradaAberto());
+        pesqArrayList.add(getPesqMovFechadoEnviado());
         MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
-        return movEquipResidenciaBean.getDateHour(pesqArrayList, "idMovEquipResidencia", false);
+        return movEquipResidenciaBean.getAndOrderBy(pesqArrayList, "idMovEquipResidencia", false);
     }
 
     public List<MovEquipResidenciaBean> movEquipResidenciaAbertoList(){
@@ -238,7 +237,7 @@ public class MovEquipResidenciaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqStatusEntrada(){
+    private EspecificaPesquisa getPesqStatusEntradaAberto(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusEntradaSaidaMovEquipResidencia");
         pesquisa.setValor(1L);
@@ -246,10 +245,18 @@ public class MovEquipResidenciaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqDtrhLongDia(Long dtrhLongDia){
+    private EspecificaPesquisa getPesqStatusEntradaFechado(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("dthrLongMovEquipResidencia");
-        pesquisa.setValor(dtrhLongDia);
+        pesquisa.setCampo("statusEntradaSaidaMovEquipResidencia");
+        pesquisa.setValor(2L);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqMovFechadoEnviado(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusMovEquipResidencia");
+        pesquisa.setValor(1L);
         pesquisa.setTipo(2);
         return pesquisa;
     }

@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
 import br.com.usinasantafe.pcp.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcp.util.Tempo;
@@ -88,7 +87,7 @@ public class MovEquipProprioDAO {
 
         ArrayList<Long> idMovEquipProprioList = new ArrayList<>();
         for (MovEquipProprioBean movEquipProprioBeanBD : movEquipProprioList) {
-            if(movEquipProprioBeanBD.getDthrLongMovEquipProprio() < Tempo.getInstance().dthrLongDiaMenos(15)) {
+            if(movEquipProprioBeanBD.getDthrLongMovEquipProprio() < Tempo.getInstance().dthrLongHoraMenos(1)) {
                 idMovEquipProprioList.add(movEquipProprioBeanBD.getIdMovEquipProprio());
             }
         }

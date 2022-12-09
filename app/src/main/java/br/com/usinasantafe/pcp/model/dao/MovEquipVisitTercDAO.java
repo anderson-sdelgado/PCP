@@ -83,15 +83,14 @@ public class MovEquipVisitTercDAO {
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqMovEnviado());
+        pesqArrayList.add(getPesqStatusEntradaFechado());
 
         MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
         List<MovEquipVisitTercBean> movEquipVisitTercList = movEquipVisitTercBean.get(pesqArrayList);
 
         ArrayList<Long> idMovEquipVisitTercList = new ArrayList<>();
         for (MovEquipVisitTercBean movEquipVisitTercBeanBD : movEquipVisitTercList) {
-            if(movEquipVisitTercBeanBD.getDthrLongMovEquipVisitTerc() < Tempo.getInstance().dthrLongDiaMenos(15)) {
-                idMovEquipVisitTercList.add(movEquipVisitTercBeanBD.getIdMovEquipVisitTerc());
-            }
+            idMovEquipVisitTercList.add(movEquipVisitTercBeanBD.getIdMovEquipVisitTerc());
         }
 
         movEquipVisitTercList.clear();
@@ -169,16 +168,12 @@ public class MovEquipVisitTercDAO {
         return movEquipVisitTercBean.in("idMovEquipVisitTerc", idMovEquipVisitTercArrayList);
     }
 
-    public List<MovEquipVisitTercBean> movEquipVisitTercAllList(){
-        MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
-        return movEquipVisitTercBean.orderBy("idMovEquipVisitTerc", false);
-    }
-
     public List<MovEquipVisitTercBean> movEquipVisitTercEntradaList(){
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqStatusEntrada());
+        pesqArrayList.add(getPesqStatusEntradaAberto());
+        pesqArrayList.add(getPesqMovFechadoEnviado());
         MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
-        return movEquipVisitTercBean.getDateHour(pesqArrayList, "idMovEquipVisitTerc", false);
+        return movEquipVisitTercBean.getAndOrderBy(pesqArrayList, "idMovEquipVisitTerc", false);
     }
 
     public ArrayList<String> movEquipVisitTercAllArrayList(ArrayList<String> dadosArrayList){
@@ -271,7 +266,7 @@ public class MovEquipVisitTercDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqStatusEntrada(){
+    private EspecificaPesquisa getPesqStatusEntradaAberto(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusEntradaSaidaMovEquipVisitTerc");
         pesquisa.setValor(1L);
@@ -279,10 +274,18 @@ public class MovEquipVisitTercDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqDtrhLongDia(Long dtrhLongDia){
+    private EspecificaPesquisa getPesqStatusEntradaFechado(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("dthrLongMovEquipVisitTerc");
-        pesquisa.setValor(dtrhLongDia);
+        pesquisa.setCampo("statusEntradaSaidaMovEquipVisitTerc");
+        pesquisa.setValor(2L);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqMovFechadoEnviado(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusMovEquipVisitTerc");
+        pesquisa.setValor(1L);
         pesquisa.setTipo(2);
         return pesquisa;
     }

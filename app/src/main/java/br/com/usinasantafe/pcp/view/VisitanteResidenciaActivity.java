@@ -34,7 +34,7 @@ public class VisitanteResidenciaActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonOkVeiculoVisitanteTerceiro.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                if(!editTextVisitanteResidencia.getText().toString().equals("")) {
+                if(!editTextVisitanteResidencia.getText().toString().trim().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextVisitanteResidencia.getText().toString().equals(\"\")) {\n" +
                             "                    pcpContext.getMovVeicResidenciaCTR().setNomeVisitante(editTextVisitanteResidencia.getText().toString());\n" +
                             "                    Intent it  = new Intent(VisitanteResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());

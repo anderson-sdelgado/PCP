@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import br.com.usinasantafe.pcp.control.ConfigCTR;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.model.pst.GenericRecordable;

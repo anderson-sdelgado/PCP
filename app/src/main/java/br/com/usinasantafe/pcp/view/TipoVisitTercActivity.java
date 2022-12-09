@@ -76,8 +76,8 @@ public class TipoVisitTercActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarTipo.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovActivity.class);", getLocalClassName());
-                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovProprioActivity.class);
+                        "                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
+                Intent it = new Intent(TipoVisitTercActivity.this, ListaMovVisitTercActivity.class);
                 startActivity(it);
                 finish();
             }

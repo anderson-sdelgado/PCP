@@ -24,7 +24,7 @@ import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pcp_db";
-	public static final int FORCA_BD_VERSION = 1;
+	public static final int FORCA_BD_VERSION = 2;
 
 	private static DatabaseHelper instance;
 	
@@ -85,7 +85,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(cs, MovEquipProprioBean.class, true);
 			TableUtils.dropTable(cs, MovEquipSegProprioBean.class, true);
 			TableUtils.dropTable(cs, MovEquipVisitTercBean.class, true);
-			TableUtils.dropTable(cs, MovEquipResidenciaBean.class, true);
 
 		} catch (Exception e) {
 			LogErroDAO.getInstance().insertLogErro(e);

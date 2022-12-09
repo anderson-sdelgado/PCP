@@ -17,7 +17,7 @@ public class PCPContext extends Application {
     private MovVeicVisitTercCTR movVeicVisitTercCTR;
     private MovVeicResidenciaCTR movVeicResidenciaCTR;
 
-    public static String versaoWS = "1.00";
+    public static String versaoWS = "2.00";
 
     @Override
     public void onCreate() {

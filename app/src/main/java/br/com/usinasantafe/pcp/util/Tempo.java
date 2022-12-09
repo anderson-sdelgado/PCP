@@ -137,4 +137,8 @@ public class Tempo {
         return dthrStringToLong(dthrAtualString()) - (dia*24*60*60*1000);
     }
 
+    public Long dthrLongHoraMenos(int hora){
+        return dthrStringToLong(dthrAtualString()) - (hora*60*60*1000);
+    }
+
 }

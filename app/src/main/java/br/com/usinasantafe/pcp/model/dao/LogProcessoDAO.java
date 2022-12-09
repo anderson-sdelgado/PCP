@@ -37,7 +37,7 @@ public class LogProcessoDAO {
 
     public void deleteLogProcesso(){
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqDtrhLongDiaMenos(Tempo.getInstance().dthrLongDiaMenos(15)));
+        pesqArrayList.add(getPesqDtrhLongDiaMenos(Tempo.getInstance().dthrLongDiaMenos(3)));
         LogProcessoBean logProcessoBean = new LogProcessoBean();
         logProcessoBean.deleteGet(pesqArrayList);
     }

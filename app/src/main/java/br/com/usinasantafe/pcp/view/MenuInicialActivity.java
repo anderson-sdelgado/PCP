@@ -67,6 +67,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +
                 "        itens.add(\"CONTROLE VEÍCULO PRÓPRIO\");\n" +
                 "        itens.add(\"CONTROLE VEÍCULO VISITANTE/TERCEIRO\");\n" +
+                "        itens.add(\"CONTROLE VEÍCULO RESIDÊNCIA\");\n" +
                 "        itens.add(\"VIGIA\");\n" +
                 "        itens.add(\"CONFIGURAÇÃO\");\n" +
                 "        itens.add(\"SAIR\");\n" +

@@ -59,16 +59,10 @@ public class TelaInicialActivity extends ActivityGeneric {
     };
 
     public void clearBD() {
-        LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioEnviado();\n" +
-                "        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercEnviado();\n" +
-                "        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaEnviado();\n" +
-                "        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();\n" +
+        LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();\n" +
                 "        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();\n" +
                 "        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();\n" +
                 "        pcpContext.getConfigCTR().deleteLogs();", getLocalClassName());
-        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioEnviado();
-        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercEnviado();
-        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaEnviado();
         pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();
         pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
         pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();
