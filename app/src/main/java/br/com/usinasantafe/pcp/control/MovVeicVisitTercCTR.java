@@ -56,6 +56,15 @@ public class MovVeicVisitTercCTR {
         movEquipVisitTercList.clear();
     }
 
+    public void deleteMovEquipVisitTercFechado(){
+        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        List<MovEquipVisitTercBean> movEquipVisitTercList = movEquipVisitTercDAO.movEquipVisitTercFechadoList();
+        for(MovEquipVisitTercBean movEquipVisitTercBean : movEquipVisitTercList){
+            movEquipVisitTercDAO.deleteMovEquipVisitTerc(movEquipVisitTercBean.getIdMovEquipVisitTerc());
+        }
+        movEquipVisitTercList.clear();
+    }
+
     public MovEquipVisitTercBean getMovEquipVisitTercAberto(){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         return movEquipVisitTercDAO.getMovEquipVisitTercAberto();

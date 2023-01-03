@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcp.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +39,7 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
                 "        } else {\n" +
                 "            textViewVigia.setText(\"\");\n" +
                 "        }\n" +
+                "pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();" +
                 "        movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercList();", getLocalClassName());
 
         if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
@@ -49,6 +48,7 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
             textViewVigia.setText("");
         }
 
+        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
         movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercEntradaList();
 
         LogProcessoDAO.getInstance().insertLogProcesso("ListView listaMov = findViewById(R.id.listaMovVisitTerc);\n" +

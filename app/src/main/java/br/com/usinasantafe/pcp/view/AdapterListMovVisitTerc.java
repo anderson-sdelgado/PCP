@@ -63,7 +63,7 @@ public class AdapterListMovVisitTerc extends BaseAdapter {
 
     public void visitTercMov(MovEquipVisitTercBean movEquipVisitTercBean){
         MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
-        if(movEquipVisitTercBean.getTipoVisitTercMovEquipVisitTerc() == 1L){
+        if(movEquipVisitTercBean.getTipoVisitTercMovEquipVisitTerc() == 2L){
             textViewVisitTercMov.setText("TERCEIRO: " + movVeicVisitTercCTR.getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfTerceiro() + " - " + movVeicVisitTercCTR.getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());
         } else {
             textViewVisitTercMov.setText("VISITANTE: " + movVeicVisitTercCTR.getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfVisitante() + " - " + movVeicVisitTercCTR.getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());

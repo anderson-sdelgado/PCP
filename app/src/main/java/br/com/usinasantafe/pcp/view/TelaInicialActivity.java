@@ -59,13 +59,7 @@ public class TelaInicialActivity extends ActivityGeneric {
     };
 
     public void clearBD() {
-        LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();\n" +
-                "        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();\n" +
-                "        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();\n" +
-                "        pcpContext.getConfigCTR().deleteLogs();", getLocalClassName());
-        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();
-        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
-        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();
+        LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getConfigCTR().deleteLogs();", getLocalClassName());
         pcpContext.getConfigCTR().deleteLogs();
     }
 

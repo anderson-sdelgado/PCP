@@ -132,4 +132,8 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
         });
 
     }
+
+    public void onBackPressed() {
+    }
+
 }

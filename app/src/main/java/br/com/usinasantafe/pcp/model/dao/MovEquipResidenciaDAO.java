@@ -43,12 +43,12 @@ public class MovEquipResidenciaDAO {
         if(movEquipResidenciaBean.getTipoMovEquipResidencia() == 2L){
             List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList();
             MovEquipResidenciaBean movEquipResidenciaEntradaBean =  movEquipResidenciaList.get(posicaoListaMov.intValue());
+            movEquipResidenciaList.clear();
             movEquipResidenciaBean.setNomeVisitanteMovEquipResidencia(movEquipResidenciaEntradaBean.getNomeVisitanteMovEquipResidencia());
             movEquipResidenciaBean.setVeiculoMovEquipResidencia(movEquipResidenciaEntradaBean.getVeiculoMovEquipResidencia());
             movEquipResidenciaBean.setPlacaMovEquipResidencia(movEquipResidenciaEntradaBean.getPlacaMovEquipResidencia());
             movEquipResidenciaEntradaBean.setStatusEntradaSaidaMovEquipResidencia(2L);
             movEquipResidenciaEntradaBean.update();
-            movEquipResidenciaList.clear();
         }
         movEquipResidenciaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
         movEquipResidenciaBean.setObservacaoMovEquipResidencia(observacao);

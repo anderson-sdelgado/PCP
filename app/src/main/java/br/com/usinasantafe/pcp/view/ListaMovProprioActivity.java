@@ -45,6 +45,7 @@ public class ListaMovProprioActivity extends ActivityGeneric {
             textViewVigia.setText("");
         }
 
+        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();
         movEquipList = pcpContext.getMovVeicProprioCTR().movEquipProprioList();
 
         LogProcessoDAO.getInstance().insertLogProcesso("ListView listaMov = findViewById(R.id.listaMovProprio);\n" +

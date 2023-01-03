@@ -30,7 +30,7 @@ public class VisitTercActivity extends ActivityGeneric {
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
         TextView textViewCpfVisitTerc = findViewById(R.id.textViewCpfVisitTerc);
 
-        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
+        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
             textViewCpfVisitTerc.setText("CPF TERCEIRO:");
         } else {
             textViewCpfVisitTerc.setText("CPF VISITANTE:");
@@ -126,7 +126,7 @@ public class VisitTercActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
+                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){", getLocalClassName());
                         if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovimentacaoVeicVisTercCTR().verTerceiro(editTextPadrao.getText().toString())) {\n" +

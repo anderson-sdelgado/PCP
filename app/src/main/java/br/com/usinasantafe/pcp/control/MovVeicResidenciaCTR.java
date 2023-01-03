@@ -79,7 +79,7 @@ public class MovVeicResidenciaCTR {
             ArrayList<Long> movEquipResidenciaArrayList = movEquipResidenciaDAO.idMovEquipResidenciaArrayList(retorno[1]);
             movEquipResidenciaDAO.updateEquipResidenciaEnvio(movEquipResidenciaArrayList);
 
-//            deleteMovEquipResidenciaEnviado();
+            deleteMovEquipResidenciaEnviado();
 
             EnvioDadosServ.getInstance().envioDados(activity);
 

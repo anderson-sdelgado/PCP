@@ -40,7 +40,7 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
             textViewNome.setText(pcpContext.getConfigCTR().getColab(pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getNroMatricColabMovEquipProprio()).getNomeColab());
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-            if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){
+            if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){\n" +
                         "                textViewTituloNome.setText(\"NOME DO TERCEIRO\");\n" +
                         "                textViewNome.setText(pcpContext.getMovimentacaoVeicVisTercCTR().getTerceiroId(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());", getLocalClassName());
