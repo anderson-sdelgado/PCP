@@ -14,18 +14,18 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.PCPContext;
 import br.com.usinasantafe.pcp.R;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioSegBean;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 
-public class ListaVeiculoSecActivity extends ActivityGeneric {
+public class ListaVeiculoSegActivity extends ActivityGeneric {
 
     private PCPContext pcpContext;
-    private List<MovEquipSegProprioBean> movEquipSegProprioList;
+    private List<MovEquipProprioSegBean> movEquipSegProprioList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_veiculo_sec);
+        setContentView(R.layout.activity_lista_veiculo_seg);
 
         pcpContext = (PCPContext) getApplication();
 
@@ -37,8 +37,8 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
 
         movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipSegProprioList();
 
-        for(MovEquipSegProprioBean movEquipSegProprioBean : movEquipSegProprioList){
-            itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipSegProprioBean.getIdEquipMovEquipSegProprio()).getNroEquip()));
+        for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){
+            itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipProprioSegBean.getIdEquipMovEquipProprioSeg()).getNroEquip()));
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -51,7 +51,7 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaVeiculoSecActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaVeiculoSegActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 String label = "DESEJA EXCLUIR O VEÍCULO?";
                 alerta.setMessage(label);
@@ -65,7 +65,7 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
                                 "                        pcpContext.getMovVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));\n" +
                                 "                        Intent it = new Intent(ListaVeiculoSecActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
                         pcpContext.getMovVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));
-                        Intent it = new Intent(ListaVeiculoSecActivity.this, ListaVeiculoSecActivity.class);
+                        Intent it = new Intent(ListaVeiculoSegActivity.this, ListaVeiculoSegActivity.class);
                         startActivity(it);
                         finish();
                     }
@@ -98,7 +98,7 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
                         "                pcpContext.getConfigCTR().setPosicaoTela(5L);\n" +
                         "                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(5L);
-                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);
+                Intent it = new Intent(ListaVeiculoSegActivity.this, VeiculoUsinaActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -111,7 +111,7 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaVeiculoSecActivity.this, DestinoActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaVeiculoSecActivity.this, DestinoActivity.class);
+                Intent it = new Intent(ListaVeiculoSegActivity.this, DestinoActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -125,7 +125,7 @@ public class ListaVeiculoSecActivity extends ActivityGeneric {
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(4L);
-                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);
+                Intent it = new Intent(ListaVeiculoSegActivity.this, VeiculoUsinaActivity.class);
                 startActivity(it);
                 finish();
             }

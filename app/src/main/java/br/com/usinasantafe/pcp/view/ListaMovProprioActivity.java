@@ -31,7 +31,7 @@ public class ListaMovProprioActivity extends ActivityGeneric {
         Button buttonSaidaMov = findViewById(R.id.buttonSaidaMovProprio);
         Button buttonCancMov = findViewById(R.id.buttonCancMovProprio);
 
-        TextView textViewVigia = findViewById(R.id.textViewVigiaMovProprio);
+        TextView textViewVigia = findViewById(R.id.textViewVigia);
 
         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
                 "            textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());\n" +

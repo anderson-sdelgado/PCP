@@ -47,8 +47,9 @@ public class MovEquipProprioDAO {
         movEquipProprioBean.insert();
     }
 
-    public void fecharMovEquipProprio(Long nroMatricVigia, String observacao){
+    public void fecharMovEquipProprio(Long idLocal, Long nroMatricVigia, String observacao){
         MovEquipProprioBean movEquipProprioBean = getMovEquipProprioAberto();
+        movEquipProprioBean.setIdLocalMovEquipProprio(idLocal);
         movEquipProprioBean.setNroMatricVigiaMovEquipProprio(nroMatricVigia);
         movEquipProprioBean.setObservacaoMovEquipProprio(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();

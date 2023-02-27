@@ -14,6 +14,7 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov_proprio.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov_residencia.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_item_mov_visit_terc.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_local.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov_proprio.xml" value="0.262037037037037" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_lista_mov_residencia.xml" value="0.2548717948717949" />
@@ -23,7 +24,7 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_log_erro.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_log_processo.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_menu_inicial.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_menu_inicial.xml" value="0.33" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_nome_colab_terc_visit.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_nota_fiscal.xml" value="0.25" />
         <entry key="..\:/Users/anderson/Documents/Android/PCP/app/src/main/res/layout/activity_observacao.xml" value="0.12135416666666667" />

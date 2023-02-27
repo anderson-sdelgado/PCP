@@ -38,7 +38,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         pcpContext = (PCPContext) getApplication();
 
         textViewProcesso = findViewById(R.id.textViewProcesso);
-        TextView textViewVigia = findViewById(R.id.textViewVigiaMovProprio);
+        TextView textViewVigia = findViewById(R.id.textViewVigia);
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
         customHandler.postDelayed(updateTimerThread, 0);
 
@@ -51,17 +51,27 @@ public class MenuInicialActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
             if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
-                        "                textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());", getLocalClassName());
-                textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+                        "                textViewVigia.setText(\"VIGIA: \" + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());", getLocalClassName());
+                textViewVigia.setText("VIGIA: " + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                        "                textViewVigia.setText(\"\");", getLocalClassName());
-                textViewVigia.setText("");
+                        "                textViewVigia.setText(\"VIGIA: \");", getLocalClassName());
+                textViewVigia.setText("VIGIA: ");
+            }
+            if(pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L){\n" +
+                        "                textViewVigia.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());", getLocalClassName());
+                textViewVigia.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                textViewVigia.setText(\"LOCAL: \");", getLocalClassName());
+                textViewVigia.setText("LOCAL: ");
             }
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "                textViewVigia.setText(\"\");", getLocalClassName());
-            textViewVigia.setText("");
+                    "                textViewVigia.setText(\"VIGIA: \");", getLocalClassName());
+            textViewVigia.setText("VIGIA: ");
+            textViewVigia.setText("LOCAL: ");
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +

@@ -17,7 +17,7 @@ import br.com.usinasantafe.pcp.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipSegProprioBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioSegBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 
@@ -83,7 +83,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(cs, LogErroBean.class, true);
 			TableUtils.dropTable(cs, LogProcessoBean.class, true);
 			TableUtils.dropTable(cs, MovEquipProprioBean.class, true);
-			TableUtils.dropTable(cs, MovEquipSegProprioBean.class, true);
+			TableUtils.dropTable(cs, MovEquipProprioSegBean.class, true);
 			TableUtils.dropTable(cs, MovEquipVisitTercBean.class, true);
 
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, LogErroBean.class);
 			TableUtils.createTable(cs, LogProcessoBean.class);
 			TableUtils.createTable(cs, MovEquipProprioBean.class);
-			TableUtils.createTable(cs, MovEquipSegProprioBean.class);
+			TableUtils.createTable(cs, MovEquipProprioSegBean.class);
 			TableUtils.createTable(cs, MovEquipVisitTercBean.class);
 			TableUtils.createTable(cs, MovEquipResidenciaBean.class);
 

@@ -12,16 +12,18 @@ import java.util.List;
 import br.com.usinasantafe.pcp.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcp.model.bean.estaticas.LocalBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcp.model.dao.ColabDAO;
 import br.com.usinasantafe.pcp.model.dao.ConfigDAO;
 import br.com.usinasantafe.pcp.model.dao.EquipDAO;
+import br.com.usinasantafe.pcp.model.dao.LocalDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipSegProprioDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipProprioSegDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.model.dao.VisitanteDAO;
 import br.com.usinasantafe.pcp.util.AtualDadosServ;
@@ -37,6 +39,11 @@ public class ConfigCTR {
     public boolean hasElemVisitante(){
         VisitanteDAO visitanteDAO = new VisitanteDAO();
         return visitanteDAO.hasElements();
+    }
+
+    public List<LocalBean> localList(){
+        LocalDAO localDAO = new LocalDAO();
+        return localDAO.localList();
     }
 
     public boolean verSenha(String senha){
@@ -69,9 +76,9 @@ public class ConfigCTR {
         return equipDAO.getEquipId(idEquip);
     }
 
-    public EquipBean getEquipNro(Long nroEquip){
-        EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.getEquipNro(nroEquip);
+    public LocalBean getLocal() {
+        LocalDAO localDAO = new LocalDAO();
+        return localDAO.getLocalId(getConfig().getIdLocalConfig());
     }
 
     public void salvarConfig(Long numLinha, String senha){
@@ -87,6 +94,11 @@ public class ConfigCTR {
     public void setMatricVigia(Long matricVigia){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setMatricVigia(matricVigia);
+    }
+
+    public void setIdLocal(Long idLocal){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setIdLocal(idLocal);
     }
 
     public void setPosicaoListaMov(Long posicaoListaMov){
@@ -106,25 +118,11 @@ public class ConfigCTR {
         AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog, activity);
     }
 
-    public void atualDados(String tipoAtual, int tipoReceb, String activity) {
-        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeAtual(tipoAtual);\n" +
-                "        AtualDadosServ.getInstance().atualGenericoBD(classeArrayList, tipoReceb, activity);", activity);
-        ArrayList classeArrayList = classeAtual(tipoAtual);
-        AtualDadosServ.getInstance().atualGenericoBD(classeArrayList, tipoReceb, activity);
-    }
-
     public void atualDados(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String tipoAtual, int tipoReceb, String activity) {
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeAtual(tipoAtual);\n" +
                 "        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
         ArrayList classeArrayList = classeAtual(tipoAtual);
         AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);
-    }
-
-    public void atualDados(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String tipoAtual, int tipoReceb, String activity, Class telaProxAlt, String dado) {
-        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeAtual(tipoAtual);\n" +
-                "        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity, telaProxAlt, dado);", activity);
-        ArrayList classeArrayList = classeAtual(tipoAtual);
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity, telaProxAlt, dado);
     }
 
     public ArrayList<String> classeAtual(String tipoAtual){
@@ -168,7 +166,6 @@ public class ConfigCTR {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
-
     /////////////////////////////////////////// LOG ///////////////////////////////////////////////
 
     public List<LogProcessoBean> logProcessoList(){
@@ -179,10 +176,10 @@ public class ConfigCTR {
     public ArrayList<String> logBaseDadoList(){
         ArrayList<String> dadosArrayList = new ArrayList<>();
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-        MovEquipSegProprioDAO movEquipSegProprioDAO = new MovEquipSegProprioDAO();
+        MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         dadosArrayList = movEquipProprioDAO.movEquipProprioAllArrayList(dadosArrayList);
-        dadosArrayList = movEquipSegProprioDAO.movEquipSegProprioAllArrayList(dadosArrayList);
+        dadosArrayList = movEquipProprioSegDAO.movEquipSegProprioAllArrayList(dadosArrayList);
         dadosArrayList = movEquipVisitTercDAO.movEquipVisitTercAllArrayList(dadosArrayList);
         return dadosArrayList;
     }

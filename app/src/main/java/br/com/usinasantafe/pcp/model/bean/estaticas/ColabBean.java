@@ -33,4 +33,5 @@ public class ColabBean extends Entidade {
     public void setNomeColab(String nomeColab) {
         this.nomeColab = nomeColab;
     }
+
 }

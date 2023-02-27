@@ -12,12 +12,12 @@
     tools:context=".view.ListaMovProprioActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVigiaMovProprio"
+        android:id="@+id/textViewTituloVigia"
         style="@style/TextViewMenuNegrito"
         android:text="@string/texto_menu_titulo_vigia" />
 
     <TextView
-        android:id="@+id/textViewVigiaMovProprio"
+        android:id="@+id/textViewVigia"
         style="@style/TextViewMenuNormal"
         android:text="@string/texto_motorista" />
 

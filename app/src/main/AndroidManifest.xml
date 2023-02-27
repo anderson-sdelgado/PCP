@@ -28,6 +28,9 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
+            android:name=".LocalActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.ListaMovResidenciaActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -118,7 +121,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.ListaVeiculoSecActivity"
+            android:name=".view.ListaVeiculoSegActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -144,6 +147,7 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

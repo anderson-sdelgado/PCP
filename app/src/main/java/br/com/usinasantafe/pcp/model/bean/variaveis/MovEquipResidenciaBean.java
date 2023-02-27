@@ -21,6 +21,8 @@ public class MovEquipResidenciaBean extends Entidade {
     @DatabaseField
     private Long nroMatricVigiaMovEquipResidencia;
     @DatabaseField
+    private Long idLocalMovEquipResidencia;
+    @DatabaseField
     private String nomeVisitanteMovEquipResidencia;
     @DatabaseField
     private String veiculoMovEquipResidencia;
@@ -68,20 +70,28 @@ public class MovEquipResidenciaBean extends Entidade {
         this.dthrLongMovEquipResidencia = dthrLongMovEquipResidencia;
     }
 
+    public Long getNroMatricVigiaMovEquipResidencia() {
+        return nroMatricVigiaMovEquipResidencia;
+    }
+
+    public void setNroMatricVigiaMovEquipResidencia(Long nroMatricVigiaMovEquipResidencia) {
+        this.nroMatricVigiaMovEquipResidencia = nroMatricVigiaMovEquipResidencia;
+    }
+
+    public Long getIdLocalMovEquipResidencia() {
+        return idLocalMovEquipResidencia;
+    }
+
+    public void setIdLocalMovEquipResidencia(Long idLocalMovEquipResidencia) {
+        this.idLocalMovEquipResidencia = idLocalMovEquipResidencia;
+    }
+
     public String getNomeVisitanteMovEquipResidencia() {
         return nomeVisitanteMovEquipResidencia;
     }
 
     public void setNomeVisitanteMovEquipResidencia(String nomeVisitanteMovEquipResidencia) {
         this.nomeVisitanteMovEquipResidencia = nomeVisitanteMovEquipResidencia;
-    }
-
-    public String getPlacaMovEquipResidencia() {
-        return placaMovEquipResidencia;
-    }
-
-    public void setPlacaMovEquipResidencia(String placaMovEquipResidencia) {
-        this.placaMovEquipResidencia = placaMovEquipResidencia;
     }
 
     public String getVeiculoMovEquipResidencia() {
@@ -92,20 +102,20 @@ public class MovEquipResidenciaBean extends Entidade {
         this.veiculoMovEquipResidencia = veiculoMovEquipResidencia;
     }
 
+    public String getPlacaMovEquipResidencia() {
+        return placaMovEquipResidencia;
+    }
+
+    public void setPlacaMovEquipResidencia(String placaMovEquipResidencia) {
+        this.placaMovEquipResidencia = placaMovEquipResidencia;
+    }
+
     public String getObservacaoMovEquipResidencia() {
         return observacaoMovEquipResidencia;
     }
 
     public void setObservacaoMovEquipResidencia(String observacaoMovEquipResidencia) {
         this.observacaoMovEquipResidencia = observacaoMovEquipResidencia;
-    }
-
-    public Long getStatusMovEquipResidencia() {
-        return statusMovEquipResidencia;
-    }
-
-    public void setStatusMovEquipResidencia(Long statusMovEquipResidencia) {
-        this.statusMovEquipResidencia = statusMovEquipResidencia;
     }
 
     public Long getStatusEntradaSaidaMovEquipResidencia() {
@@ -116,11 +126,11 @@ public class MovEquipResidenciaBean extends Entidade {
         this.statusEntradaSaidaMovEquipResidencia = statusEntradaSaidaMovEquipResidencia;
     }
 
-    public Long getNroMatricVigiaMovEquipResidencia() {
-        return nroMatricVigiaMovEquipResidencia;
+    public Long getStatusMovEquipResidencia() {
+        return statusMovEquipResidencia;
     }
 
-    public void setNroMatricVigiaMovEquipResidencia(Long nroMatricVigiaMovEquipResidencia) {
-        this.nroMatricVigiaMovEquipResidencia = nroMatricVigiaMovEquipResidencia;
+    public void setStatusMovEquipResidencia(Long statusMovEquipResidencia) {
+        this.statusMovEquipResidencia = statusMovEquipResidencia;
     }
 }

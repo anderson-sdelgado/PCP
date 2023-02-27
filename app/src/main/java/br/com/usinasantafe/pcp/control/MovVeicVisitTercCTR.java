@@ -41,7 +41,7 @@ public class MovVeicVisitTercCTR {
 
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        movEquipVisitTercDAO.fecharMovEquipVisitTerc(configCTR.getConfig().getMatricVigiaConfig(), observacao, configCTR.getConfig().getPosicaoListaMov());
+        movEquipVisitTercDAO.fecharMovEquipVisitTerc(configCTR.getConfig().getIdLocalConfig(), configCTR.getConfig().getMatricVigiaConfig(), observacao, configCTR.getConfig().getPosicaoListaMov());
 
         EnvioDadosServ.getInstance().envioDados(activity);
 

@@ -6,26 +6,26 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pcp.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbmovequipsegpropriovar")
-public class MovEquipSegProprioBean extends Entidade {
+public class MovEquipProprioSegBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(generatedId=true)
-    private Long idMovEquipSegProprio;
+    private Long idMovEquipProprioSeg;
     @DatabaseField
     private Long idMovEquipProprio;
     @DatabaseField
-    private Long idEquipMovEquipSegProprio;
+    private Long idEquipMovEquipProprioSeg;
 
-    public MovEquipSegProprioBean() {
+    public MovEquipProprioSegBean() {
     }
 
-    public Long getIdMovEquipSegProprio() {
-        return idMovEquipSegProprio;
+    public Long getIdMovEquipProprioSeg() {
+        return idMovEquipProprioSeg;
     }
 
-    public void setIdMovEquipSegProprio(Long idMovEquipSegProprio) {
-        this.idMovEquipSegProprio = idMovEquipSegProprio;
+    public void setIdMovEquipProprioSeg(Long idMovEquipProprioSeg) {
+        this.idMovEquipProprioSeg = idMovEquipProprioSeg;
     }
 
     public Long getIdMovEquipProprio() {
@@ -36,12 +36,12 @@ public class MovEquipSegProprioBean extends Entidade {
         this.idMovEquipProprio = idMovEquipProprio;
     }
 
-    public Long getIdEquipMovEquipSegProprio() {
-        return idEquipMovEquipSegProprio;
+    public Long getIdEquipMovEquipProprioSeg() {
+        return idEquipMovEquipProprioSeg;
     }
 
-    public void setIdEquipMovEquipSegProprio(Long idEquipMovEquipSegProprio) {
-        this.idEquipMovEquipSegProprio = idEquipMovEquipSegProprio;
+    public void setIdEquipMovEquipProprioSeg(Long idEquipMovEquipProprioSeg) {
+        this.idEquipMovEquipProprioSeg = idEquipMovEquipProprioSeg;
     }
 
 }

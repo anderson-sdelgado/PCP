@@ -25,6 +25,8 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField
     private Long nroMatricVigiaMovEquipVisitTerc;
     @DatabaseField
+    private Long idLocalMovEquipVisitTerc;
+    @DatabaseField
     private String veiculoMovEquipVisitTerc;
     @DatabaseField
     private String placaMovEquipVisitTerc;
@@ -80,6 +82,14 @@ public class MovEquipVisitTercBean extends Entidade {
         this.dthrMovEquipVisitTerc = dthrMovEquipVisitTerc;
     }
 
+    public Long getDthrLongMovEquipVisitTerc() {
+        return dthrLongMovEquipVisitTerc;
+    }
+
+    public void setDthrLongMovEquipVisitTerc(Long dthrLongMovEquipVisitTerc) {
+        this.dthrLongMovEquipVisitTerc = dthrLongMovEquipVisitTerc;
+    }
+
     public Long getNroMatricVigiaMovEquipVisitTerc() {
         return nroMatricVigiaMovEquipVisitTerc;
     }
@@ -88,12 +98,12 @@ public class MovEquipVisitTercBean extends Entidade {
         this.nroMatricVigiaMovEquipVisitTerc = nroMatricVigiaMovEquipVisitTerc;
     }
 
-    public String getPlacaMovEquipVisitTerc() {
-        return placaMovEquipVisitTerc;
+    public Long getIdLocalMovEquipVisitTerc() {
+        return idLocalMovEquipVisitTerc;
     }
 
-    public void setPlacaMovEquipVisitTerc(String placaMovEquipVisitTerc) {
-        this.placaMovEquipVisitTerc = placaMovEquipVisitTerc;
+    public void setIdLocalMovEquipVisitTerc(Long idLocalMovEquipVisitTerc) {
+        this.idLocalMovEquipVisitTerc = idLocalMovEquipVisitTerc;
     }
 
     public String getVeiculoMovEquipVisitTerc() {
@@ -102,6 +112,14 @@ public class MovEquipVisitTercBean extends Entidade {
 
     public void setVeiculoMovEquipVisitTerc(String veiculoMovEquipVisitTerc) {
         this.veiculoMovEquipVisitTerc = veiculoMovEquipVisitTerc;
+    }
+
+    public String getPlacaMovEquipVisitTerc() {
+        return placaMovEquipVisitTerc;
+    }
+
+    public void setPlacaMovEquipVisitTerc(String placaMovEquipVisitTerc) {
+        this.placaMovEquipVisitTerc = placaMovEquipVisitTerc;
     }
 
     public String getDestinoMovEquipVisitTerc() {
@@ -120,27 +138,19 @@ public class MovEquipVisitTercBean extends Entidade {
         this.observacaoMovEquipVisitTerc = observacaoMovEquipVisitTerc;
     }
 
-    public Long getStatusMovEquipVisitTerc() {
-        return statusMovEquipVisitTerc;
-    }
-
-    public void setStatusMovEquipVisitTerc(Long statusMovEquipVisitTerc) {
-        this.statusMovEquipVisitTerc = statusMovEquipVisitTerc;
-    }
-
-    public Long getDthrLongMovEquipVisitTerc() {
-        return dthrLongMovEquipVisitTerc;
-    }
-
-    public void setDthrLongMovEquipVisitTerc(Long dthrLongMovEquipVisitTerc) {
-        this.dthrLongMovEquipVisitTerc = dthrLongMovEquipVisitTerc;
-    }
-
     public Long getStatusEntradaSaidaMovEquipVisitTerc() {
         return statusEntradaSaidaMovEquipVisitTerc;
     }
 
     public void setStatusEntradaSaidaMovEquipVisitTerc(Long statusEntradaSaidaMovEquipVisitTerc) {
         this.statusEntradaSaidaMovEquipVisitTerc = statusEntradaSaidaMovEquipVisitTerc;
+    }
+
+    public Long getStatusMovEquipVisitTerc() {
+        return statusMovEquipVisitTerc;
+    }
+
+    public void setStatusMovEquipVisitTerc(Long statusMovEquipVisitTerc) {
+        this.statusMovEquipVisitTerc = statusMovEquipVisitTerc;
     }
 }

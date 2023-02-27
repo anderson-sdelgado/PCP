@@ -40,6 +40,7 @@ public class ConfigDAO {
         configBean.setNumLinhaConfig(numLinha);
         configBean.setSenhaConfig(senha);
         configBean.setMatricVigiaConfig(0L);
+        configBean.setIdConfig(0L);
         configBean.setPosicaoTela(0L);
         configBean.insert();
         configBean.commit();
@@ -54,6 +55,12 @@ public class ConfigDAO {
     public void setMatricVigia(Long matricVigia){
         ConfigBean configBean = getConfig();
         configBean.setMatricVigiaConfig(matricVigia);
+        configBean.update();
+    }
+
+    public void setIdLocal(Long idLocal){
+        ConfigBean configBean = getConfig();
+        configBean.setIdLocalConfig(idLocal);
         configBean.update();
     }
 

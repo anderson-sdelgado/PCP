@@ -24,7 +24,7 @@ public class MovVeicResidenciaCTR {
 
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-        movEquipResidenciaDAO.fecharMovEquipResidencia(configCTR.getConfig().getMatricVigiaConfig(), observacao, configCTR.getConfig().getPosicaoListaMov());
+        movEquipResidenciaDAO.fecharMovEquipResidencia(configCTR.getConfig().getIdLocalConfig(), configCTR.getConfig().getMatricVigiaConfig(), observacao, configCTR.getConfig().getPosicaoListaMov());
 
         EnvioDadosServ.getInstance().envioDados(activity);
 

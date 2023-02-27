@@ -38,7 +38,7 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.insert();
     }
 
-    public void fecharMovEquipResidencia(Long nroMatricVigia, String observacao, Long posicaoListaMov){
+    public void fecharMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, Long posicaoListaMov){
         MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaAberto();
         if(movEquipResidenciaBean.getTipoMovEquipResidencia() == 2L){
             List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList();
@@ -50,6 +50,7 @@ public class MovEquipResidenciaDAO {
             movEquipResidenciaEntradaBean.setStatusEntradaSaidaMovEquipResidencia(2L);
             movEquipResidenciaEntradaBean.update();
         }
+        movEquipResidenciaBean.setIdLocalMovEquipResidencia(idLocal);
         movEquipResidenciaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
         movEquipResidenciaBean.setObservacaoMovEquipResidencia(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();

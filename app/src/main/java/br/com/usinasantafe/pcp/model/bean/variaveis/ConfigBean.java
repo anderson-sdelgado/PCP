@@ -19,6 +19,8 @@ public class ConfigBean extends Entidade {
 	@DatabaseField
 	private Long matricVigiaConfig;
 	@DatabaseField
+	private Long idLocalConfig;
+	@DatabaseField
 	private Long posicaoListaMov;
 	@DatabaseField
 	private Long tipoMov;
@@ -74,6 +76,14 @@ public class ConfigBean extends Entidade {
 
 	public void setMatricVigiaConfig(Long matricVigiaConfig) {
 		this.matricVigiaConfig = matricVigiaConfig;
+	}
+
+	public Long getIdLocalConfig() {
+		return idLocalConfig;
+	}
+
+	public void setIdLocalConfig(Long idLocalConfig) {
+		this.idLocalConfig = idLocalConfig;
 	}
 
 	public Long getPosicaoListaMov() {

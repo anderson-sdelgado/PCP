@@ -93,7 +93,7 @@ public class DestinoActivity extends ActivityGeneric {
                 if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
                             "                    it = new Intent(DestinoActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
-                    it = new Intent(DestinoActivity.this, ListaVeiculoSecActivity.class);
+                    it = new Intent(DestinoActivity.this, ListaVeiculoSegActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(DestinoActivity.this, PlacaVisitanteTerceiroActivity.class);", getLocalClassName());

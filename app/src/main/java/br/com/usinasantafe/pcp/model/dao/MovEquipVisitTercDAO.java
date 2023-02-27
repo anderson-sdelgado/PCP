@@ -38,7 +38,7 @@ public class MovEquipVisitTercDAO {
         movEquipVisitTercBean.insert();
     }
 
-    public void fecharMovEquipVisitTerc(Long nroMatricVigia, String observacao, Long posicaoListaMov){
+    public void fecharMovEquipVisitTerc(Long idLocal, Long nroMatricVigia, String observacao, Long posicaoListaMov){
         MovEquipVisitTercBean movEquipVisitTercBean = getMovEquipVisitTercAberto();
         if(movEquipVisitTercBean.getTipoMovEquipVisitTerc() == 2L){
             List<MovEquipVisitTercBean> movEquipVisitTercList = movEquipVisitTercEntradaList();
@@ -51,6 +51,7 @@ public class MovEquipVisitTercDAO {
             movEquipVisitTercEntradaBean.update();
             movEquipVisitTercList.clear();
         }
+        movEquipVisitTercBean.setIdLocalMovEquipVisitTerc(idLocal);
         movEquipVisitTercBean.setNroMatricVigiaMovEquipVisitTerc(nroMatricVigia);
         movEquipVisitTercBean.setObservacaoMovEquipVisitTerc(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();

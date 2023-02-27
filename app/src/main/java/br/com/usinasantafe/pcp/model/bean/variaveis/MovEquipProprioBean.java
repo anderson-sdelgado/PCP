@@ -17,6 +17,8 @@ public class MovEquipProprioBean extends Entidade {
     @DatabaseField
     private Long idEquipMovEquipProprio;
     @DatabaseField
+    private Long idLocalMovEquipProprio;
+    @DatabaseField
     private String dthrMovEquipProprio;
     @DatabaseField
     private Long dthrLongMovEquipProprio;
@@ -60,12 +62,28 @@ public class MovEquipProprioBean extends Entidade {
         this.idEquipMovEquipProprio = idEquipMovEquipProprio;
     }
 
+    public Long getIdLocalMovEquipProprio() {
+        return idLocalMovEquipProprio;
+    }
+
+    public void setIdLocalMovEquipProprio(Long idLocalMovEquipProprio) {
+        this.idLocalMovEquipProprio = idLocalMovEquipProprio;
+    }
+
     public String getDthrMovEquipProprio() {
         return dthrMovEquipProprio;
     }
 
     public void setDthrMovEquipProprio(String dthrMovEquipProprio) {
         this.dthrMovEquipProprio = dthrMovEquipProprio;
+    }
+
+    public Long getDthrLongMovEquipProprio() {
+        return dthrLongMovEquipProprio;
+    }
+
+    public void setDthrLongMovEquipProprio(Long dthrLongMovEquipProprio) {
+        this.dthrLongMovEquipProprio = dthrLongMovEquipProprio;
     }
 
     public Long getNroMatricVigiaMovEquipProprio() {
@@ -100,14 +118,6 @@ public class MovEquipProprioBean extends Entidade {
         this.nroNotaFiscalMovEquipProprio = nroNotaFiscalMovEquipProprio;
     }
 
-    public Long getStatusMovEquipProprio() {
-        return statusMovEquipProprio;
-    }
-
-    public void setStatusMovEquipProprio(Long statusMovEquipProprio) {
-        this.statusMovEquipProprio = statusMovEquipProprio;
-    }
-
     public String getObservacaoMovEquipProprio() {
         return observacaoMovEquipProprio;
     }
@@ -116,11 +126,11 @@ public class MovEquipProprioBean extends Entidade {
         this.observacaoMovEquipProprio = observacaoMovEquipProprio;
     }
 
-    public Long getDthrLongMovEquipProprio() {
-        return dthrLongMovEquipProprio;
+    public Long getStatusMovEquipProprio() {
+        return statusMovEquipProprio;
     }
 
-    public void setDthrLongMovEquipProprio(Long dthrLongMovEquipProprio) {
-        this.dthrLongMovEquipProprio = dthrLongMovEquipProprio;
+    public void setStatusMovEquipProprio(Long statusMovEquipProprio) {
+        this.statusMovEquipProprio = statusMovEquipProprio;
     }
 }
