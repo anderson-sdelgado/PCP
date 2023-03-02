@@ -39,6 +39,8 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         textViewProcesso = findViewById(R.id.textViewProcesso);
         TextView textViewVigia = findViewById(R.id.textViewVigia);
+        TextView textViewLocal = findViewById(R.id.textViewLocal);
+
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
         customHandler.postDelayed(updateTimerThread, 0);
 
@@ -61,17 +63,17 @@ public class MenuInicialActivity extends ActivityGeneric {
             if(pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L){\n" +
                         "                textViewVigia.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());", getLocalClassName());
-                textViewVigia.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
+                textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                         "                textViewVigia.setText(\"LOCAL: \");", getLocalClassName());
-                textViewVigia.setText("LOCAL: ");
+                textViewLocal.setText("LOCAL: ");
             }
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "                textViewVigia.setText(\"VIGIA: \");", getLocalClassName());
             textViewVigia.setText("VIGIA: ");
-            textViewVigia.setText("LOCAL: ");
+            textViewLocal.setText("LOCAL: ");
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +

@@ -179,7 +179,7 @@ public class ConfigCTR {
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         dadosArrayList = movEquipProprioDAO.movEquipProprioAllArrayList(dadosArrayList);
-        dadosArrayList = movEquipProprioSegDAO.movEquipSegProprioAllArrayList(dadosArrayList);
+        dadosArrayList = movEquipProprioSegDAO.movEquipProprioSegAllArrayList(dadosArrayList);
         dadosArrayList = movEquipVisitTercDAO.movEquipVisitTercAllArrayList(dadosArrayList);
         return dadosArrayList;
     }

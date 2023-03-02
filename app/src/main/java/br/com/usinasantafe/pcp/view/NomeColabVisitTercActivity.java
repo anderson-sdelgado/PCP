@@ -64,8 +64,8 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                 Intent it;
                 if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
-                            "                        it = new Intent(NomeColabTercVisitActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                    it = new Intent(NomeColabVisitTercActivity.this, TelaInicialActivity.class);
+                            "                        it = new Intent(NomeColabVisitTercActivity.this, ListaLocalActivity.class);", getLocalClassName());
+                    it = new Intent(NomeColabVisitTercActivity.this, ListaLocalActivity.class);
                 } else if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() > 3L) && (pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L)){
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 3L) && (pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L)){\n" +
                             "                    it = new Intent(NomeColabVisitTercActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());

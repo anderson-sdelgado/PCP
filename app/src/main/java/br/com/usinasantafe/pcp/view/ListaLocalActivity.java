@@ -17,7 +17,7 @@ import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.model.bean.estaticas.LocalBean;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 
-public class ListaLocalActivity extends AppCompatActivity {
+public class ListaLocalActivity extends ActivityGeneric {
 
     private PCPContext pcpContext;
     private List<LocalBean> localList;

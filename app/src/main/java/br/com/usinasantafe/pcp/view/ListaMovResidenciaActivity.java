@@ -32,26 +32,23 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
         Button buttonEntradaMov = findViewById(R.id.buttonEntradaResidencia);
         Button buttonCancMov = findViewById(R.id.buttonCancMovResidencia);
 
-        TextView textViewVigia = findViewById(R.id.textViewVigiaMovResidencia);
+        TextView textViewVigia = findViewById(R.id.textViewVigia);
+        TextView textViewLocal = findViewById(R.id.textViewLocal);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
-                "            textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());\n" +
-                "        } else {\n" +
-                "            textViewVigia.setText(\"\");\n" +
-                "        }\n" +
+        LogProcessoDAO.getInstance().insertLogProcesso("textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());\n" +
+                "        textViewLocal.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());\n" +
                 "        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();\n" +
-                "        movEquipList = pcpContext.getMovVeicResidenciaCTR().movEquipResidenciaList();", getLocalClassName());
-        if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
-            textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
-        } else {
-            textViewVigia.setText("");
-        }
+                "        movEquipList = pcpContext.getMovVeicResidenciaCTR().movEquipResidenciaList();\n" +
+                "        ListView listaMov = findViewById(R.id.listaMovResidencia);\n" +
+                "        AdapterListMovResidencia adapterListMovResidencia = new AdapterListMovResidencia(this, movEquipList);\n" +
+                "        listaMov.setAdapter(adapterListMovResidencia);", getLocalClassName());
+
+        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+        textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
+
         pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();
         movEquipList = pcpContext.getMovVeicResidenciaCTR().movEquipResidenciaList();
 
-        LogProcessoDAO.getInstance().insertLogProcesso("ListView listaMov = findViewById(R.id.listaMovResidencia);\n" +
-                "        AdapterListMovResidencia adapterListMovResidencia = new AdapterListMovResidencia(this, movEquipList);\n" +
-                "        listaMov.setAdapter(adapterListMovResidencia);", getLocalClassName());
         ListView listaMov = findViewById(R.id.listaMovResidencia);
         AdapterListMovResidencia adapterListMovResidencia = new AdapterListMovResidencia(this, movEquipList);
         listaMov.setAdapter(adapterListMovResidencia);

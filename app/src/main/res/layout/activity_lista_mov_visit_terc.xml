@@ -12,14 +12,14 @@
     tools:context=".view.ListaMovVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVigiaMovVisitTerc"
-        style="@style/TextViewMenuNegrito"
-        android:text="@string/texto_menu_titulo_vigia" />
+        android:id="@+id/textViewVigia"
+        style="@style/TextViewMenuNormal"
+        android:text="@string/texto_menu_vigia" />
 
     <TextView
-        android:id="@+id/textViewVigiaMovVisitTerc"
+        android:id="@+id/textViewLocal"
         style="@style/TextViewMenuNormal"
-        android:text="@string/texto_motorista" />
+        android:text="@string/texto_menu_local" />
 
     <TextView
         android:id="@+id/textViewTituloMovVisitTerc"

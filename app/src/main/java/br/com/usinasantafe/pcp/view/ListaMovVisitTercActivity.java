@@ -32,31 +32,27 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
         Button buttonEntradaMov = findViewById(R.id.buttonEntradaMovVisitTerc);
         Button buttonCancMov = findViewById(R.id.buttonCancMovVisitTerc);
 
-        TextView textViewVigia = findViewById(R.id.textViewVigiaMovVisitTerc);
+        TextView textViewVigia = findViewById(R.id.textViewVigia);
+        TextView textViewLocal = findViewById(R.id.textViewLocal);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
-                "            textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());\n" +
-                "        } else {\n" +
-                "            textViewVigia.setText(\"\");\n" +
-                "        }\n" +
-                "pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();" +
-                "        movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercList();", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());\n" +
+                "        textViewLocal.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());\n" +
+                "        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();\n" +
+                "        movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercEntradaList();\n" +
+                "        ListView listaMov = findViewById(R.id.listaMovVisitTerc);\n" +
+                "        AdapterListMovVisitTerc adapterListMovVisitTerc = new AdapterListMovVisitTerc(this, movEquipList);\n" +
+                "        listaMov.setAdapter(adapterListMovVisitTerc);", getLocalClassName());
 
-        if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
-            textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
-        } else {
-            textViewVigia.setText("");
-        }
+        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+        textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
 
         pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
         movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercEntradaList();
 
-        LogProcessoDAO.getInstance().insertLogProcesso("ListView listaMov = findViewById(R.id.listaMovVisitTerc);\n" +
-                "        AdapterListMovVisitTerc adapterListMovVisitTerc = new AdapterListMovVisitTerc(this, movEquipList);\n" +
-                "        listaMov.setAdapter(adapterListMovVisitTerc);", getLocalClassName());
         ListView listaMov = findViewById(R.id.listaMovVisitTerc);
         AdapterListMovVisitTerc adapterListMovVisitTerc = new AdapterListMovVisitTerc(this, movEquipList);
         listaMov.setAdapter(adapterListMovVisitTerc);
+
         listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,

@@ -40,6 +40,7 @@ public class ConfigDAO {
         configBean.setNumLinhaConfig(numLinha);
         configBean.setSenhaConfig(senha);
         configBean.setMatricVigiaConfig(0L);
+        configBean.setIdLocalConfig(0L);
         configBean.setIdConfig(0L);
         configBean.setPosicaoTela(0L);
         configBean.insert();
@@ -75,7 +76,6 @@ public class ConfigDAO {
         configBean.setTipoMov(tipoMov);
         configBean.update();
     }
-
 
     public AtualAplicBean recAtual(JSONArray jsonArray) throws JSONException {
 

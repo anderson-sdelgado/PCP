@@ -10,6 +10,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import br.com.usinasantafe.pcp.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcp.model.bean.estaticas.LocalBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.TerceiroBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.VisitanteBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
@@ -24,7 +25,7 @@ import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pcp_db";
-	public static final int FORCA_BD_VERSION = 2;
+	public static final int FORCA_BD_VERSION = 3;
 
 	private static DatabaseHelper instance;
 	
@@ -66,6 +67,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		if((oldVersion == 1) && (newVersion == 2)){
 			dropAllInitial(cs);
 			createAllInitial(cs);
+		} else if((oldVersion == 2) && (newVersion == 3)){
+			dropAllInitial(cs);
+			createAllInitial(cs);
 		}
 
 	}
@@ -76,6 +80,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			TableUtils.dropTable(cs, ColabBean.class, true);
 			TableUtils.dropTable(cs, EquipBean.class, true);
+			TableUtils.dropTable(cs, LocalBean.class, true);
 			TableUtils.dropTable(cs, TerceiroBean.class, true);
 			TableUtils.dropTable(cs, VisitanteBean.class, true);
 
@@ -99,6 +104,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			TableUtils.createTable(cs, ColabBean.class);
 			TableUtils.createTable(cs, EquipBean.class);
+			TableUtils.createTable(cs, LocalBean.class);
 			TableUtils.createTable(cs, TerceiroBean.class);
 			TableUtils.createTable(cs, VisitanteBean.class);
 
