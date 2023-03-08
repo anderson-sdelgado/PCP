@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcp.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -83,7 +81,7 @@ public class ListaLocalActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaLocalActivity.this, ColabActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaLocalActivity.this, ColabActivity.class);
+                Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);
                 startActivity(it);
                 finish();
 

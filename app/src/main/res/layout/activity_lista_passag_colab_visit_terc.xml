@@ -9,21 +9,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaVeiculoSegActivity">
+    tools:context=".view.ListaPassagColabVisitTercActivity">
 
     <TextView
-        android:id="@+id/textViewVeiculoSec"
+        android:id="@+id/textViewPassageiro"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_veiculo_sec" />
+        android:text="@string/texto_titulo_passageiro" />
 
     <ListView
-        android:id="@+id/listaVeiculoSec"
+        android:id="@+id/listaPassageiro"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/buttonInserirVeiculoSeg"
+        android:id="@+id/buttonInserirPassageiro"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonCancVeiculoSeg"
+            android:id="@+id/buttonCancPassageiro"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -43,7 +43,7 @@
             android:text="@string/texto_padrao_cancelar" />
 
         <Button
-            android:id="@+id/buttonOkVeiculoSeg"
+            android:id="@+id/buttonOkPassageiro"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

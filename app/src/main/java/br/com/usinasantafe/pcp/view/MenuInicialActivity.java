@@ -54,7 +54,7 @@ public class MenuInicialActivity extends ActivityGeneric {
             if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
                         "                textViewVigia.setText(\"VIGIA: \" + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());", getLocalClassName());
-                textViewVigia.setText("VIGIA: " + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+                textViewVigia.setText("VIGIA: " + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                         "                textViewVigia.setText(\"VIGIA: \");", getLocalClassName());
@@ -172,7 +172,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                                 "                        pcpContext.getConfigCTR().setPosicaoTela(3L);\n" +
                                 "                        Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);", getLocalClassName());
                         pcpContext.getConfigCTR().setPosicaoTela(3L);
-                        Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
+                        Intent it = new Intent(MenuInicialActivity.this, MatricColabActivity.class);
                         startActivity(it);
                         finish();
                     }

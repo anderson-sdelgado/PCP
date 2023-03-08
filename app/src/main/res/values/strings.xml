@@ -54,4 +54,5 @@
     <string name="texto_titulo_mov_residencia">ENTRADA VEÍCULO RESIDÊNCIA</string>
     <string name="texto_titulo_visit_residencia">VISITANTE RESIDÊNCIA</string>
     <string name="texto_local">LOCAL</string>
+    <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
 </resources>

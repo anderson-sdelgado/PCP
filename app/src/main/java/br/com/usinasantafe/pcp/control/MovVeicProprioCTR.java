@@ -4,16 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioPassagBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioSegBean;
 import br.com.usinasantafe.pcp.model.dao.EquipDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioSegDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
 public class MovVeicProprioCTR {
 
+    private MovEquipProprioPassagDAO movEquipProprioPassagDAO;
+
     public MovVeicProprioCTR() {
+    }
+
+    public MovEquipProprioPassagDAO getMovEquipProprioPassagDAO(){
+        if (movEquipProprioPassagDAO == null)
+            movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+        return movEquipProprioPassagDAO;
     }
 
     public boolean verEnvioMovEquipProprioFech() {
@@ -26,11 +36,17 @@ public class MovVeicProprioCTR {
         movEquipProprioDAO.abrirMovEquipProprio(tipoMov);
     }
 
-    public void inserirMovEquipSegProprio(Long nroEquip){
+    public void inserirMovEquipProprioSeg(Long nroEquip){
         EquipDAO equipDAO = new EquipDAO();
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         movEquipProprioSegDAO.inserirMovEquipProprioSeg(movEquipProprioDAO.getMovEquipProprioAberto().getIdMovEquipProprio(), equipDAO.getEquipNro(nroEquip).getIdEquip());
+    }
+
+    public void inserirMovEquipProprioPassag(Long matricColab){
+        MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+        movEquipProprioPassagDAO.inserirMovEquipProprioPassag(movEquipProprioDAO.getMovEquipProprioAberto().getIdMovEquipProprio(), matricColab);
     }
 
     public void fecharMovEquipProprio(String observacao, String activity){
@@ -54,9 +70,14 @@ public class MovVeicProprioCTR {
         movEquipProprioList.clear();
     }
 
-    public void deleteMovEquipSegProprio(MovEquipProprioSegBean movEquipProprioSegBean){
+    public void deleteMovEquipProprioSeg(MovEquipProprioSegBean movEquipProprioSegBean){
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         movEquipProprioSegDAO.deleteMovEquipProprioSegIdMovEquipSeg(movEquipProprioSegBean.getIdMovEquipProprioSeg());
+    }
+
+    public void deleteMovEquipProprioPassag(MovEquipProprioPassagBean movEquipProprioPassagBean){
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+        movEquipProprioPassagDAO.deleteMovEquipProprioPassagIdMovEquipPassag(movEquipProprioPassagBean.getIdMovEquipProprioPassag());
     }
 
     public MovEquipProprioBean getMovEquipProprioAberto(){
@@ -75,8 +96,8 @@ public class MovVeicProprioCTR {
             itens.add("SAÍDA");
         }
         itens.add("VEÍCULO: " + configCTR.getEquipId(movEquipProprioBean.getIdEquipMovEquipProprio()).getNroEquip());
-        itens.add("COLABORADOR: " + movEquipProprioBean.getNroMatricColabMovEquipProprio() + " - " + configCTR.getColab(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab());
-        itens.add("VIGIA: " + movEquipProprioBean.getNroMatricVigiaMovEquipProprio() + " - " + configCTR.getColab(movEquipProprioBean.getNroMatricVigiaMovEquipProprio()).getNomeColab());
+        itens.add("COLABORADOR: " + movEquipProprioBean.getNroMatricColabMovEquipProprio() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab());
+        itens.add("VIGIA: " + movEquipProprioBean.getNroMatricVigiaMovEquipProprio() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricVigiaMovEquipProprio()).getNomeColab());
         itens.add("DESTINO: " +  movEquipProprioBean.getDescrDestinoMovEquipProprio());
 
         String equipSec = "";
@@ -129,10 +150,16 @@ public class MovVeicProprioCTR {
         return movEquipProprioDAO.movEquipProprioList();
     }
 
-    public List<MovEquipProprioSegBean> movEquipSegProprioList() {
+    public List<MovEquipProprioSegBean> movEquipProprioSegList() {
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         return movEquipProprioSegDAO.movEquipProprioSegIdMovEquipList(movEquipProprioDAO.getMovEquipProprioAberto().getIdMovEquipProprio());
+    }
+
+    public List<MovEquipProprioPassagBean> movEquipProprioPassagList() {
+        MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+        return movEquipProprioPassagDAO.movEquipProprioPassagIdMovEquipList(movEquipProprioDAO.getMovEquipProprioAberto().getIdMovEquipProprio());
     }
 
     public String dadosEnvioMovEquipProprio(){
@@ -142,9 +169,12 @@ public class MovVeicProprioCTR {
         String dadosMovEquipProprio = movEquipProprioDAO.dadosEnvioMovEquipProprio();
 
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
-        String dadosEnvioMovEquipSegProprio = movEquipProprioSegDAO.dadosEnvioMovEquipProprioSeg(movEquipProprioSegDAO.movEquipSegProprioEnvioList(idMovEquipProprioArrayList));
+        String dadosEnvioMovEquipProprioSeg = movEquipProprioSegDAO.dadosEnvioMovEquipProprioSeg(movEquipProprioSegDAO.movEquipProprioSegEnvioList(idMovEquipProprioArrayList));
 
-        return dadosMovEquipProprio + "_" + dadosEnvioMovEquipSegProprio;
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+        String dadosEnvioMovEquipProprioPassag = movEquipProprioPassagDAO.dadosEnvioMovEquipProprioPassag(movEquipProprioPassagDAO.movEquipProprioPassagEnvioList(idMovEquipProprioArrayList));
+
+        return dadosMovEquipProprio + "_" + dadosEnvioMovEquipProprioSeg + "_" + dadosEnvioMovEquipProprioPassag;
     }
 
     public void updateMovEquipProprioFechado(String result, String activity){

@@ -62,7 +62,7 @@ public class TipoVisitTercActivity extends ActivityGeneric {
                 }
 
                 LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(TipoActivity.this, VisitanteTerceiroActivity.class);", getLocalClassName());
-                Intent it = new Intent(TipoVisitTercActivity.this, VisitTercActivity.class);
+                Intent it = new Intent(TipoVisitTercActivity.this, CpfVisitTercActivity.class);
                 startActivity(it);
                 finish();
 

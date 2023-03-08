@@ -6,15 +6,28 @@ import java.util.List;
 import br.com.usinasantafe.pcp.model.bean.estaticas.TerceiroBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.VisitanteBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercPassagBean;
+import br.com.usinasantafe.pcp.model.dao.EquipDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.TerceiroDAO;
 import br.com.usinasantafe.pcp.model.dao.VisitanteDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
 public class MovVeicVisitTercCTR {
 
+    private MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO;
+
     public MovVeicVisitTercCTR() {
+    }
+
+    public MovEquipVisitTercPassagDAO getMovEquipVisitTercPassagDAO(){
+        if (movEquipVisitTercPassagDAO == null)
+            movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
+        return movEquipVisitTercPassagDAO;
     }
 
     public boolean verEnvioMovEquipVisitTercFech(){
@@ -37,6 +50,12 @@ public class MovVeicVisitTercCTR {
         movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov);
     }
 
+    public void inserirMovEquipVisitTercPassag(Long idVisitTerc){
+        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
+        movEquipVisitTercPassagDAO.inserirMovEquipVisitTercPassag(movEquipVisitTercDAO.getMovEquipVisitTercAberto().getIdMovEquipVisitTerc(), idVisitTerc);
+    }
+
     public void fecharMovEquipVisitTerc(String observacao, String activity){
 
         ConfigCTR configCTR = new ConfigCTR();
@@ -56,13 +75,9 @@ public class MovVeicVisitTercCTR {
         movEquipVisitTercList.clear();
     }
 
-    public void deleteMovEquipVisitTercFechado(){
-        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        List<MovEquipVisitTercBean> movEquipVisitTercList = movEquipVisitTercDAO.movEquipVisitTercFechadoList();
-        for(MovEquipVisitTercBean movEquipVisitTercBean : movEquipVisitTercList){
-            movEquipVisitTercDAO.deleteMovEquipVisitTerc(movEquipVisitTercBean.getIdMovEquipVisitTerc());
-        }
-        movEquipVisitTercList.clear();
+    public void deleteMovEquipVisitTercPassag(MovEquipVisitTercPassagBean movEquipVisitTercPassagBean){
+        MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
+        movEquipVisitTercPassagDAO.deleteMovEquipVisitTercPassagIdMovEquipPassag(movEquipVisitTercPassagBean.getIdMovEquipVisitTercPassag());
     }
 
     public MovEquipVisitTercBean getMovEquipVisitTercAberto(){
@@ -119,6 +134,13 @@ public class MovVeicVisitTercCTR {
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         return movEquipVisitTercDAO.movEquipVisitTercEntradaList();
     }
+
+    public List<MovEquipVisitTercPassagBean> movEquipVisitTercPassagList() {
+        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
+        return movEquipVisitTercPassagDAO.movEquipVisitTercPassagIdMovEquipList(movEquipVisitTercDAO.getMovEquipVisitTercAberto().getIdMovEquipVisitTerc());
+    }
+
 
     public String dadosEnvioMovEquipVisitTerc(){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();

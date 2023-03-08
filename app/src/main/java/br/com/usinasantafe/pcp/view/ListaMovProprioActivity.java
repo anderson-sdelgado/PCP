@@ -42,7 +42,7 @@ public class ListaMovProprioActivity extends ActivityGeneric {
                 "        AdapterListMovProprio adapterListMovProprio = new AdapterListMovProprio(this, movEquipList);\n" +
                 "        listaMov.setAdapter(adapterListMovProprio);", getLocalClassName());
 
-        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
 
         pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();
@@ -82,7 +82,7 @@ public class ListaMovProprioActivity extends ActivityGeneric {
                         "                Intent it = new Intent(ListaMovProprioActivity.this, ColabActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(4L);
                 pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(2L);
-                Intent it = new Intent(ListaMovProprioActivity.this, ColabActivity.class);
+                Intent it = new Intent(ListaMovProprioActivity.this, MatricColabActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -99,7 +99,7 @@ public class ListaMovProprioActivity extends ActivityGeneric {
                         "                Intent it = new Intent(ListaMovProprioActivity.this, ColabActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(4L);
                 pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(1L);
-                Intent it = new Intent(ListaMovProprioActivity.this, ColabActivity.class);
+                Intent it = new Intent(ListaMovProprioActivity.this, MatricColabActivity.class);
                 startActivity(it);
                 finish();
             }

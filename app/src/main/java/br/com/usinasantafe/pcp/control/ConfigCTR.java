@@ -61,7 +61,7 @@ public class ConfigCTR {
         return equipDAO.verEquipNro(nroEquip);
     }
 
-    public ColabBean getColab(Long matricColab){
+    public ColabBean getColabMatric(Long matricColab){
         ColabDAO colabDAO = new ColabDAO();
         return colabDAO.getColab(matricColab);
     }

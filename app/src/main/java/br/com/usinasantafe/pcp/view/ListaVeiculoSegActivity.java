@@ -29,13 +29,21 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
 
         pcpContext = (PCPContext) getApplication();
 
-        Button buttonInserirVeiculoSec = findViewById(R.id.buttonInserirVeiculoSec);
-        Button buttonOkVeiculoSec = findViewById(R.id.buttonOkVeiculoSec);
-        Button buttonCancVeiculoSec = findViewById(R.id.buttonCancVeiculoSec);
+        Button buttonInserirVeiculoSeg = findViewById(R.id.buttonInserirVeiculoSeg);
+        Button buttonOkVeiculoSeg = findViewById(R.id.buttonOkVeiculoSeg);
+        Button buttonCancVeiculoSeg = findViewById(R.id.buttonCancVeiculoSeg);
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipSegProprioList();
+        LogProcessoDAO.getInstance().insertLogProcesso("movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegList();\n" +
+                "        for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){\n" +
+                "            itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipProprioSegBean.getIdEquipMovEquipProprioSeg()).getNroEquip()));\n" +
+                "        }\n" +
+                "        AdapterList adapterList = new AdapterList(this, itens);\n" +
+                "        ListView listaVeiculoSec = findViewById(R.id.listaVeiculoSec);\n" +
+                "        listaVeiculoSec.setAdapter(adapterList);", getLocalClassName());
+
+        movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegList();
 
         for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){
             itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipProprioSegBean.getIdEquipMovEquipProprioSeg()).getNroEquip()));
@@ -44,18 +52,23 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         ListView listaVeiculoSec = findViewById(R.id.listaVeiculoSec);
         listaVeiculoSec.setAdapter(adapterList);
-
         listaVeiculoSec.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
+                LogProcessoDAO.getInstance().insertLogProcesso("listaVeiculoSec.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                        "                                    long id) {\n" +
+                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaVeiculoSegActivity.this);\n" +
+                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                String label = \"DESEJA EXCLUIR O VEÍCULO?\";\n" +
+                        "                alerta.setMessage(label);", getLocalClassName());
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaVeiculoSegActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 String label = "DESEJA EXCLUIR O VEÍCULO?";
                 alerta.setMessage(label);
-
                 alerta.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -64,7 +77,7 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
                                 "                    public void onClick(DialogInterface dialog, int which) {\n" +
                                 "                        pcpContext.getMovVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));\n" +
                                 "                        Intent it = new Intent(ListaVeiculoSecActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
-                        pcpContext.getMovVeicProprioCTR().deleteMovEquipSegProprio(movEquipSegProprioList.get(position));
+                        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioSeg(movEquipSegProprioList.get(position));
                         Intent it = new Intent(ListaVeiculoSegActivity.this, ListaVeiculoSegActivity.class);
                         startActivity(it);
                         finish();
@@ -89,10 +102,10 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
 
         });
 
-        buttonInserirVeiculoSec.setOnClickListener(new View.OnClickListener() {
+        buttonInserirVeiculoSeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirVeiculoSec.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirVeiculoSeg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                pcpContext.getConfigCTR().setPosicaoTela(5L);\n" +
@@ -104,10 +117,10 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
             }
         });
 
-        buttonOkVeiculoSec.setOnClickListener(new View.OnClickListener() {
+        buttonOkVeiculoSeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkVeiculoSec.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkVeiculoSeg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaVeiculoSecActivity.this, DestinoActivity.class);", getLocalClassName());
@@ -117,10 +130,10 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
             }
         });
 
-        buttonCancVeiculoSec.setOnClickListener(new View.OnClickListener() {
+        buttonCancVeiculoSeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancVeiculoSec.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancVeiculoSeg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());

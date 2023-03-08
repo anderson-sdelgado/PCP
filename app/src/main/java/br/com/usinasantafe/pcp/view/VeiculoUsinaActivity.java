@@ -129,7 +129,7 @@ public class VeiculoUsinaActivity extends ActivityGeneric {
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                     "                            pcpContext.getMovimentacaoVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));
+                            pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioSeg(Long.parseLong(editTextPadrao.getText().toString()));
                         }
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
                         Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);

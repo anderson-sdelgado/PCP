@@ -43,7 +43,7 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
                 "        AdapterListMovVisitTerc adapterListMovVisitTerc = new AdapterListMovVisitTerc(this, movEquipList);\n" +
                 "        listaMov.setAdapter(adapterListMovVisitTerc);", getLocalClassName());
 
-        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
 
         pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();

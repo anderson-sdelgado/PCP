@@ -43,7 +43,7 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
                 "        AdapterListMovResidencia adapterListMovResidencia = new AdapterListMovResidencia(this, movEquipList);\n" +
                 "        listaMov.setAdapter(adapterListMovResidencia);", getLocalClassName());
 
-        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
+        textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
 
         pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();

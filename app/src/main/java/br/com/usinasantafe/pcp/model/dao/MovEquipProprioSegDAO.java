@@ -37,24 +37,24 @@ public class MovEquipProprioSegDAO {
     }
 
     public void deleteMovEquipProprioSegIdMovEquip(Long idMovEquipProprio){
-        List<MovEquipProprioSegBean> movEquipSegProprioList = movEquipProprioSegIdMovEquipList(idMovEquipProprio);
-        for (MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){
+        List<MovEquipProprioSegBean> movEquipProprioSegList = movEquipProprioSegIdMovEquipList(idMovEquipProprio);
+        for (MovEquipProprioSegBean movEquipProprioSegBean : movEquipProprioSegList){
             movEquipProprioSegBean.delete();
         }
-        movEquipSegProprioList.clear();
+        movEquipProprioSegList.clear();
     }
 
     public void deleteMovEquipProprioSegIdMovEquipSeg(Long idMovEquipSegProprio){
-        List<MovEquipProprioSegBean> movEquipSegProprioList = movEquipProprioSegIdMovEquipSegList(idMovEquipSegProprio);
-        MovEquipProprioSegBean movEquipProprioSegBean = movEquipSegProprioList.get(0);
+        List<MovEquipProprioSegBean> movEquipProprioSegList = movEquipProprioSegIdMovEquipSegList(idMovEquipSegProprio);
+        MovEquipProprioSegBean movEquipProprioSegBean = movEquipProprioSegList.get(0);
         movEquipProprioSegBean.delete();
-        movEquipSegProprioList.clear();
+        movEquipProprioSegList.clear();
     }
 
     public ArrayList<String> movEquipProprioSegAllArrayList(ArrayList<String> dadosArrayList){
         dadosArrayList.add("MovEquipProprioSeg");
         MovEquipProprioSegBean movEquipProprioSegBean = new MovEquipProprioSegBean();
-        List<MovEquipProprioSegBean> movEquipProprioSegList = movEquipProprioSegBean.orderBy("idMovEquipSegProprio", true);
+        List<MovEquipProprioSegBean> movEquipProprioSegList = movEquipProprioSegBean.orderBy("idMovEquipProprioSeg", true);
         for (MovEquipProprioSegBean movEquipProprioSegBeanBD : movEquipProprioSegList) {
             dadosArrayList.add(dadosMovEquipProprioSeg(movEquipProprioSegBeanBD));
         }
@@ -78,14 +78,14 @@ public class MovEquipProprioSegDAO {
 
         movEquipSegProprioList.clear();
 
-        JsonObject jsonMovEquipSegProprio = new JsonObject();
-        jsonMovEquipSegProprio.add("movequipsegproprio", jsonArrayApont);
+        JsonObject jsonMovEquipProprioSeg = new JsonObject();
+        jsonMovEquipProprioSeg.add("movequipproprioseg", jsonArrayApont);
 
-        return jsonMovEquipSegProprio.toString();
+        return jsonMovEquipProprioSeg.toString();
 
     }
 
-    public List<MovEquipProprioSegBean> movEquipSegProprioEnvioList(ArrayList<Long> idMovEquipProprioList){
+    public List<MovEquipProprioSegBean> movEquipProprioSegEnvioList(ArrayList<Long> idMovEquipProprioList){
         MovEquipProprioSegBean movEquipProprioSegBean = new MovEquipProprioSegBean();
         return movEquipProprioSegBean.inAndOrderBy("idMovEquipProprio", idMovEquipProprioList, "idMovEquipProprioSeg", true);
     }

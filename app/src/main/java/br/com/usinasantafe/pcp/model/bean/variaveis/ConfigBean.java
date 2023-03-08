@@ -34,6 +34,8 @@ public class ConfigBean extends Entidade {
 	// 3 - Vigia
 	// 4 - Inicio Movimento
 	// 5 - Veiculo Seg
+	// 6 - Passageiro Colab
+	// 7 - Passageiro Visit/Terc
 
 	public ConfigBean() {
 	}

@@ -13,8 +13,6 @@ import java.util.List;
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.control.ConfigCTR;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 
 public class AdapterListMovProprio extends BaseAdapter {
 
@@ -75,7 +73,7 @@ public class AdapterListMovProprio extends BaseAdapter {
 
     public void colabMov(Long nroMatric){
         ConfigCTR configCTR = new ConfigCTR();
-        textViewColabMov.setText("COLABORADOR: " + nroMatric + " - " + configCTR.getColab(nroMatric).getNomeColab());
+        textViewColabMov.setText("COLABORADOR: " + nroMatric + " - " + configCTR.getColabMatric(nroMatric).getNomeColab());
     }
 
     public void equipMov(Long idEquip){
