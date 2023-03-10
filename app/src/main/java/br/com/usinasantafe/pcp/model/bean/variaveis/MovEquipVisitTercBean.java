@@ -13,13 +13,13 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField(generatedId=true)
     private Long idMovEquipVisitTerc;
     @DatabaseField
-    private Long tipoMovEquipVisitTerc; //
+    private Long tipoMovEquipVisitTerc;
     @DatabaseField
     private Long idVisitTercMovEquipVisitTerc;
     @DatabaseField
     private Long tipoVisitTercMovEquipVisitTerc;
     @DatabaseField
-    private String dthrMovEquipVisitTerc; //
+    private String dthrMovEquipVisitTerc;
     @DatabaseField
     private Long dthrLongMovEquipVisitTerc;
     @DatabaseField
@@ -35,7 +35,7 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField
     private String observacaoMovEquipVisitTerc;
     @DatabaseField
-    private Long statusEntradaSaidaMovEquipVisitTerc; // 1 - Apenas Entrada; 2 - Entrada e Saída
+    private Long statusEntradaSaidaMovEquipVisitTerc; // 1 - Entrada; 2 - Saida
     @DatabaseField
     private Long statusMovEquipVisitTerc; // 1 - Aberto; 2 - Fechado; 3 - Enviado
 

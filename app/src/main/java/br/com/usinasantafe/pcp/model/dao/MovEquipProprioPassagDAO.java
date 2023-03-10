@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioPassagBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioSegBean;
 import br.com.usinasantafe.pcp.model.pst.EspecificaPesquisa;
 
 public class MovEquipProprioPassagDAO {
@@ -24,7 +23,7 @@ public class MovEquipProprioPassagDAO {
 
     public void setMatricPassagMovEquipProprioPassag(Long matricColab) {
         movEquipProprioPassagBean = new MovEquipProprioPassagBean();
-        movEquipProprioPassagBean.setMatricColabMovEquipProprioPassag(matricColab);
+        movEquipProprioPassagBean.setNroMatricMovEquipProprioPassag(matricColab);
     }
 
     public List<MovEquipProprioPassagBean> movEquipProprioPassagIdMovEquipList(Long idMovEquipProprio){
@@ -44,7 +43,7 @@ public class MovEquipProprioPassagDAO {
     public void inserirMovEquipProprioPassag(Long idMovEquipProprio, Long matricColab){
         MovEquipProprioPassagBean movEquipProprioPassagBean = new MovEquipProprioPassagBean();
         movEquipProprioPassagBean.setIdMovEquipProprio(idMovEquipProprio);
-        movEquipProprioPassagBean.setMatricColabMovEquipProprioPassag(matricColab);
+        movEquipProprioPassagBean.setNroMatricMovEquipProprioPassag(matricColab);
         movEquipProprioPassagBean.insert();
     }
 

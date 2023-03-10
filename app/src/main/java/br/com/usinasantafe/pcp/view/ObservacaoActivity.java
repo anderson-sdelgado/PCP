@@ -71,7 +71,6 @@ public class ObservacaoActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 Intent it;
-
                 if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {", getLocalClassName());
                     if (pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {

@@ -62,8 +62,10 @@ public class MovVeicProprioCTR {
     public void deleteMovEquipProprioAberto(){
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioDAO.movEquipProprioAbertoList();
         for(MovEquipProprioBean movEquipProprioBean : movEquipProprioList){
+            movEquipProprioPassagDAO.deleteMovEquipProprioPassagIdMovEquip(movEquipProprioBean.getIdMovEquipProprio());
             movEquipProprioSegDAO.deleteMovEquipProprioSegIdMovEquip(movEquipProprioBean.getIdMovEquipProprio());
             movEquipProprioDAO.deleteMovEquipProprio(movEquipProprioBean.getIdMovEquipProprio());
         }
@@ -89,28 +91,44 @@ public class MovVeicProprioCTR {
         ArrayList<String> itens = new ArrayList<String>();
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+
         itens.add("DTHR: " + movEquipProprioBean.getDthrMovEquipProprio());
+
         if(movEquipProprioBean.getTipoMovEquipProprio() == 1L){
             itens.add("ENTRADA");
         } else {
             itens.add("SAÍDA");
         }
+
         itens.add("VEÍCULO: " + configCTR.getEquipId(movEquipProprioBean.getIdEquipMovEquipProprio()).getNroEquip());
-        itens.add("COLABORADOR: " + movEquipProprioBean.getNroMatricColabMovEquipProprio() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab());
+        itens.add("MOTORISTA: " + movEquipProprioBean.getNroMatricColabMovEquipProprio() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab());
+
+        String passageiro = "";
+        List<MovEquipProprioPassagBean> movEquipProprioPassagList = movEquipProprioPassagDAO.movEquipProprioPassagIdMovEquipList(movEquipProprioBean.getIdMovEquipProprio());
+        for(MovEquipProprioPassagBean movEquipProprioPassagBean : movEquipProprioPassagList){
+            passageiro = passageiro + movEquipProprioPassagBean.getNroMatricMovEquipProprioPassag() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab() + "; ";
+        }
+
+        itens.add("PASSAGEIRO(S): " + passageiro);
         itens.add("VIGIA: " + movEquipProprioBean.getNroMatricVigiaMovEquipProprio() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricVigiaMovEquipProprio()).getNomeColab());
         itens.add("DESTINO: " +  movEquipProprioBean.getDescrDestinoMovEquipProprio());
 
         String equipSec = "";
-        List<MovEquipProprioSegBean> movEquipSegProprioList = movEquipProprioSegDAO.movEquipProprioSegIdMovEquipList(movEquipProprioBean.getIdMovEquipProprio());
-        for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){
+        List<MovEquipProprioSegBean> movEquipProprioSegList = movEquipProprioSegDAO.movEquipProprioSegIdMovEquipList(movEquipProprioBean.getIdMovEquipProprio());
+        for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipProprioSegList){
             equipSec = equipSec + configCTR.getEquipId(movEquipProprioSegBean.getIdEquipMovEquipProprioSeg()).getNroEquip() + " - ";
         }
+        movEquipProprioSegList.clear();
+
         itens.add("VEÍCULO SECUNDÁRIO: " + equipSec);
+
         if(movEquipProprioBean.getNroNotaFiscalMovEquipProprio() != null){
             itens.add("NRO NOTA FISCAL: " +  movEquipProprioBean.getNroNotaFiscalMovEquipProprio());
         } else {
             itens.add("NRO NOTA FISCAL: ");
         }
+
         if(movEquipProprioBean.getObservacaoMovEquipProprio() != null){
             itens.add("OBS.:\n" +  movEquipProprioBean.getObservacaoMovEquipProprio());
         } else {
@@ -175,6 +193,7 @@ public class MovVeicProprioCTR {
         String dadosEnvioMovEquipProprioPassag = movEquipProprioPassagDAO.dadosEnvioMovEquipProprioPassag(movEquipProprioPassagDAO.movEquipProprioPassagEnvioList(idMovEquipProprioArrayList));
 
         return dadosMovEquipProprio + "_" + dadosEnvioMovEquipProprioSeg + "_" + dadosEnvioMovEquipProprioPassag;
+
     }
 
     public void updateMovEquipProprioFechado(String result, String activity){
@@ -208,6 +227,9 @@ public class MovVeicProprioCTR {
 
             MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
             movEquipProprioSegDAO.deleteMovEquipProprioSegIdMovEquip(idMovEquipProprio);
+
+            MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
+            movEquipProprioPassagDAO.deleteMovEquipProprioPassagIdMovEquip(idMovEquipProprio);
 
             movEquipProprioDAO.deleteMovEquipProprio(idMovEquipProprio);
 

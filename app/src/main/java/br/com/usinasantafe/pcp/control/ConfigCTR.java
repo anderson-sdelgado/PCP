@@ -23,8 +23,10 @@ import br.com.usinasantafe.pcp.model.dao.LocalDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioSegDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.VisitanteDAO;
 import br.com.usinasantafe.pcp.util.AtualDadosServ;
 import br.com.usinasantafe.pcp.util.VerifDadosServ;
@@ -176,11 +178,15 @@ public class ConfigCTR {
     public ArrayList<String> logBaseDadoList(){
         ArrayList<String> dadosArrayList = new ArrayList<>();
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
+        MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
         dadosArrayList = movEquipProprioDAO.movEquipProprioAllArrayList(dadosArrayList);
+        dadosArrayList = movEquipProprioPassagDAO.movEquipProprioPassagAllArrayList(dadosArrayList);
         dadosArrayList = movEquipProprioSegDAO.movEquipProprioSegAllArrayList(dadosArrayList);
         dadosArrayList = movEquipVisitTercDAO.movEquipVisitTercAllArrayList(dadosArrayList);
+        dadosArrayList = movEquipVisitTercPassagDAO.movEquipVisitTercPassagAllArrayList(dadosArrayList);
         return dadosArrayList;
     }
 

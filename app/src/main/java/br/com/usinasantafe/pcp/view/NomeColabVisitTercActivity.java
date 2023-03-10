@@ -63,7 +63,7 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                         "                textViewTituloNome.setText(\"NOME DO COLABORADOR\");\n" +
                         "                textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getMatricColabMovEquipProprioPassag()).getNomeColab());", getLocalClassName());
                 textViewTituloNome.setText("NOME DO COLABORADOR");
-                textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getMatricColabMovEquipProprioPassag()).getNomeColab());
+                textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getNroMatricMovEquipProprioPassag()).getNomeColab());
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
                 if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
@@ -103,7 +103,7 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                     if (pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {\n" +
                                 "                        pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioPassag(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getMatricColabMovEquipProprioPassag());", getLocalClassName());
-                        pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioPassag(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getMatricColabMovEquipProprioPassag());
+                        pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioPassag(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getNroMatricMovEquipProprioPassag());
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "                        pcpContext.getMovVeicVisitTercCTR().inserirMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag());", getLocalClassName());
@@ -131,7 +131,7 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    Intent it = new Intent(NomeColabTercVisitActivity.this, VisitanteTerceiroActivity.class);", getLocalClassName());
-                    it = new Intent(NomeColabVisitTercActivity.this, CpfVisitTercActivity.class);
+                    it = new Intent(NomeColabVisitTercActivity.this, CPFVisitTercActivity.class);
                 }
                 startActivity(it);
                 finish();

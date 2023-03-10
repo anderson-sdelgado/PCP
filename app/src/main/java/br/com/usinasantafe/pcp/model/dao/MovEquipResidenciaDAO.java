@@ -38,18 +38,7 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.insert();
     }
 
-    public void fecharMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, Long posicaoListaMov){
-        MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaAberto();
-        if(movEquipResidenciaBean.getTipoMovEquipResidencia() == 2L){
-            List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList();
-            MovEquipResidenciaBean movEquipResidenciaEntradaBean =  movEquipResidenciaList.get(posicaoListaMov.intValue());
-            movEquipResidenciaList.clear();
-            movEquipResidenciaBean.setNomeVisitanteMovEquipResidencia(movEquipResidenciaEntradaBean.getNomeVisitanteMovEquipResidencia());
-            movEquipResidenciaBean.setVeiculoMovEquipResidencia(movEquipResidenciaEntradaBean.getVeiculoMovEquipResidencia());
-            movEquipResidenciaBean.setPlacaMovEquipResidencia(movEquipResidenciaEntradaBean.getPlacaMovEquipResidencia());
-            movEquipResidenciaEntradaBean.setStatusEntradaSaidaMovEquipResidencia(2L);
-            movEquipResidenciaEntradaBean.update();
-        }
+    public void fecharEntradaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, MovEquipResidenciaBean movEquipResidenciaBean){
         movEquipResidenciaBean.setIdLocalMovEquipResidencia(idLocal);
         movEquipResidenciaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
         movEquipResidenciaBean.setObservacaoMovEquipResidencia(observacao);
@@ -58,6 +47,29 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.setDthrMovEquipResidencia(Tempo.getInstance().dthrLongToString(dthr));
         movEquipResidenciaBean.setStatusMovEquipResidencia(2L);
         movEquipResidenciaBean.update();
+    }
+
+    public void fecharSaidaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, int posicaoListaMov, MovEquipResidenciaBean movEquipResidenciaSaidaBean){
+
+        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList();
+        MovEquipResidenciaBean movEquipResidenciaEntradaBean =  movEquipResidenciaList.get(posicaoListaMov);
+        movEquipResidenciaEntradaBean.setStatusEntradaSaidaMovEquipResidencia(2L);
+        movEquipResidenciaEntradaBean.update();
+        movEquipResidenciaList.clear();
+
+        movEquipResidenciaSaidaBean.setNomeVisitanteMovEquipResidencia(movEquipResidenciaEntradaBean.getNomeVisitanteMovEquipResidencia());
+        movEquipResidenciaSaidaBean.setVeiculoMovEquipResidencia(movEquipResidenciaEntradaBean.getVeiculoMovEquipResidencia());
+        movEquipResidenciaSaidaBean.setPlacaMovEquipResidencia(movEquipResidenciaEntradaBean.getPlacaMovEquipResidencia());
+
+        movEquipResidenciaSaidaBean.setIdLocalMovEquipResidencia(idLocal);
+        movEquipResidenciaSaidaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
+        movEquipResidenciaSaidaBean.setObservacaoMovEquipResidencia(observacao);
+        Long dthr = Tempo.getInstance().dthrAtualLong();
+        movEquipResidenciaSaidaBean.setDthrLongMovEquipResidencia(dthr);
+        movEquipResidenciaSaidaBean.setDthrMovEquipResidencia(Tempo.getInstance().dthrLongToString(dthr));
+        movEquipResidenciaSaidaBean.setStatusMovEquipResidencia(2L);
+        movEquipResidenciaSaidaBean.update();
+
     }
 
     public void updateEquipResidenciaEnvio(ArrayList<Long> idMovEquipResidenciaArrayList){
@@ -83,7 +95,7 @@ public class MovEquipResidenciaDAO {
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqMovEnviado());
-        pesqArrayList.add(getPesqStatusEntradaFechado());
+        pesqArrayList.add(getPesqStatusSaida());
 
         MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
         List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaBean.get(pesqArrayList);
@@ -144,8 +156,7 @@ public class MovEquipResidenciaDAO {
 
     public List<MovEquipResidenciaBean> movEquipResidenciaEntradaList(){
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqStatusEntradaAberto());
-        pesqArrayList.add(getPesqMovFechadoEnviado());
+        pesqArrayList.add(getPesqStatusEntrada());
         MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
         return movEquipResidenciaBean.getAndOrderBy(pesqArrayList, "idMovEquipResidencia", false);
     }
@@ -238,7 +249,7 @@ public class MovEquipResidenciaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqStatusEntradaAberto(){
+    private EspecificaPesquisa getPesqStatusEntrada(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusEntradaSaidaMovEquipResidencia");
         pesquisa.setValor(1L);
@@ -246,19 +257,11 @@ public class MovEquipResidenciaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqStatusEntradaFechado(){
+    private EspecificaPesquisa getPesqStatusSaida(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusEntradaSaidaMovEquipResidencia");
         pesquisa.setValor(2L);
         pesquisa.setTipo(1);
-        return pesquisa;
-    }
-
-    private EspecificaPesquisa getPesqMovFechadoEnviado(){
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("statusMovEquipResidencia");
-        pesquisa.setValor(1L);
-        pesquisa.setTipo(2);
         return pesquisa;
     }
 

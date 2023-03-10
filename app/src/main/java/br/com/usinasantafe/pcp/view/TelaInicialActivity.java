@@ -33,7 +33,6 @@ public class TelaInicialActivity extends ActivityGeneric {
                     "            clearBD();\n" +
                     "            goMenuInicial();", getLocalClassName());
             clearBD();
-
             if(EnvioDadosServ.getInstance().verifDadosEnvio()){
                 LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().verifDadosEnvio()", getLocalClassName());
                 if(connectNetwork){

@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipResidenciaDAO;
@@ -24,7 +25,13 @@ public class MovVeicResidenciaCTR {
 
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-        movEquipResidenciaDAO.fecharMovEquipResidencia(configCTR.getConfig().getIdLocalConfig(), configCTR.getConfig().getMatricVigiaConfig(), observacao, configCTR.getConfig().getPosicaoListaMov());
+        MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaAberto();
+        ConfigBean configBean = configCTR.getConfig();
+        if(movEquipResidenciaBean.getStatusEntradaSaidaMovEquipResidencia() == 1L){
+            movEquipResidenciaDAO.fecharEntradaMovEquipResidencia(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, movEquipResidenciaBean);
+        } else {
+            movEquipResidenciaDAO.fecharSaidaMovEquipResidencia(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, configBean.getPosicaoListaMov().intValue(), movEquipResidenciaBean);
+        }
 
         EnvioDadosServ.getInstance().envioDados(activity);
 

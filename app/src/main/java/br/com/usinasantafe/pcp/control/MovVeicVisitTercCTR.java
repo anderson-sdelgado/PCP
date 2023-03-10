@@ -5,12 +5,10 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.estaticas.TerceiroBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.VisitanteBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercPassagBean;
-import br.com.usinasantafe.pcp.model.dao.EquipDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.TerceiroDAO;
@@ -60,7 +58,13 @@ public class MovVeicVisitTercCTR {
 
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        movEquipVisitTercDAO.fecharMovEquipVisitTerc(configCTR.getConfig().getIdLocalConfig(), configCTR.getConfig().getMatricVigiaConfig(), observacao, configCTR.getConfig().getPosicaoListaMov());
+        MovEquipVisitTercBean movEquipVisitTercBean = getMovEquipVisitTercAberto();
+        ConfigBean configBean = configCTR.getConfig();
+        if(movEquipVisitTercBean.getStatusEntradaSaidaMovEquipVisitTerc() == 1L){
+            movEquipVisitTercDAO.fecharEntradaMovEquipVisitTerc(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, movEquipVisitTercBean);
+        } else {
+            movEquipVisitTercDAO.fecharSaidaMovEquipVisitTerc(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, configBean.getPosicaoListaMov().intValue(), movEquipVisitTercBean);
+        }
 
         EnvioDadosServ.getInstance().envioDados(activity);
 
@@ -68,8 +72,10 @@ public class MovVeicVisitTercCTR {
 
     public void deleteMovEquipVisitTercAberto(){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
         List<MovEquipVisitTercBean> movEquipVisitTercList = movEquipVisitTercDAO.movEquipVisitTercAbertoList();
         for(MovEquipVisitTercBean movEquipVisitTercBean : movEquipVisitTercList){
+            movEquipVisitTercPassagDAO.deleteMovEquipVisitTercPassagIdMovEquip(movEquipVisitTercBean.getIdMovEquipVisitTerc());
             movEquipVisitTercDAO.deleteMovEquipVisitTerc(movEquipVisitTercBean.getIdMovEquipVisitTerc());
         }
         movEquipVisitTercList.clear();
@@ -141,10 +147,18 @@ public class MovVeicVisitTercCTR {
         return movEquipVisitTercPassagDAO.movEquipVisitTercPassagIdMovEquipList(movEquipVisitTercDAO.getMovEquipVisitTercAberto().getIdMovEquipVisitTerc());
     }
 
-
     public String dadosEnvioMovEquipVisitTerc(){
+
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        return movEquipVisitTercDAO.dadosEnvioMovEquipVisitTerc();
+        ArrayList<Long> idMovEquipVisitTercArrayList = movEquipVisitTercDAO.idMovEquipVisitTercArrayList(movEquipVisitTercDAO.movEquipVisitTercFechadoList());
+        String dadosMovEquipVisitTerc = movEquipVisitTercDAO.dadosEnvioMovEquipVisitTerc();
+
+
+        MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
+        String dadosEnvioMovEquipVisitTercPassag = movEquipVisitTercPassagDAO.dadosEnvioMovEquipVisitTercPassag(movEquipVisitTercPassagDAO.movEquipProprioPassagEnvioList(idMovEquipVisitTercArrayList));
+
+        return dadosMovEquipVisitTerc + "_" + dadosEnvioMovEquipVisitTercPassag;
+
     }
 
     public void updateMovEquipVisitTercFechado(String result, String activity){
@@ -175,7 +189,12 @@ public class MovVeicVisitTercCTR {
         ArrayList<Long> idMovEquipVisitTercArrayList = movEquipVisitTercDAO.idMovEquipVisitTercExcluirArrayList();
 
         for (Long idMovEquipVisitTerc : idMovEquipVisitTercArrayList) {
+
+            MovEquipVisitTercPassagDAO movEquipVisitTercPassagDAO = new MovEquipVisitTercPassagDAO();
+            movEquipVisitTercPassagDAO.deleteMovEquipVisitTercPassagIdMovEquip(idMovEquipVisitTerc);
+
             movEquipVisitTercDAO.deleteMovEquipVisitTerc(idMovEquipVisitTerc);
+
         }
 
         idMovEquipVisitTercArrayList.clear();

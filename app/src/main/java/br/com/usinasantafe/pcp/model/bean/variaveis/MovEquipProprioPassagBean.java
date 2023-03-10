@@ -15,7 +15,7 @@ public class MovEquipProprioPassagBean extends Entidade {
     @DatabaseField
     private Long idMovEquipProprio;
     @DatabaseField
-    private Long matricColabMovEquipProprioPassag;
+    private Long nroMatricMovEquipProprioPassag;
 
     public MovEquipProprioPassagBean() {
     }
@@ -36,12 +36,12 @@ public class MovEquipProprioPassagBean extends Entidade {
         this.idMovEquipProprio = idMovEquipProprio;
     }
 
-    public Long getMatricColabMovEquipProprioPassag() {
-        return matricColabMovEquipProprioPassag;
+    public Long getNroMatricMovEquipProprioPassag() {
+        return nroMatricMovEquipProprioPassag;
     }
 
-    public void setMatricColabMovEquipProprioPassag(Long matricColabMovEquipProprioPassag) {
-        this.matricColabMovEquipProprioPassag = matricColabMovEquipProprioPassag;
+    public void setNroMatricMovEquipProprioPassag(Long nroMatricMovEquipProprioPassag) {
+        this.nroMatricMovEquipProprioPassag = nroMatricMovEquipProprioPassag;
     }
 
 }

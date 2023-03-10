@@ -31,9 +31,9 @@ public class MovEquipResidenciaBean extends Entidade {
     @DatabaseField
     private String observacaoMovEquipResidencia;
     @DatabaseField
-    private Long statusEntradaSaidaMovEquipResidencia; // 1 - Apenas Entrada; 2 - Entrada e Saída
+    private Long statusEntradaSaidaMovEquipResidencia; // 1 - Entrada; 2 - Saída;
     @DatabaseField
-    private Long statusMovEquipResidencia; // 1 - Aberto; 2 - Fechado; 3 - Enviado
+    private Long statusMovEquipResidencia; // 1 - Aberto; 2 - Fechado; 3 - Enviado;
 
     public MovEquipResidenciaBean() {
     }

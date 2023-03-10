@@ -69,7 +69,7 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
         public void onClick(View v) {
 
             String texto = editTextPadrao.getText().toString();
-            if(localClassName.equals("view.VisitTercActivity")){
+            if(localClassName.equals("view.CPFVisitTercActivity")){
                 if(texto.length() < 14){
                     if(texto.length() == 3){
                         editTextPadrao.setText(editTextPadrao.getText() + "." + numBotao);

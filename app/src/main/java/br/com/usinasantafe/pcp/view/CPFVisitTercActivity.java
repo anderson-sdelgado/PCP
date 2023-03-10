@@ -13,7 +13,7 @@ import br.com.usinasantafe.pcp.PCPContext;
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 
-public class CpfVisitTercActivity extends ActivityGeneric {
+public class CPFVisitTercActivity extends ActivityGeneric {
 
     private PCPContext pcpContext;
     private ProgressDialog progressBar;
@@ -45,7 +45,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                         "                AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
                         "                alerta.setTitle(\"ATENÇÃO\");\n" +
                         "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(CpfVisitTercActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -64,7 +64,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                     "                            progressBar.setProgress(0);\n" +
                                     "                            progressBar.setMax(100);\n" +
                                     "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(CpfVisitTercActivity.this);
+                            progressBar = new ProgressDialog(CPFVisitTercActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -73,7 +73,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                             progressBar.show();
 
                             LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getMotoMecFertCTR().atualDados(VisitanteTerceiroActivity.this, VisitanteTerceiroActivity.class, progressBar, \"VisitanteTerceiro\", 1, getLocalClassName());", getLocalClassName());
-                            pcpContext.getConfigCTR().atualDados(CpfVisitTercActivity.this, CpfVisitTercActivity.class, progressBar, "VisitanteTerceiro", 1, getLocalClassName());
+                            pcpContext.getConfigCTR().atualDados(CPFVisitTercActivity.this, CPFVisitTercActivity.class, progressBar, "VisitanteTerceiro", 1, getLocalClassName());
 
                         } else {
 
@@ -86,7 +86,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                     "                                }\n" +
                                     "                            });\n" +
                                     "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(CpfVisitTercActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -135,7 +135,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                            pcpContext.getMovimentacaoVeicVisTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisTercCTR().getTerceiro(editTextPadrao.getText().toString()).getIdTerceiro());\n" +
                                         "                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
                                 pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
-                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);
+                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
                                 startActivity(it);
                                 finish();
                             } else {
@@ -149,7 +149,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                            }\n" +
                                         "                        });\n" +
                                         "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CpfVisitTercActivity.this);
+                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
                                 alerta.setTitle("ATENÇÃO");
                                 alerta.setMessage("CPF DO TERCEIRO INVÁLIDO! FAVOR VERIFICA O MESMO.");
                                 alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -166,7 +166,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                            pcpContext.getMovimentacaoVeicVisTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisTercCTR().getVisitante(editTextPadrao.getText().toString()).getIdVisitante());\n" +
                                         "                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
                                 pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
-                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);
+                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
                                 startActivity(it);
                                 finish();
                             } else {
@@ -180,7 +180,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                            }\n" +
                                         "                        });\n" +
                                         "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CpfVisitTercActivity.this);
+                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
                                 alerta.setTitle("ATENÇÃO");
                                 alerta.setMessage("CPF DO VISITANTE INVÁLIDO! FAVOR VERIFICA O MESMO.");
                                 alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -200,7 +200,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                                pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());\n" +
                                         "                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
                                 pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
-                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);
+                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
                                 startActivity(it);
                                 finish();
                             } else {
@@ -214,7 +214,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                            }\n" +
                                         "                        });\n" +
                                         "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CpfVisitTercActivity.this);
+                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
                                 alerta.setTitle("ATENÇÃO");
                                 alerta.setMessage("CPF DO TERCEIRO INVÁLIDO! FAVOR VERIFICA O MESMO.");
                                 alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -231,7 +231,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                                pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());\n" +
                                         "                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
                                 pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
-                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);
+                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
                                 startActivity(it);
                                 finish();
                             } else {
@@ -245,7 +245,7 @@ public class CpfVisitTercActivity extends ActivityGeneric {
                                         "                            }\n" +
                                         "                        });\n" +
                                         "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CpfVisitTercActivity.this);
+                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
                                 alerta.setTitle("ATENÇÃO");
                                 alerta.setMessage("CPF DO VISITANTE INVÁLIDO! FAVOR VERIFICA O MESMO.");
                                 alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -288,11 +288,11 @@ public class CpfVisitTercActivity extends ActivityGeneric {
         if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                     "            it = new Intent(CpfVisitTercActivity.this, TipoVisitTercActivity.class);", getLocalClassName());
-            it = new Intent(CpfVisitTercActivity.this, TipoVisitTercActivity.class);
+            it = new Intent(CPFVisitTercActivity.this, TipoVisitTercActivity.class);
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            it = new Intent(CpfVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);", getLocalClassName());
-            it = new Intent(CpfVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);
+            it = new Intent(CPFVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);
         }
         startActivity(it);
         finish();

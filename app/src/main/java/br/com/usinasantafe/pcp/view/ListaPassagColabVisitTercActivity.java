@@ -48,7 +48,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                     "            }", getLocalClassName());
             movEquipProprioPassagList = pcpContext.getMovVeicProprioCTR().movEquipProprioPassagList();
             for(MovEquipProprioPassagBean movEquipProprioPassagBean : movEquipProprioPassagList){
-                itens.add(movEquipProprioPassagBean.getMatricColabMovEquipProprioPassag() + " - " + pcpContext.getConfigCTR().getColabMatric(movEquipProprioPassagBean.getMatricColabMovEquipProprioPassag()).getNomeColab());
+                itens.add(movEquipProprioPassagBean.getNroMatricMovEquipProprioPassag() + " - " + pcpContext.getConfigCTR().getColabMatric(movEquipProprioPassagBean.getNroMatricMovEquipProprioPassag()).getNomeColab());
             }
 
         } else {
@@ -162,7 +162,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                             "                    pcpContext.getConfigCTR().setPosicaoTela(7L);\n" +
                             "                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);", getLocalClassName());
                     pcpContext.getConfigCTR().setPosicaoTela(7L);
-                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);
+                    it = new Intent(ListaPassagColabVisitTercActivity.this, CPFVisitTercActivity.class);
                 }
                 startActivity(it);
                 finish();
@@ -174,7 +174,9 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
+                        "            public void onClick(View v) {\n" +
+                        "                pcpContext.getConfigCTR().setPosicaoTela(4L);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoTela(4L);
                 Intent it;
                 if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
                     it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoUsinaActivity.class);
@@ -206,7 +208,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);", getLocalClassName());
-                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);
+                    it = new Intent(ListaPassagColabVisitTercActivity.this, CPFVisitTercActivity.class);
                 }
                 startActivity(it);
                 finish();

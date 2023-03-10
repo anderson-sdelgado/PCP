@@ -93,7 +93,7 @@ public class VeiculoVisitTercResidenciaActivity extends ActivityGeneric {
                 if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
                             "                    it = new Intent(VeiculoVisitTercResidenciaActivity.this, VisitTercActivity.class);", getLocalClassName());
-                    it = new Intent(VeiculoVisitTercResidenciaActivity.this, CpfVisitTercActivity.class);
+                    it = new Intent(VeiculoVisitTercResidenciaActivity.this, CPFVisitTercActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(VeiculoVisitTercResidenciaActivity.this, VisitanteResidenciaActivity.class);", getLocalClassName());
