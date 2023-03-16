@@ -11,9 +11,9 @@ import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
 public class MovVeicResidenciaCTR {
 
-    public boolean verEnvioMovEquipResidenciaFech() {
+    public boolean verEnvioMovEquipResidenciaEnviar() {
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-        return movEquipResidenciaDAO.verMovEquipResidenciaFechado();
+        return movEquipResidenciaDAO.verMovEquipResidenciaEnviar();
     }
 
     public void abrirMovEquipResidencia(Long tipoMov){
@@ -51,9 +51,39 @@ public class MovVeicResidenciaCTR {
         return movEquipResidenciaDAO.getMovEquipResidenciaAberto();
     }
 
+
+    public ArrayList<String> getMovEquipResidencia(MovEquipResidenciaBean movEquipResidenciaBean){
+
+        ArrayList<String> itens = new ArrayList<>();
+
+        itens.add("DTHR: " + movEquipResidenciaBean.getDthrMovEquipResidencia());
+
+        if(movEquipResidenciaBean.getTipoMovEquipResidencia() == 1L){
+            itens.add("ENTRADA");
+        } else {
+            itens.add("SAÍDA");
+        }
+
+        itens.add("VEÍCULO: " + movEquipResidenciaBean.getVeiculoMovEquipResidencia());
+        itens.add("PLACA: " + movEquipResidenciaBean.getPlacaMovEquipResidencia());
+        itens.add("VISITANTE: " + movEquipResidenciaBean.getNomeVisitanteMovEquipResidencia());
+
+        if(movEquipResidenciaBean.getObservMovEquipResidencia() != null){
+            itens.add("OBS.:\n" +  movEquipResidenciaBean.getObservMovEquipResidencia());
+        } else {
+            itens.add("OBS.:");
+        }
+        return itens;
+    }
+
     public void setNomeVisitanteResidencia(String nomeVisitante){
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
         movEquipResidenciaDAO.setNomeVisitanteResidencia(nomeVisitante);
+    }
+
+    public void setNomeVisitanteResidencia(int posicao, String nomeVisitante){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        movEquipResidenciaDAO.setNomeVisitanteResidencia(posicao, nomeVisitante);
     }
 
     public void setVeiculoResidencia(String veiculo){
@@ -61,9 +91,29 @@ public class MovVeicResidenciaCTR {
         movEquipResidenciaDAO.setVeiculoResidencia(veiculo);
     }
 
+    public void setVeiculoResidencia(int posicao, String veiculo){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        movEquipResidenciaDAO.setVeiculoResidencia(posicao, veiculo);
+    }
+
     public void setPlacaResidencia(String placa){
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
         movEquipResidenciaDAO.setPlacaResidencia(placa);
+    }
+
+    public void setPlacaResidencia(int posicao, String placa){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        movEquipResidenciaDAO.setPlacaResidencia(posicao, placa);
+    }
+
+    public void setObservacaoResidencia(int posicao, String observacao){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        movEquipResidenciaDAO.setObservacaoResidencia(posicao, observacao);
+    }
+
+    public List<MovEquipResidenciaBean> movEquipResidenciaFechadoList(){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        return movEquipResidenciaDAO.movEquipResidenciaFechadoList();
     }
 
     public List<MovEquipResidenciaBean> movEquipResidenciaList(){
@@ -76,7 +126,7 @@ public class MovVeicResidenciaCTR {
         return movEquipResidenciaDAO.dadosEnvioMovEquipResidencia();
     }
 
-    public void updateMovEquipResidenciaFechado(String result, String activity){
+    public void updateMovEquipResidencia(String result, String activity){
 
         try {
 

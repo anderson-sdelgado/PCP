@@ -48,6 +48,7 @@
     <string name="texto_menu_vigia">VIGIA: </string>
     <string name="texto_menu_local">LOCAL: </string>
     <string name="texto_motorista">Teste</string>
+    <string name="texto_titulo_mov">MOVIMENTO(S)</string>
     <string name="texto_titulo_descr_mov">MOVIMENTO</string>
     <string name="texto_titulo_placa">PLACA</string>
     <string name="texto_titulo_mov_visit_terc">ENTRADA VEÍCULO VISITANTE/TERCEIRO</string>
@@ -55,4 +56,5 @@
     <string name="texto_titulo_visit_residencia">VISITANTE RESIDÊNCIA</string>
     <string name="texto_local">LOCAL</string>
     <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
+    <string name="texto_editar">EDITAR</string>
 </resources>

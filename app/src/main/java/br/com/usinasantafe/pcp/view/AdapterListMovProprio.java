@@ -49,7 +49,7 @@ public class AdapterListMovProprio extends BaseAdapter {
         view = layoutInflater.inflate(R.layout.activity_item_mov_proprio, null);
         textViewDthrMov = view.findViewById(R.id.textViewDthrMov);
         textViewTipoMov = view.findViewById(R.id.textViewTipoMov);
-        textViewColabMov = view.findViewById(R.id.textViewColabMov);
+        textViewColabMov = view.findViewById(R.id.textViewMotoristaMov);
         textViewEquipMov = view.findViewById(R.id.textViewEquipMov);
 
         MovEquipProprioBean movEquipProprioBean = (MovEquipProprioBean) itens.get(position);

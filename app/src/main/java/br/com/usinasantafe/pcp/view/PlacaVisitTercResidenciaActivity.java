@@ -17,7 +17,7 @@ import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 public class PlacaVisitTercResidenciaActivity extends ActivityGeneric {
 
     private PCPContext pcpContext;
-    private EditText editTextPlacaVisitanteTerceiroResidencia;
+    private EditText editTextPlacaVisitTercResidencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +26,15 @@ public class PlacaVisitTercResidenciaActivity extends ActivityGeneric {
 
         pcpContext = (PCPContext) getApplication();
 
-        editTextPlacaVisitanteTerceiroResidencia = findViewById(R.id.editTextPlacaVisitTercResidencia);
-        Button buttonOkPlacaVisitanteTerceiroResidencia =  findViewById(R.id.buttonOkPlacaVisitTercResidencia);
-        Button buttonCancPlacaVisitanteTerceiroResidencia = findViewById(R.id.buttonCancPlacaVisitTercResidencia);
+        editTextPlacaVisitTercResidencia = findViewById(R.id.editTextPlacaVisitTercResidencia);
+        Button buttonOkPlacaVisitTercResidencia =  findViewById(R.id.buttonOkPlacaVisitTercResidencia);
+        Button buttonCancPlacaVisitTercResidencia = findViewById(R.id.buttonCancPlacaVisitTercResidencia);
 
-        editTextPlacaVisitanteTerceiroResidencia.addTextChangedListener(new TextWatcher() {
+        editTextPlacaVisitTercResidencia.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                editTextPlacaVisitanteTerceiroResidencia.getText().toString().toUpperCase();
+                editTextPlacaVisitTercResidencia.getText().toString().toUpperCase();
             }
 
             @Override
@@ -44,40 +44,55 @@ public class PlacaVisitTercResidenciaActivity extends ActivityGeneric {
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
             }
+
         });
 
-        buttonOkPlacaVisitanteTerceiroResidencia.setOnClickListener(new View.OnClickListener() {
+        buttonOkPlacaVisitTercResidencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPlacaVisitanteTerceiroResidencia.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPlacaVisitTercResidencia.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                if(!editTextPlacaVisitanteTerceiroResidencia.getText().toString().trim().equals("")) {
+                if(!editTextPlacaVisitTercResidencia.getText().toString().trim().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextPlacaVisitanteTerceiroResidencia.getText().toString().equals(\"\")) {", getLocalClassName());
                     Intent it;
-                    if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
-                                "                        pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiro.getText().toString());", getLocalClassName());
-                        pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiroResidencia.getText().toString());
-                        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
-                                    "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, DestinoActivity.class);", getLocalClassName());
-                            it  = new Intent(PlacaVisitTercResidenciaActivity.this, DestinoActivity.class);
+                    if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){", getLocalClassName());
+                        if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
+                                    "                        pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiro.getText().toString());", getLocalClassName());
+                            pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitTercResidencia.getText().toString());
+                            if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
+                                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
+                                        "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, DestinoActivity.class);", getLocalClassName());
+                                it  = new Intent(PlacaVisitTercResidenciaActivity.this, DestinoActivity.class);
+                            } else {
+                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                        "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, ObservacaoActivity.class);", getLocalClassName());
+                                it  = new Intent(PlacaVisitTercResidenciaActivity.this, ObservacaoActivity.class);
+                            }
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, ObservacaoActivity.class);", getLocalClassName());
+                                    "                        pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(editTextPlacaVisitanteTerceiro.getText().toString());\n" +
+                                    "                        it  = new Intent(PlacaVisitTercResidenciaActivity.this, ObservacaoActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(editTextPlacaVisitTercResidencia.getText().toString());
                             it  = new Intent(PlacaVisitTercResidenciaActivity.this, ObservacaoActivity.class);
                         }
                     } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(editTextPlacaVisitanteTerceiro.getText().toString());\n" +
-                                "                        it  = new Intent(PlacaVisitTercResidenciaActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                        pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(editTextPlacaVisitanteTerceiroResidencia.getText().toString());
-                        it  = new Intent(PlacaVisitTercResidenciaActivity.this, ObservacaoActivity.class);
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
+                        if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
+                                    "                            pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), editTextPlacaVisitTercResidencia.getText().toString());", getLocalClassName());
+                            pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), editTextPlacaVisitTercResidencia.getText().toString());
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                            pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), editTextPlacaVisitTercResidencia.getText().toString());", getLocalClassName());
+                            pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), editTextPlacaVisitTercResidencia.getText().toString());
+                        }
+                        LogProcessoDAO.getInstance().insertLogProcesso("it  = new Intent(PlacaVisitTercResidenciaActivity.this, DescrMovActivity.class);", getLocalClassName());
+                        it  = new Intent(PlacaVisitTercResidenciaActivity.this, DescrMovActivity.class);
                     }
-
                     startActivity(it);
                     finish();
                 } else {
@@ -104,14 +119,22 @@ public class PlacaVisitTercResidenciaActivity extends ActivityGeneric {
             }
         });
 
-        buttonCancPlacaVisitanteTerceiroResidencia.setOnClickListener(new View.OnClickListener() {
+        buttonCancPlacaVisitTercResidencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPlacaVisitanteTerceiroResidencia.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPlacaVisitTercResidencia.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(PlacaVisitanteTerceiroActivity.this, VeiculoVisitanteTerceiroActivity.class);", getLocalClassName());
-                Intent it = new Intent(PlacaVisitTercResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                        "            public void onClick(View v) {", getLocalClassName());
+                Intent it;
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                            "                    it = new Intent(PlacaVisitTercResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
+                    it = new Intent(PlacaVisitTercResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    it = new Intent(PlacaVisitTercResidenciaActivity.this, DescrMovActivity.class);", getLocalClassName());
+                    it = new Intent(PlacaVisitTercResidenciaActivity.this, DescrMovActivity.class);
+                }
                 startActivity(it);
                 finish();
             }

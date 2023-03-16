@@ -10,7 +10,7 @@
         android:text="@string/texto_item_list" />
 
     <TextView
-        android:id="@+id/textViewVisitResidenciaMov"
+        android:id="@+id/textViewMotoristaMov"
         style="@style/TextViewItemList"
         android:text="@string/texto_item_list" />
 

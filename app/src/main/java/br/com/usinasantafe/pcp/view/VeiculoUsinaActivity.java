@@ -122,21 +122,36 @@ public class VeiculoUsinaActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
                     if (pcpContext.getConfigCTR().verEquipNro(Long.parseLong(editTextPadrao.getText().toString()))) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().verColab(Long.parseLong(editTextPadrao.getText().toString()))) {", getLocalClassName());
-                        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
-                                    "                            pcpContext.getMovimentacaoVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));
+                        Intent it;
+                        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) {\n" +
+                                    "                            pcpContext.getMovVeicProprioCTR().setEquip(Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                                    "                            it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicProprioCTR().setNroEquipProprio(Long.parseLong(editTextPadrao.getText().toString()));
+                            it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);
+                        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 5L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 5L){\n" +
+                                    "                            pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioSeg(Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                                    "                            it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioSeg(Long.parseLong(editTextPadrao.getText().toString()));
+                            it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);
+                        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                                    "                            pcpContext.getMovVeicProprioCTR().setEquip(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                                    "                            it = new Intent(VeiculoUsinaActivity.this, DescrMovActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicProprioCTR().setNroEquipProprio(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.parseLong(editTextPadrao.getText().toString()));
+                            it = new Intent(VeiculoUsinaActivity.this, DescrMovActivity.class);
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "                            pcpContext.getMovimentacaoVeicProprioCTR().inserirMovEquipSegProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioSeg(Long.parseLong(editTextPadrao.getText().toString()));
+                                    "                            pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioSeg(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                                    "                            it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);", getLocalClassName());
+                            pcpContext.getMovVeicProprioCTR().inserirMovEquipProprioSeg(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.parseLong(editTextPadrao.getText().toString()));
+                            it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);
                         }
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
-                        Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);
                         startActivity(it);
                         finish();
                     } else {
-
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "AlertDialog.Builder alerta = new AlertDialog.Builder(ColabActivity.this);\n" +
                                 "                        alerta.setTitle(\"ATENÇÃO\");\n" +
@@ -183,15 +198,21 @@ public class VeiculoUsinaActivity extends ActivityGeneric {
 
     public void onBackPressed() {
         LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {", getLocalClassName());
-        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) {
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                     "            Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovActivity.class);", getLocalClassName());
             Intent it = new Intent(VeiculoUsinaActivity.this, ListaMovProprioActivity.class);
             startActivity(it);
             finish();
+        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                    "            Intent it = new Intent(VeiculoUsinaActivity.this, DescrMovActivity.class);", getLocalClassName());
+            Intent it = new Intent(VeiculoUsinaActivity.this, DescrMovActivity.class);
+            startActivity(it);
+            finish();
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "            Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
+                    "            Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);", getLocalClassName());
             Intent it = new Intent(VeiculoUsinaActivity.this, ListaVeiculoSegActivity.class);
             startActivity(it);
             finish();

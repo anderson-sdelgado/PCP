@@ -25,8 +25,8 @@ public class CPFVisitTercActivity extends ActivityGeneric {
 
         pcpContext = (PCPContext) getApplication();
 
-        Button buttonOkVisitanteTerceiro = findViewById(R.id.buttonOkPadrao);
-        Button buttonCancVisitanteTerceiro = findViewById(R.id.buttonCancPadrao);
+        Button buttonOkVisitTerc = findViewById(R.id.buttonOkPadrao);
+        Button buttonCancVisitTerc = findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
         TextView textViewCpfVisitTerc = findViewById(R.id.textViewCpfVisitTerc);
 
@@ -116,156 +116,77 @@ public class CPFVisitTercActivity extends ActivityGeneric {
 
         });
 
-        buttonOkVisitanteTerceiro.setOnClickListener(new View.OnClickListener() {
+        buttonOkVisitTerc.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("rawtypes")
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkVisitanteTerceiro.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkVisitTerc.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @SuppressWarnings(\"rawtypes\")\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){", getLocalClassName());
-                        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){", getLocalClassName());
-                            if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {
-                                LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovimentacaoVeicVisTercCTR().verTerceiro(editTextPadrao.getText().toString())) {\n" +
-                                        "                            pcpContext.getMovimentacaoVeicVisTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisTercCTR().getTerceiro(editTextPadrao.getText().toString()).getIdTerceiro());\n" +
-                                        "                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
-                                pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
-                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
-                                startActivity(it);
-                                finish();
-                            } else {
-                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                        "AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
-                                        "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                        "                        alerta.setMessage(msg);\n" +
-                                        "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                        "                            @Override\n" +
-                                        "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                                        "                            }\n" +
-                                        "                        });\n" +
-                                        "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
-                                alerta.setTitle("ATENÇÃO");
-                                alerta.setMessage("CPF DO TERCEIRO INVÁLIDO! FAVOR VERIFICA O MESMO.");
-                                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-                                alerta.show();
-                            }
+                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){", getLocalClassName());
+                        if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {\n" +
+                                    "                            setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());", getLocalClassName());
+                            setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
                         } else {
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                            if (pcpContext.getMovVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {
-                                LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovimentacaoVeicVisTercCTR().verVisitante(editTextPadrao.getText().toString())) {\n" +
-                                        "                            pcpContext.getMovimentacaoVeicVisTercCTR().setIdVisitTerc(pcpContext.getMovimentacaoVeicVisTercCTR().getVisitante(editTextPadrao.getText().toString()).getIdVisitante());\n" +
-                                        "                            Intent it = new Intent(VisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
-                                pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
-                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
-                                startActivity(it);
-                                finish();
-                            } else {
-                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                        "AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
-                                        "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                        "                        alerta.setMessage(msg);\n" +
-                                        "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                        "                            @Override\n" +
-                                        "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                                        "                            }\n" +
-                                        "                        });\n" +
-                                        "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
-                                alerta.setTitle("ATENÇÃO");
-                                alerta.setMessage("CPF DO VISITANTE INVÁLIDO! FAVOR VERIFICA O MESMO.");
-                                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-                                alerta.show();
-                            }
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
+                                    "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                    "                        alerta.setMessage(msg);\n" +
+                                    "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                            @Override\n" +
+                                    "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                                    "                            }\n" +
+                                    "                        });\n" +
+                                    "                        alerta.show();", getLocalClassName());
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("CPF DO TERCEIRO INVÁLIDO! FAVOR VERIFICA O MESMO.");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            alerta.show();
                         }
+
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 1L){", getLocalClassName());
-                            if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {
-                                LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())) {\n" +
-                                        "                                pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());\n" +
-                                        "                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
-                                pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
-                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
-                                startActivity(it);
-                                finish();
-                            } else {
-                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                        "AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
-                                        "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                        "                        alerta.setMessage(msg);\n" +
-                                        "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                        "                            @Override\n" +
-                                        "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                                        "                            }\n" +
-                                        "                        });\n" +
-                                        "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
-                                alerta.setTitle("ATENÇÃO");
-                                alerta.setMessage("CPF DO TERCEIRO INVÁLIDO! FAVOR VERIFICA O MESMO.");
-                                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-                                alerta.show();
-                            }
+                        if (pcpContext.getMovVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {\n" +
+                                    "                            setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());", getLocalClassName());
+                            setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
                         } else {
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                            if (pcpContext.getMovVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {
-                                LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovVeicVisitTercCTR().verVisitanteCpf(editTextPadrao.getText().toString())) {\n" +
-                                        "                                pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());\n" +
-                                        "                                Intent it = new Intent(CpfVisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
-                                pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(pcpContext.getMovVeicVisitTercCTR().getVisitanteCpf(editTextPadrao.getText().toString()).getIdVisitante());
-                                Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
-                                startActivity(it);
-                                finish();
-                            } else {
-                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                        "AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
-                                        "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                        "                        alerta.setMessage(msg);\n" +
-                                        "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                        "                            @Override\n" +
-                                        "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                                        "                            }\n" +
-                                        "                        });\n" +
-                                        "                        alerta.show();", getLocalClassName());
-                                AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
-                                alerta.setTitle("ATENÇÃO");
-                                alerta.setMessage("CPF DO VISITANTE INVÁLIDO! FAVOR VERIFICA O MESMO.");
-                                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-                                alerta.show();
-                            }
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "AlertDialog.Builder alerta = new AlertDialog.Builder(VisitanteTerceiroActivity.this);\n" +
+                                    "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                    "                        alerta.setMessage(msg);\n" +
+                                    "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                            @Override\n" +
+                                    "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                                    "                            }\n" +
+                                    "                        });\n" +
+                                    "                        alerta.show();", getLocalClassName());
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(CPFVisitTercActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("CPF DO VISITANTE INVÁLIDO! FAVOR VERIFICA O MESMO.");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            alerta.show();
                         }
-
                     }
-
                 }
-
             }
-
         });
 
-        buttonCancVisitanteTerceiro.setOnClickListener(new View.OnClickListener() {
+        buttonCancVisitTerc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonCancColab.setOnClickListener(new View.OnClickListener() {\n" +
@@ -294,6 +215,27 @@ public class CPFVisitTercActivity extends ActivityGeneric {
                     "            it = new Intent(CpfVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);", getLocalClassName());
             it = new Intent(CPFVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);
         }
+        startActivity(it);
+        finish();
+    }
+
+    private void setIdVisitTerc(Long idVisitTerc){
+        LogProcessoDAO.getInstance().insertLogProcesso("private void setIdVisitTerc(Long idVisitTerc){", getLocalClassName());
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) {
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) {\n" +
+                    "            pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(idVisitTerc);", getLocalClassName());
+            pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(idVisitTerc);
+        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                    "            pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), idVisitTerc);", getLocalClassName());
+            pcpContext.getMovVeicVisitTercCTR().setIdVisitTerc(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), idVisitTerc);
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(idVisitTerc);", getLocalClassName());
+            pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(idVisitTerc);
+        }
+        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
+        Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
         startActivity(it);
         finish();
     }

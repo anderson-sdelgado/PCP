@@ -19,8 +19,8 @@ public class MovEquipResidenciaDAO {
     public MovEquipResidenciaDAO() {
     }
 
-    public boolean verMovEquipResidenciaFechado(){
-        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaFechadoList();
+    public boolean verMovEquipResidenciaEnviar(){
+        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEnviarList();
         boolean ret = (movEquipResidenciaList.size() > 0);
         movEquipResidenciaList.clear();
         return ret;
@@ -41,7 +41,7 @@ public class MovEquipResidenciaDAO {
     public void fecharEntradaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, MovEquipResidenciaBean movEquipResidenciaBean){
         movEquipResidenciaBean.setIdLocalMovEquipResidencia(idLocal);
         movEquipResidenciaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
-        movEquipResidenciaBean.setObservacaoMovEquipResidencia(observacao);
+        movEquipResidenciaBean.setObservMovEquipResidencia(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();
         movEquipResidenciaBean.setDthrLongMovEquipResidencia(dthr);
         movEquipResidenciaBean.setDthrMovEquipResidencia(Tempo.getInstance().dthrLongToString(dthr));
@@ -63,7 +63,7 @@ public class MovEquipResidenciaDAO {
 
         movEquipResidenciaSaidaBean.setIdLocalMovEquipResidencia(idLocal);
         movEquipResidenciaSaidaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
-        movEquipResidenciaSaidaBean.setObservacaoMovEquipResidencia(observacao);
+        movEquipResidenciaSaidaBean.setObservMovEquipResidencia(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();
         movEquipResidenciaSaidaBean.setDthrLongMovEquipResidencia(dthr);
         movEquipResidenciaSaidaBean.setDthrMovEquipResidencia(Tempo.getInstance().dthrLongToString(dthr));
@@ -77,7 +77,7 @@ public class MovEquipResidenciaDAO {
         List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList(idMovEquipResidenciaArrayList);
 
         for (MovEquipResidenciaBean movEquipResidenciaBean : movEquipResidenciaList) {
-            movEquipResidenciaBean.setStatusMovEquipResidencia(3L);
+            movEquipResidenciaBean.setStatusMovEquipResidencia(4L);
             movEquipResidenciaBean.update();
         }
 
@@ -117,6 +117,13 @@ public class MovEquipResidenciaDAO {
         return movEquipResidenciaBean;
     }
 
+    public MovEquipResidenciaBean getMovEquipResidenciaFechado(int posicao){
+        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaFechadoList();
+        MovEquipResidenciaBean movEquipResidenciaBean = movEquipResidenciaList.get(posicao);
+        movEquipResidenciaList.clear();
+        return movEquipResidenciaBean;
+    }
+
     public  MovEquipResidenciaBean getMovEquipResidenciaId(Long idMovEquipResidencia){
         List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaAbertoId(idMovEquipResidencia);
         MovEquipResidenciaBean movEquipResidenciaBean = movEquipResidenciaList.get(0);
@@ -130,8 +137,20 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.update();
     }
 
+    public void setNomeVisitanteResidencia(int posicao, String nomeVisitante){
+        MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaFechado(posicao);
+        movEquipResidenciaBean.setNomeVisitanteMovEquipResidencia(nomeVisitante);
+        movEquipResidenciaBean.update();
+    }
+
     public void setVeiculoResidencia(String veiculo){
         MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaAberto();
+        movEquipResidenciaBean.setVeiculoMovEquipResidencia(veiculo);
+        movEquipResidenciaBean.update();
+    }
+
+    public void setVeiculoResidencia(int posicao, String veiculo){
+        MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaFechado(posicao);
         movEquipResidenciaBean.setVeiculoMovEquipResidencia(veiculo);
         movEquipResidenciaBean.update();
     }
@@ -139,6 +158,18 @@ public class MovEquipResidenciaDAO {
     public void setPlacaResidencia(String placa){
         MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaAberto();
         movEquipResidenciaBean.setPlacaMovEquipResidencia(placa);
+        movEquipResidenciaBean.update();
+    }
+
+    public void setPlacaResidencia(int posicao, String placa){
+        MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaFechado(posicao);
+        movEquipResidenciaBean.setPlacaMovEquipResidencia(placa);
+        movEquipResidenciaBean.update();
+    }
+
+    public void setObservacaoResidencia(int posicao, String observacao){
+        MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaFechado(posicao);
+        movEquipResidenciaBean.setObservMovEquipResidencia(observacao);
         movEquipResidenciaBean.update();
     }
 
@@ -175,6 +206,13 @@ public class MovEquipResidenciaDAO {
         return movEquipResidenciaBean.get(pesqArrayList);
     }
 
+    public List<MovEquipResidenciaBean> movEquipResidenciaEnviarList(){
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqMovEnviar());
+        MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
+        return movEquipResidenciaBean.get(pesqArrayList);
+    }
+
     public ArrayList<Long> idMovEquipResidenciaArrayList(String objeto) throws Exception {
 
         ArrayList<Long> idMovEquipResidenciaArrayList = new ArrayList<>();
@@ -197,7 +235,7 @@ public class MovEquipResidenciaDAO {
     }
 
     public String dadosEnvioMovEquipResidencia() {
-        return dadosMovEquipResidencia(movEquipResidenciaFechadoList());
+        return dadosMovEquipResidencia(movEquipResidenciaEnviarList());
     }
 
     private String dadosMovEquipResidencia(List<MovEquipResidenciaBean> movEquipResidenciaList){
@@ -241,10 +279,18 @@ public class MovEquipResidenciaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqMovEnviado(){
+    private EspecificaPesquisa getPesqMovEnviar(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusMovEquipResidencia");
         pesquisa.setValor(3L);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqMovEnviado(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusMovEquipResidencia");
+        pesquisa.setValor(4L);
         pesquisa.setTipo(1);
         return pesquisa;
     }

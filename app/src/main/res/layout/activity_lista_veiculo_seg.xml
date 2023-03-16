@@ -17,7 +17,7 @@
         android:text="@string/texto_veiculo_sec" />
 
     <ListView
-        android:id="@+id/listaVeiculoSec"
+        android:id="@+id/listViewVeiculoSeg"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

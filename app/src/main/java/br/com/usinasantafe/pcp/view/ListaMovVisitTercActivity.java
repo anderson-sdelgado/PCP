@@ -29,6 +29,7 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
 
         pcpContext = (PCPContext) getApplication();
 
+        Button buttonEditarMovVisitTerc = findViewById(R.id.buttonEditarMovVisitTerc);
         Button buttonEntradaMov = findViewById(R.id.buttonEntradaMovVisitTerc);
         Button buttonCancMov = findViewById(R.id.buttonCancMovVisitTerc);
 
@@ -39,9 +40,9 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
                 "        textViewLocal.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());\n" +
                 "        pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();\n" +
                 "        movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercEntradaList();\n" +
-                "        ListView listaMov = findViewById(R.id.listaMovVisitTerc);\n" +
+                "        ListView listViewMov = findViewById(R.id.listaMovVisitTerc);\n" +
                 "        AdapterListMovVisitTerc adapterListMovVisitTerc = new AdapterListMovVisitTerc(this, movEquipList);\n" +
-                "        listaMov.setAdapter(adapterListMovVisitTerc);", getLocalClassName());
+                "        listViewMov.setAdapter(adapterListMovVisitTerc);", getLocalClassName());
 
         textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
@@ -49,16 +50,16 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
         pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercAberto();
         movEquipList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercEntradaList();
 
-        ListView listaMov = findViewById(R.id.listaMovVisitTerc);
-        AdapterListMovVisitTerc adapterListMovVisitTerc = new AdapterListMovVisitTerc(this, movEquipList);
-        listaMov.setAdapter(adapterListMovVisitTerc);
+        ListView listViewMov = findViewById(R.id.listViewMovVisitTerc);
+        AdapterListMovVisitTercResid adapterListMovVisitTercResid = new AdapterListMovVisitTercResid(this, movEquipList);
+        listViewMov.setAdapter(adapterListMovVisitTercResid);
 
-        listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
@@ -103,6 +104,20 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
 
         });
 
+        buttonEditarMovVisitTerc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonEditarMovVisitTerc.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                pcpContext.getConfigCTR().setPosicaoTela(9L);\n" +
+                        "                Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMovVisitTercResidManutActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMovVisitTercResidManutActivity.class);
+                startActivity(it);
+                finish();
+            }
+        });
+
         buttonEntradaMov.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +147,7 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
                 finish();
             }
         });
+
     }
 
     public void onBackPressed() {

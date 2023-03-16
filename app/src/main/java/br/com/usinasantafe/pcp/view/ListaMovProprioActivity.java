@@ -38,32 +38,33 @@ public class ListaMovProprioActivity extends ActivityGeneric {
                 "        textViewLocal.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());\n" +
                 "        pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();\n" +
                 "        movEquipList = pcpContext.getMovVeicProprioCTR().movEquipProprioList();\n" +
-                "        ListView listaMov = findViewById(R.id.listaMovProprio);\n" +
+                "        ListView listViewMov = findViewById(R.id.listaMovProprio);\n" +
                 "        AdapterListMovProprio adapterListMovProprio = new AdapterListMovProprio(this, movEquipList);\n" +
-                "        listaMov.setAdapter(adapterListMovProprio);", getLocalClassName());
+                "        listViewMov.setAdapter(adapterListMovProprio);", getLocalClassName());
 
         textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
 
         pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioAberto();
-        movEquipList = pcpContext.getMovVeicProprioCTR().movEquipProprioList();
+        movEquipList = pcpContext.getMovVeicProprioCTR().movEquipProprioFechadoList();
 
-        ListView listaMov = findViewById(R.id.listaMovProprio);
+        ListView listViewMov = findViewById(R.id.listViewMovProprio);
         AdapterListMovProprio adapterListMovProprio = new AdapterListMovProprio(this, movEquipList);
-        listaMov.setAdapter(adapterListMovProprio);
-        listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewMov.setAdapter(adapterListMovProprio);
+        listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-
-                LogProcessoDAO.getInstance().insertLogProcesso("listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
+                        "                pcpContext.getConfigCTR().setPosicaoTela(8L);\n" +
                         "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
                         "                Intent it = new Intent(ListaMovProprioActivity.this, DescrMovActivity.class);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoTela(8L);
                 pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
-                Intent it = new Intent(ListaMovProprioActivity.this, DescrMovProprioActivity.class);
+                Intent it = new Intent(ListaMovProprioActivity.this, DescrMovActivity.class);
                 startActivity(it);
                 finish();
 

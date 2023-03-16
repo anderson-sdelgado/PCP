@@ -35,8 +35,8 @@ public class ListaLocalActivity extends ActivityGeneric {
                 "            itens.add(localBean.getDescrLocal());\n" +
                 "        }\n" +
                 "        AdapterList adapterList = new AdapterList(this, itens);\n" +
-                "        ListView listaLocal = findViewById(R.id.listaLocal);\n" +
-                "        listaLocal.setAdapter(adapterList);", getLocalClassName());
+                "        ListView listViewLocal = findViewById(R.id.listViewLocal);\n" +
+                "        listViewLocal.setAdapter(adapterList);", getLocalClassName());
 
         ArrayList<String> itens = new ArrayList<String>();
 
@@ -47,10 +47,10 @@ public class ListaLocalActivity extends ActivityGeneric {
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
-        ListView listaLocal = findViewById(R.id.listaLocal);
-        listaLocal.setAdapter(adapterList);
+        ListView listViewLocal = findViewById(R.id.listViewLocal);
+        listViewLocal.setAdapter(adapterList);
 
-        listaLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,

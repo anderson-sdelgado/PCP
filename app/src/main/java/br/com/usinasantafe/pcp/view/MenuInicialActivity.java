@@ -98,7 +98,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         itens.add("SAIR");
 
         AdapterList adapterList = new AdapterList(this, itens);
-        ListView listaMenuInicial = findViewById(R.id.listaMenuInicial);
+        ListView listaMenuInicial = findViewById(R.id.listViewMenuInicial);
         listaMenuInicial.setAdapter(adapterList);
 
         listaMenuInicial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,7 +117,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                 String text = textView.getText().toString();
 
                 if (text.equals("CONTROLE VEÍCULO PRÓPRIO")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"CONTROLE VEÍCULO PRÓPRIO\")) {", getLocalClassName());
                     if(pcpContext.getConfigCTR().hasElemConfig()) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
@@ -131,9 +130,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                             finish();
                         }
                     }
-
                 } else if (text.equals("CONTROLE VEÍCULO VISITANTE/TERCEIRO")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONTROLE VEÍCULO VISITANTE/TERCEIRO\")) {", getLocalClassName());
                     if(pcpContext.getConfigCTR().hasElemConfig()) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
@@ -147,9 +144,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                             finish();
                         }
                     }
-
                 } else if (text.equals("CONTROLE VEÍCULO RESIDÊNCIA")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONTROLE VEÍCULO RESIDÊNCIA\")) {", getLocalClassName());
                     if(pcpContext.getConfigCTR().hasElemConfig()) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
@@ -163,9 +158,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                             finish();
                         }
                     }
-
                 } else if (text.equals("VIGIA")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"VIGIA\")) {", getLocalClassName());
                     if(pcpContext.getConfigCTR().hasElemConfig() && pcpContext.getConfigCTR().hasElemVisitante()) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig() && pcpContext.getConfigCTR().hasElemVisitante()) {\n" +
@@ -178,7 +171,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                     }
 
                 } else if (text.equals("CONFIGURAÇÃO")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {", getLocalClassName());
                     if(pcpContext.getConfigCTR().hasElemConfig()) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {\n" +
@@ -189,9 +181,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                     Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                     startActivity(it);
                     finish();
-
                 } else if (text.equals("LOG")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"LOG\")) {", getLocalClassName());
                     if(pcpContext.getConfigCTR().hasElemConfig()){
                         pcpContext.getConfigCTR().setPosicaoTela(2L);
@@ -204,7 +194,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                     }
 
                 } else if (text.equals("SAIR")) {
-
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"SAIR\")) {\n" +
                             "                    Intent intent = new Intent(Intent.ACTION_MAIN);\n" +
                             "                    intent.addCategory(Intent.CATEGORY_HOME);\n" +
@@ -214,7 +203,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-
                 }
 
             }
@@ -230,9 +218,9 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         public void run() {
 
-            if(!pcpContext.getMovVeicProprioCTR().verEnvioMovEquipProprioFech()
-                    && !pcpContext.getMovVeicVisitTercCTR().verEnvioMovEquipVisitTercFech()
-                    && !pcpContext.getMovVeicResidenciaCTR().verEnvioMovEquipResidenciaFech()){
+            if(!pcpContext.getMovVeicProprioCTR().verEnvioMovEquipProprioEnviar()
+                    && !pcpContext.getMovVeicVisitTercCTR().verEnvioMovEquipVisitTercEnviar()
+                    && !pcpContext.getMovVeicResidenciaCTR().verEnvioMovEquipResidenciaEnviar()){
                 textViewProcesso.setTextColor(Color.GREEN);
                 textViewProcesso.setText("Todos os Dados já foram Enviados");
             }

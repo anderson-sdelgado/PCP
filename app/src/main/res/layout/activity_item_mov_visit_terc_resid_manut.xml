@@ -10,7 +10,12 @@
         android:text="@string/texto_item_list" />
 
     <TextView
-        android:id="@+id/textViewVisitTercMov"
+        android:id="@+id/textViewTipoMov"
+        style="@style/TextViewItemList"
+        android:text="@string/texto_item_list" />
+
+    <TextView
+        android:id="@+id/textViewMotoristaMov"
         style="@style/TextViewItemList"
         android:text="@string/texto_item_list" />
 

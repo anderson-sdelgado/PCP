@@ -32,10 +32,12 @@ public class ConfigBean extends Entidade {
 	// 1 - Configuração Inicial
 	// 2 - Log Inicial
 	// 3 - Vigia
-	// 4 - Inicio Movimento
+	// 4 - Fluxo Normal
 	// 5 - Veiculo Seg
-	// 6 - Passageiro Colab
-	// 7 - Passageiro Visit/Terc
+	// 6 - Passageiro
+	// 7 - Editar Dados
+	// 8 - Editar Passageiros
+	// 9 - Editar Veiculo Seg
 
 	public ConfigBean() {
 	}

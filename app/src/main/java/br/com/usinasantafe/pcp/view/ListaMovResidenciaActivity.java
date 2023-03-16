@@ -39,9 +39,9 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
                 "        textViewLocal.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());\n" +
                 "        pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();\n" +
                 "        movEquipList = pcpContext.getMovVeicResidenciaCTR().movEquipResidenciaList();\n" +
-                "        ListView listaMov = findViewById(R.id.listaMovResidencia);\n" +
-                "        AdapterListMovResidencia adapterListMovResidencia = new AdapterListMovResidencia(this, movEquipList);\n" +
-                "        listaMov.setAdapter(adapterListMovResidencia);", getLocalClassName());
+                "        ListView listViewMov = findViewById(R.id.listaMovResidencia);\n" +
+                "        AdapterListMovResidencia adapterListMovVisitTercResid = new AdapterListMovResidencia(this, movEquipList);\n" +
+                "        listViewMov.setAdapter(adapterListMovVisitTercResid);", getLocalClassName());
 
         textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
@@ -49,16 +49,16 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
         pcpContext.getMovVeicResidenciaCTR().deleteMovEquipResidenciaAberto();
         movEquipList = pcpContext.getMovVeicResidenciaCTR().movEquipResidenciaList();
 
-        ListView listaMov = findViewById(R.id.listaMovResidencia);
-        AdapterListMovResidencia adapterListMovResidencia = new AdapterListMovResidencia(this, movEquipList);
-        listaMov.setAdapter(adapterListMovResidencia);
+        ListView listViewMov = findViewById(R.id.listViewMovResidencia);
+        AdapterListMovVisitTercResid adapterListMovVisitTercResid = new AdapterListMovVisitTercResid(this, movEquipList);
+        listViewMov.setAdapter(adapterListMovVisitTercResid);
 
-        listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listaMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +

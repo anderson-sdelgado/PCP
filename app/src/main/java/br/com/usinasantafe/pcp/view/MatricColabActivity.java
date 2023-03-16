@@ -34,8 +34,10 @@ public class MatricColabActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L) {\n" +
                     "            textViewPadrao.setText(\"MATRIC. VIGIA:\");", getLocalClassName());
             textViewPadrao.setText("MATRIC. VIGIA:");
-        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+        } else if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)
+                || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) \n" +
+                    "                || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){\n" +
                     "            textViewPadrao.setText(\"MATRIC. MOTORISTA:\");", getLocalClassName());
             textViewPadrao.setText("MATRIC. MOTORISTA:");
         } else {
@@ -147,7 +149,11 @@ public class MatricColabActivity extends ActivityGeneric {
                         } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
                             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                                     "                            pcpContext.getMovimentacaoVeicProprioCTR().abrirMovEquipProprio(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                            pcpContext.getMovVeicProprioCTR().setNroMatricColab(Long.parseLong(editTextPadrao.getText().toString()));
+                            pcpContext.getMovVeicProprioCTR().setNroMatricColabProprio(Long.parseLong(editTextPadrao.getText().toString()));
+                        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                                "                            pcpContext.getMovVeicProprioCTR().setNroMatricColab(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
+                            pcpContext.getMovVeicProprioCTR().setNroMatricColabProprio(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.parseLong(editTextPadrao.getText().toString()));
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                     "                            pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().setMovEquipProprioPassagBean(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
@@ -165,7 +171,7 @@ public class MatricColabActivity extends ActivityGeneric {
                             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
                                     "                            msg = \"NUMERAÇÃO DO VIGIA INEXISTENTE! FAVOR VERIFICA A MESMA.\";", getLocalClassName());
                             msg = "NUMERAÇÃO CRACHÁ DO VIGIA INEXISTENTE! FAVOR VERIFICA A MESMA.";
-                        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                        } else if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){
                             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                                     "                            msg = \"NUMERAÇÃO DO COLABORADOR INEXISTENTE! FAVOR VERIFICA A MESMA.\";", getLocalClassName());
                             msg = "NUMERAÇÃO CRACHÁ DO MOTORISTA INEXISTENTE! FAVOR VERIFICA A MESMA.";
@@ -228,11 +234,14 @@ public class MatricColabActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                     "            it = new Intent(ColabActivity.this, ListaMovActivity.class);", getLocalClassName());
             it = new Intent(MatricColabActivity.this, ListaMovProprioActivity.class);
+        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                    "            it = new Intent(MatricColabActivity.this, DescrMovActivity.class);", getLocalClassName());
+            it = new Intent(MatricColabActivity.this, DescrMovActivity.class);
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            it = new Intent(MatricColabActivity.this, ListaPassagColabVisitTercActivity.class);", getLocalClassName());
             it = new Intent(MatricColabActivity.this, ListaPassagColabVisitTercActivity.class);
-
         }
         startActivity(it);
         finish();

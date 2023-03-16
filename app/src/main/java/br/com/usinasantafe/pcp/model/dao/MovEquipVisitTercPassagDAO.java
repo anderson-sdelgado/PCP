@@ -40,9 +40,9 @@ public class MovEquipVisitTercPassagDAO {
         return movEquipVisitTercPassagBean.get(pesqArrayList);
     }
 
-    public void inserirMovEquipVisitTercPassag(Long idMovEquipProprio, Long idVisitTerc){
+    public void inserirMovEquipVisitTercPassag(Long idMovEquipVisitTerc, Long idVisitTerc){
         MovEquipVisitTercPassagBean movEquipVisitTercPassagBean = new MovEquipVisitTercPassagBean();
-        movEquipVisitTercPassagBean.setIdMovEquipVisitTerc(idMovEquipProprio);
+        movEquipVisitTercPassagBean.setIdMovEquipVisitTerc(idMovEquipVisitTerc);
         movEquipVisitTercPassagBean.setIdVisitTercMovEquipVisitTercPassag(idVisitTerc);
         movEquipVisitTercPassagBean.insert();
     }

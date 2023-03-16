@@ -18,7 +18,7 @@ public class ObservacaoActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_observacao);
+        setContentView(R.layout.activity_observ);
 
         pcpContext = (PCPContext) getApplication();
 
@@ -40,25 +40,45 @@ public class ObservacaoActivity extends ActivityGeneric {
                 }
 
                 Intent it;
-                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {\n" +
-                            "                    pcpContext.getMovVeicProprioCTR().fecharMovEquipProprio(observacao, getLocalClassName());\n" +
-                            "                    it = new Intent(ObservacaoActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
-                    pcpContext.getMovVeicProprioCTR().fecharMovEquipProprio(observacao, getLocalClassName());
-                    it = new Intent(ObservacaoActivity.this, ListaMovProprioActivity.class);
-                } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L)  {\n" +
-                            "                    pcpContext.getMovVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao, getLocalClassName());\n" +
-                            "                    it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
-                    pcpContext.getMovVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao, getLocalClassName());
-                    it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4){", getLocalClassName());
+                    if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {\n" +
+                                "                    pcpContext.getMovVeicProprioCTR().fecharMovEquipProprio(observacao, getLocalClassName());\n" +
+                                "                    it = new Intent(ObservacaoActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
+                        pcpContext.getMovVeicProprioCTR().fecharMovEquipProprio(observacao, getLocalClassName());
+                        it = new Intent(ObservacaoActivity.this, ListaMovProprioActivity.class);
+                    } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L)  {\n" +
+                                "                    pcpContext.getMovVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao, getLocalClassName());\n" +
+                                "                    it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
+                        pcpContext.getMovVeicVisitTercCTR().fecharMovEquipVisitTerc(observacao, getLocalClassName());
+                        it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else { \n" +
+                                "                    pcpContext.getMovVeicResidenciaCTR().fecharMovEquipResidencia(observacao, getLocalClassName());\n" +
+                                "                    it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
+                        pcpContext.getMovVeicResidenciaCTR().fecharMovEquipResidencia(observacao, getLocalClassName());
+                        it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);
+                    }
                 } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else { \n" +
-                            "                    pcpContext.getMovVeicResidenciaCTR().fecharMovEquipResidencia(observacao, getLocalClassName());\n" +
-                            "                    it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
-                    pcpContext.getMovVeicResidenciaCTR().fecharMovEquipResidencia(observacao, getLocalClassName());
-                    it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
+                    if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {\n" +
+                                "                        pcpContext.getMovVeicProprioCTR().setObservacao(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), observacao);", getLocalClassName());
+                        pcpContext.getMovVeicProprioCTR().setObservacaoProprio(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), observacao);
+                    } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {\n" +
+                                "                        pcpContext.getMovVeicVisitTercCTR().setObservacaoVisitTerc(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), observacao);", getLocalClassName());
+                        pcpContext.getMovVeicVisitTercCTR().setObservacaoVisitTerc(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), observacao);
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        pcpContext.getMovVeicResidenciaCTR().setObservacaoResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), observacao);", getLocalClassName());
+                        pcpContext.getMovVeicResidenciaCTR().setObservacaoResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), observacao);
+                    }
+                    it = new Intent(ObservacaoActivity.this, DescrMovActivity.class);
                 }
+
                 startActivity(it);
                 finish();
             }
@@ -71,39 +91,46 @@ public class ObservacaoActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 Intent it;
-                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {", getLocalClassName());
-                    if (pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {\n" +
-                                "                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);", getLocalClassName());
-                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4){", getLocalClassName());
+                    if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L) {", getLocalClassName());
+                        if (pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L) {\n" +
+                                    "                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);", getLocalClassName());
+                            it = new Intent(ObservacaoActivity.this, DestinoActivity.class);
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else { \n" +
+                                    "                        it = new Intent(ObservacaoActivity.this, NotaFiscalActivity.class);", getLocalClassName());
+                            it = new Intent(ObservacaoActivity.this, NotaFiscalActivity.class);
+                        }
+                    } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {", getLocalClassName());
+                        if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
+                                    "                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);", getLocalClassName());
+                            it = new Intent(ObservacaoActivity.this, DestinoActivity.class);
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                        it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
+                            it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);
+                        }
                     } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else { \n" +
-                                "                        it = new Intent(ObservacaoActivity.this, NotaFiscalActivity.class);", getLocalClassName());
-                        it = new Intent(ObservacaoActivity.this, NotaFiscalActivity.class);
-                    }
-                } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L) {", getLocalClassName());
-                    if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
-                                "                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);", getLocalClassName());
-                        it = new Intent(ObservacaoActivity.this, DestinoActivity.class);
-                    } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
-                        it = new Intent(ObservacaoActivity.this, ListaMovVisitTercActivity.class);
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
+                        if(pcpContext.getMovVeicResidenciaCTR().getMovEquipResidenciaAberto().getTipoMovEquipResidencia() == 1L){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicResidenciaCTR().getMovEquipResidenciaAberto().getTipoMovEquipResidencia() == 1L){\n" +
+                                    "                        it = new Intent(ObservacaoActivity.this, PlacaVisitTercResidenciaActivity.class);", getLocalClassName());
+                            it = new Intent(ObservacaoActivity.this, PlacaVisitTercResidenciaActivity.class);
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                        it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
+                            it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);
+                        }
                     }
                 } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                    if(pcpContext.getMovVeicResidenciaCTR().getMovEquipResidenciaAberto().getTipoMovEquipResidencia() == 1L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicResidenciaCTR().getMovEquipResidenciaAberto().getTipoMovEquipResidencia() == 1L){\n" +
-                                "                        it = new Intent(ObservacaoActivity.this, PlacaVisitTercResidenciaActivity.class);", getLocalClassName());
-                        it = new Intent(ObservacaoActivity.this, PlacaVisitTercResidenciaActivity.class);
-                    } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
-                        it = new Intent(ObservacaoActivity.this, ListaMovResidenciaActivity.class);
-                    }
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    it = new Intent(ObservacaoActivity.this, DescrMovActivity.class);", getLocalClassName());
+                    it = new Intent(ObservacaoActivity.this, DescrMovActivity.class);
                 }
                 startActivity(it);
                 finish();

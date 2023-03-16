@@ -35,11 +35,21 @@ public class VisitanteResidenciaActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 if(!editTextVisitanteResidencia.getText().toString().trim().equals("")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextVisitanteResidencia.getText().toString().equals(\"\")) {\n" +
-                            "                    pcpContext.getMovVeicResidenciaCTR().setNomeVisitante(editTextVisitanteResidencia.getText().toString());\n" +
-                            "                    Intent it  = new Intent(VisitanteResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
-                    pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(editTextVisitanteResidencia.getText().toString());
-                    Intent it  = new Intent(VisitanteResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextVisitanteResidencia.getText().toString().equals(\"\")) {", getLocalClassName());
+                    Intent it;
+                    if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                                "                        pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(editTextVisitanteResidencia.getText().toString());\n" +
+                                "                        it  = new Intent(VisitanteResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
+                        pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(editTextVisitanteResidencia.getText().toString());
+                        it  = new Intent(VisitanteResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoTela().intValue(), editTextVisitanteResidencia.getText().toString());\n" +
+                                "                        it  = new Intent(VisitanteResidenciaActivity.this, DescrMovActivity.class);", getLocalClassName());
+                        pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoTela().intValue(), editTextVisitanteResidencia.getText().toString());
+                        it  = new Intent(VisitanteResidenciaActivity.this, DescrMovActivity.class);
+                    }
                     startActivity(it);
                     finish();
                 } else {
@@ -71,9 +81,17 @@ public class VisitanteResidenciaActivity extends ActivityGeneric {
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonCancVeiculoVisitanteTerceiro.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(VisitanteResidenciaActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
-                Intent it = new Intent(VisitanteResidenciaActivity.this, ListaMovResidenciaActivity.class);
+                        "            public void onClick(View v) {", getLocalClassName());
+                Intent it;
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                            "                    it = new Intent(VisitanteResidenciaActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
+                    it = new Intent(VisitanteResidenciaActivity.this, ListaMovResidenciaActivity.class);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    it = new Intent(VisitanteResidenciaActivity.this, DescrMovActivity.class);", getLocalClassName());
+                    it = new Intent(VisitanteResidenciaActivity.this, DescrMovActivity.class);
+                }
                 startActivity(it);
                 finish();
             }

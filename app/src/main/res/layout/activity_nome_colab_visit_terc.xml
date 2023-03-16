@@ -49,4 +49,5 @@
             android:text="@string/texto_padrao_ok" />
 
     </LinearLayout>
+    
 </LinearLayout>

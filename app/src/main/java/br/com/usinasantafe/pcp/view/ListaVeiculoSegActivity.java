@@ -35,29 +35,35 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        LogProcessoDAO.getInstance().insertLogProcesso("movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegList();\n" +
-                "        for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){\n" +
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){\n" +
+                    "            movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegAbertoList();", getLocalClassName());
+            movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegAbertoList();
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegFechadoList(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue());", getLocalClassName());
+            movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegFechadoList(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue());
+        }
+
+        LogProcessoDAO.getInstance().insertLogProcesso("for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){\n" +
                 "            itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipProprioSegBean.getIdEquipMovEquipProprioSeg()).getNroEquip()));\n" +
-                "        }\n" +
-                "        AdapterList adapterList = new AdapterList(this, itens);\n" +
-                "        ListView listaVeiculoSec = findViewById(R.id.listaVeiculoSec);\n" +
-                "        listaVeiculoSec.setAdapter(adapterList);", getLocalClassName());
-
-        movEquipSegProprioList = pcpContext.getMovVeicProprioCTR().movEquipProprioSegList();
-
+                "        }", getLocalClassName());
         for(MovEquipProprioSegBean movEquipProprioSegBean : movEquipSegProprioList){
             itens.add(String.valueOf(pcpContext.getConfigCTR().getEquipId(movEquipProprioSegBean.getIdEquipMovEquipProprioSeg()).getNroEquip()));
         }
 
+        LogProcessoDAO.getInstance().insertLogProcesso("AdapterList adapterList = new AdapterList(this, itens);\n" +
+                "        ListView listViewVeiculoSeg = findViewById(R.id.listViewVeiculoSeg);\n" +
+                "        listViewVeiculoSeg.setAdapter(adapterList);", getLocalClassName());
         AdapterList adapterList = new AdapterList(this, itens);
-        ListView listaVeiculoSec = findViewById(R.id.listaVeiculoSec);
-        listaVeiculoSec.setAdapter(adapterList);
-        listaVeiculoSec.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView listViewVeiculoSeg = findViewById(R.id.listViewVeiculoSeg);
+        listViewVeiculoSeg.setAdapter(adapterList);
+        listViewVeiculoSeg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listaVeiculoSec.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listViewVeiculoSeg.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
@@ -107,10 +113,16 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirVeiculoSeg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(5L);\n" +
-                        "                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(5L);
+                        "            public void onClick(View v) {", getLocalClassName());
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(5L);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(5L);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(9L);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(9L);
+                }
                 Intent it = new Intent(ListaVeiculoSegActivity.this, VeiculoUsinaActivity.class);
                 startActivity(it);
                 finish();
@@ -122,9 +134,17 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonOkVeiculoSeg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaVeiculoSecActivity.this, DestinoActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaVeiculoSegActivity.this, DestinoActivity.class);
+                        "            public void onClick(View v) {", getLocalClassName());
+                Intent it;
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){\n" +
+                            "                    it = new Intent(ListaVeiculoSegActivity.this, DestinoActivity.class);", getLocalClassName());
+                    it = new Intent(ListaVeiculoSegActivity.this, DestinoActivity.class);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    it = new Intent(ListaVeiculoSegActivity.this, DescrMovActivity.class);", getLocalClassName());
+                    it = new Intent(ListaVeiculoSegActivity.this, DescrMovActivity.class);
+                }
                 startActivity(it);
                 finish();
             }
@@ -135,10 +155,19 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonCancVeiculoSeg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaVeiculoSecActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(4L);
-                Intent it = new Intent(ListaVeiculoSegActivity.this, VeiculoUsinaActivity.class);
+                        "            public void onClick(View v) {", getLocalClassName());
+                Intent it;
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                            "                    it = new Intent(ListaVeiculoSegActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(4L);
+                    it = new Intent(ListaVeiculoSegActivity.this, VeiculoUsinaActivity.class);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    it = new Intent(ListaVeiculoSegActivity.this, DescrMovActivity.class);", getLocalClassName());
+                    it = new Intent(ListaVeiculoSegActivity.this, DescrMovActivity.class);
+                }
                 startActivity(it);
                 finish();
             }

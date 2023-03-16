@@ -19,8 +19,8 @@ public class MovEquipProprioDAO {
     public MovEquipProprioDAO() {
     }
 
-    public boolean verMovEquipProprioFechado(){
-        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioFechadoList();
+    public boolean verMovEquipProprioEnviar(){
+        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioEnviarList();
         boolean ret = (movEquipProprioList.size() > 0);
         movEquipProprioList.clear();
         return ret;
@@ -29,6 +29,13 @@ public class MovEquipProprioDAO {
     public MovEquipProprioBean getMovEquipProprioAberto(){
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioAbertoList();
         MovEquipProprioBean movEquipProprioBean = movEquipProprioList.get(0);
+        movEquipProprioList.clear();
+        return movEquipProprioBean;
+    }
+
+    public MovEquipProprioBean getMovEquipProprioFechado(int posicao){
+        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioFechadoList();
+        MovEquipProprioBean movEquipProprioBean = movEquipProprioList.get(posicao);
         movEquipProprioList.clear();
         return movEquipProprioBean;
     }
@@ -51,7 +58,7 @@ public class MovEquipProprioDAO {
         MovEquipProprioBean movEquipProprioBean = getMovEquipProprioAberto();
         movEquipProprioBean.setIdLocalMovEquipProprio(idLocal);
         movEquipProprioBean.setNroMatricVigiaMovEquipProprio(nroMatricVigia);
-        movEquipProprioBean.setObservacaoMovEquipProprio(observacao);
+        movEquipProprioBean.setObservMovEquipProprio(observacao);
         Long dthr = Tempo.getInstance().dthrAtualLong();
         movEquipProprioBean.setDthrLongMovEquipProprio(dthr);
         movEquipProprioBean.setDthrMovEquipProprio(Tempo.getInstance().dthrLongToString(dthr));
@@ -64,7 +71,7 @@ public class MovEquipProprioDAO {
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioList(idMovEquipProprioArrayList);
 
         for (MovEquipProprioBean movEquipProprioBean : movEquipProprioList) {
-            movEquipProprioBean.setStatusMovEquipProprio(3L);
+            movEquipProprioBean.setStatusMovEquipProprio(4L);
             movEquipProprioBean.update();
         }
 
@@ -104,15 +111,33 @@ public class MovEquipProprioDAO {
         movEquipProprioBean.update();
     }
 
+    public void setNroMatricColab(int posicao, Long nroMatricColab){
+        MovEquipProprioBean movEquipProprioBean = getMovEquipProprioFechado(posicao);
+        movEquipProprioBean.setNroMatricColabMovEquipProprio(nroMatricColab);
+        movEquipProprioBean.update();
+    }
+
     public void setIdEquip(Long idEquip){
         MovEquipProprioBean movEquipProprioBean = getMovEquipProprioAberto();
         movEquipProprioBean.setIdEquipMovEquipProprio(idEquip);
         movEquipProprioBean.update();
     }
 
+    public void setIdEquip(int posicao, Long idEquip){
+        MovEquipProprioBean movEquipProprioBean = getMovEquipProprioFechado(posicao);
+        movEquipProprioBean.setIdEquipMovEquipProprio(idEquip);
+        movEquipProprioBean.update();
+    }
+
     public void setDescrDestino(String descrDestino){
         MovEquipProprioBean movEquipProprioBean = getMovEquipProprioAberto();
-        movEquipProprioBean.setDescrDestinoMovEquipProprio(descrDestino);
+        movEquipProprioBean.setDestinoMovEquipProprio(descrDestino);
+        movEquipProprioBean.update();
+    }
+
+    public void setDescrDestino(int posicao, String descrDestino){
+        MovEquipProprioBean movEquipProprioBean = getMovEquipProprioFechado(posicao);
+        movEquipProprioBean.setDestinoMovEquipProprio(descrDestino);
         movEquipProprioBean.update();
     }
 
@@ -122,16 +147,16 @@ public class MovEquipProprioDAO {
         movEquipProprioBean.update();
     }
 
-    public List<MovEquipProprioBean> movEquipProprioAllList(){
-        MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
-        return movEquipProprioBean.orderBy("idMovEquipProprio", false);
+    public void setNroNotaFiscal(int posicao, Long nroNotaFiscal){
+        MovEquipProprioBean movEquipProprioBean = getMovEquipProprioFechado(posicao);
+        movEquipProprioBean.setNroNotaFiscalMovEquipProprio(nroNotaFiscal);
+        movEquipProprioBean.update();
     }
 
-    public List<MovEquipProprioBean> movEquipProprioList(){
-        ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqDtrhLongDia(Tempo.getInstance().dthrLongDiaMenos(1)));
-        MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
-        return movEquipProprioBean.getDateHour(pesqArrayList, "idMovEquipProprio", false);
+    public void setObservacao(int posicao, String observacao){
+        MovEquipProprioBean movEquipProprioBean = getMovEquipProprioFechado(posicao);
+        movEquipProprioBean.setObservMovEquipProprio(observacao);
+        movEquipProprioBean.update();
     }
 
     public List<MovEquipProprioBean> movEquipProprioAbertoList(){
@@ -144,6 +169,13 @@ public class MovEquipProprioDAO {
     public List<MovEquipProprioBean> movEquipProprioFechadoList(){
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqMovFechado());
+        MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
+        return movEquipProprioBean.get(pesqArrayList);
+    }
+
+    public List<MovEquipProprioBean> movEquipProprioEnviarList(){
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqMovEnviar());
         MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
         return movEquipProprioBean.get(pesqArrayList);
     }
@@ -251,7 +283,7 @@ public class MovEquipProprioDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqMovEnviado(){
+    private EspecificaPesquisa getPesqMovEnviar(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusMovEquipProprio");
         pesquisa.setValor(3L);
@@ -259,11 +291,11 @@ public class MovEquipProprioDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqDtrhLongDia(Long dtrhLongDia){
+    private EspecificaPesquisa getPesqMovEnviado(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("dthrLongMovEquipProprio");
-        pesquisa.setValor(dtrhLongDia);
-        pesquisa.setTipo(2);
+        pesquisa.setCampo("statusMovEquipProprio");
+        pesquisa.setValor(4L);
+        pesquisa.setTipo(1);
         return pesquisa;
     }
 

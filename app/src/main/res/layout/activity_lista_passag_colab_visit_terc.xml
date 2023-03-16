@@ -17,7 +17,7 @@
         android:text="@string/texto_titulo_passageiro" />
 
     <ListView
-        android:id="@+id/listaPassageiro"
+        android:id="@+id/listViewPassag"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

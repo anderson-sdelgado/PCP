@@ -29,11 +29,11 @@ public class MovEquipResidenciaBean extends Entidade {
     @DatabaseField
     private String placaMovEquipResidencia;
     @DatabaseField
-    private String observacaoMovEquipResidencia;
+    private String observMovEquipResidencia;
     @DatabaseField
     private Long statusEntradaSaidaMovEquipResidencia; // 1 - Entrada; 2 - Saída;
     @DatabaseField
-    private Long statusMovEquipResidencia; // 1 - Aberto; 2 - Fechado; 3 - Enviado;
+    private Long statusMovEquipResidencia; // 1 - Aberto; 2 - Fechado; 3 - Enviar; 4 - Enviado;
 
     public MovEquipResidenciaBean() {
     }
@@ -110,12 +110,12 @@ public class MovEquipResidenciaBean extends Entidade {
         this.placaMovEquipResidencia = placaMovEquipResidencia;
     }
 
-    public String getObservacaoMovEquipResidencia() {
-        return observacaoMovEquipResidencia;
+    public String getObservMovEquipResidencia() {
+        return observMovEquipResidencia;
     }
 
-    public void setObservacaoMovEquipResidencia(String observacaoMovEquipResidencia) {
-        this.observacaoMovEquipResidencia = observacaoMovEquipResidencia;
+    public void setObservMovEquipResidencia(String observMovEquipResidencia) {
+        this.observMovEquipResidencia = observMovEquipResidencia;
     }
 
     public Long getStatusEntradaSaidaMovEquipResidencia() {

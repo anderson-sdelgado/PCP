@@ -27,13 +27,13 @@ public class MovEquipProprioBean extends Entidade {
     @DatabaseField
     private Long nroMatricColabMovEquipProprio;
     @DatabaseField
-    private String descrDestinoMovEquipProprio;
+    private String destinoMovEquipProprio;
     @DatabaseField
     private Long nroNotaFiscalMovEquipProprio;
     @DatabaseField
-    private String observacaoMovEquipProprio;
+    private String observMovEquipProprio;
     @DatabaseField
-    private Long statusMovEquipProprio; // 1 - Aberto; 2 - Fechado; 3 - Enviado
+    private Long statusMovEquipProprio; // // 1 - Aberto; 2 - Fechado; 3 - Enviar; 4 - Enviado;
 
     public MovEquipProprioBean() {
     }
@@ -102,12 +102,12 @@ public class MovEquipProprioBean extends Entidade {
         this.nroMatricColabMovEquipProprio = nroMatricColabMovEquipProprio;
     }
 
-    public String getDescrDestinoMovEquipProprio() {
-        return descrDestinoMovEquipProprio;
+    public String getDestinoMovEquipProprio() {
+        return destinoMovEquipProprio;
     }
 
-    public void setDescrDestinoMovEquipProprio(String descrDestinoMovEquipProprio) {
-        this.descrDestinoMovEquipProprio = descrDestinoMovEquipProprio;
+    public void setDestinoMovEquipProprio(String destinoMovEquipProprio) {
+        this.destinoMovEquipProprio = destinoMovEquipProprio;
     }
 
     public Long getNroNotaFiscalMovEquipProprio() {
@@ -118,12 +118,12 @@ public class MovEquipProprioBean extends Entidade {
         this.nroNotaFiscalMovEquipProprio = nroNotaFiscalMovEquipProprio;
     }
 
-    public String getObservacaoMovEquipProprio() {
-        return observacaoMovEquipProprio;
+    public String getObservMovEquipProprio() {
+        return observMovEquipProprio;
     }
 
-    public void setObservacaoMovEquipProprio(String observacaoMovEquipProprio) {
-        this.observacaoMovEquipProprio = observacaoMovEquipProprio;
+    public void setObservMovEquipProprio(String observMovEquipProprio) {
+        this.observMovEquipProprio = observMovEquipProprio;
     }
 
     public Long getStatusMovEquipProprio() {

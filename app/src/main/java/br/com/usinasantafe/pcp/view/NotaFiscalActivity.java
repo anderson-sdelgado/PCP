@@ -32,12 +32,27 @@ public class NotaFiscalActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
-                            "                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
-                    pcpContext.getMovVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
+                    if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                                "                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
+                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscalProprio(Long.valueOf(editTextPadrao.getText().toString()));
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscal(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
+                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscalProprio(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.valueOf(editTextPadrao.getText().toString()));
+                    }
                 }
-                LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                Intent it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);
+                Intent it;
+                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                            "                    it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);", getLocalClassName());
+                    it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);", getLocalClassName());
+                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);
+                }
                 startActivity(it);
                 finish();
 
@@ -62,9 +77,17 @@ public class NotaFiscalActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {\n" +
-                "        Intent it = new Intent(NotaFiscalActivity.this, DestinoActivity.class);", getLocalClassName());
-        Intent it = new Intent(NotaFiscalActivity.this, DestinoActivity.class);
+        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {", getLocalClassName());
+        Intent it;
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                    "            it = new Intent(NotaFiscalActivity.this, DestinoActivity.class);", getLocalClassName());
+            it = new Intent(NotaFiscalActivity.this, DestinoActivity.class);
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);", getLocalClassName());
+            it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);
+        }
         startActivity(it);
         finish();
     }

@@ -33,7 +33,7 @@ public class TipoVisitTercActivity extends ActivityGeneric {
         itens.add("VISITANTE");
 
         AdapterList adapterList = new AdapterList(this, itens);
-        ListView listaTipo = findViewById(R.id.listaTipo);
+        ListView listaTipo = findViewById(R.id.listViewTipo);
         listaTipo.setAdapter(adapterList);
 
         listaTipo.setOnItemClickListener(new AdapterView.OnItemClickListener() {

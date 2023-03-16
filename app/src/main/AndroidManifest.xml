@@ -28,6 +28,11 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
+            android:name=".view.ListaMovVisitTercResidManutActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".view.ListaPassagColabVisitTercActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -58,7 +63,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.DescrMovProprioActivity"
+            android:name=".view.DescrMovActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -154,6 +159,7 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
