@@ -26,6 +26,13 @@ public class MovEquipResidenciaDAO {
         return ret;
     }
 
+    public int qtdeMovEquipResidenciaFechado(){
+        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaFechadoList();
+        int ret = movEquipResidenciaList.size();
+        movEquipResidenciaList.clear();
+        return ret;
+    }
+
     public void abrirMovEquipResidencia(Long tipoMov){
         MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
         movEquipResidenciaBean.setTipoMovEquipResidencia(tipoMov);
@@ -38,7 +45,7 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.insert();
     }
 
-    public void fecharEntradaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, MovEquipResidenciaBean movEquipResidenciaBean){
+    public void finalizarEntradaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, MovEquipResidenciaBean movEquipResidenciaBean){
         movEquipResidenciaBean.setIdLocalMovEquipResidencia(idLocal);
         movEquipResidenciaBean.setNroMatricVigiaMovEquipResidencia(nroMatricVigia);
         movEquipResidenciaBean.setObservMovEquipResidencia(observacao);
@@ -49,7 +56,7 @@ public class MovEquipResidenciaDAO {
         movEquipResidenciaBean.update();
     }
 
-    public void fecharSaidaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, int posicaoListaMov, MovEquipResidenciaBean movEquipResidenciaSaidaBean){
+    public void finalizarSaidaMovEquipResidencia(Long idLocal, Long nroMatricVigia, String observacao, int posicaoListaMov, MovEquipResidenciaBean movEquipResidenciaSaidaBean){
 
         List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList();
         MovEquipResidenciaBean movEquipResidenciaEntradaBean =  movEquipResidenciaList.get(posicaoListaMov);
@@ -72,18 +79,23 @@ public class MovEquipResidenciaDAO {
 
     }
 
-    public void updateEquipResidenciaEnvio(ArrayList<Long> idMovEquipResidenciaArrayList){
-
-        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList(idMovEquipResidenciaArrayList);
-
+    public void updateEquipResidenciaEnviar(){
+        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaFechadoList();
         for (MovEquipResidenciaBean movEquipResidenciaBean : movEquipResidenciaList) {
             movEquipResidenciaBean.setStatusMovEquipResidencia(4L);
             movEquipResidenciaBean.update();
         }
+        movEquipResidenciaList.clear();
+    }
 
+    public void updateEquipResidenciaEnviado(ArrayList<Long> idMovEquipResidenciaArrayList){
+        List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaEntradaList(idMovEquipResidenciaArrayList);
+        for (MovEquipResidenciaBean movEquipResidenciaBean : movEquipResidenciaList) {
+            movEquipResidenciaBean.setStatusMovEquipResidencia(4L);
+            movEquipResidenciaBean.update();
+        }
         movEquipResidenciaList.clear();
         idMovEquipResidenciaArrayList.clear();
-
     }
 
     public void deleteMovEquipResidencia(Long idMovEquipResidencia){

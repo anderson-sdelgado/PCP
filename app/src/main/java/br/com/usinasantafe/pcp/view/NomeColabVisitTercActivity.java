@@ -73,11 +73,11 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                     textViewTituloNome.setText("NOME DO TERCEIRO");
                     textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getTerceiroId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());
                 } else {
-//                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-//                            "                textViewTituloNome.setText(\"NOME DO VISITANTE\");\n" +
-//                            "                textViewNome.setText(pcpContext.getMovimentacaoVeicVisTercCTR().getVisitanteId(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());", getLocalClassName());
-//                    textViewTituloNome.setText("NOME DO VISITANTE");
-//                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                textViewTituloNome.setText(\"NOME DO VISITANTE\");\n" +
+                            "                textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());", getLocalClassName());
+                    textViewTituloNome.setText("NOME DO VISITANTE");
+                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());
                 }
             }
         } else {
@@ -97,11 +97,11 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                     textViewTituloNome.setText("NOME DO TERCEIRO");
                     textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getTerceiroId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeTerceiro());
                 } else {
-//                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-//                            "                    textViewTituloNome.setText(\"NOME DO VISITANTE\");\n" +
-//                            "                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeVisitante());", getLocalClassName());
-//                    textViewTituloNome.setText("NOME DO VISITANTE");
-//                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeVisitante());
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    textViewTituloNome.setText(\"NOME DO VISITANTE\");\n" +
+                            "                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeVisitante());", getLocalClassName());
+                    textViewTituloNome.setText("NOME DO VISITANTE");
+                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeVisitante());
                 }
             }
         }

@@ -43,6 +43,11 @@ public class MovVeicVisitTercCTR {
         return visitanteDAO.verVisitanteCpf(cpfVisitante);
     }
 
+    public int qtdeMovEquipVisitTercFechado(){
+        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        return movEquipVisitTercDAO.qtdeMovEquipVisitTercFechado();
+    }
+
     public void abrirMovEquipVisitTerc(Long tipoMov){
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov);
@@ -60,20 +65,21 @@ public class MovVeicVisitTercCTR {
         movEquipVisitTercPassagDAO.inserirMovEquipVisitTercPassag(movEquipVisitTercDAO.getMovEquipVisitTercFechado(posicao).getIdMovEquipVisitTerc(), idVisitTerc);
     }
 
-    public void fecharMovEquipVisitTerc(String observacao, String activity){
-
+    public void finalizarMovEquipVisitTerc(String observacao){
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
         MovEquipVisitTercBean movEquipVisitTercBean = getMovEquipVisitTercAberto();
         ConfigBean configBean = configCTR.getConfig();
         if(movEquipVisitTercBean.getStatusEntradaSaidaMovEquipVisitTerc() == 1L){
-            movEquipVisitTercDAO.fecharEntradaMovEquipVisitTerc(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, movEquipVisitTercBean);
+            movEquipVisitTercDAO.finalizarEntradaMovEquipVisitTerc(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, movEquipVisitTercBean);
         } else {
-            movEquipVisitTercDAO.fecharSaidaMovEquipVisitTerc(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, configBean.getPosicaoListaMov().intValue(), movEquipVisitTercBean);
+            movEquipVisitTercDAO.finalizarSaidaMovEquipVisitTerc(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, configBean.getPosicaoListaMov().intValue(), movEquipVisitTercBean);
         }
+    }
 
-        EnvioDadosServ.getInstance().envioDados(activity);
-
+    public void atualizarEnviarMovEquipVisitTerc(){
+        MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
+        movEquipVisitTercDAO.updateEquipVisitTercEnviar();
     }
 
     public void deleteMovEquipVisitTercAberto(){
@@ -272,7 +278,7 @@ public class MovVeicVisitTercCTR {
 
             MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
             ArrayList<Long> movEquipVisitTercArrayList = movEquipVisitTercDAO.idMovEquipVisitTercArrayList(retorno[1]);
-            movEquipVisitTercDAO.updateEquipVisitTercEnvio(movEquipVisitTercArrayList);
+            movEquipVisitTercDAO.updateEquipVisitTercEnviado(movEquipVisitTercArrayList);
 
             deleteMovEquipVisitTercEnviado();
 

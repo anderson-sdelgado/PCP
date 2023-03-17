@@ -51,26 +51,6 @@ public class ListaMovProprioActivity extends ActivityGeneric {
         ListView listViewMov = findViewById(R.id.listViewMovProprio);
         AdapterListMovProprio adapterListMovProprio = new AdapterListMovProprio(this, movEquipList);
         listViewMov.setAdapter(adapterListMovProprio);
-        listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(8L);\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
-                        "                Intent it = new Intent(ListaMovProprioActivity.this, DescrMovActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(8L);
-                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
-                Intent it = new Intent(ListaMovProprioActivity.this, DescrMovActivity.class);
-                startActivity(it);
-                finish();
-
-            }
-
-        });
 
         buttonEntradaMov.setOnClickListener(new View.OnClickListener() {
             @Override

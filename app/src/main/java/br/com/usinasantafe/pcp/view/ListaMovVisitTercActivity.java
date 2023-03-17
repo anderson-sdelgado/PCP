@@ -104,20 +104,6 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
 
         });
 
-        buttonEditarMovVisitTerc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonEditarMovVisitTerc.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(9L);\n" +
-                        "                Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMovVisitTercResidManutActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMovVisitTercResidManutActivity.class);
-                startActivity(it);
-                finish();
-            }
-        });
-
         buttonEntradaMov.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

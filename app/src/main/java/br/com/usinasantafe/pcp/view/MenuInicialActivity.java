@@ -77,37 +77,30 @@ public class MenuInicialActivity extends ActivityGeneric {
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +
-                "        itens.add(\"CONTROLE VEÍCULO PRÓPRIO\");\n" +
-                "        itens.add(\"CONTROLE VEÍCULO VISITANTE/TERCEIRO\");\n" +
-                "        itens.add(\"CONTROLE VEÍCULO RESIDÊNCIA\");\n" +
-                "        itens.add(\"VIGIA\");\n" +
+                "        itens.add(\"APONTAMENTO\");\n" +
                 "        itens.add(\"CONFIGURAÇÃO\");\n" +
                 "        itens.add(\"SAIR\");\n" +
                 "        AdapterList adapterList = new AdapterList(this, itens);\n" +
-                "        lista = findViewById(R.id.listaMenuInicial);\n" +
+                "        lista = findViewById(R.id.listViewMenuInicial);\n" +
                 "        lista.setAdapter(adapterList);", getLocalClassName());
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        itens.add("CONTROLE VEÍCULO PRÓPRIO");
-        itens.add("CONTROLE VEÍCULO VISITANTE/TERCEIRO");
-        itens.add("CONTROLE VEÍCULO RESIDÊNCIA");
-        itens.add("VIGIA");
+        itens.add("APONTAMENTO");
         itens.add("CONFIGURAÇÃO");
         itens.add("LOG");
         itens.add("SAIR");
 
         AdapterList adapterList = new AdapterList(this, itens);
-        ListView listaMenuInicial = findViewById(R.id.listViewMenuInicial);
-        listaMenuInicial.setAdapter(adapterList);
-
-        listaMenuInicial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView listViewMenuInicial = findViewById(R.id.listViewMenuInicial);
+        listViewMenuInicial.setAdapter(adapterList);
+        listViewMenuInicial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listViewMenuInicial.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
@@ -116,51 +109,10 @@ public class MenuInicialActivity extends ActivityGeneric {
                 TextView textView = v.findViewById(R.id.textViewItemList);
                 String text = textView.getText().toString();
 
-                if (text.equals("CONTROLE VEÍCULO PRÓPRIO")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"CONTROLE VEÍCULO PRÓPRIO\")) {", getLocalClassName());
-                    if(pcpContext.getConfigCTR().hasElemConfig()) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
-                        if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
-                                    "                            pcpContext.getConfigCTR().setTipoMov(1L);\n" +
-                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
-                            pcpContext.getConfigCTR().setTipoMov(1L);
-                            Intent it = new Intent(MenuInicialActivity.this, ListaMovProprioActivity.class);
-                            startActivity(it);
-                            finish();
-                        }
-                    }
-                } else if (text.equals("CONTROLE VEÍCULO VISITANTE/TERCEIRO")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONTROLE VEÍCULO VISITANTE/TERCEIRO\")) {", getLocalClassName());
-                    if(pcpContext.getConfigCTR().hasElemConfig()) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
-                        if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {\n" +
-                                    "                            pcpContext.getConfigCTR().setTipoMov(2L);\n" +
-                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
-                            pcpContext.getConfigCTR().setTipoMov(2L);
-                            Intent it = new Intent(MenuInicialActivity.this, ListaMovVisitTercActivity.class);
-                            startActivity(it);
-                            finish();
-                        }
-                    }
-                } else if (text.equals("CONTROLE VEÍCULO RESIDÊNCIA")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONTROLE VEÍCULO RESIDÊNCIA\")) {", getLocalClassName());
-                    if(pcpContext.getConfigCTR().hasElemConfig()) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
-                        if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) {\n" +
-                                    "                            pcpContext.getConfigCTR().setTipoMov(3L);\n" +
-                                    "                            Intent it = new Intent(MenuInicialActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
-                            pcpContext.getConfigCTR().setTipoMov(3L);
-                            Intent it = new Intent(MenuInicialActivity.this, ListaMovResidenciaActivity.class);
-                            startActivity(it);
-                            finish();
-                        }
-                    }
-                } else if (text.equals("VIGIA")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"VIGIA\")) {", getLocalClassName());
-                    if(pcpContext.getConfigCTR().hasElemConfig() && pcpContext.getConfigCTR().hasElemVisitante()) {
+                if (text.equals("APONTAMENTO")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"APONTAMENTO\")) {", getLocalClassName());
+                    if(pcpContext.getConfigCTR().hasElemConfig()
+                            && pcpContext.getConfigCTR().hasElemVisitante()) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig() && pcpContext.getConfigCTR().hasElemVisitante()) {\n" +
                                 "                        pcpContext.getConfigCTR().setPosicaoTela(3L);\n" +
                                 "                        Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);", getLocalClassName());

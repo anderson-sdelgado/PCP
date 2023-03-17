@@ -16,25 +16,31 @@ public class MovVeicResidenciaCTR {
         return movEquipResidenciaDAO.verMovEquipResidenciaEnviar();
     }
 
+    public int qtdeMovEquipResidenciaFechado(){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        return movEquipResidenciaDAO.qtdeMovEquipResidenciaFechado();
+    }
+
     public void abrirMovEquipResidencia(Long tipoMov){
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
         movEquipResidenciaDAO.abrirMovEquipResidencia(tipoMov);
     }
 
-    public void fecharMovEquipResidencia(String observacao, String activity){
-
+    public void finalizarMovEquipResidencia(String observacao){
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
         MovEquipResidenciaBean movEquipResidenciaBean = getMovEquipResidenciaAberto();
         ConfigBean configBean = configCTR.getConfig();
         if(movEquipResidenciaBean.getStatusEntradaSaidaMovEquipResidencia() == 1L){
-            movEquipResidenciaDAO.fecharEntradaMovEquipResidencia(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, movEquipResidenciaBean);
+            movEquipResidenciaDAO.finalizarEntradaMovEquipResidencia(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, movEquipResidenciaBean);
         } else {
-            movEquipResidenciaDAO.fecharSaidaMovEquipResidencia(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, configBean.getPosicaoListaMov().intValue(), movEquipResidenciaBean);
+            movEquipResidenciaDAO.finalizarSaidaMovEquipResidencia(configBean.getIdLocalConfig(), configBean.getMatricVigiaConfig(), observacao, configBean.getPosicaoListaMov().intValue(), movEquipResidenciaBean);
         }
+    }
 
-        EnvioDadosServ.getInstance().envioDados(activity);
-
+    public void atualizarEnviarMovEquipResidencia(){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        movEquipResidenciaDAO.updateEquipResidenciaEnviar();
     }
 
     public void deleteMovEquipResidenciaAberto(){
@@ -134,7 +140,7 @@ public class MovVeicResidenciaCTR {
 
             MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
             ArrayList<Long> movEquipResidenciaArrayList = movEquipResidenciaDAO.idMovEquipResidenciaArrayList(retorno[1]);
-            movEquipResidenciaDAO.updateEquipResidenciaEnvio(movEquipResidenciaArrayList);
+            movEquipResidenciaDAO.updateEquipResidenciaEnviado(movEquipResidenciaArrayList);
 
             deleteMovEquipResidenciaEnviado();
 

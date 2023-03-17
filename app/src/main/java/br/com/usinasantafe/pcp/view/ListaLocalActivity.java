@@ -49,23 +49,21 @@ public class ListaLocalActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         ListView listViewLocal = findViewById(R.id.listViewLocal);
         listViewLocal.setAdapter(adapterList);
-
         listViewLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("listViewLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
-                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
-                        "                String text = textView.getText().toString();", getLocalClassName());
-
+                        "                LocalBean localBean = localList.get(position);\n" +
+                        "                pcpContext.getConfigCTR().setIdLocal(localBean.getIdLocal());\n" +
+                        "                Intent it = new Intent(ListaLocalActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
                 LocalBean localBean = localList.get(position);
                 pcpContext.getConfigCTR().setIdLocal(localBean.getIdLocal());
-                Intent it = new Intent(ListaLocalActivity.this, MenuInicialActivity.class);
+                Intent it = new Intent(ListaLocalActivity.this, ListaMenuApontActivity.class);
                 startActivity(it);
                 finish();
 
@@ -80,7 +78,7 @@ public class ListaLocalActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarLocal.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaLocalActivity.this, ColabActivity.class);", getLocalClassName());
+                        "                Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);", getLocalClassName());
                 Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);
                 startActivity(it);
                 finish();

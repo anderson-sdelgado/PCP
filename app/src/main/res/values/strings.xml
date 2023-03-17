@@ -54,7 +54,13 @@
     <string name="texto_titulo_mov_visit_terc">ENTRADA VEÍCULO VISITANTE/TERCEIRO</string>
     <string name="texto_titulo_mov_residencia">ENTRADA VEÍCULO RESIDÊNCIA</string>
     <string name="texto_titulo_visit_residencia">VISITANTE RESIDÊNCIA</string>
+    <string name="texto_titulo_menu">QTDE DE MOVIMENTO EM ABERTO</string>
     <string name="texto_local">LOCAL</string>
     <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
     <string name="texto_editar">EDITAR</string>
+    <string name="texto_padrao_finalizar_apont">FINALIZAR APONTAMENTOS</string>
+    <string name="texto_padrao_fechar_mov">FECHAR MOVIMENTO(S)</string>
+    <string name="texto_mov_veic_proprio">VEÍCULO PRÓPRIO</string>
+    <string name="texto_mov_veic_visit_terc">VEÍCULO VISITANTE/TERCEIRO</string>
+    <string name="texto_mov_veic_residencia">VEÍCULO RESIDÊNCIA</string>
 </resources>

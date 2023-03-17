@@ -28,7 +28,10 @@
         android:theme="@style/Theme.PCP"
         tools:targetApi="31">
         <activity
-            android:name=".view.ListaMovVisitTercResidManutActivity"
+            android:name=".ListaMovFechadoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ListaMenuApontActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

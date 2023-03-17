@@ -84,17 +84,9 @@ public class DescrMovActivity extends ActivityGeneric {
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonRetDescrMov.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                Intent it;
-                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
-                            "                    it = new Intent(DescrMovActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
-                    it = new Intent(DescrMovActivity.this, ListaMovProprioActivity.class);
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    it = new Intent(DescrMovActivity.this, ListaMovVisitTercResidManutActivity.class);", getLocalClassName());
-                    it = new Intent(DescrMovActivity.this, ListaMovVisitTercResidManutActivity.class);
-                }
+                        "            public void onClick(View v) {\n" +
+                        "                Intent it = new Intent(DescrMovActivity.this, ListaMovAbertoActivity.class);", getLocalClassName());
+                Intent it = new Intent(DescrMovActivity.this, ListaMovFinalizadoActivity.class);
                 startActivity(it);
                 finish();
             }

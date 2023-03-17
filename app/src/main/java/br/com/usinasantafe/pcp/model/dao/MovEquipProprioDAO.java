@@ -26,6 +26,13 @@ public class MovEquipProprioDAO {
         return ret;
     }
 
+    public int qtdeMovEquipProprioFechado(){
+        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioFechadoList();
+        int qtde = movEquipProprioList.size();
+        movEquipProprioList.clear();
+        return qtde;
+    }
+
     public MovEquipProprioBean getMovEquipProprioAberto(){
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioAbertoList();
         MovEquipProprioBean movEquipProprioBean = movEquipProprioList.get(0);
@@ -54,7 +61,7 @@ public class MovEquipProprioDAO {
         movEquipProprioBean.insert();
     }
 
-    public void fecharMovEquipProprio(Long idLocal, Long nroMatricVigia, String observacao){
+    public void finalizarMovEquipProprio(Long idLocal, Long nroMatricVigia, String observacao){
         MovEquipProprioBean movEquipProprioBean = getMovEquipProprioAberto();
         movEquipProprioBean.setIdLocalMovEquipProprio(idLocal);
         movEquipProprioBean.setNroMatricVigiaMovEquipProprio(nroMatricVigia);
@@ -66,18 +73,23 @@ public class MovEquipProprioDAO {
         movEquipProprioBean.update();
     }
 
-    public void updateMovEquipProprioEnvio(ArrayList<Long> idMovEquipProprioArrayList){
+    public void updateMovEquipProprioEnviar(){
+        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioFechadoList();
+        for (MovEquipProprioBean movEquipProprioBean : movEquipProprioList) {
+            movEquipProprioBean.setStatusMovEquipProprio(3L);
+            movEquipProprioBean.update();
+        }
+        movEquipProprioList.clear();
+    }
 
+    public void updateMovEquipProprioEnviado(ArrayList<Long> idMovEquipProprioArrayList){
         List<MovEquipProprioBean> movEquipProprioList = movEquipProprioList(idMovEquipProprioArrayList);
-
         for (MovEquipProprioBean movEquipProprioBean : movEquipProprioList) {
             movEquipProprioBean.setStatusMovEquipProprio(4L);
             movEquipProprioBean.update();
         }
-
         movEquipProprioList.clear();
         idMovEquipProprioArrayList.clear();
-
     }
 
     public void deleteMovEquipProprio(Long idMovEquipProprio){
@@ -168,7 +180,7 @@ public class MovEquipProprioDAO {
 
     public List<MovEquipProprioBean> movEquipProprioFechadoList(){
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqMovFechado());
+        pesqArrayList.add(getPesqMovFinalizado());
         MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
         return movEquipProprioBean.get(pesqArrayList);
     }
@@ -275,7 +287,7 @@ public class MovEquipProprioDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqMovFechado(){
+    private EspecificaPesquisa getPesqMovFinalizado(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("statusMovEquipProprio");
         pesquisa.setValor(2L);

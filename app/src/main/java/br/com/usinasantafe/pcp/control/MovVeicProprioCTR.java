@@ -31,6 +31,11 @@ public class MovVeicProprioCTR {
         return movEquipProprioDAO.verMovEquipProprioEnviar();
     }
 
+    public int qtdeMovEquipProprioFechado(){
+        MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
+        return movEquipProprioDAO.qtdeMovEquipProprioFechado();
+    }
+
     public void abrirMovEquipProprio(Long tipoMov){
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
         movEquipProprioDAO.abrirMovEquipProprio(tipoMov);
@@ -62,14 +67,15 @@ public class MovVeicProprioCTR {
         movEquipProprioPassagDAO.inserirMovEquipProprioPassag(movEquipProprioDAO.getMovEquipProprioFechado(posicao).getIdMovEquipProprio(), matricColab);
     }
 
-    public void fecharMovEquipProprio(String observacao, String activity){
-
+    public void finalizarMovEquipProprio(String observacao){
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-        movEquipProprioDAO.fecharMovEquipProprio(configCTR.getConfig().getIdLocalConfig(), configCTR.getConfig().getMatricVigiaConfig(), observacao);
+        movEquipProprioDAO.finalizarMovEquipProprio(configCTR.getConfig().getIdLocalConfig(), configCTR.getConfig().getMatricVigiaConfig(), observacao);
+    }
 
-        EnvioDadosServ.getInstance().envioDados(activity);
-
+    public void atualizarEnviarMovEquipProprio(){
+        MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
+        movEquipProprioDAO.updateMovEquipProprioEnviar();
     }
 
     public void deleteMovEquipProprioAberto(){
@@ -255,7 +261,7 @@ public class MovVeicProprioCTR {
 
             MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
             ArrayList<Long> movEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(retorno[1]);
-            movEquipProprioDAO.updateMovEquipProprioEnvio(movEquipProprioArrayList);
+            movEquipProprioDAO.updateMovEquipProprioEnviado(movEquipProprioArrayList);
 
             deleteMovEquipProprioEnviado();
 

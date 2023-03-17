@@ -33,7 +33,7 @@ public class MovEquipProprioBean extends Entidade {
     @DatabaseField
     private String observMovEquipProprio;
     @DatabaseField
-    private Long statusMovEquipProprio; // // 1 - Aberto; 2 - Fechado; 3 - Enviar; 4 - Enviado;
+    private Long statusMovEquipProprio; // // 1 - Aberto; 2 - Finalizado; 3 - Enviar; 4 - Enviado;
 
     public MovEquipProprioBean() {
     }
