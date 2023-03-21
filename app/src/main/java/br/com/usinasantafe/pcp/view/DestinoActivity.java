@@ -28,6 +28,23 @@ public class DestinoActivity extends ActivityGeneric {
         Button buttonOkDestino =  findViewById(R.id.buttonOkDestino);
         Button buttonCancDestino = findViewById(R.id.buttonCancDestino);
 
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){", getLocalClassName());
+            if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
+                        "                editTextDestino.setText(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getDestinoMovEquipProprio());", getLocalClassName());
+                editTextDestino.setText(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getDestinoMovEquipProprio());
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                editTextDestino.setText(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getDestinoMovEquipVisitTerc());", getLocalClassName());
+                editTextDestino.setText(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getDestinoMovEquipVisitTerc());
+            }
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            editTextDestino.setText(\"\");", getLocalClassName());
+            editTextDestino.setText("");
+        }
+
         buttonOkDestino.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +63,7 @@ public class DestinoActivity extends ActivityGeneric {
                             if(pcpContext.getMovVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 2L){
                                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicProprioCTR().getMovEquipProprioAberto().getTipoMovEquipProprio() == 1L){\n" +
                                         "                        it = new Intent(DestinoActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                                it = new Intent(DestinoActivity.this, ObservacaoActivity.class);
+                                it = new Intent(DestinoActivity.this, ObservActivity.class);
                             } else {
                                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                         "                        it = new Intent(DestinoActivity.this, NotaFiscalActivity.class);", getLocalClassName());
@@ -56,7 +73,7 @@ public class DestinoActivity extends ActivityGeneric {
                             LogProcessoDAO.getInstance().insertLogProcesso("pcpContext.getMovimentacaoVeicVisTercCTR().setDestinoVisitTerc(editTextDestino.getText().toString());\n" +
                                     "                        it = new Intent(DestinoActivity.this, ObservacaoActivity.class);", getLocalClassName());
                             pcpContext.getMovVeicVisitTercCTR().setDestinoVisitTerc(editTextDestino.getText().toString());
-                            it = new Intent(DestinoActivity.this, ObservacaoActivity.class);
+                            it = new Intent(DestinoActivity.this, ObservActivity.class);
                         }
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
@@ -115,7 +132,7 @@ public class DestinoActivity extends ActivityGeneric {
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "                    it = new Intent(DestinoActivity.this, PlacaVisitanteTerceiroActivity.class);", getLocalClassName());
-                        it = new Intent(DestinoActivity.this, PlacaVisitTercResidenciaActivity.class);
+                        it = new Intent(DestinoActivity.this, PlacaVisitTercResidActivity.class);
                     }
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

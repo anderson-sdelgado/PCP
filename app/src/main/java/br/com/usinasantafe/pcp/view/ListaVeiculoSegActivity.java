@@ -138,7 +138,9 @@ public class ListaVeiculoSegActivity extends ActivityGeneric {
                 Intent it;
                 if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L){\n" +
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
                             "                    it = new Intent(ListaVeiculoSegActivity.this, DestinoActivity.class);", getLocalClassName());
+                    pcpContext.getConfigCTR().setPosicaoTela(4L);
                     it = new Intent(ListaVeiculoSegActivity.this, DestinoActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

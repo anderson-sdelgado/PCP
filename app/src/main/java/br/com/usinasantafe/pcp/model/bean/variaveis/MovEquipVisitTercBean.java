@@ -35,6 +35,8 @@ public class MovEquipVisitTercBean extends Entidade {
     @DatabaseField
     private String observMovEquipVisitTerc;
     @DatabaseField
+    private Long nroAparelhoMovEquipVisitTerc;
+    @DatabaseField
     private Long statusEntradaSaidaMovEquipVisitTerc; // 1 - Entrada; 2 - Saida
     @DatabaseField
     private Long statusMovEquipVisitTerc; // // 1 - Aberto; 2 - Fechado; 3 - Enviar; 4 - Enviado;
@@ -152,5 +154,13 @@ public class MovEquipVisitTercBean extends Entidade {
 
     public void setStatusMovEquipVisitTerc(Long statusMovEquipVisitTerc) {
         this.statusMovEquipVisitTerc = statusMovEquipVisitTerc;
+    }
+
+    public Long getNroAparelhoMovEquipVisitTerc() {
+        return nroAparelhoMovEquipVisitTerc;
+    }
+
+    public void setNroAparelhoMovEquipVisitTerc(Long nroAparelhoMovEquipVisitTerc) {
+        this.nroAparelhoMovEquipVisitTerc = nroAparelhoMovEquipVisitTerc;
     }
 }

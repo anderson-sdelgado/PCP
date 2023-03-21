@@ -49,8 +49,9 @@ public class MovVeicVisitTercCTR {
     }
 
     public void abrirMovEquipVisitTerc(Long tipoMov){
+        ConfigCTR configCTR = new ConfigCTR();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov);
+        movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov, configCTR.getConfig().getNroLinhaConfig());
     }
 
     public void inserirMovEquipVisitTercPassag(Long idVisitTerc){
@@ -175,7 +176,12 @@ public class MovVeicVisitTercCTR {
 
         itens.add("PASSAGEIRO(S): " + passageiro);
         itens.add("VIGIA: " + movEquipVisitTercBean.getNroMatricVigiaMovEquipVisitTerc() + " - " + configCTR.getColabMatric(movEquipVisitTercBean.getNroMatricVigiaMovEquipVisitTerc()).getNomeColab());
-        itens.add("DESTINO: " +  movEquipVisitTercBean.getDestinoMovEquipVisitTerc());
+
+        if(movEquipVisitTercBean.getDestinoMovEquipVisitTerc() != null){
+            itens.add("DESTINO: " +  movEquipVisitTercBean.getDestinoMovEquipVisitTerc());
+        } else {
+            itens.add("DESTINO:");
+        }
 
         if(movEquipVisitTercBean.getObservMovEquipVisitTerc() != null){
             itens.add("OBS.:\n" +  movEquipVisitTercBean.getObservMovEquipVisitTerc());

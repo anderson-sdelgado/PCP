@@ -12,16 +12,6 @@
     tools:context=".view.MenuInicialActivity">
 
     <TextView
-        android:id="@+id/textViewVigia"
-        style="@style/TextViewMenuNormal"
-        android:text="@string/texto_menu_vigia" />
-
-    <TextView
-        android:id="@+id/textViewLocal"
-        style="@style/TextViewMenuNormal"
-        android:text="@string/texto_menu_local" />
-
-    <TextView
         android:id="@+id/textViewPrincipal"
         style="@style/TextViewTituloLista"
         android:text="@string/texto_menu_principal" />

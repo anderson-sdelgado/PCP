@@ -152,14 +152,11 @@ public class DescrMovActivity extends ActivityGeneric {
                 finish();
                 break;
             case 5:
-                if(movEquipProprioBean.getTipoMovEquipProprio() == 1L){
                     LogProcessoDAO.getInstance().insertLogProcesso("case 5:\n" +
-                            "                if(movEquipProprioBean.getTipoMovEquipProprio() == 1L){\n" +
                             "                    it = new Intent(DescrMovActivity.this, DestinoActivity.class);", getLocalClassName());
                     it = new Intent(DescrMovActivity.this, DestinoActivity.class);
                     startActivity(it);
                     finish();
-                }
                 break;
             case 6:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 6:\n" +
@@ -181,7 +178,7 @@ public class DescrMovActivity extends ActivityGeneric {
             case 8:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 8:\n" +
                         "                it = new Intent(DescrMovActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, ObservacaoActivity.class);
+                it = new Intent(DescrMovActivity.this, ObservActivity.class);
                 startActivity(it);
                 finish();
                 break;
@@ -197,14 +194,14 @@ public class DescrMovActivity extends ActivityGeneric {
             case 2:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 2:\n" +
                         "                it = new Intent(DescrMovActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                it = new Intent(DescrMovActivity.this, VeiculoVisitTercResidActivity.class);
                 startActivity(it);
                 finish();
                 break;
             case 3:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 3:\n" +
                         "                it = new Intent(DescrMovActivity.this, PlacaVisitTercResidenciaActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, PlacaVisitTercResidenciaActivity.class);
+                it = new Intent(DescrMovActivity.this, PlacaVisitTercResidActivity.class);
                 startActivity(it);
                 finish();
                 break;
@@ -235,7 +232,7 @@ public class DescrMovActivity extends ActivityGeneric {
             case 9:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 9:\n" +
                         "                it = new Intent(DescrMovActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, ObservacaoActivity.class);
+                it = new Intent(DescrMovActivity.this, ObservActivity.class);
                 startActivity(it);
                 finish();
                 break;
@@ -249,28 +246,28 @@ public class DescrMovActivity extends ActivityGeneric {
             case 2:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 2:\n" +
                         "                it = new Intent(DescrMovActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                it = new Intent(DescrMovActivity.this, VeiculoVisitTercResidActivity.class);
                 startActivity(it);
                 finish();
                 break;
             case 3:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 3:\n" +
                         "                it = new Intent(DescrMovActivity.this, PlacaVisitTercResidenciaActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, PlacaVisitTercResidenciaActivity.class);
+                it = new Intent(DescrMovActivity.this, PlacaVisitTercResidActivity.class);
                 startActivity(it);
                 finish();
                 break;
             case 4:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 4:\n" +
                         "                it = new Intent(DescrMovActivity.this, VisitanteResidenciaActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, VisitanteResidenciaActivity.class);
+                it = new Intent(DescrMovActivity.this, MotoristaResidenciaActivity.class);
                 startActivity(it);
                 finish();
                 break;
             case 5:
                 LogProcessoDAO.getInstance().insertLogProcesso("case 5:\n" +
                         "                it = new Intent(DescrMovActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                it = new Intent(DescrMovActivity.this, ObservacaoActivity.class);
+                it = new Intent(DescrMovActivity.this, ObservActivity.class);
                 startActivity(it);
                 finish();
                 break;

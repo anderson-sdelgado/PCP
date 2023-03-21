@@ -102,10 +102,10 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
         if (findViewById(R.id.editTextPadrao) != null) {
             editTextPadrao = findViewById(R.id.editTextPadrao);
-            if (!this.getLocalClassName().equals("view.OSActivity")
-                    && (!this.getLocalClassName().equals("view.RendimentoActivity"))
-                    && (!this.getLocalClassName().equals("view.RecolhimentoActivity"))
-                    && (!this.getLocalClassName().equals("view.PneuActivity"))) {
+            if ((!this.getLocalClassName().equals("view.VeiculoUsinaActivity"))
+                    && (!this.getLocalClassName().equals("view.MatricColabActivity"))
+                    && (!this.getLocalClassName().equals("view.NotaFiscalActivity"))
+                    && (!this.getLocalClassName().equals("view.CPFVisitTercActivity"))) {
                 editTextPadrao.setText("");
             }
         }

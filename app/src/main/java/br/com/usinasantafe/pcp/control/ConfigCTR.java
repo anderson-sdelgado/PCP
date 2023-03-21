@@ -43,6 +43,11 @@ public class ConfigCTR {
         return visitanteDAO.hasElements();
     }
 
+    public void fecharApont(){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.fecharApont();
+    }
+
     public List<LocalBean> localList(){
         LocalDAO localDAO = new LocalDAO();
         return localDAO.localList();

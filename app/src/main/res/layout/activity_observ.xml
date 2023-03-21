@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ObservacaoActivity">
+    tools:context=".view.ObservActivity">
 
     <TextView
         android:id="@+id/textViewTituloObservacao"
@@ -19,7 +19,7 @@
         android:text="@string/texto_titulo_observacao" />
 
     <EditText
-        android:id="@+id/editTextObservacao"
+        android:id="@+id/editTextObserv"
         style="@style/EditViewObs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,7 +32,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancObservacao"
+            android:id="@+id/buttonCancObserv"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -40,7 +40,7 @@
             android:text="@string/texto_padrao_cancelar" />
 
         <Button
-            android:id="@+id/buttonOkObservacao"
+            android:id="@+id/buttonOkObserv"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

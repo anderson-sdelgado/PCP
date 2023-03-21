@@ -29,6 +29,17 @@ public class MatricColabActivity extends ActivityGeneric {
         Button buttonCancMatricColab = findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
         TextView textViewPadrao = findViewById(R.id.textViewPadrao);
+        editTextPadrao = findViewById(R.id.editTextPadrao);
+
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                    "            editTextPadrao.setText(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getNroMatricColabMovEquipProprio().toString());", getLocalClassName());
+            editTextPadrao.setText(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getNroMatricColabMovEquipProprio().toString());
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            editTextPadrao.setText(\"\");", getLocalClassName());
+            editTextPadrao.setText("");
+        }
 
         if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L) {
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 3L) {\n" +

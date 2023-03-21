@@ -54,10 +54,11 @@ public class MovEquipProprioDAO {
         return movEquipProprioBean;
     }
 
-    public void abrirMovEquipProprio(Long tipoMov){
+    public void abrirMovEquipProprio(Long tipoMov, Long nroAparelho){
         MovEquipProprioBean movEquipProprioBean = new MovEquipProprioBean();
         movEquipProprioBean.setTipoMovEquipProprio(tipoMov);
         movEquipProprioBean.setStatusMovEquipProprio(1L);
+        movEquipProprioBean.setNroAparelhoMovEquipProprio(nroAparelho);
         movEquipProprioBean.insert();
     }
 
@@ -251,7 +252,7 @@ public class MovEquipProprioDAO {
     }
 
     public String dadosEnvioMovEquipProprio(){
-        return dadosMovEquipProprio(movEquipProprioFechadoList());
+        return dadosMovEquipProprio(movEquipProprioEnviarList());
     }
 
     private String dadosMovEquipProprio(List<MovEquipProprioBean> movEquipProprioList){

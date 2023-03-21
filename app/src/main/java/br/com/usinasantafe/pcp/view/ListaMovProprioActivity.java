@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,7 +28,7 @@ public class ListaMovProprioActivity extends ActivityGeneric {
 
         Button buttonEntradaMov = findViewById(R.id.buttonEntradaMovProprio);
         Button buttonSaidaMov = findViewById(R.id.buttonSaidaMovProprio);
-        Button buttonCancMov = findViewById(R.id.buttonCancMovProprio);
+        Button buttonRetornarMov = findViewById(R.id.buttonRetornarMovProprio);
 
         TextView textViewVigia = findViewById(R.id.textViewVigia);
         TextView textViewLocal = findViewById(R.id.textViewLocal);
@@ -86,14 +85,14 @@ public class ListaMovProprioActivity extends ActivityGeneric {
             }
         });
 
-        buttonCancMov.setOnClickListener(new View.OnClickListener() {
+        buttonRetornarMov.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancMov.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaMovActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMovProprioActivity.this, TelaInicialActivity.class);
+                        "                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);
                 startActivity(it);
                 finish();
             }

@@ -27,6 +27,17 @@ public class VeiculoUsinaActivity extends ActivityGeneric {
         Button buttonOkVeicUsina = findViewById(R.id.buttonOkPadrao);
         Button buttonCancVeicUsina = findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
+        editTextPadrao = findViewById(R.id.editTextPadrao);
+
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                    "            editTextPadrao.setText(pcpContext.getConfigCTR().getEquipId(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getIdEquipMovEquipProprio()).getNroEquip().toString());", getLocalClassName());
+            editTextPadrao.setText(pcpContext.getConfigCTR().getEquipId(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getIdEquipMovEquipProprio()).getNroEquip().toString());
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            editTextPadrao.setText(\"\");", getLocalClassName());
+            editTextPadrao.setText("");
+        }
 
         buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
             @Override

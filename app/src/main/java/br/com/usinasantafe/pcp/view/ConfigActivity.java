@@ -37,7 +37,7 @@ public class ConfigActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("if (pcpContext.getConfigCTR().hasElemConfig()) {\n" +
                     "            editTextLinhaConfig.setText(String.valueOf(pcpContext.getConfigCTR().getConfig().getNumLinhaConfig()));\n" +
                     "            editTextSenhaConfig.setText(pcpContext.getConfigCTR().getConfig().getSenhaConfig());", getLocalClassName());
-            editTextLinhaConfig.setText(String.valueOf(pcpContext.getConfigCTR().getConfig().getNumLinhaConfig()));
+            editTextLinhaConfig.setText(String.valueOf(pcpContext.getConfigCTR().getConfig().getNroLinhaConfig()));
             editTextSenhaConfig.setText(pcpContext.getConfigCTR().getConfig().getSenhaConfig());
         }
 

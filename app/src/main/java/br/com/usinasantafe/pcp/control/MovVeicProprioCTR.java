@@ -37,8 +37,9 @@ public class MovVeicProprioCTR {
     }
 
     public void abrirMovEquipProprio(Long tipoMov){
+        ConfigCTR configCTR = new ConfigCTR();
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-        movEquipProprioDAO.abrirMovEquipProprio(tipoMov);
+        movEquipProprioDAO.abrirMovEquipProprio(tipoMov, configCTR.getConfig().getNroLinhaConfig());
     }
 
     public void inserirMovEquipProprioSeg(Long nroEquip){
@@ -120,7 +121,7 @@ public class MovVeicProprioCTR {
 
         itens.add("DTHR: " + movEquipProprioBean.getDthrMovEquipProprio());
 
-        if(movEquipProprioBean.getTipoMovEquipProprio() == 1L){
+        if(movEquipProprioBean.getTipoMovEquipProprio() == 2L){
             itens.add("ENTRADA");
         } else {
             itens.add("SAÍDA");
@@ -132,7 +133,7 @@ public class MovVeicProprioCTR {
         String passageiro = "";
         List<MovEquipProprioPassagBean> movEquipProprioPassagList = movEquipProprioPassagDAO.movEquipProprioPassagIdMovEquipList(movEquipProprioBean.getIdMovEquipProprio());
         for(MovEquipProprioPassagBean movEquipProprioPassagBean : movEquipProprioPassagList){
-            passageiro = passageiro + movEquipProprioPassagBean.getNroMatricMovEquipProprioPassag() + " - " + configCTR.getColabMatric(movEquipProprioBean.getNroMatricColabMovEquipProprio()).getNomeColab() + "; ";
+            passageiro = passageiro + movEquipProprioPassagBean.getNroMatricMovEquipProprioPassag() + " - " + configCTR.getColabMatric(movEquipProprioPassagBean.getNroMatricMovEquipProprioPassag()).getNomeColab() + "; ";
         }
 
         itens.add("PASSAGEIRO(S): " + passageiro);
@@ -240,8 +241,9 @@ public class MovVeicProprioCTR {
     public String dadosEnvioMovEquipProprio(){
 
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-        ArrayList<Long> idMovEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(movEquipProprioDAO.movEquipProprioEnviarList());
         String dadosMovEquipProprio = movEquipProprioDAO.dadosEnvioMovEquipProprio();
+
+        ArrayList<Long> idMovEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(movEquipProprioDAO.movEquipProprioEnviarList());
 
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
         String dadosEnvioMovEquipProprioSeg = movEquipProprioSegDAO.dadosEnvioMovEquipProprioSeg(movEquipProprioSegDAO.movEquipProprioSegEnvioList(idMovEquipProprioArrayList));

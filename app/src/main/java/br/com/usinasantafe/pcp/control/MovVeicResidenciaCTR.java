@@ -5,8 +5,10 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipResidenciaDAO;
+import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
 public class MovVeicResidenciaCTR {
@@ -22,8 +24,9 @@ public class MovVeicResidenciaCTR {
     }
 
     public void abrirMovEquipResidencia(Long tipoMov){
+        ConfigCTR configCTR = new ConfigCTR();
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-        movEquipResidenciaDAO.abrirMovEquipResidencia(tipoMov);
+        movEquipResidenciaDAO.abrirMovEquipResidencia(tipoMov, configCTR.getConfig().getNroLinhaConfig());
     }
 
     public void finalizarMovEquipResidencia(String observacao){
@@ -57,6 +60,10 @@ public class MovVeicResidenciaCTR {
         return movEquipResidenciaDAO.getMovEquipResidenciaAberto();
     }
 
+    public MovEquipResidenciaBean getMovEquipResidenciaFechado(int posicao){
+        MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
+        return movEquipResidenciaDAO.getMovEquipResidenciaFechado(posicao);
+    }
 
     public ArrayList<String> getMovEquipResidencia(MovEquipResidenciaBean movEquipResidenciaBean){
 

@@ -29,9 +29,8 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
 
         pcpContext = (PCPContext) getApplication();
 
-        Button buttonEditarMovVisitTerc = findViewById(R.id.buttonEditarMovVisitTerc);
         Button buttonEntradaMov = findViewById(R.id.buttonEntradaMovVisitTerc);
-        Button buttonCancMov = findViewById(R.id.buttonCancMovVisitTerc);
+        Button buttonRetornarMov = findViewById(R.id.buttonRetornarMovVisitTerc);
 
         TextView textViewVigia = findViewById(R.id.textViewVigia);
         TextView textViewLocal = findViewById(R.id.textViewLocal);
@@ -84,7 +83,7 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
                                 "                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservacaoActivity.class);", getLocalClassName());
                         pcpContext.getConfigCTR().setPosicaoTela(4L);
                         pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);
-                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservacaoActivity.class);
+                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservActivity.class);
                         startActivity(it);
                         finish();
                     }
@@ -121,14 +120,14 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
             }
         });
 
-        buttonCancMov.setOnClickListener(new View.OnClickListener() {
+        buttonRetornarMov.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancMov.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaMovVisitTercActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMovVisitTercActivity.this, TelaInicialActivity.class);
+                        "                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMenuApontActivity.class);
                 startActivity(it);
                 finish();
             }

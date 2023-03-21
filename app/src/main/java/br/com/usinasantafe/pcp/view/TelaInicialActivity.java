@@ -52,7 +52,22 @@ public class TelaInicialActivity extends ActivityGeneric {
                 EnvioDadosServ.status = 3;
             }
 
-            goMenuInicial();
+            if(pcpContext.getConfigCTR().hasElemConfig()){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()){", getLocalClassName());
+                if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() == 0L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() == 0L){\n" +
+                            "                    goMenuInicial();", getLocalClassName());
+                    goMenuInicial();
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    goMenuApont();", getLocalClassName());
+                    goMenuApont();
+                }
+            } else {
+                goMenuInicial();
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                goMenuInicial();", getLocalClassName());
+            }
         }
 
     };
@@ -66,6 +81,14 @@ public class TelaInicialActivity extends ActivityGeneric {
         LogProcessoDAO.getInstance().insertLogProcesso("public void goMenuInicial(){\n" +
                 "        Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
         Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
+        startActivity(it);
+        finish();
+    }
+
+    public void goMenuApont(){
+        LogProcessoDAO.getInstance().insertLogProcesso("public void goMenuApont(){\n" +
+                "        Intent it = new Intent(TelaInicialActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+        Intent it = new Intent(TelaInicialActivity.this, ListaMenuApontActivity.class);
         startActivity(it);
         finish();
     }

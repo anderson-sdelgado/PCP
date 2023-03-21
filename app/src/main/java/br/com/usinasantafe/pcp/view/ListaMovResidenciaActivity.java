@@ -30,7 +30,7 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
         pcpContext = (PCPContext) getApplication();
 
         Button buttonEntradaMov = findViewById(R.id.buttonEntradaResidencia);
-        Button buttonCancMov = findViewById(R.id.buttonCancMovResidencia);
+        Button buttonRetornarMov = findViewById(R.id.buttonRetornarMovResidencia);
 
         TextView textViewVigia = findViewById(R.id.textViewVigia);
         TextView textViewLocal = findViewById(R.id.textViewLocal);
@@ -83,7 +83,7 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
                                 "                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservacaoActivity.class);", getLocalClassName());
                         pcpContext.getConfigCTR().setPosicaoTela(4L);
                         pcpContext.getMovVeicResidenciaCTR().abrirMovEquipResidencia(2L);
-                        Intent it = new Intent(ListaMovResidenciaActivity.this, ObservacaoActivity.class);
+                        Intent it = new Intent(ListaMovResidenciaActivity.this, ObservActivity.class);
                         startActivity(it);
                         finish();
                     }
@@ -114,20 +114,20 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
                         "                Intent it = new Intent(ListaMovResidenciaActivity.this, VisitanteResidenciaActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(4L);
                 pcpContext.getMovVeicResidenciaCTR().abrirMovEquipResidencia(1L);
-                Intent it = new Intent(ListaMovResidenciaActivity.this, VisitanteResidenciaActivity.class);
+                Intent it = new Intent(ListaMovResidenciaActivity.this, MotoristaResidenciaActivity.class);
                 startActivity(it);
                 finish();
             }
         });
 
-        buttonCancMov.setOnClickListener(new View.OnClickListener() {
+        buttonRetornarMov.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancMov.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaMovResidenciaActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMovResidenciaActivity.this, TelaInicialActivity.class);
+                        "                Intent it = new Intent(ListaMovResidenciaActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaMovResidenciaActivity.this, ListaMenuApontActivity.class);
                 startActivity(it);
                 finish();
             }

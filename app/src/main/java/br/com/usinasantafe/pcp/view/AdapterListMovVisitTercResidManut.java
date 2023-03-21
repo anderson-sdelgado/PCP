@@ -49,7 +49,7 @@ public class AdapterListMovVisitTercResidManut extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        view = layoutInflater.inflate(R.layout.activity_item_mov_visit_terc_resid, null);
+        view = layoutInflater.inflate(R.layout.activity_item_mov_visit_terc_resid_manut, null);
         textViewDthrMov = view.findViewById(R.id.textViewDthrMov);
         textViewTipoMov = view.findViewById(R.id.textViewTipoMov);
         textViewMotoristaMov = view.findViewById(R.id.textViewMotoristaMov);
@@ -76,7 +76,7 @@ public class AdapterListMovVisitTercResidManut extends BaseAdapter {
     }
 
     public void tipoMov(Long tipoMov){
-        if(tipoMov == 2L) {
+        if(tipoMov == 1L) {
             textViewTipoMov.setText("ENTRADA");
             textViewTipoMov.setTextColor(Color.BLUE);
         } else {

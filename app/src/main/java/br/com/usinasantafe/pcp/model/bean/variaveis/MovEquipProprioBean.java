@@ -33,6 +33,8 @@ public class MovEquipProprioBean extends Entidade {
     @DatabaseField
     private String observMovEquipProprio;
     @DatabaseField
+    private Long nroAparelhoMovEquipProprio;
+    @DatabaseField
     private Long statusMovEquipProprio; // // 1 - Aberto; 2 - Finalizado; 3 - Enviar; 4 - Enviado;
 
     public MovEquipProprioBean() {
@@ -132,5 +134,13 @@ public class MovEquipProprioBean extends Entidade {
 
     public void setStatusMovEquipProprio(Long statusMovEquipProprio) {
         this.statusMovEquipProprio = statusMovEquipProprio;
+    }
+
+    public Long getNroAparelhoMovEquipProprio() {
+        return nroAparelhoMovEquipProprio;
+    }
+
+    public void setNroAparelhoMovEquipProprio(Long nroAparelhoMovEquipProprio) {
+        this.nroAparelhoMovEquipProprio = nroAparelhoMovEquipProprio;
     }
 }

@@ -38,8 +38,6 @@ public class MenuInicialActivity extends ActivityGeneric {
         pcpContext = (PCPContext) getApplication();
 
         textViewProcesso = findViewById(R.id.textViewProcesso);
-        TextView textViewVigia = findViewById(R.id.textViewVigia);
-        TextView textViewLocal = findViewById(R.id.textViewLocal);
 
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
         customHandler.postDelayed(updateTimerThread, 0);
@@ -47,33 +45,6 @@ public class MenuInicialActivity extends ActivityGeneric {
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
-        }
-
-        if(pcpContext.getConfigCTR().hasElemConfig()) {
-            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
-            if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){
-                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L){\n" +
-                        "                textViewVigia.setText(\"VIGIA: \" + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + \" - \"  + pcpContext.getConfigCTR().getColab(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());", getLocalClassName());
-                textViewVigia.setText("VIGIA: " + pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
-            } else {
-                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                        "                textViewVigia.setText(\"VIGIA: \");", getLocalClassName());
-                textViewVigia.setText("VIGIA: ");
-            }
-            if(pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L){
-                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L){\n" +
-                        "                textViewVigia.setText(\"LOCAL: \" + pcpContext.getConfigCTR().getLocal().getDescrLocal());", getLocalClassName());
-                textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
-            } else {
-                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                        "                textViewVigia.setText(\"LOCAL: \");", getLocalClassName());
-                textViewLocal.setText("LOCAL: ");
-            }
-        } else {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "                textViewVigia.setText(\"VIGIA: \");", getLocalClassName());
-            textViewVigia.setText("VIGIA: ");
-            textViewLocal.setText("LOCAL: ");
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +

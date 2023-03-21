@@ -63,4 +63,5 @@
     <string name="texto_mov_veic_proprio">VEÍCULO PRÓPRIO</string>
     <string name="texto_mov_veic_visit_terc">VEÍCULO VISITANTE/TERCEIRO</string>
     <string name="texto_mov_veic_residencia">VEÍCULO RESIDÊNCIA</string>
+    <string name="texto_padrao_sair">SAIR</string>
 </resources>

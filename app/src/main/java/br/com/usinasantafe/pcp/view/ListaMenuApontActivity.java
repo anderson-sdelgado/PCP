@@ -168,6 +168,7 @@ public class ListaMenuApontActivity extends ActivityGeneric {
                         pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();
                         pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();
                         pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();
+                        pcpContext.getConfigCTR().fecharApont();
                         EnvioDadosServ.getInstance().envioDados(getLocalClassName());
                         Intent it = new Intent(ListaMenuApontActivity.this, MenuInicialActivity.class);
                         startActivity(it);

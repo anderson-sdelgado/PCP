@@ -9,21 +9,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.VeiculoVisitTercResidenciaActivity">
+    tools:context=".view.PlacaVisitTercResidActivity">
 
     <TextView
-        android:id="@+id/textViewTituloVeiculoVisitTercResidencia"
+        android:id="@+id/textViewTituloPlacaVisitTercResidencia"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_titulo_veiculo" />
+        android:text="@string/texto_titulo_placa" />
 
     <EditText
-        android:id="@+id/editTextVeiculoVisitTercResidencia"
+        android:id="@+id/editTextPlacaVisitTercResid"
         style="@style/EditViewObs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:maxLength="7"
+        android:inputType="textCapCharacters" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
@@ -32,7 +34,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancVeiculoVisitTercResidencia"
+            android:id="@+id/buttonCancPlacaVisitTercResid"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -40,7 +42,7 @@
             android:text="@string/texto_padrao_cancelar" />
 
         <Button
-            android:id="@+id/buttonOkVeiculoVisitTercResidencia"
+            android:id="@+id/buttonOkPlacaVisitTercResid"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

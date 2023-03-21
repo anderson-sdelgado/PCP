@@ -10,10 +10,8 @@ public class ConfigBean extends Entidade {
 	
 	private static final long serialVersionUID = 1L;
 
-    @DatabaseField(generatedId=true)
-    private Long idConfig;
-	@DatabaseField
-	private Long numLinhaConfig;
+	@DatabaseField(id=true)
+	private Long nroLinhaConfig;
     @DatabaseField
 	private String senhaConfig;
 	@DatabaseField
@@ -42,20 +40,12 @@ public class ConfigBean extends Entidade {
 	public ConfigBean() {
 	}
 
-	public Long getIdConfig() {
-		return idConfig;
+	public Long getNroLinhaConfig() {
+		return nroLinhaConfig;
 	}
 
-	public void setIdConfig(Long idConfig) {
-		this.idConfig = idConfig;
-	}
-
-	public Long getNumLinhaConfig() {
-		return numLinhaConfig;
-	}
-
-	public void setNumLinhaConfig(Long numLinhaConfig) {
-		this.numLinhaConfig = numLinhaConfig;
+	public void setNroLinhaConfig(Long nroLinhaConfig) {
+		this.nroLinhaConfig = nroLinhaConfig;
 	}
 
 	public String getSenhaConfig() {

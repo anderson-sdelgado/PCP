@@ -39,17 +39,10 @@
         android:text="@string/texto_entrada" />
 
     <Button
-        android:id="@+id/buttonEditarResidencia"
+        android:id="@+id/buttonRetornarMovResidencia"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_editar" />
-
-    <Button
-        android:id="@+id/buttonCancMovResidencia"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_cancelar" />
+        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

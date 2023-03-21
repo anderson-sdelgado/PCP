@@ -37,14 +37,20 @@ public class ConfigDAO {
     public void salvarConfig(Long numLinha, String senha){
         ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
-        configBean.setNumLinhaConfig(numLinha);
+        configBean.setNroLinhaConfig(numLinha);
         configBean.setSenhaConfig(senha);
         configBean.setMatricVigiaConfig(0L);
         configBean.setIdLocalConfig(0L);
-        configBean.setIdConfig(0L);
         configBean.setPosicaoTela(0L);
         configBean.insert();
         configBean.commit();
+    }
+
+    public void fecharApont(){
+        ConfigBean configBean = getConfig();
+        configBean.setMatricVigiaConfig(0L);
+        configBean.setIdLocalConfig(0L);
+        configBean.update();
     }
 
     public void setPosicaoTela(Long posicaoTela){

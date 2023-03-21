@@ -56,6 +56,30 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                     textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());
                 }
             }
+        } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L){
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L){", getLocalClassName());
+            if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
+                        "                textViewTituloNome.setText(\"NOME DO COLABORADOR\");\n" +
+                        "                textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getMatricColabMovEquipProprioPassag()).getNomeColab());", getLocalClassName());
+                textViewTituloNome.setText("NOME DO COLABORADOR");
+                textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getNroMatricMovEquipProprioPassag()).getNomeColab());
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
+                if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){\n" +
+                            "                    textViewTituloNome.setText(\"NOME DO TERCEIRO\");\n" +
+                            "                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getTerceiroId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeTerceiro());", getLocalClassName());
+                    textViewTituloNome.setText("NOME DO TERCEIRO");
+                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getTerceiroId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeTerceiro());
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    textViewTituloNome.setText(\"NOME DO VISITANTE\");\n" +
+                            "                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeVisitante());", getLocalClassName());
+                    textViewTituloNome.setText("NOME DO VISITANTE");
+                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getVisitanteId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeVisitante());
+                }
+            }
         } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){", getLocalClassName());
             if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
@@ -66,8 +90,8 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                 textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getNroMatricColabMovEquipProprio()).getNomeColab());
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){\n" +
+                if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getTipoVisitTercMovEquipVisitTerc() == 2L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getTipoVisitTercMovEquipVisitTerc() == 2L){\n" +
                             "                    textViewTituloNome.setText(\"NOME DO TERCEIRO\");\n" +
                             "                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getTerceiroId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());", getLocalClassName());
                     textViewTituloNome.setText("NOME DO TERCEIRO");
@@ -90,8 +114,8 @@ public class NomeColabVisitTercActivity extends ActivityGeneric {
                 textViewNome.setText(pcpContext.getConfigCTR().getColabMatric(pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().getMovEquipProprioPassagBean().getNroMatricMovEquipProprioPassag()).getNomeColab());
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
-                if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L){\n" +
+                if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getTipoVisitTercMovEquipVisitTerc() == 2L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getTipoVisitTercMovEquipVisitTerc() == 2L){\n" +
                             "                    textViewTituloNome.setText(\"NOME DO TERCEIRO\");\n" +
                             "                    textViewNome.setText(pcpContext.getMovVeicVisitTercCTR().getTerceiroId(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().getMovEquipVisitTercPassagBean().getIdVisitTercMovEquipVisitTercPassag()).getNomeTerceiro());", getLocalClassName());
                     textViewTituloNome.setText("NOME DO TERCEIRO");

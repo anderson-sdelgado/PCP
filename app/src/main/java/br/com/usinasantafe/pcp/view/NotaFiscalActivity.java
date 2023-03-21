@@ -22,6 +22,17 @@ public class NotaFiscalActivity extends ActivityGeneric {
 
         Button buttonOkNotaFiscal = findViewById(R.id.buttonOkPadrao);
         Button buttonCancNotaFiscal = findViewById(R.id.buttonCancPadrao);
+        editTextPadrao = findViewById(R.id.editTextPadrao);
+
+        if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                    "            editTextPadrao.setText(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getNroNotaFiscalMovEquipProprio().toString());", getLocalClassName());
+            editTextPadrao.setText(pcpContext.getMovVeicProprioCTR().getMovEquipProprioFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getNroNotaFiscalMovEquipProprio().toString());
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            editTextPadrao.setText(\"\");", getLocalClassName());
+            editTextPadrao.setText("");
+        }
 
         buttonOkNotaFiscal.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("rawtypes")
@@ -47,7 +58,7 @@ public class NotaFiscalActivity extends ActivityGeneric {
                 if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                             "                    it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                    it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);
+                    it = new Intent(NotaFiscalActivity.this, ObservActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);", getLocalClassName());

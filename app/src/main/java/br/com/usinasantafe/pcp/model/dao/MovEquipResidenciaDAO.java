@@ -33,10 +33,11 @@ public class MovEquipResidenciaDAO {
         return ret;
     }
 
-    public void abrirMovEquipResidencia(Long tipoMov){
+    public void abrirMovEquipResidencia(Long tipoMov, Long nroAparelho){
         MovEquipResidenciaBean movEquipResidenciaBean = new MovEquipResidenciaBean();
         movEquipResidenciaBean.setTipoMovEquipResidencia(tipoMov);
         movEquipResidenciaBean.setStatusMovEquipResidencia(1L);
+        movEquipResidenciaBean.setNroAparelhoMovEquipResidencia(nroAparelho);
         if(tipoMov == 1L){
             movEquipResidenciaBean.setStatusEntradaSaidaMovEquipResidencia(1L);
         } else {
@@ -82,7 +83,7 @@ public class MovEquipResidenciaDAO {
     public void updateEquipResidenciaEnviar(){
         List<MovEquipResidenciaBean> movEquipResidenciaList = movEquipResidenciaFechadoList();
         for (MovEquipResidenciaBean movEquipResidenciaBean : movEquipResidenciaList) {
-            movEquipResidenciaBean.setStatusMovEquipResidencia(4L);
+            movEquipResidenciaBean.setStatusMovEquipResidencia(3L);
             movEquipResidenciaBean.update();
         }
         movEquipResidenciaList.clear();

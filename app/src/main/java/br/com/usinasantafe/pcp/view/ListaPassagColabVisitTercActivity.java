@@ -39,10 +39,8 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)
-                || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){
-            LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L) \n" +
-                    "                || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){", getLocalClassName());
+        if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L)){
+            LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L)){", getLocalClassName());
             if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
                         "            movEquipProprioPassagList = pcpContext.getMovVeicProprioCTR().movEquipProprioPassagList();\n" +
@@ -92,7 +90,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                         "                movEquipVisitTercPassagList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercPassagFechadoList(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue());\n" +
                         "                for(MovEquipVisitTercPassagBean movEquipVisitTercPassagBean : movEquipVisitTercPassagList) {\n" +
-                        "                    if (pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L) {\n" +
+                        "                    if (pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getTipoVisitTercMovEquipVisitTerc() == 2L) {\n" +
                         "                        TerceiroBean terceiroBean = pcpContext.getMovVeicVisitTercCTR().getTerceiroId(movEquipVisitTercPassagBean.getIdVisitTercMovEquipVisitTercPassag());\n" +
                         "                        itens.add(terceiroBean.getCpfTerceiro() + \" - \" + terceiroBean.getNomeTerceiro());\n" +
                         "                    } else {\n" +
@@ -102,7 +100,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                         "                }", getLocalClassName());
                 movEquipVisitTercPassagList = pcpContext.getMovVeicVisitTercCTR().movEquipVisitTercPassagFechadoList(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue());
                 for(MovEquipVisitTercPassagBean movEquipVisitTercPassagBean : movEquipVisitTercPassagList) {
-                    if (pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoVisitTercMovEquipVisitTerc() == 2L) {
+                    if (pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercFechado(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue()).getTipoVisitTercMovEquipVisitTerc() == 2L) {
                         TerceiroBean terceiroBean = pcpContext.getMovVeicVisitTercCTR().getTerceiroId(movEquipVisitTercPassagBean.getIdVisitTercMovEquipVisitTercPassag());
                         itens.add(terceiroBean.getCpfTerceiro() + " - " + terceiroBean.getNomeTerceiro());
                     } else {
@@ -159,8 +157,6 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                     }
 
                 });
-
-                alerta.show();
 
                 alerta.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
                     @Override
@@ -227,7 +223,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "                    it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
-                        it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoVisitTercResidenciaActivity.class);
+                        it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoVisitTercResidActivity.class);
                     }
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

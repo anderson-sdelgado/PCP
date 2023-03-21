@@ -35,10 +35,11 @@ public class MovEquipVisitTercDAO {
         return qtde;
     }
 
-    public void abrirMovEquipVisitTerc(Long tipoMov){
+    public void abrirMovEquipVisitTerc(Long tipoMov, Long nroAparelho){
         MovEquipVisitTercBean movEquipVisitTercBean = new MovEquipVisitTercBean();
         movEquipVisitTercBean.setTipoMovEquipVisitTerc(tipoMov);
         movEquipVisitTercBean.setStatusMovEquipVisitTerc(1L);
+        movEquipVisitTercBean.setNroAparelhoMovEquipVisitTerc(nroAparelho);
         if(tipoMov == 1L){
             movEquipVisitTercBean.setStatusEntradaSaidaMovEquipVisitTerc(1L);
         } else {
@@ -94,7 +95,7 @@ public class MovEquipVisitTercDAO {
     public void updateEquipVisitTercEnviar(){
         List<MovEquipVisitTercBean> movEquipVisitTercList = movEquipVisitTercFechadoList();
         for (MovEquipVisitTercBean movEquipVisitTercBean : movEquipVisitTercList) {
-            movEquipVisitTercBean.setStatusMovEquipVisitTerc(4L);
+            movEquipVisitTercBean.setStatusMovEquipVisitTerc(3L);
             movEquipVisitTercBean.update();
         }
         movEquipVisitTercList.clear();
