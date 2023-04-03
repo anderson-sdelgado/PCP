@@ -214,17 +214,10 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                         || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){
                     LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)\n" +
                             "                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){\n" +
-                            "                    pcpContext.getConfigCTR().setPosicaoTela(4L);", getLocalClassName());
+                            "                    pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                            "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DestinoActivity.class);", getLocalClassName());
                     pcpContext.getConfigCTR().setPosicaoTela(4L);
-                    if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
-                                "                    it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
-                        it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoUsinaActivity.class);
-                    } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                    it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
-                        it = new Intent(ListaPassagColabVisitTercActivity.this, VeiculoVisitTercResidActivity.class);
-                    }
+                    it = new Intent(ListaPassagColabVisitTercActivity.this, DestinoActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);", getLocalClassName());

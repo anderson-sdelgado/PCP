@@ -12,12 +12,13 @@ import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioSegDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
+import retrofit2.Response;
 
-public class MovVeicProprioCTR {
+public class MovEquipProprioCTR {
 
     private MovEquipProprioPassagDAO movEquipProprioPassagDAO;
 
-    public MovVeicProprioCTR() {
+    public MovEquipProprioCTR() {
     }
 
     public MovEquipProprioPassagDAO getMovEquipProprioPassagDAO(){
@@ -238,31 +239,28 @@ public class MovVeicProprioCTR {
         return movEquipProprioPassagDAO.movEquipProprioPassagIdMovEquipList(movEquipProprioDAO.getMovEquipProprioFechado(posicao).getIdMovEquipProprio());
     }
 
-    public String dadosEnvioMovEquipProprio(){
 
+    public List<MovEquipProprioBean> dadosEnvioMovEquipProprio(){
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-        String dadosMovEquipProprio = movEquipProprioDAO.dadosEnvioMovEquipProprio();
-
-        ArrayList<Long> idMovEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(movEquipProprioDAO.movEquipProprioEnviarList());
-
         MovEquipProprioSegDAO movEquipProprioSegDAO = new MovEquipProprioSegDAO();
-        String dadosEnvioMovEquipProprioSeg = movEquipProprioSegDAO.dadosEnvioMovEquipProprioSeg(movEquipProprioSegDAO.movEquipProprioSegEnvioList(idMovEquipProprioArrayList));
-
         MovEquipProprioPassagDAO movEquipProprioPassagDAO = new MovEquipProprioPassagDAO();
-        String dadosEnvioMovEquipProprioPassag = movEquipProprioPassagDAO.dadosEnvioMovEquipProprioPassag(movEquipProprioPassagDAO.movEquipProprioPassagEnvioList(idMovEquipProprioArrayList));
 
-        return dadosMovEquipProprio + "_" + dadosEnvioMovEquipProprioSeg + "_" + dadosEnvioMovEquipProprioPassag;
-
+        List<MovEquipProprioBean> movEquipProprioList = movEquipProprioDAO.movEquipProprioEnviarList();
+        for (int i = 0; i < movEquipProprioList.size(); i++) {
+            List<MovEquipProprioSegBean> movEquipProprioSegList = movEquipProprioSegDAO.movEquipProprioSegIdMovEquipList(movEquipProprioList.get(i).getIdMovEquipProprio());
+            movEquipProprioList.get(i).setMovEquipProprioSegList(movEquipProprioSegList);
+            List<MovEquipProprioPassagBean> movEquipProprioPassagList = movEquipProprioPassagDAO.movEquipProprioPassagIdMovEquipList(movEquipProprioList.get(i).getIdMovEquipProprio());
+            movEquipProprioList.get(i).setMovEquipProprioPassagList(movEquipProprioPassagList);
+        }
+        return movEquipProprioList;
     }
 
-    public void updateMovEquipProprio(String result, String activity){
+    public void updateMovEquipProprio(List<MovEquipProprioBean> movEquipProprioList, String activity){
 
         try {
 
-            String[] retorno = result.split("_");
-
             MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-            ArrayList<Long> movEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(retorno[1]);
+            ArrayList<Long> movEquipProprioArrayList = movEquipProprioDAO.idMovEquipProprioArrayList(movEquipProprioList);
             movEquipProprioDAO.updateMovEquipProprioEnviado(movEquipProprioArrayList);
 
             deleteMovEquipProprioEnviado();

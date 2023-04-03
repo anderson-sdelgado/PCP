@@ -5,13 +5,16 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pcp.control.MovVeicProprioCTR;
-import br.com.usinasantafe.pcp.control.MovVeicResidenciaCTR;
-import br.com.usinasantafe.pcp.control.MovVeicVisitTercCTR;
+import br.com.usinasantafe.pcp.control.MovEquipProprioCTR;
+import br.com.usinasantafe.pcp.control.MovEquipResidenciaCTR;
+import br.com.usinasantafe.pcp.control.MovEquipVisitTercCTR;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.util.conHttp.PostCadGenerico;
 import br.com.usinasantafe.pcp.util.conHttp.UrlsConexaoHttp;
+import br.com.usinasantafe.pcp.util.retrofit.MovEquipProprioEnvio;
+import br.com.usinasantafe.pcp.util.retrofit.MovEquipResidenciaEnvio;
+import br.com.usinasantafe.pcp.util.retrofit.MovEquipVisitTercEnvio;
 import br.com.usinasantafe.pcp.view.ActivityGeneric;
 
 public class EnvioDadosServ {
@@ -34,24 +37,32 @@ public class EnvioDadosServ {
     ////////////////////////////////// ENVIAR DADOS ///////////////////////////////////////////////
 
     public void enviarMovEquipProprio(String activity) {
-        LogProcessoDAO.getInstance().insertLogProcesso("MovimentacaoVeicProprioCTR movimentacaoVeicProprioCTR = new MovimentacaoVeicProprioCTR();\n" +
-                "        envio(urlsConexaoHttp.getsInserirMovEquipProprio(), movimentacaoVeicProprioCTR.dadosEnvioMovEquipProprio(), activity);", activity);
-        MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();
-        envio(urlsConexaoHttp.getsInserirMovEquipProprio(), movVeicProprioCTR.dadosEnvioMovEquipProprio(), activity);
+        LogProcessoDAO.getInstance().insertLogProcesso("public void enviarMovEquipProprio(String activity) {\n" +
+                "        MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();\n" +
+                "        MovEquipProprioEnvio movEquipProprioEnvio = new MovEquipProprioEnvio();\n" +
+                "        movEquipProprioEnvio.envioDadosMovEquipProprio(movVeicProprioCTR.dadosEnvioMovEquipProprio(), activity);", activity);
+        MovEquipProprioCTR movEquipProprioCTR = new MovEquipProprioCTR();
+        MovEquipProprioEnvio movEquipProprioEnvio = new MovEquipProprioEnvio();
+        movEquipProprioEnvio.envioDadosMovEquipProprio(movEquipProprioCTR.dadosEnvioMovEquipProprio(), activity);
     }
 
     public void enviarMovVeicVisitTerc(String activity) {
-        LogProcessoDAO.getInstance().insertLogProcesso("MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();\n" +
-                "        envio(urlsConexaoHttp.getsInserirMovEquipVisitTerc(), movVeicVisitTercCTR.dadosEnvioMovEquipVisitTerc(), activity);", activity);
-        MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
-        envio(urlsConexaoHttp.getsInserirMovEquipVisitTerc(), movVeicVisitTercCTR.dadosEnvioMovEquipVisitTerc(), activity);
+        LogProcessoDAO.getInstance().insertLogProcesso("public void enviarMovVeicVisitTerc(String activity) {\n" +
+            "        MovEquipVisitTercCTR movEquipVisitTercCTR = new MovEquipVisitTercCTR();\n" +
+            "        MovEquipVisitTercEnvio movEquipVisitTercEnvio = new MovEquipVisitTercEnvio();\n" +
+            "        movEquipVisitTercEnvio.envioDadosMovEquipVisitTerc(movEquipVisitTercCTR.dadosEnvioMovEquipVisitTerc(), activity);", activity);
+        MovEquipVisitTercCTR movEquipVisitTercCTR = new MovEquipVisitTercCTR();
+        MovEquipVisitTercEnvio movEquipVisitTercEnvio = new MovEquipVisitTercEnvio();
+        movEquipVisitTercEnvio.envioDadosMovEquipVisitTerc(movEquipVisitTercCTR.dadosEnvioMovEquipVisitTerc(), activity);
     }
 
-    public void enviarMovVeicResidencia(String activity) {
-        LogProcessoDAO.getInstance().insertLogProcesso("MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();\n" +
-                "        envio(urlsConexaoHttp.getsInserirMovEquipResidencia(), movVeicResidenciaCTR.dadosEnvioMovEquipResidencia(), activity);", activity);
-        MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();
-        envio(urlsConexaoHttp.getsInserirMovEquipResidencia(), movVeicResidenciaCTR.dadosEnvioMovEquipResidencia(), activity);
+    public void enviarMovVeicResidencia(String activity) {LogProcessoDAO.getInstance().insertLogProcesso("public void enviarMovVeicResidencia(String activity) {\n" +
+            "        MovEquipResidenciaCTR movEquipResidenciaCTR = new MovEquipResidenciaCTR();\n" +
+            "        MovEquipResidenciaEnvio movEquipResidenciaEnvio = new MovEquipResidenciaEnvio();\n" +
+            "        movEquipResidenciaEnvio.envioDadosMovEquipResidencia(movEquipResidenciaCTR.dadosEnvioMovEquipResidencia(), activity);", activity);
+        MovEquipResidenciaCTR movEquipResidenciaCTR = new MovEquipResidenciaCTR();
+        MovEquipResidenciaEnvio movEquipResidenciaEnvio = new MovEquipResidenciaEnvio();
+        movEquipResidenciaEnvio.envioDadosMovEquipResidencia(movEquipResidenciaCTR.dadosEnvioMovEquipResidencia(), activity);
     }
 
     public void envio(String url, String dados, String activity){
@@ -72,18 +83,18 @@ public class EnvioDadosServ {
     //////////////////////////////////VERIFICAÇÃO DE DADOS/////////////////////////////////////////
 
     private Boolean verifMovEquipProprioEnviar() {
-        MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();
-        return movVeicProprioCTR.verEnvioMovEquipProprioEnviar();
+        MovEquipProprioCTR movEquipProprioCTR = new MovEquipProprioCTR();
+        return movEquipProprioCTR.verEnvioMovEquipProprioEnviar();
     }
 
     private Boolean verifMovEquipVisitTercEnviar() {
-        MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
-        return movVeicVisitTercCTR.verEnvioMovEquipVisitTercEnviar();
+        MovEquipVisitTercCTR movEquipVisitTercCTR = new MovEquipVisitTercCTR();
+        return movEquipVisitTercCTR.verEnvioMovEquipVisitTercEnviar();
     }
 
     private Boolean verifMovEquipResidenciaEnviar() {
-        MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();
-        return movVeicResidenciaCTR.verEnvioMovEquipResidenciaEnviar();
+        MovEquipResidenciaCTR movEquipResidenciaCTR = new MovEquipResidenciaCTR();
+        return movEquipResidenciaCTR.verEnvioMovEquipResidenciaEnviar();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,34 +150,34 @@ public class EnvioDadosServ {
     ////////////////////////////////////MECANISMO DE ENVIO/////////////////////////////////////////
 
     public void recDados(String result, String activity){
-        LogProcessoDAO.getInstance().insertLogProcesso("public void recDados(String " + result + ", String activity){", activity);
-        if (result.trim().startsWith("MOVEQUIPPROPRIO")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("if (result.trim().startsWith(\"MOVEQUIPPROPRIO\")) {\n" +
-                    "            MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();\n" +
-                    "            movVeicProprioCTR.updateMovEquipProprio(result, activity);", activity);
-            MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();
-            movVeicProprioCTR.updateMovEquipProprio(result, activity);
-        }
-        else if (result.trim().startsWith("MOVEQUIPVISITTERC")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"MOVEQUIPVISITTERC\")) {\n" +
-                    "            MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();\n" +
-                    "            movVeicVisitTercCTR.updateMovEquipVisitTerc(result, activity);", activity);
-            MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
-            movVeicVisitTercCTR.updateMovEquipVisitTerc(result, activity);
-        }
-        else if (result.trim().startsWith("MOVEQUIPRESIDENCIA")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"MOVEQUIPRESIDENCIA\")) {\n" +
-                    "            MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();\n" +
-                    "            movVeicResidenciaCTR.updateMovEquipResidencia(result, activity);", activity);
-            MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();
-            movVeicResidenciaCTR.updateMovEquipResidencia(result, activity);
-        }
-        else {
-            LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +
-                    "            status = 1;", activity);
-            status = 1;
-            LogErroDAO.getInstance().insertLogErro(result);
-        }
+//        LogProcessoDAO.getInstance().insertLogProcesso("public void recDados(String " + result + ", String activity){", activity);
+//        if (result.trim().startsWith("MOVEQUIPPROPRIO")) {
+//            LogProcessoDAO.getInstance().insertLogProcesso("if (result.trim().startsWith(\"MOVEQUIPPROPRIO\")) {\n" +
+//                    "            MovVeicProprioCTR movVeicProprioCTR = new MovVeicProprioCTR();\n" +
+//                    "            movVeicProprioCTR.updateMovEquipProprio(result, activity);", activity);
+//            MovEquipProprioCTR movEquipProprioCTR = new MovEquipProprioCTR();
+//            movVeicProprioCTR.updateMovEquipProprio(result, activity);
+//        }
+//        else if (result.trim().startsWith("MOVEQUIPVISITTERC")) {
+//            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"MOVEQUIPVISITTERC\")) {\n" +
+//                    "            MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();\n" +
+//                    "            movVeicVisitTercCTR.updateMovEquipVisitTerc(result, activity);", activity);
+//            MovEquipVisitTercCTR movEquipVisitTercCTR = new MovEquipVisitTercCTR();
+//            movEquipVisitTercCTR.updateMovEquipVisitTerc(result, activity);
+//        }
+//        else if (result.trim().startsWith("MOVEQUIPRESIDENCIA")) {
+//            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"MOVEQUIPRESIDENCIA\")) {\n" +
+//                    "            MovVeicResidenciaCTR movVeicResidenciaCTR = new MovVeicResidenciaCTR();\n" +
+//                    "            movVeicResidenciaCTR.updateMovEquipResidencia(result, activity);", activity);
+//            MovEquipResidenciaCTR movEquipResidenciaCTR = new MovEquipResidenciaCTR();
+//            movEquipResidenciaCTR.updateMovEquipResidencia(result, activity);
+//        }
+//        else {
+//            LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +
+//                    "            status = 1;", activity);
+//            status = 1;
+//            LogErroDAO.getInstance().insertLogErro(result);
+//        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

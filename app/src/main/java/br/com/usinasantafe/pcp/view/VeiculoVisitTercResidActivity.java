@@ -128,12 +128,12 @@ public class VeiculoVisitTercResidActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){", getLocalClassName());
                     if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
-                                "                    it = new Intent(VeiculoVisitTercResidenciaActivity.this, VisitTercActivity.class);", getLocalClassName());
-                        it = new Intent(VeiculoVisitTercResidActivity.this, CPFVisitTercActivity.class);
+                                "                    it = new Intent(VeiculoVisitTercResidActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
+                        it = new Intent(VeiculoVisitTercResidActivity.this, ListaMovVisitTercActivity.class);
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                    it = new Intent(VeiculoVisitTercResidenciaActivity.this, VisitanteResidenciaActivity.class);", getLocalClassName());
-                        it = new Intent(VeiculoVisitTercResidActivity.this, MotoristaResidenciaActivity.class);
+                                "                    it = new Intent(VeiculoVisitTercResidActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
+                        it = new Intent(VeiculoVisitTercResidActivity.this, ListaMovResidenciaActivity.class);
                     }
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

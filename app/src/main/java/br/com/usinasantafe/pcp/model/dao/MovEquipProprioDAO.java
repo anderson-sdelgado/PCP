@@ -225,51 +225,9 @@ public class MovEquipProprioDAO {
         return idMovEquipProprioList;
     }
 
-    public ArrayList<Long> idMovEquipProprioArrayList(String objeto) throws Exception {
-
-        ArrayList<Long> idMovEquipProprioArrayList = new ArrayList<>();
-
-        JSONObject jObjMovEquipProprio = new JSONObject(objeto);
-        JSONArray jsonArrayMovEquipProprio = jObjMovEquipProprio.getJSONArray("movequipproprio");
-
-        for (int i = 0; i < jsonArrayMovEquipProprio.length(); i++) {
-
-            JSONObject objBol = jsonArrayMovEquipProprio.getJSONObject(i);
-            Gson gsonBol = new Gson();
-            MovEquipProprioBean movEquipProprioBean = gsonBol.fromJson(objBol.toString(), MovEquipProprioBean.class);
-
-            idMovEquipProprioArrayList.add(movEquipProprioBean.getIdMovEquipProprio());
-
-        }
-
-        return idMovEquipProprioArrayList;
-
-    }
-
     private String dadosMovEquipProprio(MovEquipProprioBean movEquipProprioBean){
         Gson gsonCabec = new Gson();
         return gsonCabec.toJsonTree(movEquipProprioBean, movEquipProprioBean.getClass()).toString();
-    }
-
-    public String dadosEnvioMovEquipProprio(){
-        return dadosMovEquipProprio(movEquipProprioEnviarList());
-    }
-
-    private String dadosMovEquipProprio(List<MovEquipProprioBean> movEquipProprioList){
-
-        JsonArray jsonArrayMovEquipProprio = new JsonArray();
-
-        for (MovEquipProprioBean movEquipProprioBean : movEquipProprioList) {
-            Gson gsonMovEquipProprio = new Gson();
-            jsonArrayMovEquipProprio.add(gsonMovEquipProprio.toJsonTree(movEquipProprioBean, movEquipProprioBean.getClass()));
-        }
-
-        movEquipProprioList.clear();
-
-        JsonObject jsonMovEquipProprio = new JsonObject();
-        jsonMovEquipProprio.add("movequipproprio", jsonArrayMovEquipProprio);
-
-        return jsonMovEquipProprio.toString();
     }
 
     private EspecificaPesquisa getPesqMovId(Long idMovEquipProprio){

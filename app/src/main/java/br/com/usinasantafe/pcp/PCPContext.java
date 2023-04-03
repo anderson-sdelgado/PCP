@@ -3,9 +3,9 @@ package br.com.usinasantafe.pcp;
 import android.app.Application;
 
 import br.com.usinasantafe.pcp.control.ConfigCTR;
-import br.com.usinasantafe.pcp.control.MovVeicProprioCTR;
-import br.com.usinasantafe.pcp.control.MovVeicResidenciaCTR;
-import br.com.usinasantafe.pcp.control.MovVeicVisitTercCTR;
+import br.com.usinasantafe.pcp.control.MovEquipProprioCTR;
+import br.com.usinasantafe.pcp.control.MovEquipResidenciaCTR;
+import br.com.usinasantafe.pcp.control.MovEquipVisitTercCTR;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 
 public class PCPContext extends Application {
@@ -13,11 +13,11 @@ public class PCPContext extends Application {
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
     private ConfigCTR configCTR;
-    private MovVeicProprioCTR movVeicProprioCTR;
-    private MovVeicVisitTercCTR movVeicVisitTercCTR;
-    private MovVeicResidenciaCTR movVeicResidenciaCTR;
+    private MovEquipProprioCTR movEquipProprioCTR;
+    private MovEquipVisitTercCTR movEquipVisitTercCTR;
+    private MovEquipResidenciaCTR movEquipResidenciaCTR;
 
-    public static String versaoWS = "2.01";
+    public static String versaoWS = "3.00";
 
     @Override
     public void onCreate() {
@@ -26,22 +26,22 @@ public class PCPContext extends Application {
         Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
-    public MovVeicProprioCTR getMovVeicProprioCTR(){
-        if (movVeicProprioCTR == null)
-            movVeicProprioCTR = new MovVeicProprioCTR();
-        return movVeicProprioCTR;
+    public MovEquipProprioCTR getMovVeicProprioCTR(){
+        if (movEquipProprioCTR == null)
+            movEquipProprioCTR = new MovEquipProprioCTR();
+        return movEquipProprioCTR;
     }
 
-    public MovVeicVisitTercCTR getMovVeicVisitTercCTR(){
-        if (movVeicVisitTercCTR == null)
-            movVeicVisitTercCTR = new MovVeicVisitTercCTR();
-        return movVeicVisitTercCTR;
+    public MovEquipVisitTercCTR getMovVeicVisitTercCTR(){
+        if (movEquipVisitTercCTR == null)
+            movEquipVisitTercCTR = new MovEquipVisitTercCTR();
+        return movEquipVisitTercCTR;
     }
 
-    public MovVeicResidenciaCTR getMovVeicResidenciaCTR(){
-        if (movVeicResidenciaCTR == null)
-            movVeicResidenciaCTR = new MovVeicResidenciaCTR();
-        return movVeicResidenciaCTR;
+    public MovEquipResidenciaCTR getMovVeicResidenciaCTR(){
+        if (movEquipResidenciaCTR == null)
+            movEquipResidenciaCTR = new MovEquipResidenciaCTR();
+        return movEquipResidenciaCTR;
     }
 
     public ConfigCTR getConfigCTR(){

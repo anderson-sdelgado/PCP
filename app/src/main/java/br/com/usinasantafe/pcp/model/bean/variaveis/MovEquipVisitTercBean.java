@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcp.model.bean.variaveis;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.List;
+
 import br.com.usinasantafe.pcp.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbmovequipvisittercvar")
@@ -40,6 +42,7 @@ public class MovEquipVisitTercBean extends Entidade {
     private Long statusEntradaSaidaMovEquipVisitTerc; // 1 - Entrada; 2 - Saida
     @DatabaseField
     private Long statusMovEquipVisitTerc; // // 1 - Aberto; 2 - Fechado; 3 - Enviar; 4 - Enviado;
+    private List<MovEquipVisitTercPassagBean> movEquipVisitTercPassagList;
 
     public MovEquipVisitTercBean() {
     }
@@ -162,5 +165,13 @@ public class MovEquipVisitTercBean extends Entidade {
 
     public void setNroAparelhoMovEquipVisitTerc(Long nroAparelhoMovEquipVisitTerc) {
         this.nroAparelhoMovEquipVisitTerc = nroAparelhoMovEquipVisitTerc;
+    }
+
+    public List<MovEquipVisitTercPassagBean> getMovEquipVisitTercPassagList() {
+        return movEquipVisitTercPassagList;
+    }
+
+    public void setMovEquipVisitTercPassagList(List<MovEquipVisitTercPassagBean> movEquipVisitTercPassagList) {
+        this.movEquipVisitTercPassagList = movEquipVisitTercPassagList;
     }
 }

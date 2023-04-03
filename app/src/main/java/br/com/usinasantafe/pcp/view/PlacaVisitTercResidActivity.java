@@ -78,23 +78,16 @@ public class PlacaVisitTercResidActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){", getLocalClassName());
                         if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
                             LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
-                                    "                        pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitanteTerceiro.getText().toString());", getLocalClassName());
+                                    "                            pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitTercResid.getText().toString());\n" +
+                                    "                            it  = new Intent(PlacaVisitTercResidActivity.this, TipoVisitTercActivity.class);", getLocalClassName());
                             pcpContext.getMovVeicVisitTercCTR().setPlacaVisitTerc(editTextPlacaVisitTercResid.getText().toString());
-                            if(pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){
-                                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovimentacaoVeicVisTercCTR().getMovEquipVisitTercAberto().getTipoMovEquipVisitTerc() == 1L){\n" +
-                                        "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, DestinoActivity.class);", getLocalClassName());
-                                it  = new Intent(PlacaVisitTercResidActivity.this, DestinoActivity.class);
-                            } else {
-                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                        "                        it  = new Intent(PlacaVisitanteTerceiroActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                                it  = new Intent(PlacaVisitTercResidActivity.this, ObservActivity.class);
-                            }
+                            it  = new Intent(PlacaVisitTercResidActivity.this, TipoVisitTercActivity.class);
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                     "                        pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(editTextPlacaVisitanteTerceiro.getText().toString());\n" +
                                     "                        it  = new Intent(PlacaVisitTercResidenciaActivity.this, ObservacaoActivity.class);", getLocalClassName());
                             pcpContext.getMovVeicResidenciaCTR().setPlacaResidencia(editTextPlacaVisitTercResid.getText().toString());
-                            it  = new Intent(PlacaVisitTercResidActivity.this, ObservActivity.class);
+                            it  = new Intent(PlacaVisitTercResidActivity.this, MotoristaResidenciaActivity.class);
                         }
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());

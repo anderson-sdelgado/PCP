@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcp.model.bean.variaveis;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.List;
+
 import br.com.usinasantafe.pcp.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbmovequippropriovar")
@@ -36,6 +38,8 @@ public class MovEquipProprioBean extends Entidade {
     private Long nroAparelhoMovEquipProprio;
     @DatabaseField
     private Long statusMovEquipProprio; // // 1 - Aberto; 2 - Finalizado; 3 - Enviar; 4 - Enviado;
+    private List<MovEquipProprioSegBean> movEquipProprioSegList;
+    private List<MovEquipProprioPassagBean> movEquipProprioPassagList;
 
     public MovEquipProprioBean() {
     }
@@ -142,5 +146,21 @@ public class MovEquipProprioBean extends Entidade {
 
     public void setNroAparelhoMovEquipProprio(Long nroAparelhoMovEquipProprio) {
         this.nroAparelhoMovEquipProprio = nroAparelhoMovEquipProprio;
+    }
+
+    public List<MovEquipProprioPassagBean> getMovEquipProprioPassagList() {
+        return movEquipProprioPassagList;
+    }
+
+    public void setMovEquipProprioPassagList(List<MovEquipProprioPassagBean> movEquipProprioPassagList) {
+        this.movEquipProprioPassagList = movEquipProprioPassagList;
+    }
+
+    public List<MovEquipProprioSegBean> getMovEquipProprioSegList() {
+        return movEquipProprioSegList;
+    }
+
+    public void setMovEquipProprioSegList(List<MovEquipProprioSegBean> movEquipProprioSegList) {
+        this.movEquipProprioSegList = movEquipProprioSegList;
     }
 }

@@ -5,13 +5,11 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipResidenciaDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 
-public class MovVeicResidenciaCTR {
+public class MovEquipResidenciaCTR {
 
     public boolean verEnvioMovEquipResidenciaEnviar() {
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
@@ -134,19 +132,17 @@ public class MovVeicResidenciaCTR {
         return movEquipResidenciaDAO.movEquipResidenciaEntradaList();
     }
 
-    public String dadosEnvioMovEquipResidencia(){
+    public List<MovEquipResidenciaBean> dadosEnvioMovEquipResidencia(){
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-        return movEquipResidenciaDAO.dadosEnvioMovEquipResidencia();
+        return movEquipResidenciaDAO.movEquipResidenciaEnviarList();
     }
 
-    public void updateMovEquipResidencia(String result, String activity){
+    public void updateMovEquipResidencia(List<MovEquipResidenciaBean> movEquipResidenciaList, String activity){
 
         try {
 
-            String[] retorno = result.split("_");
-
             MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-            ArrayList<Long> movEquipResidenciaArrayList = movEquipResidenciaDAO.idMovEquipResidenciaArrayList(retorno[1]);
+            ArrayList<Long> movEquipResidenciaArrayList = movEquipResidenciaDAO.idMovEquipResidenciaArrayList(movEquipResidenciaList);
             movEquipResidenciaDAO.updateEquipResidenciaEnviado(movEquipResidenciaArrayList);
 
             deleteMovEquipResidenciaEnviado();

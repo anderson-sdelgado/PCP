@@ -50,9 +50,9 @@ public class MotoristaResidenciaActivity extends ActivityGeneric {
                     if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                                 "                        pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(editTextVisitanteResidencia.getText().toString());\n" +
-                                "                        it  = new Intent(VisitanteResidenciaActivity.this, VeiculoVisitTercResidenciaActivity.class);", getLocalClassName());
+                                "                        it  = new Intent(MotoristaResidenciaActivity.this, ObservActivity.class);", getLocalClassName());
                         pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(editTextMotoristaResidencia.getText().toString());
-                        it  = new Intent(MotoristaResidenciaActivity.this, VeiculoVisitTercResidActivity.class);
+                        it  = new Intent(MotoristaResidenciaActivity.this, ObservActivity.class);
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "                        pcpContext.getMovVeicResidenciaCTR().setNomeVisitanteResidencia(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), editTextVisitanteResidencia.getText().toString());\n" +
@@ -95,8 +95,8 @@ public class MotoristaResidenciaActivity extends ActivityGeneric {
                 Intent it;
                 if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
-                            "                    it = new Intent(VisitanteResidenciaActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
-                    it = new Intent(MotoristaResidenciaActivity.this, ListaMovResidenciaActivity.class);
+                            "                    it = new Intent(MotoristaResidenciaActivity.this, PlacaVisitTercResidActivity.class);", getLocalClassName());
+                    it = new Intent(MotoristaResidenciaActivity.this, PlacaVisitTercResidActivity.class);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "                    it = new Intent(VisitanteResidenciaActivity.this, DescrMovActivity.class);", getLocalClassName());

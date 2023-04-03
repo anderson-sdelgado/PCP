@@ -111,10 +111,10 @@ public class ListaMovResidenciaActivity extends ActivityGeneric {
                         "            public void onClick(View v) {\n" +
                         "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
                         "                pcpContext.getMovVeicResidenciaCTR().abrirMovEquipResidencia(1L);\n" +
-                        "                Intent it = new Intent(ListaMovResidenciaActivity.this, VisitanteResidenciaActivity.class);", getLocalClassName());
+                        "                Intent it = new Intent(ListaMovResidenciaActivity.this, VeiculoVisitTercResidActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(4L);
                 pcpContext.getMovVeicResidenciaCTR().abrirMovEquipResidencia(1L);
-                Intent it = new Intent(ListaMovResidenciaActivity.this, MotoristaResidenciaActivity.class);
+                Intent it = new Intent(ListaMovResidenciaActivity.this, VeiculoVisitTercResidActivity.class);
                 startActivity(it);
                 finish();
             }

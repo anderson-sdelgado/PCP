@@ -127,8 +127,8 @@ public class DestinoActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){", getLocalClassName());
                     if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
-                                "                    it = new Intent(DestinoActivity.this, ListaVeiculoSecActivity.class);", getLocalClassName());
-                        it = new Intent(DestinoActivity.this, ListaVeiculoSegActivity.class);
+                                "                    it = new Intent(DestinoActivity.this, ListaPassagColabVisitTercActivity.class);", getLocalClassName());
+                        it = new Intent(DestinoActivity.this, ListaPassagColabVisitTercActivity.class);
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "                    it = new Intent(DestinoActivity.this, PlacaVisitanteTerceiroActivity.class);", getLocalClassName());

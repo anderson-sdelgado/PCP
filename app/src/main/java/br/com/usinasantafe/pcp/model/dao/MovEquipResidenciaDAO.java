@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
 import br.com.usinasantafe.pcp.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcp.util.Tempo;
@@ -226,46 +227,13 @@ public class MovEquipResidenciaDAO {
         return movEquipResidenciaBean.get(pesqArrayList);
     }
 
-    public ArrayList<Long> idMovEquipResidenciaArrayList(String objeto) throws Exception {
-
+    public ArrayList<Long> idMovEquipResidenciaArrayList(List<MovEquipResidenciaBean> movEquipResidenciaList) {
         ArrayList<Long> idMovEquipResidenciaArrayList = new ArrayList<>();
-
-        JSONObject jObjMovEquipResidencia = new JSONObject(objeto);
-        JSONArray jsonArrayMovEquipResidencia = jObjMovEquipResidencia.getJSONArray("movequipresidencia");
-
-        for (int i = 0; i < jsonArrayMovEquipResidencia.length(); i++) {
-
-            JSONObject objMovEquipResidencia = jsonArrayMovEquipResidencia.getJSONObject(i);
-            Gson gsonMovEquipResidencia = new Gson();
-            MovEquipResidenciaBean movEquipResidenciaBean = gsonMovEquipResidencia.fromJson(objMovEquipResidencia.toString(), MovEquipResidenciaBean.class);
-
+        for(MovEquipResidenciaBean movEquipResidenciaBean: movEquipResidenciaList){
             idMovEquipResidenciaArrayList.add(movEquipResidenciaBean.getIdMovEquipResidencia());
-
         }
-
-        return idMovEquipResidenciaArrayList;
-
-    }
-
-    public String dadosEnvioMovEquipResidencia() {
-        return dadosMovEquipResidencia(movEquipResidenciaEnviarList());
-    }
-
-    private String dadosMovEquipResidencia(List<MovEquipResidenciaBean> movEquipResidenciaList){
-
-        JsonArray jsonArrayBoletim = new JsonArray();
-
-        for (MovEquipResidenciaBean movEquipResidenciaBean : movEquipResidenciaList) {
-            Gson gsonMovEquipResidencia = new Gson();
-            jsonArrayBoletim.add(gsonMovEquipResidencia.toJsonTree(movEquipResidenciaBean, movEquipResidenciaBean.getClass()));
-        }
-
         movEquipResidenciaList.clear();
-
-        JsonObject jsonBoletim = new JsonObject();
-        jsonBoletim.add("movequipresidencia", jsonArrayBoletim);
-
-        return jsonBoletim.toString();
+        return idMovEquipResidenciaArrayList;
     }
 
     private EspecificaPesquisa getPesqMovId(Long idMovEquipResidencia){

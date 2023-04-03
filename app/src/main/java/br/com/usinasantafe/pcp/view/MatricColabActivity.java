@@ -243,8 +243,8 @@ public class MatricColabActivity extends ActivityGeneric {
             it = new Intent(MatricColabActivity.this, TelaInicialActivity.class);
         } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
-                    "            it = new Intent(ColabActivity.this, ListaMovActivity.class);", getLocalClassName());
-            it = new Intent(MatricColabActivity.this, ListaMovProprioActivity.class);
+                    "            it = new Intent(MatricColabActivity.this, ListaVeiculoSegActivity.class);", getLocalClassName());
+            it = new Intent(MatricColabActivity.this, ListaVeiculoSegActivity.class);
         } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
                     "            it = new Intent(MatricColabActivity.this, DescrMovActivity.class);", getLocalClassName());

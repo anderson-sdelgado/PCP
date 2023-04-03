@@ -12,7 +12,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.R;
 import br.com.usinasantafe.pcp.control.ConfigCTR;
-import br.com.usinasantafe.pcp.control.MovVeicVisitTercCTR;
+import br.com.usinasantafe.pcp.control.MovEquipVisitTercCTR;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 
@@ -86,11 +86,11 @@ public class AdapterListMovVisitTercResidManut extends BaseAdapter {
     }
 
     public void visitTercMov(MovEquipVisitTercBean movEquipVisitTercBean){
-        MovVeicVisitTercCTR movVeicVisitTercCTR = new MovVeicVisitTercCTR();
+        MovEquipVisitTercCTR movEquipVisitTercCTR = new MovEquipVisitTercCTR();
         if(movEquipVisitTercBean.getTipoVisitTercMovEquipVisitTerc() == 2L){
-            textViewMotoristaMov.setText("TERCEIRO: " + movVeicVisitTercCTR.getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfTerceiro() + " - " + movVeicVisitTercCTR.getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());
+            textViewMotoristaMov.setText("TERCEIRO: " + movEquipVisitTercCTR.getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfTerceiro() + " - " + movEquipVisitTercCTR.getTerceiroId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeTerceiro());
         } else {
-            textViewMotoristaMov.setText("VISITANTE: " + movVeicVisitTercCTR.getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfVisitante() + " - " + movVeicVisitTercCTR.getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());
+            textViewMotoristaMov.setText("VISITANTE: " + movEquipVisitTercCTR.getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getCpfVisitante() + " - " + movEquipVisitTercCTR.getVisitanteId(movEquipVisitTercBean.getIdVisitTercMovEquipVisitTerc()).getNomeVisitante());
         }
     }
 
