@@ -34,55 +34,47 @@ public class NotaFiscalActivity extends ActivityGeneric {
             editTextPadrao.setText("");
         }
 
-        buttonOkNotaFiscal.setOnClickListener(new View.OnClickListener() {
-            @SuppressWarnings("rawtypes")
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkNotaFiscal.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @SuppressWarnings(\"rawtypes\")\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                if (!editTextPadrao.getText().toString().equals("")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
-                                "                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscalProprio(Long.valueOf(editTextPadrao.getText().toString()));
-                    } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscal(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscalProprio(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.valueOf(editTextPadrao.getText().toString()));
-                    }
-                }
-                Intent it;
+        buttonOkNotaFiscal.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkNotaFiscal.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @SuppressWarnings(\"rawtypes\")\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if (!editTextPadrao.getText().toString().equals("")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
                 if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
-                            "                    it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                    it = new Intent(NotaFiscalActivity.this, ObservActivity.class);
+                            "                    pcpContext.getMovimentacaoVeicProprioCTR().setNroNotaFiscal(Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
+                    pcpContext.getMovVeicProprioCTR().setNroNotaFiscalProprio(Long.valueOf(editTextPadrao.getText().toString()));
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);", getLocalClassName());
-                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);
+                            "                        pcpContext.getMovVeicProprioCTR().setNroNotaFiscal(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.valueOf(editTextPadrao.getText().toString()));", getLocalClassName());
+                    pcpContext.getMovVeicProprioCTR().setNroNotaFiscalProprio(pcpContext.getConfigCTR().getConfig().getPosicaoListaMov().intValue(), Long.valueOf(editTextPadrao.getText().toString()));
                 }
-                startActivity(it);
-                finish();
-
             }
+            Intent it;
+            if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                        "                    it = new Intent(NotaFiscalActivity.this, ObservacaoActivity.class);", getLocalClassName());
+                it = new Intent(NotaFiscalActivity.this, ObservActivity.class);
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);", getLocalClassName());
+                it = new Intent(NotaFiscalActivity.this, DescrMovActivity.class);
+            }
+            startActivity(it);
+            finish();
 
         });
 
-        buttonCancNotaFiscal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancNotaFiscal.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "if (editTextPadrao.getText().toString().length() > 0) {\n" +
-                        "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
-                        "                }", getLocalClassName());
-                if (editTextPadrao.getText().toString().length() > 0) {
-                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
-                }
+        buttonCancNotaFiscal.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancNotaFiscal.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                    "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
+                    "                }", getLocalClassName());
+            if (editTextPadrao.getText().toString().length() > 0) {
+                editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
             }
         });
     }

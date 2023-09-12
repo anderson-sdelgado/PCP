@@ -6,63 +6,28 @@ package br.com.usinasantafe.pcp.model.bean;
 
 public class AtualAplicBean {
 
-    private Long idEquipAtual;
-    private Long idCheckList;
-    private String versaoAtual;
-    private String versaoNova;
-    private Long flagAtualApp;
-    private Long flagAtualCheckList;
+    private Long nroAparelho;
+    private String versao;
     private String dthr;
+    private String token;
 
     public AtualAplicBean() {
     }
 
-    public Long getIdEquipAtual() {
-        return idEquipAtual;
+    public Long getNroAparelho() {
+        return nroAparelho;
     }
 
-    public void setIdEquipAtual(Long idEquipAtual) {
-        this.idEquipAtual = idEquipAtual;
+    public void setNroAparelho(Long nroAparelho) {
+        this.nroAparelho = nroAparelho;
     }
 
-    public Long getIdCheckList() {
-        return idCheckList;
+    public String getVersao() {
+        return versao;
     }
 
-    public void setIdCheckList(Long idCheckList) {
-        this.idCheckList = idCheckList;
-    }
-
-    public String getVersaoAtual() {
-        return versaoAtual;
-    }
-
-    public void setVersaoAtual(String versaoAtual) {
-        this.versaoAtual = versaoAtual;
-    }
-
-    public String getVersaoNova() {
-        return versaoNova;
-    }
-
-    public void setVersaoNova(String versaoNova) {
-        this.versaoNova = versaoNova;
-    }
-
-    public Long getFlagAtualApp() {
-        return flagAtualApp;
-    }
-
-    public void setFlagAtualApp(Long flagAtualApp) {
-        this.flagAtualApp = flagAtualApp;
-    }
-
-    public Long getFlagAtualCheckList() {
-        return flagAtualCheckList;
-    }
-
-    public void setFlagAtualCheckList(Long flagAtualCheckList) {
-        this.flagAtualCheckList = flagAtualCheckList;
+    public void setVersao(String versao) {
+        this.versao = versao;
     }
 
     public String getDthr() {
@@ -71,5 +36,13 @@ public class AtualAplicBean {
 
     public void setDthr(String dthr) {
         this.dthr = dthr;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

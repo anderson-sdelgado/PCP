@@ -59,91 +59,72 @@ public class ListaMovFinalizadoActivity extends ActivityGeneric {
             listViewMovFinalizado.setAdapter(adapterListMovVisitTercResidManut);
         }
 
-        listViewMovFinalizado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewMovFinalizado.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(8L);\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
-                        "                Intent it = new Intent(ListaMovAbertoActivity.this, DescrMovActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(8L);
-                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
-                Intent it = new Intent(ListaMovFinalizadoActivity.this, DescrMovActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        listViewMovFinalizado.setOnItemClickListener((l, v, position, id) -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("listViewMovFinalizado.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoTela(8L);\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
+                    "                Intent it = new Intent(ListaMovAbertoActivity.this, DescrMovActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setPosicaoTela(8L);
+            pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
+            Intent it = new Intent(ListaMovFinalizadoActivity.this, DescrMovActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonFecharMovFinalizado.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonFecharMovFinalizado.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovAbertoActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE FECHAR O(S) MOVIMENTO(S)? \");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovFinalizadoActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE FECHAR O(S) MOVIMENTO(S)? ");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
-                                    "                            pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();", getLocalClassName());
-                            pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();
-                        } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
-                                    "                            pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc(getLocalClassName());", getLocalClassName());
-                            pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();
-                        } else {
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "                            pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia(getLocalClassName());", getLocalClassName());
-                            pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();
-                        }
-                        LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().envioDados(getLocalClassName());\n" +
-                                "                        Intent it = new Intent(ListaMovFinalizadoActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
-                        EnvioDadosServ.getInstance().envioDados(getLocalClassName());
-                        Intent it = new Intent(ListaMovFinalizadoActivity.this, ListaMenuApontActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    }
-                });
-
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
-                alerta.show();
-
-            }
-        });
-
-        buttonRetornarMovFinalizado.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMovFinalizado.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaMovFechadoActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+        buttonFecharMovFinalizado.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonFecharMovFinalizado.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovAbertoActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE FECHAR O(S) MOVIMENTO(S)? \");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovFinalizadoActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE FECHAR O(S) MOVIMENTO(S)? ");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
+                            "                            pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();", getLocalClassName());
+                    pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();
+                } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
+                            "                            pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc(getLocalClassName());", getLocalClassName());
+                    pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                            pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia(getLocalClassName());", getLocalClassName());
+                    pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();
+                }
+                LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().envioDados(getLocalClassName());\n" +
+                        "                        Intent it = new Intent(ListaMovFinalizadoActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+                EnvioDadosServ.getInstance().envioDados(getLocalClassName());
                 Intent it = new Intent(ListaMovFinalizadoActivity.this, ListaMenuApontActivity.class);
                 startActivity(it);
                 finish();
-            }
+
+            });
+
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
+
+        });
+
+        buttonRetornarMovFinalizado.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMovFinalizado.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaMovFechadoActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaMovFinalizadoActivity.this, ListaMenuApontActivity.class);
+            startActivity(it);
+            finish();
         });
     }
 

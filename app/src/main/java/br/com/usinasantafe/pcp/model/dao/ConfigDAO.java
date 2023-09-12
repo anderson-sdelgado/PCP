@@ -34,10 +34,10 @@ public class ConfigDAO {
         return configBean;
     }
 
-    public void salvarConfig(Long numLinha, String senha){
+    public void salvarConfig(Long nroAparelho, String senha){
         ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
-        configBean.setNroLinhaConfig(numLinha);
+        configBean.setNroAparelhoConfig(nroAparelho);
         configBean.setSenhaConfig(senha);
         configBean.setMatricVigiaConfig(0L);
         configBean.setIdLocalConfig(0L);

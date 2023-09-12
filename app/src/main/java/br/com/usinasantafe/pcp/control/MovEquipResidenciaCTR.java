@@ -24,7 +24,7 @@ public class MovEquipResidenciaCTR {
     public void abrirMovEquipResidencia(Long tipoMov){
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipResidenciaDAO movEquipResidenciaDAO = new MovEquipResidenciaDAO();
-        movEquipResidenciaDAO.abrirMovEquipResidencia(tipoMov, configCTR.getConfig().getNroLinhaConfig());
+        movEquipResidenciaDAO.abrirMovEquipResidencia(tipoMov, configCTR.getConfig().getNroAparelhoConfig());
     }
 
     public void finalizarMovEquipResidencia(String observacao){

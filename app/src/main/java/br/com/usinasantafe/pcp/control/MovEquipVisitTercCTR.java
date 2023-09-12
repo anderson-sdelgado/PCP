@@ -6,15 +6,9 @@ import java.util.List;
 import br.com.usinasantafe.pcp.model.bean.estaticas.TerceiroBean;
 import br.com.usinasantafe.pcp.model.bean.estaticas.VisitanteBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioPassagBean;
-import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioSegBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipVisitTercPassagBean;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
-import br.com.usinasantafe.pcp.model.dao.MovEquipProprioSegDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipVisitTercPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.TerceiroDAO;
@@ -57,7 +51,7 @@ public class MovEquipVisitTercCTR {
     public void abrirMovEquipVisitTerc(Long tipoMov){
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipVisitTercDAO movEquipVisitTercDAO = new MovEquipVisitTercDAO();
-        movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov, configCTR.getConfig().getNroLinhaConfig());
+        movEquipVisitTercDAO.abrirMovEquipVisitTerc(tipoMov, configCTR.getConfig().getNroAparelhoConfig());
     }
 
     public void inserirMovEquipVisitTercPassag(Long idVisitTerc){

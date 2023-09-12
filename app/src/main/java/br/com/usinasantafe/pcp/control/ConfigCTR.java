@@ -16,6 +16,7 @@ import br.com.usinasantafe.pcp.model.bean.estaticas.LocalBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.LogProcessoBean;
+import br.com.usinasantafe.pcp.model.dao.AtualAplicDAO;
 import br.com.usinasantafe.pcp.model.dao.ColabDAO;
 import br.com.usinasantafe.pcp.model.dao.ConfigDAO;
 import br.com.usinasantafe.pcp.model.dao.EquipDAO;
@@ -88,9 +89,9 @@ public class ConfigCTR {
         return localDAO.getLocalId(getConfig().getIdLocalConfig());
     }
 
-    public void salvarConfig(Long numLinha, String senha){
+    public void salvarConfig(Long nroAparelho, String senha){
         ConfigDAO configDAO = new ConfigDAO();
-        configDAO.salvarConfig(numLinha, senha);
+        configDAO.salvarConfig(nroAparelho, senha);
     }
 
     public void setPosicaoTela(Long posicaoTela){
@@ -119,6 +120,12 @@ public class ConfigCTR {
     }
 
     ////////////////////////////////////// ATUALIZAR DADOS ////////////////////////////////////////
+
+    public void verAplic(String senha, String versao, Long nroAparelho, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        LogProcessoDAO.getInstance().insertLogProcesso("equipDAO.verEquip(equipDAO.dadosVerEquip(Long.parseLong(nroEquip), versao), telaAtual, telaProx, progressDialog, activity, tipo);", activity);
+        VerifDadosServ.getInstance().verifDados(senha, atualAplicDAO.dadosAplic(nroAparelho, versao), telaAtual, telaProx, progressDialog, activity);
+    }
 
     public void atualTodasTabelas(Context tela, ProgressDialog progressDialog, String activity){
         LogProcessoDAO.getInstance().insertLogProcesso("AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog, activity);", activity);
@@ -150,7 +157,7 @@ public class ConfigCTR {
     }
 
 
-    public AtualAplicBean recAtual(String result) {
+    public AtualAplicBean recAtual(String result, String senha, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
 
@@ -163,6 +170,18 @@ public class ConfigCTR {
                 ConfigDAO configDAO = new ConfigDAO();
                 atualAplicBean = configDAO.recAtual(jsonArray);
             }
+
+            salvarConfig(atualAplicBean.getNroAparelho(), senha);
+            progressDialog.dismiss();
+            progressDialog = new ProgressDialog(telaAtual);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage("ATUALIZANDO ...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgress(0);
+            progressDialog.setMax(100);
+            progressDialog.show();
+
+            AtualDadosServ.getInstance().atualTodasTabBD(telaAtual, telaProx, progressDialog, "ConfigActivity");
 
         } catch (Exception e) {
             VerifDadosServ.status = 1;

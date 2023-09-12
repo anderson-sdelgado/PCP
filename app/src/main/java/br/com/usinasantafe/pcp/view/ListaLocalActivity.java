@@ -38,7 +38,7 @@ public class ListaLocalActivity extends ActivityGeneric {
                 "        ListView listViewLocal = findViewById(R.id.listViewLocal);\n" +
                 "        listViewLocal.setAdapter(adapterList);", getLocalClassName());
 
-        ArrayList<String> itens = new ArrayList<String>();
+        ArrayList<String> itens = new ArrayList<>();
 
         localList = pcpContext.getConfigCTR().localList();
 
@@ -49,41 +49,33 @@ public class ListaLocalActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         ListView listViewLocal = findViewById(R.id.listViewLocal);
         listViewLocal.setAdapter(adapterList);
-        listViewLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+        listViewLocal.setOnItemClickListener((l, v, position, id) -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                LocalBean localBean = localList.get(position);\n" +
-                        "                pcpContext.getConfigCTR().setIdLocal(localBean.getIdLocal());\n" +
-                        "                Intent it = new Intent(ListaLocalActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
-                LocalBean localBean = localList.get(position);
-                pcpContext.getConfigCTR().setIdLocal(localBean.getIdLocal());
-                Intent it = new Intent(ListaLocalActivity.this, ListaMenuApontActivity.class);
-                startActivity(it);
-                finish();
-
-            }
+            LogProcessoDAO.getInstance().insertLogProcesso("listViewLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                LocalBean localBean = localList.get(position);\n" +
+                    "                pcpContext.getConfigCTR().setIdLocal(localBean.getIdLocal());\n" +
+                    "                Intent it = new Intent(ListaLocalActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+            LocalBean localBean = localList.get(position);
+            pcpContext.getConfigCTR().setIdLocal(localBean.getIdLocal());
+            Intent it = new Intent(ListaLocalActivity.this, ListaMenuApontActivity.class);
+            startActivity(it);
+            finish();
 
         });
 
-        buttonRetornarLocal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonRetornarLocal.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarLocal.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);
-                startActivity(it);
-                finish();
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarLocal.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaLocalActivity.this, MatricColabActivity.class);
+            startActivity(it);
+            finish();
 
-            }
         });
 
     }

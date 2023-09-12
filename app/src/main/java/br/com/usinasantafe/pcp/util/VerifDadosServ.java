@@ -32,7 +32,7 @@ public class VerifDadosServ {
     private TelaInicialActivity telaInicialActivity;
     private PostVerGenerico postVerGenerico;
     public static int status;
-    private int tipo;
+    private String senha;
 
     public VerifDadosServ() {
     }
@@ -46,65 +46,20 @@ public class VerifDadosServ {
     public void manipularDadosHttp(String result, String activity) {
 
         ConfigCTR configCTR = new ConfigCTR();
-        LogProcessoDAO.getInstance().insertLogProcesso("public void manipularDadosHttp(String result) {", activity);
-        if (this.classe.equals("Atualiza")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"Atualiza\")) {\n" +
-                    "            configCTR.recAtual(result.trim());\n" +
-                    "            status = 3;", activity);
-            configCTR.recAtual(result.trim());
-            status = 3;
-            LogProcessoDAO.getInstance().insertLogProcesso("this.telaInicialActivity.goMenuInicial();", activity);
-            this.telaInicialActivity.goMenuInicial();
-        }
+        configCTR.recAtual(result.trim(), this.senha, this.telaAtual, this.telaProx, this.progressDialog);
 
     }
 
-    public void verifAtualAplic(String dados, TelaInicialActivity telaInicialActivity, String activity) {
 
-        urlsConexaoHttp = new UrlsConexaoHttp();
-        this.classe = "Atualiza";
-        this.dados = dados;
-        this.telaInicialActivity = telaInicialActivity;
-
-        envioVerif(activity);
-
-    }
-
-    public void verifDados(String dados, String classe, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
+    public void verifDados(String senha, String dados, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
 
         this.urlsConexaoHttp = new UrlsConexaoHttp();
         this.telaAtual = telaAtual;
         this.telaProx = telaProx;
         this.progressDialog = progressDialog;
-        this.classe = classe;
         this.dados = dados;
-
-        envioVerif(activity);
-
-    }
-
-
-    public void verifDados(String dados, String classe, Context telaAtual, Class telaProx, String activity) {
-
-        this.urlsConexaoHttp = new UrlsConexaoHttp();
-        this.telaAtual = telaAtual;
-        this.telaProx = telaProx;
-        this.classe = classe;
-        this.dados = dados;
-
-        envioVerif(activity);
-
-    }
-
-    public void verifDados(String dados, String classe, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity, int tipo) {
-
-        this.urlsConexaoHttp = new UrlsConexaoHttp();
-        this.telaAtual = telaAtual;
-        this.telaProx = telaProx;
-        this.progressDialog = progressDialog;
-        this.classe = classe;
-        this.dados = dados;
-        this.tipo = tipo;
+        this.senha = senha;
+        this.classe = "AtualAplic";
 
         envioVerif(activity);
 
@@ -115,7 +70,7 @@ public class VerifDadosServ {
         status = 2;
         this.urlsConexaoHttp = new UrlsConexaoHttp();
         String[] url = {urlsConexaoHttp.urlVerifica(classe), activity};
-        Map<String, Object> parametrosPost = new HashMap<String, Object>();
+        Map<String, Object> parametrosPost = new HashMap<>();
         parametrosPost.put("dado", this.dados);
 
         Log.i("PMM", "postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(classe) + "'); - Dados de Envio = " + this.dados);

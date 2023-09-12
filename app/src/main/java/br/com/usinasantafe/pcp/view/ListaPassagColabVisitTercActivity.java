@@ -37,7 +37,7 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
         Button buttonOkPassageiro = findViewById(R.id.buttonOkPassageiro);
         Button buttonCancPassageiro = findViewById(R.id.buttonCancPassageiro);
 
-        ArrayList<String> itens = new ArrayList<String>();
+        ArrayList<String> itens = new ArrayList<>();
 
         if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L)){
             LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() < 7L)){", getLocalClassName());
@@ -116,80 +116,108 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         ListView listViewPassag = findViewById(R.id.listViewPassag);
         listViewPassag.setAdapter(adapterList);
-        listViewPassag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewPassag.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            LogProcessoDAO.getInstance().insertLogProcesso("listViewPassag.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassagColabVisitTercActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                String label = \"DESEJA EXCLUIR O PASSAGEIRO?\";\n" +
+                    "                alerta.setMessage(label);", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassagColabVisitTercActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            String label = "DESEJA EXCLUIR O PASSAGEIRO?";
+            alerta.setMessage(label);
+            alerta.setPositiveButton("SIM", (dialog, which) -> {
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
+                            "                            pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioPassag(movEquipProprioPassagList.get(position));", getLocalClassName());
+                    pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioPassag(movEquipProprioPassagList.get(position));
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                            pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercPassag(movEquipVisitTercPassagList.get(position));", getLocalClassName());
+                    pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercPassag(movEquipVisitTercPassagList.get(position));
+                }
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewPassag.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassagColabVisitTercActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                String label = \"DESEJA EXCLUIR O PASSAGEIRO?\";\n" +
-                        "                alerta.setMessage(label);", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassagColabVisitTercActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                String label = "DESEJA EXCLUIR O PASSAGEIRO?";
-                alerta.setMessage(label);
-                alerta.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
-                                    "                            pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioPassag(movEquipProprioPassagList.get(position));", getLocalClassName());
-                            pcpContext.getMovVeicProprioCTR().deleteMovEquipProprioPassag(movEquipProprioPassagList.get(position));
-                        } else {
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "                            pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercPassag(movEquipVisitTercPassagList.get(position));", getLocalClassName());
-                            pcpContext.getMovVeicVisitTercCTR().deleteMovEquipVisitTercPassag(movEquipVisitTercPassagList.get(position));
-                        }
+                LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ListaPassagColabVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaPassagColabVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);
+                startActivity(it);
+                finish();
+            });
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ListaPassagColabVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);", getLocalClassName());
-                        Intent it = new Intent(ListaPassagColabVisitTercActivity.this, ListaPassagColabVisitTercActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
+            alerta.setNegativeButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
 
-                });
-
-                alerta.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-
-                });
-
-                alerta.show();
-            }
-
+            alerta.show();
         });
 
-        buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                Intent it;
-                if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
-                            "                    pcpContext.getConfigCTR().setPosicaoTela(6L);", getLocalClassName());
-                    pcpContext.getConfigCTR().setPosicaoTela(6L);
-                } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
-                            "                    pcpContext.getConfigCTR().setPosicaoTela(8L);", getLocalClassName());
-                    pcpContext.getConfigCTR().setPosicaoTela(8L);
-                }
-                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
+        buttonInserirPassageiro.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            Intent it;
+            if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
+                        "                    pcpContext.getConfigCTR().setPosicaoTela(6L);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoTela(6L);
+            } else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){
+                LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 7L){\n" +
+                        "                    pcpContext.getConfigCTR().setPosicaoTela(8L);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoTela(8L);
+            }
+            if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
+                        "                    it = new Intent(ListaPassagColabVisitTercActivity.this, MatricColabActivity.class);", getLocalClassName());
+                it = new Intent(ListaPassagColabVisitTercActivity.this, MatricColabActivity.class);
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);", getLocalClassName());
+                it = new Intent(ListaPassagColabVisitTercActivity.this, CPFVisitTercActivity.class);
+            }
+            startActivity(it);
+            finish();
+        });
+
+        buttonOkPassageiro.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            Intent it;
+            if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)
+                    || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){
+                LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)\n" +
+                        "                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){\n" +
+                        "                    pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                        "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DestinoActivity.class);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoTela(4L);
+                it = new Intent(ListaPassagColabVisitTercActivity.this, DestinoActivity.class);
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);", getLocalClassName());
+                it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);
+            }
+            startActivity(it);
+            finish();
+        });
+
+        buttonCancPassageiro.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            Intent it;
+            if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)
+                    || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)\n" +
+                        "                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){\n" +
+                        "                    pcpContext.getConfigCTR().setPosicaoTela(4L);", getLocalClassName());
+                pcpContext.getConfigCTR().setPosicaoTela(4L);
+                if (pcpContext.getConfigCTR().getConfig().getTipoMov() == 1) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
                             "                    it = new Intent(ListaPassagColabVisitTercActivity.this, MatricColabActivity.class);", getLocalClassName());
                     it = new Intent(ListaPassagColabVisitTercActivity.this, MatricColabActivity.class);
@@ -198,66 +226,13 @@ public class ListaPassagColabVisitTercActivity extends ActivityGeneric {
                             "                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);", getLocalClassName());
                     it = new Intent(ListaPassagColabVisitTercActivity.this, CPFVisitTercActivity.class);
                 }
-                startActivity(it);
-                finish();
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);", getLocalClassName());
+                it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);
             }
-        });
-
-        buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                Intent it;
-                if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)
-                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)\n" +
-                            "                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){\n" +
-                            "                    pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
-                            "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DestinoActivity.class);", getLocalClassName());
-                    pcpContext.getConfigCTR().setPosicaoTela(4L);
-                    it = new Intent(ListaPassagColabVisitTercActivity.this, DestinoActivity.class);
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);", getLocalClassName());
-                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);
-                }
-                startActivity(it);
-                finish();
-            }
-        });
-
-        buttonCancPassageiro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                Intent it;
-                if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)
-                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 4L)\n" +
-                            "                        || (pcpContext.getConfigCTR().getConfig().getPosicaoTela() == 6L)){\n" +
-                            "                    pcpContext.getConfigCTR().setPosicaoTela(4L);", getLocalClassName());
-                    pcpContext.getConfigCTR().setPosicaoTela(4L);
-                    if (pcpContext.getConfigCTR().getConfig().getTipoMov() == 1) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1){\n" +
-                                "                    it = new Intent(ListaPassagColabVisitTercActivity.this, MatricColabActivity.class);", getLocalClassName());
-                        it = new Intent(ListaPassagColabVisitTercActivity.this, MatricColabActivity.class);
-                    } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                    it = new Intent(ListaPassagColabVisitTercActivity.this, CpfVisitTercActivity.class);", getLocalClassName());
-                        it = new Intent(ListaPassagColabVisitTercActivity.this, CPFVisitTercActivity.class);
-                    }
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);", getLocalClassName());
-                    it = new Intent(ListaPassagColabVisitTercActivity.this, DescrMovActivity.class);
-                }
-                startActivity(it);
-                finish();
-            }
+            startActivity(it);
+            finish();
         });
 
     }

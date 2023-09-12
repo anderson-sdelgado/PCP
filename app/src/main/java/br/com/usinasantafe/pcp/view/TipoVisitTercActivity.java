@@ -36,51 +36,42 @@ public class TipoVisitTercActivity extends ActivityGeneric {
         ListView listaTipo = findViewById(R.id.listViewTipo);
         listaTipo.setAdapter(adapterList);
 
-        listaTipo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listaTipo.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            LogProcessoDAO.getInstance().insertLogProcesso("lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
+                    "                String text = textView.getText().toString();", getLocalClassName());
+            TextView textView = v.findViewById(R.id.textViewItemList);
+            String text = textView.getText().toString();
 
-                LogProcessoDAO.getInstance().insertLogProcesso("lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
-                        "                String text = textView.getText().toString();", getLocalClassName());
-                TextView textView = v.findViewById(R.id.textViewItemList);
-                String text = textView.getText().toString();
-
-                if (text.equals("TERCEIRO")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"TERCEIRO\")) {\n" +
-                            "                    pcpContext.getMovimentacaoVeicVisTercCTR().setTipoVisitTerc(1L);", getLocalClassName());
-                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(2L);
-                } else if (text.equals("VISITANTE")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"VISITANTE\")) {\n" +
-                            "                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(2L);", getLocalClassName());
-                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(1L);
-                }
-
-                LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(TipoActivity.this, VisitanteTerceiroActivity.class);", getLocalClassName());
-                Intent it = new Intent(TipoVisitTercActivity.this, CPFVisitTercActivity.class);
-                startActivity(it);
-                finish();
-
+            if (text.equals("TERCEIRO")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"TERCEIRO\")) {\n" +
+                        "                    pcpContext.getMovimentacaoVeicVisTercCTR().setTipoVisitTerc(1L);", getLocalClassName());
+                pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(2L);
+            } else if (text.equals("VISITANTE")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"VISITANTE\")) {\n" +
+                        "                    pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(2L);", getLocalClassName());
+                pcpContext.getMovVeicVisitTercCTR().setTipoVisitTerc(1L);
             }
+
+            LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(TipoActivity.this, VisitanteTerceiroActivity.class);", getLocalClassName());
+            Intent it = new Intent(TipoVisitTercActivity.this, CPFVisitTercActivity.class);
+            startActivity(it);
+            finish();
 
         });
 
-        buttonRetornarTipo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarTipo.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(TipoVisitTercActivity.this, PlacaVisitTercResidActivity.class);", getLocalClassName());
-                Intent it = new Intent(TipoVisitTercActivity.this, PlacaVisitTercResidActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonRetornarTipo.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarTipo.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(TipoVisitTercActivity.this, PlacaVisitTercResidActivity.class);", getLocalClassName());
+            Intent it = new Intent(TipoVisitTercActivity.this, PlacaVisitTercResidActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

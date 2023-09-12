@@ -49,7 +49,7 @@ public class ListaMenuApontActivity extends ActivityGeneric {
         textViewVigia.setText(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() + " - "  + pcpContext.getConfigCTR().getColabMatric(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig()).getNomeColab());
         textViewLocal.setText("LOCAL: " + pcpContext.getConfigCTR().getLocal().getDescrLocal());
 
-        ArrayList<String> itens = new ArrayList<String>();
+        ArrayList<String> itens = new ArrayList<>();
 
         itens.add("VEÍCULO PRÓPRIO: " + pcpContext.getMovVeicProprioCTR().qtdeMovEquipProprioFechado());
         itens.add("VEÍCULO DE VISITANTE/TERCEIRO: " + pcpContext.getMovVeicVisitTercCTR().qtdeMovEquipVisitTercFechado());
@@ -58,136 +58,111 @@ public class ListaMenuApontActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         ListView listViewMenuApont = findViewById(R.id.listViewMenuApont);
         listViewMenuApont.setAdapter(adapterList);
-        listViewMenuApont.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+        listViewMenuApont.setOnItemClickListener((l, v, position, id) -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewMenuApont.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {", getLocalClassName());
-                switch (position){
-                    case 0:
-                        LogProcessoDAO.getInstance().insertLogProcesso("switch (position){\n" +
-                                "                    case 0:\n" +
-                                "                        pcpContext.getConfigCTR().setTipoMov(1L);", getLocalClassName());
-                        pcpContext.getConfigCTR().setTipoMov(1L);
-                        break;
-                    case 1:
-                        LogProcessoDAO.getInstance().insertLogProcesso("case 1:\n" +
-                                "                        pcpContext.getConfigCTR().setTipoMov(2L);", getLocalClassName());
-                        pcpContext.getConfigCTR().setTipoMov(2L);
-                        break;
-                    default:
-                        LogProcessoDAO.getInstance().insertLogProcesso("default:\n" +
-                                "                        pcpContext.getConfigCTR().setTipoMov(3L);", getLocalClassName());
-                        pcpContext.getConfigCTR().setTipoMov(3L);
-                        break;
-                }
-
-                LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ListaMenuApontActivity.this, ListaMovAbertoActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovFinalizadoActivity.class);
-                startActivity(it);
-                finish();
-
+            LogProcessoDAO.getInstance().insertLogProcesso("listViewMenuApont.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {", getLocalClassName());
+            switch (position){
+                case 0:
+                    LogProcessoDAO.getInstance().insertLogProcesso("switch (position){\n" +
+                            "                    case 0:\n" +
+                            "                        pcpContext.getConfigCTR().setTipoMov(1L);", getLocalClassName());
+                    pcpContext.getConfigCTR().setTipoMov(1L);
+                    break;
+                case 1:
+                    LogProcessoDAO.getInstance().insertLogProcesso("case 1:\n" +
+                            "                        pcpContext.getConfigCTR().setTipoMov(2L);", getLocalClassName());
+                    pcpContext.getConfigCTR().setTipoMov(2L);
+                    break;
+                default:
+                    LogProcessoDAO.getInstance().insertLogProcesso("default:\n" +
+                            "                        pcpContext.getConfigCTR().setTipoMov(3L);", getLocalClassName());
+                    pcpContext.getConfigCTR().setTipoMov(3L);
+                    break;
             }
+
+            LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ListaMenuApontActivity.this, ListaMovAbertoActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaMenuApontActivity.this, ListaMovFinalizadoActivity.class);
+            startActivity(it);
+            finish();
 
         });
 
-        buttonMovProprio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonMovProprio.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setTipoMov(1L);\n" +
-                        "                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setTipoMov(1L);
-                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovProprioActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonMovProprio.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonMovProprio.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcpContext.getConfigCTR().setTipoMov(1L);\n" +
+                    "                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovProprioActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setTipoMov(1L);
+            Intent it = new Intent(ListaMenuApontActivity.this, ListaMovProprioActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonMovVisitTerc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonMovVisitTerc.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setTipoMov(2L);\n" +
-                        "                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setTipoMov(2L);
-                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovVisitTercActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonMovVisitTerc.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonMovVisitTerc.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcpContext.getConfigCTR().setTipoMov(2L);\n" +
+                    "                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovVisitTercActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setTipoMov(2L);
+            Intent it = new Intent(ListaMenuApontActivity.this, ListaMovVisitTercActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonMovResidencia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonMovResidencia.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setTipoMov(3L);\n" +
-                        "                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setTipoMov(3L);
-                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovResidenciaActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonMovResidencia.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonMovResidencia.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcpContext.getConfigCTR().setTipoMov(3L);\n" +
+                    "                Intent it = new Intent(ListaMenuApontActivity.this, ListaMovResidenciaActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setTipoMov(3L);
+            Intent it = new Intent(ListaMenuApontActivity.this, ListaMovResidenciaActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonSairMenuApont.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonSairMenuApont.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonSairMenuApont.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMenuApontActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"SE SAIR DESSA TELA TODOS OS MOVIMENTOS SERÃO FECHADOS. DESEJA REALMENTE SAIR? \");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMenuApontActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("SE SAIR DESSA TELA TODOS OS MOVIMENTOS SERÃO FECHADOS. DESEJA REALMENTE SAIR? ");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonSairMenuApont.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMenuApontActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"SE SAIR DESSA TELA TODOS OS MOVIMENTOS SERÃO FECHADOS. DESEJA REALMENTE SAIR? \");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMenuApontActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("SE SAIR DESSA TELA TODOS OS MOVIMENTOS SERÃO FECHADOS. DESEJA REALMENTE SAIR? ");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {\n" +
-                                "                        pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();\n" +
-                                "                        pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();\n" +
-                                "                        pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();\n" +
-                                "                        EnvioDadosServ.getInstance().envioDados(getLocalClassName());\n" +
-                                "                        Intent it = new Intent(ListaMenuApontActivity.this, MenuInicialActivity.class);", getLocalClassName());
-                        pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();
-                        pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();
-                        pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();
-                        pcpContext.getConfigCTR().fecharApont();
-                        EnvioDadosServ.getInstance().envioDados(getLocalClassName());
-                        Intent it = new Intent(ListaMenuApontActivity.this, MenuInicialActivity.class);
-                        startActivity(it);
-                        finish();
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {\n" +
+                        "                        pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();\n" +
+                        "                        pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();\n" +
+                        "                        pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();\n" +
+                        "                        EnvioDadosServ.getInstance().envioDados(getLocalClassName());\n" +
+                        "                        Intent it = new Intent(ListaMenuApontActivity.this, MenuInicialActivity.class);", getLocalClassName());
+                pcpContext.getMovVeicProprioCTR().atualizarEnviarMovEquipProprio();
+                pcpContext.getMovVeicVisitTercCTR().atualizarEnviarMovEquipVisitTerc();
+                pcpContext.getMovVeicResidenciaCTR().atualizarEnviarMovEquipResidencia();
+                pcpContext.getConfigCTR().fecharApont();
+                EnvioDadosServ.getInstance().envioDados(getLocalClassName());
+                Intent it = new Intent(ListaMenuApontActivity.this, MenuInicialActivity.class);
+                startActivity(it);
+                finish();
 
-                    }
-                });
+            });
 
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
-                alerta.show();
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
 
-            }
         });
 
     }

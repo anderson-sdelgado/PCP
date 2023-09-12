@@ -51,51 +51,42 @@ public class ListaMovProprioActivity extends ActivityGeneric {
         AdapterListMovProprio adapterListMovProprio = new AdapterListMovProprio(this, movEquipList);
         listViewMov.setAdapter(adapterListMovProprio);
 
-        buttonEntradaMov.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonEntradaMov.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
-                        "                pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(2L);\n" +
-                        "                Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(4L);
-                pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(2L);
-                Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonEntradaMov.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonEntradaMov.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                    "                pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(2L);\n" +
+                    "                Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setPosicaoTela(4L);
+            pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(2L);
+            Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonSaidaMov.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonSaidaMov.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
-                        "                pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(1L);\n" +
-                        "                Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(4L);
-                pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(1L);
-                Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonSaidaMov.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonSaidaMov.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                    "                pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(1L);\n" +
+                    "                Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setPosicaoTela(4L);
+            pcpContext.getMovVeicProprioCTR().abrirMovEquipProprio(1L);
+            Intent it = new Intent(ListaMovProprioActivity.this, VeiculoUsinaActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonRetornarMov.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonRetornarMov.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);
+            startActivity(it);
+            finish();
         });
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.control.MovEquipResidenciaCTR;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipResidenciaBean;
+import br.com.usinasantafe.pcp.model.dao.AtualAplicDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 import retrofit2.Call;
@@ -19,8 +20,9 @@ public class MovEquipResidenciaEnvio {
 
         try {
 
+            AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
             MovEquipResidenciaDao movEquipResidenciaDao = ConnRetrofit.getInstance().conn().create(MovEquipResidenciaDao.class);
-            Call<List<MovEquipResidenciaBean>> call = movEquipResidenciaDao.envioDadosMovEquipResidencia(movEquipResidenciaList);
+            Call<List<MovEquipResidenciaBean>> call = movEquipResidenciaDao.envioDadosMovEquipResidencia(movEquipResidenciaList, "Bearer " + atualAplicDAO.token());
             call.enqueue(new Callback<List<MovEquipResidenciaBean>>() {
                 @Override
                 public void onResponse(Call<List<MovEquipResidenciaBean>> call, Response<List<MovEquipResidenciaBean>> response) {

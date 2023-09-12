@@ -54,19 +54,19 @@ public class TelaInicialActivity extends ActivityGeneric {
 
             if(pcpContext.getConfigCTR().hasElemConfig()){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().hasElemConfig()){", getLocalClassName());
-                if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() == 0L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() == 0L){\n" +
-                            "                    goMenuInicial();", getLocalClassName());
-                    goMenuInicial();
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                if((pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) && (pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L)){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if((pcpContext.getConfigCTR().getConfig().getMatricVigiaConfig() > 0L) && (pcpContext.getConfigCTR().getConfig().getIdLocalConfig() > 0L)){\n" +
                             "                    goMenuApont();", getLocalClassName());
                     goMenuApont();
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    goMenuInicial();", getLocalClassName());
+                    goMenuInicial();
                 }
             } else {
-                goMenuInicial();
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                         "                goMenuInicial();", getLocalClassName());
+                goMenuInicial();
             }
         }
 

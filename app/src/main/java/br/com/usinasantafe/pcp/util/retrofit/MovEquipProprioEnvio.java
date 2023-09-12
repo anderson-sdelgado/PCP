@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcp.control.MovEquipProprioCTR;
 import br.com.usinasantafe.pcp.model.bean.variaveis.MovEquipProprioBean;
+import br.com.usinasantafe.pcp.model.dao.AtualAplicDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
 import retrofit2.Call;
@@ -21,8 +22,9 @@ public class MovEquipProprioEnvio {
 
         try {
 
+            AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
             MovEquipProprioDao movEquipProprioDao = ConnRetrofit.getInstance().conn().create(MovEquipProprioDao.class);
-            Call<List<MovEquipProprioBean>> call = movEquipProprioDao.envioDadosMovEquipProprio(movEquipProprioList);
+            Call<List<MovEquipProprioBean>> call = movEquipProprioDao.envioDadosMovEquipProprio(movEquipProprioList, "Bearer " + atualAplicDAO.token());
             call.enqueue(new Callback<List<MovEquipProprioBean>>() {
 
                 @Override

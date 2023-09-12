@@ -12,7 +12,6 @@ import br.com.usinasantafe.pcp.model.dao.MovEquipProprioDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioPassagDAO;
 import br.com.usinasantafe.pcp.model.dao.MovEquipProprioSegDAO;
 import br.com.usinasantafe.pcp.util.EnvioDadosServ;
-import retrofit2.Response;
 
 public class MovEquipProprioCTR {
 
@@ -40,7 +39,7 @@ public class MovEquipProprioCTR {
     public void abrirMovEquipProprio(Long tipoMov){
         ConfigCTR configCTR = new ConfigCTR();
         MovEquipProprioDAO movEquipProprioDAO = new MovEquipProprioDAO();
-        movEquipProprioDAO.abrirMovEquipProprio(tipoMov, configCTR.getConfig().getNroLinhaConfig());
+        movEquipProprioDAO.abrirMovEquipProprio(tipoMov, configCTR.getConfig().getNroAparelhoConfig());
     }
 
     public void inserirMovEquipProprioSeg(Long nroEquip){

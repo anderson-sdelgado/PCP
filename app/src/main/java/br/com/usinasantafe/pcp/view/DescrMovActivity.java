@@ -51,45 +51,37 @@ public class DescrMovActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         ListView listViewDescrMov = findViewById(R.id.listViewDescrMov);
         listViewDescrMov.setAdapter(adapterList);
-        listViewDescrMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewDescrMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(7L);", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoTela(7L);
-                if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
-                            "                    manutMovEquipProprio(position);", getLocalClassName());
-                    manutMovEquipProprio(position);
-                } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
-                            "                    manutMovEquipVisitTerc(position);", getLocalClassName());
-                    manutMovEquipVisitTerc(position);
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    manutMovEquipResidencia(position);", getLocalClassName());
-                    manutMovEquipResidencia(position);
-                }
-
+        listViewDescrMov.setOnItemClickListener((l, v, position, id) -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("listViewDescrMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoTela(7L);", getLocalClassName());
+            pcpContext.getConfigCTR().setPosicaoTela(7L);
+            if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 1L){\n" +
+                        "                    manutMovEquipProprio(position);", getLocalClassName());
+                manutMovEquipProprio(position);
+            } else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){
+                LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcpContext.getConfigCTR().getConfig().getTipoMov() == 2L){\n" +
+                        "                    manutMovEquipVisitTerc(position);", getLocalClassName());
+                manutMovEquipVisitTerc(position);
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    manutMovEquipResidencia(position);", getLocalClassName());
+                manutMovEquipResidencia(position);
             }
 
         });
 
-        buttonRetDescrMov.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetDescrMov.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(DescrMovActivity.this, ListaMovAbertoActivity.class);", getLocalClassName());
-                Intent it = new Intent(DescrMovActivity.this, ListaMovFinalizadoActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonRetDescrMov.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetDescrMov.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(DescrMovActivity.this, ListaMovAbertoActivity.class);", getLocalClassName());
+            Intent it = new Intent(DescrMovActivity.this, ListaMovFinalizadoActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

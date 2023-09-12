@@ -31,33 +31,24 @@ public class LogProcessoActivity extends ActivityGeneric {
         AdapterListProcesso adapterListProcesso = new AdapterListProcesso(this, pcpContext.getConfigCTR().logProcessoList());
         listViewLogProcesso.setAdapter(adapterListProcesso);
 
-        buttonAvancaLogProcesso.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAvancaLogProcesso.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "Intent it = new Intent(LogProcessoActivity.this, LogBaseDadoActivity.class);", getLocalClassName());
-                Intent it = new Intent(LogProcessoActivity.this, LogBaseDadoActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonAvancaLogProcesso.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAvancaLogProcesso.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "Intent it = new Intent(LogProcessoActivity.this, LogBaseDadoActivity.class);", getLocalClassName());
+            Intent it = new Intent(LogProcessoActivity.this, LogBaseDadoActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonRetLogProcesso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetLogProcesso.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonRetLogProcesso.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetLogProcesso.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);", getLocalClassName());
+            Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

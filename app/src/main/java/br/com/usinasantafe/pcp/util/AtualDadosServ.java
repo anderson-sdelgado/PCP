@@ -14,11 +14,14 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import br.com.usinasantafe.pcp.model.dao.AtualAplicDAO;
 import br.com.usinasantafe.pcp.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcp.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcp.model.pst.GenericRecordable;
-import br.com.usinasantafe.pcp.util.conHttp.GetBDGenerico;
+import br.com.usinasantafe.pcp.util.conHttp.PostBDGenerico;
 import br.com.usinasantafe.pcp.util.conHttp.UrlsConexaoHttp;
 
 public class AtualDadosServ {
@@ -67,6 +70,7 @@ public class AtualDadosServ {
 				for(int i = 0; i < jsonArray.length(); i++){
 					JSONObject objeto = jsonArray.getJSONObject(i);
 					Gson gson = new Gson();
+					Log.i("PMM", "OBJETO -> " + objeto.toString());
 					genericRecordable.insert(gson.fromJson(objeto.toString(), classe), classe);
 				}
 
@@ -101,11 +105,14 @@ public class AtualDadosServ {
 
 	}
 
-	public void atualGenericoBD(ArrayList classeArrayList, int tipoReceb, String activity){
+	public void atualTodasTabBD(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
 
-		this.tipoReceb = tipoReceb;
+		this.tipoReceb = 2;
+		this.telaAtual = telaAtual;
+		this.telaProx = telaProx;
+		this.progressDialog = progressDialog;
 
-		selecionarClasses(classeArrayList);
+		allClasses();
 		startAtualizacao(activity);
 
 	}
@@ -116,20 +123,6 @@ public class AtualDadosServ {
 		this.telaAtual = telaAtual;
 		this.telaProx = telaProx;
 		this.progressDialog = progressDialog;
-
-		selecionarClasses(classeArrayList);
-		startAtualizacao(activity);
-
-	}
-
-	public void atualGenericoBD(Context telaAtual, Class telaProx, ProgressDialog progressDialog, ArrayList classeArrayList, int tipoReceb, String activity, Class telaProxAlt, String dado){
-
-		this.tipoReceb = tipoReceb;
-		this.telaAtual = telaAtual;
-		this.telaProx = telaProx;
-		this.progressDialog = progressDialog;
-		this.telaProxAlt = telaProxAlt;
-		this.dado = dado;
 
 		selecionarClasses(classeArrayList);
 		startAtualizacao(activity);
@@ -187,9 +180,14 @@ public class AtualDadosServ {
 		String[] url = {classe, activity};
 		contAtualBD++;
 
-		LogProcessoDAO.getInstance().insertLogProcesso("getBDGenerico.execute('" + classe + "');", activity);
-		GetBDGenerico getBDGenerico = new GetBDGenerico();
-		getBDGenerico.execute(url);
+		AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+		Map<String, Object> parametrosPost = new HashMap<>();
+		parametrosPost.put("dado", atualAplicDAO.getAtualBDToken());
+
+		LogProcessoDAO.getInstance().insertLogProcesso("postBDGenerico.execute('" + classe + "');", activity);
+		PostBDGenerico postBDGenerico = new PostBDGenerico();
+		postBDGenerico.setParametrosPost(parametrosPost);
+		postBDGenerico.execute(url);
 
 	}
 
@@ -212,11 +210,7 @@ public class AtualDadosServ {
 				this.progressDialog.setProgress((contAtualBD * 100) / qtdeBD);
 			}
 
-			classe = (String) tabAtualArrayList.get(contAtualBD);
-			String[] url = {classe, activity};
-			contAtualBD++;
-			GetBDGenerico getBDGenerico = new GetBDGenerico();
-			getBDGenerico.execute(url);
+			startAtualizacao(activity);
 
 		} else {
 

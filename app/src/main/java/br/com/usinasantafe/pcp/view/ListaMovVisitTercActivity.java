@@ -53,84 +53,64 @@ public class ListaMovVisitTercActivity extends ActivityGeneric {
         AdapterListMovVisitTercResid adapterListMovVisitTercResid = new AdapterListMovVisitTercResid(this, movEquipList);
         listViewMov.setAdapter(adapterListMovVisitTercResid);
 
-        listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+        listViewMov.setOnItemClickListener((l, v, position, id) -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
-                        "                MovEquipVisitTercBean movEquipVisitTercBean = movEquipList.get(position);\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovVisitTercActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE DAR SAÍDA DO VEÍCULO \" + movEquipVisitTercBean.getVeiculoMovEquipVisitTerc() + \" - PLACA \" + movEquipVisitTercBean.getPlacaMovEquipVisitTerc() + \"?\");", getLocalClassName());
-                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
-                MovEquipVisitTercBean movEquipVisitTercBean = movEquipList.get(position);
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovVisitTercActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE DAR SAÍDA DO VEÍCULO " + movEquipVisitTercBean.getVeiculoMovEquipVisitTerc() + " - PLACA " + movEquipVisitTercBean.getPlacaMovEquipVisitTerc() + "?");
-                alerta.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {\n" +
-                                "                        pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
-                                "                        pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);\n" +
-                                "                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservacaoActivity.class);", getLocalClassName());
-                        pcpContext.getConfigCTR().setPosicaoTela(4L);
-                        pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);
-                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
-
-                });
-
-                alerta.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"NÃO\", new DialogInterface.OnClickListener() {", getLocalClassName());
-                    }
-                });
-
-                alerta.show();
-
-            }
-
-        });
-
-        buttonEntradaMov.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonEntradaMov.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
-                        "                pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(1L);\n" +
-                        "                Intent it = new Intent(ListaMovVisitTercActivity.this, VeiculoVisitTercResidActivity.class);", getLocalClassName());
+            LogProcessoDAO.getInstance().insertLogProcesso("listViewMov.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));\n" +
+                    "                MovEquipVisitTercBean movEquipVisitTercBean = movEquipList.get(position);\n" +
+                    "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovVisitTercActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE DAR SAÍDA DO VEÍCULO \" + movEquipVisitTercBean.getVeiculoMovEquipVisitTerc() + \" - PLACA \" + movEquipVisitTercBean.getPlacaMovEquipVisitTerc() + \"?\");", getLocalClassName());
+            pcpContext.getConfigCTR().setPosicaoListaMov((long) (position));
+            MovEquipVisitTercBean movEquipVisitTercBean = movEquipList.get(position);
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaMovVisitTercActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE DAR SAÍDA DO VEÍCULO " + movEquipVisitTercBean.getVeiculoMovEquipVisitTerc() + " - PLACA " + movEquipVisitTercBean.getPlacaMovEquipVisitTerc() + "?");
+            alerta.setPositiveButton("SIM", (dialog, which) -> {
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {\n" +
+                        "                        pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                        "                        pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);\n" +
+                        "                        Intent it = new Intent(ListaMovVisitTercActivity.this, ObservacaoActivity.class);", getLocalClassName());
                 pcpContext.getConfigCTR().setPosicaoTela(4L);
-                pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(1L);
-                Intent it = new Intent(ListaMovVisitTercActivity.this, VeiculoVisitTercResidActivity.class);
+                pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(2L);
+                Intent it = new Intent(ListaMovVisitTercActivity.this, ObservActivity.class);
                 startActivity(it);
                 finish();
-            }
+            });
+
+            alerta.setNegativeButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"NÃO\", new DialogInterface.OnClickListener() {", getLocalClassName()));
+
+            alerta.show();
+
         });
 
-        buttonRetornarMov.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMenuApontActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonEntradaMov.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonEntradaMov.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcpContext.getConfigCTR().setPosicaoTela(4L);\n" +
+                    "                pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(1L);\n" +
+                    "                Intent it = new Intent(ListaMovVisitTercActivity.this, VeiculoVisitTercResidActivity.class);", getLocalClassName());
+            pcpContext.getConfigCTR().setPosicaoTela(4L);
+            pcpContext.getMovVeicVisitTercCTR().abrirMovEquipVisitTerc(1L);
+            Intent it = new Intent(ListaMovVisitTercActivity.this, VeiculoVisitTercResidActivity.class);
+            startActivity(it);
+            finish();
+        });
+
+        buttonRetornarMov.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetornarMov.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaMovProprioActivity.this, ListaMenuApontActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaMovVisitTercActivity.this, ListaMenuApontActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

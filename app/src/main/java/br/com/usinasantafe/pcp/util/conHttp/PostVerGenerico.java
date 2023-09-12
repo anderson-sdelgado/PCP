@@ -52,12 +52,7 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
             SSLContext sc = SSLContext.getInstance("SSL");
             sc.init(null, trustAllCerts(), new java.security.SecureRandom());
             connection.setSSLSocketFactory(sc.getSocketFactory());
-            connection.setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String s, SSLSession sslSession) {
-                    return true;
-                }
-            });
+            connection.setHostnameVerifier((s, sslSession) -> true);
             connection.connect();
 
             OutputStream out = connection.getOutputStream();

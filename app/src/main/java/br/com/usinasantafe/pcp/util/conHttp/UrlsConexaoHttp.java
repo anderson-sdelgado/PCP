@@ -22,22 +22,10 @@ public class UrlsConexaoHttp {
     public UrlsConexaoHttp() {
     }
 
-    public String getsInserirMovEquipProprio() {
-        return url + "inserirmovequipproprio.php";
-    }
-
-    public String getsInserirMovEquipVisitTerc() {
-        return url + "inserirmovequipvisitterc.php";
-    }
-
-    public String getsInserirMovEquipResidencia() {
-        return url + "inserirmovequipresidencia.php";
-    }
-
     public String urlVerifica(String classe) {
         String retorno = "";
-        if (classe.equals("Equip")) {
-            retorno = url + "equip.php";
+        if (classe.equals("AtualAplic")) {
+            retorno = url + "atualaplic.php";
         }
         return retorno;
     }
