@@ -43,15 +43,14 @@ public class VerifDadosServ {
         return instance;
     }
 
-    public void manipularDadosHttp(String result, String activity) {
+    public void manipularDadosHttp(String result) {
 
         ConfigCTR configCTR = new ConfigCTR();
-        configCTR.recAtual(result.trim(), this.senha, this.telaAtual, this.telaProx, this.progressDialog);
+        configCTR.recToken(result.trim(), this.senha, this.telaAtual, this.telaProx, this.progressDialog);
 
     }
 
-
-    public void verifDados(String senha, String dados, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
+    public void salvarToken(String senha, String dados, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
 
         this.urlsConexaoHttp = new UrlsConexaoHttp();
         this.telaAtual = telaAtual;
@@ -59,7 +58,7 @@ public class VerifDadosServ {
         this.progressDialog = progressDialog;
         this.dados = dados;
         this.senha = senha;
-        this.classe = "AtualAplic";
+        this.classe = "Token";
 
         envioVerif(activity);
 

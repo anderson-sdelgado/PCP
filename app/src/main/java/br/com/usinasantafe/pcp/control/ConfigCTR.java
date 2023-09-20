@@ -121,10 +121,10 @@ public class ConfigCTR {
 
     ////////////////////////////////////// ATUALIZAR DADOS ////////////////////////////////////////
 
-    public void verAplic(String senha, String versao, Long nroAparelho, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+    public void salvarToken(String senha, String versao, Long nroAparelho, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
         LogProcessoDAO.getInstance().insertLogProcesso("equipDAO.verEquip(equipDAO.dadosVerEquip(Long.parseLong(nroEquip), versao), telaAtual, telaProx, progressDialog, activity, tipo);", activity);
-        VerifDadosServ.getInstance().verifDados(senha, atualAplicDAO.dadosAplic(nroAparelho, versao), telaAtual, telaProx, progressDialog, activity);
+        VerifDadosServ.getInstance().salvarToken(senha, atualAplicDAO.dadosAplic(nroAparelho, versao), telaAtual, telaProx, progressDialog, activity);
     }
 
     public void atualTodasTabelas(Context tela, ProgressDialog progressDialog, String activity){
@@ -157,7 +157,7 @@ public class ConfigCTR {
     }
 
 
-    public AtualAplicBean recAtual(String result, String senha, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
+    public AtualAplicBean recToken(String result, String senha, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
 
@@ -168,7 +168,7 @@ public class ConfigCTR {
 
             if (jsonArray.length() > 0) {
                 ConfigDAO configDAO = new ConfigDAO();
-                atualAplicBean = configDAO.recAtual(jsonArray);
+                atualAplicBean = configDAO.recAparelho(jsonArray);
             }
 
             salvarConfig(atualAplicBean.getNroAparelho(), senha);

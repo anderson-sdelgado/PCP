@@ -60,7 +60,7 @@ public class ConfigActivity extends ActivityGeneric {
                 progressBar.setCancelable(true);
                 progressBar.setMessage("Pequisando o Equipamento...");
                 progressBar.show();
-                pcpContext.getConfigCTR().verAplic( editTextSenhaConfig.getText().toString(), BuildConfig.VERSION_NAME, Long.valueOf(editTextLinhaConfig.getText().toString()), ConfigActivity.this, TelaInicialActivity.class, progressBar, getLocalClassName());
+                pcpContext.getConfigCTR().salvarToken( editTextSenhaConfig.getText().toString(), BuildConfig.VERSION_NAME, Long.valueOf(editTextLinhaConfig.getText().toString()), ConfigActivity.this, TelaInicialActivity.class, progressBar, getLocalClassName());
 
             }
 

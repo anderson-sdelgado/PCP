@@ -83,7 +83,7 @@ public class ConfigDAO {
         configBean.update();
     }
 
-    public AtualAplicBean recAtual(JSONArray jsonArray) throws JSONException {
+    public AtualAplicBean recAparelho(JSONArray jsonArray) throws JSONException {
 
         JSONObject objeto = jsonArray.getJSONObject(0);
         Gson gson = new Gson();
@@ -92,6 +92,5 @@ public class ConfigDAO {
         return atualAplicBean;
 
     }
-
 
 }
