@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.model.dao;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -36,21 +37,7 @@ public class AtualAplicDAO {
 
     private String getToken(AtualAplicBean atualAplicBean){
 
-        String token = "";
-
-        try {
-
-            ConfigDAO configDAO = new ConfigDAO();
-            token = "PCP-VERSAO_" + BuildConfig.VERSION_NAME + "-" + configDAO.getConfig().getNroAparelhoConfig();
-            MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(token.getBytes(),0, token.length());
-            token = (new BigInteger(1, m.digest()).toString(16).toUpperCase());
-
-        } catch (Exception e) {
-            LogErroDAO.getInstance().insertLogErro(e);
-        }
-
-        atualAplicBean.setToken(token);
+        atualAplicBean.setToken(token());
         JsonArray jsonArray = new JsonArray();
 
         Gson gson = new Gson();
@@ -73,7 +60,9 @@ public class AtualAplicDAO {
             token = "PCP-VERSAO_" + BuildConfig.VERSION_NAME + "-" + configDAO.getConfig().getNroAparelhoConfig();
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(token.getBytes(),0, token.length());
-            token = (new BigInteger(1, m.digest()).toString(16).toUpperCase());
+            BigInteger bigInteger = new BigInteger(1, m.digest());
+            String str = bigInteger.toString(16).toUpperCase();
+            token = Strings.padStart(str, 32, '0');
 
         } catch (Exception e) {
             LogErroDAO.getInstance().insertLogErro(e);
