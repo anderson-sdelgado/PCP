@@ -16,6 +16,8 @@ public class VisitanteBean extends Entidade {
     private String cpfVisitante;
     @DatabaseField
     private String nomeVisitante;
+    @DatabaseField
+    private String empresaVisitante;
 
     public VisitanteBean() {
     }
@@ -42,5 +44,13 @@ public class VisitanteBean extends Entidade {
 
     public void setNomeVisitante(String nomeVisitante) {
         this.nomeVisitante = nomeVisitante;
+    }
+
+    public String getEmpresaVisitante() {
+        return empresaVisitante;
+    }
+
+    public void setEmpresaVisitante(String empresaVisitante) {
+        this.empresaVisitante = empresaVisitante;
     }
 }

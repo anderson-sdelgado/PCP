@@ -50,7 +50,6 @@ public class ConfigActivity extends ActivityGeneric {
 
                 LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextLinhaConfig.getText().toString().equals(\"\") &&\n" +
                         "                    !editTextSenhaConfig.getText().toString().equals(\"\")){\n" +
-                        "\n" +
                         "                progressBar = new ProgressDialog(v.getContext());\n" +
                         "                progressBar.setCancelable(true);\n" +
                         "                progressBar.setMessage(\"Pequisando o Equipamento...\");\n" +
@@ -58,9 +57,9 @@ public class ConfigActivity extends ActivityGeneric {
                         "                pcpContext.getConfigCTR().verAplic( editTextSenhaConfig.getText().toString(), BuildConfig.VERSION_NAME, Long.valueOf(editTextLinhaConfig.getText().toString()), ConfigActivity.this, TelaInicialActivity.class, progressBar, getLocalClassName());", getLocalClassName());
                 progressBar = new ProgressDialog(v.getContext());
                 progressBar.setCancelable(true);
-                progressBar.setMessage("Pequisando o Equipamento...");
+                progressBar.setMessage("Salvando dados inicial...");
                 progressBar.show();
-                pcpContext.getConfigCTR().salvarToken( editTextSenhaConfig.getText().toString(), BuildConfig.VERSION_NAME, Long.valueOf(editTextLinhaConfig.getText().toString()), ConfigActivity.this, TelaInicialActivity.class, progressBar, getLocalClassName());
+                pcpContext.getConfigCTR().salvarToken(editTextSenhaConfig.getText().toString(), BuildConfig.VERSION_NAME, Long.valueOf(editTextLinhaConfig.getText().toString()), ConfigActivity.this, TelaInicialActivity.class, progressBar, getLocalClassName());
 
             }
 

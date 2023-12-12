@@ -35,9 +35,9 @@ public class TerceiroDAO {
         return terceiroBean.get("cpfTerceiro", cpfTerceiro);
     }
 
-    private List<TerceiroBean> terceiroIdList(Long idTerceiro){
+    public List<TerceiroBean> terceiroIdList(Long idTerceiro){
         TerceiroBean terceiroBean = new TerceiroBean();
-        return terceiroBean.get("idTerceiro", idTerceiro);
+        return terceiroBean.get("idBDTerceiro", idTerceiro);
     }
 
 }

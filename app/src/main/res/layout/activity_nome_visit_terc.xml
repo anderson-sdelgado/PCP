@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.NomeColabVisitTercActivity">
+    tools:context=".view.NomeVisitTercActivity">
 
     <TextView
         android:id="@+id/textViewTituloNome"
@@ -20,6 +20,21 @@
 
     <TextView
         android:id="@+id/textViewNome"
+        style="@style/TextViewMsgDescr"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/texto_item_list" />
+
+    <TextView
+        android:id="@+id/textViewTituloEmpresa"
+        style="@style/TextViewTituloLista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_empresa" />
+
+    <TextView
+        android:id="@+id/textViewEmpresa"
         style="@style/TextViewMsgDescr"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -49,5 +64,5 @@
             android:text="@string/texto_padrao_ok" />
 
     </LinearLayout>
-    
+
 </LinearLayout>

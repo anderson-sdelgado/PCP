@@ -29,7 +29,6 @@ public class VerifDadosServ {
     private ProgressDialog progressDialog;
     private String dados;
     private String classe;
-    private TelaInicialActivity telaInicialActivity;
     private PostVerGenerico postVerGenerico;
     public static int status;
     private String senha;
@@ -80,63 +79,4 @@ public class VerifDadosServ {
 
     }
 
-    public void cancel() {
-        status = 3;
-        if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
-            postVerGenerico.cancel(true);
-        }
-    }
-
-    public void pulaTela(){
-        if(status < 3){
-            status = 3;
-            this.progressDialog.dismiss();
-            Intent it = new Intent(telaAtual, telaProx);
-            telaAtual.startActivity(it);
-        }
-    }
-
-    public void atualTodosDados(){
-        AtualDadosServ.getInstance().atualTodasTabBD(telaAtual, progressDialog, "MenuInicialActivity");
-    }
-
-    public void msg(String texto){
-        if(status < 3){
-            status = 3;
-            this.progressDialog.dismiss();
-            AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
-            alerta.setTitle("ATENÇÃO");
-            alerta.setMessage(texto);
-            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-            alerta.show();
-        }
-    }
-
-    public void pulaTelaSemBarra(){
-        if(status < 3){
-            status = 3;
-            Intent it = new Intent(telaAtual, telaProx);
-            telaAtual.startActivity(it);
-        }
-    }
-
-    public void pulaTelaSemBarra(Class telaProx){
-        if(status < 3){
-            status = 3;
-            Intent it = new Intent(telaAtual, telaProx);
-            telaAtual.startActivity(it);
-        }
-    }
-
-    public String getClasse() {
-        return classe;
-    }
-
-    public void setClasse(String classe) {
-        this.classe = classe;
-    }
 }

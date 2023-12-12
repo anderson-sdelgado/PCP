@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -161,7 +160,7 @@ public class CPFVisitTercActivity extends ActivityGeneric {
                     if(pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcpContext.getMovVeicVisitTercCTR().verTerceiroCpf(editTextPadrao.getText().toString())){\n" +
                                 "                            setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());", getLocalClassName());
-                        setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdTerceiro());
+                        setIdVisitTerc(pcpContext.getMovVeicVisitTercCTR().getTerceiroCpf(editTextPadrao.getText().toString()).getIdBDTerceiro());
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                                 "                            exibirAlerta(\"CPF DO TERCEIRO INVÁLIDO! FAVOR VERIFICA O MESMO.\");", getLocalClassName());
@@ -232,8 +231,8 @@ public class CPFVisitTercActivity extends ActivityGeneric {
                     "            pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(idVisitTerc);", getLocalClassName());
             pcpContext.getMovVeicVisitTercCTR().getMovEquipVisitTercPassagDAO().setIdVisitTercMovEquipVisitTercPassag(idVisitTerc);
         }
-        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);", getLocalClassName());
-        Intent it = new Intent(CPFVisitTercActivity.this, NomeColabVisitTercActivity.class);
+        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(CPFVisitTercActivity.this, NomeVisitTercActivity.class);", getLocalClassName());
+        Intent it = new Intent(CPFVisitTercActivity.this, NomeVisitTercActivity.class);
         startActivity(it);
         finish();
     }

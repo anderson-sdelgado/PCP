@@ -2,10 +2,8 @@ package br.com.usinasantafe.pcp.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -114,7 +112,6 @@ public class MatricColabActivity extends ActivityGeneric {
 
                 }
 
-
             });
 
             alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
@@ -153,7 +150,7 @@ public class MatricColabActivity extends ActivityGeneric {
                         pcpContext.getMovVeicProprioCTR().getMovEquipProprioPassagDAO().setMatricPassagMovEquipProprioPassag(Long.parseLong(editTextPadrao.getText().toString()));
                     }
                     LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ColabActivity.this, NomeColabTercVisitActivity.class);", getLocalClassName());
-                    Intent it = new Intent(MatricColabActivity.this, NomeColabVisitTercActivity.class);
+                    Intent it = new Intent(MatricColabActivity.this, NomeColabActivity.class);
                     startActivity(it);
                     finish();
                 } else {

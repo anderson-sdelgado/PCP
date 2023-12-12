@@ -119,6 +119,16 @@ public class MovEquipVisitTercCTR {
         return terceiroDAO.getTerceiroId(idTerceiro);
     }
 
+    public String empresasTerc(Long idTerceiro){
+        String empresas = "";
+        TerceiroDAO terceiroDAO = new TerceiroDAO();
+        List<TerceiroBean> terceiroList = terceiroDAO.terceiroIdList(idTerceiro);
+        for(TerceiroBean terceiroBean : terceiroList) {
+            empresas = empresas + terceiroBean.getEmpresaTerceiro() + "\n";
+        }
+        return empresas;
+    }
+
     public VisitanteBean getVisitanteCpf(String cpfVisitante){
         VisitanteDAO visitanteDAO = new VisitanteDAO();
         return visitanteDAO.getVisitanteCpf(cpfVisitante);

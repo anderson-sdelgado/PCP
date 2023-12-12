@@ -36,8 +36,6 @@ public class AtualDadosServ {
 	private Context telaAtual;
 	private Class telaProx;
 	private int tipoReceb;
-	private Class telaProxAlt;
-	private String dado;
 	
 	public AtualDadosServ() {
 		genericRecordable = new GenericRecordable();
@@ -76,7 +74,7 @@ public class AtualDadosServ {
 
 				if(contAtualBD > 0){
 					LogProcessoDAO.getInstance().insertLogProcesso("if(contAtualBD > 0){\n" +
-							"\t\t\t\t\tatualizandoBD(activity);", activity);
+							"atualizandoBD(activity);", activity);
 					atualizandoBD(activity);
 				}
 
@@ -87,7 +85,7 @@ public class AtualDadosServ {
 
 		} else {
 			LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-					"\t\t\tencerrar(activity);", activity);
+					"encerrar(activity);", activity);
 			encerrar(activity);
 		}
 
@@ -220,7 +218,7 @@ public class AtualDadosServ {
 				this.progressDialog.dismiss();
 			}
 
-			if(this.tipoReceb == 1){
+			if(this.tipoReceb == 1) {
 
 				LogProcessoDAO.getInstance().insertLogProcesso("if(this.tipoReceb == 1){\n" +
 						"contAtualBD = 0;\n" +
@@ -232,14 +230,9 @@ public class AtualDadosServ {
 				AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 				alerta.setTitle("ATENCAO");
 				alerta.setMessage("ATUALIZAÇÃO REALIZADA COM SUCESSO OS DADOS.");
-				alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-								"@Override\n" +
-								"public void onClick(DialogInterface dialog, int which) {", activity);
-					}
-				});
+				alerta.setPositiveButton("OK", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+						"@Override\n" +
+						"public void onClick(DialogInterface dialog, int which) {", activity));
 
 				alerta.show();
 
@@ -254,18 +247,15 @@ public class AtualDadosServ {
 				AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 				alerta.setTitle("ATENCAO");
 				alerta.setMessage("ATUALIZAÇÃO REALIZADA COM SUCESSO OS DADOS.");
-				alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-								"@Override\n" +
-								"public void onClick(DialogInterface dialog, int which) {\n" +
-								"progressDialog.dismiss();\n" +
-								"Intent it = new Intent(telaAtual, telaProx);\n" +
-								"telaAtual.startActivity(it);", activity);
-						Intent it = new Intent(telaAtual, telaProx);
-						telaAtual.startActivity(it);
-					}
+				alerta.setPositiveButton("OK", (dialog, which) -> {
+					LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+							"@Override\n" +
+							"public void onClick(DialogInterface dialog, int which) {\n" +
+							"progressDialog.dismiss();\n" +
+							"Intent it = new Intent(telaAtual, telaProx);\n" +
+							"telaAtual.startActivity(it);", activity);
+					Intent it = new Intent(telaAtual, telaProx);
+					telaAtual.startActivity(it);
 				});
 				alerta.show();
 
@@ -287,14 +277,9 @@ public class AtualDadosServ {
 			AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 			alerta.setTitle("ATENCAO");
 			alerta.setMessage("FALHA NA CONEXAO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-			alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-							"@Override\n" +
-							"public void onClick(DialogInterface dialog, int which) {", activity);
-				}
-			});
+			alerta.setPositiveButton("OK", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+					"@Override\n" +
+					"public void onClick(DialogInterface dialog, int which) {", activity));
 			alerta.show();
 			
 		}

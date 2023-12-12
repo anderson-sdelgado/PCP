@@ -156,23 +156,24 @@ public class ConfigCTR {
         return classeArrayList;
     }
 
-
-    public AtualAplicBean recToken(String result, String senha, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
+    public void recToken(String result, String senha, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
 
         try {
 
+            progressDialog.dismiss();
+
             JSONObject jObj = new JSONObject(result);
             JSONArray jsonArray = jObj.getJSONArray("dados");
 
             if (jsonArray.length() > 0) {
-                ConfigDAO configDAO = new ConfigDAO();
-                atualAplicBean = configDAO.recAparelho(jsonArray);
+                AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+                atualAplicBean = atualAplicDAO.recAparelho(jsonArray);
             }
 
             salvarConfig(atualAplicBean.getNroAparelho(), senha);
-            progressDialog.dismiss();
+
             progressDialog = new ProgressDialog(telaAtual);
             progressDialog.setCancelable(true);
             progressDialog.setMessage("ATUALIZANDO ...");
@@ -187,7 +188,6 @@ public class ConfigCTR {
             VerifDadosServ.status = 1;
             LogErroDAO.getInstance().insertLogErro(e);
         }
-        return atualAplicBean;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////

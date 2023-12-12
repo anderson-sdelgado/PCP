@@ -1,14 +1,7 @@
 package br.com.usinasantafe.pcp.model.dao;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
-import br.com.usinasantafe.pcp.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcp.model.bean.variaveis.ConfigBean;
 
 public class ConfigDAO {
@@ -81,16 +74,6 @@ public class ConfigDAO {
         ConfigBean configBean = getConfig();
         configBean.setTipoMov(tipoMov);
         configBean.update();
-    }
-
-    public AtualAplicBean recAparelho(JSONArray jsonArray) throws JSONException {
-
-        JSONObject objeto = jsonArray.getJSONObject(0);
-        Gson gson = new Gson();
-        AtualAplicBean atualAplicBean = gson.fromJson(objeto.toString(), AtualAplicBean.class);
-
-        return atualAplicBean;
-
     }
 
 }

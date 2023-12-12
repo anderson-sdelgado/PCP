@@ -10,12 +10,16 @@ public class TerceiroBean extends Entidade {
 
         private static final long serialVersionUID = 1L;
 
-    @DatabaseField(id=true)
+    @DatabaseField(generatedId=true)
     private Long idTerceiro;
+    @DatabaseField
+    private Long idBDTerceiro;
     @DatabaseField
     private String cpfTerceiro;
     @DatabaseField
     private String nomeTerceiro;
+    @DatabaseField
+    private String empresaTerceiro;
 
     public TerceiroBean() {
     }
@@ -26,6 +30,14 @@ public class TerceiroBean extends Entidade {
 
     public void setIdTerceiro(Long idTerceiro) {
         this.idTerceiro = idTerceiro;
+    }
+
+    public Long getIdBDTerceiro() {
+        return idBDTerceiro;
+    }
+
+    public void setIdBDTerceiro(Long idBDTerceiro) {
+        this.idBDTerceiro = idBDTerceiro;
     }
 
     public String getCpfTerceiro() {
@@ -42,5 +54,13 @@ public class TerceiroBean extends Entidade {
 
     public void setNomeTerceiro(String nomeTerceiro) {
         this.nomeTerceiro = nomeTerceiro;
+    }
+
+    public String getEmpresaTerceiro() {
+        return empresaTerceiro;
+    }
+
+    public void setEmpresaTerceiro(String empresaTerceiro) {
+        this.empresaTerceiro = empresaTerceiro;
     }
 }

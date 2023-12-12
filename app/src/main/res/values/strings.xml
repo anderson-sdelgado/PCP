@@ -45,6 +45,7 @@
     <string name="texto_tipo">TIPO</string>
     <string name="texto_cpf">CPF</string>
     <string name="texto_nome">NOME</string>
+    <string name="texto_empresa">EMPRESA(S)</string>
     <string name="texto_menu_vigia">VIGIA: </string>
     <string name="texto_menu_local">LOCAL: </string>
     <string name="texto_motorista">Teste</string>

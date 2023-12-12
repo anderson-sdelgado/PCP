@@ -78,7 +78,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                     startActivity(it);
                     finish();
                 }
-
             } else if (text.equals("CONFIGURAÇÃO")) {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {", getLocalClassName());
                 if(pcpContext.getConfigCTR().hasElemConfig()) {
@@ -101,7 +100,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                     startActivity(it);
                     finish();
                 }
-
             } else if (text.equals("SAIR")) {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"SAIR\")) {\n" +
                         "                    Intent intent = new Intent(Intent.ACTION_MAIN);\n" +
@@ -113,7 +111,6 @@ public class MenuInicialActivity extends ActivityGeneric {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
-
         });
 
     }

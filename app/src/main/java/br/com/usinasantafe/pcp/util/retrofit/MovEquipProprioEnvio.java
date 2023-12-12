@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcp.util.retrofit;
 
-import android.util.Log;
-
 import java.util.List;
 
 import br.com.usinasantafe.pcp.control.MovEquipProprioCTR;
