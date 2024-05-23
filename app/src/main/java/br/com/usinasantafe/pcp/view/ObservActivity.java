@@ -97,9 +97,9 @@ public class ObservActivity extends ActivityGeneric {
                 }
                 it = new Intent(ObservActivity.this, DescrMovActivity.class);
             }
-
             startActivity(it);
             finish();
+
         });
 
         buttonCancObserv.setOnClickListener(v -> {

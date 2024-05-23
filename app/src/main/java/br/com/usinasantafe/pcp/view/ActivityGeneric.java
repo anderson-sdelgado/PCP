@@ -56,7 +56,6 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
 
     private class EventoBotao implements View.OnClickListener {
-
         private String numBotao;
         private String localClassName;
 
@@ -112,7 +111,7 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
         if (findViewById(R.id.buttonNum0) != null) {
             Button buttonNum0 = findViewById(R.id.buttonNum0);
-            buttonNum0. setOnClickListener(new EventoBotao("0", this.getLocalClassName()));
+            buttonNum0.setOnClickListener(new EventoBotao("0", this.getLocalClassName()));
         }
 
         if (findViewById(R.id.buttonNum1) != null) {
