@@ -1,17 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="standard_padding">8dip</dimen>
-    <dimen name="half_padding">4dip</dimen>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fonte_titulo_lista">26dp</dimen>
-    <dimen name="fonte_edit">28dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="fonte_titulo_lista">28dp</dimen>
     <dimen name="fonte_item_lista">22dp</dimen>
+    <dimen name="fonte_edit">28dp</dimen>
     <dimen name="fonte_botao_avulso">20dp</dimen>
+    <dimen name="progress_bar_config">100dp</dimen>
+    <dimen name="progress_bar">50dp</dimen>
     <dimen name="fonte_menu_atividade">10dp</dimen>
-    <dimen name="fonte_num">22dp</dimen>
-    <dimen name="fonte_num_ok_canc">18dp</dimen>
-    <dimen name="fonte_valor_tab">20dp</dimen>
-    <dimen name="fonte_titulo_tab">25dp</dimen>
-    <dimen name="item_lista">22dp</dimen>
+    <dimen name="activity_vertical_margin_item">8dp</dimen>
+    <dimen name="activity_horizontal_margin_item">8dp</dimen>
 </resources>

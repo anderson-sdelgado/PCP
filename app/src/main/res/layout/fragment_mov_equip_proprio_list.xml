@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".presenter.proprio.movequip.MovEquipProprioListFragment">
+
+    <TextView
+        android:id="@+id/text_view_vigia"
+        style="@style/text_view_menu_normal"
+        tools:text="VIGIA: " />
+
+    <TextView
+        android:id="@+id/text_view_local"
+        style="@style/text_view_menu_normal"
+        tools:text="LOCAL: " />
+
+    <TextView
+        android:id="@+id/text_view_titulo_mov_proprio"
+        style="@style/text_view_title_list"
+        android:text="@string/texto_titulo_mov_proprio" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_view_mov_proprio"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_row_text" />
+
+    <LinearLayout
+        android:id="@+id/layout_botoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button_entrada_mov"
+            style="@style/botao_avulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_entrada" />
+
+        <Button
+            android:id="@+id/button_saida_mov"
+            style="@style/botao_avulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_saida" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_fechar_mov"
+        style="@style/botao_avulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_fechar_mov" />
+
+    <Button
+        android:id="@+id/button_retornar_mov"
+        style="@style/botao_avulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_retornar" />
+
+</LinearLayout>
