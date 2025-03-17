@@ -7,8 +7,12 @@ import java.security.MessageDigest
 import java.util.Locale
 
 
-fun token(nroAparelho: Long, version: String, idBD: Long): String {
-    var token = "PCP-${version}-$nroAparelho-$idBD"
+fun token(
+    number: Long,
+    version: String,
+    idBD: Int
+): String {
+    var token = "PCP-${version}-$number-$idBD"
     val messageDigest = MessageDigest.getInstance("MD5")
     messageDigest.update(token.toByteArray(), 0, token.length)
     val bigInteger = BigInteger(1, messageDigest.digest())

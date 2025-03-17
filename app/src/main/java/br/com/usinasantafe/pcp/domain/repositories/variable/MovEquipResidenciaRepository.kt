@@ -1,70 +1,62 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
-
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface MovEquipResidenciaRepository {
+    suspend fun checkOpen(): Result<Boolean>
+    suspend fun checkSend(): Result<Boolean>
+    suspend fun delete(id: Int): Result<Boolean>
+    suspend fun get(id: Int): Result<MovEquipResidencia>
+    suspend fun getMotorista(id: Int): Result<String>
+    suspend fun getObserv(id: Int): Result<String?>
+    suspend fun getPlaca(id: Int): Result<String>
+    suspend fun getVeiculo(id: Int): Result<String>
+    suspend fun listOpen(): Result<List<MovEquipResidencia>>
+    suspend fun listInside(): Result<List<MovEquipResidencia>>
+    suspend fun listSend(): Result<List<MovEquipResidencia>>
+    suspend fun listSent(): Result<List<MovEquipResidencia>>
+    suspend fun save(
+        matricVigia: Int,
+        idLocal: Int
+    ): Result<Int>
 
-    suspend fun checkMovSend(): Boolean
-
-    suspend fun deleteMovEquipResidencia(movEquipResidencia: MovEquipResidencia): Boolean
-
-    suspend fun listMovEquipResidenciaInside(): List<MovEquipResidencia>
-
-    suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidencia>
-
-    suspend fun listMovEquipResidenciaSend(): List<MovEquipResidencia>
-
-    suspend fun listMovEquipResidenciaSent(): List<MovEquipResidencia>
-
-    suspend fun receiverSentMovEquipResidencia(movEquipList: List<MovEquipResidencia>): Boolean
-
-    suspend fun saveMovEquipResidencia(matricVigia: Long, idLocal: Long): Long
-
-    suspend fun saveMovEquipResidencia(
-        matricVigia: Long,
-        idLocal: Long,
-        movEquipResidencia: MovEquipResidencia
-    ): Long
-
-    suspend fun sendMovEquipResidencia(
-        movEquipList: List<MovEquipResidencia>,
-        nroAparelho: Long,
-        token: String,
+    suspend fun send(
+        list: List<MovEquipResidencia>,
+        number: Long,
+        token: String
     ): Result<List<MovEquipResidencia>>
 
-    suspend fun setMotoristaMovEquipResidencia(motorista: String): Boolean
-
-    suspend fun setObservMovEquipResidencia(observ: String?): Boolean
-
-    suspend fun setPlacaMovEquipResidencia(placa: String): Boolean
-
-    suspend fun setStatusOutsideMov(movEquipResidencia: MovEquipResidencia): Boolean
-
-    suspend fun setStatusCloseMov(movEquipResidencia: MovEquipResidencia): Boolean
-
-    suspend fun setVeiculoMovEquipResidencia(veiculo: String): Boolean
-
-    suspend fun startMovEquipResidencia(): Boolean
-
-    suspend fun updateVeiculoMovEquipResidencia(
-        veiculo: String,
-        movEquipResidencia: MovEquipResidencia
-    ): Boolean
-
-    suspend fun updatePlacaMovEquipResidencia(
-        placa: String,
-        movEquipResidencia: MovEquipResidencia
-    ): Boolean
-
-    suspend fun updateMotoristaMovEquipResidencia(
+    suspend fun setClose(id: Int): Result<Boolean>
+    suspend fun setMotorista(
         motorista: String,
-        movEquipResidencia: MovEquipResidencia
-    ): Boolean
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
-    suspend fun updateObservMovEquipResidencia(
+    suspend fun setObserv(
         observ: String?,
-        movEquipResidencia: MovEquipResidencia
-    ): Boolean
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
+    suspend fun setOutside(id: Int): Result<Boolean>
+    suspend fun setPlaca(
+        placa: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
+
+    suspend fun setVeiculo(
+        veiculo: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
+
+    suspend fun setSent(
+        list: List<MovEquipResidencia>
+    ): Result<Boolean>
+
+    suspend fun start(): Result<Boolean>
+    suspend fun start(movEquipResidencia: MovEquipResidencia): Result<Boolean>
 }

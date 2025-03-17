@@ -4,15 +4,13 @@ import br.com.usinasantafe.pcp.utils.FlagUpdate
 import br.com.usinasantafe.pcp.utils.StatusData
 import br.com.usinasantafe.pcp.utils.StatusSend
 
-
 data class Config(
-    var nroAparelhoConfig: Long? = null,
-    var passwordConfig: String? = null,
-    var idBDConfig: Long? = null,
+    var number: Long? = null,
+    var password: String? = null,
+    var idBD: Int? = null,
     var version: String? = null,
     var flagUpdate: FlagUpdate = FlagUpdate.OUTDATED,
-    var matricVigia: Long? = null,
-    var idLocal: Long? = null,
-    var statusEnvio: StatusSend = StatusSend.SENT,
-    var statusApont: StatusData = StatusData.CLOSE,
+    var matricVigia: Int? = null,
+    var idLocal: Int? = null,
+    var statusSend: StatusSend = StatusSend.STARTED
 )

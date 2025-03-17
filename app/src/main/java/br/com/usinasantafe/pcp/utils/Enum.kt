@@ -1,14 +1,14 @@
 package br.com.usinasantafe.pcp.utils
 
 enum class StatusData { OPEN, CLOSE  }
-enum class StatusSend { SEND, SENDING, SENT }
+enum class StatusSend { STARTED, SEND, SENDING, SENT }
 enum class StatusForeigner { INSIDE, OUTSIDE }
-enum class TypeMov { INPUT, OUTPUT, EMPTY }
-enum class StatusUpdate { UPDATED, FAILURE }
-enum class StatusRecover { SUCCESS, EMPTY, FAILURE }
-enum class PointerStart { MENUINICIAL, MENUAPONT }
+enum class TypeMovEquip { INPUT, OUTPUT}
+enum class TypeMovKey { REMOVE, RECEIPT }
 enum class FlagUpdate { OUTDATED, UPDATED }
-enum class TypeAddEquip { ADDVEICULO, ADDVEICULOSEG, CHANGEVEICULO, CHANGEVEICULOSEG }
-enum class TypeAddOcupante { ADDMOTORISTA, ADDPASSAGEIRO, CHANGEMOTORISTA, CHANGEPASSAGEIRO }
+enum class TypeEquip { VEICULO, VEICULOSEG }
+enum class TypeOcupante { MOTORISTA, PASSAGEIRO }
 enum class TypeVisitTerc { VISITANTE, TERCEIRO }
 enum class FlowApp { ADD, CHANGE }
+enum class Errors { FIELDEMPTY, TOKEN, UPDATE, EXCEPTION, INVALID }
+enum class TypeButton { NUMERIC, CLEAN, OK, UPDATE }

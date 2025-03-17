@@ -1,79 +1,69 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
-import br.com.usinasantafe.pcp.utils.TypeMov
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
+import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.utils.TypeMovEquip
 
 interface MovEquipProprioRepository {
+    suspend fun checkOpen(): Result<Boolean>
+    suspend fun checkSend(): Result<Boolean>
+    suspend fun delete(id: Int): Result<Boolean>
+    suspend fun get(id: Int): Result<MovEquipProprio>
+    suspend fun getDestino(id: Int): Result<String>
+    suspend fun getIdEquip(id: Int): Result<Int>
+    suspend fun getMatricColab(id: Int): Result<Int>
+    suspend fun getNotaFiscal(id: Int): Result<Int?>
+    suspend fun getObserv(id: Int): Result<String?>
+    suspend fun getTipoMov(): Result<TypeMovEquip>
+    suspend fun listOpen(): Result<List<MovEquipProprio>>
+    suspend fun listSend(): Result<List<MovEquipProprio>>
+    suspend fun listSent(): Result<List<MovEquipProprio>>
+    suspend fun save(
+        matricVigia: Int,
+        idLocal: Int
+    ): Result<Int>
 
-    suspend fun checkAddMotoristaMovEquipProprio(): Boolean
-
-    suspend fun checkAddVeiculoMovEquipProprio(): Boolean
-
-    suspend fun checkMovSend(): Boolean
-
-    suspend fun deleteMovEquipProprio(movEquipProprio: MovEquipProprio): Boolean
-
-    suspend fun getMatricMotoristaMovEquipProprio(): Long
-
-    suspend fun getTipoMovEquipProprio(): TypeMov
-
-    suspend fun listMovEquipProprioOpen(): List<MovEquipProprio>
-
-    suspend fun listMovEquipProprioSend(): List<MovEquipProprio>
-
-    suspend fun listMovEquipProprioSent(): List<MovEquipProprio>
-
-    suspend fun receiverSentMovEquipProprio(movEquipList: List<MovEquipProprio>): Boolean
-
-    suspend fun saveMovEquipProprio(matricVigia: Long, idLocal: Long): Long
-
-    suspend fun sendMovEquipProprio(
-        movEquipList: List<MovEquipProprio>,
-        nroAparelho: Long,
+    suspend fun send(
+        list: List<MovEquipProprio>,
+        number: Long,
         token: String
     ): Result<List<MovEquipProprio>>
 
-    suspend fun setDestinoMovEquipProprio(destino: String): Boolean
-
-    suspend fun setMotoristaMovEquipProprio(nroMatric: Long): Boolean
-
-    suspend fun setNotaFiscalMovEquipProprio(notaFiscal: Long): Boolean
-
-    suspend fun setObservMovEquipProprio(observ: String?): Boolean
-
-    suspend fun setStatusCloseMov(movEquipProprio: MovEquipProprio): Boolean
-
-    suspend fun setVeiculoMovEquipProprio(idEquip: Long): Boolean
-
-    suspend fun startMovEquipProprio(typeMov: TypeMov): Boolean
-
-    suspend fun updateStatusSendMovEquipProprio(
-        movEquipProprio: MovEquipProprio
-    ): Boolean
-
-    suspend fun updateDestinoMovEquipProprio(
+    suspend fun setClose(id: Int): Result<Boolean>
+    suspend fun setDestino(
         destino: String,
-        movEquipProprio: MovEquipProprio
-    ): Boolean
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
-    suspend fun updateMotoristaMovEquipProprio(
-        nroMatric: Long,
-        movEquipProprio: MovEquipProprio
-    ): Boolean
+    suspend fun setIdEquip(
+        idEquip: Int,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
-    suspend fun updateNotaFiscalMovEquipProprio(
-        notaFiscal: Long,
-        movEquipProprio: MovEquipProprio
-    ): Boolean
+    suspend fun setNotaFiscal(
+        notaFiscal: Int?,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
-    suspend fun updateVeiculoMovEquipProprio(
-        idEquip: Long,
-        movEquipProprio: MovEquipProprio
-    ): Boolean
+    suspend fun setMatricColab(
+        matricColab: Int,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
-    suspend fun updateObservMovEquipProprio(
+    suspend fun setObserv(
         observ: String?,
-        movEquipProprio: MovEquipProprio
-    ): Boolean
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 
+    suspend fun setSent(
+        list: List<MovEquipProprio>
+    ): Result<Boolean>
+
+    suspend fun setSend(id: Int): Result<Boolean>
+    suspend fun start(typeMov: TypeMovEquip): Result<Boolean>
 }

@@ -3,15 +3,10 @@ package br.com.usinasantafe.pcp.infra.datasource.room.stable
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
 
 interface EquipRoomDatasource {
-
-    suspend fun addAllEquip(vararg equipRoomModels: EquipRoomModel)
-
-    suspend fun deleteAllEquip()
-
-    suspend fun checkEquipNro(nro: Long): Boolean
-
-    suspend fun getEquipNro(nro: Long): EquipRoomModel
-
-    suspend fun getEquipId(id: Long): EquipRoomModel
-
+    suspend fun addAll(list: List<EquipRoomModel>): Result<Boolean>
+    suspend fun checkNro(nroEquip: Long): Result<Boolean>
+    suspend fun deleteAll(): Result<Boolean>
+    suspend fun get(idEquip: Int): Result<EquipRoomModel>
+    suspend fun getId(nroEquip: Long): Result<Int>
+    suspend fun getNro(idEquip: Int): Result<Long>
 }

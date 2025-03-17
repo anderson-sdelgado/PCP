@@ -1,29 +1,48 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface SetPlacaResidencia {
-    suspend operator fun invoke(placa: String, flowApp: FlowApp, pos: Int): Boolean
+    suspend operator fun invoke(
+        placa: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SetPlacaResidenciaImpl @Inject constructor(
+class ISetPlacaResidencia(
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
-): SetPlacaResidencia {
+    private val startProcessSendData: StartProcessSendData
+) : SetPlacaResidencia {
 
-    override suspend fun invoke(placa: String, flowApp: FlowApp, pos: Int): Boolean {
-        return try {
-            when(flowApp) {
-                FlowApp.ADD -> movEquipResidenciaRepository.setPlacaMovEquipResidencia(placa)
-                FlowApp.CHANGE -> {
-                    val movEquip = movEquipResidenciaRepository.listMovEquipResidenciaOpen()[pos]
-                    movEquipResidenciaRepository.updatePlacaMovEquipResidencia(placa, movEquip)
-                }
-            }
-        } catch (exception: Exception) {
-            false
+    override suspend fun invoke(
+        placa: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            val resultSet = movEquipResidenciaRepository.setPlaca(
+                placa = placa,
+                flowApp = flowApp,
+                id = id
+            )
+            if (resultSet.isFailure)
+                return Result.failure(resultSet.exceptionOrNull()!!)
+            if (flowApp == FlowApp.CHANGE)
+                startProcessSendData()
+            return Result.success(true)
+        } catch (e: Exception) {
+            return Result.failure(
+                UsecaseException(
+                    function = "SetPlacaResidenciaImpl",
+                    cause = e.cause
+                )
+            )
         }
+
     }
 
 }

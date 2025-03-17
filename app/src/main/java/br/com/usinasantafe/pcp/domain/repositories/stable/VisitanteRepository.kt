@@ -1,20 +1,15 @@
 package br.com.usinasantafe.pcp.domain.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
-import kotlinx.coroutines.flow.Flow
 
 interface VisitanteRepository {
-
-    suspend fun addAllVisitante(list: List<Visitante>)
-
-    suspend fun checkCPFVisitante(cpf: String): Boolean
-
-    suspend fun deleteAllVisitante()
-
-    suspend fun getVisitanteCPF(cpf: String): Visitante
-
-    suspend fun getVisitanteId(id: Long): Visitante
-
-    suspend fun recoverAllVisitante(token: String): Flow<Result<List<Visitante>>>
-
+    suspend fun addAll(list: List<Visitante>): Result<Boolean>
+    suspend fun checkCPF(cpf: String): Result<Boolean>
+    suspend fun deleteAll(): Result<Boolean>
+    suspend fun get(id: Int): Result<Visitante>
+    suspend fun getCpf(id: Int): Result<String>
+    suspend fun getId(cpf: String): Result<Int>
+    suspend fun getNome(cpf: String): Result<String>
+    suspend fun getEmpresas(cpf: String): Result<String>
+    suspend fun recoverAll(token: String): Result<List<Visitante>>
 }

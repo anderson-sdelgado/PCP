@@ -1,21 +1,14 @@
 package br.com.usinasantafe.pcp.domain.repositories.stable
 
-import br.com.usinasantafe.pcp.domain.entities.stable.Colab
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
-import kotlinx.coroutines.flow.Flow
 
 interface EquipRepository {
-
-    suspend fun addAllEquip(list: List<Equip>)
-
-    suspend fun checkEquipNro(nro: Long): Boolean
-
-    suspend fun deleteAllEquip()
-
-    suspend fun getEquipId(id: Long): Equip
-
-    suspend fun getEquipNro(nro: Long): Equip
-
-    suspend fun recoverAllEquip(token: String): Flow<Result<List<Equip>>>
-
+    suspend fun addAll(list: List<Equip>): Result<Boolean>
+    suspend fun checkNro(nroEquip: Long): Result<Boolean>
+    suspend fun deleteAll(): Result<Boolean>
+    suspend fun get(idEquip: Int): Result<Equip>
+    suspend fun getId(nroEquip: Long): Result<Int>
+    suspend fun getNro(idEquip: Int): Result<Long>
+    suspend fun getDescr(idEquip: Int): Result<String>
+    suspend fun recoverAll(token: String): Result<List<Equip>>
 }

@@ -1,33 +1,124 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.placa
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetPlacaVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetPlacaVisitTerc
+import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
+import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class PlacaVisitTercViewModel @Inject constructor(
+data class PlacaVisitTercState(
+    val flowApp: FlowApp = FlowApp.ADD,
+    val id: Int = 0,
+    val placa: String = "",
+    val checkGetPlaca: Boolean = true,
+    val flagAccess: Boolean = false,
+    val flagDialog: Boolean = false,
+    val failure: String = "",
+)
+
+class PlacaVisitTercViewModel(
+    savedStateHandle: SavedStateHandle,
     private val setPlacaVisitTerc: SetPlacaVisitTerc,
+    private val getPlacaVisitTerc: GetPlacaVisitTerc
 ) : ViewModel() {
 
-    private val _uiLiveData = MutableLiveData<PlacaVisitTercFragmentState>()
-    val uiLiveData: LiveData<PlacaVisitTercFragmentState> = _uiLiveData
+    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val id: Int = savedStateHandle[ID_ARGS]!!
 
-    private fun checkSetPlaca(check: Boolean) {
-        _uiLiveData.value = PlacaVisitTercFragmentState.CheckSetPlaca(check)
+    private val _uiState = MutableStateFlow(PlacaVisitTercState())
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        _uiState.update {
+            it.copy(
+                flowApp = FlowApp.entries[flowApp],
+                id = id
+            )
+        }
     }
 
-    fun setPlaca(placa: String, flowApp: FlowApp, pos: Int) = viewModelScope.launch {
-        checkSetPlaca(setPlacaVisitTerc(placa, flowApp, pos))
+    fun setCloseDialog() {
+        _uiState.update {
+            it.copy(flagDialog = false)
+        }
     }
 
-}
+    fun onPlacaChanged(placa: String) {
+        if (placa.length <= 7) {
+            _uiState.update {
+                it.copy(placa = placa)
+            }
+        }
+    }
 
-sealed class PlacaVisitTercFragmentState {
-    data class CheckSetPlaca(val check: Boolean) : PlacaVisitTercFragmentState()
+    fun recoverPlaca() = viewModelScope.launch {
+        if (
+            (uiState.value.flowApp == FlowApp.CHANGE) &&
+            (uiState.value.checkGetPlaca)
+        ) {
+            val resultGetPlaca = getPlacaVisitTerc(
+                id = uiState.value.id
+            )
+            if (resultGetPlaca.isFailure) {
+                val error = resultGetPlaca.exceptionOrNull()!!
+                val failure = "${error.message} -> ${error.cause.toString()}"
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        failure = failure,
+                    )
+                }
+                return@launch
+            }
+            val placa = resultGetPlaca.getOrNull()!!
+            _uiState.update {
+                it.copy(
+                    placa = placa,
+                    checkGetPlaca = false,
+                )
+            }
+        }
+    }
+
+    fun setPlaca() {
+        if (uiState.value.placa.isEmpty()) {
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                )
+            }
+            return
+        }
+        viewModelScope.launch {
+            val resultSetPlaca = setPlacaVisitTerc(
+                placa = uiState.value.placa,
+                flowApp = uiState.value.flowApp,
+                id = uiState.value.id
+            )
+            if (resultSetPlaca.isFailure) {
+                val error = resultSetPlaca.exceptionOrNull()!!
+                val failure = "${error.message} -> ${error.cause.toString()}"
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        failure = failure,
+                    )
+                }
+            }
+            _uiState.update {
+                it.copy(
+                    flagAccess = true,
+                )
+            }
+        }
+    }
+
 }

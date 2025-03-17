@@ -2,44 +2,42 @@ package br.com.usinasantafe.pcp.infra.models.room.variable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
 import br.com.usinasantafe.pcp.utils.StatusData
 import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_PROPRIO
-import br.com.usinasantafe.pcp.utils.TypeMov
-import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
-import kotlinx.serialization.Serializable
+import br.com.usinasantafe.pcp.utils.TypeMovEquip
 import java.util.Date
 
-@Serializable
 @Entity(tableName = TB_MOV_EQUIP_PROPRIO)
 data class MovEquipProprioRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovEquipProprio: Long? = null,
-    var nroMatricVigiaMovEquipProprio: Long,
-    var idLocalMovEquipProprio: Long,
-    var tipoMovEquipProprio: TypeMov,
+    var idMovEquipProprio: Int? = null,
+    var matricVigiaMovEquipProprio: Int,
+    var idLocalMovEquipProprio: Int,
+    var tipoMovEquipProprio: TypeMovEquip,
     var dthrMovEquipProprio: Long,
-    var idEquipMovEquipProprio: Long,
-    var nroMatricColabMovEquipProprio: Long,
+    var idEquipMovEquipProprio: Int,
+    var matricColabMovEquipProprio: Int,
     var destinoMovEquipProprio: String,
-    var nroNotaFiscalMovEquipProprio: Long?,
+    var notaFiscalMovEquipProprio: Int?,
     var observMovEquipProprio: String?,
     var statusMovEquipProprio: StatusData,
     var statusSendMovEquipProprio: StatusSend,
 )
 
-fun MovEquipProprioRoomModel.modelRoomToMovEquipProprio(): MovEquipProprio {
+fun MovEquipProprioRoomModel.roomModelToEntity(): MovEquipProprio {
     return with(this){
         MovEquipProprio(
             idMovEquipProprio = this.idMovEquipProprio,
-            nroMatricVigiaMovEquipProprio = this.nroMatricVigiaMovEquipProprio,
+            matricVigiaMovEquipProprio = this.matricVigiaMovEquipProprio,
             idLocalMovEquipProprio = this.idLocalMovEquipProprio,
             tipoMovEquipProprio = this.tipoMovEquipProprio,
             dthrMovEquipProprio = Date(this.dthrMovEquipProprio),
             idEquipMovEquipProprio = this.idEquipMovEquipProprio,
-            nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio,
+            matricColabMovEquipProprio = this.matricColabMovEquipProprio,
             destinoMovEquipProprio = this.destinoMovEquipProprio,
-            nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
+            notaFiscalMovEquipProprio = this.notaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
             statusMovEquipProprio = this.statusMovEquipProprio,
             statusSendMovEquipProprio = this.statusSendMovEquipProprio,
@@ -47,18 +45,21 @@ fun MovEquipProprioRoomModel.modelRoomToMovEquipProprio(): MovEquipProprio {
     }
 }
 
-fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal: Long): MovEquipProprioRoomModel{
+fun MovEquipProprio.entityToRoomModel(
+    matricVigia: Int,
+    idLocal: Int
+): MovEquipProprioRoomModel{
     return with(this){
         MovEquipProprioRoomModel(
             idMovEquipProprio = idMovEquipProprio,
-            nroMatricVigiaMovEquipProprio = matricVigia,
+            matricVigiaMovEquipProprio = matricVigia,
             idLocalMovEquipProprio = idLocal,
             tipoMovEquipProprio = this.tipoMovEquipProprio!!,
             dthrMovEquipProprio = this.dthrMovEquipProprio.time,
             idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
-            nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio!!,
+            matricColabMovEquipProprio = this.matricColabMovEquipProprio!!,
             destinoMovEquipProprio = this.destinoMovEquipProprio!!,
-            nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
+            notaFiscalMovEquipProprio = this.notaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
             statusMovEquipProprio = this.statusMovEquipProprio,
             statusSendMovEquipProprio = this.statusSendMovEquipProprio,

@@ -5,16 +5,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.utils.StatusData
 import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_PROPRIO
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 
 @Dao
 interface MovEquipProprioDao {
 
     @Insert
-    suspend fun insert(movEquipProprioRoomModel: MovEquipProprioRoomModel)
+    suspend fun insert(movEquipProprioRoomModel: MovEquipProprioRoomModel): Long
 
     @Update
     suspend fun update(movEquipProprioRoomModel: MovEquipProprioRoomModel)
@@ -22,16 +22,13 @@ interface MovEquipProprioDao {
     @Delete
     suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel)
 
-    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :status")
-    suspend fun listMovStatus(status: StatusData): List<MovEquipProprioRoomModel>
-
-    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusSendMovEquipProprio = :statusEnvio")
-    suspend fun listMovStatusEnvio(statusEnvio: StatusSend): List<MovEquipProprioRoomModel>
-
-    @Query("SELECT MAX(idMovEquipProprio) FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :status")
-    suspend fun lastIdMovStatus(status: StatusData): Long
-
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE idMovEquipProprio = :idMov")
-    suspend fun listMovId(idMov: Long): List<MovEquipProprioRoomModel>
+    suspend fun get(idMov: Int): MovEquipProprioRoomModel
+
+    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :statusData")
+    suspend fun listStatusData(statusData: StatusData): List<MovEquipProprioRoomModel>
+
+    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusSendMovEquipProprio = :statusSend")
+    suspend fun listStatusSend(statusSend: StatusSend): List<MovEquipProprioRoomModel>
 
 }

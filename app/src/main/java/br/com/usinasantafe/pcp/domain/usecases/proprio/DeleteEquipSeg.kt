@@ -1,32 +1,30 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.utils.TypeAddEquip
-import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
-import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioSegRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface DeleteEquipSeg {
-    suspend operator fun invoke(posList: Int, typeAddEquip: TypeAddEquip, pos: Int): Boolean
+    suspend operator fun invoke(
+        idEquip: Int,
+        flowApp: FlowApp,
+        id: Int,
+    ): Result<Boolean>
 }
 
-class DeleteEquipSegImpl @Inject constructor(
-    private val movEquipProprioRepository: MovEquipProprioRepository,
-    private val movEquipProprioSegRepository: MovEquipProprioSegRepository,
+class IDeleteEquipSeg(
+    private val movEquipProprioEquipSegRepository: MovEquipProprioEquipSegRepository
 ) : DeleteEquipSeg {
 
-    override suspend fun invoke(posList: Int, typeAddEquip: TypeAddEquip, pos: Int): Boolean {
-        return when (typeAddEquip) {
-            TypeAddEquip.ADDVEICULO,
-            TypeAddEquip.ADDVEICULOSEG -> movEquipProprioSegRepository.deleteEquipSeg(posList)
-            TypeAddEquip.CHANGEVEICULO,
-            TypeAddEquip.CHANGEVEICULOSEG -> {
-                val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
-                val result = movEquipProprioSegRepository.deleteEquipSeg(posList, movEquip.idMovEquipProprio!!)
-                if(result)
-                    movEquipProprioRepository.updateStatusSendMovEquipProprio(movEquip)
-                return result
-            }
-        }
+    override suspend fun invoke(
+        idEquip: Int,
+        flowApp: FlowApp,
+        id: Int,
+    ): Result<Boolean> {
+        return movEquipProprioEquipSegRepository.delete(
+            idEquip = idEquip,
+            flowApp = flowApp,
+            id = id
+        )
     }
 
 }

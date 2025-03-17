@@ -1,18 +1,31 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
-import javax.inject.Inject
 
 interface CheckMatricColab {
-    suspend operator fun invoke(matric: String): Boolean
+    suspend operator fun invoke(matricColab: String): Result<Boolean>
 }
 
-class CheckMatricColabImpl @Inject constructor (
+class ICheckMatricColab(
     private val colabRepository: ColabRepository
 ): CheckMatricColab {
 
-    override suspend fun invoke(matric: String): Boolean {
-        return colabRepository.checkColabMatric(matric.toLong())
+    override suspend fun invoke(matricColab: String): Result<Boolean> {
+        try {
+            val matric = matricColab.toInt()
+            val result = colabRepository.checkMatric(matric)
+            if(result.isFailure)
+                return result
+            return Result.success(result.getOrNull()!!)
+        } catch (e: Exception) {
+            return Result.failure(
+                UsecaseException(
+                    function = "CheckMatricColab",
+                    cause = e
+                )
+            )
+        }
     }
 
 }

@@ -1,29 +1,37 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface SetDestinoProprio {
-    suspend operator fun invoke(destino: String, flowApp: FlowApp, pos: Int): Boolean
+    suspend operator fun invoke(
+        destino: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SetDestinoProprioImpl @Inject constructor(
+class ISetDestinoProprio(
     private val movEquipProprioRepository: MovEquipProprioRepository,
+    private val startProcessSendData: StartProcessSendData
 ): SetDestinoProprio {
 
-    override suspend fun invoke(destino: String, flowApp: FlowApp, pos: Int): Boolean {
-        return try {
-            when(flowApp) {
-                FlowApp.ADD -> movEquipProprioRepository.setDestinoMovEquipProprio(destino)
-                FlowApp.CHANGE -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
-                    movEquipProprioRepository.updateDestinoMovEquipProprio(destino, movEquip)
-                }
-            }
-        } catch (exception: Exception) {
-            false
-        }
+    override suspend fun invoke(
+        destino: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        val resultSet = movEquipProprioRepository.setDestino(
+            destino = destino,
+            flowApp = flowApp,
+            id = id
+        )
+        if (resultSet.isFailure)
+            return Result.failure(resultSet.exceptionOrNull()!!)
+        if(flowApp == FlowApp.CHANGE)
+            startProcessSendData()
+        return Result.success(true)
     }
 
 }

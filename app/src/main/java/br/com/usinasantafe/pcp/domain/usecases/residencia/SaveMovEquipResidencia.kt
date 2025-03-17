@@ -1,43 +1,60 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
-import br.com.usinasantafe.pcp.domain.usecases.common.SetStatusSendConfig
-import br.com.usinasantafe.pcp.utils.StatusSend
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.utils.TypeMovEquip
 
 interface SaveMovEquipResidencia {
-    suspend operator fun invoke(): Boolean
-    suspend operator fun invoke(movEquipResidencia: MovEquipResidencia): Boolean
+    suspend operator fun invoke(
+        typeMov: TypeMovEquip,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SaveMovEquipResidenciaImpl @Inject constructor(
+class ISaveMovEquipResidencia(
     private val configRepository: ConfigRepository,
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
-    private val setStatusSendConfig: SetStatusSendConfig,
-    private val startProcessSendData: StartProcessSendData,
-): SaveMovEquipResidencia {
+    private val startProcessSendData: StartProcessSendData
+) : SaveMovEquipResidencia {
 
-    override suspend fun invoke(): Boolean {
-        val config = configRepository.getConfig()
-        val result = (movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!) != 0L)
-        if(result) {
-            setStatusSendConfig(StatusSend.SEND)
+    override suspend fun invoke(
+        typeMov: TypeMovEquip,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            if (typeMov == TypeMovEquip.OUTPUT) {
+                val resultClose = movEquipResidenciaRepository.setOutside(id)
+                if (resultClose.isFailure)
+                    return Result.failure(resultClose.exceptionOrNull()!!)
+            }
+            val resultConfig = configRepository.getConfig()
+            if (resultConfig.isFailure)
+                return Result.failure(resultConfig.exceptionOrNull()!!)
+            val config = resultConfig.getOrNull()!!
+            val resultSave = movEquipResidenciaRepository.save(
+                config.matricVigia!!,
+                config.idLocal!!
+            )
+            if (resultSave.isFailure)
+                return Result.failure(resultSave.exceptionOrNull()!!)
+            val idSave = resultSave.getOrNull()!!
+            if (typeMov == TypeMovEquip.OUTPUT) {
+                val resultClose = movEquipResidenciaRepository.setOutside(idSave)
+                if (resultClose.isFailure)
+                    return Result.failure(resultClose.exceptionOrNull()!!)
+            }
             startProcessSendData()
+            return Result.success(true)
+        } catch (e: Exception) {
+            return Result.failure(
+                UsecaseException(
+                    function = "SaveMovEquipResidenciaImpl",
+                    cause = e
+                )
+            )
         }
-        return result
-    }
-
-    override suspend fun invoke(movEquipResidencia: MovEquipResidencia): Boolean {
-        val config = configRepository.getConfig()
-        val result = (movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!, movEquipResidencia) != 0L)
-        if(result) {
-            setStatusSendConfig(StatusSend.SEND)
-            startProcessSendData()
-        }
-        return result
     }
 
 }

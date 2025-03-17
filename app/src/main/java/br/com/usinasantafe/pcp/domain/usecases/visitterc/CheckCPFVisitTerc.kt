@@ -1,41 +1,52 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.utils.TypeAddOcupante
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.utils.TypeVisitTerc
 
-interface CheckCPFVisitTerc {
-    suspend operator fun invoke(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int): Boolean
+interface CheckCpfVisitTerc {
+    suspend operator fun invoke(
+        cpf: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class CheckCPFVisitTercImpl @Inject constructor (
-    private val visitanteRepository: VisitanteRepository,
-    private val terceiroRepository: TerceiroRepository,
+class ICheckCpfVisitTerc(
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
-): CheckCPFVisitTerc {
+    private val terceiroRepository: TerceiroRepository,
+    private val visitanteRepository: VisitanteRepository
+) : CheckCpfVisitTerc {
 
-    override suspend fun invoke(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int): Boolean {
-        when(typeAddOcupante){
-            TypeAddOcupante.ADDMOTORISTA,
-            TypeAddOcupante.ADDPASSAGEIRO -> {
-                return when(movEquipVisitTercRepository.getTipoVisitTercMovEquipVisitTerc()){
-                    TypeVisitTerc.VISITANTE -> visitanteRepository.checkCPFVisitante(cpf)
-                    TypeVisitTerc.TERCEIRO -> terceiroRepository.checkCPFTerceiro(cpf)
-                }
+    override suspend fun invoke(
+        cpf: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTerc(flowApp, id)
+            if (resultTypeVisitTerc.isFailure)
+                return Result.failure(resultTypeVisitTerc.exceptionOrNull()!!)
+            val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
+            val resultCheck = when (typeVisitTerc) {
+                TypeVisitTerc.VISITANTE -> visitanteRepository.checkCPF(cpf)
+                TypeVisitTerc.TERCEIRO -> terceiroRepository.checkCPF(cpf)
             }
-            TypeAddOcupante.CHANGEMOTORISTA,
-            TypeAddOcupante.CHANGEPASSAGEIRO -> {
-                val movEquip = movEquipVisitTercRepository.listMovEquipVisitTercOpen()[pos]
-                return when(movEquip.tipoVisitTercMovEquipVisitTerc!!){
-                    TypeVisitTerc.VISITANTE -> visitanteRepository.checkCPFVisitante(cpf)
-                    TypeVisitTerc.TERCEIRO -> terceiroRepository.checkCPFTerceiro(cpf)
-                }
-            }
+            if (resultCheck.isFailure)
+                return Result.failure(resultCheck.exceptionOrNull()!!)
+            val result = resultCheck.getOrNull()!!
+            return Result.success(result)
+        } catch (e: Exception) {
+            return Result.failure(
+                UsecaseException(
+                    function = "CheckCpfVisitTerc",
+                    cause = e
+                )
+            )
         }
-
     }
 
 }

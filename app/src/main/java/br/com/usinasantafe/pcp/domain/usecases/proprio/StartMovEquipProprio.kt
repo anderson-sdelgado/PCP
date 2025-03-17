@@ -1,28 +1,40 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.utils.TypeMov
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
-import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioSegRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
+import br.com.usinasantafe.pcp.utils.TypeMovEquip
 
 interface StartMovEquipProprio {
-    suspend operator fun invoke(typeMov: TypeMov): Boolean
+    suspend operator fun invoke(typeMov: TypeMovEquip): Result<Boolean>
 }
 
-class StartMovEquipProprioImpl @Inject constructor(
+class IStartMovEquipProprio(
     private val movEquipProprioRepository: MovEquipProprioRepository,
-    private val movEquipProprioSegRepository: MovEquipProprioSegRepository,
-    private val movEquipProprioPassagRepository: MovEquipProprioPassagRepository,
+    private val movEquipProprioEquipSegRepository: MovEquipProprioEquipSegRepository,
+    private val movEquipProprioPassagRepository: MovEquipProprioPassagRepository
 ): StartMovEquipProprio {
 
-    override suspend fun invoke(typeMov: TypeMov): Boolean {
-        return try {
-            movEquipProprioRepository.startMovEquipProprio(typeMov)
-            movEquipProprioSegRepository.clearEquipSeg()
-            movEquipProprioPassagRepository.clearPassag()
-        } catch (e: Exception){
-            false
+    override suspend fun invoke(typeMov: TypeMovEquip): Result<Boolean> {
+        try {
+            val resultStart = movEquipProprioRepository.start(typeMov)
+            if (resultStart.isFailure)
+                return Result.failure(resultStart.exceptionOrNull()!!)
+            val resultEquipSegClear = movEquipProprioEquipSegRepository.clear()
+            if (resultEquipSegClear.isFailure)
+                return Result.failure(resultEquipSegClear.exceptionOrNull()!!)
+            val resultPassagClear = movEquipProprioPassagRepository.clear()
+            if (resultPassagClear.isFailure)
+                return Result.failure(resultPassagClear.exceptionOrNull()!!)
+            return Result.success(true)
+        } catch (e: Exception) {
+            return Result.failure(
+                UsecaseException(
+                    function = "StartMovEquipProprioImpl",
+                    cause = e.cause
+                )
+            )
         }
     }
 

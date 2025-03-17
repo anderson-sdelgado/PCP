@@ -1,29 +1,48 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface SetMotoristaResidencia {
-    suspend operator fun invoke(motorista: String, flowApp: FlowApp, pos: Int): Boolean
+    suspend operator fun invoke(
+        motorista: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SetMotoristaResidenciaImpl @Inject constructor(
+class ISetMotoristaResidencia(
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
-): SetMotoristaResidencia {
+    private val startProcessSendData: StartProcessSendData
+) : SetMotoristaResidencia {
 
-    override suspend fun invoke(motorista: String, flowApp: FlowApp, pos: Int): Boolean {
-        return try {
-            when(flowApp) {
-                FlowApp.ADD -> movEquipResidenciaRepository.setMotoristaMovEquipResidencia(motorista)
-                FlowApp.CHANGE -> {
-                    val movEquip = movEquipResidenciaRepository.listMovEquipResidenciaOpen()[pos]
-                    movEquipResidenciaRepository.updateMotoristaMovEquipResidencia(motorista, movEquip)
-                }
-            }
-        } catch (exception: Exception) {
-            false
+    override suspend fun invoke(
+        motorista: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            val resultSet = movEquipResidenciaRepository.setMotorista(
+                motorista = motorista,
+                flowApp = flowApp,
+                id = id
+            )
+            if (resultSet.isFailure)
+                return Result.failure(resultSet.exceptionOrNull()!!)
+            if(flowApp == FlowApp.CHANGE)
+                startProcessSendData()
+            return Result.success(true)
+        } catch (e: Exception){
+            return Result.failure(
+                UsecaseException(
+                    function = "SetMotoristaResidenciaImpl",
+                    cause = e.cause
+                )
+            )
         }
+
     }
 
 }

@@ -2,23 +2,21 @@ package br.com.usinasantafe.pcp.infra.models.room.variable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
 import br.com.usinasantafe.pcp.utils.StatusData
+import br.com.usinasantafe.pcp.utils.StatusForeigner
 import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_RESIDENCIA
-import br.com.usinasantafe.pcp.utils.TypeMov
-import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import kotlinx.serialization.Serializable
+import br.com.usinasantafe.pcp.utils.TypeMovEquip
 import java.util.Date
 
-@Serializable
 @Entity(tableName = TB_MOV_EQUIP_RESIDENCIA)
 data class MovEquipResidenciaRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovEquipResidencia: Long? = null,
-    var nroMatricVigiaMovEquipResidencia: Long,
-    var idLocalMovEquipResidencia: Long,
-    var tipoMovEquipResidencia: TypeMov,
+    var idMovEquipResidencia: Int? = null,
+    var matricVigiaMovEquipResidencia: Int,
+    var idLocalMovEquipResidencia: Int,
+    var tipoMovEquipResidencia: TypeMovEquip,
     var dthrMovEquipResidencia: Long,
     var motoristaMovEquipResidencia: String,
     var veiculoMovEquipResidencia: String,
@@ -26,14 +24,14 @@ data class MovEquipResidenciaRoomModel(
     var observMovEquipResidencia: String?,
     var statusMovEquipResidencia: StatusData,
     var statusSendMovEquipResidencia: StatusSend,
-    var statusMovEquipForeigResidencia: StatusForeigner,
+    var statusMovEquipForeignerResidencia: StatusForeigner,
 )
 
-fun MovEquipResidenciaRoomModel.modelRoomToMovEquipResidencia(): MovEquipResidencia {
+fun MovEquipResidenciaRoomModel.roomModelToEntity(): MovEquipResidencia {
     return with(this){
         MovEquipResidencia(
             idMovEquipResidencia = this.idMovEquipResidencia,
-            nroMatricVigiaMovEquipResidencia = this.nroMatricVigiaMovEquipResidencia,
+            matricVigiaMovEquipResidencia = this.matricVigiaMovEquipResidencia,
             idLocalMovEquipResidencia = this.idLocalMovEquipResidencia,
             dthrMovEquipResidencia = Date(this.dthrMovEquipResidencia),
             tipoMovEquipResidencia = this.tipoMovEquipResidencia,
@@ -43,16 +41,16 @@ fun MovEquipResidenciaRoomModel.modelRoomToMovEquipResidencia(): MovEquipResiden
             observMovEquipResidencia = this.observMovEquipResidencia,
             statusMovEquipResidencia = this.statusMovEquipResidencia,
             statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,
-            statusMovEquipForeigResidencia = this.statusMovEquipForeigResidencia,
+            statusMovEquipForeignerResidencia = this.statusMovEquipForeignerResidencia,
         )
     }
 }
 
-fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, idLocal: Long): MovEquipResidenciaRoomModel{
+fun MovEquipResidencia.entityToRoomModel(matricVigia: Int, idLocal: Int): MovEquipResidenciaRoomModel{
     return with(this){
         MovEquipResidenciaRoomModel(
             idMovEquipResidencia = this.idMovEquipResidencia,
-            nroMatricVigiaMovEquipResidencia = matricVigia,
+            matricVigiaMovEquipResidencia = matricVigia,
             idLocalMovEquipResidencia = idLocal,
             dthrMovEquipResidencia = this.dthrMovEquipResidencia.time,
             tipoMovEquipResidencia = this.tipoMovEquipResidencia!!,
@@ -62,7 +60,7 @@ fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, id
             observMovEquipResidencia = this.observMovEquipResidencia,
             statusMovEquipResidencia = this.statusMovEquipResidencia,
             statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,
-            statusMovEquipForeigResidencia = this.statusMovEquipForeigResidencia,
+            statusMovEquipForeignerResidencia = this.statusMovEquipForeignerResidencia,
         )
     }
 }

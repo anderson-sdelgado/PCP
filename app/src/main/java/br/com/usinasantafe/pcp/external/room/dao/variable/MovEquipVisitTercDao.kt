@@ -5,18 +5,17 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercRoomModel
 import br.com.usinasantafe.pcp.utils.StatusData
+import br.com.usinasantafe.pcp.utils.StatusForeigner
 import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_VISIT_TERC
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercRoomModel
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-
 
 @Dao
 interface MovEquipVisitTercDao {
 
     @Insert
-    suspend fun insert(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
+    suspend fun insert(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Long
 
     @Update
     suspend fun update(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
@@ -25,18 +24,15 @@ interface MovEquipVisitTercDao {
     suspend fun delete(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipVisitTerc = :status")
-    suspend fun listMovStatus(status: StatusData): List<MovEquipVisitTercRoomModel>
-
-    @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusSendMovEquipVisitTerc = :statusEnvio")
-    suspend fun listMovStatusEnvio(statusEnvio: StatusSend): List<MovEquipVisitTercRoomModel>
+    suspend fun listStatusData(status: StatusData): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipForeigVisitTerc = :statusForeigner")
-    suspend fun listMovStatusForeigner(statusForeigner: StatusForeigner): List<MovEquipVisitTercRoomModel>
+    suspend fun listStatusForeigner(statusForeigner: StatusForeigner): List<MovEquipVisitTercRoomModel>
 
-    @Query("SELECT MAX(idMovEquipVisitTerc) FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipVisitTerc = :status")
-    suspend fun lastIdMovStatus(status: StatusData): Long
+    @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusSendMovEquipVisitTerc = :statusEnvio")
+    suspend fun listStatusSend(statusEnvio: StatusSend): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE idMovEquipVisitTerc = :idMov")
-    suspend fun listMovId(idMov: Long): List<MovEquipVisitTercRoomModel>
+    suspend fun get(idMov: Int): MovEquipVisitTercRoomModel
 
 }

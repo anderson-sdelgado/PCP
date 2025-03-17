@@ -1,21 +1,27 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
-import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import kotlinx.coroutines.flow.Flow
+import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.utils.StatusSend
 
 interface ConfigRepository {
 
-    suspend fun hasConfig(): Boolean
+    suspend fun cleanConfig(): Result<Boolean>
+    suspend fun getConfig(): Result<Config>
+    suspend fun getFlagUpdate(): Result<FlagUpdate>
+    suspend fun getPassword(): Result<String>
+    suspend fun getMatricVigia(): Result<Int>
+    suspend fun hasConfig(): Result<Boolean>
+    suspend fun saveInitial(
+        number: Long,
+        password: String,
+        version: String,
+        idBD: Int
+    ): Result<Boolean>
 
-    suspend fun getConfig(): Config
-
-    suspend fun saveConfig(config: Config)
-
-    suspend fun recoverToken(config: Config): Flow<Result<Config>>
-
-    suspend fun setStatusSendConfig(statusSend: StatusSend)
-
-    suspend fun clearAllDataConfig()
-
+    suspend fun send(config: Config): Result<Int>
+    suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean>
+    suspend fun setIdLocal(idLocal: Int): Result<Boolean>
+    suspend fun setMatricVigia(matric: Int): Result<Boolean>
+    suspend fun setStatusSend(statusSend: StatusSend): Result<Boolean>
 }

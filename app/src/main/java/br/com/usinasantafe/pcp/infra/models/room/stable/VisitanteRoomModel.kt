@@ -4,19 +4,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.usinasantafe.pcp.utils.TB_VISITANTE
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
-import kotlinx.serialization.Serializable
 
-@Serializable
 @Entity(tableName = TB_VISITANTE)
 data class VisitanteRoomModel(
     @PrimaryKey
-    val idVisitante: Long,
+    val idVisitante: Int,
     val cpfVisitante: String,
     val nomeVisitante: String,
     val empresaVisitante: String,
 )
 
-fun VisitanteRoomModel.toVisitante(): Visitante {
+fun VisitanteRoomModel.roomModelToEntity(): Visitante {
     return with(this){
         Visitante(
             idVisitante = this.idVisitante,
@@ -27,7 +25,7 @@ fun VisitanteRoomModel.toVisitante(): Visitante {
     }
 }
 
-fun Visitante.toVisitanteModel(): VisitanteRoomModel{
+fun Visitante.entityToRoomModel(): VisitanteRoomModel{
     return with(this){
         VisitanteRoomModel(
             idVisitante = this.idVisitante,

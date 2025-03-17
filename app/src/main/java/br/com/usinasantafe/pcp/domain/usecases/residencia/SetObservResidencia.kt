@@ -1,55 +1,46 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import android.util.Log
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMov
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import java.util.Date
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface SetObservResidencia {
-    suspend operator fun invoke(observ: String?, typeMov: TypeMov, pos: Int, flowApp: FlowApp): Boolean
+    suspend operator fun invoke(
+        observ: String?,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SetObservResidenciaImpl @Inject constructor(
+class ISetObservResidencia(
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
-    private val saveMovEquipResidencia: SaveMovEquipResidencia,
+    private val startProcessSendData: StartProcessSendData
 ) : SetObservResidencia {
 
     override suspend fun invoke(
         observ: String?,
-        typeMov: TypeMov,
-        pos: Int,
-        flowApp: FlowApp
-    ): Boolean {
-        when (flowApp) {
-            FlowApp.ADD -> {
-                when (typeMov) {
-                    TypeMov.INPUT -> {
-                        if (!movEquipResidenciaRepository.setObservMovEquipResidencia(observ)) return false
-                        return saveMovEquipResidencia()
-                    }
-
-                    TypeMov.OUTPUT -> {
-                        val movEquipResidencia =
-                            movEquipResidenciaRepository.listMovEquipResidenciaInside()[pos]
-                        if (!movEquipResidenciaRepository.setStatusOutsideMov(movEquipResidencia)) return false
-                        movEquipResidencia.observMovEquipResidencia = observ
-                        movEquipResidencia.tipoMovEquipResidencia = TypeMov.OUTPUT
-                        movEquipResidencia.dthrMovEquipResidencia = Date()
-                        movEquipResidencia.statusMovEquipForeigResidencia = StatusForeigner.OUTSIDE
-                        return saveMovEquipResidencia(movEquipResidencia)
-                    }
-                    else -> {
-                        return false
-                    }
-                }
-            }
-            FlowApp.CHANGE -> {
-                val movEquip = movEquipResidenciaRepository.listMovEquipResidenciaOpen()[pos]
-                return movEquipResidenciaRepository.updateObservMovEquipResidencia(observ, movEquip)
-            }
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            val resultSet = movEquipResidenciaRepository.setObserv(
+                observ = observ,
+                flowApp = flowApp,
+                id = id
+            )
+            if (resultSet.isFailure)
+                return Result.failure(resultSet.exceptionOrNull()!!)
+            if(flowApp == FlowApp.CHANGE)
+                startProcessSendData()
+            return Result.success(true)
+        } catch (e: Exception){
+            return Result.failure(
+                UsecaseException(
+                    function = "SetObservResidenciaImpl",
+                    cause = e.cause
+                )
+            )
         }
     }
 

@@ -1,81 +1,165 @@
 package br.com.usinasantafe.pcp.presenter.initial.matricvigia
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
-import br.com.usinasantafe.pcp.domain.usecases.database.UpdateColab
-import br.com.usinasantafe.pcp.domain.usecases.initial.SetMatricVigia
-import br.com.usinasantafe.pcp.utils.ResultUpdateDatabase
-import br.com.usinasantafe.pcp.utils.StatusUpdate
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
+import br.com.usinasantafe.pcp.domain.usecases.config.SetMatricVigiaConfig
+import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
+import br.com.usinasantafe.pcp.ui.theme.addTextField
+import br.com.usinasantafe.pcp.ui.theme.clearTextField
+import br.com.usinasantafe.pcp.utils.Errors
+import br.com.usinasantafe.pcp.utils.TypeButton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MatricVigiaViewModel @Inject constructor(
+data class MatricVigiaState(
+    val matricVigia: String = "",
+    val flagAccess: Boolean = false,
+    val flagFailure: Boolean = false,
+    val flagDialog: Boolean = false,
+    val failure: String = "",
+    val errors: Errors = Errors.FIELDEMPTY,
+    val flagProgress: Boolean = false,
+    val msgProgress: String = "",
+    val currentProgress: Float = 0.0f,
+)
+
+fun ResultUpdate.resultUpdateToMatricVigia(): MatricVigiaState {
+    return with(this){
+        MatricVigiaState(
+            flagDialog = this.flagDialog,
+            flagFailure = this.flagFailure,
+            errors = this.errors,
+            failure = this.failure,
+            flagProgress = this.flagProgress,
+            msgProgress = this.msgProgress,
+            currentProgress = this.currentProgress,
+        )
+    }
+}
+
+class MatricVigiaViewModel(
     private val checkMatricColab: CheckMatricColab,
-    private val setMatricVigia: SetMatricVigia,
+    private val setMatricVigiaConfig: SetMatricVigiaConfig,
     private val updateColab: UpdateColab,
 ) : ViewModel() {
 
-    private val _uiLiveData =
-        MutableLiveData<MatricVigiaFragmentState>()
-    val uiLiveData: LiveData<MatricVigiaFragmentState> = _uiLiveData
+    private val _uiState = MutableStateFlow(MatricVigiaState())
+    val uiState = _uiState.asStateFlow()
 
-    private fun checkMatric(checkMatric: Boolean) {
-        _uiLiveData.value = MatricVigiaFragmentState.CheckMatric(checkMatric)
-    }
-
-    private fun checkSetMatricOperador(checkSetMatricOperador: Boolean) {
-        _uiLiveData.value = MatricVigiaFragmentState.CheckSetMatric(checkSetMatricOperador)
-    }
-
-    private fun setStatusUpdate(statusUpdate: StatusUpdate) {
-        _uiLiveData.value = MatricVigiaFragmentState.FeedbackUpdate(statusUpdate)
-    }
-
-    private fun setResultUpdate(resultUpdateDatabase: ResultUpdateDatabase){
-        _uiLiveData.value = MatricVigiaFragmentState.SetResultUpdate(resultUpdateDatabase)
-    }
-
-    fun checkMatricVigia(matricVigia: String) = viewModelScope.launch {
-        checkMatric(checkMatricColab(matricVigia))
-    }
-
-    fun checkSetMatricVigia(matricVigia: String) = viewModelScope.launch {
-        checkSetMatricOperador(setMatricVigia(matricVigia))
-    }
-
-    fun updateDataColab() =
-        viewModelScope.launch {
-            updateColab()
-                .catch { catch ->
-                    setResultUpdate(ResultUpdateDatabase(1, "Erro: $catch", 100, 100))
-                    setStatusUpdate(StatusUpdate.FAILURE)
-                }
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { resultUpdateDatabase ->
-                            setResultUpdate(resultUpdateDatabase)
-                            if (resultUpdateDatabase.percentage == 100) {
-                                setStatusUpdate(StatusUpdate.UPDATED)
-                            }
-                        },
-                        onFailure = { catch ->
-                            setResultUpdate(ResultUpdateDatabase(100, "Erro: $catch", 100))
-                            setStatusUpdate(StatusUpdate.FAILURE)
-                        })
-                }
+    fun setCloseDialog() {
+        _uiState.update {
+            it.copy(
+                flagDialog = false
+            )
         }
+    }
 
-}
+    fun setTextField(
+        text: String,
+        typeButton: TypeButton
+    ){
+        when(typeButton){
+            TypeButton.NUMERIC -> {
+                val matricVigia = addTextField(uiState.value.matricVigia, text)
+                _uiState.update {
+                    it.copy(matricVigia = matricVigia)
+                }
+            }
+            TypeButton.CLEAN -> {
+                val matricVigia = clearTextField(uiState.value.matricVigia)
+                _uiState.update {
+                    it.copy(matricVigia = matricVigia)
+                }
+            }
+            TypeButton.OK -> {
+                if (uiState.value.matricVigia.isEmpty()) {
+                    _uiState.update {
+                        it.copy(
+                            flagDialog = true,
+                            flagFailure = true,
+                            errors = Errors.FIELDEMPTY
+                        )
+                    }
+                    return
+                }
+                setMatricVigia()
+            }
+            TypeButton.UPDATE -> {
+                viewModelScope.launch {
+                    updateAllDatabase().collect { stateUpdate ->
+                        _uiState.value = stateUpdate
+                    }
+                }
+            }
+        }
+    }
 
-sealed class MatricVigiaFragmentState {
-    data class CheckMatric(val checkMatric: Boolean) : MatricVigiaFragmentState()
-    data class CheckSetMatric(val checkSetMatric: Boolean) : MatricVigiaFragmentState()
-    data class FeedbackUpdate(val statusUpdate: StatusUpdate) : MatricVigiaFragmentState()
-    data class SetResultUpdate(val resultUpdateDatabase: ResultUpdateDatabase) : MatricVigiaFragmentState()
+    private fun setMatricVigia() = viewModelScope.launch {
+        val resultCheckMatric = checkMatricColab(uiState.value.matricVigia)
+        if(resultCheckMatric.isFailure){
+            val error = resultCheckMatric.exceptionOrNull()!!
+            val failure =
+                "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.EXCEPTION,
+                    failure = failure,
+                )
+            }
+            return@launch
+        }
+        val result = resultCheckMatric.getOrNull()!!
+        val resultSetMatric = setMatricVigiaConfig(uiState.value.matricVigia)
+        if(resultSetMatric.isFailure){
+            val error = resultSetMatric.exceptionOrNull()!!
+            val failure =
+                "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.EXCEPTION,
+                    failure = failure,
+                )
+            }
+            return@launch
+        }
+        _uiState.update {
+            it.copy(
+                flagAccess = result,
+                flagDialog = !result,
+                flagFailure = !result,
+                errors = Errors.INVALID,
+            )
+        }
+    }
+
+    suspend fun updateAllDatabase(): Flow<MatricVigiaState> = flow {
+        val sizeUpdate = 4f
+        var configState = MatricVigiaState()
+        updateColab(sizeUpdate, 1f).collect{
+            configState = it.resultUpdateToMatricVigia()
+            emit(it.resultUpdateToMatricVigia())
+        }
+        if(configState.flagFailure)
+            return@flow
+        emit(
+            MatricVigiaState(
+                flagDialog = true,
+                flagProgress = false,
+                flagFailure = false,
+                msgProgress = "Atualização de dados realizado com sucesso!",
+                currentProgress = 1f,
+            )
+        )
+    }
+
 }

@@ -1,28 +1,47 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface SetNotaFiscalProprio {
-    suspend operator fun invoke(notaFiscal: String, flowApp: FlowApp, pos: Int): Boolean
+    suspend operator fun invoke(
+        notaFiscal: String?,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SetNotaFiscalProprioImpl @Inject constructor(
+class ISetNotaFiscalProprio(
     private val movEquipProprioRepository: MovEquipProprioRepository,
-): SetNotaFiscalProprio {
+    private val startProcessSendData: StartProcessSendData
+) : SetNotaFiscalProprio {
 
-    override suspend fun invoke(notaFiscal: String, flowApp: FlowApp, pos: Int): Boolean {
-        return try {
-            when(flowApp){
-                FlowApp.ADD -> movEquipProprioRepository.setNotaFiscalMovEquipProprio(notaFiscal.toLong())
-                FlowApp.CHANGE -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
-                    movEquipProprioRepository.updateNotaFiscalMovEquipProprio(notaFiscal.toLong(), movEquip)
-                }
+    override suspend fun invoke(
+        notaFiscal: String?,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            val resultSet = movEquipProprioRepository.setNotaFiscal(
+                notaFiscal = if(notaFiscal.isNullOrEmpty()) null else notaFiscal.toInt(),
+                flowApp = flowApp,
+                id = id
+            )
+            if (resultSet.isFailure)
+                return Result.failure(resultSet.exceptionOrNull()!!)
+            if(flowApp == FlowApp.CHANGE){
+                startProcessSendData()
             }
-        } catch (exception: Exception) {
-            false
+            return Result.success(true)
+        } catch (e: Exception) {
+            return Result.failure(
+                UsecaseException(
+                    function = "SetNotaFiscalProprio",
+                    cause = e
+                )
+            )
         }
     }
 

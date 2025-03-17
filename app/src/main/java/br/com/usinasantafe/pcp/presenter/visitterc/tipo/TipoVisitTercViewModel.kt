@@ -1,33 +1,50 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.tipo
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetTipoVisitTerc
 import br.com.usinasantafe.pcp.utils.TypeVisitTerc
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class TipoVisitTercViewModel @Inject constructor(
+data class TipoVisitTercState(
+    val flagAccess: Boolean = false,
+    val flagDialog: Boolean = false,
+    val failure: String = "",
+)
+
+class TipoVisitTercViewModel(
     private val setTipoVisitTerc: SetTipoVisitTerc,
 ) : ViewModel() {
 
-    private val _uiLiveData = MutableLiveData<TipoVisitTercFragmentState>()
-    val uiLiveData: LiveData<TipoVisitTercFragmentState> = _uiLiveData
+    private val _uiState = MutableStateFlow(TipoVisitTercState())
+    val uiState = _uiState.asStateFlow()
 
-    private fun checkSetTipo(check: Boolean) {
-        _uiLiveData.value = TipoVisitTercFragmentState.CheckSetTipo(check)
+    fun setCloseDialog() {
+        _uiState.update {
+            it.copy(flagDialog = false)
+        }
     }
 
-    fun setTipo(typeVisitTerc: TypeVisitTerc) = viewModelScope.launch {
-        checkSetTipo(setTipoVisitTerc(typeVisitTerc))
+    fun setTypeVisitTerc(typeVisitTerc: TypeVisitTerc) = viewModelScope.launch {
+        val resultSetTypeVisitTerc = setTipoVisitTerc(typeVisitTerc)
+        if (resultSetTypeVisitTerc.isFailure) {
+            val error = resultSetTypeVisitTerc.exceptionOrNull()!!
+            val failure = "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    failure = failure,
+                )
+            }
+        }
+        _uiState.update {
+            it.copy(
+                flagAccess = true,
+            )
+        }
     }
 
-}
-
-sealed class TipoVisitTercFragmentState {
-    data class CheckSetTipo(val check: Boolean) : TipoVisitTercFragmentState()
 }

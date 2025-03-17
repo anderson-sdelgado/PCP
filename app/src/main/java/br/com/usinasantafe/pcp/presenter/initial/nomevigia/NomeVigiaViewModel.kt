@@ -1,32 +1,52 @@
 package br.com.usinasantafe.pcp.presenter.initial.nomevigia
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.usecases.initial.RecoverNomeVigia
-import dagger.hilt.android.lifecycle.HiltViewModel
+import br.com.usinasantafe.pcp.domain.usecases.initial.GetNomeVigia
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NomeVigiaViewModel @Inject constructor(
-    private val recoverNomeVigia: RecoverNomeVigia,
-): ViewModel() {
+data class NomeVigiaState(
+    val nomeVigia: String = "",
+    val flagDialog: Boolean = false,
+    val failure: String = "",
+)
 
-    private val _uiLiveData = MutableLiveData<NomeVigiaFragmentState>()
-    val uiLiveData: LiveData<NomeVigiaFragmentState> = _uiLiveData
+class NomeVigiaViewModel(
+    private val getNomeVigia: GetNomeVigia
+) : ViewModel() {
 
-    private fun setNomeVigia(nome: String) {
-        _uiLiveData.value = NomeVigiaFragmentState.GetNomeVigia(nome)
+    private val _uiState = MutableStateFlow(NomeVigiaState())
+    val uiState = _uiState.asStateFlow()
+
+    fun setCloseDialog() {
+        _uiState.update {
+            it.copy(flagDialog = false)
+        }
     }
 
-    fun recoverDataNomeVigia() = viewModelScope.launch {
-        setNomeVigia(recoverNomeVigia())
+    fun returnNomeVigia() = viewModelScope.launch {
+        val recoverNome = getNomeVigia()
+        if(recoverNome.isFailure){
+            val error = recoverNome.exceptionOrNull()!!
+            val failure =
+                "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    failure = failure,
+                )
+            }
+            return@launch
+        }
+        val result = recoverNome.getOrNull()!!
+        _uiState.update {
+            it.copy(
+                nomeVigia = result
+            )
+        }
     }
 
-}
-
-sealed class NomeVigiaFragmentState {
-    data class GetNomeVigia(val nomeVigia: String) : NomeVigiaFragmentState()
 }

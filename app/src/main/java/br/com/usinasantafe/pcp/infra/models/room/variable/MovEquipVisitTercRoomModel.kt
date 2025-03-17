@@ -2,25 +2,23 @@ package br.com.usinasantafe.pcp.infra.models.room.variable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTerc
 import br.com.usinasantafe.pcp.utils.StatusData
+import br.com.usinasantafe.pcp.utils.StatusForeigner
 import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_VISIT_TERC
-import br.com.usinasantafe.pcp.utils.TypeMov
+import br.com.usinasantafe.pcp.utils.TypeMovEquip
 import br.com.usinasantafe.pcp.utils.TypeVisitTerc
-import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTerc
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import kotlinx.serialization.Serializable
 import java.util.Date
 
-@Serializable
 @Entity(tableName = TB_MOV_EQUIP_VISIT_TERC)
 data class MovEquipVisitTercRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovEquipVisitTerc: Long? = null,
-    var nroMatricVigiaMovEquipVisitTerc: Long,
-    var idLocalMovEquipVisitTerc: Long,
-    var tipoMovEquipVisitTerc: TypeMov,
-    var idVisitTercMovEquipVisitTerc: Long,
+    var idMovEquipVisitTerc: Int? = null,
+    var nroMatricVigiaMovEquipVisitTerc: Int,
+    var idLocalMovEquipVisitTerc: Int,
+    var tipoMovEquipVisitTerc: TypeMovEquip,
+    var idVisitTercMovEquipVisitTerc: Int,
     var tipoVisitTercMovEquipVisitTerc: TypeVisitTerc,
     var dthrMovEquipVisitTerc: Long,
     var veiculoMovEquipVisitTerc: String,
@@ -32,7 +30,7 @@ data class MovEquipVisitTercRoomModel(
     var statusMovEquipForeigVisitTerc: StatusForeigner,
 )
 
-fun MovEquipVisitTercRoomModel.modelRoomToMovEquipVisitTerc(): MovEquipVisitTerc {
+fun MovEquipVisitTercRoomModel.roomModelToEntity(): MovEquipVisitTerc {
     return with(this){
         MovEquipVisitTerc(
             idMovEquipVisitTerc = this.idMovEquipVisitTerc,
@@ -48,12 +46,15 @@ fun MovEquipVisitTercRoomModel.modelRoomToMovEquipVisitTerc(): MovEquipVisitTerc
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
             statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,
             statusSendMovEquipVisitTerc = this.statusSendMovEquipVisitTerc,
-            statusMovEquipForeigVisitTerc = this.statusMovEquipForeigVisitTerc,
+            statusMovEquipForeignerVisitTerc = this.statusMovEquipForeigVisitTerc,
         )
     }
 }
 
-fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLocal: Long): MovEquipVisitTercRoomModel{
+fun MovEquipVisitTerc.entityToRoomModel(
+    matricVigia: Int,
+    idLocal: Int
+): MovEquipVisitTercRoomModel{
     return with(this){
         MovEquipVisitTercRoomModel(
             idMovEquipVisitTerc = this.idMovEquipVisitTerc,
@@ -69,7 +70,7 @@ fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLo
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
             statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,
             statusSendMovEquipVisitTerc = this.statusSendMovEquipVisitTerc,
-            statusMovEquipForeigVisitTerc = this.statusMovEquipForeigVisitTerc,
+            statusMovEquipForeigVisitTerc = this.statusMovEquipForeignerVisitTerc,
         )
     }
 }

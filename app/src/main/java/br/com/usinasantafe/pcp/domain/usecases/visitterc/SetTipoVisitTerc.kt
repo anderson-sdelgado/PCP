@@ -1,23 +1,18 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.utils.TypeVisitTerc
 
 interface SetTipoVisitTerc {
-    suspend operator fun invoke(typeVisitTerc: TypeVisitTerc): Boolean
+    suspend operator fun invoke(typeVisitTerc: TypeVisitTerc): Result<Boolean>
 }
 
-class SetTipoVisitTercImpl @Inject constructor(
-    private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
+class ISetTipoVisitTerc(
+    private val movEquipVisitTercRepository: MovEquipVisitTercRepository
 ): SetTipoVisitTerc {
 
-    override suspend fun invoke(typeVisitTerc: TypeVisitTerc): Boolean {
-        return try {
-            movEquipVisitTercRepository.setTipoVisitTercMovEquipVisitTerc(typeVisitTerc)
-        } catch (exception: Exception) {
-            false
-        }
+    override suspend fun invoke(typeVisitTerc: TypeVisitTerc): Result<Boolean> {
+        return movEquipVisitTercRepository.setTipoVisitTerc(typeVisitTerc)
     }
 
 }

@@ -1,29 +1,37 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import javax.inject.Inject
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.utils.FlowApp
 
 interface SetVeiculoVisitTerc {
-    suspend operator fun invoke(veiculo: String, flowApp: FlowApp, pos: Int): Boolean
+    suspend operator fun invoke(
+        veiculo: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean>
 }
 
-class SetVeiculoVisitTercImpl @Inject constructor(
+class ISetVeiculoVisitTerc(
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
-): SetVeiculoVisitTerc {
+    private val startProcessSendData: StartProcessSendData
+) : SetVeiculoVisitTerc {
 
-    override suspend fun invoke(veiculo: String, flowApp: FlowApp, pos: Int): Boolean {
-        return try {
-            when(flowApp){
-                FlowApp.ADD -> movEquipVisitTercRepository.setVeiculoMovEquipVisitTerc(veiculo)
-                FlowApp.CHANGE -> {
-                    val movEquip = movEquipVisitTercRepository.listMovEquipVisitTercOpen()[pos]
-                    movEquipVisitTercRepository.updateVeiculoMovEquipVisitTerc(veiculo, movEquip)
-                }
-            }
-        } catch (exception: Exception) {
-            false
-        }
+    override suspend fun invoke(
+        veiculo: String,
+        flowApp: FlowApp,
+        id: Int
+    ): Result<Boolean> {
+        val resultSet = movEquipVisitTercRepository.setVeiculo(
+            veiculo = veiculo,
+            flowApp = flowApp,
+            id = id
+        )
+        if (resultSet.isFailure)
+            return Result.failure(resultSet.exceptionOrNull()!!)
+        if(flowApp == FlowApp.CHANGE)
+            startProcessSendData()
+        return Result.success(true)
     }
 
 }

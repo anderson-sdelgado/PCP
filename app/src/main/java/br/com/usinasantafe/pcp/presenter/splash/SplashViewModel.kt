@@ -1,33 +1,92 @@
 package br.com.usinasantafe.pcp.presenter.splash
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.usecases.common.StartApp
-import br.com.usinasantafe.pcp.utils.PointerStart
-import dagger.hilt.android.lifecycle.HiltViewModel
+import br.com.usinasantafe.pcp.domain.usecases.initial.AdjustConfig
+import br.com.usinasantafe.pcp.domain.usecases.initial.CheckMovOpen
+import br.com.usinasantafe.pcp.domain.usecases.initial.DeleteMovSent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val startAPP: StartApp
+data class SplashState(
+    val flagDialog: Boolean = false,
+    val failure: String = "",
+    val flagAccess: Boolean = false,
+    val flagMovOpen: Boolean = false,
+    val flagExecute: Boolean = true,
+)
+
+class SplashViewModel(
+    private val adjustConfig: AdjustConfig,
+    private val deleteMovSent: DeleteMovSent,
+    private val checkMovOpen: CheckMovOpen
 ) : ViewModel() {
 
-    private val _uiLiveData = MutableLiveData<SplashState>()
-    val uiLiveData: LiveData<SplashState> = _uiLiveData
+    private val _uiState = MutableStateFlow(SplashState())
+    val uiState = _uiState.asStateFlow()
 
-    private fun checkData(pointerStart: PointerStart) {
-        _uiLiveData.value = SplashState.CheckStartAPP(pointerStart)
+    fun setCloseDialog() {
+        _uiState.update {
+            it.copy(flagDialog = false)
+        }
     }
 
-    fun startSent(version: String) = viewModelScope.launch {
-        checkData(startAPP(version))
+    fun setOpenDialog() {
+        _uiState.update {
+            it.copy(flagDialog = true)
+        }
     }
 
-}
+    fun processInitial(version: String) = viewModelScope.launch {
+        if (!_uiState.value.flagExecute) return@launch
+        _uiState.update {
+            it.copy(flagExecute = false)
+        }
+        val resultAdjustConfig = adjustConfig(version)
+        if (resultAdjustConfig.isFailure) {
+            val error = resultAdjustConfig.exceptionOrNull()!!
+            val failure = "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    failure = failure
+                )
+            }
+            return@launch
+        }
+        val resultDeleteMovSent = deleteMovSent()
+        if (resultDeleteMovSent.isFailure) {
+            val error = resultDeleteMovSent.exceptionOrNull()!!
+            val failure = "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    failure = failure
+                )
+            }
+            return@launch
+        }
+        val resultCheckMovOpen = checkMovOpen()
+        if (resultCheckMovOpen.isFailure) {
+            val error = resultCheckMovOpen.exceptionOrNull()!!
+            val failure = "${error.message} -> ${error.cause.toString()}"
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                    failure = failure
+                )
+            }
+            return@launch
+        }
+        val result = resultCheckMovOpen.getOrNull()!!
+        _uiState.update {
+            it.copy(
+                flagAccess = true,
+                flagMovOpen = result
+            )
+        }
+    }
 
-sealed class SplashState {
-    data class CheckStartAPP(val pointerStart: PointerStart) : SplashState()
 }
