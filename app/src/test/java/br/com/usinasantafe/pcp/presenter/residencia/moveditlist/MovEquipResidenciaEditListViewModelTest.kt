@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.residencia.moveditlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseAllMovResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMovEquipResidenciaOpenList
 import br.com.usinasantafe.pcp.presenter.residencia.model.MovEquipResidenciaModel
@@ -24,12 +23,11 @@ class MovEquipResidenciaEditListViewModelTest {
     fun `Check return failure if have error in GetMovEquipResidenciaOpenList`() = runTest {
         val getMovEquipResidenciaOpenList = mock<GetMovEquipResidenciaOpenList>()
         val closeAllMovResidencia = mock<CloseAllMovResidencia>()
-        whenever(getMovEquipResidenciaOpenList()).thenReturn(
+        whenever(
+            getMovEquipResidenciaOpenList()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetMovEquipResidenciaOpenList",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipResidenciaEditListViewModel(
@@ -75,12 +73,11 @@ class MovEquipResidenciaEditListViewModelTest {
     fun `Check return failure if have error in CloseAllMovResidenciaOpen`() = runTest {
         val getMovEquipResidenciaOpenList = mock<GetMovEquipResidenciaOpenList>()
         val closeAllMovResidencia = mock<CloseAllMovResidencia>()
-        whenever(closeAllMovResidencia()).thenReturn(
+        whenever(
+            closeAllMovResidencia()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseAllMovResidenciaOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipResidenciaEditListViewModel(
@@ -100,7 +97,9 @@ class MovEquipResidenciaEditListViewModelTest {
     fun `Check return true if CloseAllMovResidenciaOpen execute correctly`() = runTest {
         val getMovEquipResidenciaOpenList = mock<GetMovEquipResidenciaOpenList>()
         val closeAllMovResidencia = mock<CloseAllMovResidencia>()
-        whenever(closeAllMovResidencia()).thenReturn(
+        whenever(
+            closeAllMovResidencia()
+        ).thenReturn(
             Result.success(true)
         )
         val viewModel = MovEquipResidenciaEditListViewModel(

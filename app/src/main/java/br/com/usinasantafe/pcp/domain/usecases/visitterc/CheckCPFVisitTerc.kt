@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
@@ -28,23 +28,34 @@ class ICheckCpfVisitTerc(
     ): Result<Boolean> {
         try {
             val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTerc(flowApp, id)
-            if (resultTypeVisitTerc.isFailure)
-                return Result.failure(resultTypeVisitTerc.exceptionOrNull()!!)
+            if (resultTypeVisitTerc.isFailure) {
+                val e = resultTypeVisitTerc.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICheckCpfVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
             val resultCheck = when (typeVisitTerc) {
                 TypeVisitTerc.VISITANTE -> visitanteRepository.checkCPF(cpf)
                 TypeVisitTerc.TERCEIRO -> terceiroRepository.checkCPF(cpf)
             }
-            if (resultCheck.isFailure)
-                return Result.failure(resultCheck.exceptionOrNull()!!)
+            if (resultCheck.isFailure) {
+                val e = resultCheck.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICheckCpfVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val result = resultCheck.getOrNull()!!
             return Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "CheckCpfVisitTerc",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ICheckCpfVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }

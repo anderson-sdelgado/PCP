@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 
 interface CheckSendMovResidencia {
@@ -11,7 +12,16 @@ class ICheckSendMovResidencia(
 ): CheckSendMovResidencia {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movEquipResidenciaRepository.checkSend()
+        val result = movEquipResidenciaRepository.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICheckSendMovResidencia",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

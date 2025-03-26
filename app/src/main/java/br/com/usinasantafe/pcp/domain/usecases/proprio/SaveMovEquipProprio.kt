@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
@@ -22,30 +22,53 @@ class ISaveMovEquipProprio(
     override suspend fun invoke(): Result<Boolean> {
         try {
             val resultConfig = configRepository.getConfig()
-            if (resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val config = resultConfig.getOrNull()!!
             val resultSave = movEquipProprioRepository.save(
                 config.matricVigia!!,
                 config.idLocal!!
             )
-            if (resultSave.isFailure)
-                return Result.failure(resultSave.exceptionOrNull()!!)
+            if (resultSave.isFailure) {
+                val e = resultSave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val id = resultSave.getOrNull()!!
             val resultSavePassag = movEquipProprioPassagRepository.save(id)
-            if (resultSavePassag.isFailure)
-                return Result.failure(resultSavePassag.exceptionOrNull()!!)
+            if (resultSavePassag.isFailure) {
+                val e = resultSavePassag.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val resultSaveEquipSeg = movEquipProprioEquipSegRepository.save(id)
-            if (resultSaveEquipSeg.isFailure)
-                return Result.failure(resultSaveEquipSeg.exceptionOrNull()!!)
+            if (resultSaveEquipSeg.isFailure) {
+                val e = resultSaveEquipSeg.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             startProcessSendData()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SaveMovEquipProprioImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISaveMovEquipProprio",
+                message = "-",
+                cause = e
             )
         }
     }

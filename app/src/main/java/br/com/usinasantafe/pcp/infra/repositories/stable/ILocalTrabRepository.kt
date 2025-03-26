@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.LocalTrab
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalTrabRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.LocalTrabRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalTrabRoomDatasource
@@ -16,38 +16,69 @@ class ILocalTrabRepository(
     override suspend fun addAll(list: List<LocalTrab>): Result<Boolean> {
         try {
             val roomModelList = list.map { it.entityToRoomModel() }
-            return localTrabRoomDatasource.addAll(roomModelList)
-        } catch (e: Exception){
-            return Result.failure(
-                RepositoryException(
-                    function = "ILocalTrabRepository.addAll",
+            val result = localTrabRoomDatasource.addAll(roomModelList)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ILocalTrabRepository.add",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "ILocalTrabRepository.add",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun deleteAll(): Result<Boolean> {
-        return localTrabRoomDatasource.deleteAll()
+        val result = localTrabRoomDatasource.deleteAll()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ILocalTrabRepository.deleteAll",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun getDescr(id: Int): Result<String> {
-        return localTrabRoomDatasource.getDescr(id)
+        val result = localTrabRoomDatasource.getDescr(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ILocalTrabRepository.getDescr",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun recoverAll(token: String): Result<List<LocalTrab>> {
         try {
-            val resultRecoverAll = localTrabRetrofitDatasource.recoverAll(token)
-            if (resultRecoverAll.isFailure)
-                return Result.failure(resultRecoverAll.exceptionOrNull()!!)
-            val entityList = resultRecoverAll.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "ILocalTrabRepository.recoverAll",
+            val result = localTrabRetrofitDatasource.recoverAll(token)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ILocalTrabRepository.recoverAll",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
+            return Result.success(entityList)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ILocalTrabRepository.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

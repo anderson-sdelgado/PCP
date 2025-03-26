@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.veiculo
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetVeiculoVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetVeiculoVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
@@ -53,10 +52,7 @@ class VeiculoVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetVeiculoVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = VeiculoVisitTercViewModel(
@@ -116,10 +112,7 @@ class VeiculoVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetVeiculoVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = VeiculoVisitTercViewModel(

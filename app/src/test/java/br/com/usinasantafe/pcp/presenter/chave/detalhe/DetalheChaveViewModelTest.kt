@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.chave.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chave.CloseMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetDetalheMovChave
 import br.com.usinasantafe.pcp.presenter.Args
@@ -43,10 +42,7 @@ class DetalheChaveViewModelTest {
                 getDetalheMovChave(1)
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetDetalheMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -114,10 +110,7 @@ class DetalheChaveViewModelTest {
                 closeMovChave(1)
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "CloseMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()

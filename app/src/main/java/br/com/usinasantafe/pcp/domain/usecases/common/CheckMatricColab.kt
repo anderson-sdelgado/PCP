@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 
 interface CheckMatricColab {
@@ -15,15 +15,20 @@ class ICheckMatricColab(
         try {
             val matric = matricColab.toInt()
             val result = colabRepository.checkMatric(matric)
-            if(result.isFailure)
-                return result
-            return Result.success(result.getOrNull()!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "CheckMatricColab",
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICheckMatricColab",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ICheckMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }

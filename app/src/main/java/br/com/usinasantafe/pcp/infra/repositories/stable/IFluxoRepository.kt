@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Fluxo
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.FluxoRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.FluxoRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.FluxoRoomDatasource
@@ -17,51 +17,77 @@ class IFluxoRepository(
     override suspend fun addAll(list: List<Fluxo>): Result<Boolean> {
         try {
             val roomModelList = list.map { it.entityToRoomModel() }
-            return fluxoRoomDatasource.addAll(roomModelList)
-        } catch (e: Exception){
-            return Result.failure(
-                RepositoryException(
-                    function = "FluxoRepositoryImpl.addAll",
+            val result = fluxoRoomDatasource.addAll(roomModelList)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IFluxoRepository.add",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "IFluxoRepository.add",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun deleteAll(): Result<Boolean> {
-        return fluxoRoomDatasource.deleteAll()
+        val result = fluxoRoomDatasource.deleteAll()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IFluxoRepository.deleteAll",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun get(id: Int): Result<Fluxo> {
         try {
-            val resultGet = fluxoRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val entity = resultGet.getOrNull()!!.roomModelToEntity()
-            return Result.success(entity)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "FluxoRepositoryImpl.get",
+            val result = fluxoRoomDatasource.get(id).map { it.roomModelToEntity() }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IFluxoRepository.get",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IFluxoRepository.get",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun recoverAll(token: String): Result<List<Fluxo>> {
         try {
-            val resultRecoverAll = fluxoRetrofitDatasource.recoverAll(token)
-            if (resultRecoverAll.isFailure)
-                return Result.failure(resultRecoverAll.exceptionOrNull()!!)
-            val entityList = resultRecoverAll.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "FluxoRepositoryImpl.recoverAll",
+            val result = fluxoRetrofitDatasource.recoverAll(token)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IFluxoRepository.recoverAll",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
+            return Result.success(entityList)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IFluxoRepository.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

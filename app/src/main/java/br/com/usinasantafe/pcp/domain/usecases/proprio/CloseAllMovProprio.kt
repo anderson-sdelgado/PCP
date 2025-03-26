@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 
 interface CloseAllMovProprio {
@@ -14,21 +14,32 @@ class ICloseAllMovProprio(
     override suspend fun invoke(): Result<Boolean> {
         try {
             val resultProprioList = movEquipProprioRepository.listOpen()
-            if(resultProprioList.isFailure)
-                return Result.failure(resultProprioList.exceptionOrNull()!!)
+            if (resultProprioList.isFailure) {
+                val e = resultProprioList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMovProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val entityList = resultProprioList.getOrNull()!!
             for(entity in entityList){
                 val resultClose = movEquipProprioRepository.setClose(entity.idMovEquipProprio!!)
-                if(resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMovProprio",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "CloseAllMovProprioOpenImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ICloseAllMovProprio",
+                message = "-",
+                cause = e
             )
         }
     }

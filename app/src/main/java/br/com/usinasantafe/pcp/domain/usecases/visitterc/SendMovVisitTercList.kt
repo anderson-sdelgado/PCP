@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTerc
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
@@ -21,22 +21,40 @@ class ISendMovVisitTercList(
     override suspend fun invoke(): Result<List<MovEquipVisitTerc>> {
         try {
             val resultListSend = movEquipVisitTercRepository.listSend()
-            if (resultListSend.isFailure)
-                return Result.failure(resultListSend.exceptionOrNull()!!)
+            if (resultListSend.isFailure) {
+                val e = resultListSend.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovVisitTercList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val listSend = resultListSend.getOrNull()!!
             val listSendFull = listSend.map { entity ->
                 val resultListPassag = movEquipVisitTercPassagRepository.list(
                     FlowApp.CHANGE,
                     entity.idMovEquipVisitTerc!!
                 )
-                if (resultListPassag.isFailure)
-                    return Result.failure(resultListPassag.exceptionOrNull()!!)
+                if (resultListPassag.isFailure) {
+                    val e = resultListPassag.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISendMovVisitTercList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 entity.movEquipVisitTercPassagList = resultListPassag.getOrNull()!!
                 return@map entity
             }
             val resultConfig = configRepository.getConfig()
-            if (resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovVisitTercList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val config = resultConfig.getOrNull()!!
             val token = token(
                 number = config.number!!,
@@ -48,15 +66,20 @@ class ISendMovVisitTercList(
                 number = config.number!!,
                 token = token
             )
-            if (resultSend.isFailure)
-                return Result.failure(resultSend.exceptionOrNull()!!)
-            return Result.success(resultSend.getOrNull()!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SendMovVisitTercListImpl",
+            if (resultSend.isFailure) {
+                val e = resultSend.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovVisitTercList",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(resultSend.getOrNull()!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ISendMovVisitTercList",
+                message = "-",
+                cause = e
             )
         }
     }

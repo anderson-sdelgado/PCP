@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalTrabRepository
 
 interface CleanLocalTrab {
@@ -11,7 +12,16 @@ class ICleanLocalTrab(
 ): CleanLocalTrab {
 
     override suspend fun invoke(): Result<Boolean> {
-        return localTrabRepository.deleteAll()
+        val result = localTrabRepository.deleteAll()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICleanLocalTrab",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

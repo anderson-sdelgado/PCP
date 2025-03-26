@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovChaveEquipDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovChaveEquipRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveEquipRoomModel
@@ -18,11 +18,10 @@ class IMovChaveEquipRoomDatasource(
                 movChaveEquipDao.listStatusData(StatusData.OPEN).isNotEmpty()
             )
         } catch (e: Exception){
-            Result.failure(
-                DatasourceException(
-                    function = "IMovEquipProprioRoomDatasource.checkOpen",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.checkOpen",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -33,11 +32,10 @@ class IMovChaveEquipRoomDatasource(
                 movChaveEquipDao.listStatusSend(StatusSend.SEND).isNotEmpty()
             )
         } catch (e: Exception){
-            Result.failure(
-                DatasourceException(
-                    function = "IMovEquipProprioRoomDatasource.checkOpen",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.checkSend",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -48,11 +46,10 @@ class IMovChaveEquipRoomDatasource(
                 movChaveEquipDao.get(id)
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.get",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -65,11 +62,10 @@ class IMovChaveEquipRoomDatasource(
                 )
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.listRemove",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.listInside",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -82,11 +78,10 @@ class IMovChaveEquipRoomDatasource(
                 )
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.listOpen",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.listOpen",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -99,11 +94,10 @@ class IMovChaveEquipRoomDatasource(
                 )
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.listSend",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.listSend",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -114,11 +108,10 @@ class IMovChaveEquipRoomDatasource(
                 movChaveEquipDao.insert(movChaveEquipRoomModel)
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.save",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovChaveEquipRoomDatasource.save",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -130,11 +123,10 @@ class IMovChaveEquipRoomDatasource(
             movChaveEquipDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.setClose",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipRoomDatasource.setClose",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -150,11 +142,10 @@ class IMovChaveEquipRoomDatasource(
             movChaveEquipDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.setIdEquip",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipRoomDatasource.setIdEquip",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -170,11 +161,10 @@ class IMovChaveEquipRoomDatasource(
             movChaveEquipDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveRoomDatasource.setObserv",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipRoomDatasource.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -190,11 +180,10 @@ class IMovChaveEquipRoomDatasource(
             movChaveEquipDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.setMatricColab",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipRoomDatasource.setMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -206,11 +195,10 @@ class IMovChaveEquipRoomDatasource(
             movChaveEquipDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipRoomDatasource.setSent",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipRoomDatasource.setSent",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -222,11 +210,10 @@ class IMovChaveEquipRoomDatasource(
             movChaveEquipDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveRoomDatasource.setOutside",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipRoomDatasource.setOutside",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 
@@ -16,18 +16,29 @@ class IStartInputMovEquipVisitTerc(
     override suspend fun invoke(): Result<Boolean> {
         try {
             val resultStart = movEquipVisitTercRepository.start()
-            if (resultStart.isFailure)
-                return Result.failure(resultStart.exceptionOrNull()!!)
+            if (resultStart.isFailure) {
+                val e = resultStart.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartInputMovEquipVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val resultClear = movEquipVisitTercPassagRepository.clear()
-            if (resultClear.isFailure)
-                return Result.failure(resultClear.exceptionOrNull()!!)
+            if (resultClear.isFailure) {
+                val e = resultClear.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartInputMovEquipVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "StartMovEquipVisitTercImpl",
-                    cause = e.cause
-                )
+            return resultFailure(
+                context = "IStartInputMovEquipVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }

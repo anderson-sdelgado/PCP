@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.RLocalFluxoDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.RLocalFluxoRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.RLocalFluxoRoomModel
@@ -14,11 +14,10 @@ class IRLocalFluxoRoomDatasource(
             rLocalFluxoDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "RLocalFluxoRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IRLocalFluxoRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -28,11 +27,10 @@ class IRLocalFluxoRoomDatasource(
             rLocalFluxoDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "RLocalFluxoDatasourceImpl.deleteAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IRLocalFluxoRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -43,11 +41,10 @@ class IRLocalFluxoRoomDatasource(
                 rLocalFluxoDao.list(idLocal)
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "RLocalFluxoRoomDatasourceImpl.list",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IRLocalFluxoRoomDatasource.list",
+                message = "-",
+                cause = e
             )
         }
     }

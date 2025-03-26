@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.destino
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetDestinoProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetTypeMov
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetDestinoProprio
@@ -59,10 +58,7 @@ class DestinoProprioViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetDestinoProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DestinoProprioViewModel(
@@ -100,10 +96,7 @@ class DestinoProprioViewModelTest {
             getTypeMov()
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetTypeMov",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DestinoProprioViewModel(
@@ -172,10 +165,7 @@ class DestinoProprioViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetDestinoProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DestinoProprioViewModel(

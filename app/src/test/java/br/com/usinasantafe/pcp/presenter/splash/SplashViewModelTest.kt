@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.splash
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.initial.AdjustConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.CheckMovOpen
 import br.com.usinasantafe.pcp.domain.usecases.initial.DeleteMovSent
@@ -50,10 +49,7 @@ class SplashViewModelTest {
             adjustConfig("1.00")
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "AdjustConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -79,10 +75,7 @@ class SplashViewModelTest {
             deleteMovSent()
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "DeleteMovSent",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -110,10 +103,7 @@ class SplashViewModelTest {
             checkMovOpen()
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CheckMovOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()

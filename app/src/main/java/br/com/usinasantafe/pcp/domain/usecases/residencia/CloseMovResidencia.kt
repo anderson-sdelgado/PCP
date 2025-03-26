@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 
 interface CloseMovResidencia {
@@ -16,7 +16,16 @@ class ICloseMovResidencia(
     override suspend fun invoke(
         id: Int
     ): Result<Boolean> {
-        return movEquipResidenciaRepository.setClose(id)
+        val result = movEquipResidenciaRepository.setClose(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICloseMovResidencia",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

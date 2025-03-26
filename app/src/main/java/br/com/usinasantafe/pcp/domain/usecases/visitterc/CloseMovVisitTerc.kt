@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 
 interface CloseMovVisitTerc {
@@ -16,7 +16,16 @@ class ICloseMovVisitTerc(
     override suspend fun invoke(
         id: Int
     ): Result<Boolean> {
-        return movEquipVisitTercRepository.setClose(id)
+        val result = movEquipVisitTercRepository.setClose(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICloseMovVisitTerc",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

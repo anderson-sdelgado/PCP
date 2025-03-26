@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.chaveequip.controleeditlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.CloseAllMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMovChaveEquipOpenList
 import br.com.usinasantafe.pcp.presenter.chaveequip.model.ControleChaveEquipModel
@@ -34,10 +33,7 @@ class ControleChaveEquipEditListViewModelTest {
                 getMovChaveEquipOpenList()
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetMovChaveEquipOpenList",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             getViewModel.recoverMovOpenList()
@@ -112,10 +108,7 @@ class ControleChaveEquipEditListViewModelTest {
                 closeAllMovChaveEquip()
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "CloseAllMovChaveEquip",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             getViewModel.closeAllMov()

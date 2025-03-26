@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.proprio.CloseMovProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetDetalheProprio
 import br.com.usinasantafe.pcp.presenter.Args
@@ -26,12 +25,11 @@ class DetalheProprioViewModelTest {
     fun `Check return failure if have error in recoverDetalhe`() = runTest {
         val getDetalheProprio = mock<GetDetalheProprio>()
         val closeMovProprio = mock<CloseMovProprio>()
-        whenever(getDetalheProprio(1)).thenReturn(
+        whenever(
+            getDetalheProprio(1)
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverDetalheProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DetalheProprioViewModel(
@@ -90,12 +88,11 @@ class DetalheProprioViewModelTest {
     fun `Check return failure if have error in CloseMovProprioOpen`() = runTest {
         val getDetalheProprio = mock<GetDetalheProprio>()
         val closeMovProprio = mock<CloseMovProprio>()
-        whenever(closeMovProprio(1)).thenReturn(
+        whenever(
+            closeMovProprio(1)
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseMovProprioOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DetalheProprioViewModel(

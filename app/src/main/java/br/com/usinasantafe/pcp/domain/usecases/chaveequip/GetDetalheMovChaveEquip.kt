@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chaveequip
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
@@ -22,16 +22,34 @@ class IGetDetalheMovChaveEquip(
     override suspend fun invoke(id: Int): Result<DetalheChaveEquipModel> {
         try {
             val resultMovChave = movChaveEquipRepository.get(id)
-            if (resultMovChave.isFailure)
-                return Result.failure(resultMovChave.exceptionOrNull()!!)
+            if (resultMovChave.isFailure) {
+                val e = resultMovChave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheMovChaveEquip",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val entity = resultMovChave.getOrNull()!!
             val resultNomeColab = colabRepository.getNome(entity.matricColabMovChaveEquip!!)
-            if (resultNomeColab.isFailure)
-                return Result.failure(resultNomeColab.exceptionOrNull()!!)
+            if (resultNomeColab.isFailure) {
+                val e = resultNomeColab.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheMovChaveEquip",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val nomeColab = resultNomeColab.getOrNull()!!
             val resultGetEquip = equipRepository.getDescr(entity.idEquipMovChaveEquip!!)
-            if (resultGetEquip.isFailure)
-                return Result.failure(resultGetEquip.exceptionOrNull()!!)
+            if (resultGetEquip.isFailure) {
+                val e = resultGetEquip.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheMovChaveEquip",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val descrEquip = resultGetEquip.getOrNull()!!
             return Result.success(
                 DetalheChaveEquipModel(
@@ -49,11 +67,10 @@ class IGetDetalheMovChaveEquip(
                 )
             )
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "IGetDetalheMovChaveEquip",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetDetalheMovChaveEquip",
+                message = "-",
+                cause = e
             )
         }
     }

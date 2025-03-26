@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
@@ -19,16 +19,34 @@ class IGetHeader(
     override suspend fun invoke(): Result<HeaderModel> {
         try {
             val resultConfig = configRepository.getConfig()
-            if(resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetHeader",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val config = resultConfig.getOrNull()!!
             val resultNomeColab = colabRepository.getNome(config.matricVigia!!)
-            if(resultNomeColab.isFailure)
-                return Result.failure(resultNomeColab.exceptionOrNull()!!)
+            if (resultNomeColab.isFailure) {
+                val e = resultNomeColab.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetHeader",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val nomeColab = resultNomeColab.getOrNull()!!
             val resultLocal = localRepository.getDescr(config.idLocal!!)
-            if(resultLocal.isFailure)
-                return Result.failure(resultLocal.exceptionOrNull()!!)
+            if (resultLocal.isFailure) {
+                val e = resultLocal.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetHeader",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val descrLocal = resultLocal.getOrNull()!!
             return Result.success(
                 HeaderModel(
@@ -37,11 +55,10 @@ class IGetHeader(
                 )
             )
         } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "RecoverHeader",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetHeader",
+                message = "-",
+                cause = e
             )
         }
     }

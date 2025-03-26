@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTercPassagSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG
 import com.google.gson.Gson
@@ -32,11 +32,10 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasource(
             mutableList.clear()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagSharedPreferencesDatasource.add",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagSharedPreferencesDatasource.add",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -48,11 +47,10 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagSharedPreferencesDatasource.clear",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -72,11 +70,10 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagSharedPreferencesDatasource.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagSharedPreferencesDatasource.delete",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -91,11 +88,10 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasource(
                 return Result.success(Gson().fromJson(result, typeToken))
             return Result.success(emptyList())
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagSharedPreferencesDatasource.list",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagSharedPreferencesDatasource.list",
+                message = "-",
+                cause = e
             )
         }
     }

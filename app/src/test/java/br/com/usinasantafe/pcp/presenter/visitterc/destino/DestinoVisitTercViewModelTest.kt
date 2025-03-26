@@ -2,13 +2,9 @@ package br.com.usinasantafe.pcp.presenter.visitterc.destino
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetDestinoVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetPlacaVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetDestinoVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetPlacaVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.presenter.visitterc.placa.PlacaVisitTercViewModel
 import br.com.usinasantafe.pcp.utils.FlowApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -36,10 +32,7 @@ class DestinoVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetDestinoVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DestinoVisitTercViewModel(
@@ -116,10 +109,7 @@ class DestinoVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetDestinoVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DestinoVisitTercViewModel(

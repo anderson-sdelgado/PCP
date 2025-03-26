@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.retrofit.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovEquipResidenciaApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovEquipResidenciaRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipResidenciaRetrofitModelInput
@@ -21,11 +21,10 @@ class IMovEquipResidenciaRetrofitDatasource(
             )
             return Result.success(response.body()!!)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaRetrofitDatasourceImpl.send",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaRetrofitDatasource.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

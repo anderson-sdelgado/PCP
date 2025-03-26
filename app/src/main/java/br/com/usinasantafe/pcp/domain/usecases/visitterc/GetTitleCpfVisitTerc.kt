@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 import br.com.usinasantafe.pcp.utils.FlowApp
 
@@ -24,16 +24,21 @@ class IGetTitleCpfVisitTerc(
                 flowApp = flowApp,
                 id = id
             )
-            if (result.isFailure)
-                return Result.failure(result.exceptionOrNull()!!)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetTitleCpfVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val typeVisitTerc = result.getOrNull()!!.name
             return Result.success(typeVisitTerc)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "GetTitleCpfVisitTercImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetTitleCpfVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }

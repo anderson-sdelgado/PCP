@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
@@ -19,21 +19,38 @@ class IStartMovEquipProprio(
     override suspend fun invoke(typeMov: TypeMovEquip): Result<Boolean> {
         try {
             val resultStart = movEquipProprioRepository.start(typeMov)
-            if (resultStart.isFailure)
-                return Result.failure(resultStart.exceptionOrNull()!!)
+            if (resultStart.isFailure) {
+                val e = resultStart.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val resultEquipSegClear = movEquipProprioEquipSegRepository.clear()
-            if (resultEquipSegClear.isFailure)
-                return Result.failure(resultEquipSegClear.exceptionOrNull()!!)
+            if (resultEquipSegClear.isFailure) {
+                val e = resultEquipSegClear.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val resultPassagClear = movEquipProprioPassagRepository.clear()
-            if (resultPassagClear.isFailure)
-                return Result.failure(resultPassagClear.exceptionOrNull()!!)
+            if (resultPassagClear.isFailure) {
+                val e = resultPassagClear.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartMovEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "StartMovEquipProprioImpl",
-                    cause = e.cause
-                )
+            return resultFailure(
+                context = "IStartMovEquipProprio",
+                message = "-",
+                cause = e
             )
         }
     }

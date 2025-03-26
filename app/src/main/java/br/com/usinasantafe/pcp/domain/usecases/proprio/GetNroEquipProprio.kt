@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 
@@ -16,19 +16,30 @@ class IGetNroEquipProprio(
     override suspend fun invoke(id: Int): Result<String> {
         try {
             val resultIdEquip = movEquipProprioRepository.getIdEquip(id = id)
-            if (resultIdEquip.isFailure)
-                return Result.failure(resultIdEquip.exceptionOrNull()!!)
-            val idEquip = resultIdEquip.getOrNull()!!
-            val resultEquip = equipRepository.getNro(idEquip = idEquip)
-            if (resultEquip.isFailure)
-                return Result.failure(resultEquip.exceptionOrNull()!!)
-            return Result.success(resultEquip.getOrNull()!!.toString())
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetNroEquipImpl",
+            if (resultIdEquip.isFailure) {
+                val e = resultIdEquip.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetNroEquipProprio",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val idEquip = resultIdEquip.getOrNull()!!
+            val resultEquip = equipRepository.getNro(idEquip = idEquip)
+            if (resultEquip.isFailure) {
+                val e = resultEquip.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetNroEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            return Result.success(resultEquip.getOrNull()!!.toString())
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IGetNroEquipProprio",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -33,7 +33,7 @@ class IUpdateRLocalFluxo(
         if (resultRecover.isFailure) {
             val error = resultRecover.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "IUpdateRLocalFluxo -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -56,7 +56,7 @@ class IUpdateRLocalFluxo(
         val resultClean = cleanRLocalFluxo()
         if (resultClean.isFailure) {
             val error = resultClean.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateRLocalFluxo -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -80,7 +80,7 @@ class IUpdateRLocalFluxo(
         val resultSave = saveRLocalFluxo(list)
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateRLocalFluxo -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,

@@ -4,8 +4,6 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.config.GetConfigInternal
 import br.com.usinasantafe.pcp.domain.usecases.config.SaveDataConfig
 import br.com.usinasantafe.pcp.domain.usecases.config.SendDataConfig
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.config.SetCheckUpdateAllTable
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
@@ -137,10 +135,7 @@ class ConfigViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SendDataConfig",
-                    cause = NumberFormatException("For input string: \"1df52\"")
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -185,10 +180,7 @@ class ConfigViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "SendDataConfig",
-                    cause = NullPointerException()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -243,10 +235,7 @@ class ConfigViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SaveDataConfig",
-                    cause = NullPointerException()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -851,10 +840,7 @@ class ConfigViewModelTest {
             setCheckUpdateAllTable(FlagUpdate.UPDATED)
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "SetCheckUpdateAllTable",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()

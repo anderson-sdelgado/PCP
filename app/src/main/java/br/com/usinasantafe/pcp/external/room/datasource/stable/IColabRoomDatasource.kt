@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.ColabRoomModel
@@ -14,11 +14,10 @@ class IColabRoomDatasource(
             colabDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ColabRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IColabRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -28,11 +27,10 @@ class IColabRoomDatasource(
             val result = colabDao.check(matric) > 0
             return Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ColabRoomDatasourceImpl.checkMatric",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IColabRoomDatasource.checkMatric",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -42,11 +40,10 @@ class IColabRoomDatasource(
             val nome = colabDao.getNome(matric)
             return Result.success(nome)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ColabRoomDatasourceImpl.getNome",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IColabRoomDatasource.getNome",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -56,11 +53,10 @@ class IColabRoomDatasource(
             colabDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ColabRoomDatasourceImpl.deleteAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IColabRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.nomecolab
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetMatricColab
 import br.com.usinasantafe.pcp.presenter.Args
@@ -48,12 +47,11 @@ class NomeColabViewModelTest {
     fun `Check return failure if RecoverNomeColab have failure`() = runTest {
         val getNomeColab = mock<GetNomeColab>()
         val setMatricColab = mock<SetMatricColab>()
-        whenever(getNomeColab("19759")).thenReturn(
+        whenever(
+            getNomeColab("19759")
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverNomeColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NomeColabViewModel(
@@ -101,17 +99,16 @@ class NomeColabViewModelTest {
     fun `Check return failure if SetMatricColab have failure in add Motorista`() = runTest {
         val getNomeColab = mock<GetNomeColab>()
         val setMatricColab = mock<SetMatricColab>()
-        whenever(setMatricColab(
-            matricColab = "19759",
-            flowApp = FlowApp.ADD,
-            typeOcupante = TypeOcupante.MOTORISTA,
-            id = 0
-        )).thenReturn(
+        whenever(
+            setMatricColab(
+                matricColab = "19759",
+                flowApp = FlowApp.ADD,
+                typeOcupante = TypeOcupante.MOTORISTA,
+                id = 0
+            )
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetMatricColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NomeColabViewModel(
@@ -164,17 +161,16 @@ class NomeColabViewModelTest {
     fun `Check return failure if SetMatricColab have failure in add Passag`() = runTest {
         val getNomeColab = mock<GetNomeColab>()
         val setMatricColab = mock<SetMatricColab>()
-        whenever(setMatricColab(
-            matricColab = "19759",
-            flowApp = FlowApp.ADD,
-            typeOcupante = TypeOcupante.PASSAGEIRO,
-            id = 0
-        )).thenReturn(
+        whenever(
+            setMatricColab(
+                matricColab = "19759",
+                flowApp = FlowApp.ADD,
+                typeOcupante = TypeOcupante.PASSAGEIRO,
+                id = 0
+            )
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetMatricColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NomeColabViewModel(

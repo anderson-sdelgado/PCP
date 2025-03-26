@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.placa
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetPlacaVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetPlacaVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
@@ -53,10 +52,7 @@ class PlacaVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "setPlacaVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PlacaVisitTercViewModel(
@@ -113,10 +109,7 @@ class PlacaVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetPlacaVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PlacaVisitTercViewModel(

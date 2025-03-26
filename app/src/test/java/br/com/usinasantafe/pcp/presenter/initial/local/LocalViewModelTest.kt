@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.initial.local
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocal
@@ -37,10 +36,7 @@ class LocalViewModelTest {
             getLocalList()
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "RecoverNomeVigia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         viewModel.localList()

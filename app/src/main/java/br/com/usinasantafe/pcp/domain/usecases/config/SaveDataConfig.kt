@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 
 interface SaveDataConfig {
     suspend operator fun invoke(
@@ -22,19 +22,27 @@ class ISaveDataConfig(
         version: String,
         idBD: Int
     ): Result<Boolean> {
-        return try {
-            configRepository.saveInitial(
+        try {
+            val result =configRepository.saveInitial(
                 number = number.toLong(),
                 password= password,
                 version = version,
                 idBD = idBD
             )
-        } catch (e: Exception){
-            Result.failure(
-                UsecaseException(
-                    function = "SaveDataConfig",
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveDataConfig",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "ISaveDataConfig",
+                message = "-",
+                cause = e
             )
         }
     }

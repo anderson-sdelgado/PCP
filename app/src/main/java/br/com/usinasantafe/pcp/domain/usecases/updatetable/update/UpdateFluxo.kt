@@ -33,7 +33,7 @@ class IUpdateFluxo(
         if (resultRecover.isFailure) {
             val error = resultRecover.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "IUpdateFluxo -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -56,7 +56,7 @@ class IUpdateFluxo(
         val resultClean = cleanFluxo()
         if (resultClean.isFailure) {
             val error = resultClean.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateFluxo -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -80,7 +80,7 @@ class IUpdateFluxo(
         val resultSave = saveFluxo(list)
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateFluxo -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,

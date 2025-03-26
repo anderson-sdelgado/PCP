@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chaveequip
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
@@ -22,16 +22,34 @@ class IGetMovChaveEquipOpenList(
     override suspend fun invoke(): Result<List<ControleChaveEquipModel>> {
         try{
             val resultList = movChaveEquipRepository.listOpen()
-            if (resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetMovChaveEquipOpenList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val entityList = resultList.getOrNull()!!.map {
                 val resultNomeColab = colabRepository.getNome(it.matricColabMovChaveEquip!!)
-                if (resultNomeColab.isFailure)
-                    return Result.failure(resultNomeColab.exceptionOrNull()!!)
+                if (resultNomeColab.isFailure) {
+                    val e = resultNomeColab.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetMovChaveEquipOpenList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 val nomeColab = resultNomeColab.getOrNull()!!
                 val resultGetEquip = equipRepository.getDescr(it.idEquipMovChaveEquip!!)
-                if (resultGetEquip.isFailure)
-                    return Result.failure(resultGetEquip.exceptionOrNull()!!)
+                if (resultGetEquip.isFailure) {
+                    val e = resultGetEquip.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetMovChaveEquipOpenList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 val descrEquip = resultGetEquip.getOrNull()!!
                 ControleChaveEquipModel(
                     id = it.idMovChaveEquip!!,
@@ -49,11 +67,10 @@ class IGetMovChaveEquipOpenList(
             }
             return Result.success(entityList)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "IGetMovChaveEquipOpenList",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetMovChaveEquipOpenList",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipVisitTercDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipVisitTercRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercRoomModel
@@ -18,11 +18,10 @@ class IMovEquipVisitTercRoomDatasource(
                 movEquipVisitTercDao.listStatusData(StatusData.OPEN).isNotEmpty()
             )
         } catch (e: Exception){
-            Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.checkOpen",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.checkOpen",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -33,11 +32,10 @@ class IMovEquipVisitTercRoomDatasource(
                 movEquipVisitTercDao.listStatusSend(StatusSend.SEND).isNotEmpty()
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.checkSend",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.checkSend",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -47,11 +45,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.delete(movEquipVisitTercRoomModel)
             return Result.success(true)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioRoomDatasourceImpl.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.delete",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -60,11 +57,10 @@ class IMovEquipVisitTercRoomDatasource(
         return try {
             Result.success(movEquipVisitTercDao.get(id))
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.get",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -74,11 +70,10 @@ class IMovEquipVisitTercRoomDatasource(
             val list = movEquipVisitTercDao.listStatusData(StatusData.OPEN)
             return Result.success(list)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.listOpen",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.listOpen",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -90,11 +85,10 @@ class IMovEquipVisitTercRoomDatasource(
             )
             return Result.success(list)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.listInside",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.listInside",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -104,11 +98,10 @@ class IMovEquipVisitTercRoomDatasource(
             val listOpen = movEquipVisitTercDao.listStatusSend(StatusSend.SEND)
             return Result.success(listOpen)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.listSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.listSend",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -118,11 +111,10 @@ class IMovEquipVisitTercRoomDatasource(
             val listOpen = movEquipVisitTercDao.listStatusSend(StatusSend.SENT)
             return Result.success(listOpen)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.listSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.listSent",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -132,11 +124,10 @@ class IMovEquipVisitTercRoomDatasource(
             val id = movEquipVisitTercDao.insert(movEquipVisitTercRoomModel)
             return Result.success(id)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioRoomDatasourceImpl.save",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.save",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -148,11 +139,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setOutside",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setClose",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -168,11 +158,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setDestino",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setDestino",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -188,11 +177,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setIdVisitTerc",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setIdVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -208,11 +196,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setObserv",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -224,11 +211,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setOutside",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setOutside",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -244,11 +230,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setPlaca",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setPlaca",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -264,11 +249,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setVeiculo",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setVeiculo",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -280,11 +264,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setSent",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setSent",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -296,11 +279,10 @@ class IMovEquipVisitTercRoomDatasource(
             movEquipVisitTercDao.update(roomModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercRoomDatasourceImpl.setSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercRoomDatasource.setSend",
+                message = "-",
+                cause = e
             )
         }
     }

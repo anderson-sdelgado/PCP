@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.residencia.observ
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetObservResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.SaveMovEquipResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.SetObservResidencia
@@ -10,7 +9,6 @@ import br.com.usinasantafe.pcp.domain.usecases.residencia.StartOutputMovEquipRes
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
-import br.com.usinasantafe.pcp.presenter.visitterc.observ.ObservVisitTercViewModel
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeMovEquip
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,10 +48,7 @@ class ObservResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetObservResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -102,10 +97,7 @@ class ObservResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "StartOutputMovEquipResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -134,10 +126,7 @@ class ObservResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetObservResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -174,10 +163,7 @@ class ObservResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SaveMovEquipResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(

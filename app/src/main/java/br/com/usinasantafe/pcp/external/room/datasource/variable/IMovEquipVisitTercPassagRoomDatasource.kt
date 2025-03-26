@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipVisitTercPassagDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipVisitTercPassagRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercPassagRoomModel
@@ -22,11 +22,10 @@ class IMovEquipVisitTercPassagRoomDatasource(
             )
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagRoomDatasourceImpl.add",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRoomDatasource.add",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -36,11 +35,10 @@ class IMovEquipVisitTercPassagRoomDatasource(
             movEquipVisitTercPassagDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -53,11 +51,10 @@ class IMovEquipVisitTercPassagRoomDatasource(
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagRoomDatasourceImpl.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRoomDatasource.delete(id)",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -74,11 +71,10 @@ class IMovEquipVisitTercPassagRoomDatasource(
             movEquipVisitTercPassagDao.delete(mov)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagRoomDatasourceImpl.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRoomDatasource.delete(idVisitTerc, id)",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -87,11 +83,10 @@ class IMovEquipVisitTercPassagRoomDatasource(
         return try {
             Result.success(movEquipVisitTercPassagDao.list(id))
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercPassagRoomDatasourceImpl.list",
-                    cause = e
-                )
+            resultFailure(
+                context = "IMovEquipVisitTercPassagRoomDatasource.list",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -33,7 +33,7 @@ class IUpdateVisitante(
         if (resultRecover.isFailure) {
             val error = resultRecover.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "IUpdateVisitante -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -56,7 +56,7 @@ class IUpdateVisitante(
         val resultClean = cleanVisitante()
         if (resultClean.isFailure) {
             val error = resultClean.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateVisitante -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -80,7 +80,7 @@ class IUpdateVisitante(
         val resultSave = saveVisitante(list)
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateVisitante -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,

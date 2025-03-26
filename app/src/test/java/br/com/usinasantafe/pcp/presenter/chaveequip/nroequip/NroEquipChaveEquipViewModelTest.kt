@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.nroequip
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetNroEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetIdEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
@@ -235,10 +234,7 @@ class NroEquipChaveEquipViewModelTest {
                 checkNroEquip("19759")
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "CheckNroEquip",
-                        cause = NullPointerException()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -315,10 +311,7 @@ class NroEquipChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "SetIdEquipMovChaveEquip",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -389,10 +382,7 @@ class NroEquipChaveEquipViewModelTest {
                 getNroEquipMovChaveEquip(1)
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetMatricColabMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(

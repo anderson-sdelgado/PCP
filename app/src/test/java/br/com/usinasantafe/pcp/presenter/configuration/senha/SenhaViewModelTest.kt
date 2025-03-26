@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.configuration.senha
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckPassword
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -32,7 +31,7 @@ class SenhaViewModelTest {
             checkPassword(password)
         ).thenReturn(
             Result.failure(
-                DatasourceException(function = "ConfigSharedPreferences.hasConfig", cause = Exception())
+                Exception()
             )
         )
         val viewModel = SenhaViewModel(checkPassword)

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
@@ -25,26 +25,43 @@ class IGetCpfVisitTerc(
                 flowApp = FlowApp.CHANGE,
                 id = id
             )
-            if (resultGetType.isFailure)
-                return Result.failure(resultGetType.exceptionOrNull()!!)
+            if (resultGetType.isFailure) {
+                val e = resultGetType.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetCpfVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val typeVisitTerc = resultGetType.getOrNull()!!
             val resultGetIdVisitTerc = movEquipVisitTercRepository.getIdVisitTerc(id)
-            if (resultGetIdVisitTerc.isFailure)
-                return Result.failure(resultGetIdVisitTerc.exceptionOrNull()!!)
+            if (resultGetIdVisitTerc.isFailure) {
+                val e = resultGetIdVisitTerc.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetCpfVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val idVisitTerc = resultGetIdVisitTerc.getOrNull()!!
             val resultGetCpf = when(typeVisitTerc) {
                 TypeVisitTerc.VISITANTE -> visitanteRepository.getCpf(idVisitTerc)
                 TypeVisitTerc.TERCEIRO -> terceiroRepository.getCpf(idVisitTerc)
             }
-            if (resultGetCpf.isFailure)
-                return Result.failure(resultGetCpf.exceptionOrNull()!!)
-            return Result.success(resultGetCpf.getOrNull()!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetCpfVisitTercImpl",
+            if (resultGetCpf.isFailure) {
+                val e = resultGetCpf.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetCpfVisitTerc",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(resultGetCpf.getOrNull()!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IGetCpfVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }

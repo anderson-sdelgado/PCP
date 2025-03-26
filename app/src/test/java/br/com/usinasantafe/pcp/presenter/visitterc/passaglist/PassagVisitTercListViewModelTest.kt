@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.passaglist
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CleanPassagVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.DeletePassagVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetPassagVisitTercList
@@ -30,12 +29,11 @@ class PassagVisitTercListViewModelTest {
         val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
         val getPassagVisitTercList = mock<GetPassagVisitTercList>()
         val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
-        whenever(cleanPassagVisitTerc()).thenReturn(
+        whenever(
+            cleanPassagVisitTerc()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CleanPassagVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PassagVisitTercListViewModel(
@@ -64,7 +62,9 @@ class PassagVisitTercListViewModelTest {
         val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
         val getPassagVisitTercList = mock<GetPassagVisitTercList>()
         val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
-        whenever(cleanPassagVisitTerc()).thenReturn(
+        whenever(
+            cleanPassagVisitTerc()
+        ).thenReturn(
             Result.success(true)
         )
         val viewModel = PassagVisitTercListViewModel(
@@ -97,10 +97,7 @@ class PassagVisitTercListViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetPassagVisitTercList",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PassagVisitTercListViewModel(
@@ -179,10 +176,7 @@ class PassagVisitTercListViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "DeletePassagVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PassagVisitTercListViewModel(

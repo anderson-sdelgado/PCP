@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovEquipResidenciaRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipResidenciaRoomDatasource
@@ -20,198 +20,262 @@ class IMovEquipResidenciaRepository(
 ) : MovEquipResidenciaRepository {
 
     override suspend fun checkOpen(): Result<Boolean> {
-        return movEquipResidenciaRoomDatasource.checkOpen()
+        val result = movEquipResidenciaRoomDatasource.checkOpen()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.checkOpen",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun checkSend(): Result<Boolean> {
-        return movEquipResidenciaRoomDatasource.checkSend()
+        val result = movEquipResidenciaRoomDatasource.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.checkSend",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun delete(id: Int): Result<Boolean> {
         try {
-            val resultGet = movEquipResidenciaRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val model = resultGet.getOrNull()!!
-            return movEquipResidenciaRoomDatasource.delete(model)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.delete",
+            val result = movEquipResidenciaRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.delete",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val model = result.getOrNull()!!
+            return movEquipResidenciaRoomDatasource.delete(model)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.delete",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun get(id: Int): Result<MovEquipResidencia> {
         try {
-            val resultGet = movEquipResidenciaRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(
-                resultGet.getOrNull()!!.roomModelToEntity()
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.get",
+            val result = movEquipResidenciaRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.get",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(
+                result.getOrNull()!!.roomModelToEntity()
+            )
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.get",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getMotorista(id: Int): Result<String> {
         try {
-            val resultGet = movEquipResidenciaRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(
-                resultGet.getOrNull()!!.roomModelToEntity().motoristaMovEquipResidencia!!
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.getMotorista",
+            val result = movEquipResidenciaRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.getMotorista",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(
+                result.getOrNull()!!.roomModelToEntity().motoristaMovEquipResidencia!!
+            )
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.getMotorista",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getObserv(id: Int): Result<String?> {
         try {
-            val resultGet = movEquipResidenciaRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(
-                resultGet.getOrNull()!!.roomModelToEntity().observMovEquipResidencia
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.getObserv",
+            val result = movEquipResidenciaRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.getObserv",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(
+                result.getOrNull()!!.roomModelToEntity().observMovEquipResidencia
+            )
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.getObserv",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getPlaca(id: Int): Result<String> {
         try {
-            val resultGet = movEquipResidenciaRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(
-                resultGet.getOrNull()!!.roomModelToEntity().placaMovEquipResidencia!!
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.getPlaca",
+            val result = movEquipResidenciaRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.getPlaca",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(
+                result.getOrNull()!!.roomModelToEntity().placaMovEquipResidencia!!
+            )
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.getPlaca",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getVeiculo(id: Int): Result<String> {
         try {
-            val resultGet = movEquipResidenciaRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(
-                resultGet.getOrNull()!!.roomModelToEntity().veiculoMovEquipResidencia!!
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.getVeiculo",
+            val result = movEquipResidenciaRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.getVeiculo",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(
+                result.getOrNull()!!.roomModelToEntity().veiculoMovEquipResidencia!!
+            )
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.getVeiculo",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listOpen(): Result<List<MovEquipResidencia>> {
         try {
-            val resultListOpen = movEquipResidenciaRoomDatasource.listOpen()
-            if (resultListOpen.isFailure)
-                return Result.failure(resultListOpen.exceptionOrNull()!!)
-            val result = resultListOpen.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(
-                result
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.listOpen",
+            val result = movEquipResidenciaRoomDatasource.listOpen()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.listOpen",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val list = result.getOrNull()!!.map {
+                it.roomModelToEntity()
+            }
+            return Result.success(list)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.listOpen",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listInside(): Result<List<MovEquipResidencia>> {
         try {
-            val resultListOpen = movEquipResidenciaRoomDatasource.listInside()
-            if (resultListOpen.isFailure)
-                return Result.failure(resultListOpen.exceptionOrNull()!!)
-            val result = resultListOpen.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(
-                result
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.listOpen",
+            val result = movEquipResidenciaRoomDatasource.listInside()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.listInside",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val list = result.getOrNull()!!.map {
+                it.roomModelToEntity()
+            }
+            return Result.success(list)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.listInside",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listSend(): Result<List<MovEquipResidencia>> {
         try {
-            val resultListSend =
+            val result =
                 movEquipResidenciaRoomDatasource.listSend()
-            if (resultListSend.isFailure)
-                return Result.failure(resultListSend.exceptionOrNull()!!)
-            val listSend = resultListSend.getOrNull()!!.map {
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.listSend",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val listSend = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(listSend)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.listSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.listSend",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listSent(): Result<List<MovEquipResidencia>> {
         try {
-            val resultListSent =
+            val result =
                 movEquipResidenciaRoomDatasource.listSent()
-            if (resultListSent.isFailure)
-                return Result.failure(resultListSent.exceptionOrNull()!!)
-            val listSend = resultListSent.getOrNull()!!.map {
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.listSent",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val listSend = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(listSend)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.listSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.listSent",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -222,8 +286,14 @@ class IMovEquipResidenciaRepository(
     ): Result<Int> {
         try {
             val resultGetMov = movEquipResidenciaSharedPreferencesDatasource.get()
-            if (resultGetMov.isFailure)
-                return Result.failure(resultGetMov.exceptionOrNull()!!)
+            if (resultGetMov.isFailure) {
+                val e = resultGetMov.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movEquipResidenciaRoomModel =
                 resultGetMov.getOrNull()!!.entityToSharedPreferencesModel()
                     .entityToRoomModel(
@@ -231,27 +301,37 @@ class IMovEquipResidenciaRepository(
                         idLocal = idLocal
                     )
             val resultSave = movEquipResidenciaRoomDatasource.save(movEquipResidenciaRoomModel)
-            if(resultSave.isFailure)
-                return Result.failure(resultSave.exceptionOrNull()!!)
+            if (resultSave.isFailure) {
+                val e = resultSave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val id = resultSave.getOrNull()!!.toInt()
             if (id == 0) {
-                return Result.failure(
-                    RepositoryException(
-                        function = "MovEquipResidenciaRepositoryImpl.save",
-                        cause = Exception("Id is 0")
-                    )
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.save",
+                    message = "-",
+                    cause = Exception("Id is 0")
                 )
             }
             val resultClear = movEquipResidenciaSharedPreferencesDatasource.clear()
-            if (resultClear.isFailure)
-                return Result.failure(resultClear.exceptionOrNull()!!)
-            return Result.success(id)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.save",
+            if (resultClear.isFailure) {
+                val e = resultClear.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.save",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(id)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.save",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -262,29 +342,43 @@ class IMovEquipResidenciaRepository(
         token: String
     ): Result<List<MovEquipResidencia>> {
         try {
-            val resultSend = movEquipResidenciaRetrofitDatasource.send(
+            val result = movEquipResidenciaRetrofitDatasource.send(
                 list = list.map { it.entityToRetrofitModelOutput(number) },
                 token = token
             )
-            if (resultSend.isFailure)
-                return Result.failure(resultSend.exceptionOrNull()!!)
-            val listInput = resultSend.getOrNull()!!
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.send",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val listInput = result.getOrNull()!!
             val resultList = listInput.map {
                 it.retrofitModelInputToEntity()
             }
             return Result.success(resultList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.send",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.send",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun setClose(id: Int): Result<Boolean> {
-        return movEquipResidenciaRoomDatasource.setClose(id)
+        val result = movEquipResidenciaRoomDatasource.setClose(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.setClose",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun setMotorista(
@@ -292,17 +386,26 @@ class IMovEquipResidenciaRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setMotorista(motorista)
-                FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setMotorista(motorista, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.setMotorista",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setMotorista(motorista)
+                    FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setMotorista(motorista, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.setMotorista",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.setMotorista",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -312,23 +415,41 @@ class IMovEquipResidenciaRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setObserv(observ)
-                FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setObserv(observ, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.setObserv",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setObserv(observ)
+                    FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setObserv(observ, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.setObserv",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun setOutside(id: Int): Result<Boolean> {
-        return movEquipResidenciaRoomDatasource.setOutside(id)
+        val result = movEquipResidenciaRoomDatasource.setOutside(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.start",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun setPlaca(
@@ -336,17 +457,26 @@ class IMovEquipResidenciaRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setPlaca(placa)
-                FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setPlaca(placa, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.setPlaca",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setPlaca(placa)
+                    FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setPlaca(placa, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.setPlaca",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.setPlaca",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -356,17 +486,26 @@ class IMovEquipResidenciaRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setVeiculo(veiculo)
-                FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setVeiculo(veiculo, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.setVeiculo",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipResidenciaSharedPreferencesDatasource.setVeiculo(veiculo)
+                    FlowApp.CHANGE -> movEquipResidenciaRoomDatasource.setVeiculo(veiculo, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.setVeiculo",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.setVeiculo",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -374,39 +513,61 @@ class IMovEquipResidenciaRepository(
     override suspend fun setSent(list: List<MovEquipResidencia>): Result<Boolean> {
         try {
             for (entity in list) {
-                val resultSetSent =
+                val result =
                     movEquipResidenciaRoomDatasource.setSent(entity.idMovEquipResidencia!!)
-                if (resultSetSent.isFailure)
-                    return Result.failure(resultSetSent.exceptionOrNull()!!)
+                if (result.isFailure) {
+                    val e = result.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IMovEquipResidenciaRepository.setSent",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.setSent",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.setSent",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun start(): Result<Boolean> {
-        return movEquipResidenciaSharedPreferencesDatasource.start()
+        val result = movEquipResidenciaSharedPreferencesDatasource.start()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.start(INSIDE)",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun start(movEquipResidencia: MovEquipResidencia): Result<Boolean> {
         try {
             val movEquipResidenciaSharedPreferencesModel =
                 movEquipResidencia.entityToSharedPreferencesModel()
-            return movEquipResidenciaSharedPreferencesDatasource.start(
+            val result = movEquipResidenciaSharedPreferencesDatasource.start(
                 movEquipResidenciaSharedPreferencesModel
             )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipResidenciaRepositoryImpl.start",
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.start(OUTSIDE)",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipResidenciaRepository.start",
+                message = "-",
+                cause = e
             )
         }
     }

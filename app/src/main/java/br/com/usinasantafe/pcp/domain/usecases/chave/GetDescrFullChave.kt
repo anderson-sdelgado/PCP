@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalTrabRepository
 
@@ -17,8 +17,11 @@ class IGetDescrFullChave(
         try {
             val resultChave = chaveRepository.get(id)
             if (resultChave.isFailure) {
-                return Result.failure(
-                    resultChave.exceptionOrNull()!!
+                val e = resultChave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDescrFullChave",
+                    message = e.message,
+                    cause = e
                 )
             }
             val entity = resultChave.getOrNull()!!
@@ -26,18 +29,20 @@ class IGetDescrFullChave(
                 entity.idLocalTrab
             )
             if (resultDescrLocalTrab.isFailure) {
-                return Result.failure(
-                    resultDescrLocalTrab.exceptionOrNull()!!
+                val e = resultDescrLocalTrab.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDescrFullChave",
+                    message = e.message,
+                    cause = e
                 )
             }
             val descrLocalTrab = resultDescrLocalTrab.getOrNull()!!
             return Result.success("${entity.descrChave} - $descrLocalTrab")
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "IGetDescrFullChave",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetDescrFullChave",
+                message = "-",
+                cause = e
             )
         }
     }

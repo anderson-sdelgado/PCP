@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.utils.token
@@ -18,12 +18,24 @@ class ISendMovResidenciaList(
     override suspend fun invoke(): Result<List<MovEquipResidencia>> {
         try {
             val resultListSend = movEquipResidenciaRepository.listSend()
-            if (resultListSend.isFailure)
-                return Result.failure(resultListSend.exceptionOrNull()!!)
+            if (resultListSend.isFailure) {
+                val e = resultListSend.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovResidenciaList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val listSend = resultListSend.getOrNull()!!
             val resultConfig = configRepository.getConfig()
-            if (resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovResidenciaList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val config = resultConfig.getOrNull()!!
             val token = token(
                 number = config.number!!,
@@ -35,15 +47,20 @@ class ISendMovResidenciaList(
                 number = config.number!!,
                 token = token
             )
-            if (resultSend.isFailure)
-                return Result.failure(resultSend.exceptionOrNull()!!)
-            return Result.success(resultSend.getOrNull()!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SendMovResidenciaListImpl",
+            if (resultSend.isFailure) {
+                val e = resultSend.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovResidenciaList",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(resultSend.getOrNull()!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ISendMovResidenciaList",
+                message = "-",
+                cause = e
             )
         }
     }

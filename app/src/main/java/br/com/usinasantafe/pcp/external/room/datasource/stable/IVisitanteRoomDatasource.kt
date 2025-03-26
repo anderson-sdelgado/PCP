@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.VisitanteDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.VisitanteRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.VisitanteRoomModel
@@ -14,11 +14,10 @@ class IVisitanteRoomDatasource(
             visitanteDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "VisitanteRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IVisitanteRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -28,11 +27,10 @@ class IVisitanteRoomDatasource(
             val result = visitanteDao.check(cpf) > 0
             return Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "VisitanteRoomDatasourceImpl.checkCpf",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IVisitanteRoomDatasource.checkCpf",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -42,11 +40,10 @@ class IVisitanteRoomDatasource(
             visitanteDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "VisitanteRoomDatasourceImpl.deleteAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IVisitanteRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -56,11 +53,10 @@ class IVisitanteRoomDatasource(
             val result = visitanteDao.get(id)
             return Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "VisitanteRoomDatasourceImpl.get(ID)",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IVisitanteRoomDatasource.get(id)",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -70,11 +66,10 @@ class IVisitanteRoomDatasource(
             val result = visitanteDao.get(cpf)
             return Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "VisitanteRoomDatasourceImpl.get(CPF)",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IVisitanteRoomDatasource.get(cpf)",
+                message = "-",
+                cause = e
             )
         }
     }

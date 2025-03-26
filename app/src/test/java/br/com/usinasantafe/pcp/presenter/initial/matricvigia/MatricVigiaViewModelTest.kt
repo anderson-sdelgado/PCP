@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.initial.matricvigia
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.config.SetMatricVigiaConfig
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
@@ -64,10 +63,7 @@ class MatricVigiaViewModelTest {
             checkMatricColab("19759")
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "CheckMatricColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -90,10 +86,7 @@ class MatricVigiaViewModelTest {
             setMatricVigiaConfig("19759")
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "SetMatricVigiaConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()

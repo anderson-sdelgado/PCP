@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 
 interface SaveVisitante {
@@ -12,7 +13,16 @@ class ISaveVisitante(
 ): SaveVisitante {
 
     override suspend fun invoke(list: List<Visitante>): Result<Boolean> {
-        return colabRepository.addAll(list)
+        val result = colabRepository.addAll(list)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ISaveVisitante",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

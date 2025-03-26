@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.matriccolab
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMatricColabMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
@@ -231,10 +230,7 @@ class MatricColabChaveEquipViewModelTest {
                 checkMatricColab("19759")
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "CheckMatricColab",
-                        cause = NullPointerException()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -331,10 +327,7 @@ class MatricColabChaveEquipViewModelTest {
                 getMatricColabMovChaveEquip(1)
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetMatricColabMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(

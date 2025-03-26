@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
@@ -36,8 +36,14 @@ class ISetMatricColab(
                         flowApp = flowApp,
                         id = id
                     )
-                    if (resultSet.isFailure)
-                        return Result.failure(resultSet.exceptionOrNull()!!)
+                    if (resultSet.isFailure) {
+                        val e = resultSet.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "ISetMatricColab",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                 }
 
                 TypeOcupante.PASSAGEIRO -> {
@@ -46,12 +52,24 @@ class ISetMatricColab(
                         flowApp = flowApp,
                         id = id
                     )
-                    if (resultAdd.isFailure)
-                        return Result.failure(resultAdd.exceptionOrNull()!!)
+                    if (resultAdd.isFailure) {
+                        val e = resultAdd.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "ISetMatricColab",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                     if(flowApp == FlowApp.CHANGE){
                         val resultSend = movEquipProprioRepository.setSend(id)
-                        if (resultSend.isFailure)
-                            return Result.failure(resultSend.exceptionOrNull()!!)
+                        if (resultSend.isFailure) {
+                            val e = resultSend.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "ISetMatricColab",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                     }
                 }
             }
@@ -60,11 +78,10 @@ class ISetMatricColab(
             }
             return Result.success(true)
         } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "SetMatricMotorista",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISetMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }

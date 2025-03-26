@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.notafiscal
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNotaFiscalProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetNotaFiscalProprio
 import br.com.usinasantafe.pcp.presenter.Args
@@ -54,10 +53,7 @@ class NotaFiscalViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetNotaFiscalProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NotaFiscalViewModel(
@@ -115,10 +111,7 @@ class NotaFiscalViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetNotaFiscalProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NotaFiscalViewModel(

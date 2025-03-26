@@ -1,8 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.chave.controlelist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetMovChaveInsideList
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartRemoveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
@@ -39,10 +37,7 @@ class ControleChaveListGetViewModelTest {
             getHeader()
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferences.hasConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -89,10 +84,7 @@ class ControleChaveListGetViewModelTest {
                 getMovChaveInsideList()
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetControleChaveRemoveList",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -149,10 +141,7 @@ class ControleChaveListGetViewModelTest {
                 startRemoveMovChave()
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "StartRemoveChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()

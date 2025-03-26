@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.initial.nomevigia
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetNomeVigia
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -22,12 +21,11 @@ class NomeVigiaViewModelTest {
     @Test
     fun `check return failure if RecoverNomeVigia have failure`() = runTest {
         val getNomeVigia = mock<GetNomeVigia>()
-        whenever(getNomeVigia()).thenReturn(
+        whenever(
+            getNomeVigia()
+        ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "RecoverNomeVigia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NomeVigiaViewModel(getNomeVigia)

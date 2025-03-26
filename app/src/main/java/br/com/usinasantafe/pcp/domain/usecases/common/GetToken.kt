@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.utils.token
 
@@ -14,10 +14,16 @@ class IGetToken(
 
     override suspend fun invoke(): Result<String> {
         try {
-            val getConfig = configRepository.getConfig()
-            if(getConfig.isFailure)
-                return Result.failure(getConfig.exceptionOrNull()!!)
-            val config = getConfig.getOrNull()!!
+            val resultGetConfig = configRepository.getConfig()
+            if (resultGetConfig.isFailure) {
+                val e = resultGetConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetToken",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val config = resultGetConfig.getOrNull()!!
             val token = token(
                 number = config.number!!,
                 version = config.version!!,
@@ -25,11 +31,10 @@ class IGetToken(
             )
             return Result.success(token)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetToken",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetToken",
+                message = "-",
+                cause = e
             )
         }
     }

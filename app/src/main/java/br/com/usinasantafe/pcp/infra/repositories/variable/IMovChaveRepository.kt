@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovChaveRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovChaveRoomDatasource
@@ -20,135 +20,165 @@ class IMovChaveRepository(
 ): MovChaveRepository {
 
     override suspend fun checkOpen(): Result<Boolean> {
-        return movChaveRoomDatasource.checkOpen()
+        val result = movChaveRoomDatasource.checkOpen()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovChaveRepository.checkOpen",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun checkSend(): Result<Boolean> {
-        return movChaveRoomDatasource.checkSend()
+        val result = movChaveRoomDatasource.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovChaveRepository.checkSend",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun get(id: Int): Result<MovChave> {
         try {
-            val resultGet = movChaveRoomDatasource.get(id)
-            if(resultGet.isFailure){
-                return Result.failure(
-                    resultGet.exceptionOrNull()!!
-                )
-            }
-            val entity = resultGet.getOrNull()!!.roomModelToEntity()
-            return Result.success(entity)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.get",
+            val result = movChaveRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.get",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entity = result.getOrNull()!!.roomModelToEntity()
+            return Result.success(entity)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.get",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getMatricColab(id: Int): Result<Int> {
         try {
-            val resultGet = movChaveRoomDatasource.get(id)
-            if(resultGet.isFailure){
-                return Result.failure(
-                    resultGet.exceptionOrNull()!!
-                )
-            }
-            val entity = resultGet.getOrNull()!!.roomModelToEntity()
-            return Result.success(entity.matricColabMovChave!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.getMatricColab",
+            val result = movChaveRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.getMatricColab",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entity = result.getOrNull()!!.roomModelToEntity()
+            return Result.success(entity.matricColabMovChave!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.getMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getObserv(id: Int): Result<String?> {
         try {
-            val resultGet = movChaveRoomDatasource.get(id)
-            if(resultGet.isFailure){
-                return Result.failure(
-                    resultGet.exceptionOrNull()!!
-                )
-            }
-            val entity = resultGet.getOrNull()!!.roomModelToEntity()
-            return Result.success(entity.observMovChave)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.getObserv",
+            val result = movChaveRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.getObserv",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entity = result.getOrNull()!!.roomModelToEntity()
+            return Result.success(entity.observMovChave)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.getObserv",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listInside(): Result<List<MovChave>> {
         try {
-            val resultList = movChaveRoomDatasource.listInside()
-            if(resultList.isFailure){
-                return Result.failure(
-                    resultList.exceptionOrNull()!!
+            val result = movChaveRoomDatasource.listInside()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.listInside",
+                    message = e.message,
+                    cause = e
                 )
             }
-            val entityList = resultList.getOrNull()!!.map {
+            val entityList = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(entityList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.listInside",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveRepository.listInside",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listOpen(): Result<List<MovChave>> {
         try {
-            val resultList = movChaveRoomDatasource.listOpen()
-            if(resultList.isFailure){
-                return Result.failure(
-                    resultList.exceptionOrNull()!!
+            val result = movChaveRoomDatasource.listOpen()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.listOpen",
+                    message = e.message,
+                    cause = e
                 )
             }
-            val entityList = resultList.getOrNull()!!.map {
+            val entityList = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(entityList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.listOpen",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveRepository.listOpen",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listSend(): Result<List<MovChave>> {
         try {
-            val resultListSend = movChaveRoomDatasource.listSend()
-            if(resultListSend.isFailure){
-                return Result.failure(
-                    resultListSend.exceptionOrNull()!!
+            val result = movChaveRoomDatasource.listSend()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.listSend",
+                    message = e.message,
+                    cause = e
                 )
             }
-            val entityListSend = resultListSend.getOrNull()!!.map {
+            val entityListSend = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(entityListSend)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.listSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveRepository.listSend",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -160,8 +190,14 @@ class IMovChaveRepository(
     ): Result<Int> {
         try {
             val resultGetMov = movChaveSharedPreferencesDatasource.get()
-            if (resultGetMov.isFailure)
-                return Result.failure(resultGetMov.exceptionOrNull()!!)
+            if (resultGetMov.isFailure) {
+                val e = resultGetMov.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val roomModel = resultGetMov.getOrNull()!!
                 .entityToSharedPreferencesModel()
                 .entityToRoomModel(
@@ -170,15 +206,20 @@ class IMovChaveRepository(
                     uuid = uuid
                 )
             val resultSave = movChaveRoomDatasource.save(roomModel)
-            if (resultSave.isFailure)
-                return Result.failure(resultSave.exceptionOrNull()!!)
+            if (resultSave.isFailure) {
+                val e = resultSave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val id = resultSave.getOrNull()!!.toInt()
             if (id == 0) {
-                return Result.failure(
-                    RepositoryException(
-                        function = "IMovChaveRepository.save",
-                        cause = Exception("Id is 0")
-                    )
+                return resultFailure(
+                    context = "IMovChaveRepository.save",
+                    message = "-",
+                    cause = Exception("Id is 0")
                 )
             }
             val resultClear = movChaveSharedPreferencesDatasource.clear()
@@ -186,11 +227,10 @@ class IMovChaveRepository(
                 return Result.failure(resultClear.exceptionOrNull()!!)
             return Result.success(id)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.save",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveRepository.save",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -201,31 +241,45 @@ class IMovChaveRepository(
         token: String
     ): Result<List<MovChave>> {
         try {
-            val resultList = movChaveRetrofitDatasource.send(
+            val result = movChaveRetrofitDatasource.send(
                 list = list.map {
                     it.entityToRetrofitModelOutput(number)
                 },
                 token = token
             )
-            if (resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
-            val retrofitModelInputList = resultList.getOrNull()!!
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.send",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val retrofitModelInputList = result.getOrNull()!!
             val entityInputList = retrofitModelInputList.map {
                 it.retrofitModelInputToEntity()
             }
             return Result.success(entityInputList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.send",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveRepository.send",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun setClose(id: Int): Result<Boolean> {
-        return movChaveRoomDatasource.setClose(id)
+        val result = movChaveRoomDatasource.setClose(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovChaveRepository.setClose",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun setIdChave(
@@ -233,17 +287,26 @@ class IMovChaveRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movChaveSharedPreferencesDatasource.setIdChave(idChave)
-                FlowApp.CHANGE -> movChaveRoomDatasource.setIdChave(idChave, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.setIdChave",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movChaveSharedPreferencesDatasource.setIdChave(idChave)
+                    FlowApp.CHANGE -> movChaveRoomDatasource.setIdChave(idChave, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.setIdChave",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.setIdChave",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -253,17 +316,26 @@ class IMovChaveRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movChaveSharedPreferencesDatasource.setMatricColab(matricColab)
-                FlowApp.CHANGE -> movChaveRoomDatasource.setMatricColab(matricColab, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.setMatricColab",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movChaveSharedPreferencesDatasource.setMatricColab(matricColab)
+                    FlowApp.CHANGE -> movChaveRoomDatasource.setMatricColab(matricColab, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.setMatricColab",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.setMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -273,57 +345,97 @@ class IMovChaveRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movChaveSharedPreferencesDatasource.setObserv(observ)
-                FlowApp.CHANGE -> movChaveRoomDatasource.setObserv(observ, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.setObserv",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movChaveSharedPreferencesDatasource.setObserv(observ)
+                    FlowApp.CHANGE -> movChaveRoomDatasource.setObserv(observ, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.setObserv",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun setOutside(id: Int): Result<Boolean> {
-        return movChaveRoomDatasource.setOutside(id)
+        val result = movChaveRoomDatasource.setOutside(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovChaveRepository.setOutside",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun setSent(list: List<MovChave>): Result<Boolean> {
         try {
             for (entity in list) {
                 val result = movChaveRoomDatasource.setSent(entity.idMovChave!!)
-                if (result.isFailure)
-                    return Result.failure(result.exceptionOrNull()!!)
+                if (result.isFailure) {
+                    val e = result.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IMovChaveRepository.setSent",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.setSent",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveRepository.setSent",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun start(): Result<Boolean> {
-        return movChaveSharedPreferencesDatasource.start()
+        val result = movChaveSharedPreferencesDatasource.start()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovChaveRepository.start(INSIDE)",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun start(movChave: MovChave): Result<Boolean> {
         try {
             val sharedPreferenceModel = movChave.entityToSharedPreferencesModel()
-            return movChaveSharedPreferencesDatasource.start(sharedPreferenceModel)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IMovChaveRepository.start",
+            val result = movChaveSharedPreferencesDatasource.start(sharedPreferenceModel)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.start(OUTSIDE)",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovChaveRepository.start(OUTSIDE)",
+                message = "-",
+                cause = e
             )
         }
     }

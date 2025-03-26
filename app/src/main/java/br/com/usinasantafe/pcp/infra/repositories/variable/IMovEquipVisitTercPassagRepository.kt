@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTercPassag
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipVisitTercPassagRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTercPassagSharedPreferencesDatasource
@@ -19,27 +19,53 @@ class IMovEquipVisitTercPassagRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when(flowApp) {
+        try {
+            val result = when(flowApp) {
                 FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.add(idVisitTerc)
                 FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.add(idVisitTerc, id)
             }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipVisitTercPassagRepositoryImpl.add",
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipVisitTercPassagRepository.add",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRepository.add",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun clear(): Result<Boolean> {
-        return movEquipVisitTercPassagSharedPreferencesDatasource.clear()
+        val result = movEquipVisitTercPassagSharedPreferencesDatasource.clear()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRepository.clear",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun delete(id: Int): Result<Boolean> {
-        return movEquipVisitTercPassagRoomDatasource.delete(id)
+        val result = movEquipVisitTercPassagRoomDatasource.delete(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRepository.delete",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun delete(
@@ -47,17 +73,26 @@ class IMovEquipVisitTercPassagRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.delete(idVisitTerc)
-                FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.delete(idVisitTerc, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioPassagRepositoryImpl.delete",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.delete(idVisitTerc)
+                    FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.delete(idVisitTerc, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipVisitTercPassagRepository.delete",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRepository.delete",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -69,11 +104,17 @@ class IMovEquipVisitTercPassagRepository(
         try {
             when(flowApp) {
                 FlowApp.ADD -> {
-                    val resultList =
+                    val result =
                         movEquipVisitTercPassagSharedPreferencesDatasource.list()
-                    if(resultList.isFailure)
-                        return Result.failure(resultList.exceptionOrNull()!!)
-                    val list = resultList.getOrNull()!!
+                    if (result.isFailure) {
+                        val e = result.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IMovEquipVisitTercPassagRepository.list",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
+                    val list = result.getOrNull()!!
                     val movEquipVisitTercPassagList = list.map {
                         MovEquipVisitTercPassag(
                             idVisitTerc = it
@@ -82,21 +123,26 @@ class IMovEquipVisitTercPassagRepository(
                     return Result.success(movEquipVisitTercPassagList)
                 }
                 FlowApp.CHANGE -> {
-                    val resultList =
+                    val result =
                         movEquipVisitTercPassagRoomDatasource.list(id)
-                    if(resultList.isFailure)
-                        return Result.failure(resultList.exceptionOrNull()!!)
-                    val list = resultList.getOrNull()!!
+                    if (result.isFailure) {
+                        val e = result.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IMovEquipVisitTercPassagRepository.list",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
+                    val list = result.getOrNull()!!
                     val movEquipVisitTercPassagList = list.map { it.modelRoomToEntity() }
                     return Result.success(movEquipVisitTercPassagList)
                 }
             }
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipVisitTercPassagRepositoryImpl.list",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRepository.list",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -104,8 +150,14 @@ class IMovEquipVisitTercPassagRepository(
     override suspend fun save(id: Int): Result<Boolean> {
         try {
             val resultList = movEquipVisitTercPassagSharedPreferencesDatasource.list()
-            if(resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipVisitTercPassagRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val list = resultList.getOrNull()!!
             val modelRoomList = list.map {
                 MovEquipVisitTercPassagRoomModel(
@@ -113,16 +165,21 @@ class IMovEquipVisitTercPassagRepository(
                     idVisitTerc = it
                 )
             }
-            val result = movEquipVisitTercPassagRoomDatasource.addAll(modelRoomList)
-            if(result.isFailure)
-                return Result.failure(result.exceptionOrNull()!!)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipVisitTercPassagRepositoryImpl.save",
+            val resultAddAll = movEquipVisitTercPassagRoomDatasource.addAll(modelRoomList)
+            if (resultAddAll.isFailure) {
+                val e = resultAddAll.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipVisitTercPassagRepository.save",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipVisitTercPassagRepository.save",
+                message = "-",
+                cause = e
             )
         }
     }

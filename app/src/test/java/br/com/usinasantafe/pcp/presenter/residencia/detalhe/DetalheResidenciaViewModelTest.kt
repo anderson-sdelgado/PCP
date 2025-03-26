@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.residencia.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseMovResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetDetalheResidencia
 import br.com.usinasantafe.pcp.presenter.Args
@@ -25,12 +24,11 @@ class DetalheResidenciaViewModelTest {
     fun `Check return failure if have error in recoverDetalhe`() = runTest {
         val getDetalheResidencia = mock<GetDetalheResidencia>()
         val closeMovResidencia = mock<CloseMovResidencia>()
-        whenever(getDetalheResidencia(1)).thenReturn(
+        whenever(
+            getDetalheResidencia(1)
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverDetalheResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DetalheResidenciaViewModel(
@@ -87,12 +85,11 @@ class DetalheResidenciaViewModelTest {
     fun `Check return failure if have error in CloseMovResidenciaOpen`() = runTest {
         val getDetalheResidencia = mock<GetDetalheResidencia>()
         val closeMovResidencia = mock<CloseMovResidencia>()
-        whenever(closeMovResidencia(1)).thenReturn(
+        whenever(
+            closeMovResidencia(1)
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseMovResidenciaOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DetalheResidenciaViewModel(

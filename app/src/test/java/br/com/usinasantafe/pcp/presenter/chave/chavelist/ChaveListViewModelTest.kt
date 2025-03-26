@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.chave.chavelist
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetChaveList
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetIdChaveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
@@ -56,10 +55,7 @@ class ChaveListGetViewModelTest {
                 getChaveList()
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetChaveList",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -398,10 +394,7 @@ class ChaveListGetViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "SetIdChaveMov",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()

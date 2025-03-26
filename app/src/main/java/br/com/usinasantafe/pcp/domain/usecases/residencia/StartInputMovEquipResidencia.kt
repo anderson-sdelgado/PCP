@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 
 interface StartInputMovEquipResidencia {
@@ -14,16 +14,21 @@ class IStartInputMovEquipResidencia(
 
     override suspend fun invoke(movEquipResidencia: MovEquipResidencia?): Result<Boolean> {
         try {
-            val resultStart = movEquipResidenciaRepository.start()
-            if (resultStart.isFailure)
-                return Result.failure(resultStart.exceptionOrNull()!!)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "StartMovEquipResidenciaImpl",
-                    cause = e.cause
+            val result = movEquipResidenciaRepository.start()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartInputMovEquipResidencia",
+                    message = e.message,
+                    cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IStartInputMovEquipResidencia",
+                message = "-",
+                cause = e
             )
         }
     }

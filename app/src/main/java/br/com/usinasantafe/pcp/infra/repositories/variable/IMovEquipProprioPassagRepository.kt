@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprioPassag
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioPassagRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioPassagSharedPreferencesDatasource
@@ -19,28 +19,55 @@ class IMovEquipProprioPassagRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioPassagSharedPreferencesDatasource.add(matricColab)
-                FlowApp.CHANGE -> movEquipProprioPassagRoomDatasource.add(matricColab, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioPassagRepositoryImpl.add",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioPassagSharedPreferencesDatasource.add(matricColab)
+                    FlowApp.CHANGE -> movEquipProprioPassagRoomDatasource.add(matricColab, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioPassagRepository.add",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioPassagRepository.add",
+                message = "-",
+                cause = e
             )
         }
 
     }
 
     override suspend fun clear(): Result<Boolean> {
-        return movEquipProprioPassagSharedPreferencesDatasource.clear()
+        val result = movEquipProprioPassagSharedPreferencesDatasource.clear()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioPassagRepository.clear",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun delete(id: Int): Result<Boolean> {
-        return movEquipProprioPassagRoomDatasource.delete(id)
+        val result = movEquipProprioPassagRoomDatasource.delete(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioPassagRepository.delete",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun delete(
@@ -48,17 +75,26 @@ class IMovEquipProprioPassagRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioPassagSharedPreferencesDatasource.delete(matricColab)
-                FlowApp.CHANGE -> movEquipProprioPassagRoomDatasource.delete(matricColab, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioPassagRepositoryImpl.delete",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioPassagSharedPreferencesDatasource.delete(matricColab)
+                    FlowApp.CHANGE -> movEquipProprioPassagRoomDatasource.delete(matricColab, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioPassagRepository.delete",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioPassagRepository.delete",
+                message = "-",
+                cause = e
             )
         }
 
@@ -71,10 +107,16 @@ class IMovEquipProprioPassagRepository(
         try {
             when (flowApp) {
                 FlowApp.ADD -> {
-                    val resultList = movEquipProprioPassagSharedPreferencesDatasource.list()
-                    if (resultList.isFailure)
-                        return Result.failure(resultList.exceptionOrNull()!!)
-                    val list = resultList.getOrNull()!!
+                    val result = movEquipProprioPassagSharedPreferencesDatasource.list()
+                    if (result.isFailure) {
+                        val e = result.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IMovEquipProprioPassagRepository.list",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
+                    val list = result.getOrNull()!!
                     val movEquipProprioPassagList = list.map {
                         MovEquipProprioPassag(
                             matricColab = it
@@ -84,20 +126,25 @@ class IMovEquipProprioPassagRepository(
                 }
 
                 FlowApp.CHANGE -> {
-                    val resultList = movEquipProprioPassagRoomDatasource.list(id)
-                    if (resultList.isFailure)
-                        return Result.failure(resultList.exceptionOrNull()!!)
-                    val list = resultList.getOrNull()!!
+                    val result = movEquipProprioPassagRoomDatasource.list(id)
+                    if (result.isFailure) {
+                        val e = result.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IMovEquipProprioPassagRepository.list",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
+                    val list = result.getOrNull()!!
                     val movEquipProprioPassagList = list.map { it.modelRoomToEntity() }
                     return Result.success(movEquipProprioPassagList)
                 }
             }
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioPassagRepositoryImpl.list",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioPassagRepository.list",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -105,8 +152,14 @@ class IMovEquipProprioPassagRepository(
     override suspend fun save(id: Int): Result<Boolean> {
         try {
             val resultList = movEquipProprioPassagSharedPreferencesDatasource.list()
-            if (resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioPassagRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val list = resultList.getOrNull()!!
             val modelRoomList = list.map {
                 MovEquipProprioPassagRoomModel(
@@ -114,17 +167,22 @@ class IMovEquipProprioPassagRepository(
                     matricColab = it
                 )
             }
-            val result =
+            val resultAddAll =
                 movEquipProprioPassagRoomDatasource.addAll(modelRoomList)
-            if (result.isFailure)
-                return Result.failure(result.exceptionOrNull()!!)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioPassagRepositoryImpl.save",
+            if (resultAddAll.isFailure) {
+                val e = resultAddAll.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioPassagRepository.save",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioPassagRepository.save",
+                message = "-",
+                cause = e
             )
         }
     }

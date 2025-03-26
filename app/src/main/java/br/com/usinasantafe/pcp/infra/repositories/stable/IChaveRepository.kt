@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Chave
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ChaveRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ChaveRoomDatasource
@@ -17,30 +17,55 @@ class IChaveRepository(
     override suspend fun addAll(list: List<Chave>): Result<Boolean> {
         try {
             val roomModelList = list.map { it.entityToRoomModel() }
-            return chaveRoomDatasource.addAll(roomModelList)
-        } catch (e: Exception){
-            return Result.failure(
-                RepositoryException(
-                    function = "IChaveRepository.addAll",
+            val result = chaveRoomDatasource.addAll(roomModelList)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IChaveRepository.addAll",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "IChaveRepository.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun deleteAll(): Result<Boolean> {
-        return chaveRoomDatasource.deleteAll()
+        val result = chaveRoomDatasource.deleteAll()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IChaveRepository.deleteAll",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun get(id: Int): Result<Chave> {
-        return try {
-            chaveRoomDatasource.get(id).map { it.roomModelToEntity() }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "IChaveRepository.get",
+        try {
+            val result = chaveRoomDatasource.get(id).map { it.roomModelToEntity() }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IChaveRepository.get",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IChaveRepository.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -48,34 +73,43 @@ class IChaveRepository(
     override suspend fun listAll(): Result<List<Chave>> {
         try {
             val resultRoomList = chaveRoomDatasource.listAll()
-            if (resultRoomList.isFailure){
-                return Result.failure(resultRoomList.exceptionOrNull()!!)
+            if (resultRoomList.isFailure) {
+                val e = resultRoomList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IChaveRepository.listAll",
+                    message = e.message,
+                    cause = e
+                )
             }
             val entityList = resultRoomList.getOrNull()!!.map { it.roomModelToEntity() }
             return Result.success(entityList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "IChaveRepository.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IChaveRepository.listAll",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun recoverAll(token: String): Result<List<Chave>> {
         try {
-            val resultRecoverAll = chaveRetrofitDatasource.recoverAll(token)
-            if (resultRecoverAll.isFailure)
-                return Result.failure(resultRecoverAll.exceptionOrNull()!!)
-            val entityList = resultRecoverAll.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "FluxoRepositoryImpl.recoverAll",
+            val result = chaveRetrofitDatasource.recoverAll(token)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IChaveRepository.recoverAll",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
+            return Result.success(entityList)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IChaveRepository.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

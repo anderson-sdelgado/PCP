@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.tipo
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetTipoVisitTerc
 import br.com.usinasantafe.pcp.utils.TypeVisitTerc
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,12 +22,11 @@ class TipoVisitTercViewModelTest {
     @Test
     fun `Check return failure if have error on set type visit terc`() = runTest {
         val setTipoVisitTerc = mock<SetTipoVisitTerc>()
-        whenever(setTipoVisitTerc(TypeVisitTerc.TERCEIRO)).thenReturn(
+        whenever(
+            setTipoVisitTerc(TypeVisitTerc.TERCEIRO)
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetTipoVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = TipoVisitTercViewModel(setTipoVisitTerc)

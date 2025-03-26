@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.EquipDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.EquipRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
@@ -14,11 +14,10 @@ class IEquipRoomDatasource(
             equipDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "EquipRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IEquipRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -28,11 +27,10 @@ class IEquipRoomDatasource(
             val result = equipDao.checkNro(nroEquip) > 0
             return Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "EquipRoomDatasourceImpl.checkNro",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IEquipRoomDatasource.checkNro",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -42,11 +40,10 @@ class IEquipRoomDatasource(
             val result = equipDao.get(idEquip)
             Result.success(result)
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "EquipRoomDatasourceImpl.getNro",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IEquipRoomDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -55,11 +52,10 @@ class IEquipRoomDatasource(
         return try {
             Result.success(equipDao.getId(nroEquip))
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "EquipRoomDatasourceImpl.getNro",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IEquipRoomDatasource.getId",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -69,11 +65,10 @@ class IEquipRoomDatasource(
             val result = equipDao.getNro(idEquip)
             Result.success(result)
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "EquipRoomDatasourceImpl.getNro",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IEquipRoomDatasource.getNro",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -83,11 +78,10 @@ class IEquipRoomDatasource(
             equipDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "EquipRoomDatasourceImpl.deleteAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IEquipRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }

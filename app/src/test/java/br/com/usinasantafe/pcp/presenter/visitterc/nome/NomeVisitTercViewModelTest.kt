@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.nome
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetNomeVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetIdVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
@@ -36,10 +35,7 @@ class NomeVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetNomeVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NomeVisitTercViewModel(
@@ -113,10 +109,7 @@ class NomeVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetCpfVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = NomeVisitTercViewModel(

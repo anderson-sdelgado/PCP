@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
@@ -29,38 +29,67 @@ class ISaveMovChave(
             var uuidString = uuid.toString()
             if (typeMov == TypeMovKey.RECEIPT) {
                 val resultClose = movChaveRepository.setOutside(id)
-                if (resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISaveMovChave",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 val resultGet = movChaveRepository.get(id)
-                if (resultGet.isFailure)
-                    return Result.failure(resultGet.exceptionOrNull()!!)
+                if (resultGet.isFailure) {
+                    val e = resultGet.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISaveMovChave",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 uuidString = resultGet.getOrNull()!!.uuidMainMovChave!!
             }
             val resultConfig = configRepository.getConfig()
-            if (resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovChave",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val config = resultConfig.getOrNull()!!
             val resultSave = movChaveRepository.save(
                 config.matricVigia!!,
                 config.idLocal!!,
                 uuidString
             )
-            if(resultSave.isFailure)
-                return Result.failure(resultSave.exceptionOrNull()!!)
+            if (resultSave.isFailure) {
+                val e = resultSave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovChave",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val idSave = resultSave.getOrNull()!!
             if (typeMov == TypeMovKey.RECEIPT) {
                 val resultClose = movChaveRepository.setOutside(idSave)
-                if (resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISaveMovChave",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             startProcessSendData()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SaveMovChaveImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISaveMovChave",
+                message = "-",
+                cause = e
             )
         }
     }

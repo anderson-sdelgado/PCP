@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTercSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC
@@ -22,11 +22,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.clear",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -44,11 +43,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
                 )
             )
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -63,11 +61,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTerc)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.setDestino",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.setDestino",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -82,11 +79,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTerc)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.setIdVisitTerc",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.setIdVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -101,11 +97,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTerc)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.setObserv",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -120,11 +115,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTerc)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.setPlaca",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.setPlaca",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -139,11 +133,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTerc)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.setTipo",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -158,11 +151,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTerc)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.setVeiculo",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.setVeiculo",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -174,11 +166,10 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
             save(movEquipVisitTercSharedPreferencesModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipVisitTercSharedPreferencesDatasourceImpl.start",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipVisitTercSharedPreferencesDatasource.start",
+                message = "-",
+                cause = e
             )
         }
     }

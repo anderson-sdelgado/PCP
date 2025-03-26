@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.nroequip
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNroEquipProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetIdEquipProprio
@@ -97,10 +96,7 @@ class NroEquipProprioViewModelTest {
             checkNroEquip("100")
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CheckEquipProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -185,10 +181,7 @@ class NroEquipProprioViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetEquipProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(

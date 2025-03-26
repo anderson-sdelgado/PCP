@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 
 interface CheckSendMovProprio {
@@ -11,7 +12,16 @@ class ICheckSendMovProprio(
 ): CheckSendMovProprio {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movEquipProprioRepository.checkSend()
+        val result = movEquipProprioRepository.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICheckSendMovProprio",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

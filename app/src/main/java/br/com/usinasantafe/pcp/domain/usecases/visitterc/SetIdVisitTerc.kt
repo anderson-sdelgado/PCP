@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
@@ -38,16 +38,28 @@ class ISetIdVisitTerc(
                 flowApp = flowApp,
                 id = id
             )
-            if (resultGetType.isFailure)
-                return Result.failure(resultGetType.exceptionOrNull()!!)
+            if (resultGetType.isFailure) {
+                val e = resultGetType.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetIdVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val typeVisitTerc = resultGetType.getOrNull()!!
-            val resultId = when (typeVisitTerc) {
+            val resultGetId = when (typeVisitTerc) {
                 TypeVisitTerc.VISITANTE -> visitanteRepository.getId(cpf)
                 TypeVisitTerc.TERCEIRO -> terceiroRepository.getId(cpf)
             }
-            if (resultId.isFailure)
-                return Result.failure(resultId.exceptionOrNull()!!)
-            val idVisitTerc = resultId.getOrNull()!!
+            if (resultGetId.isFailure) {
+                val e = resultGetType.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetIdVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val idVisitTerc = resultGetId.getOrNull()!!
             when (typeOcupante) {
                 TypeOcupante.MOTORISTA -> {
                     val resultSet = movEquipVisitTercRepository.setIdVisitTerc(
@@ -55,8 +67,14 @@ class ISetIdVisitTerc(
                         flowApp = flowApp,
                         id = id
                     )
-                    if (resultSet.isFailure)
-                        return Result.failure(resultSet.exceptionOrNull()!!)
+                    if (resultSet.isFailure) {
+                        val e = resultSet.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "ISetIdVisitTerc",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                 }
                 TypeOcupante.PASSAGEIRO -> {
                     val resultAdd = movEquipVisitTercPassagRepository.add(
@@ -64,12 +82,24 @@ class ISetIdVisitTerc(
                         flowApp = flowApp,
                         id = id
                     )
-                    if (resultAdd.isFailure)
-                        return Result.failure(resultAdd.exceptionOrNull()!!)
+                    if (resultAdd.isFailure) {
+                        val e = resultAdd.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "ISetIdVisitTerc",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                     if(flowApp == FlowApp.CHANGE){
                         val resultSend = movEquipVisitTercRepository.setSend(id)
-                        if (resultSend.isFailure)
-                            return Result.failure(resultSend.exceptionOrNull()!!)
+                        if (resultSend.isFailure) {
+                            val e = resultSend.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "ISetIdVisitTerc",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                     }
                 }
             }
@@ -77,11 +107,10 @@ class ISetIdVisitTerc(
                 startProcessSendData()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SetIdVisitTerc",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISetIdVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }

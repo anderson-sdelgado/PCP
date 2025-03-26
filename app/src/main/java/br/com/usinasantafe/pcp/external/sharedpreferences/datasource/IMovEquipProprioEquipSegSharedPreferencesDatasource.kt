@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioEquipSegSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG
 import com.google.gson.Gson
@@ -29,11 +29,10 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasource(
             mutableList.clear()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegSharedPreferencesDatasource.add",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegSharedPreferencesDatasource.add",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -45,11 +44,10 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegSharedPreferencesDatasource.clear",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -66,11 +64,10 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegSharedPreferencesDatasource.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegSharedPreferencesDatasource.delete",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -82,11 +79,10 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasource(
                 return Result.success(Gson().fromJson(result, typeToken))
             return Result.success(emptyList())
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegSharedPreferencesDatasource.list",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegSharedPreferencesDatasource.list",
+                message = "-",
+                cause = e
             )
         }
     }

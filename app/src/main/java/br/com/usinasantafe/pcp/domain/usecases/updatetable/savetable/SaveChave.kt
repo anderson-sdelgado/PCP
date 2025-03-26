@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Chave
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 
 interface SaveChave {
@@ -12,7 +13,16 @@ class ISaveChave(
 ): SaveChave {
 
     override suspend fun invoke(list: List<Chave>): Result<Boolean> {
-        return chaveRepository.addAll(list)
+        val result = chaveRepository.addAll(list)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ISaveChave",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

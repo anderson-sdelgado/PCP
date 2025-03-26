@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.config
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 
 interface SetIdLocalConfig {
@@ -13,13 +13,21 @@ class ISetIdLocalConfig(
 
     override suspend fun invoke(idLocal: Int): Result<Boolean> {
         try {
-            return configRepository.setIdLocal(idLocal)
-        } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "SetIdLocalConfig",
+            val result = configRepository.setIdLocal(idLocal)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetIdLocalConfig",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "ISetIdLocalConfig",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,8 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.movlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetMovEquipVisitTercInsideList
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.StartInputMovEquipVisitTerc
@@ -33,10 +31,7 @@ class MovEquipVisitTercListViewModelTest {
             getHeader()
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferences.hasConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipVisitTercListViewModel(
@@ -83,12 +78,11 @@ class MovEquipVisitTercListViewModelTest {
         val getHeader = mock<GetHeader>()
         val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
         val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
-        whenever(getMovEquipVisitTercInsideList()).thenReturn(
+        whenever(
+            getMovEquipVisitTercInsideList()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetMovEquipVisitTercInputOpenList",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipVisitTercListViewModel(
@@ -109,7 +103,9 @@ class MovEquipVisitTercListViewModelTest {
         val getHeader = mock<GetHeader>()
         val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
         val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
-        whenever(getMovEquipVisitTercInsideList()).thenReturn(
+        whenever(
+            getMovEquipVisitTercInsideList()
+        ).thenReturn(
             Result.success(
                 listOf(
                     MovEquipVisitTercModel(
@@ -141,12 +137,11 @@ class MovEquipVisitTercListViewModelTest {
         val getHeader = mock<GetHeader>()
         val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
         val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
-        whenever(startInputMovEquipVisitTerc()).thenReturn(
+        whenever(
+            startInputMovEquipVisitTerc()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "StartMovEquipVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipVisitTercListViewModel(
@@ -167,7 +162,9 @@ class MovEquipVisitTercListViewModelTest {
         val getHeader = mock<GetHeader>()
         val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
         val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
-        whenever(startInputMovEquipVisitTerc()).thenReturn(
+        whenever(
+            startInputMovEquipVisitTerc()
+        ).thenReturn(
             Result.success(true)
         )
         val viewModel = MovEquipVisitTercListViewModel(

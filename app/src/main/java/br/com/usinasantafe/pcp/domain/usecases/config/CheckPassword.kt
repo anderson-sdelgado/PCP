@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.config
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 
 interface CheckPassword {
     suspend operator fun invoke(password: String): Result<Boolean>
@@ -13,29 +13,34 @@ class ICheckPassword(
 
     override suspend fun invoke(password: String): Result<Boolean> {
         try {
-            val checkHasConfig = configRepository.hasConfig()
-
-            if(checkHasConfig.isFailure)
-                return Result.failure(checkHasConfig.exceptionOrNull()!!)
-
-            if (!checkHasConfig.getOrNull()!!)
-                return Result.success(true)
-
-            val passwordBD = configRepository.getPassword()
-            if(passwordBD.isFailure)
-                return Result.failure(passwordBD.exceptionOrNull()!!)
-
-            if (passwordBD.getOrNull() == password)
-                return Result.success(true)
-
-            return Result.success(false)
-
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "CheckPasswordConfig",
+            val resultCheckHasConfig = configRepository.hasConfig()
+            if (resultCheckHasConfig.isFailure) {
+                val e = resultCheckHasConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICheckPassword",
+                    message = e.message,
                     cause = e
                 )
+            }
+            if (!resultCheckHasConfig.getOrNull()!!)
+                return Result.success(true)
+            val resultPasswordBD = configRepository.getPassword()
+            if (resultPasswordBD.isFailure) {
+                val e = resultPasswordBD.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICheckPassword",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            if (resultPasswordBD.getOrNull() == password)
+                return Result.success(true)
+            return Result.success(false)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ICheckPassword",
+                message = "-",
+                cause = e
             )
         }
     }

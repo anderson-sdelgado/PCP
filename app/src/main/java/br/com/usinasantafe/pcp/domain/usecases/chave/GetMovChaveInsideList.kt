@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.presenter.chave.model.ControleChaveModel
@@ -20,16 +20,34 @@ class IGetMovChaveInsideList(
     override suspend fun invoke(): Result<List<ControleChaveModel>> {
         try {
             val resultList = movChaveRepository.listInside()
-            if (resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetMovChaveInsideList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val entityList = resultList.getOrNull()!!.map {
                 val resultNomeColab = colabRepository.getNome(it.matricColabMovChave!!)
-                if (resultNomeColab.isFailure)
-                    return Result.failure(resultNomeColab.exceptionOrNull()!!)
+                if (resultNomeColab.isFailure) {
+                    val e = resultNomeColab.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetMovChaveInsideList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 val nomeColab = resultNomeColab.getOrNull()!!
                 val resultGetDescrFullChave = getDescrFullChave(it.idChaveMovChave!!)
-                if (resultGetDescrFullChave.isFailure)
-                    return Result.failure(resultGetDescrFullChave.exceptionOrNull()!!)
+                if (resultGetDescrFullChave.isFailure) {
+                    val e = resultGetDescrFullChave.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetMovChaveInsideList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 val descrFullChave = resultGetDescrFullChave.getOrNull()!!
                 ControleChaveModel(
                     id = it.idMovChave!!,
@@ -43,11 +61,10 @@ class IGetMovChaveInsideList(
             }
             return Result.success(entityList)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "IGetMovChaveInsideList",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetMovChaveInsideList",
+                message = "-",
+                cause = e
             )
         }
     }

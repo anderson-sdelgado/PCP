@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.initial
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 
@@ -15,20 +15,31 @@ class IGetNomeVigia(
 
     override suspend fun invoke(): Result<String> {
         try {
-            val resultConfig = configRepository.getConfig()
-            if (resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
-            val matric = resultConfig.getOrNull()!!.matricVigia!!
-            val resultNome = colabRepository.getNome(matric)
-            if (resultNome.isFailure)
-                return Result.failure(resultNome.exceptionOrNull()!!)
-            return Result.success(resultNome.getOrNull()!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "RecoverNomeVigia",
+            val resultGetConfig = configRepository.getConfig()
+            if (resultGetConfig.isFailure) {
+                val e = resultGetConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetNomeVigia",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val matric = resultGetConfig.getOrNull()!!.matricVigia!!
+            val resultGetNome = colabRepository.getNome(matric)
+            if (resultGetNome.isFailure) {
+                val e = resultGetNome.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetNomeVigia",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            return Result.success(resultGetNome.getOrNull()!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IGetNomeVigia",
+                message = "-",
+                cause = e
             )
         }
     }

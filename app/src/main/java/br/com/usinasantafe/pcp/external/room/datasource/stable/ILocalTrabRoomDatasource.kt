@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalTrabDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalTrabRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalTrabRoomModel
@@ -14,11 +14,10 @@ class ILocalTrabRoomDatasource(
             localTrabDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ILocalTrabRoomDatasource.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalTrabRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -28,11 +27,10 @@ class ILocalTrabRoomDatasource(
             localTrabDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ILocalTrabRoomDatasource.deleteAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalTrabRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -42,11 +40,10 @@ class ILocalTrabRoomDatasource(
             val model = localTrabDao.get(id)
             return Result.success(model.descrLocalTrab)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ILocalTrabRoomDatasource.getDescr",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalTrabRoomDatasource.getDescr",
+                message = "-",
+                cause = e
             )
         }
     }

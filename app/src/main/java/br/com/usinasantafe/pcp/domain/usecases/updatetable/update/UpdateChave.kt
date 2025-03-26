@@ -39,7 +39,7 @@ class IUpdateChave(
         if (resultRecover.isFailure) {
             val error = resultRecover.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "IUpdateChave -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -62,7 +62,7 @@ class IUpdateChave(
         val resultClean = cleanChave()
         if (resultClean.isFailure) {
             val error = resultClean.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateChave -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -86,7 +86,7 @@ class IUpdateChave(
         val resultSave = saveChave(list)
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateChave -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,

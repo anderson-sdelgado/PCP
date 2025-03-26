@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipProprioEquipSegDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioEquipSegRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioEquipSegRoomModel
@@ -19,11 +19,10 @@ class IMovEquipProprioEquipSegRoomDatasource(
             )
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegRoomDatasourceImpl.add",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegRoomDatasource.add",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -33,11 +32,10 @@ class IMovEquipProprioEquipSegRoomDatasource(
             movEquipProprioEquipSegDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -50,11 +48,10 @@ class IMovEquipProprioEquipSegRoomDatasource(
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioPassagRoomDatasourceImpl.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegRoomDatasource.delete(id)",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -65,11 +62,10 @@ class IMovEquipProprioEquipSegRoomDatasource(
             movEquipProprioEquipSegDao.delete(mov)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegRoomDatasourceImpl.delete",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegRoomDatasource.delete(idEquip, id)",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -78,11 +74,10 @@ class IMovEquipProprioEquipSegRoomDatasource(
         return try {
             Result.success(movEquipProprioEquipSegDao.list(id))
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioEquipSegRoomDatasourceImpl.list",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioEquipSegRoomDatasource.list",
+                message = "-",
+                cause = e
             )
         }
     }

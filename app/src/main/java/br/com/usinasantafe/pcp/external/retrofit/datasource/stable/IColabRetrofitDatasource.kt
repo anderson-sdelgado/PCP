@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.retrofit.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.ColabApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ColabRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.ColabRetrofitModel
@@ -14,11 +14,10 @@ class IColabRetrofitDatasource(
             val response = colabApi.all(token)
             return Result.success(response.body()!!)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "ColabRetrofitDatasourceImpl.recoverAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IColabRetrofitDatasource.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -2,8 +2,6 @@ package br.com.usinasantafe.pcp.presenter.initial.menuapont
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Fluxo
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.common.CloseAllMov
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
@@ -38,12 +36,11 @@ class MenuApontViewModelTest {
 
     @Test
     fun `Check return failure if recoverHeader have failure`() = runTest {
-        whenever(getHeader()).thenReturn(
+        whenever(
+            getHeader()
+        ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferences.hasConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -60,12 +57,11 @@ class MenuApontViewModelTest {
 
     @Test
     fun `Check return failure if closeAllMovOpen have failure`() = runTest {
-        whenever(closeAllMov()).thenReturn(
+        whenever(
+            closeAllMov()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseAllMovOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel()
@@ -106,10 +102,7 @@ class MenuApontViewModelTest {
                 getFlowList()
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetFlowList",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()

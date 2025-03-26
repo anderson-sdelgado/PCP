@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.residencia.placa
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetPlacaResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.SetPlacaResidencia
 import br.com.usinasantafe.pcp.presenter.Args
@@ -52,10 +51,7 @@ class PlacaResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetPlacaResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PlacaResidenciaViewModel(
@@ -115,10 +111,7 @@ class PlacaResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetPlacaResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PlacaResidenciaViewModel(

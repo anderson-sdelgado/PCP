@@ -1,8 +1,8 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalRepository
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.LocalRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
@@ -17,56 +17,92 @@ class ILocalRepository(
     override suspend fun addAll(list: List<Local>): Result<Boolean> {
         try {
             val localModelList = list.map { it.entityToRoomModel() }
-            return localRoomDatasource.addAll(localModelList)
-        } catch (e: Exception){
-            return Result.failure(
-                RepositoryException(
-                    function = "LocalRepositoryImpl.addAll",
+            val result = localRoomDatasource.addAll(localModelList)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ILocalRepository.add",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "ILocalRepository.add",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun deleteAll(): Result<Boolean> {
-        return localRoomDatasource.deleteAll()
+        val result = localRoomDatasource.deleteAll()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ILocalRepository.deleteAll",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun list(): Result<List<Local>> {
         try{
-            val resultAll = localRoomDatasource.listAll()
-            if (resultAll.isFailure)
-                return Result.failure(resultAll.exceptionOrNull()!!)
-            val localRoomModels = resultAll.getOrNull()!!
+            val result = localRoomDatasource.listAll()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ILocalRepository.list",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val localRoomModels = result.getOrNull()!!
             val locals = localRoomModels.map { it.roomModelToEntity() }
             return Result.success(locals)
         } catch (e: Exception){
-            return Result.failure(
-                RepositoryException(
-                    function = "LocalRepositoryImpl.getAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalRepository.list",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getDescr(id: Int): Result<String> {
-        return localRoomDatasource.getDescr(id)
+        val result = localRoomDatasource.getDescr(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ILocalRepository.getDescr",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun recoverAll(token: String): Result<List<Local>> {
         try {
-            val recoverAll = localRetrofitDatasource.recoverAll(token)
-            if (recoverAll.isFailure)
-                return Result.failure(recoverAll.exceptionOrNull()!!)
-            val entityList = recoverAll.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "LocalRepositoryImpl.recoverAll",
+            val result = localRetrofitDatasource.recoverAll(token)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ILocalRepository.recoverAll",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
+            return Result.success(entityList)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ILocalRepository.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

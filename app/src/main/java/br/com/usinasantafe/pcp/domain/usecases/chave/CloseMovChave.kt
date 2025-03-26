@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 
 interface CloseMovChave {
@@ -11,7 +12,16 @@ class ICloseMovChave(
 ): CloseMovChave {
 
     override suspend fun invoke(id: Int): Result<Boolean> {
-        return movChaveRepository.setClose(id)
+        val result = movChaveRepository.setClose(id)
+        if (result.isFailure){
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICloseMovChave",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
@@ -23,29 +23,53 @@ class ISendMovProprioList(
     override suspend fun invoke(): Result<List<MovEquipProprio>> {
         try {
             val resultListSend = movEquipProprioRepository.listSend()
-            if (resultListSend.isFailure)
-                return Result.failure(resultListSend.exceptionOrNull()!!)
+            if (resultListSend.isFailure) {
+                val e = resultListSend.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovProprioList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val listSend = resultListSend.getOrNull()!!
             val listSendFull = listSend.map { entity ->
                 val resultListEquipSeg = movEquipProprioEquipSegRepository.list(
                     FlowApp.CHANGE,
                     entity.idMovEquipProprio!!
                 )
-                if (resultListEquipSeg.isFailure)
-                    return Result.failure(resultListEquipSeg.exceptionOrNull()!!)
+                if (resultListEquipSeg.isFailure) {
+                    val e = resultListEquipSeg.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISendMovProprioList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 entity.movEquipProprioEquipSegList = resultListEquipSeg.getOrNull()!!
                 val resultListPassag = movEquipProprioPassagRepository.list(
                     FlowApp.CHANGE,
                     entity.idMovEquipProprio!!
                 )
-                if (resultListPassag.isFailure)
-                    return Result.failure(resultListPassag.exceptionOrNull()!!)
+                if (resultListPassag.isFailure) {
+                    val e = resultListPassag.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISendMovProprioList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 entity.movEquipProprioPassagList = resultListPassag.getOrNull()!!
                 return@map entity
             }
             val resultConfig = configRepository.getConfig()
-            if (resultConfig.isFailure)
-                return Result.failure(resultConfig.exceptionOrNull()!!)
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovProprioList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val config = resultConfig.getOrNull()!!
             val token = token(
                 number = config.number!!,
@@ -57,15 +81,20 @@ class ISendMovProprioList(
                 number = config.number!!,
                 token = token
             )
-            if (resultSend.isFailure)
-                return Result.failure(resultSend.exceptionOrNull()!!)
-            return Result.success(resultSend.getOrNull()!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SendMovProprioListImpl",
+            if (resultSend.isFailure) {
+                val e = resultSend.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISendMovProprioList",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(resultSend.getOrNull()!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ISendMovProprioList",
+                message = "-",
+                cause = e
             )
         }
     }

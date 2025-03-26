@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.FluxoDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.FluxoRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.FluxoRoomModel
@@ -14,11 +14,10 @@ class IFluxoRoomDatasource(
             fluxoDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "FluxoRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IFluxoRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -28,11 +27,10 @@ class IFluxoRoomDatasource(
             fluxoDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "FluxoRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IFluxoRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -43,11 +41,10 @@ class IFluxoRoomDatasource(
                 fluxoDao.get(id)
             )
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "FluxoRoomDatasourceImpl.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IFluxoRoomDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }

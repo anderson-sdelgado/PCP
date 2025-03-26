@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chaveequip
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.FlowApp
@@ -29,17 +29,22 @@ class ISetObservMovChaveEquip(
                 flowApp = flowApp,
                 id = id
             )
-            if (resultSet.isFailure)
-                return Result.failure(resultSet.exceptionOrNull()!!)
+            if (resultSet.isFailure) {
+                val e = resultSet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetObservMovChaveEquip",
+                    message = e.message,
+                    cause = e
+                )
+            }
             if(flowApp == FlowApp.CHANGE)
                 startProcessSendData()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "ISetObservMovChaveEquip",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISetObservMovChaveEquip",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.presenter.residencia.detalhe.DetalheResidenciaModel
 import java.text.SimpleDateFormat
@@ -21,8 +21,14 @@ class IGetDetalheResidencia(
     ): Result<DetalheResidenciaModel> {
         try {
             val resultGet = movEquipResidenciaRepository.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure) {
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheResidencia",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val mov = resultGet.getOrNull()!!
             val dthr = SimpleDateFormat(
                 "dd/MM/yyyy HH:mm",
@@ -41,11 +47,10 @@ class IGetDetalheResidencia(
                 )
             )
         } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "GetDetalheResidenciaImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetDetalheResidencia",
+                message = "-",
+                cause = e
             )
         }
 

@@ -1,8 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.proprio.movlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.proprio.CloseAllMovProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetMovEquipProprioOpenList
@@ -31,12 +29,11 @@ class MovEquipProprioViewModelTest {
         val startMovEquipProprio = mock<StartMovEquipProprio>()
         val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
         val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(getHeader()).thenReturn(
+        whenever(
+            getHeader()
+        ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferences.hasConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipProprioListViewModel(
@@ -84,12 +81,13 @@ class MovEquipProprioViewModelTest {
         val startMovEquipProprio = mock<StartMovEquipProprio>()
         val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
         val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(startMovEquipProprio(typeMov = TypeMovEquip.INPUT)).thenReturn(
+        whenever(
+            startMovEquipProprio(
+                typeMov = TypeMovEquip.INPUT
+            )
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "StartMovEquipProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipProprioListViewModel(
@@ -132,12 +130,11 @@ class MovEquipProprioViewModelTest {
         val startMovEquipProprio = mock<StartMovEquipProprio>()
         val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
         val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(getMovEquipProprioOpenList()).thenReturn(
+        whenever(
+            getMovEquipProprioOpenList()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverMovEquipProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipProprioListViewModel(
@@ -210,12 +207,11 @@ class MovEquipProprioViewModelTest {
         val startMovEquipProprio = mock<StartMovEquipProprio>()
         val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
         val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(closeAllMovProprio()).thenReturn(
+        whenever(
+            closeAllMovProprio()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseAllMovProprioOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipProprioListViewModel(

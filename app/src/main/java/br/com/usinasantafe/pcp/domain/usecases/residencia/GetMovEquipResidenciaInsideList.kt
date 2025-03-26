@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.presenter.residencia.model.MovEquipResidenciaModel
 import java.text.SimpleDateFormat
@@ -17,8 +17,14 @@ class IGetMovEquipResidenciaInsideList(
     override suspend fun invoke(): Result<List<MovEquipResidenciaModel>> {
         try {
             val resultList = movEquipResidenciaRepository.listInside()
-            if(resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetMovEquipResidenciaInsideList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val list = resultList.getOrNull()!!
             val modelList = list.map {
                 MovEquipResidenciaModel(
@@ -34,11 +40,10 @@ class IGetMovEquipResidenciaInsideList(
             }
             return Result.success(modelList)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetMovEquipResidenciaInputOpenListImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetMovEquipResidenciaInsideList",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
@@ -32,8 +32,14 @@ class ISetIdEquipProprio(
     ): Result<Boolean> {
         try {
             val resultId = equipRepository.getId(nroEquip.toLong())
-            if (resultId.isFailure)
-                return Result.failure(resultId.exceptionOrNull()!!)
+            if (resultId.isFailure) {
+                val e = resultId.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetIdEquipProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val idEquip = resultId.getOrNull()!!
             when (typeEquip) {
                 TypeEquip.VEICULO -> {
@@ -42,8 +48,14 @@ class ISetIdEquipProprio(
                         flowApp = flowApp,
                         id = id
                     )
-                    if (resultSet.isFailure)
-                        return Result.failure(resultSet.exceptionOrNull()!!)
+                    if (resultSet.isFailure) {
+                        val e = resultId.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "ISetIdEquipProprio",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                 }
 
                 TypeEquip.VEICULOSEG -> {
@@ -52,12 +64,24 @@ class ISetIdEquipProprio(
                         flowApp = flowApp,
                         id = id
                     )
-                    if (resultAdd.isFailure)
-                        return Result.failure(resultAdd.exceptionOrNull()!!)
+                    if (resultAdd.isFailure) {
+                        val e = resultAdd.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "ISetIdEquipProprio",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                     if(flowApp == FlowApp.CHANGE) {
                         val resultSend = movEquipProprioRepository.setSend(id)
-                        if (resultSend.isFailure)
-                            return Result.failure(resultSend.exceptionOrNull()!!)
+                        if (resultSend.isFailure) {
+                            val e = resultSend.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "ISetIdEquipProprio",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                     }
                 }
             }
@@ -66,11 +90,10 @@ class ISetIdEquipProprio(
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SetNroEquipProprio",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISetIdEquipProprio",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 import br.com.usinasantafe.pcp.utils.FlowApp
@@ -24,22 +24,33 @@ class IGetEquipSegList(
     ): Result<List<Equip>> {
         try {
             val resultList = movEquipProprioEquipSegRepository.list(flowApp, id)
-            if (resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetEquipSegList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val equipList = resultList.getOrNull()!!
             val equipSegList = equipList.map {
                 val resultNroEquip = equipRepository.get(it.idEquip!!)
-                if (resultNroEquip.isFailure)
-                    return Result.failure(resultNroEquip.exceptionOrNull()!!)
+                if (resultNroEquip.isFailure) {
+                    val e = resultNroEquip.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetEquipSegList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 return@map resultNroEquip.getOrNull()!!
             }
             return Result.success(equipSegList)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "RecoverEquipSeg",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetEquipSegList",
+                message = "-",
+                cause = e
             )
         }
     }

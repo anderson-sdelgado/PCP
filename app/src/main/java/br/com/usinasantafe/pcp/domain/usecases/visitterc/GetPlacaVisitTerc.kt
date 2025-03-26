@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 
 interface GetPlacaVisitTerc {
@@ -15,7 +16,16 @@ class IGetPlacaVisitTerc(
     override suspend fun invoke(
         id: Int
     ): Result<String> {
-        return movEquipVisitTercRepository.getPlaca(id = id)
+        val result = movEquipVisitTercRepository.getPlaca(id = id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IGetPlacaVisitTerc",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

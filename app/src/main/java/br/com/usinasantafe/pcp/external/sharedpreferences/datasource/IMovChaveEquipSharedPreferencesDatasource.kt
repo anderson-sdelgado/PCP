@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovChaveEquipSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveEquipSharedPreferencesModel
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE_EQUIP
@@ -21,11 +21,10 @@ class IMovChaveEquipSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipSharedPreferencesDatasource.clear",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -43,11 +42,10 @@ class IMovChaveEquipSharedPreferencesDatasource(
                 )
             )
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipSharedPreferencesDatasource.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipSharedPreferencesDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -62,11 +60,10 @@ class IMovChaveEquipSharedPreferencesDatasource(
             save(movChave)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipSharedPreferencesDatasource.setIdEquip",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipSharedPreferencesDatasource.setIdEquip",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -81,11 +78,10 @@ class IMovChaveEquipSharedPreferencesDatasource(
             save(movChave)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipSharedPreferencesDatasource.setMatricColab",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipSharedPreferencesDatasource.setMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -100,11 +96,10 @@ class IMovChaveEquipSharedPreferencesDatasource(
             save(movChave)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipSharedPreferencesDatasource.setMatricColab",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipSharedPreferencesDatasource.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -114,11 +109,10 @@ class IMovChaveEquipSharedPreferencesDatasource(
             save(movChaveSharedPreferencesModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "IMovChaveEquipSharedPreferencesDatasource.start",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovChaveEquipSharedPreferencesDatasource.start",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 
 interface CleanEquipSeg {
@@ -11,7 +12,16 @@ class ICleanEquipSeg(
 ): CleanEquipSeg {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movEquipProprioEquipSegRepository.clear()
+        val result = movEquipProprioEquipSegRepository.clear()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICleanEquipSeg",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

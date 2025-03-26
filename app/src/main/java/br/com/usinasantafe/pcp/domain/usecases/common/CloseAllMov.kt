@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
@@ -22,57 +22,116 @@ class ICloseAllMov(
     override suspend fun invoke(): Result<Boolean> {
         try {
             val resultProprioList = movEquipProprioRepository.listOpen()
-            if(resultProprioList.isFailure)
-                return Result.failure(resultProprioList.exceptionOrNull()!!)
+            if (resultProprioList.isFailure) {
+                val e = resultProprioList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMov",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movEquipProprioList = resultProprioList.getOrNull()!!
             for(movEquipProprio in movEquipProprioList){
                 val resultClose = movEquipProprioRepository.setClose(movEquipProprio.idMovEquipProprio!!)
-                if(resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMov",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             val resultVisitTercList = movEquipVisitTercRepository.listOpen()
-            if(resultVisitTercList.isFailure)
-                return Result.failure(resultVisitTercList.exceptionOrNull()!!)
+            if (resultVisitTercList.isFailure) {
+                val e = resultVisitTercList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMov",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movEquipVisitTercList = resultVisitTercList.getOrNull()!!
             for(movEquipVisitTerc in movEquipVisitTercList){
                 val resultClose = movEquipVisitTercRepository.setClose(movEquipVisitTerc.idMovEquipVisitTerc!!)
-                if(resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMov",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             val resultResidenciaList = movEquipResidenciaRepository.listOpen()
-            if(resultResidenciaList.isFailure)
-                return Result.failure(resultResidenciaList.exceptionOrNull()!!)
+            if (resultResidenciaList.isFailure) {
+                val e = resultResidenciaList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMov",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movEquipResidenciaList = resultResidenciaList.getOrNull()!!
             for(movEquipResidencia in movEquipResidenciaList){
                 val resultClose = movEquipResidenciaRepository.setClose(movEquipResidencia.idMovEquipResidencia!!)
-                if(resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMov",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             val resultChaveList = movChaveRepository.listOpen()
-            if(resultChaveList.isFailure)
-                return Result.failure(resultChaveList.exceptionOrNull()!!)
+            if (resultChaveList.isFailure) {
+                val e = resultChaveList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMov",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movChaveList = resultChaveList.getOrNull()!!
             for(movChave in movChaveList){
                 val resultClose = movChaveRepository.setClose(movChave.idMovChave!!)
-                if(resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMov",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             val resultChaveEquipList = movChaveEquipRepository.listOpen()
-            if(resultChaveEquipList.isFailure)
-                return Result.failure(resultChaveEquipList.exceptionOrNull()!!)
+            if (resultChaveEquipList.isFailure) {
+                val e = resultChaveEquipList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMov",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movChaveEquipList = resultChaveEquipList.getOrNull()!!
             for(movChaveEquip in movChaveEquipList){
                 val resultClose = movChaveEquipRepository.setClose(movChaveEquip.idMovChaveEquip!!)
-                if(resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMov",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             return Result.success(true)
         } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "CloseAllMovOpenImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ICloseAllMov",
+                message = "-",
+                cause = e
             )
         }
     }

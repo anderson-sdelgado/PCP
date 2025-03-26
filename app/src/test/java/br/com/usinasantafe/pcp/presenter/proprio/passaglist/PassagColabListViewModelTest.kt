@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.passaglist
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Colab
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.proprio.CleanPassagColab
 import br.com.usinasantafe.pcp.domain.usecases.proprio.DeletePassagColab
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetPassagColabList
@@ -31,12 +30,11 @@ class PassagColabListViewModelTest {
         val cleanPassagColab = mock<CleanPassagColab>()
         val getPassagColabList = mock<GetPassagColabList>()
         val deletePassagColab = mock<DeletePassagColab>()
-        whenever(cleanPassagColab()).thenReturn(
+        whenever(
+            cleanPassagColab()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CleanPassagColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PassagColabListViewModel(
@@ -71,10 +69,7 @@ class PassagColabListViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverPassagColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PassagColabListViewModel(
@@ -151,10 +146,7 @@ class PassagColabListViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "DeletePassagColab",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = PassagColabListViewModel(

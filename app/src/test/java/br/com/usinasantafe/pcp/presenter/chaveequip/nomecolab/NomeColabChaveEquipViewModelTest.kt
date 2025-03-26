@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.nomecolab
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetMatricColabMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.StartRemoveMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
@@ -51,10 +50,7 @@ class NomeColabChaveEquipViewModelTest {
                 getNomeColab("19759")
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetNomeColab",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -96,10 +92,7 @@ class NomeColabChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "ISetMatricColabMovChaveEquip",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -147,10 +140,7 @@ class NomeColabChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "IStartReceiptChaveEquip",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(
@@ -192,10 +182,7 @@ class NomeColabChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "ISetMatricColabMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(

@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CloseMovVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetDetalheVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
@@ -25,12 +24,13 @@ class DetalheVisitTercViewModelTest {
     fun `Check return failure if have error in recoverDetalhe`() = runTest {
         val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
         val closeMovVisitTerc = mock<CloseMovVisitTerc>()
-        whenever(getDetalheVisitTerc(1)).thenReturn(
+        whenever(
+            getDetalheVisitTerc(
+                id = 1
+            )
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverDetalheVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DetalheVisitTercViewModel(
@@ -89,12 +89,13 @@ class DetalheVisitTercViewModelTest {
     fun `Check return failure if have error in CloseMovVisitTercOpen`() = runTest {
         val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
         val closeMovVisitTerc = mock<CloseMovVisitTerc>()
-        whenever(closeMovVisitTerc(1)).thenReturn(
+        whenever(
+            closeMovVisitTerc(
+                id = 1
+            )
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseMovVisitTercOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = DetalheVisitTercViewModel(

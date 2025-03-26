@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 import br.com.usinasantafe.pcp.utils.FlowApp
 
@@ -20,11 +21,20 @@ class IDeleteEquipSeg(
         flowApp: FlowApp,
         id: Int,
     ): Result<Boolean> {
-        return movEquipProprioEquipSegRepository.delete(
+        val result = movEquipProprioEquipSegRepository.delete(
             idEquip = idEquip,
             flowApp = flowApp,
             id = id
         )
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IDeleteEquipSeg",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

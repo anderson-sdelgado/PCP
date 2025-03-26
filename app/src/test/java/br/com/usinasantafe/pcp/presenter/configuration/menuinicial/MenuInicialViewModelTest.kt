@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.configuration.menuinicial
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckAccessMain
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,10 +27,7 @@ class MenuInicialViewModelTest {
             checkAccessMain()
         ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferences.hasConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MenuInicialViewModel(

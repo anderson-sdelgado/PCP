@@ -1,9 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.proprio.observ
 
-import androidx.compose.runtime.internal.composableLambda
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetObservProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetTypeMov
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SaveMovEquipProprio
@@ -37,10 +35,7 @@ class ObservProprioViewModelTest {
             getTypeMov()
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetTypeMov",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = ObservProprioViewModel(
@@ -127,10 +122,7 @@ class ObservProprioViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetObservProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = ObservProprioViewModel(
@@ -160,12 +152,11 @@ class ObservProprioViewModelTest {
         val getObservProprio = mock<GetObservProprio>()
         val saveMovEquipProprio = mock<SaveMovEquipProprio>()
         val getTypeMov = mock<GetTypeMov>()
-        whenever(saveMovEquipProprio()).thenReturn(
+        whenever(
+            saveMovEquipProprio()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SaveMovEquipProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = ObservProprioViewModel(
@@ -203,12 +194,11 @@ class ObservProprioViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        whenever(saveMovEquipProprio()).thenReturn(
+        whenever(
+            saveMovEquipProprio()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SaveMovEquipProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = ObservProprioViewModel(
@@ -304,10 +294,7 @@ class ObservProprioViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetObservProprio",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = ObservProprioViewModel(

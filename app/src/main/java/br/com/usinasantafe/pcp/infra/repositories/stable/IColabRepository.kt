@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Colab
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ColabRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
@@ -16,43 +16,83 @@ class IColabRepository(
     override suspend fun addAll(list: List<Colab>): Result<Boolean> {
         try {
             val colabModelList = list.map { it.entityToRoomModel() }
-            return colabRoomDatasource.addAll(colabModelList)
-        } catch (e: Exception){
-            return Result.failure(
-                RepositoryException(
-                    function = "ColabRepositoryImpl.addAll",
+            val result = colabRoomDatasource.addAll(colabModelList)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IColabRepository.add",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = "IColabRepository.add",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun checkMatric(matric: Int): Result<Boolean> {
-        return colabRoomDatasource.checkMatric(matric)
+        val result = colabRoomDatasource.checkMatric(matric)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IColabRepository.checkMatric",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun deleteAll(): Result<Boolean> {
-        return colabRoomDatasource.deleteAll()
+        val result = colabRoomDatasource.deleteAll()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IColabRepository.deleteAll",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun getNome(matric: Int): Result<String> {
-        return colabRoomDatasource.getNome(matric)
+        val result = colabRoomDatasource.getNome(matric)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IColabRepository.getNome",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun recoverAll(token: String): Result<List<Colab>> {
         try {
             val recoverAll = colabRetrofitDatasource.recoverAll(token)
-            if (recoverAll.isFailure)
-                return Result.failure(recoverAll.exceptionOrNull()!!)
+            if (recoverAll.isFailure) {
+                val e = recoverAll.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IColabRepository.recoverAll",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val resultAll = recoverAll.getOrNull()!!
             val entityList = resultAll.map { it.retrofitModelToEntity() }
             return Result.success(entityList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "ColabRepositoryImpl.recoverAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IColabRepository.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

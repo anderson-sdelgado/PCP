@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_CONFIG
 import com.google.gson.Gson
@@ -18,11 +18,10 @@ class IConfigSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferencesDatasourceImpl.saveConfig",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IConfigSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -35,11 +34,10 @@ class IConfigSharedPreferencesDatasource(
             )
             return Result.success(result != null)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferencesDatasourceImpl.hasConfig",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IConfigSharedPreferencesDatasource.has",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -59,11 +57,10 @@ class IConfigSharedPreferencesDatasource(
                 )
             )
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferencesDatasourceImpl.getConfig",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IConfigSharedPreferencesDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -78,11 +75,10 @@ class IConfigSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception){
-            return Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferencesDatasourceImpl.saveConfig",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IConfigSharedPreferencesDatasource.save",
+                message = "-",
+                cause = e
             )
         }
     }

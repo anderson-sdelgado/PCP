@@ -33,7 +33,7 @@ class IUpdateLocalTrab(
         if (resultRecover.isFailure) {
             val error = resultRecover.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "IUpdateLocalTrab -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -56,7 +56,7 @@ class IUpdateLocalTrab(
         val resultClean = cleanLocalTrab()
         if (resultClean.isFailure) {
             val error = resultClean.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateLocalTrab -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,
@@ -80,7 +80,7 @@ class IUpdateLocalTrab(
         val resultSave = saveLocalTrab(list)
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "IUpdateLocalTrab -> ${error.message} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,

@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.residencia.motorista
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMotoristaResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.SetMotoristaResidencia
 import br.com.usinasantafe.pcp.presenter.Args
@@ -52,10 +51,7 @@ class MotoristaResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetMotoristaResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MotoristaResidenciaViewModel(
@@ -117,10 +113,7 @@ class MotoristaResidenciaViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetMotoristaResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MotoristaResidenciaViewModel(

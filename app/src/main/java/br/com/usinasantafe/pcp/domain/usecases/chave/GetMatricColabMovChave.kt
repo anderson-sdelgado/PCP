@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 
 interface GetMatricColabMovChave {
@@ -14,16 +14,21 @@ class IGetMatricColabMovChave(
     override suspend fun invoke(id: Int): Result<String> {
         try {
             val resultGetMatricColab = movChaveRepository.getMatricColab(id)
-            if (resultGetMatricColab.isFailure)
-                return Result.failure(resultGetMatricColab.exceptionOrNull()!!)
+            if (resultGetMatricColab.isFailure) {
+                val e = resultGetMatricColab.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetMatricColabMovChave",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val matricColab = resultGetMatricColab.getOrNull()!!
             return Result.success(matricColab.toString())
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "IGetMatricColabMovChaveImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetMatricColabMovChave",
+                message = "-",
+                cause = e
             )
         }
     }

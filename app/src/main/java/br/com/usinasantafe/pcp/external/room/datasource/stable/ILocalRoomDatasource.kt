@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalRoomModel
@@ -14,11 +14,10 @@ class ILocalRoomDatasource(
             localDao.insertAll(list)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "LocalRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalRoomDatasource.addAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -29,11 +28,10 @@ class ILocalRoomDatasource(
             val descrLocal = localDao.getDescr(id)
             return Result.success(descrLocal)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "LocalRoomDatasourceImpl.descrLocal",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalRoomDatasource.getDescr",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -43,11 +41,10 @@ class ILocalRoomDatasource(
             localDao.deleteAll()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "LocalRoomDatasourceImpl.deleteAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalRoomDatasource.deleteAll",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -56,11 +53,10 @@ class ILocalRoomDatasource(
         return try {
             Result.success(localDao.listAll())
         } catch (e: Exception) {
-            Result.failure(
-                DatasourceException(
-                    function = "LocalRoomDatasourceImpl.addAll",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ILocalRoomDatasource.listAll",
+                message = "-",
+                cause = e
             )
         }
     }

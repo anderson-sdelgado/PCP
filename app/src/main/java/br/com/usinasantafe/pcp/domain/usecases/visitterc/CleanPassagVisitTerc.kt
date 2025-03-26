@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 
 interface CleanPassagVisitTerc {
@@ -11,7 +12,16 @@ class ICleanPassagVisitTerc(
 ): CleanPassagVisitTerc {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movEquipVisitTercPassagRepository.clear()
+        val result = movEquipVisitTercPassagRepository.clear()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICleanPassagVisitTerc",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

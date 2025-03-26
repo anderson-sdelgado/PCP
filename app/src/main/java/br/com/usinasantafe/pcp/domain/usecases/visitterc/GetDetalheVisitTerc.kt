@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 import br.com.usinasantafe.pcp.presenter.visitterc.detalhe.DetalheVisitTercModel
@@ -26,8 +26,14 @@ class IGetDetalheVisitTerc(
     ): Result<DetalheVisitTercModel> {
         try {
             val resultGet = movEquipVisitTercRepository.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure) {
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val mov = resultGet.getOrNull()!!
             val dthr = SimpleDateFormat(
                 "dd/MM/yyyy HH:mm",
@@ -44,18 +50,29 @@ class IGetDetalheVisitTerc(
                 mov.tipoVisitTercMovEquipVisitTerc!!,
                 mov.idVisitTercMovEquipVisitTerc!!
             )
-            if (resultGetMotorista.isFailure)
-                return Result.failure(resultGetMotorista.exceptionOrNull()!!)
+            if (resultGetMotorista.isFailure) {
+                val e = resultGetMotorista.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val motorista = resultGetMotorista.getOrNull()!!
             val resultPassagList =
                 movEquipVisitTercPassagRepository.list(
                     FlowApp.CHANGE,
                     mov.idMovEquipVisitTerc!!
                 )
-            if (resultPassagList.isFailure)
-                return Result.failure(resultPassagList.exceptionOrNull()!!)
+            if (resultPassagList.isFailure) {
+                val e = resultPassagList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetDetalheVisitTerc",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val passagList = resultPassagList.getOrNull()!!
-
             var passageiro = ""
             for (passag in passagList) {
                 val resultGetPassag = getMotoristaVisitTerc(
@@ -69,12 +86,10 @@ class IGetDetalheVisitTerc(
                 }
                 passageiro += "${resultGetPassag.getOrNull()!!};"
             }
-
             val destino =
                 if (mov.destinoMovEquipVisitTerc.isNullOrEmpty()) "" else mov.destinoMovEquipVisitTerc
             val observ =
                 if (mov.observMovEquipVisitTerc.isNullOrEmpty()) "" else mov.observMovEquipVisitTerc
-
             return Result.success(
                 DetalheVisitTercModel(
                     dthr = dthr,
@@ -88,13 +103,11 @@ class IGetDetalheVisitTerc(
                     tipoVisitTerc = tipoVisitTerc
                 )
             )
-
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetDetalheVisitTercImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetDetalheVisitTerc",
+                message = "-",
+                cause = e
             )
         }
     }

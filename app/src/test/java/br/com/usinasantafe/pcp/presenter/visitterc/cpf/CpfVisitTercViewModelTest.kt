@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.cpf
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateTerceiro
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateVisitante
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CheckCpfVisitTerc
@@ -436,10 +435,7 @@ class CpfVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CheckCpfVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = CpfVisitTercViewModel(
@@ -554,10 +550,7 @@ class CpfVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetCpfVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = CpfVisitTercViewModel(
@@ -623,15 +616,14 @@ class CpfVisitTercViewModelTest {
         val getCpfVisitTerc = mock<GetCpfVisitTerc>()
         val updateTerceiro = mock<UpdateTerceiro>()
         val updateVisitante = mock<UpdateVisitante>()
-        whenever(getTitleCpfVisitTerc(
-            flowApp = FlowApp.ADD,
-            id = 0
-        )).thenReturn(
+        whenever(
+            getTitleCpfVisitTerc(
+                flowApp = FlowApp.ADD,
+                id = 0
+            )
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetTitleCpfVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = CpfVisitTercViewModel(

@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.observ
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetObservMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SaveMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetObservMovChaveEquip
@@ -54,10 +53,7 @@ class ObservChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "ISetObservMovChaveEquip",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -91,10 +87,7 @@ class ObservChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "ISaveMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -150,10 +143,7 @@ class ObservChaveEquipViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "IGetObservMovChaveEquip",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.FlowApp
@@ -24,23 +24,28 @@ class ISetNotaFiscalProprio(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultSet = movEquipProprioRepository.setNotaFiscal(
+            val result = movEquipProprioRepository.setNotaFiscal(
                 notaFiscal = if(notaFiscal.isNullOrEmpty()) null else notaFiscal.toInt(),
                 flowApp = flowApp,
                 id = id
             )
-            if (resultSet.isFailure)
-                return Result.failure(resultSet.exceptionOrNull()!!)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetNotaFiscalProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             if(flowApp == FlowApp.CHANGE){
                 startProcessSendData()
             }
-            return Result.success(true)
+            return result
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "SetNotaFiscalProprio",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISetNotaFiscalProprio",
+                message = "-",
+                cause = e
             )
         }
     }

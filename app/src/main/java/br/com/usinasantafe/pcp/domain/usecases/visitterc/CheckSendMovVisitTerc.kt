@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 
 interface CheckSendMovVisitTerc {
@@ -11,7 +12,16 @@ class ICheckSendMovVisitTerc(
 ): CheckSendMovVisitTerc {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movEquipVisitTercRepository.checkSend()
+        val result = movEquipVisitTercRepository.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICheckSendMovResidencia",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

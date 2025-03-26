@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 
 interface CleanPassagColab {
@@ -11,7 +12,16 @@ class ICleanPassagColab(
 ) : CleanPassagColab {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movEquipProprioPassagRepository.clear()
+        val result = movEquipProprioPassagRepository.clear()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICleanPassagColab",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.chave.nomecolab
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetMatricColabMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartReceiptMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
@@ -50,10 +49,7 @@ class NomeColabChaveViewModelTest {
                 getNomeColab("19759")
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "GetNomeColab",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -95,10 +91,7 @@ class NomeColabChaveViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "ISetMatricColabMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel()
@@ -146,10 +139,7 @@ class NomeColabChaveViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "StartReceiptChaveImpl",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(
@@ -191,10 +181,7 @@ class NomeColabChaveViewModelTest {
                 )
             ).thenReturn(
                 Result.failure(
-                    UsecaseException(
-                        function = "ISetMatricColabMovChave",
-                        cause = Exception()
-                    )
+                    Exception()
                 )
             )
             val viewModel = getViewModel(

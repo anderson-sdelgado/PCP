@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.initial
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
@@ -25,57 +25,110 @@ class IDeleteMovSent(
     override suspend fun invoke(): Result<Boolean> {
         try {
             val resultMovProprioList = movEquipProprioRepository.listSent()
-            if(resultMovProprioList.isFailure)
-                return Result.failure(resultMovProprioList.exceptionOrNull()!!)
+            if (resultMovProprioList.isFailure) {
+                val e = resultMovProprioList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IDeleteMovSent",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movProprioList = resultMovProprioList.getOrNull()!!
             for(movProprio in movProprioList){
                 if(movProprio.dthrMovEquipProprio < dateToDelete()){
                     val resultDelMovProprioPassag =
                         movEquipProprioPassagRepository.delete(movProprio.idMovEquipProprio!!)
-                    if(resultDelMovProprioPassag.isFailure)
-                        return Result.failure(resultDelMovProprioPassag.exceptionOrNull()!!)
+                    if (resultDelMovProprioPassag.isFailure) {
+                        val e = resultDelMovProprioPassag.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IDeleteMovSent",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                     val resultDelMovProprioEquipSeg =
                         movEquipProprioEquipSegRepository.delete(movProprio.idMovEquipProprio!!)
-                    if(resultDelMovProprioEquipSeg.isFailure)
-                        return Result.failure(resultDelMovProprioEquipSeg.exceptionOrNull()!!)
+                    if (resultDelMovProprioEquipSeg.isFailure) {
+                        val e = resultDelMovProprioEquipSeg.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IDeleteMovSent",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                     val resultDelMovProprio =
                         movEquipProprioRepository.delete(movProprio.idMovEquipProprio!!)
-                    if(resultDelMovProprio.isFailure)
-                        return Result.failure(resultDelMovProprio.exceptionOrNull()!!)
+                    if (resultDelMovProprio.isFailure) {
+                        val e = resultDelMovProprio.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IDeleteMovSent",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                 }
             }
             val resultMovVisitTercList = movEquipVisitTercRepository.listSent()
-            if(resultMovVisitTercList.isFailure)
-                return Result.failure(resultMovVisitTercList.exceptionOrNull()!!)
+            if (resultMovVisitTercList.isFailure) {
+                val e = resultMovVisitTercList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IDeleteMovSent",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movVisitTercList = resultMovVisitTercList.getOrNull()!!
             for(movVisitTerc in movVisitTercList){
                 if(movVisitTerc.dthrMovEquipVisitTerc < dateToDelete()){
                     val resultDelMovVisitTerc = movEquipVisitTercRepository.delete(movVisitTerc.idMovEquipVisitTerc!!)
-                    if(resultDelMovVisitTerc.isFailure)
-                        return Result.failure(resultDelMovVisitTerc.exceptionOrNull()!!)
+                    if (resultDelMovVisitTerc.isFailure) {
+                        val e = resultDelMovVisitTerc.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IDeleteMovSent",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                     val resultDelMovVisitTercPassag = movEquipVisitTercPassagRepository.delete(movVisitTerc.idMovEquipVisitTerc!!)
-                    if(resultDelMovVisitTercPassag.isFailure)
-                        return Result.failure(resultDelMovVisitTercPassag.exceptionOrNull()!!)
+                    if (resultDelMovVisitTercPassag.isFailure) {
+                        val e = resultDelMovVisitTercPassag.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IDeleteMovSent",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                 }
             }
             val resultMovResidenciaList = movEquipResidenciaRepository.listSent()
-            if(resultMovResidenciaList.isFailure)
-                return Result.failure(resultMovResidenciaList.exceptionOrNull()!!)
+            if (resultMovResidenciaList.isFailure) {
+                val e = resultMovResidenciaList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IDeleteMovSent",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movResidenciaList = resultMovResidenciaList.getOrNull()!!
             for(movResidencia in movResidenciaList){
                 if(movResidencia.dthrMovEquipResidencia < dateToDelete()){
                     val resultDelMovResidencia = movEquipResidenciaRepository.delete(movResidencia.idMovEquipResidencia!!)
-                    if(resultDelMovResidencia.isFailure)
-                        return Result.failure(resultDelMovResidencia.exceptionOrNull()!!)
+                    if (resultDelMovResidencia.isFailure) {
+                        val e = resultDelMovResidencia.exceptionOrNull()!!
+                        return resultFailure(
+                            context = "IDeleteMovSent",
+                            message = e.message,
+                            cause = e
+                        )
+                    }
                 }
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "DeleteMovSentImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IDeleteMovSent",
+                message = "-",
+                cause = e
             )
         }
     }

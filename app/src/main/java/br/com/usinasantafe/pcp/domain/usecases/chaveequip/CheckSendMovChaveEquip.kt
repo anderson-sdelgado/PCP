@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chaveequip
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
 
 interface CheckSendMovChaveEquip {
@@ -11,7 +12,16 @@ class ICheckSendMovChaveEquip(
 ): CheckSendMovChaveEquip {
 
     override suspend fun invoke(): Result<Boolean> {
-        return movChaveEquipRepository.checkSend()
+        val result = movChaveEquipRepository.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ICheckSendMovChaveEquip",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

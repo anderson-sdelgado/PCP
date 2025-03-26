@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.utils.StatusSend
 import kotlinx.coroutines.flow.Flow
@@ -14,16 +15,19 @@ class IGetStatusSend(
 ): GetStatusSend {
 
     override suspend fun invoke(): Flow<Result<StatusSend>> = flow {
-        val resultConfig = configRepository.getConfig()
-        if(resultConfig.isFailure) {
+        val result = configRepository.getConfig()
+        if(result.isFailure) {
+            val e = result.exceptionOrNull()!!
             emit(
-                Result.failure(
-                    resultConfig.exceptionOrNull()!!
+                resultFailure(
+                    context = "IGetStatusSend",
+                    message = e.message,
+                    cause = e
                 )
             )
             return@flow
         }
-        val config = resultConfig.getOrNull()!!
+        val config = result.getOrNull()!!
         emit(Result.success(config.statusSend))
     }
 

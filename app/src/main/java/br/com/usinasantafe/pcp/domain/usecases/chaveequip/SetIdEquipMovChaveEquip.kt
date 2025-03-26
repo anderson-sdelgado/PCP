@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chaveequip
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
@@ -27,25 +27,36 @@ class ISetIdEquipMovChaveEquip(
     ): Result<Boolean> {
         try {
             val resultId = equipRepository.getId(nroEquip.toLong())
-            if (resultId.isFailure)
-                return Result.failure(resultId.exceptionOrNull()!!)
+            if (resultId.isFailure) {
+                val e = resultId.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetIdEquipMovChaveEquip",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val idEquip = resultId.getOrNull()!!
             val resultSet = movChaveEquipRepository.setIdEquip(
                 idEquip = idEquip,
                 flowApp = flowApp,
                 id = id
             )
-            if (resultSet.isFailure)
-                return Result.failure(resultSet.exceptionOrNull()!!)
+            if (resultSet.isFailure) {
+                val e = resultSet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetIdEquipMovChaveEquip",
+                    message = e.message,
+                    cause = e
+                )
+            }
             if(flowApp == FlowApp.CHANGE)
                 startProcessSendData()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "ISetIdEquipChave",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ISetIdEquipMovChaveEquip",
+                message = "-",
+                cause = e
             )
         }
     }

@@ -1,8 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.residencia.movlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMovEquipResidenciaInsideList
 import br.com.usinasantafe.pcp.domain.usecases.residencia.StartInputMovEquipResidencia
@@ -28,12 +26,11 @@ class MovEquipResidenciaListViewModelTest {
         val getHeader = mock<GetHeader>()
         val getMovEquipResidenciaInsideList = mock<GetMovEquipResidenciaInsideList>()
         val startINputMovEquipResidencia = mock<StartInputMovEquipResidencia>()
-        whenever(getHeader()).thenReturn(
+        whenever(
+            getHeader()
+        ).thenReturn(
             Result.failure(
-                DatasourceException(
-                    function = "ConfigSharedPreferences.hasConfig",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipResidenciaListViewModel(
@@ -54,7 +51,9 @@ class MovEquipResidenciaListViewModelTest {
         val getHeader = mock<GetHeader>()
         val getMovEquipResidenciaInsideList = mock<GetMovEquipResidenciaInsideList>()
         val startINputMovEquipResidencia = mock<StartInputMovEquipResidencia>()
-        whenever(getHeader()).thenReturn(
+        whenever(
+            getHeader()
+        ).thenReturn(
             Result.success(
                 HeaderModel(
                     descrVigia = "19759 - Anderson da Silva Delgado",
@@ -80,12 +79,11 @@ class MovEquipResidenciaListViewModelTest {
         val getHeader = mock<GetHeader>()
         val getMovEquipResidenciaInsideList = mock<GetMovEquipResidenciaInsideList>()
         val startINputMovEquipResidencia = mock<StartInputMovEquipResidencia>()
-        whenever(getMovEquipResidenciaInsideList()).thenReturn(
+        whenever(
+            getMovEquipResidenciaInsideList()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetMovEquipResidenciaInputOpenList",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipResidenciaListViewModel(
@@ -138,12 +136,11 @@ class MovEquipResidenciaListViewModelTest {
         val getHeader = mock<GetHeader>()
         val getMovEquipResidenciaInsideList = mock<GetMovEquipResidenciaInsideList>()
         val startINputMovEquipResidencia = mock<StartInputMovEquipResidencia>()
-        whenever(startINputMovEquipResidencia()).thenReturn(
+        whenever(
+            startINputMovEquipResidencia()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "StartMovEquipResidencia",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipResidenciaListViewModel(
@@ -164,7 +161,9 @@ class MovEquipResidenciaListViewModelTest {
         val getHeader = mock<GetHeader>()
         val getMovEquipResidenciaInsideList = mock<GetMovEquipResidenciaInsideList>()
         val startINputMovEquipResidencia = mock<StartInputMovEquipResidencia>()
-        whenever(startINputMovEquipResidencia()).thenReturn(
+        whenever(
+            startINputMovEquipResidencia()
+        ).thenReturn(
             Result.success(true)
         )
         val viewModel = MovEquipResidenciaListViewModel(

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 
 interface GetNotaFiscalProprio {
@@ -18,16 +18,21 @@ class IGetNotaFiscalProprio(
     ): Result<String?> {
         try {
             val resultNotaFiscal = movEquipProprioRepository.getNotaFiscal(id = id)
-            if (resultNotaFiscal.isFailure)
-                return Result.failure(resultNotaFiscal.exceptionOrNull()!!)
+            if (resultNotaFiscal.isFailure) {
+                val e = resultNotaFiscal.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetNotaFiscalProprio",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val notaFiscal = if(resultNotaFiscal.getOrNull() == null) null else resultNotaFiscal.getOrNull().toString()
             return Result.success(notaFiscal)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetNotaFiscalImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetNotaFiscalProprio",
+                message = "-",
+                cause = e
             )
         }
     }

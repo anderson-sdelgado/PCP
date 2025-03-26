@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
@@ -22,18 +22,36 @@ class IGetMovEquipProprioOpenList(
     override suspend fun invoke(): Result<List<MovEquipProprioModel>> {
         try {
             val resultList = movEquipProprioRepository.listOpen()
-            if(resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetMovEquipProprioOpenList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val list = resultList.getOrNull()!!
             val modelList = list.map {
                 val resultNro = equipRepository.getDescr(it.idEquipMovEquipProprio!!)
-                if(resultNro.isFailure)
-                    return Result.failure(resultNro.exceptionOrNull()!!)
+                if (resultNro.isFailure) {
+                    val e = resultNro.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetMovEquipProprioOpenList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 val descrEquip = resultNro.getOrNull()!!
-                val resultNome = colabRepository.getNome(it.matricColabMovEquipProprio!!)
-                if(resultNome.isFailure)
-                    return Result.failure(resultNome.exceptionOrNull()!!)
-                val nomeColab = resultNome.getOrNull()!!
+                val resultGetNome = colabRepository.getNome(it.matricColabMovEquipProprio!!)
+                if (resultGetNome.isFailure) {
+                    val e = resultGetNome.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetMovEquipProprioOpenList",
+                        message = e.message,
+                        cause = e
+                    )
+                }
+                val nomeColab = resultGetNome.getOrNull()!!
                 MovEquipProprioModel(
                     id = it.idMovEquipProprio!!,
                     dthr = SimpleDateFormat(
@@ -47,11 +65,10 @@ class IGetMovEquipProprioOpenList(
             }
             return Result.success(modelList)
         } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "RecoverMovEquipProprioOpenList",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetMovEquipProprioOpenList",
+                message = "-",
+                cause = e
             )
         }
     }

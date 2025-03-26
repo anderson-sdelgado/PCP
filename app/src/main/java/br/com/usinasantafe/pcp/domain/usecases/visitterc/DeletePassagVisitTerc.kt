@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.utils.FlowApp
 
@@ -20,11 +21,20 @@ class IDeletePassagVisitTerc(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return movEquipVisitTercPassagRepository.delete(
+        val result = movEquipVisitTercPassagRepository.delete(
             idVisitTerc = idVisitTerc,
             flowApp = flowApp,
             id = id
         )
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IDeletePassagVisitTerc",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

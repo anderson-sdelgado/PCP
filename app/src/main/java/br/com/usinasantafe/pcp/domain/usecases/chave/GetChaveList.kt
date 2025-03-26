@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.presenter.chave.chavelist.ChaveModel
 
@@ -17,16 +17,22 @@ class IGetChaveList(
         try {
             val resultChaveList = chaveRepository.listAll()
             if(resultChaveList.isFailure){
-                return Result.failure(
-                    resultChaveList.exceptionOrNull()!!
+                val e = resultChaveList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetChaveList",
+                    message = e.message,
+                    cause = e
                 )
             }
             val entityList = resultChaveList.getOrNull()!!
             val modelScreenList = entityList.map {
                 val resultDescr = getDescrFullChave(it.idChave)
                 if(resultDescr.isFailure){
-                    return Result.failure(
-                        resultDescr.exceptionOrNull()!!
+                    val e = resultChaveList.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetChaveList",
+                        message = e.message,
+                        cause = e
                     )
                 }
                 val descr = resultDescr.getOrNull()!!
@@ -37,11 +43,10 @@ class IGetChaveList(
             }
             return Result.success(modelScreenList)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetChaveList",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetChaveList",
+                message = "-",
+                cause = e
             )
         }
     }

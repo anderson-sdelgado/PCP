@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.initial
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 
@@ -17,20 +17,38 @@ class IAdjustConfig(
         try {
             var checkVersion = true
             val resultHasConfig = configRepository.hasConfig()
-            if (resultHasConfig.isFailure)
-                return Result.failure(resultHasConfig.exceptionOrNull()!!)
+            if (resultHasConfig.isFailure) {
+                val e = resultHasConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IAdjustConfig",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val hasConfig = resultHasConfig.getOrNull()!!
             if (hasConfig) {
-                val resultConfig = configRepository.getConfig()
-                if (resultConfig.isFailure)
-                    return Result.failure(resultConfig.exceptionOrNull()!!)
-                val config = resultConfig.getOrNull()!!
+                val resultGetConfig = configRepository.getConfig()
+                if (resultGetConfig.isFailure) {
+                    val e = resultGetConfig.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IAdjustConfig",
+                        message = e.message,
+                        cause = e
+                    )
+                }
+                val config = resultGetConfig.getOrNull()!!
                 config.version?.let {
                     if(it != version) {
                         checkVersion = false
                         val resultClean = configRepository.cleanConfig()
-                        if (resultClean.isFailure)
-                            return Result.failure(resultClean.exceptionOrNull()!!)
+                        if (resultClean.isFailure) {
+                            val e = resultClean.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "IAdjustConfig",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                     }
                 }
                 if(checkVersion) {
@@ -39,11 +57,10 @@ class IAdjustConfig(
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "StartAppImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IAdjustConfig",
+                message = "-",
+                cause = e
             )
         }
     }

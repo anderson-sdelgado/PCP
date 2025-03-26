@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipResidenciaSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipResidenciaSharedPreferencesModel
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA
@@ -21,11 +21,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.clear",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -43,11 +42,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
                 )
             )
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -62,11 +60,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
             save(movEquipResidencia)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.setDestino",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.setMotorista",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -81,11 +78,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
             save(movEquipResidencia)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.setObserv",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -100,11 +96,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
             save(movEquipResidencia)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.setObserv",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.setPlaca",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -119,11 +114,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
             save(movEquipResidencia)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.setObserv",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.setVeiculo",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -135,11 +129,10 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
             save(movEquipResidenciaSharedPreferencesModel)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipResidenciaSharedPreferencesDatasourceImpl.start",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipResidenciaSharedPreferencesDatasource.start",
+                message = "-",
+                cause = e
             )
         }
     }

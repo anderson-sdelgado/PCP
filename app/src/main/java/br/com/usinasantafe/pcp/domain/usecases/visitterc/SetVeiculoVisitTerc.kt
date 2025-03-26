@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.FlowApp
@@ -22,16 +23,22 @@ class ISetVeiculoVisitTerc(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        val resultSet = movEquipVisitTercRepository.setVeiculo(
+        val result = movEquipVisitTercRepository.setVeiculo(
             veiculo = veiculo,
             flowApp = flowApp,
             id = id
         )
-        if (resultSet.isFailure)
-            return Result.failure(resultSet.exceptionOrNull()!!)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ISetVeiculoVisitTerc",
+                message = e.message,
+                cause = e
+            )
+        }
         if(flowApp == FlowApp.CHANGE)
             startProcessSendData()
-        return Result.success(true)
+        return result
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 
 interface CheckNroEquip {
@@ -12,14 +12,22 @@ class ICheckNroEquip(
 ): CheckNroEquip {
 
     override suspend fun invoke(nroEquip: String): Result<Boolean> {
-        return try {
-            equipRepository.checkNro(nroEquip.toLong())
-        } catch (e: Exception) {
-            Result.failure(
-                UsecaseException(
-                    function = "CheckEquipProprio",
+        try {
+            val result = equipRepository.checkNro(nroEquip.toLong())
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICheckNroEquip",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ICheckNroEquip",
+                message = "-",
+                cause = e
             )
         }
     }

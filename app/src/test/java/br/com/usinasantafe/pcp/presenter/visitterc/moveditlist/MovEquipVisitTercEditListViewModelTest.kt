@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.moveditlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CloseAllMovVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetMovEquipVisitTercOpenList
 import br.com.usinasantafe.pcp.presenter.visitterc.model.MovEquipVisitTercModel
@@ -24,12 +23,11 @@ class MovEquipVisitTercEditListViewModelTest {
     fun `Check return failure if have error in GetMovEquipVisitTercOpenList`() = runTest {
         val getMovEquipVisitTercOpenList = mock<GetMovEquipVisitTercOpenList>()
         val closeAllMovVisitTerc = mock<CloseAllMovVisitTerc>()
-        whenever(getMovEquipVisitTercOpenList()).thenReturn(
+        whenever(
+            getMovEquipVisitTercOpenList()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetMovEquipVisitTercOpenList",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipVisitTercEditListViewModel(
@@ -58,7 +56,9 @@ class MovEquipVisitTercEditListViewModelTest {
         )
         val getMovEquipVisitTercOpenList = mock<GetMovEquipVisitTercOpenList>()
         val closeAllMovVisitTerc = mock<CloseAllMovVisitTerc>()
-        whenever(getMovEquipVisitTercOpenList()).thenReturn(
+        whenever(
+            getMovEquipVisitTercOpenList()
+        ).thenReturn(
             Result.success(list)
         )
         val viewModel = MovEquipVisitTercEditListViewModel(
@@ -75,12 +75,11 @@ class MovEquipVisitTercEditListViewModelTest {
     fun `Check return failure if have error in CloseAllMovVisitTercOpen`() = runTest {
         val getMovEquipVisitTercOpenList = mock<GetMovEquipVisitTercOpenList>()
         val closeAllMovVisitTerc = mock<CloseAllMovVisitTerc>()
-        whenever(closeAllMovVisitTerc()).thenReturn(
+        whenever(
+            closeAllMovVisitTerc()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CloseAllMovVisitTercOpen",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = MovEquipVisitTercEditListViewModel(
@@ -99,7 +98,9 @@ class MovEquipVisitTercEditListViewModelTest {
     fun `Check return true if CloseAllMovVisitTercOpen execute correctly`() = runTest {
         val getMovEquipVisitTercOpenList = mock<GetMovEquipVisitTercOpenList>()
         val closeAllMovVisitTerc = mock<CloseAllMovVisitTerc>()
-        whenever(closeAllMovVisitTerc()).thenReturn(
+        whenever(
+            closeAllMovVisitTerc()
+        ).thenReturn(
             Result.success(true)
         )
         val viewModel = MovEquipVisitTercEditListViewModel(

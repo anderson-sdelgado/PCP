@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.proprio.equipseglist
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.proprio.CleanEquipSeg
 import br.com.usinasantafe.pcp.domain.usecases.proprio.DeleteEquipSeg
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetEquipSegList
@@ -31,12 +30,11 @@ class EquipSegListViewModelTest {
         val cleanEquipSeg = mock<CleanEquipSeg>()
         val getEquipSegList = mock<GetEquipSegList>()
         val deleteEquipSeg = mock<DeleteEquipSeg>()
-        whenever(cleanEquipSeg()).thenReturn(
+        whenever(
+            cleanEquipSeg()
+        ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "CleanEquipSeg",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = EquipSegListViewModel(
@@ -71,10 +69,7 @@ class EquipSegListViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "RecoverEquipSeg",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = EquipSegListViewModel(
@@ -153,10 +148,7 @@ class EquipSegListViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "DeleteEquipSeg",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = EquipSegListViewModel(

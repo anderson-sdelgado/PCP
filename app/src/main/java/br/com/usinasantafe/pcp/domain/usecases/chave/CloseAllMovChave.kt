@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 
 interface CloseAllMovChave {
@@ -14,21 +14,32 @@ class ICloseAllMovChave(
     override suspend fun invoke(): Result<Boolean> {
         try {
             val resultList = movChaveRepository.listOpen()
-            if(resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure){
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ICloseAllMovChave",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val entityList = resultList.getOrNull()!!
             for(entity in entityList){
                 val resulClose = movChaveRepository.setClose(entity.idMovChave!!)
-                if(resulClose.isFailure)
-                    return Result.failure(resulClose.exceptionOrNull()!!)
+                if (resulClose.isFailure){
+                    val e = resulClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ICloseAllMovChave",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "ICloseAllMovChave",
-                    cause = e
-                )
+            return resultFailure(
+                context = "ICloseAllMovChave",
+                message = "-",
+                cause = e
             )
         }
     }

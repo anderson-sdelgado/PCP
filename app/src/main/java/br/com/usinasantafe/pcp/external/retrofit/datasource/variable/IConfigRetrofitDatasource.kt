@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.external.retrofit.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.variable.ConfigApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.ConfigRetrofitModelInput
@@ -15,11 +15,10 @@ class IConfigRetrofitDatasource(
             val response = configApi.send(config)
             return Result.success(response.body()!!)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "ConfigRetrofitDatasourceImpl.recoverToken",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IConfigRetrofitDatasource.recoverAll",
+                message = "-",
+                cause = e
             )
         }
     }

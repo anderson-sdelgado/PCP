@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.residencia
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.FlowApp
@@ -24,22 +24,27 @@ class ISetObservResidencia(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultSet = movEquipResidenciaRepository.setObserv(
+            val result = movEquipResidenciaRepository.setObserv(
                 observ = observ,
                 flowApp = flowApp,
                 id = id
             )
-            if (resultSet.isFailure)
-                return Result.failure(resultSet.exceptionOrNull()!!)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISetObservResidencia",
+                    message = e.message,
+                    cause = e
+                )
+            }
             if(flowApp == FlowApp.CHANGE)
                 startProcessSendData()
-            return Result.success(true)
+            return result
         } catch (e: Exception){
-            return Result.failure(
-                UsecaseException(
-                    function = "SetObservResidenciaImpl",
-                    cause = e.cause
-                )
+            return resultFailure(
+                context = "ISetObservResidencia",
+                message = "-",
+                cause = e
             )
         }
     }

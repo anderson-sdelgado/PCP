@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
@@ -29,8 +29,14 @@ class IGetPassagVisitTercList(
     ): Result<List<PassagVisitTercModel>> {
         try {
             val resultList = movEquipVisitTercPassagRepository.list(flowApp, id)
-            if (resultList.isFailure)
-                return Result.failure(resultList.exceptionOrNull()!!)
+            if (resultList.isFailure) {
+                val e = resultList.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetPassagVisitTercList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val passagList = resultList.getOrNull()!!
             if (passagList.isEmpty())
                 return Result.success(emptyList())
@@ -38,20 +44,38 @@ class IGetPassagVisitTercList(
                 flowApp = flowApp,
                 id = id
             )
-            if (resultTypeVisitTerc.isFailure)
-                return Result.failure(resultTypeVisitTerc.exceptionOrNull()!!)
+            if (resultTypeVisitTerc.isFailure) {
+                val e = resultTypeVisitTerc.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IGetPassagVisitTercList",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
             val passagColabList = passagList.map {
                 when (typeVisitTerc) {
                     TypeVisitTerc.VISITANTE -> {
                         val resultCPF =
                             visitanteRepository.getCpf(it.idVisitTerc!!)
-                        if (resultCPF.isFailure)
-                            return Result.failure(resultCPF.exceptionOrNull()!!)
+                        if (resultCPF.isFailure) {
+                            val e = resultCPF.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "IGetPassagVisitTercList",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                         val cpf = resultCPF.getOrNull()!!
                         val resultNome = visitanteRepository.getNome(cpf)
-                        if (resultNome.isFailure)
-                            return Result.failure(resultNome.exceptionOrNull()!!)
+                        if (resultNome.isFailure) {
+                            val e = resultNome.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "IGetPassagVisitTercList",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                         val nome = resultNome.getOrNull()!!
                         PassagVisitTercModel(
                             id = it.idVisitTerc!!,
@@ -63,12 +87,24 @@ class IGetPassagVisitTercList(
                     TypeVisitTerc.TERCEIRO -> {
                         val resultCPF =
                             terceiroRepository.getCpf(it.idVisitTerc!!)
-                        if (resultCPF.isFailure)
-                            return Result.failure(resultCPF.exceptionOrNull()!!)
+                        if (resultCPF.isFailure) {
+                            val e = resultCPF.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "IGetPassagVisitTercList",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                         val cpf = resultCPF.getOrNull()!!
                         val resultNome = terceiroRepository.getNome(cpf)
-                        if (resultNome.isFailure)
-                            return Result.failure(resultNome.exceptionOrNull()!!)
+                        if (resultNome.isFailure) {
+                            val e = resultNome.exceptionOrNull()!!
+                            return resultFailure(
+                                context = "IGetPassagVisitTercList",
+                                message = e.message,
+                                cause = e
+                            )
+                        }
                         val nome = resultNome.getOrNull()!!
                         PassagVisitTercModel(
                             id = it.idVisitTerc!!,
@@ -80,11 +116,10 @@ class IGetPassagVisitTercList(
             }
             return Result.success(passagColabList)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "GetPassagVisitTercListImpl",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IGetPassagVisitTercList",
+                message = "-",
+                cause = e
             )
         }
     }

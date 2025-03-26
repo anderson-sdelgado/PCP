@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.presenter.visitterc.observ
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetObservVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SaveMovEquipVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetObservVisitTerc
@@ -50,10 +49,7 @@ class ObservVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "GetObservVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -102,10 +98,7 @@ class ObservVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "StartOutputMovEquipVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -141,10 +134,7 @@ class ObservVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SetObservVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(
@@ -181,10 +171,7 @@ class ObservVisitTercViewModelTest {
             )
         ).thenReturn(
             Result.failure(
-                UsecaseException(
-                    function = "SaveMovEquipVisitTerc",
-                    cause = Exception()
-                )
+                Exception()
             )
         )
         val viewModel = getViewModel(

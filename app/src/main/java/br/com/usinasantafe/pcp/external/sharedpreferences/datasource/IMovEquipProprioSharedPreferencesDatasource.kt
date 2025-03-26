@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.errors.DatasourceException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipProprioSharedPreferencesModel
 import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO
@@ -19,11 +19,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             editor.apply()
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.clear",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -40,11 +39,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
                 )
             )
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.get",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.get",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -59,11 +57,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             save(movEquipProprio)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.setMatricMotorista",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.setDestino",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -78,11 +75,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             save(movEquipProprio)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.setMatricMotorista",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.setIdEquip",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -97,11 +93,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             save(movEquipProprio)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.setNotaFiscal",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.setNotaFiscal",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -116,11 +111,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             save(movEquipProprio)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.setMatricMotorista",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.setMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -135,11 +129,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             save(movEquipProprio)
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.setMatricMotorista",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -149,11 +142,10 @@ class IMovEquipProprioSharedPreferencesDatasource(
             save(MovEquipProprioSharedPreferencesModel(tipoMovEquipProprio = typeMov))
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                DatasourceException(
-                    function = "MovEquipProprioSharedPreferencesDatasourceImpl.start",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioSharedPreferencesDatasource.start",
+                message = "-",
+                cause = e
             )
         }
     }

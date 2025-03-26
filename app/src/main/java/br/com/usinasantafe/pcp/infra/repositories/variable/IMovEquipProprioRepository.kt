@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
-import br.com.usinasantafe.pcp.domain.errors.RepositoryException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioSharedPreferencesDatasource
@@ -21,200 +21,271 @@ class IMovEquipProprioRepository(
 ) : MovEquipProprioRepository {
 
     override suspend fun checkOpen(): Result<Boolean> {
-        return movEquipProprioRoomDatasource.checkOpen()
+        val result = movEquipProprioRoomDatasource.checkOpen()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioRepository.checkOpen",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun checkSend(): Result<Boolean> {
-        return movEquipProprioRoomDatasource.checkSend()
+        val result = movEquipProprioRoomDatasource.checkSend()
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioRepository.checkSend",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun delete(id: Int): Result<Boolean> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val model = resultGet.getOrNull()!!
-            return movEquipProprioRoomDatasource.delete(model)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.delete",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.delete",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val model = result.getOrNull()!!
+            return movEquipProprioRoomDatasource.delete(model)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.delete",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun get(id: Int): Result<MovEquipProprio> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(resultGet.getOrNull()!!.roomModelToEntity())
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.get",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.delete",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(result.getOrNull()!!.roomModelToEntity())
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.delete",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getDestino(id: Int): Result<String> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(resultGet.getOrNull()!!.roomModelToEntity().destinoMovEquipProprio!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.get",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.getDestino",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(result.getOrNull()!!.roomModelToEntity().destinoMovEquipProprio!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.getDestino",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getTipoMov(): Result<TypeMovEquip> {
         try {
-            val resultGet = movEquipProprioSharedPreferencesDatasource.get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val result = resultGet.getOrNull()!!.tipoMovEquipProprio
-            return Result.success(result)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.getTipoMov",
+            val result = movEquipProprioSharedPreferencesDatasource.get()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.getTipoMov",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val type = result.getOrNull()!!.tipoMovEquipProprio
+            return Result.success(type)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.getTipoMov",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getIdEquip(id: Int): Result<Int> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(resultGet.getOrNull()!!.roomModelToEntity().idEquipMovEquipProprio!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.get",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.getIdEquip",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(result.getOrNull()!!.roomModelToEntity().idEquipMovEquipProprio!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.getIdEquip",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getObserv(id: Int): Result<String?> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(resultGet.getOrNull()!!.roomModelToEntity().observMovEquipProprio)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.get",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.getObserv",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(result.getOrNull()!!.roomModelToEntity().observMovEquipProprio)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.getObserv",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getMatricColab(id: Int): Result<Int> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(resultGet.getOrNull()!!.roomModelToEntity().matricColabMovEquipProprio!!)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.get",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.getMatricColab",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(result.getOrNull()!!.roomModelToEntity().matricColabMovEquipProprio!!)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.getMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun getNotaFiscal(id: Int): Result<Int?> {
         try {
-            val resultGet = movEquipProprioRoomDatasource.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            return Result.success(resultGet.getOrNull()!!.roomModelToEntity().notaFiscalMovEquipProprio)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.get",
+            val result = movEquipProprioRoomDatasource.get(id)
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.getNotaFiscal",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(result.getOrNull()!!.roomModelToEntity().notaFiscalMovEquipProprio)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.getNotaFiscal",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listOpen(): Result<List<MovEquipProprio>> {
         try {
-            val resultListOpen = movEquipProprioRoomDatasource.listOpen()
-            if (resultListOpen.isFailure)
-                return Result.failure(resultListOpen.exceptionOrNull()!!)
-            val result = resultListOpen.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(
-                result
-            )
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.listOpen",
+            val result = movEquipProprioRoomDatasource.listOpen()
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.listOpen",
+                    message = e.message,
                     cause = e
                 )
+            }
+            val list = result.getOrNull()!!.map {
+                it.roomModelToEntity()
+            }
+            return Result.success(list)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.listOpen",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listSend(): Result<List<MovEquipProprio>> {
         try {
-            val resultListSend =
+            val result =
                 movEquipProprioRoomDatasource.listSend()
-            if (resultListSend.isFailure)
-                return Result.failure(resultListSend.exceptionOrNull()!!)
-            val listSend = resultListSend.getOrNull()!!.map {
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.listSend",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val listSend = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(listSend)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.listSend",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioRepository.listSend",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun listSent(): Result<List<MovEquipProprio>> {
         try {
-            val resultListSent =
+            val result =
                 movEquipProprioRoomDatasource.listSent()
-            if (resultListSent.isFailure)
-                return Result.failure(resultListSent.exceptionOrNull()!!)
-            val listSent = resultListSent.getOrNull()!!.map {
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.listSent",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val listSent = result.getOrNull()!!.map {
                 it.roomModelToEntity()
             }
             return Result.success(listSent)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.listSent",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioRepository.listSent",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -226,33 +297,49 @@ class IMovEquipProprioRepository(
         try {
             val resultGetMov =
                 movEquipProprioSharedPreferencesDatasource.get()
-            if (resultGetMov.isFailure)
-                return Result.failure(resultGetMov.exceptionOrNull()!!)
+            if (resultGetMov.isFailure) {
+                val e = resultGetMov.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movEquipProprioRoomModel =
                 resultGetMov.getOrNull()!!.entityToSharedPreferencesModel()
                     .entityToRoomModel(matricVigia, idLocal)
             val resultSave = movEquipProprioRoomDatasource.save(movEquipProprioRoomModel)
-            if (resultSave.isFailure)
-                return Result.failure(resultSave.exceptionOrNull()!!)
+            if (resultSave.isFailure) {
+                val e = resultSave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val id = resultSave.getOrNull()!!.toInt()
             if (id == 0) {
-                return Result.failure(
-                    RepositoryException(
-                        function = "MovEquipProprioRepositoryImpl.save",
-                        cause = Exception("Id is 0")
-                    )
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.save",
+                    message = "-",
+                    cause = Exception("Id is 0")
                 )
             }
             val resultClear = movEquipProprioSharedPreferencesDatasource.clear()
-            if (resultClear.isFailure)
-                return Result.failure(resultClear.exceptionOrNull()!!)
-            return Result.success(id)
-        } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.save",
+            if (resultClear.isFailure) {
+                val e = resultClear.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.save",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return Result.success(id)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.save",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -263,29 +350,43 @@ class IMovEquipProprioRepository(
         token: String
     ): Result<List<MovEquipProprio>> {
         try {
-            val resultSend = movEquipProprioRetrofitDatasource.send(
+            val result = movEquipProprioRetrofitDatasource.send(
                 list = list.map { it.entityToRetrofitModelOutput(number) },
                 token = token
             )
-            if (resultSend.isFailure)
-                return Result.failure(resultSend.exceptionOrNull()!!)
-            val listInput = resultSend.getOrNull()!!
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.send",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val listInput = result.getOrNull()!!
             val resultList = listInput.map {
                 it.retrofitModelInputToEntity()
             }
             return Result.success(resultList)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.send",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioRepository.send",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun setClose(id: Int): Result<Boolean> {
-        return movEquipProprioRoomDatasource.setClose(id)
+        val result = movEquipProprioRoomDatasource.setClose(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioRepository.send",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun setDestino(
@@ -293,17 +394,26 @@ class IMovEquipProprioRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setDestino(destino)
-                FlowApp.CHANGE -> movEquipProprioRoomDatasource.setDestino(destino, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.setDestino",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setDestino(destino)
+                    FlowApp.CHANGE -> movEquipProprioRoomDatasource.setDestino(destino, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.setDestino",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setDestino",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -313,17 +423,26 @@ class IMovEquipProprioRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setIdEquip(idEquip)
-                FlowApp.CHANGE -> movEquipProprioRoomDatasource.setIdEquip(idEquip, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.setIdEquip",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setIdEquip(idEquip)
+                    FlowApp.CHANGE -> movEquipProprioRoomDatasource.setIdEquip(idEquip, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.setIdEquip",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setIdEquip",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -333,17 +452,26 @@ class IMovEquipProprioRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setMatricColab(matricColab)
-                FlowApp.CHANGE -> movEquipProprioRoomDatasource.setMatricColab(matricColab, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.setMatricColab",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setMatricColab(matricColab)
+                    FlowApp.CHANGE -> movEquipProprioRoomDatasource.setMatricColab(matricColab, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.setMatricColab",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setMatricColab",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -353,17 +481,26 @@ class IMovEquipProprioRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setNotaFiscal(notaFiscal)
-                FlowApp.CHANGE -> movEquipProprioRoomDatasource.setNotaFiscal(notaFiscal, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.setNotaFiscal",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setNotaFiscal(notaFiscal)
+                    FlowApp.CHANGE -> movEquipProprioRoomDatasource.setNotaFiscal(notaFiscal, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.setNotaFiscal",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setNotaFiscal",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -373,17 +510,26 @@ class IMovEquipProprioRepository(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return try {
-            when (flowApp) {
-                FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setObserv(observ)
-                FlowApp.CHANGE -> movEquipProprioRoomDatasource.setObserv(observ, id)
-            }
-        } catch (e: Exception) {
-            Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.setMatricColab",
+        try {
+            val result =
+                when (flowApp) {
+                    FlowApp.ADD -> movEquipProprioSharedPreferencesDatasource.setObserv(observ)
+                    FlowApp.CHANGE -> movEquipProprioRoomDatasource.setObserv(observ, id)
+                }
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.setObserv",
+                    message = e.message,
                     cause = e
                 )
+            }
+            return result
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setObserv",
+                message = "-",
+                cause = e
             )
         }
     }
@@ -391,28 +537,51 @@ class IMovEquipProprioRepository(
     override suspend fun setSent(list: List<MovEquipProprio>): Result<Boolean> {
         try {
             for (entity in list) {
-                val resultSetSent =
+                val result =
                     movEquipProprioRoomDatasource.setSent(entity.idMovEquipProprio!!)
-                if (resultSetSent.isFailure)
-                    return Result.failure(resultSetSent.exceptionOrNull()!!)
+                if (result.isFailure) {
+                    val e = result.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IMovEquipProprioRepository.setSent",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                RepositoryException(
-                    function = "MovEquipProprioRepositoryImpl.setSent",
-                    cause = e
-                )
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setSent",
+                message = "-",
+                cause = e
             )
         }
     }
 
     override suspend fun setSend(id: Int): Result<Boolean> {
-        return movEquipProprioRoomDatasource.setSend(id)
+        val result = movEquipProprioRoomDatasource.setSend(id)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioRepository.setSend",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
     override suspend fun start(typeMov: TypeMovEquip): Result<Boolean> {
-        return movEquipProprioSharedPreferencesDatasource.start(typeMov)
+        val result = movEquipProprioSharedPreferencesDatasource.start(typeMov)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IMovEquipProprioRepository.start",
+                message = "-",
+                cause = e
+            )
+        }
+        return result
     }
 
 }

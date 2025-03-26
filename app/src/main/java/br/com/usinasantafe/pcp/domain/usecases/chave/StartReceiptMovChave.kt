@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.UsecaseException
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.utils.StatusForeigner
 import br.com.usinasantafe.pcp.utils.TypeMovKey
@@ -17,23 +17,34 @@ class IStartReceiptMovChave(
     override suspend fun invoke(id: Int): Result<Boolean> {
         try {
             val resultGet = movChaveRepository.get(id)
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure) {
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartReceiptMovChave",
+                    message = e.message,
+                    cause = e
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.observMovChave = null
             movChave.tipoMovChave = TypeMovKey.RECEIPT
             movChave.dthrMovChave = Date()
             movChave.statusForeignerMovChave = StatusForeigner.OUTSIDE
             val resultStart = movChaveRepository.start(movChave)
-            if (resultStart.isFailure)
-                return Result.failure(resultStart.exceptionOrNull()!!)
+            if (resultStart.isFailure) {
+                val e = resultStart.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartReceiptMovChave",
+                    message = e.message,
+                    cause = e
+                )
+            }
             return Result.success(true)
         } catch (e: Exception) {
-            return Result.failure(
-                UsecaseException(
-                    function = "StartReceiptChaveImpl",
-                    cause = e.cause
-                )
+            return resultFailure(
+                context = "IStartReceiptMovChave",
+                message = "-",
+                cause = e
             )
         }
     }

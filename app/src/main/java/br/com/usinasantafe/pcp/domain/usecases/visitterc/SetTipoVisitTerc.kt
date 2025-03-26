@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.visitterc
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 import br.com.usinasantafe.pcp.utils.TypeVisitTerc
 
@@ -12,7 +13,16 @@ class ISetTipoVisitTerc(
 ): SetTipoVisitTerc {
 
     override suspend fun invoke(typeVisitTerc: TypeVisitTerc): Result<Boolean> {
-        return movEquipVisitTercRepository.setTipoVisitTerc(typeVisitTerc)
+        val result = movEquipVisitTercRepository.setTipoVisitTerc(typeVisitTerc)
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "ISetTipoVisitTerc",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }

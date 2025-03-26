@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.domain.usecases.proprio
 
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.utils.FlowApp
 
@@ -20,11 +21,20 @@ class IDeletePassagColab(
         flowApp: FlowApp,
         id: Int
     ): Result<Boolean> {
-        return movEquipProprioPassagRepository.delete(
+        val result = movEquipProprioPassagRepository.delete(
             matricColab = matricColab,
             flowApp = flowApp,
             id = id
         )
+        if (result.isFailure) {
+            val e = result.exceptionOrNull()!!
+            return resultFailure(
+                context = "IDeletePassagColab",
+                message = e.message,
+                cause = e
+            )
+        }
+        return result
     }
 
 }
