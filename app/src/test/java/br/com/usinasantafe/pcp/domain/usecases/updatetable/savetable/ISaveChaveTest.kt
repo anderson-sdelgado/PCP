@@ -10,6 +10,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveChaveTest {
 
+    private val chaveRepository = Mockito.mock<ChaveRepository>()
+    private val usecase = ISaveChave(chaveRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val chaveList = listOf(
@@ -19,13 +22,11 @@ class ISaveChaveTest {
                 idLocalTrab = 1
             )
         )
-        val chaveRepository = Mockito.mock<ChaveRepository>()
         whenever(
             chaveRepository.addAll(chaveList)
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ISaveChave(chaveRepository)
         val result = usecase(chaveList)
         assertEquals(
             result.isSuccess,
@@ -46,7 +47,6 @@ class ISaveChaveTest {
                 idLocalTrab = 1
             )
         )
-        val chaveRepository = Mockito.mock<ChaveRepository>()
         whenever(
             chaveRepository.addAll(chaveList)
         ).thenReturn(
@@ -54,7 +54,6 @@ class ISaveChaveTest {
                 Exception()
             )
         )
-        val usecase = ISaveChave(chaveRepository)
         val result = usecase(chaveList)
         assertEquals(
             result.isFailure,
@@ -62,7 +61,7 @@ class ISaveChaveTest {
 
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ChaveRepository.addAll"
+            "ISaveChave -> Unknown Error"
         )
     }
 }

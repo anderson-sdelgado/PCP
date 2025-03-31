@@ -18,11 +18,16 @@ import java.util.Date
 
 class ISendMovResidenciaListTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val configRepository = mock<ConfigRepository>()
+    private val usecase = ISendMovResidenciaList(
+        movEquipResidenciaRepository,
+        configRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository listSend`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipResidenciaRepository.listSend()
             ).thenReturn(
@@ -30,23 +35,20 @@ class ISendMovResidenciaListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovResidenciaList(
-                movEquipResidenciaRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.listSend"
+                "ISendMovResidenciaList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in ConfigRepository GetConfig`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipResidenciaRepository.listSend()
             ).thenReturn(
@@ -76,15 +78,14 @@ class ISendMovResidenciaListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovResidenciaList(
-                movEquipResidenciaRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISendMovResidenciaList -> Unknown Error"
             )
         }
 
@@ -117,8 +118,6 @@ class ISendMovResidenciaListTest {
                 version = entityConfig.version!!,
                 idBD = entityConfig.idBD!!
             )
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipResidenciaRepository.listSend()
             ).thenReturn(
@@ -140,15 +139,14 @@ class ISendMovResidenciaListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovResidenciaList(
-                movEquipResidenciaRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.send"
+                "ISendMovResidenciaList -> Unknown Error"
             )
         }
 
@@ -181,8 +179,6 @@ class ISendMovResidenciaListTest {
                 version = entityConfig.version!!,
                 idBD = entityConfig.idBD!!
             )
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipResidenciaRepository.listSend()
             ).thenReturn(
@@ -202,16 +198,24 @@ class ISendMovResidenciaListTest {
             ).thenReturn(
                 Result.success(entityList)
             )
-            val usecase = ISendMovResidenciaList(
-                movEquipResidenciaRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val list = result.getOrNull()!!
-            assertEquals(list.size, 1)
+            assertEquals(
+                list.size,
+                1
+            )
             val entity = list[0]
-            assertEquals(entity.idMovEquipResidencia, 1)
-            assertEquals(entity.placaMovEquipResidencia, "PLACA TESTE")
+            assertEquals(
+                entity.idMovEquipResidencia,
+                1
+            )
+            assertEquals(
+                entity.placaMovEquipResidencia,
+                "PLACA TESTE"
+            )
         }
 }

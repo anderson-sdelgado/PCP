@@ -39,7 +39,7 @@ class IGetMovChaveInsideListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.listRemove"
+                "IGetMovChaveInsideList -> Unknown Error"
             )
         }
 
@@ -79,7 +79,7 @@ class IGetMovChaveInsideListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ColabRepository.getNome"
+                "IGetMovChaveInsideList -> Unknown Error"
             )
         }
 
@@ -126,7 +126,7 @@ class IGetMovChaveInsideListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetDescrFullChave"
+                "IGetMovChaveInsideList -> Unknown Error"
             )
         }
 

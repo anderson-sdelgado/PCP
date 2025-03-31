@@ -35,7 +35,7 @@ class IGetServerEquipTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerEquip -> Unknown Error"
         )
     }
 
@@ -53,7 +53,7 @@ class IGetServerEquipTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerEquip"
+            "IGetServerEquip"
         )
     }
 
@@ -78,7 +78,7 @@ class IGetServerEquipTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRepository.recoverAll"
+            "IGetServerEquip -> Unknown Error"
         )
     }
 

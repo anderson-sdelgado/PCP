@@ -13,11 +13,17 @@ import org.mockito.kotlin.whenever
 
 class CheckCpfVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val terceiroRepository = mock<TerceiroRepository>()
+    private val visitanteRepository = mock<VisitanteRepository>()
+    private val usecase = ICheckCpfVisitTerc(
+        movEquipVisitTercRepository,
+        terceiroRepository,
+        visitanteRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.ADD,
@@ -28,28 +34,23 @@ class CheckCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICheckCpfVisitTerc(
-            movEquipVisitTercRepository,
-            terceiroRepository,
-            visitanteRepository
-        )
         val result = usecase(
             cpf = "326.949.728-88",
             flowApp = FlowApp.ADD,
             0
         )
-        assertTrue(result.isFailure)
         assertEquals(
-            result.exceptionOrNull()!!.message
-            , "Failure Repository -> MovEquipVisitTercRepository.getTypeVisitTerc"
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICheckCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return failure if have error in VisitanteRepository CheckCPF`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.ADD,
@@ -67,28 +68,23 @@ class CheckCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICheckCpfVisitTerc(
-            movEquipVisitTercRepository,
-            terceiroRepository,
-            visitanteRepository
-        )
         val result = usecase(
             cpf = "326.949.728-88",
             flowApp = FlowApp.ADD,
             0
         )
-        assertTrue(result.isFailure)
         assertEquals(
-            result.exceptionOrNull()!!.message
-            , "Failure Repository -> VisitanteRepository.checkCPF"
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICheckCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return failure if have error in TerceiroRepository CheckCPF`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.ADD,
@@ -106,28 +102,23 @@ class CheckCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICheckCpfVisitTerc(
-            movEquipVisitTercRepository,
-            terceiroRepository,
-            visitanteRepository
-        )
         val result = usecase(
             cpf = "326.949.728-88",
             flowApp = FlowApp.ADD,
             0
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message
-            , "Failure Repository -> TerceiroRepository.checkCPF"
+            , "ICheckCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return false if CheckCPF is invalid`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.ADD,
@@ -143,25 +134,23 @@ class CheckCpfVisitTercImplTest {
         ).thenReturn(
             Result.success(false)
         )
-        val usecase = ICheckCpfVisitTerc(
-            movEquipVisitTercRepository,
-            terceiroRepository,
-            visitanteRepository
-        )
         val result = usecase(
             cpf = "326.949.728-88",
             flowApp = FlowApp.ADD,
             0
         )
-        assertTrue(result.isSuccess)
-        assertFalse(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            false
+        )
     }
 
     @Test
     fun `Check return false if CheckCPF is valid`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.ADD,
@@ -177,17 +166,18 @@ class CheckCpfVisitTercImplTest {
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ICheckCpfVisitTerc(
-            movEquipVisitTercRepository,
-            terceiroRepository,
-            visitanteRepository
-        )
         val result = usecase(
             cpf = "326.949.728-88",
             flowApp = FlowApp.ADD,
             0
         )
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 }

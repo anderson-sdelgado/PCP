@@ -5,7 +5,8 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.TypeMovKey
-import java.util.UUID
+import br.com.usinasantafe.pcp.utils.UUIDProvider
+import br.com.usinasantafe.pcp.utils.UUIDProvider.uuid
 
 interface SaveMovChave {
     suspend operator fun invoke(
@@ -17,7 +18,8 @@ interface SaveMovChave {
 class ISaveMovChave(
     private val configRepository: ConfigRepository,
     private val movChaveRepository: MovChaveRepository,
-    private val startProcessSendData: StartProcessSendData
+    private val startProcessSendData: StartProcessSendData,
+    private val uuidProvider: UUIDProvider = UUIDProvider
 ): SaveMovChave {
 
     override suspend fun invoke(
@@ -25,8 +27,7 @@ class ISaveMovChave(
         id: Int
     ): Result<Boolean> {
         try {
-            val uuid = UUID.randomUUID()
-            var uuidString = uuid.toString()
+            var uuidString = uuidProvider.uuid()
             if (typeMov == TypeMovKey.RECEIPT) {
                 val resultClose = movChaveRepository.setOutside(id)
                 if (resultClose.isFailure) {

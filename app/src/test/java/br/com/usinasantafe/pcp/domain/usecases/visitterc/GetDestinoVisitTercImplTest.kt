@@ -9,9 +9,11 @@ import org.mockito.kotlin.whenever
 
 class GetDestinoVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = IGetDestinoVisitTerc(movEquipVisitTercRepository)
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getDestino`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getDestino(
                 id = 1
@@ -21,14 +23,14 @@ class GetDestinoVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetDestinoVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepository.getDestino"
+            "IGetDestinoVisitTerc -> Unknown Error"
         )
     }
 
@@ -46,7 +48,13 @@ class GetDestinoVisitTercImplTest {
             movEquipVisitTercRepository,
         )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "Destino")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "Destino"
+        )
     }
 }

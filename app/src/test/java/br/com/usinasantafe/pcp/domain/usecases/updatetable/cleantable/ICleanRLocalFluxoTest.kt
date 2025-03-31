@@ -9,10 +9,12 @@ import org.mockito.kotlin.whenever
 
 class ICleanRLocalFluxoTest {
 
+    private val rLocalFluxoRepository = mock<RLocalFluxoRepository>()
+    private val usecase = ICleanRLocalFluxo(rLocalFluxoRepository)
+
     @Test
     fun `Check return failure if have error in RLocalFluxoRepository deleteAll`() =
         runTest {
-            val rLocalFluxoRepository = mock<RLocalFluxoRepository>()
             whenever(
                 rLocalFluxoRepository.deleteAll()
             ).thenReturn(
@@ -20,7 +22,6 @@ class ICleanRLocalFluxoTest {
                     Exception()
                 )
             )
-            val usecase = ICleanRLocalFluxo(rLocalFluxoRepository)
             val result = usecase()
             assertEquals(
                 result.isFailure,
@@ -28,20 +29,18 @@ class ICleanRLocalFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepository.deleteAll"
+                "ICleanRLocalFluxo -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if CleanRLocalFluxoImplTest execute successfully`() =
         runTest {
-            val rLocalFluxoRepository = mock<RLocalFluxoRepository>()
             whenever(
                 rLocalFluxoRepository.deleteAll()
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ICleanRLocalFluxo(rLocalFluxoRepository)
             val result = usecase()
             assertEquals(
                 result.isSuccess,

@@ -34,7 +34,7 @@ class IGetServerChaveTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerChave -> Unknown Error"
         )
     }
 
@@ -52,7 +52,7 @@ class IGetServerChaveTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerChave"
+            "IGetServerChave"
         )
     }
 
@@ -78,7 +78,7 @@ class IGetServerChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ChaveRepository.recoverAll"
+                "IGetServerChave -> Unknown Error"
             )
         }
 

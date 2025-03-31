@@ -35,7 +35,7 @@ class IGetServerTerceiroTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerTerceiro -> Unknown Error"
         )
     }
 
@@ -53,7 +53,7 @@ class IGetServerTerceiroTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerTerceiro"
+            "IGetServerTerceiro"
         )
     }
 
@@ -78,7 +78,7 @@ class IGetServerTerceiroTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> TerceiroRepository.recoverAll"
+            "IGetServerTerceiro -> Unknown Error"
         )
     }
 

@@ -10,6 +10,11 @@ import org.mockito.kotlin.whenever
 
 class ISaveRLocalFluxoTest {
 
+    private val rLocalFluxoRepository = mock<RLocalFluxoRepository>()
+    private val usecase = ISaveRLocalFluxo(
+        rLocalFluxoRepository
+    )
+
     @Test
     fun `Check return failure if have error in RLocalFluxoRepository addAll`() =
         runTest {
@@ -20,16 +25,12 @@ class ISaveRLocalFluxoTest {
                     idLocal = 1
                 )
             )
-            val rLocalFluxoRepository = mock<RLocalFluxoRepository>()
             whenever(
                 rLocalFluxoRepository.addAll(rLocalFluxoList)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
-            )
-            val usecase = ISaveRLocalFluxo(
-                rLocalFluxoRepository
             )
             val result = usecase(rLocalFluxoList)
             assertEquals(
@@ -38,7 +39,7 @@ class ISaveRLocalFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepository.addAll"
+                "ISaveRLocalFluxo -> Unknown Error"
             )
         }
 
@@ -52,14 +53,10 @@ class ISaveRLocalFluxoTest {
                     idLocal = 1
                 )
             )
-            val rLocalFluxoRepository = mock<RLocalFluxoRepository>()
             whenever(
                 rLocalFluxoRepository.addAll(rLocalFluxoList)
             ).thenReturn(
                 Result.success(true)
-            )
-            val usecase = ISaveRLocalFluxo(
-                rLocalFluxoRepository
             )
             val result = usecase(rLocalFluxoList)
             assertEquals(

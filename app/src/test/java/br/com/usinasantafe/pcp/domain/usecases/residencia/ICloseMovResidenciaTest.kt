@@ -15,51 +15,14 @@ import java.util.Date
 
 class ICloseMovResidenciaTest {
 
-    @Test
-    fun `Check return failure if have error in MovEquipResidenciaRepository Get`() =
-        runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            whenever(
-                movEquipResidenciaRepository.get(1)
-            ).thenReturn(
-                Result.failure(
-                    Exception()
-                )
-            )
-            val usecase = ICloseMovResidencia(
-                movEquipResidenciaRepository
-            )
-            val result = usecase(1)
-            assertTrue(result.isFailure)
-            assertEquals(
-                result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.get"
-            )
-        }
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = ICloseMovResidencia(
+        movEquipResidenciaRepository
+    )
 
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository SetClose`() =
         runTest {
-            val mov = MovEquipResidencia(
-                idMovEquipResidencia = 1,
-                matricVigiaMovEquipResidencia = 1000,
-                idLocalMovEquipResidencia = 1000,
-                tipoMovEquipResidencia = TypeMovEquip.INPUT,
-                dthrMovEquipResidencia = Date(1723213270250),
-                motoristaMovEquipResidencia = "TESTE",
-                veiculoMovEquipResidencia = "TESTE",
-                placaMovEquipResidencia = "TESTE",
-                observMovEquipResidencia = "TESTE",
-                statusMovEquipResidencia = StatusData.OPEN,
-                statusSendMovEquipResidencia = StatusSend.SEND,
-                statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
-            )
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            whenever(
-                movEquipResidenciaRepository.get(1)
-            ).thenReturn(
-                Result.success(mov)
-            )
             whenever(
                 movEquipResidenciaRepository.setClose(1)
             ).thenReturn(
@@ -67,14 +30,14 @@ class ICloseMovResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ICloseMovResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.setClose"
+                "ICloseMovResidencia -> Unknown Error"
             )
         }
 
@@ -95,7 +58,6 @@ class ICloseMovResidenciaTest {
                 statusSendMovEquipResidencia = StatusSend.SEND,
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.get(1)
             ).thenReturn(
@@ -106,11 +68,14 @@ class ICloseMovResidenciaTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ICloseMovResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(1)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

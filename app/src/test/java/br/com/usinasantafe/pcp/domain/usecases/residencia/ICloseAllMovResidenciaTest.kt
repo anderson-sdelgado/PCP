@@ -15,10 +15,12 @@ import java.util.Date
 
 class ICloseAllMovResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = ICloseAllMovResidencia(movEquipResidenciaRepository)
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository ListOpen`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.listOpen()
             ).thenReturn(
@@ -26,14 +28,14 @@ class ICloseAllMovResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ICloseAllMovResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.listOpen"
+                "ICloseAllMovResidencia -> Unknown Error"
             )
         }
 
@@ -56,7 +58,6 @@ class ICloseAllMovResidenciaTest {
                     statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
                 )
             )
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.listOpen()
             ).thenReturn(
@@ -69,14 +70,14 @@ class ICloseAllMovResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ICloseAllMovResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.setClose"
+                "ICloseAllMovResidencia -> Unknown Error"
             )
         }
 
@@ -114,7 +115,13 @@ class ICloseAllMovResidenciaTest {
                 movEquipResidenciaRepository
             )
             val result = usecase()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

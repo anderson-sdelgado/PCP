@@ -52,7 +52,7 @@ class ISetIdVisitTerc(
                 TypeVisitTerc.TERCEIRO -> terceiroRepository.getId(cpf)
             }
             if (resultGetId.isFailure) {
-                val e = resultGetType.exceptionOrNull()!!
+                val e = resultGetId.exceptionOrNull()!!
                 return resultFailure(
                     context = "ISetIdVisitTerc",
                     message = e.message,

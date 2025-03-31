@@ -34,7 +34,7 @@ class IGetNroEquipMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.getIdEquip"
+                "IGetNroEquipMovChaveEquip -> Unknown Error"
             )
         }
 
@@ -60,7 +60,7 @@ class IGetNroEquipMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> EquipRepository.getNro"
+                "IGetNroEquipMovChaveEquip -> Unknown Error"
             )
         }
 

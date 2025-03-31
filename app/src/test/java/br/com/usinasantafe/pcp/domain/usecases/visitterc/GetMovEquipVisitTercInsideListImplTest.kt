@@ -14,13 +14,16 @@ import java.util.Date
 
 class GetMovEquipVisitTercInsideListImplTest {
 
-
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val getMotoristaVisitTerc = mock<GetMotoristaVisitTerc>()
+    private val usecase = IGetMovEquipVisitTercInsideList(
+        movEquipVisitTercRepository = movEquipVisitTercRepository,
+        getMotoristaVisitTerc = getMotoristaVisitTerc
+    )
 
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository ListOpenInput`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val getMotoristaVisitTerc = mock<GetMotoristaVisitTerc>()
             whenever(
                 movEquipVisitTercRepository.listInside()
             ).thenReturn(
@@ -28,23 +31,20 @@ class GetMovEquipVisitTercInsideListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetMovEquipVisitTercInsideList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                getMotoristaVisitTerc = getMotoristaVisitTerc
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.listOpenInput"
+                "IGetMovEquipVisitTercInsideList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val getMotoristaVisitTerc = mock<GetMotoristaVisitTerc>()
             whenever(
                 movEquipVisitTercRepository.listInside()
             ).thenReturn(
@@ -56,38 +56,36 @@ class GetMovEquipVisitTercInsideListImplTest {
                             tipoMovEquipVisitTerc = TypeMovEquip.INPUT,
                             veiculoMovEquipVisitTerc = "GOL",
                             placaMovEquipVisitTerc = "AAA-0000",
-                            idVisitTercMovEquipVisitTerc = 1
+                            idVisitTercMovEquipVisitTerc = 1,
+                            tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                         )
                     )
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
-                    flowApp = FlowApp.CHANGE,
-                    id = 1
+                getMotoristaVisitTerc(
+                    typeVisitTerc = TypeVisitTerc.TERCEIRO,
+                    idVisitTerc = 1
                 )
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val usecase = IGetMovEquipVisitTercInsideList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                getMotoristaVisitTerc = getMotoristaVisitTerc
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetMovEquipVisitTercInputOpenListImpl"
+                "IGetMovEquipVisitTercInsideList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in GetMotorista`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val getMotoristaVisitTerc = mock<GetMotoristaVisitTerc>()
             whenever(
                 movEquipVisitTercRepository.listInside()
             ).thenReturn(
@@ -125,15 +123,14 @@ class GetMovEquipVisitTercInsideListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetMovEquipVisitTercInsideList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                getMotoristaVisitTerc = getMotoristaVisitTerc
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetMotorista"
+                "IGetMovEquipVisitTercInsideList -> Unknown Error"
             )
         }
 
@@ -184,7 +181,10 @@ class GetMovEquipVisitTercInsideListImplTest {
                 getMotoristaVisitTerc = getMotoristaVisitTerc
             )
             val result = usecase()
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val mov = result.getOrNull()!![0]
             assertEquals(
                 mov.veiculo,

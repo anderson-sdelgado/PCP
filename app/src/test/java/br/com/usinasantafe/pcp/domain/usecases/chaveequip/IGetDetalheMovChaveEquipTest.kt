@@ -40,7 +40,7 @@ class IGetDetalheMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.get"
+                "IGetDetalheMovChaveEquip -> Unknown Error"
             )
         }
 
@@ -77,7 +77,7 @@ class IGetDetalheMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ColabRepository.getNome"
+                "IGetDetalheMovChaveEquip -> Unknown Error"
             )
         }
 
@@ -121,7 +121,7 @@ class IGetDetalheMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> EquipRepository.getDescr"
+                "IGetDetalheMovChaveEquip -> Unknown Error"
             )
         }
 

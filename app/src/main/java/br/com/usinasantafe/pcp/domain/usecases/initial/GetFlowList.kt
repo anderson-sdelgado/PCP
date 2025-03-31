@@ -43,7 +43,7 @@ class IGetFlowList(
             val fluxoList = rLocalFluxoList.map {
                 val resultFluxo = fluxoRepository.get(it.idFluxo)
                 if (resultFluxo.isFailure) {
-                    val e = resultRLocalFluxo.exceptionOrNull()!!
+                    val e = resultFluxo.exceptionOrNull()!!
                     return resultFailure(
                         context = "IGetFlowList",
                         message = e.message,

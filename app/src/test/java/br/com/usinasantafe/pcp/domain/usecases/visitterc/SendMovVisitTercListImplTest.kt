@@ -22,12 +22,18 @@ import java.util.Date
 
 class SendMovVisitTercListImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    private val configRepository = mock<ConfigRepository>()
+    private val usecase = ISendMovVisitTercList(
+        movEquipVisitTercRepository,
+        movEquipVisitTercPassagRepository,
+        configRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository listSend`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipVisitTercRepository.listSend()
             ).thenReturn(
@@ -35,25 +41,20 @@ class SendMovVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovVisitTercList(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.listSend"
+                "ISendMovVisitTercList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in MovEquipVisitTercPassagRepository list`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipVisitTercRepository.listSend()
             ).thenReturn(
@@ -88,25 +89,20 @@ class SendMovVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovVisitTercList(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.list"
+                "ISendMovVisitTercList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in ConfigRepository getConfig`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipVisitTercRepository.listSend()
             ).thenReturn(
@@ -154,16 +150,14 @@ class SendMovVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovVisitTercList(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISendMovVisitTercList -> Unknown Error"
             )
         }
 
@@ -202,9 +196,6 @@ class SendMovVisitTercListImplTest {
                 number = 16997417840,
                 version = "1.00"
             )
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipVisitTercRepository.listSend()
             ).thenReturn(
@@ -243,16 +234,14 @@ class SendMovVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovVisitTercList(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.send"
+                "ISendMovVisitTercList -> Unknown Error"
             )
         }
 
@@ -291,9 +280,6 @@ class SendMovVisitTercListImplTest {
                 number = 16997417840,
                 version = "1.00"
             )
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipVisitTercRepository.listSend()
             ).thenReturn(
@@ -330,17 +316,24 @@ class SendMovVisitTercListImplTest {
             ).thenReturn(
                 Result.success(listSendFull)
             )
-            val usecase = ISendMovVisitTercList(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val list = result.getOrNull()!!
-            assertEquals(list.size, 1)
+            assertEquals(
+                list.size,
+                1
+            )
             val entity = list[0]
-            assertEquals(entity.idMovEquipVisitTerc, 1)
-            assertEquals(entity.nroMatricVigiaMovEquipVisitTerc, 19759)
+            assertEquals(
+                entity.idMovEquipVisitTerc,
+                1
+            )
+            assertEquals(
+                entity.nroMatricVigiaMovEquipVisitTerc,
+                19759
+            )
         }
 }

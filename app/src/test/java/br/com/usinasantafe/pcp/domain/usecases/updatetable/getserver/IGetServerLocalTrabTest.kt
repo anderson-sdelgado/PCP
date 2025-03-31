@@ -34,7 +34,7 @@ class IGetServerLocalTrabTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerLocalTrab -> Unknown Error"
         )
     }
 
@@ -52,7 +52,7 @@ class IGetServerLocalTrabTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerLocalTrab"
+            "IGetServerLocalTrab"
         )
     }
 
@@ -78,7 +78,7 @@ class IGetServerLocalTrabTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> LocalTrabRepository.recoverAll"
+                "IGetServerLocalTrab -> Unknown Error"
             )
         }
 

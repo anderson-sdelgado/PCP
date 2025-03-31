@@ -11,11 +11,16 @@ import org.mockito.kotlin.whenever
 
 class SetPlacaVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val startProcessSendData = mock<StartProcessSendData>()
+    private val usecase = ISetPlacaVisitTerc(
+        movEquipVisitTercRepository,
+        startProcessSendData
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository setPlaca`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipVisitTercRepository.setPlaca(
                     placa = "Placa",
@@ -27,27 +32,24 @@ class SetPlacaVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISetPlacaVisitTerc(
-                movEquipVisitTercRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 placa = "Placa",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.setPlaca"
+                "ISetPlacaVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if SetPlacaVisitTercImpl execute successfully`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipVisitTercRepository.setPlaca(
                     placa = "Placa",
@@ -57,16 +59,18 @@ class SetPlacaVisitTercImplTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetPlacaVisitTerc(
-                movEquipVisitTercRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 placa = "Placa",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

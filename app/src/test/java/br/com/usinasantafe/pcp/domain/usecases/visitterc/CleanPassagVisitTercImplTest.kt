@@ -9,9 +9,11 @@ import org.mockito.kotlin.whenever
 
 class CleanPassagVisitTercImplTest {
 
+    private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    private val usecase = ICleanPassagVisitTerc(movEquipVisitTercPassagRepository)
+
     @Test
-    fun `Chech return failure Datasource if have error in cleanPassag`() = runTest {
-        val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    fun `Check return failure Datasource if have error in cleanPassag`() = runTest {
         whenever(
             movEquipVisitTercPassagRepository.clear()
         ).thenReturn(
@@ -19,25 +21,37 @@ class CleanPassagVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICleanPassagVisitTerc(movEquipVisitTercPassagRepository)
         val result = usecase()
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Repository -> MovEquipVisitTercPassagRepository.clear")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), Exception().toString())
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICleanPassagVisitTerc -> Unknown Error"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            Exception().toString()
+        )
     }
     
     @Test
-    fun `Chech return true Datasource if cleanPassag execute success`() = runTest {
-        val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    fun `Check return true Datasource if cleanPassag execute success`() = runTest {
         whenever(
             movEquipVisitTercPassagRepository.clear()
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ICleanPassagVisitTerc(movEquipVisitTercPassagRepository)
         val result = usecase()
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 
 }

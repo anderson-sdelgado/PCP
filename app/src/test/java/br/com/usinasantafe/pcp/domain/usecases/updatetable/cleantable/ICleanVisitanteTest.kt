@@ -9,23 +9,29 @@ import org.mockito.kotlin.whenever
 
 class ICleanVisitanteTest {
 
+    private val visitanteRepository = mock<VisitanteRepository>()
+    private val usecase = ICleanVisitante(visitanteRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             visitanteRepository.deleteAll()
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ICleanVisitante(visitanteRepository)
         val result = usecase()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check execution incorrect`() = runTest {
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             visitanteRepository.deleteAll()
         ).thenReturn(
@@ -33,10 +39,18 @@ class ICleanVisitanteTest {
                 Exception()
             )
         )
-        val usecase = ICleanVisitante(visitanteRepository)
         val result = usecase()
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> VisitanteRepository.deleteAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.Exception")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICleanVisitante -> Unknown Error"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.Exception"
+        )
     }
 }

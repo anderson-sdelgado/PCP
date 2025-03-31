@@ -79,8 +79,14 @@ class IGetDetalheVisitTerc(
                     mov.tipoVisitTercMovEquipVisitTerc!!,
                     passag.idVisitTerc!!
                 )
-                if (resultGetPassag.isFailure)
-                    return Result.failure(resultGetPassag.exceptionOrNull()!!)
+                if (resultGetPassag.isFailure) {
+                    val e = resultGetPassag.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "IGetDetalheVisitTerc",
+                        message = e.message,
+                        cause = e
+                    )
+                }
                 if(passageiro != ""){
                     passageiro += " "
                 }

@@ -9,10 +9,14 @@ import org.mockito.kotlin.whenever
 
 class IGetMotoristaResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = IGetMotoristaResidencia(
+        movEquipResidenciaRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository GetMotorista`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getMotorista(
                     id = 1
@@ -22,21 +26,20 @@ class IGetMotoristaResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = IGetMotoristaResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(id = 1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.GetMotorista"
+                "IGetMotoristaResidencia -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return motorista if GetMotoristaResidenciaImpl execute successfully`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getMotorista(
                     id = 1
@@ -48,7 +51,13 @@ class IGetMotoristaResidenciaTest {
                 movEquipResidenciaRepository
             )
             val result = usecase(id = 1)
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Motorista")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "Motorista"
+            )
         }
 }

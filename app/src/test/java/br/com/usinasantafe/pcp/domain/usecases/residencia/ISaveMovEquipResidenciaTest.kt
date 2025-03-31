@@ -13,12 +13,18 @@ import org.mockito.kotlin.whenever
 
 class ISaveMovEquipResidenciaTest {
 
+    private val configRepository = mock<ConfigRepository>()
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val startProcessSendData = mock<StartProcessSendData>()
+    private val usecase = ISaveMovEquipResidencia(
+        configRepository,
+        movEquipResidenciaRepository,
+        startProcessSendData,
+    )
+
     @Test
-    fun `Chech return failure if have error in ConfigRepository OutsideMovResidencia`() =
+    fun `Check return failure if have error in ConfigRepository OutsideMovResidencia`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setOutside(1)
             ).thenReturn(
@@ -26,28 +32,23 @@ class ISaveMovEquipResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipResidencia(
-                configRepository,
-                movEquipResidenciaRepository,
-                startProcessSendData,
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 1
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> CloseMovResidencia"
+                "ISaveMovEquipResidencia -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return failure if have error in ConfigRepository GetConfig`() =
+    fun `Check return failure if have error in ConfigRepository GetConfig`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setOutside(1)
             ).thenReturn(
@@ -60,28 +61,23 @@ class ISaveMovEquipResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipResidencia(
-                configRepository,
-                movEquipResidenciaRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 1
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISaveMovEquipResidencia -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return failure if have error in MovEquipResidenciaRepository Save`() =
+    fun `Check return failure if have error in MovEquipResidenciaRepository Save`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setOutside(1)
             ).thenReturn(
@@ -104,34 +100,23 @@ class ISaveMovEquipResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipResidencia(
-                configRepository,
-                movEquipResidenciaRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 1
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.save"
+                "ISaveMovEquipResidencia -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return true if SaveMovEquipResidenciaImpl execute successfully`() =
+    fun `Check return true if SaveMovEquipResidenciaImpl execute successfully`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
-            val closeMovResidencia = mock<CloseMovResidencia>()
-            whenever(
-                closeMovResidencia(1)
-            ).thenReturn(
-                Result.success(true)
-            )
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -156,7 +141,13 @@ class ISaveMovEquipResidenciaTest {
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 1
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

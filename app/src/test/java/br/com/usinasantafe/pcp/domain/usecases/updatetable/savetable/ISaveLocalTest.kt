@@ -11,6 +11,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveLocalTest {
 
+    private val localRepository = Mockito.mock<LocalRepository>()
+    private val usecase = ISaveLocal(localRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val localList = listOf(
@@ -19,16 +22,21 @@ class ISaveLocalTest {
                 descrLocal = "USINA"
             )
         )
-        val localRepository = Mockito.mock<LocalRepository>()
+
         whenever(
             localRepository.addAll(localList)
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ISaveLocal(localRepository)
         val result = usecase(localList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 
     @Test
@@ -39,7 +47,6 @@ class ISaveLocalTest {
                 descrLocal = "USINA"
             )
         )
-        val localRepository = Mockito.mock<LocalRepository>()
         whenever(
             localRepository.addAll(localList)
         ).thenReturn(
@@ -47,9 +54,14 @@ class ISaveLocalTest {
                 Exception()
             )
         )
-        val usecase = ISaveLocal(localRepository)
         val result = usecase(localList)
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRepository.addAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ISaveLocal -> Unknown Error"
+        )
     }
 }

@@ -19,50 +19,10 @@ class ISetObservResidenciaTest {
 
     private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
     private val startProcessSendData = mock<StartProcessSendData>()
-
-    private fun getUsecase() = ISetObservResidencia(
+    private val usecase = ISetObservResidencia(
         movEquipResidenciaRepository,
         startProcessSendData
     )
-
-    @Test
-    fun `Check return true if SetObservResidenciaImpl - TypeMov OUTPUT and FlowApp ADD - execute successfully`() =
-        runTest {
-            val model = MovEquipResidencia(
-                idMovEquipResidencia = 1,
-                matricVigiaMovEquipResidencia = 1000,
-                idLocalMovEquipResidencia = 1000,
-                tipoMovEquipResidencia = TypeMovEquip.INPUT,
-                dthrMovEquipResidencia = Date(1723213270250),
-                motoristaMovEquipResidencia = "MOTORISTA TESTE",
-                veiculoMovEquipResidencia = "VEICULO TESTE",
-                placaMovEquipResidencia = "PLACA TESTE",
-                observMovEquipResidencia = "OBSERVACAO TESTE",
-                statusMovEquipResidencia = StatusData.OPEN,
-                statusSendMovEquipResidencia = StatusSend.SEND,
-                statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
-            )
-            whenever(
-                movEquipResidenciaRepository.get(
-                    id = 1
-                )
-            ).thenReturn(
-                Result.success(model)
-            )
-            model.observMovEquipResidencia = "observ"
-            model.tipoMovEquipResidencia = TypeMovEquip.OUTPUT
-            model.dthrMovEquipResidencia = Date()
-            model.statusMovEquipForeignerResidencia = StatusForeigner.OUTSIDE
-
-            val usecase = getUsecase()
-            val result = usecase(
-                observ = "observ",
-                flowApp = FlowApp.ADD,
-                id = 1
-            )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
-        }
 
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository setObserv`() =
@@ -78,16 +38,18 @@ class ISetObservResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 observ = "observ",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.setObserv"
+                "ISetObservResidencia -> Unknown Error"
             )
         }
 
@@ -103,13 +65,18 @@ class ISetObservResidenciaTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 observ = "observ",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

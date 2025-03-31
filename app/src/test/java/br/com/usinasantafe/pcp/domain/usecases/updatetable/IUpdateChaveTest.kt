@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Chave
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanChave
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateChave
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerChave
@@ -34,8 +35,10 @@ class IUpdateChaveTest {
             whenever(
                 getServerChave()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerChave",
+                    message = "-",
+                    cause = Exception()
                 )
             )
             val result = usecase(
@@ -58,8 +61,8 @@ class IUpdateChaveTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllChaveServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllChaveServer -> java.lang.NullPointerException",
+                    failure = "IUpdateChave -> GetServerChave -> java.lang.Exception",
+                    msgProgress = "IUpdateChave -> GetServerChave -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -79,8 +82,10 @@ class IUpdateChaveTest {
             whenever(
                 cleanChave()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanChave",
+                    message = "-",
+                    cause = Exception()
                 )
             )
             val result = usecase(
@@ -111,8 +116,8 @@ class IUpdateChaveTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
+                    failure = "IUpdateChave -> CleanChave -> java.lang.Exception",
+                    msgProgress = "IUpdateChave -> CleanChave -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -137,8 +142,10 @@ class IUpdateChaveTest {
             whenever(
                 saveChave(chaveList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveChave",
+                    message = "-",
+                    cause = Exception()
                 )
             )
             val result = usecase(
@@ -177,8 +184,8 @@ class IUpdateChaveTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllChave -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllChave -> java.lang.NullPointerException",
+                    failure = "IUpdateChave -> SaveChave -> java.lang.Exception",
+                    msgProgress = "IUpdateChave -> SaveChave -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )

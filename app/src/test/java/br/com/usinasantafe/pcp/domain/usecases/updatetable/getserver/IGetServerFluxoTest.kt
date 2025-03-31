@@ -35,7 +35,7 @@ class IGetServerFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetToken"
+                "IGetServerFluxo -> Unknown Error"
             )
         }
 
@@ -53,7 +53,7 @@ class IGetServerFluxoTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerFluxo"
+            "IGetServerFluxo"
         )
     }
 
@@ -79,7 +79,7 @@ class IGetServerFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> FluxoRepository.recoverAll"
+                "IGetServerFluxo -> Unknown Error"
             )
         }
 

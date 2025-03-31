@@ -15,10 +15,14 @@ import java.util.Date
 
 class IGetDetalheResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = IGetDetalheResidencia(
+        movEquipResidenciaRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository Get`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.get(1)
             ).thenReturn(
@@ -26,14 +30,14 @@ class IGetDetalheResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = IGetDetalheResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.get"
+                "IGetDetalheResidencia -> Unknown Error"
             )
         }
 
@@ -53,24 +57,41 @@ class IGetDetalheResidenciaTest {
                 statusSendMovEquipResidencia = StatusSend.SEND,
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.get(1)
             ).thenReturn(
                 Result.success(model)
             )
-            val usecase = IGetDetalheResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(1)
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val detalhe = result.getOrNull()!!
-            assertEquals(detalhe.dthr, "09/08/2024 11:21")
-            assertEquals(detalhe.tipoMov, "ENTRADA")
-            assertEquals(detalhe.veiculo, "VEICULO TESTE")
-            assertEquals(detalhe.placa, "PLACA TESTE")
-            assertEquals(detalhe.motorista, "MOTORISTA TESTE")
-            assertEquals(detalhe.observ, null)
+            assertEquals(
+                detalhe.dthr,
+                "09/08/2024 11:21"
+            )
+            assertEquals(
+                detalhe.tipoMov,
+                "ENTRADA"
+            )
+            assertEquals(
+                detalhe.veiculo,
+                "VEICULO TESTE"
+            )
+            assertEquals(
+                detalhe.placa,
+                "PLACA TESTE"
+            )
+            assertEquals(
+                detalhe.motorista,
+                "MOTORISTA TESTE"
+            )
+            assertEquals(
+                detalhe.observ,
+                null
+            )
         }
 
     @Test
@@ -100,13 +121,34 @@ class IGetDetalheResidenciaTest {
                 movEquipResidenciaRepository
             )
             val result = usecase(1)
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val detalhe = result.getOrNull()!!
-            assertEquals(detalhe.dthr, "09/08/2024 11:21")
-            assertEquals(detalhe.tipoMov, "ENTRADA")
-            assertEquals(detalhe.veiculo, "VEICULO TESTE")
-            assertEquals(detalhe.placa, "PLACA TESTE")
-            assertEquals(detalhe.motorista, "MOTORISTA TESTE")
-            assertEquals(detalhe.observ, "OBSERVACAO TESTE")
+            assertEquals(
+                detalhe.dthr,
+                "09/08/2024 11:21"
+            )
+            assertEquals(
+                detalhe.tipoMov,
+                "ENTRADA"
+            )
+            assertEquals(
+                detalhe.veiculo,
+                "VEICULO TESTE"
+            )
+            assertEquals(
+                detalhe.placa,
+                "PLACA TESTE"
+            )
+            assertEquals(
+                detalhe.motorista,
+                "MOTORISTA TESTE"
+            )
+            assertEquals(
+                detalhe.observ,
+                "OBSERVACAO TESTE"
+            )
         }
 }

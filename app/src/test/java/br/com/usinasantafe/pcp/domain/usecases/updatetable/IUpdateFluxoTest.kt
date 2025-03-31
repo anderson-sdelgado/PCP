@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Fluxo
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateFluxo
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanFluxo
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerFluxo
@@ -21,7 +22,7 @@ class IUpdateFluxoTest {
     private val cleanFluxo = mock<CleanFluxo>()
     private val getServerFluxo = mock<GetServerFluxo>()
     private val saveFluxo = mock<SaveFluxo>()
-    private fun getUsecase() = IUpdateFluxo(
+    private val usecase = IUpdateFluxo(
         cleanFluxo = cleanFluxo,
         getServerFluxo = getServerFluxo,
         saveFluxo = saveFluxo,
@@ -34,11 +35,12 @@ class IUpdateFluxoTest {
             whenever(
                 getServerFluxo()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerFluxo",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateFluxoTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllFluxoServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllFluxoServer -> java.lang.NullPointerException",
+                    failure = "IUpdateFluxo -> GetServerFluxo -> java.lang.Exception",
+                    msgProgress = "IUpdateFluxo -> GetServerFluxo -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateFluxoTest {
             whenever(
                 cleanFluxo()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanFluxo",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateFluxoTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanFluxo -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanFluxo -> java.lang.NullPointerException",
+                    failure = "IUpdateFluxo -> CleanFluxo -> java.lang.Exception",
+                    msgProgress = "IUpdateFluxo -> CleanFluxo -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateFluxoTest {
             whenever(
                 saveFluxo(fluxoList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveFluxo",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateFluxoTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllFluxo -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllFluxo -> java.lang.NullPointerException",
+                    failure = "IUpdateFluxo -> SaveFluxo -> java.lang.Exception",
+                    msgProgress = "IUpdateFluxo -> SaveFluxo -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateFluxoTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

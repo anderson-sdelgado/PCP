@@ -29,7 +29,7 @@ class ICheckSendMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.checkSend"
+                "ICheckSendMovChaveEquip -> Unknown Error"
             )
         }
 

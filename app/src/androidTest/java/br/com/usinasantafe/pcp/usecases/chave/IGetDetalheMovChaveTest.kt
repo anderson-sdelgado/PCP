@@ -52,7 +52,7 @@ class IGetDetalheMovChaveTest : KoinTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IMovChaveRepository.get"
+                "IGetDetalheMovChave -> Unknown Error"
             )
         }
 
@@ -82,7 +82,7 @@ class IGetDetalheMovChaveTest : KoinTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> IGetDetalheMovChave"
+                "IGetDetalheMovChave -> Unknown Error"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -124,7 +124,7 @@ class IGetDetalheMovChaveTest : KoinTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.get"
+                "IGetDetalheMovChave -> Unknown Error"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

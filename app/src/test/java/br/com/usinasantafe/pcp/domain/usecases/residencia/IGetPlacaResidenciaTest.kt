@@ -9,10 +9,14 @@ import org.mockito.kotlin.whenever
 
 class IGetPlacaResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = IGetPlacaResidencia(
+        movEquipResidenciaRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository GetPlaca`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getPlaca(
                     id = 1
@@ -22,21 +26,20 @@ class IGetPlacaResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = IGetPlacaResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(id = 1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.GetPlaca"
+                "IGetPlacaResidencia -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return placa if GetPlacaResidenciaImpl execute successfully`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getPlaca(
                     id = 1
@@ -44,11 +47,14 @@ class IGetPlacaResidenciaTest {
             ).thenReturn(
                 Result.success("Placa")
             )
-            val usecase = IGetPlacaResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(id = 1)
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Placa")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "Placa"
+            )
         }
 }

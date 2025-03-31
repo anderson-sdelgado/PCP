@@ -10,6 +10,11 @@ import org.mockito.kotlin.whenever
 
 class ISaveFluxoTest {
 
+    private val fluxoRepository = mock<FluxoRepository>()
+    private val usecase = ISaveFluxo(
+        fluxoRepository
+    )
+
     @Test
     fun `Check return failure if have error in FluxoRepository addAll`() =
         runTest {
@@ -19,16 +24,12 @@ class ISaveFluxoTest {
                     descrFluxo = "MOV. EQUIP. PRÓPRIO"
                 )
             )
-            val fluxoRepository = mock<FluxoRepository>()
             whenever(
                 fluxoRepository.addAll(colabList)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
-            )
-            val usecase = ISaveFluxo(
-                fluxoRepository
             )
             val result = usecase(colabList)
             assertEquals(
@@ -37,7 +38,7 @@ class ISaveFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> FluxoRepository.addAll"
+                "ISaveFluxo -> Unknown Error"
             )
         }
 
@@ -50,14 +51,10 @@ class ISaveFluxoTest {
                     descrFluxo = "MOV. EQUIP. PRÓPRIO"
                 )
             )
-            val fluxoRepository = mock<FluxoRepository>()
             whenever(
                 fluxoRepository.addAll(colabList)
             ).thenReturn(
                 Result.success(true)
-            )
-            val usecase = ISaveFluxo(
-                fluxoRepository
             )
             val result = usecase(colabList)
             assertEquals(

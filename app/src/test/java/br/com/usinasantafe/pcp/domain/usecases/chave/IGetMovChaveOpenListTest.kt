@@ -39,7 +39,7 @@ class IGetMovChaveOpenListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.listOpen"
+                "IGetMovChaveOpenList -> Unknown Error"
             )
         }
 
@@ -80,7 +80,7 @@ class IGetMovChaveOpenListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ColabRepository.getNome"
+                "IGetMovChaveOpenList -> Unknown Error"
             )
         }
 
@@ -128,7 +128,7 @@ class IGetMovChaveOpenListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetDescrFullChave"
+                "IGetMovChaveOpenList -> Unknown Error"
             )
         }
 

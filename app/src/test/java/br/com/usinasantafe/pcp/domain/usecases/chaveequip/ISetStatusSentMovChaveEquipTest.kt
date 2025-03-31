@@ -35,7 +35,7 @@ class ISetStatusSentMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ISetStatusSentMovChaveEquip"
+                "ISetStatusSentMovChaveEquip -> Unknown Error"
             )
         }
 

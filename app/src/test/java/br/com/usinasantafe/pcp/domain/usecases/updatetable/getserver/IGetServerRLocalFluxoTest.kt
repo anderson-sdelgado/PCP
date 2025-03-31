@@ -35,7 +35,7 @@ class IGetServerRLocalFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetToken"
+                "IGetServerRLocalFluxo -> Unknown Error"
             )
         }
 
@@ -53,7 +53,7 @@ class IGetServerRLocalFluxoTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerRLocalFluxo"
+            "IGetServerRLocalFluxo"
         )
     }
 
@@ -79,7 +79,7 @@ class IGetServerRLocalFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepository.recoverAll"
+                "IGetServerRLocalFluxo -> Unknown Error"
             )
         }
 

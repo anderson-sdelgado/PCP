@@ -11,11 +11,16 @@ import org.mockito.kotlin.whenever
 
 class ISetPlacaResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val startProcessSendData = mock<StartProcessSendData>()
+    private val usecase = ISetPlacaResidencia(
+        movEquipResidenciaRepository,
+        startProcessSendData
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository SetPlaca`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setPlaca(
                     placa = "Placa",
@@ -27,27 +32,24 @@ class ISetPlacaResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ISetPlacaResidencia(
-                movEquipResidenciaRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 placa = "Placa",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.SetPlaca"
+                "ISetPlacaResidencia -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if SetPlacaResidenciaImpl execute successfully`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setPlaca(
                     placa = "Placa",
@@ -57,16 +59,18 @@ class ISetPlacaResidenciaTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetPlacaResidencia(
-                movEquipResidenciaRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 placa = "Placa",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

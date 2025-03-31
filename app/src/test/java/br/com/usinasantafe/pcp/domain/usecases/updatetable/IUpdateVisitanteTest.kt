@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateVisitante
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanVisitante
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerVisitante
@@ -21,7 +22,7 @@ class IUpdateVisitanteTest {
     private val cleanVisitante = mock<CleanVisitante>()
     private val getServerVisitante = mock<GetServerVisitante>()
     private val saveVisitante = mock<SaveVisitante>()
-    private fun getUsecase() = IUpdateVisitante(
+    private val usecase = IUpdateVisitante(
         cleanVisitante = cleanVisitante,
         getServerVisitante = getServerVisitante,
         saveVisitante = saveVisitante,
@@ -34,11 +35,12 @@ class IUpdateVisitanteTest {
             whenever(
                 getServerVisitante()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerVisitante",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateVisitanteTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllVisitanteServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllVisitanteServer -> java.lang.NullPointerException",
+                    failure = "IUpdateVisitante -> GetServerVisitante -> java.lang.Exception",
+                    msgProgress = "IUpdateVisitante -> GetServerVisitante -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateVisitanteTest {
             whenever(
                 cleanVisitante()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanVisitante",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateVisitanteTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
+                    failure = "IUpdateVisitante -> CleanVisitante -> java.lang.Exception",
+                    msgProgress = "IUpdateVisitante -> CleanVisitante -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateVisitanteTest {
             whenever(
                 saveVisitante(visitanteList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveVisitante",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateVisitanteTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllVisitante -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllVisitante -> java.lang.NullPointerException",
+                    failure = "IUpdateVisitante -> SaveVisitante -> java.lang.Exception",
+                    msgProgress = "IUpdateVisitante -> SaveVisitante -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateVisitanteTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

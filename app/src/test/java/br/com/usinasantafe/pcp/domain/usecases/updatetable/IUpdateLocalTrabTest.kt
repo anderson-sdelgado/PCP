@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.LocalTrab
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateLocalTrab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanLocalTrab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerLocalTrab
@@ -21,7 +22,7 @@ class IUpdateLocalTrabTest {
     private val cleanLocalTrab = mock<CleanLocalTrab>()
     private val getServerLocalTrab = mock<GetServerLocalTrab>()
     private val saveLocalTrab = mock<SaveLocalTrab>()
-    private fun getUsecase() = IUpdateLocalTrab(
+    private val usecase = IUpdateLocalTrab(
         cleanLocalTrab = cleanLocalTrab,
         getServerLocalTrab = getServerLocalTrab,
         saveLocalTrab = saveLocalTrab,
@@ -34,11 +35,12 @@ class IUpdateLocalTrabTest {
             whenever(
                 getServerLocalTrab()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerLocalTrab",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateLocalTrabTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllLocalTrabServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllLocalTrabServer -> java.lang.NullPointerException",
+                    failure = "IUpdateLocalTrab -> GetServerLocalTrab -> java.lang.Exception",
+                    msgProgress = "IUpdateLocalTrab -> GetServerLocalTrab -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateLocalTrabTest {
             whenever(
                 cleanLocalTrab()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanLocalTrab",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateLocalTrabTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
+                    failure = "IUpdateLocalTrab -> CleanLocalTrab -> java.lang.Exception",
+                    msgProgress = "IUpdateLocalTrab -> CleanLocalTrab -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateLocalTrabTest {
             whenever(
                 saveLocalTrab(localTrabList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveLocalTrab",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateLocalTrabTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllLocalTrab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllLocalTrab -> java.lang.NullPointerException",
+                    failure = "IUpdateLocalTrab -> SaveLocalTrab -> java.lang.Exception",
+                    msgProgress = "IUpdateLocalTrab -> SaveLocalTrab -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateLocalTrabTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

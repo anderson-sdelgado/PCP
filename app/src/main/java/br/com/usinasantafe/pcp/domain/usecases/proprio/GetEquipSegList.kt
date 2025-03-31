@@ -23,7 +23,10 @@ class IGetEquipSegList(
         id: Int
     ): Result<List<Equip>> {
         try {
-            val resultList = movEquipProprioEquipSegRepository.list(flowApp, id)
+            val resultList = movEquipProprioEquipSegRepository.list(
+                flowApp = flowApp,
+                id = id
+            )
             if (resultList.isFailure) {
                 val e = resultList.exceptionOrNull()!!
                 return resultFailure(

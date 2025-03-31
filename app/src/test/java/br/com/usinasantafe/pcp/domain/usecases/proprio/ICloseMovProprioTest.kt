@@ -10,55 +10,28 @@ import org.mockito.kotlin.whenever
 
 class ICloseMovProprioTest {
 
-    @Test
-    fun `Check return failure if have failure in MovEquipProprioRepository get`() = runTest {
-        val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-        whenever(
-            movEquipProprioRepository.get(1)
-        ).thenReturn(
-            Result.failure(
-                Exception()
-            )
-        )
-        val usecase = ICloseMovProprio(
-            movEquipProprioRepository,
-        )
-        val result = usecase(1)
-        assertTrue(result.isFailure)
-        assertEquals(
-            result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioRepository.get"
-        )
-    }
+    private val movEquipProprioRepository = mock<MovEquipProprioRepository>()
+    private val usecase = ICloseMovProprio(
+        movEquipProprioRepository,
+    )
 
     @Test
     fun `Check return failure if have failure in MovEquipProprioRepository setClose`() = runTest {
-        val movEquipProprio = MovEquipProprio(
-            idMovEquipProprio = 1
-        )
-        val movEquipProprioRepository = mock<MovEquipProprioRepository>()
         whenever(
-            movEquipProprioRepository.get(1)
-        ).thenReturn(
-            Result.success(movEquipProprio)
-        )
-        whenever(
-            movEquipProprioRepository.setClose(
-                1
-            )
+            movEquipProprioRepository.setClose(1)
         ).thenReturn(
             Result.failure(
                 Exception()
             )
         )
-        val usecase = ICloseMovProprio(
-            movEquipProprioRepository
-        )
         val result = usecase(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioRepository.setClose"
+            "ICloseMovProprio -> Unknown Error"
         )
     }
 
@@ -67,7 +40,6 @@ class ICloseMovProprioTest {
         val movEquipProprio = MovEquipProprio(
             idMovEquipProprio = 1
         )
-        val movEquipProprioRepository = mock<MovEquipProprioRepository>()
         whenever(
             movEquipProprioRepository.get(1)
         ).thenReturn(
@@ -80,11 +52,14 @@ class ICloseMovProprioTest {
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ICloseMovProprio(
-            movEquipProprioRepository
-        )
         val result = usecase(1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 }

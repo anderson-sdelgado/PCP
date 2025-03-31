@@ -31,7 +31,9 @@ class ISetIdEquipProprio(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultId = equipRepository.getId(nroEquip.toLong())
+            val resultId = equipRepository.getId(
+                nroEquip.toLong()
+            )
             if (resultId.isFailure) {
                 val e = resultId.exceptionOrNull()!!
                 return resultFailure(
@@ -49,7 +51,7 @@ class ISetIdEquipProprio(
                         id = id
                     )
                     if (resultSet.isFailure) {
-                        val e = resultId.exceptionOrNull()!!
+                        val e = resultSet.exceptionOrNull()!!
                         return resultFailure(
                             context = "ISetIdEquipProprio",
                             message = e.message,

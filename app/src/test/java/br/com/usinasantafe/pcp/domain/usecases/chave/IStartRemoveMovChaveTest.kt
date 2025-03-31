@@ -31,7 +31,7 @@ class IStartRemoveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.start"
+                "IStartRemoveMovChave -> Unknown Error"
             )
         }
 

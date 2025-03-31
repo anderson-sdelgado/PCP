@@ -11,6 +11,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveEquipTest {
 
+    private val equipRepository = Mockito.mock<EquipRepository>()
+    private val usecase = ISaveEquip(equipRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val equipList = listOf(
@@ -20,16 +23,20 @@ class ISaveEquipTest {
                 descrEquip = "teste"
             )
         )
-        val equipRepository = Mockito.mock<EquipRepository>()
         whenever(
             equipRepository.addAll(equipList)
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ISaveEquip(equipRepository)
         val result = usecase(equipList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 
     @Test
@@ -41,7 +48,6 @@ class ISaveEquipTest {
                 descrEquip = "teste"
             )
         )
-        val equipRepository = Mockito.mock<EquipRepository>()
         whenever(
             equipRepository.addAll(equipList)
         ).thenReturn(
@@ -49,9 +55,14 @@ class ISaveEquipTest {
                 Exception()
             )
         )
-        val usecase = ISaveEquip(equipRepository)
         val result = usecase(equipList)
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> EquipRepository.addAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ISaveEquip -> Unknown Error"
+        )
     }
 }

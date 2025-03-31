@@ -10,11 +10,16 @@ import org.mockito.kotlin.whenever
 
 class StartInputMovEquipVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    private val usecase = IStartInputMovEquipVisitTerc(
+        movEquipVisitTercRepository,
+        movEquipVisitTercPassagRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository start`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
             whenever(
                 movEquipVisitTercRepository.start()
             ).thenReturn(
@@ -22,23 +27,20 @@ class StartInputMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = IStartInputMovEquipVisitTerc(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.start"
+                "IStartInputMovEquipVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in MovEquipVisitTercPassagRepository clear`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
             whenever(
                 movEquipVisitTercRepository.start()
             ).thenReturn(
@@ -51,23 +53,20 @@ class StartInputMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = IStartInputMovEquipVisitTerc(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.clear"
+                "IStartInputMovEquipVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if StartMovEquipVisitTercImpl execute successfully`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
             whenever(
                 movEquipVisitTercRepository.start()
             ).thenReturn(
@@ -78,13 +77,15 @@ class StartInputMovEquipVisitTercImplTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = IStartInputMovEquipVisitTerc(
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository
-            )
             val result = usecase()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
 }

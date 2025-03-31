@@ -10,9 +10,11 @@ import org.mockito.kotlin.whenever
 
 class CloseAllMovVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = ICloseAllMovVisitTerc(movEquipVisitTercRepository)
+
     @Test
     fun `Check return failure if have failure in MovEquipVisitTercRepository listOpen`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.listOpen()
         ).thenReturn(
@@ -20,14 +22,14 @@ class CloseAllMovVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICloseAllMovVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase()
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> MovEquipVisitTercRepository.listOpen"
+            "ICloseAllMovVisitTerc -> Unknown Error"
         )
     }
 
@@ -36,7 +38,6 @@ class CloseAllMovVisitTercImplTest {
         val movEquipVisitTerc = MovEquipVisitTerc(
             idMovEquipVisitTerc = 1
         )
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
             Result.success(
                 listOf(
@@ -53,14 +54,14 @@ class CloseAllMovVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICloseAllMovVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase()
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> MovEquipVisitTercRepository.setClose"
+            "ICloseAllMovVisitTerc -> Unknown Error"
         )
     }
 
@@ -88,7 +89,13 @@ class CloseAllMovVisitTercImplTest {
             movEquipVisitTercRepository
         )
         val result = usecase()
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 }

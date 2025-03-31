@@ -9,23 +9,29 @@ import org.mockito.kotlin.whenever
 
 class ICleanTerceiroTest {
 
+    private val terceiroRepository = mock<TerceiroRepository>()
+    private val usecase = ICleanTerceiro(terceiroRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
-        val terceiroRepository = mock<TerceiroRepository>()
         whenever(
             terceiroRepository.deleteAll()
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ICleanTerceiro(terceiroRepository)
         val result = usecase()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check execution incorrect`() = runTest {
-        val terceiroRepository = mock<TerceiroRepository>()
         whenever(
             terceiroRepository.deleteAll()
         ).thenReturn(
@@ -33,10 +39,18 @@ class ICleanTerceiroTest {
                 Exception()
             )
         )
-        val usecase = ICleanTerceiro(terceiroRepository)
         val result = usecase()
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> TerceiroRepository.deleteAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.Exception")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICleanTerceiro -> Unknown Error"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.Exception"
+        )
     }
 }

@@ -42,7 +42,7 @@ class IGetDescrFullChaveTest: KoinTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.get"
+                "IGetDescrFullChave -> Unknown Error"
             )
         }
 
@@ -65,7 +65,7 @@ class IGetDescrFullChaveTest: KoinTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ILocalTrabRoomDatasource.getDescr"
+                "IGetDescrFullChave -> Unknown Error"
             )
         }
 

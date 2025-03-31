@@ -5,6 +5,7 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.utils.UUIDProvider
 import java.util.UUID
 
 interface SaveMovChaveEquip {
@@ -17,7 +18,8 @@ interface SaveMovChaveEquip {
 class ISaveMovChaveEquip(
     private val configRepository: ConfigRepository,
     private val movChaveEquipRepository: MovChaveEquipRepository,
-    private val startProcessSendData: StartProcessSendData
+    private val startProcessSendData: StartProcessSendData,
+    private val uuidProvider: UUIDProvider = UUIDProvider
 ): SaveMovChaveEquip {
 
     override suspend fun invoke(
@@ -25,8 +27,7 @@ class ISaveMovChaveEquip(
         id: Int
     ): Result<Boolean> {
         try {
-            val uuid = UUID.randomUUID()
-            var uuidString = uuid.toString()
+            var uuidString = uuidProvider.uuid()
             if (typeMov == TypeMovKey.REMOVE) {
                 val resultClose = movChaveEquipRepository.setOutside(id)
                 if (resultClose.isFailure) {
@@ -74,8 +75,14 @@ class ISaveMovChaveEquip(
             val idSave = resultSave.getOrNull()!!
             if (typeMov == TypeMovKey.REMOVE) {
                 val resultClose = movChaveEquipRepository.setOutside(idSave)
-                if (resultClose.isFailure)
-                    return Result.failure(resultClose.exceptionOrNull()!!)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISaveMovChaveEquip",
+                        message = e.message,
+                        cause = e
+                    )
+                }
             }
             startProcessSendData()
             return Result.success(true)

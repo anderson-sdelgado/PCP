@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Colab
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateColab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanColab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerColab
@@ -21,7 +22,7 @@ class IUpdateColabTest {
     private val cleanColab = mock<CleanColab>()
     private val getServerColab = mock<GetServerColab>()
     private val saveColab = mock<SaveColab>()
-    private fun getUsecase() = IUpdateColab(
+    private val usecase = IUpdateColab(
         cleanColab = cleanColab,
         getServerColab = getServerColab,
         saveColab = saveColab,
@@ -34,11 +35,12 @@ class IUpdateColabTest {
             whenever(
                 getServerColab()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerColab",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateColabTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllColabServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllColabServer -> java.lang.NullPointerException",
+                    failure = "IUpdateColab -> GetServerColab -> java.lang.Exception",
+                    msgProgress = "IUpdateColab -> GetServerColab -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateColabTest {
             whenever(
                 cleanColab()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanColab",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateColabTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                    failure = "IUpdateColab -> CleanColab -> java.lang.Exception",
+                    msgProgress = "IUpdateColab -> CleanColab -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateColabTest {
             whenever(
                 saveColab(colabList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveColab",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateColabTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllColab -> java.lang.NullPointerException",
+                    failure = "IUpdateColab -> SaveColab -> java.lang.Exception",
+                    msgProgress = "IUpdateColab -> SaveColab -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateColabTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

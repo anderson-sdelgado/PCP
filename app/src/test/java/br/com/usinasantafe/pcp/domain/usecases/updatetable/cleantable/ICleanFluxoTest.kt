@@ -9,10 +9,12 @@ import org.mockito.kotlin.whenever
 
 class ICleanFluxoTest {
 
+    private val fluxoRepository = mock<FluxoRepository>()
+    private val usecase = ICleanFluxo(fluxoRepository)
+
     @Test
     fun `Check return failure if have error in FluxoRepository DeleteAll`() =
         runTest {
-            val fluxoRepository = mock<FluxoRepository>()
             whenever(
                 fluxoRepository.deleteAll()
             ).thenReturn(
@@ -20,7 +22,6 @@ class ICleanFluxoTest {
                     Exception()
                 )
             )
-            val usecase = ICleanFluxo(fluxoRepository)
             val result = usecase()
             assertEquals(
                 result.isFailure,
@@ -28,7 +29,7 @@ class ICleanFluxoTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRepository.deleteAll"
+                "ICleanFluxo -> Unknown Error"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -39,13 +40,11 @@ class ICleanFluxoTest {
     @Test
     fun `Check return true if CleanFluxoImplTest execute successfully`() =
         runTest {
-            val fluxoRepository = mock<FluxoRepository>()
             whenever(
                 fluxoRepository.deleteAll()
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ICleanFluxo(fluxoRepository)
             val result = usecase()
             assertEquals(
                 result.isSuccess,

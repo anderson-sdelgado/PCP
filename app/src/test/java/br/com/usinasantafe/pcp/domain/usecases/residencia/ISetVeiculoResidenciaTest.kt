@@ -11,11 +11,16 @@ import org.mockito.kotlin.whenever
 
 class ISetVeiculoResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val startProcessSendData = mock<StartProcessSendData>()
+    private val usecase = ISetVeiculoResidencia(
+        movEquipResidenciaRepository,
+        startProcessSendData
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository SetVeiculo`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setVeiculo(
                     veiculo = "Veiculo",
@@ -27,27 +32,24 @@ class ISetVeiculoResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = ISetVeiculoResidencia(
-                movEquipResidenciaRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 veiculo = "Veiculo",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.SetVeiculo"
+                "ISetVeiculoResidencia -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if SetVeiculoResidenciaImpl execute successfully`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipResidenciaRepository.setVeiculo(
                     veiculo = "Veiculo",
@@ -57,16 +59,18 @@ class ISetVeiculoResidenciaTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetVeiculoResidencia(
-                movEquipResidenciaRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 veiculo = "Veiculo",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

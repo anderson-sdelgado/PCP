@@ -34,7 +34,7 @@ class ISetStatusSendTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.setStatusSend"
+                "ISetStatusSend -> Unknown Error"
             )
         }
 
@@ -58,6 +58,5 @@ class ISetStatusSendTest {
                 true
             )
         }
-
 
 }

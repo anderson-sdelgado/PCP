@@ -15,10 +15,14 @@ import java.util.Date
 
 class IGetMovEquipResidenciaOpenListTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = IGetMovEquipResidenciaOpenList(
+        movEquipResidenciaRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository ListOpen`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.listOpen()
             ).thenReturn(
@@ -26,14 +30,14 @@ class IGetMovEquipResidenciaOpenListTest {
                     Exception()
                 )
             )
-            val usecase = IGetMovEquipResidenciaOpenList(
-                movEquipResidenciaRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.ListOpen"
+                "IGetMovEquipResidenciaOpenList -> Unknown Error"
             )
         }
 
@@ -55,24 +59,44 @@ class IGetMovEquipResidenciaOpenListTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             val list = listOf(model)
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.listOpen()
             ).thenReturn(
                 Result.success(list)
             )
-            val usecase = IGetMovEquipResidenciaOpenList(
-                movEquipResidenciaRepository
-            )
             val result = usecase()
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val modelList = result.getOrNull()!!
-            assertEquals(modelList.size, 1)
-            assertEquals(modelList[0].id, 1)
-            assertEquals(modelList[0].dthr, "09/08/2024 11:21")
-            assertEquals(modelList[0].veiculo, "VEICULO TESTE")
-            assertEquals(modelList[0].placa, "PLACA TESTE")
-            assertEquals(modelList[0].motorista, "MOTORISTA TESTE")
-            assertEquals(modelList[0].tipoMov, "ENTRADA")
+            assertEquals(
+                modelList.size,
+                1
+            )
+            assertEquals(
+                modelList[0].id,
+                1
+            )
+            assertEquals(
+                modelList[0].dthr,
+                "09/08/2024 11:21"
+            )
+            assertEquals(
+                modelList[0].veiculo,
+                "VEICULO TESTE"
+            )
+            assertEquals(
+                modelList[0].placa,
+                "PLACA TESTE"
+            )
+            assertEquals(
+                modelList[0].motorista,
+                "MOTORISTA TESTE"
+            )
+            assertEquals(
+                modelList[0].tipoMov,
+                "ENTRADA"
+            )
         }
 }

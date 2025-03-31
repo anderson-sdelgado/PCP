@@ -10,18 +10,19 @@ import org.mockito.kotlin.whenever
 
 class ICleanColabTest {
 
+    private val colabRepository = mock<ColabRepository>()
+    private val usecase =
+        ICleanColab(
+            colabRepository
+        )
+
     @Test
     fun `Check execution correct`() = runTest {
-        val colabRepository = mock<ColabRepository>()
         whenever(
             colabRepository.deleteAll()
         ).thenReturn(
             Result.success(true)
         )
-        val usecase =
-            ICleanColab(
-                colabRepository
-            )
         val result = usecase()
         assertEquals(
             result.isSuccess,
@@ -35,7 +36,6 @@ class ICleanColabTest {
 
     @Test
     fun `Check execution incorrect`() = runTest {
-        val colabRepository = mock<ColabRepository>()
         whenever(
             colabRepository.deleteAll()
         ).thenReturn(
@@ -43,10 +43,6 @@ class ICleanColabTest {
                 Exception()
             )
         )
-        val usecase =
-            ICleanColab(
-                colabRepository
-            )
         val result = usecase()
         assertEquals(
             result.isFailure,
@@ -54,7 +50,7 @@ class ICleanColabTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRepository.deleteAll"
+            "ICleanColab -> Unknown Error"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),

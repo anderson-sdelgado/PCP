@@ -15,8 +15,18 @@ class ICheckMatricColabTest {
         val colabRepository = mock<ColabRepository>()
         val usecase = ICheckMatricColab(colabRepository)
         val result = usecase("19759a")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Usecase -> CheckMatricColab")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICheckMatricColab"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.NumberFormatException: For input string: \"19759a\""
+        )
     }
 
     @Test
@@ -31,8 +41,14 @@ class ICheckMatricColabTest {
         )
         val usecase = ICheckMatricColab(colabRepository)
         val result = usecase("19759")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Repository -> ColabRepository.checkMatric")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICheckMatricColab -> Unknown Error"
+        )
     }
 
     @Test
@@ -50,12 +66,20 @@ class ICheckMatricColabTest {
     @Test
     fun `Check return false in executed correctly`() = runTest {
         val colabRepository = mock<ColabRepository>()
-        whenever(colabRepository.checkMatric(19759)).thenReturn(
+        whenever(
+            colabRepository.checkMatric(19759)
+        ).thenReturn(
             Result.success(false)
         )
         val usecase = ICheckMatricColab(colabRepository)
         val result = usecase("19759")
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, false)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 }

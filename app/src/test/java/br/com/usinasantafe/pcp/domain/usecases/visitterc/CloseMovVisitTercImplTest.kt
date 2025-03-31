@@ -10,38 +10,11 @@ import org.mockito.kotlin.whenever
 
 class CloseMovVisitTercImplTest {
 
-    @Test
-    fun `Check return failure if have failure in MovEquipVisitTercRepository get`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        whenever(
-            movEquipVisitTercRepository.get(1)
-        ).thenReturn(
-            Result.failure(
-                Exception()
-            )
-        )
-        val usecase = ICloseMovVisitTerc(
-            movEquipVisitTercRepository,
-        )
-        val result = usecase(1)
-        assertTrue(result.isFailure)
-        assertEquals(
-            result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepository.get"
-        )
-    }
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = ICloseMovVisitTerc(movEquipVisitTercRepository)
 
     @Test
     fun `Check return failure if have failure in MovEquipVisitTercRepository setClose`() = runTest {
-        val movEquipVisitTerc = MovEquipVisitTerc(
-            idMovEquipVisitTerc = 1
-        )
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        whenever(
-            movEquipVisitTercRepository.get(1)
-        ).thenReturn(
-            Result.success(movEquipVisitTerc)
-        )
         whenever(
             movEquipVisitTercRepository.setClose(
                 1
@@ -51,28 +24,19 @@ class CloseMovVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = ICloseMovVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepository.setClose"
+            "ICloseMovVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return true if CloseMovVisitTercImpl execute successfully`() = runTest {
-        val movEquipVisitTerc = MovEquipVisitTerc(
-            idMovEquipVisitTerc = 1
-        )
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        whenever(
-            movEquipVisitTercRepository.get(1)
-        ).thenReturn(
-            Result.success(movEquipVisitTerc)
-        )
         whenever(
             movEquipVisitTercRepository.setClose(
                 1
@@ -84,7 +48,13 @@ class CloseMovVisitTercImplTest {
             movEquipVisitTercRepository
         )
         val result = usecase(1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 }

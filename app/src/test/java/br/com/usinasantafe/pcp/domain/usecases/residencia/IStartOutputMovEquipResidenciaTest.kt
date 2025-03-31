@@ -17,8 +17,7 @@ class IStartOutputMovEquipResidenciaTest {
 
     private val movEquipResidenciaRepository =
         mock<MovEquipResidenciaRepository>()
-
-    private fun getUsecase() = IStartOutputMovEquipResidencia(
+    private val usecase = IStartOutputMovEquipResidencia(
         movEquipResidenciaRepository
     )
 
@@ -32,12 +31,14 @@ class IStartOutputMovEquipResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.get"
+                "IStartOutputMovEquipResidencia -> Unknown Error"
             )
         }
 
@@ -73,12 +74,14 @@ class IStartOutputMovEquipResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.start"
+                "IStartOutputMovEquipResidencia -> Unknown Error"
             )
         }
 
@@ -112,10 +115,15 @@ class IStartOutputMovEquipResidenciaTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
 }

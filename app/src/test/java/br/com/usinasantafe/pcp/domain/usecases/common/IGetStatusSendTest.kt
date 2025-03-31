@@ -37,7 +37,7 @@ class IGetStatusSendTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "IGetStatusSend -> Unknown Error"
             )
         }
 

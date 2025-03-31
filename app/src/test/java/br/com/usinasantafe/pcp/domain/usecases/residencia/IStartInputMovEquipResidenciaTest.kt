@@ -10,8 +10,7 @@ import org.mockito.kotlin.whenever
 class IStartInputMovEquipResidenciaTest {
 
     private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
-
-    private fun getUsecase() = IStartInputMovEquipResidencia(
+    private val usecase = IStartInputMovEquipResidencia(
         movEquipResidenciaRepository
     )
 
@@ -25,12 +24,14 @@ class IStartInputMovEquipResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.start"
+                "IStartInputMovEquipResidencia -> Unknown Error"
             )
         }
 
@@ -42,10 +43,15 @@ class IStartInputMovEquipResidenciaTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
 }

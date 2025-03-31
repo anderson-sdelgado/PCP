@@ -35,7 +35,7 @@ class IGetServerColabTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerColab -> Unknown Error"
         )
     }
 
@@ -53,7 +53,7 @@ class IGetServerColabTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerColab"
+            "IGetServerColab"
         )
     }
 
@@ -79,7 +79,7 @@ class IGetServerColabTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ColabRepository.recoverAll"
+                "IGetServerColab -> Unknown Error"
             )
         }
 

@@ -9,19 +9,29 @@ import org.mockito.kotlin.whenever
 
 class ICleanLocalTest {
 
+    private val localRepository = mock<LocalRepository>()
+    private val usecase = ICleanLocal(localRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
-        val localRepository = mock<LocalRepository>()
-        whenever(localRepository.deleteAll()).thenReturn(Result.success(true))
-        val usecase = ICleanLocal(localRepository)
+        whenever(
+            localRepository.deleteAll()
+        ).thenReturn(
+            Result.success(true)
+        )
         val result = usecase()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 
     @Test
     fun `Check execution incorrect`() = runTest {
-        val localRepository = mock<LocalRepository>()
         whenever(
             localRepository.deleteAll()
         ).thenReturn(
@@ -29,10 +39,18 @@ class ICleanLocalTest {
                 Exception()
             )
         )
-        val usecase = ICleanLocal(localRepository)
         val result = usecase()
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRepository.deleteAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.Exception")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ICleanLocal -> Unknown Error"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.Exception"
+        )
     }
 }

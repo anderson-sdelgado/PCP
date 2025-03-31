@@ -28,7 +28,7 @@ class IGetChaveList(
             val modelScreenList = entityList.map {
                 val resultDescr = getDescrFullChave(it.idChave)
                 if(resultDescr.isFailure){
-                    val e = resultChaveList.exceptionOrNull()!!
+                    val e = resultDescr.exceptionOrNull()!!
                     return resultFailure(
                         context = "IGetChaveList",
                         message = e.message,
@@ -44,7 +44,7 @@ class IGetChaveList(
             return Result.success(modelScreenList)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IGetChaveList",
+                context = "IGetChaveList-",
                 message = "-",
                 cause = e
             )

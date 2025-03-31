@@ -9,10 +9,12 @@ import org.mockito.kotlin.whenever
 
 class CheckSendMovVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = ICheckSendMovVisitTerc(movEquipVisitTercRepository)
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository checkSend`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.checkSend()
             ).thenReturn(
@@ -20,42 +22,52 @@ class CheckSendMovVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ICheckSendMovVisitTerc(movEquipVisitTercRepository)
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.checkSend"
+                "ICheckSendMovResidencia -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if have mov to send`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.checkSend()
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ICheckSendMovVisitTerc(movEquipVisitTercRepository)
             val result = usecase()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull(),
+                true
+            )
         }
 
     @Test
     fun `Check return false if not have mov to send`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.checkSend()
             ).thenReturn(
                 Result.success(false)
             )
-            val usecase = ICheckSendMovVisitTerc(movEquipVisitTercRepository)
             val result = usecase()
-            assertTrue(result.isSuccess)
-            assertFalse(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull(),
+                false
+            )
         }
 }

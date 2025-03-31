@@ -43,7 +43,7 @@ class ISetMatricColabMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.setMatricColab"
+                "ISetMatricColabMovChaveEquip -> Unknown Error"
             )
         }
 

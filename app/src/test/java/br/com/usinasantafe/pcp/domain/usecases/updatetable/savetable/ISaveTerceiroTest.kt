@@ -11,6 +11,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveTerceiroTest {
 
+    private val terceiroRepository = Mockito.mock<TerceiroRepository>()
+    private val usecase = ISaveTerceiro(terceiroRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val terceiroList = listOf(
@@ -22,16 +25,20 @@ class ISaveTerceiroTest {
                 empresaTerceiro = "Empresa Terceiro",
             )
         )
-        val terceiroRepository = Mockito.mock<TerceiroRepository>()
         whenever(
             terceiroRepository.addAll(terceiroList)
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ISaveTerceiro(terceiroRepository)
         val result = usecase(terceiroList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 
     @Test
@@ -45,7 +52,6 @@ class ISaveTerceiroTest {
                 empresaTerceiro = "Empresa Terceiro",
             )
         )
-        val terceiroRepository = Mockito.mock<TerceiroRepository>()
         whenever(
             terceiroRepository.addAll(terceiroList)
         ).thenReturn(
@@ -53,9 +59,14 @@ class ISaveTerceiroTest {
                 Exception()
             )
         )
-        val usecase = ISaveTerceiro(terceiroRepository)
         val result = usecase(terceiroList)
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> TerceiroRepository.addAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ISaveTerceiro -> Unknown Error"
+        )
     }
 }

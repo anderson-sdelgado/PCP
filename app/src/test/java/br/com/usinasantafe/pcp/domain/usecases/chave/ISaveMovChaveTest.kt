@@ -1,10 +1,12 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
+import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
 import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.utils.UUIDProvider
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -13,6 +15,7 @@ import kotlin.test.assertEquals
 
 class ISaveMovChaveTest {
 
+    private val uuidProvider = mock<UUIDProvider>()
     private val configRepository = mock<ConfigRepository>()
     private val movChaveRepository = mock<MovChaveRepository>()
     private val startProcessSendData = mock<StartProcessSendData>()
@@ -20,6 +23,7 @@ class ISaveMovChaveTest {
         configRepository = configRepository,
         movChaveRepository = movChaveRepository,
         startProcessSendData = startProcessSendData,
+        uuidProvider = uuidProvider
     )
 
     @Test
@@ -42,13 +46,18 @@ class ISaveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISaveMovChave -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in MovChaveRepository save - REMOVE`() =
         runTest {
+            whenever(
+                uuidProvider.uuid()
+            ).thenReturn(
+                "UUID"
+            )
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -80,13 +89,18 @@ class ISaveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.save"
+                "ISaveMovChave -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return correct if function execute successfully - REMOVE`() =
         runTest {
+            whenever(
+                uuidProvider.uuid()
+            ).thenReturn(
+                "UUID"
+            )
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -140,7 +154,36 @@ class ISaveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.setStatusOutside"
+                "ISaveMovChave -> Unknown Error"
+            )
+        }
+
+    @Test
+    fun `Check return failure if have error in MovChaveRepository get - RECEIPT`() =
+        runTest {
+            whenever(
+                movChaveRepository.setOutside(1)
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                movChaveRepository.get(1)
+            ).thenReturn(
+                Result.failure(
+                    Exception()
+                )
+            )
+            val result = usecase(
+                typeMov = TypeMovKey.RECEIPT,
+                id = 1
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "ISaveMovChave -> Unknown Error"
             )
         }
 
@@ -151,6 +194,15 @@ class ISaveMovChaveTest {
                 movChaveRepository.setOutside(1)
             ).thenReturn(
                 Result.success(true)
+            )
+            whenever(
+                movChaveRepository.get(1)
+            ).thenReturn(
+                Result.success(
+                    MovChave(
+                        uuidMainMovChave = "UUID"
+                    )
+                )
             )
             whenever(
                 configRepository.getConfig()
@@ -169,7 +221,7 @@ class ISaveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISaveMovChave -> Unknown Error"
             )
         }
 
@@ -180,6 +232,15 @@ class ISaveMovChaveTest {
                 movChaveRepository.setOutside(1)
             ).thenReturn(
                 Result.success(true)
+            )
+            whenever(
+                movChaveRepository.get(1)
+            ).thenReturn(
+                Result.success(
+                    MovChave(
+                        uuidMainMovChave = "UUID"
+                    )
+                )
             )
             whenever(
                 configRepository.getConfig()
@@ -212,7 +273,7 @@ class ISaveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.save"
+                "ISaveMovChave -> Unknown Error"
             )
         }
 
@@ -223,6 +284,15 @@ class ISaveMovChaveTest {
                 movChaveRepository.setOutside(1)
             ).thenReturn(
                 Result.success(true)
+            )
+            whenever(
+                movChaveRepository.get(1)
+            ).thenReturn(
+                Result.success(
+                    MovChave(
+                        uuidMainMovChave = "UUID"
+                    )
+                )
             )
             whenever(
                 configRepository.getConfig()

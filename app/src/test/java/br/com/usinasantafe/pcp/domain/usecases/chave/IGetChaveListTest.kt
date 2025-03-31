@@ -34,7 +34,7 @@ class IGetChaveListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ChaveRepository.listAll"
+                "IGetChaveList -> Unknown Error"
             )
         }
 
@@ -68,7 +68,7 @@ class IGetChaveListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetDescrFullChave"
+                "IGetChaveList -> Unknown Error"
             )
         }
 

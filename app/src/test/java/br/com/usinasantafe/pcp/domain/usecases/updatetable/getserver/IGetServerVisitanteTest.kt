@@ -35,7 +35,7 @@ class IGetServerVisitanteTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerVisitante -> Unknown Error"
         )
     }
 
@@ -53,7 +53,7 @@ class IGetServerVisitanteTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerVisitante"
+            "IGetServerVisitante"
         )
     }
 
@@ -79,7 +79,7 @@ class IGetServerVisitanteTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRepository.recoverAll"
+                "IGetServerVisitante -> Unknown Error"
             )
         }
 

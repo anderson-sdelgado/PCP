@@ -37,7 +37,7 @@ class IStartRemoveMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.get"
+                "IStartRemoveMovChaveEquip -> Unknown Error"
             )
         }
 
@@ -80,7 +80,7 @@ class IStartRemoveMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.start"
+                "IStartRemoveMovChaveEquip -> Unknown Error"
             )
         }
 

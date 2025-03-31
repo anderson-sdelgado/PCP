@@ -42,7 +42,7 @@ class ISendMovChaveListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.listSend"
+                "ISendMovChaveList -> Unknown Error"
             )
         }
 
@@ -86,7 +86,7 @@ class ISendMovChaveListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISendMovChaveList -> Unknown Error"
             )
         }
 
@@ -149,7 +149,7 @@ class ISendMovChaveListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.send"
+                "ISendMovChaveList -> Unknown Error"
             )
         }
 

@@ -15,10 +15,14 @@ import java.util.Date
 
 class IGetMovEquipResidenciaInsideListTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = IGetMovEquipResidenciaInsideList(
+        movEquipResidenciaRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository ListOpenInput`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.listInside()
             ).thenReturn(
@@ -26,14 +30,14 @@ class IGetMovEquipResidenciaInsideListTest {
                     Exception()
                 )
             )
-            val usecase = IGetMovEquipResidenciaInsideList(
-                movEquipResidenciaRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.ListOpenInput"
+                "IGetMovEquipResidenciaInsideList -> Unknown Error"
             )
         }
 
@@ -55,24 +59,41 @@ class IGetMovEquipResidenciaInsideListTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             val list = listOf(model)
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.listInside()
             ).thenReturn(
                 Result.success(list)
             )
-            val usecase = IGetMovEquipResidenciaInsideList(
-                movEquipResidenciaRepository
-            )
             val result = usecase()
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val modelList = result.getOrNull()!!
-            assertEquals(modelList.size, 1)
-            assertEquals(modelList[0].id, 1)
-            assertEquals(modelList[0].dthr, "09/08/2024 11:21")
-            assertEquals(modelList[0].veiculo, "VEICULO TESTE")
-            assertEquals(modelList[0].placa, "PLACA TESTE")
-            assertEquals(modelList[0].motorista, "MOTORISTA TESTE")
+            assertEquals(
+                modelList.size,
+                1
+            )
+            assertEquals(
+                modelList[0].id,
+                1
+            )
+            assertEquals(
+                modelList[0].dthr,
+                "09/08/2024 11:21"
+            )
+            assertEquals(
+                modelList[0].veiculo,
+                "VEICULO TESTE"
+            )
+            assertEquals(
+                modelList[0].placa,
+                "PLACA TESTE"
+            )
+            assertEquals(
+                modelList[0].motorista,
+                "MOTORISTA TESTE"
+            )
         }
 
 }

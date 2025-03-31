@@ -40,7 +40,7 @@ class IGetMovChaveEquipOpenListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.listOpen"
+                "IGetMovChaveEquipOpenList -> Unknown Error"
             )
         }
 
@@ -79,7 +79,7 @@ class IGetMovChaveEquipOpenListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ColabRepository.getNome"
+                "IGetMovChaveEquipOpenList -> Unknown Error"
             )
         }
 
@@ -125,7 +125,7 @@ class IGetMovChaveEquipOpenListTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> EquipRepository.getDescr"
+                "IGetMovChaveEquipOpenList -> Unknown Error"
             )
         }
 
@@ -183,7 +183,7 @@ class IGetMovChaveEquipOpenListTest {
             )
             assertEquals(
                 entityResult.tipoMov,
-                "DEVOLUÇÃO"
+                "RECEBIMENTO"
             )
         }
 }

@@ -39,7 +39,7 @@ class IUpdateChave(
         if (resultRecover.isFailure) {
             val error = resultRecover.exceptionOrNull()!!
             val failure =
-                "IUpdateChave -> ${error.message} -> ${error.cause.toString()}"
+                "IUpdateChave -> ${error.message!!.trim()} -> ${error.cause.toString()}"
             emit(
                 ResultUpdate(
                     errors = Errors.UPDATE,

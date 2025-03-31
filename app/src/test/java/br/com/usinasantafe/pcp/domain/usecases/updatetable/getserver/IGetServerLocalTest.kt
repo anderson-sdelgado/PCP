@@ -35,7 +35,7 @@ class IGetServerLocalTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> GetToken"
+            "IGetServerLocal -> Unknown Error"
         )
     }
 
@@ -53,7 +53,7 @@ class IGetServerLocalTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Usecase -> GetServerLocal"
+            "IGetServerLocal"
         )
     }
 
@@ -78,7 +78,7 @@ class IGetServerLocalTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> LocalRepository.recoverAll"
+            "IGetServerLocal -> Unknown Error"
         )
     }
 

@@ -13,11 +13,17 @@ import org.mockito.kotlin.whenever
 
 class GetCpfVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val terceiroRepository = mock<TerceiroRepository>()
+    private val visitanteRepository = mock<VisitanteRepository>()
+    private val usecase = IGetCpfVisitTerc(
+        movEquipVisitTercRepository = movEquipVisitTercRepository,
+        terceiroRepository = terceiroRepository,
+        visitanteRepository = visitanteRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetType`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.CHANGE,
@@ -28,24 +34,19 @@ class GetCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetCpfVisitTerc(
-            movEquipVisitTercRepository = movEquipVisitTercRepository,
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepositoryImpl.getTypeVisitTerc"
+            "IGetCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetIdVisitTerc`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.CHANGE,
@@ -65,24 +66,19 @@ class GetCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetCpfVisitTerc(
-            movEquipVisitTercRepository = movEquipVisitTercRepository,
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepositoryImpl.getIdVisitTerc"
+            "IGetCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return failure if have error in TerceiroRepository GetCpf`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.CHANGE,
@@ -109,24 +105,19 @@ class GetCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetCpfVisitTerc(
-            movEquipVisitTercRepository = movEquipVisitTercRepository,
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> TerceiroRepository.getCpf"
+            "IGetCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return failure if have error in VisitanteRepository GetCpf`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.CHANGE,
@@ -153,24 +144,19 @@ class GetCpfVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetCpfVisitTerc(
-            movEquipVisitTercRepository = movEquipVisitTercRepository,
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> VisitanteRepository.getCpf"
+            "IGetCpfVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return cpf if GetCpf execute successfully of Terceiro`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.CHANGE,
@@ -195,21 +181,19 @@ class GetCpfVisitTercImplTest {
         ).thenReturn(
             Result.success("123.456.789-00")
         )
-        val usecase = IGetCpfVisitTerc(
-            movEquipVisitTercRepository = movEquipVisitTercRepository,
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "123.456.789-00")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "123.456.789-00"
+        )
     }
 
     @Test
     fun `Check return cpf if GetCpf execute successfully of Visitante`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.CHANGE,
@@ -234,14 +218,15 @@ class GetCpfVisitTercImplTest {
         ).thenReturn(
             Result.success("123.456.789-01")
         )
-        val usecase = IGetCpfVisitTerc(
-            movEquipVisitTercRepository = movEquipVisitTercRepository,
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "123.456.789-01")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "123.456.789-01"
+        )
     }
 
 }

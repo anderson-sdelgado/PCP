@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Terceiro
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateTerceiro
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanTerceiro
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerTerceiro
@@ -21,7 +22,7 @@ class IUpdateTerceiroTest {
     private val cleanTerceiro = mock<CleanTerceiro>()
     private val getServerTerceiro = mock<GetServerTerceiro>()
     private val saveTerceiro = mock<SaveTerceiro>()
-    private fun getUsecase() = IUpdateTerceiro(
+    private val usecase = IUpdateTerceiro(
         cleanTerceiro = cleanTerceiro,
         getServerTerceiro = getServerTerceiro,
         saveTerceiro = saveTerceiro,
@@ -34,11 +35,12 @@ class IUpdateTerceiroTest {
             whenever(
                 getServerTerceiro()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerTerceiro",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateTerceiroTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllTerceiroServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllTerceiroServer -> java.lang.NullPointerException",
+                    failure = "IUpdateTerceiro -> GetServerTerceiro -> java.lang.Exception",
+                    msgProgress = "IUpdateTerceiro -> GetServerTerceiro -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateTerceiroTest {
             whenever(
                 cleanTerceiro()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanLocal",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateTerceiroTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
+                    failure = "IUpdateTerceiro -> CleanLocal -> java.lang.Exception",
+                    msgProgress = "IUpdateTerceiro -> CleanLocal -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateTerceiroTest {
             whenever(
                 saveTerceiro(terceiroList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveTerceiro",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateTerceiroTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllTerceiro -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllTerceiro -> java.lang.NullPointerException",
+                    failure = "IUpdateTerceiro -> SaveTerceiro -> java.lang.Exception",
+                    msgProgress = "IUpdateTerceiro -> SaveTerceiro -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateTerceiroTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

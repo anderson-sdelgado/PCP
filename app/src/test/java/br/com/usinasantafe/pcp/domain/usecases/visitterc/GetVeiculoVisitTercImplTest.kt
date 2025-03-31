@@ -9,10 +9,14 @@ import org.mockito.kotlin.whenever
 
 class GetVeiculoVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = IGetVeiculoVisitTerc(
+        movEquipVisitTercRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getVeiculo`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.getVeiculo(
                     id = 1
@@ -22,20 +26,19 @@ class GetVeiculoVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetVeiculoVisitTerc(
-                movEquipVisitTercRepository
-            )
             val result = usecase(id = 1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.getVeiculo"
+                "IGetVeiculoVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return veiculo if GetVeiculoVisitTercImpl execute successfully`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getVeiculo(
                 id = 1
@@ -49,7 +52,13 @@ class GetVeiculoVisitTercImplTest {
             movEquipVisitTercRepository
         )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "Veiculo")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "Veiculo"
+        )
     }
 }

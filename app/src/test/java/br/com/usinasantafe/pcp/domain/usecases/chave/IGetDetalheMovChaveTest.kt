@@ -8,7 +8,9 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import kotlin.test.assertEquals
 
 class IGetDetalheMovChaveTest {
@@ -39,7 +41,7 @@ class IGetDetalheMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.get"
+                "IGetDetalheMovChave -> Unknown Error"
             )
         }
 
@@ -76,7 +78,7 @@ class IGetDetalheMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ColabRepository.getNome"
+                "IGetDetalheMovChave -> Unknown Error"
             )
         }
 
@@ -120,7 +122,7 @@ class IGetDetalheMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetDescrFullChave"
+                "IGetDetalheMovChave -> Unknown Error"
             )
         }
 
@@ -163,7 +165,10 @@ class IGetDetalheMovChaveTest {
             val entityResult = result.getOrNull()!!
             assertEquals(
                 entityResult.dthr,
-                entity.dthrMovChave.toString()
+                SimpleDateFormat(
+                    "dd/MM/yyyy HH:mm",
+                    Locale("pt", "BR")
+                ).format(Date())
             )
             assertEquals(
                 entityResult.tipoMov,

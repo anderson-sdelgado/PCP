@@ -11,10 +11,14 @@ import org.mockito.kotlin.whenever
 
 class GetTitleCpfVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = IGetTitleCpfVisitTerc(
+        movEquipVisitTercRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getTypeVisitTerc`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.getTypeVisitTerc(
                     flowApp = FlowApp.ADD,
@@ -25,23 +29,22 @@ class GetTitleCpfVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetTitleCpfVisitTerc(
-                movEquipVisitTercRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.getTypeVisitTerc"
+                "IGetTitleCpfVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return title if GetTitleCpfVisitTercImpl execute success`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getTypeVisitTerc(
                 flowApp = FlowApp.ADD,
@@ -50,14 +53,14 @@ class GetTitleCpfVisitTercImplTest {
         ).thenReturn(
             Result.success(TypeVisitTerc.VISITANTE)
         )
-        val usecase = IGetTitleCpfVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(
             flowApp = FlowApp.ADD,
             id = 0
         )
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result.getOrNull()!!,
             "VISITANTE"

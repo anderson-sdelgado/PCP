@@ -43,7 +43,7 @@ class ISetIdChaveMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.setIdChave"
+                "ISetIdChaveMovChave -> Unknown Error"
             )
         }
 

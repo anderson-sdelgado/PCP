@@ -13,10 +13,15 @@ import org.mockito.kotlin.whenever
 
 class GetMotoristaVisitTercImplTest {
 
+    private val terceiroRepository = mock<TerceiroRepository>()
+    private val visitanteRepository = mock<VisitanteRepository>()
+    private val usecase = IGetMotoristaVisitTerc(
+        terceiroRepository = terceiroRepository,
+        visitanteRepository = visitanteRepository
+    )
+
     @Test
     fun `Check return failure if have error in VisitanteRepository `() = runTest{
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             visitanteRepository.get(1)
         ).thenReturn(
@@ -24,25 +29,22 @@ class GetMotoristaVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetMotoristaVisitTerc(
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(
             typeVisitTerc = TypeVisitTerc.VISITANTE,
             idVisitTerc = 1
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> VisitanteRepository.get"
+            "IGetMotoristaVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return failure if have error in TerceiroRepository `() = runTest{
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             terceiroRepository.get(1)
         ).thenReturn(
@@ -50,25 +52,22 @@ class GetMotoristaVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetMotoristaVisitTerc(
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(
             typeVisitTerc = TypeVisitTerc.TERCEIRO,
             idVisitTerc = 1
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> TerceiroRepository.get"
+            "IGetMotoristaVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return motorista if VisitanteRepository execute successfully`() = runTest{
-        val terceiroRepository = mock<TerceiroRepository>()
-        val visitanteRepository = mock<VisitanteRepository>()
         whenever(
             visitanteRepository.get(1)
         ).thenReturn(
@@ -81,15 +80,14 @@ class GetMotoristaVisitTercImplTest {
                 )
             )
         )
-        val usecase = IGetMotoristaVisitTerc(
-            terceiroRepository = terceiroRepository,
-            visitanteRepository = visitanteRepository
-        )
         val result = usecase(
             typeVisitTerc = TypeVisitTerc.VISITANTE,
             idVisitTerc = 1
         )
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result.getOrNull()!!,
             "123.456.789-00 - Anderson"
@@ -121,7 +119,10 @@ class GetMotoristaVisitTercImplTest {
             typeVisitTerc = TypeVisitTerc.TERCEIRO,
             idVisitTerc = 1
         )
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result.getOrNull()!!,
             "123.456.789-00 - Anderson"

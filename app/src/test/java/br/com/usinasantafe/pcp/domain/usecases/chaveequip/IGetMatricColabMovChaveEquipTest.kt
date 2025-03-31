@@ -31,7 +31,7 @@ class IGetMatricColabMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> IGetMatricColabMovChaveEquip"
+                "IGetMatricColabMovChaveEquip -> Unknown Error"
             )
         }
 

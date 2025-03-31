@@ -10,6 +10,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveLocalTrabTest {
 
+    private val localTrabRepository = Mockito.mock<LocalTrabRepository>()
+    private val usecase = ISaveLocalTrab(localTrabRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val localTrabList = listOf(
@@ -18,13 +21,11 @@ class ISaveLocalTrabTest {
                 descrLocalTrab = "02 - Sala TI"
             )
         )
-        val localTrabRepository = Mockito.mock<LocalTrabRepository>()
         whenever(
             localTrabRepository.addAll(localTrabList)
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ISaveLocalTrab(localTrabRepository)
         val result = usecase(localTrabList)
         assertEquals(
             result.isSuccess,
@@ -44,7 +45,6 @@ class ISaveLocalTrabTest {
                 descrLocalTrab = "02 - Sala TI"
             )
         )
-        val localTrabRepository = Mockito.mock<LocalTrabRepository>()
         whenever(
             localTrabRepository.addAll(localTrabList)
         ).thenReturn(
@@ -52,7 +52,6 @@ class ISaveLocalTrabTest {
                 Exception()
             )
         )
-        val usecase = ISaveLocalTrab(localTrabRepository)
         val result = usecase(localTrabList)
         assertEquals(
             result.isFailure,
@@ -60,7 +59,7 @@ class ISaveLocalTrabTest {
 
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> LocalTrabRepository.addAll"
+            "ISaveLocalTrab -> Unknown Error"
         )
     }
 }

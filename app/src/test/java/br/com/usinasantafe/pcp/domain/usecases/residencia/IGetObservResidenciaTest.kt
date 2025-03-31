@@ -9,10 +9,14 @@ import org.mockito.kotlin.whenever
 
 class IGetObservResidenciaTest {
 
+    private val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
+    private val usecase = IGetObservResidencia(
+        movEquipResidenciaRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipResidenciaRepository GetObserv`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getObserv(
                     id = 1
@@ -22,21 +26,20 @@ class IGetObservResidenciaTest {
                     Exception()
                 )
             )
-            val usecase = IGetObservResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(id = 1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.GetObserv"
+                "IGetObservResidencia -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return observ if GetObservResidenciaImpl execute successfully`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getObserv(
                     id = 1
@@ -44,19 +47,21 @@ class IGetObservResidenciaTest {
             ).thenReturn(
                 Result.success("Observacao")
             )
-            val usecase = IGetObservResidencia(
-                movEquipResidenciaRepository
-            )
             val result = usecase(id = 1)
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Observacao")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull(),
+                "Observacao"
+            )
         }
 
 
     @Test
     fun `Check return observ if GetObservResidenciaImpl execute successfully and return null`() =
         runTest {
-            val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
                 movEquipResidenciaRepository.getObserv(
                     id = 1
@@ -68,7 +73,13 @@ class IGetObservResidenciaTest {
                 movEquipResidenciaRepository
             )
             val result = usecase(id = 1)
-            assertTrue(result.isSuccess)
-            assertNull(result.getOrNull())
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull(),
+                null
+            )
         }
 }

@@ -44,16 +44,16 @@ class IGetDetalheProprio(
                 Locale("pt", "BR")
             ).format(mov.dthrMovEquipProprio)
             val tipoMov = if (mov.tipoMovEquipProprio!!.ordinal == 0) "ENTRADA" else "SAÍDA"
-            val resultNro = equipRepository.getDescr(mov.idEquipMovEquipProprio!!)
-            if (resultNro.isFailure) {
-                val e = resultNro.exceptionOrNull()!!
+            val resultGetDescr = equipRepository.getDescr(mov.idEquipMovEquipProprio!!)
+            if (resultGetDescr.isFailure) {
+                val e = resultGetDescr.exceptionOrNull()!!
                 return resultFailure(
                     context = "IGetDetalheProprio",
                     message = e.message,
                     cause = e
                 )
             }
-            val veiculo = resultNro.getOrNull()!!
+            val veiculo = resultGetDescr.getOrNull()!!
             val resultEquipSegList =
                 movEquipProprioEquipSegRepository.list(FlowApp.CHANGE, mov.idMovEquipProprio!!)
             if (resultEquipSegList.isFailure) {

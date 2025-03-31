@@ -42,7 +42,7 @@ class ISetIdEquipMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> EquipRepository.getId"
+                "ISetIdEquipMovChaveEquip -> Unknown Error"
             )
         }
 
@@ -76,7 +76,7 @@ class ISetIdEquipMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.setIdEquip"
+                "ISetIdEquipMovChaveEquip -> Unknown Error"
             )
         }
 

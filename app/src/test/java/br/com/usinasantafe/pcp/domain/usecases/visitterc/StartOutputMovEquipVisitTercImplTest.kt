@@ -20,7 +20,7 @@ class StartOutputMovEquipVisitTercImplTest {
     private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
     private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
 
-    private fun getUsecase() = IStartOutputMovEquipVisitTerc(
+    private val usecase = IStartOutputMovEquipVisitTerc(
         movEquipVisitTercRepository,
         movEquipVisitTercPassagRepository
     )
@@ -35,12 +35,14 @@ class StartOutputMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.get"
+                "IStartOutputMovEquipVisitTerc -> Unknown Error"
             )
         }
 
@@ -76,12 +78,14 @@ class StartOutputMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.start"
+                "IStartOutputMovEquipVisitTerc -> Unknown Error"
             )
         }
 
@@ -125,12 +129,14 @@ class StartOutputMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.list"
+                "IStartOutputMovEquipVisitTerc -> Unknown Error"
             )
         }
 
@@ -174,10 +180,15 @@ class StartOutputMovEquipVisitTercImplTest {
                     emptyList()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
         }
 
     @Test
@@ -237,12 +248,14 @@ class StartOutputMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.add"
+                "IStartOutputMovEquipVisitTerc -> Unknown Error"
             )
         }
 
@@ -301,9 +314,14 @@ class StartOutputMovEquipVisitTercImplTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(1)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
         }
 }

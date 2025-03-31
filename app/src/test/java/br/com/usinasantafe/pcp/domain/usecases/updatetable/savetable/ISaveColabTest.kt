@@ -11,6 +11,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveColabTest {
 
+    private val colabRepository = Mockito.mock<ColabRepository>()
+    private val usecase = ISaveColab(colabRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val colabList = listOf(
@@ -19,13 +22,11 @@ class ISaveColabTest {
                 nomeColab = "ANDERSON DA SILVA DELGADO"
             )
         )
-        val colabRepository = Mockito.mock<ColabRepository>()
         whenever(
             colabRepository.addAll(colabList)
         ).thenReturn(
             Result.success(true)
         )
-        val usecase = ISaveColab(colabRepository)
         val result = usecase(colabList)
         assertEquals(
             result.isSuccess,
@@ -45,7 +46,6 @@ class ISaveColabTest {
                 nomeColab = "ANDERSON DA SILVA DELGADO"
             )
         )
-        val colabRepository = Mockito.mock<ColabRepository>()
         whenever(
             colabRepository.addAll(colabList)
         ).thenReturn(
@@ -53,7 +53,6 @@ class ISaveColabTest {
                 Exception()
             )
         )
-        val usecase = ISaveColab(colabRepository)
         val result = usecase(colabList)
         assertEquals(
             result.isFailure,
@@ -61,7 +60,7 @@ class ISaveColabTest {
 
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRepository.addAll"
+            "ISaveColab -> Unknown Error"
         )
     }
 }

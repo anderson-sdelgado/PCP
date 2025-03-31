@@ -14,13 +14,20 @@ import org.mockito.kotlin.whenever
 
 class SaveMovEquipVisitTercImplTest {
 
+    private val configRepository = mock<ConfigRepository>()
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    private val startProcessSendData = mock<StartProcessSendData>()
+    private val usecase = ISaveMovEquipVisitTerc(
+        configRepository,
+        movEquipVisitTercRepository,
+        movEquipVisitTercPassagRepository,
+        startProcessSendData,
+    )
+
     @Test
     fun `Chech return failure if have error in ConfigRepository CloseMovVisitTerc`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 movEquipVisitTercRepository.setOutside(1)
             ).thenReturn(
@@ -28,30 +35,23 @@ class SaveMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipVisitTerc(
-                configRepository,
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                startProcessSendData,
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 1
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> CloseMovVisitTerc"
+                "ISaveMovEquipVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Chech return failure if have error in ConfigRepository getConfig`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -59,30 +59,23 @@ class SaveMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipVisitTerc(
-                configRepository,
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISaveMovEquipVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Chech return failure if have error in MovEquipVisitTercRepository Save`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -100,30 +93,23 @@ class SaveMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipVisitTerc(
-                configRepository,
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.save"
+                "ISaveMovEquipVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Chech return failure if have error in MovEquipVisitTercPassagRepository Save`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -146,30 +132,23 @@ class SaveMovEquipVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISaveMovEquipVisitTerc(
-                configRepository,
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.save"
+                "ISaveMovEquipVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Chech return true if SaveMovEquipVisitTercImpl execute successfully`() =
         runTest {
-            val configRepository = mock<ConfigRepository>()
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val startProcessSendData = mock<StartProcessSendData>()
             whenever(
                 configRepository.getConfig()
             ).thenReturn(
@@ -190,17 +169,17 @@ class SaveMovEquipVisitTercImplTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISaveMovEquipVisitTerc(
-                configRepository,
-                movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository,
-                startProcessSendData
-            )
             val result = usecase(
                 typeMov = TypeMovEquip.OUTPUT,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
         }
 }

@@ -11,6 +11,9 @@ import org.mockito.kotlin.whenever
 
 class ISetStatusSentMovEquipProprioTest {
 
+    private val movEquipProprioRepository = mock<MovEquipProprioRepository>()
+    private val usecase = ISetStatusSentMovProprio(movEquipProprioRepository)
+
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository setStatusSent`() =
         runTest {
@@ -19,7 +22,6 @@ class ISetStatusSentMovEquipProprioTest {
                     idMovEquipProprio = 1
                 )
             )
-            val movEquipProprioRepository = mock<MovEquipProprioRepository>()
             whenever(
                 movEquipProprioRepository.setSent(list)
             ).thenReturn(
@@ -27,12 +29,14 @@ class ISetStatusSentMovEquipProprioTest {
                     Exception()
                 )
             )
-            val usecase = ISetStatusSentMovProprio(movEquipProprioRepository)
             val result = usecase(list)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> SetStatusSentMovProprioImpl"
+                "ISetStatusSentMovProprio -> Unknown Error"
             )
         }
 
@@ -44,15 +48,19 @@ class ISetStatusSentMovEquipProprioTest {
                     idMovEquipProprio = 1
                 )
             )
-            val movEquipProprioRepository = mock<MovEquipProprioRepository>()
             whenever(
                 movEquipProprioRepository.setSent(list)
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetStatusSentMovProprio(movEquipProprioRepository)
             val result = usecase(list)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

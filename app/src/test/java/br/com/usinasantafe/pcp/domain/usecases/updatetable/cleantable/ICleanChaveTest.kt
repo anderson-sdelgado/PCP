@@ -9,18 +9,19 @@ import org.mockito.kotlin.whenever
 
 class ICleanChaveTest {
 
+    val chaveRepository = mock<ChaveRepository>()
+    val usecase =
+        ICleanChave(
+            chaveRepository
+        )
+
     @Test
     fun `Check execution correct`() = runTest {
-        val chaveRepository = mock<ChaveRepository>()
         whenever(
             chaveRepository.deleteAll()
         ).thenReturn(
             Result.success(true)
         )
-        val usecase =
-            ICleanChave(
-                chaveRepository
-            )
         val result = usecase()
         assertEquals(
             result.isSuccess,
@@ -34,18 +35,13 @@ class ICleanChaveTest {
 
     @Test
     fun `Check execution incorrect`() = runTest {
-        val colabRepository = mock<ChaveRepository>()
         whenever(
-            colabRepository.deleteAll()
+            chaveRepository.deleteAll()
         ).thenReturn(
             Result.failure(
                 Exception()
             )
         )
-        val usecase =
-            ICleanChave(
-                colabRepository
-            )
         val result = usecase()
         assertEquals(
             result.isFailure,
@@ -53,7 +49,7 @@ class ICleanChaveTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ChaveRepository.deleteAll"
+            "ICleanChave -> Unknown Error"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),

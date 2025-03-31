@@ -11,6 +11,9 @@ import org.mockito.kotlin.whenever
 
 class ISaveVisitanteTest {
 
+    private val visitanteRepository = Mockito.mock<VisitanteRepository>()
+    private val usecase = ISaveVisitante(visitanteRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
         val visitanteList = listOf(
@@ -21,12 +24,20 @@ class ISaveVisitanteTest {
                 empresaVisitante = "Empresa Visitante",
             )
         )
-        val visitanteRepository = Mockito.mock<VisitanteRepository>()
-        whenever(visitanteRepository.addAll(visitanteList)).thenReturn(Result.success(true))
-        val usecase = ISaveVisitante(visitanteRepository)
+        whenever(
+            visitanteRepository.addAll(visitanteList)
+        ).thenReturn(
+            Result.success(true)
+        )
         val result = usecase(visitanteList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            true
+        )
     }
 
     @Test
@@ -39,7 +50,6 @@ class ISaveVisitanteTest {
                 empresaVisitante = "Empresa Visitante",
             )
         )
-        val visitanteRepository = Mockito.mock<VisitanteRepository>()
         whenever(
             visitanteRepository.addAll(visitanteList)
         ).thenReturn(
@@ -47,9 +57,15 @@ class ISaveVisitanteTest {
                 Exception()
             )
         )
-        val usecase = ISaveVisitante(visitanteRepository)
         val result = usecase(visitanteList)
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> VisitanteRepository.addAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ISaveVisitante -> Unknown Error"
+        )
     }
+
 }

@@ -10,6 +10,9 @@ import org.mockito.kotlin.whenever
 
 class SetStatusSentMovVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = ISetStatusSentMovVisitTerc(movEquipVisitTercRepository)
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository setStatusSent`() =
         runTest {
@@ -18,7 +21,6 @@ class SetStatusSentMovVisitTercImplTest {
                     idMovEquipVisitTerc = 1
                 )
             )
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.setSent(list)
             ).thenReturn(
@@ -26,12 +28,14 @@ class SetStatusSentMovVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISetStatusSentMovVisitTerc(movEquipVisitTercRepository)
             val result = usecase(list)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> SetStatusSentMovVisitTercImpl"
+                "ISetStatusSentMovVisitTerc -> Unknown Error"
             )
         }
 
@@ -43,15 +47,19 @@ class SetStatusSentMovVisitTercImplTest {
                     idMovEquipVisitTerc = 1
                 )
             )
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.setSent(list)
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetStatusSentMovVisitTerc(movEquipVisitTercRepository)
             val result = usecase(list)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

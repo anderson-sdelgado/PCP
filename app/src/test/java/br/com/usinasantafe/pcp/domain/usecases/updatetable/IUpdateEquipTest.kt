@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateEquip
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanEquip
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerEquip
@@ -21,7 +22,7 @@ class IUpdateEquipTest {
     private val cleanEquip = mock<CleanEquip>()
     private val getServerEquip = mock<GetServerEquip>()
     private val saveEquip = mock<SaveEquip>()
-    private fun getUsecase() = IUpdateEquip(
+    private val usecase = IUpdateEquip(
         cleanEquip = cleanEquip,
         getServerEquip = getServerEquip,
         saveEquip = saveEquip,
@@ -34,11 +35,12 @@ class IUpdateEquipTest {
             whenever(
                 getServerEquip()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerEquip",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateEquipTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllEquipServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllEquipServer -> java.lang.NullPointerException",
+                    failure = "IUpdateEquip -> GetServerEquip -> java.lang.Exception",
+                    msgProgress = "IUpdateEquip -> GetServerEquip -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateEquipTest {
             whenever(
                 cleanEquip()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanEquip",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateEquipTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
+                    failure = "IUpdateEquip -> CleanEquip -> java.lang.Exception",
+                    msgProgress = "IUpdateEquip -> CleanEquip -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateEquipTest {
             whenever(
                 saveEquip(equipList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveEquip",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateEquipTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllEquip -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllEquip -> java.lang.NullPointerException",
+                    failure = "IUpdateEquip -> SaveEquip -> java.lang.Exception",
+                    msgProgress = "IUpdateEquip -> SaveEquip -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateEquipTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

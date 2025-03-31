@@ -31,7 +31,7 @@ class IGetObservMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Usecase -> IGetObservMovChave"
+                "IGetObservMovChave -> Unknown Error"
             )
         }
 

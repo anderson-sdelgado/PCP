@@ -9,18 +9,16 @@ import org.mockito.kotlin.whenever
 
 class ICleanLocalTrabTest {
 
+    private val localTrabRepository = mock<LocalTrabRepository>()
+    private val usecase = ICleanLocalTrab(localTrabRepository)
+
     @Test
     fun `Check execution correct`() = runTest {
-        val localTrabRepository = mock<LocalTrabRepository>()
         whenever(
             localTrabRepository.deleteAll()
         ).thenReturn(
             Result.success(true)
         )
-        val usecase =
-            ICleanLocalTrab(
-                localTrabRepository
-            )
         val result = usecase()
         assertEquals(
             result.isSuccess,
@@ -34,18 +32,13 @@ class ICleanLocalTrabTest {
 
     @Test
     fun `Check execution incorrect`() = runTest {
-        val colabRepository = mock<LocalTrabRepository>()
         whenever(
-            colabRepository.deleteAll()
+            localTrabRepository.deleteAll()
         ).thenReturn(
             Result.failure(
                 Exception()
             )
         )
-        val usecase =
-            ICleanLocalTrab(
-                colabRepository
-            )
         val result = usecase()
         assertEquals(
             result.isFailure,
@@ -53,7 +46,7 @@ class ICleanLocalTrabTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> LocalTrabRepository.deleteAll"
+            "ICleanLocalTrab -> Unknown Error"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),

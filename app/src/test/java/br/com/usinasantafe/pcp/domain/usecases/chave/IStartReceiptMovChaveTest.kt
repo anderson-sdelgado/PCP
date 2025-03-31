@@ -37,7 +37,7 @@ class IStartReceiptMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.get"
+                "IStartReceiptMovChave -> Unknown Error"
             )
         }
 
@@ -80,7 +80,7 @@ class IStartReceiptMovChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.start"
+                "IStartReceiptMovChave -> Unknown Error"
             )
         }
 

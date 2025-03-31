@@ -23,13 +23,20 @@ import java.util.Date
 
 class ISendMovProprioListTest {
 
+    private val movEquipProprioRepository = mock<MovEquipProprioRepository>()
+    private val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
+    private val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
+    private val configRepository = mock<ConfigRepository>()
+    private val usecase = ISendMovProprioList(
+        movEquipProprioRepository,
+        movEquipProprioEquipSegRepository,
+        movEquipProprioPassagRepository,
+        configRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository listSend`() =
         runTest {
-            val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-            val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
-            val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipProprioRepository.listSend()
             ).thenReturn(
@@ -37,27 +44,20 @@ class ISendMovProprioListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovProprioList(
-                movEquipProprioRepository,
-                movEquipProprioEquipSegRepository,
-                movEquipProprioPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipProprioRepository.listSend"
+                "ISendMovProprioList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in MovEquipProprioEquipSegRepository list`() =
         runTest {
-            val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-            val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
-            val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipProprioRepository.listSend()
             ).thenReturn(
@@ -90,27 +90,20 @@ class ISendMovProprioListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovProprioList(
-                movEquipProprioRepository,
-                movEquipProprioEquipSegRepository,
-                movEquipProprioPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipProprioEquipSegRepository.list"
+                "ISendMovProprioList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in MovEquipProprioPassagRepository list`() =
         runTest {
-            val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-            val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
-            val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
             whenever(
                 movEquipProprioRepository.listSend()
             ).thenReturn(
@@ -159,28 +152,23 @@ class ISendMovProprioListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovProprioList(
-                movEquipProprioRepository,
-                movEquipProprioEquipSegRepository,
-                movEquipProprioPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipProprioPassagRepository.list"
+                "ISendMovProprioList -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return failure if have error in ConfigRepository getConfig`() =
         runTest {
-            val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-            val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
-            val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
-            val configRepository = mock<ConfigRepository>()
-            whenever(movEquipProprioRepository.listSend()).thenReturn(
+            whenever(
+                movEquipProprioRepository.listSend()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         MovEquipProprio(
@@ -239,17 +227,14 @@ class ISendMovProprioListTest {
                     Exception()
                 )
             )
-            val usecase = ISendMovProprioList(
-                movEquipProprioRepository,
-                movEquipProprioEquipSegRepository,
-                movEquipProprioPassagRepository,
-                configRepository
-            )
             val result = usecase()
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ConfigRepository.getConfig"
+                "ISendMovProprioList -> Unknown Error"
             )
         }
 
@@ -287,10 +272,6 @@ class ISendMovProprioListTest {
             it.movEquipProprioPassagList = listOf(movEquipProprioPassag)
             return@map it
         }
-        val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-        val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
-        val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
-        val configRepository = mock<ConfigRepository>()
         whenever(
             movEquipProprioRepository.listSend()
         ).thenReturn(
@@ -350,17 +331,14 @@ class ISendMovProprioListTest {
                 Exception()
             )
         )
-        val usecase = ISendMovProprioList(
-            movEquipProprioRepository,
-            movEquipProprioEquipSegRepository,
-            movEquipProprioPassagRepository,
-            configRepository
-        )
         val result = usecase()
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioRepository.send"
+            "ISendMovProprioList -> Unknown Error"
         )
     }
 
@@ -398,10 +376,6 @@ class ISendMovProprioListTest {
             it.movEquipProprioPassagList = listOf(movEquipProprioPassag)
             return@map it
         }
-        val movEquipProprioRepository = mock<MovEquipProprioRepository>()
-        val movEquipProprioEquipSegRepository = mock<MovEquipProprioEquipSegRepository>()
-        val movEquipProprioPassagRepository = mock<MovEquipProprioPassagRepository>()
-        val configRepository = mock<ConfigRepository>()
         whenever(
             movEquipProprioRepository.listSend()
         ).thenReturn(
@@ -465,14 +439,11 @@ class ISendMovProprioListTest {
                 )
             )
         )
-        val usecase = ISendMovProprioList(
-            movEquipProprioRepository,
-            movEquipProprioEquipSegRepository,
-            movEquipProprioPassagRepository,
-            configRepository
-        )
         val result = usecase()
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result.getOrNull()!![0].idMovEquipProprio, 1
         )

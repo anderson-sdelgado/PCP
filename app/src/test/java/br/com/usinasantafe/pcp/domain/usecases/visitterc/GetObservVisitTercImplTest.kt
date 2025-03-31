@@ -9,9 +9,13 @@ import org.mockito.kotlin.whenever
 
 class GetObservVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = IGetObservVisitTerc(
+        movEquipVisitTercRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getObserv`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getObserv(
                 id = 1
@@ -21,20 +25,19 @@ class GetObservVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetObservVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepository.getObserv"
+            "IGetObservVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return observ if GetObservImpl execute success`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getObserv(
                 id = 1
@@ -46,7 +49,10 @@ class GetObservVisitTercImplTest {
             movEquipVisitTercRepository
         )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result.getOrNull()!!,
             "Observação"
@@ -55,7 +61,6 @@ class GetObservVisitTercImplTest {
 
     @Test
     fun `Check return observ if GetObservImpl execute success and field is null`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getObserv(
                 id = 1
@@ -63,11 +68,11 @@ class GetObservVisitTercImplTest {
         ).thenReturn(
             Result.success(null)
         )
-        val usecase = IGetObservVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result.getOrNull(),
             null

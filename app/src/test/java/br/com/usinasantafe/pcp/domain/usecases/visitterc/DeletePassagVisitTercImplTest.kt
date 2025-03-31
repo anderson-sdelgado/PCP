@@ -10,10 +10,12 @@ import org.mockito.kotlin.whenever
 
 class DeletePassagVisitTercImplTest {
 
+    private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    private val usecase = IDeletePassagVisitTerc(movEquipVisitTercPassagRepository)
+
     @Test
     fun `Chech return failure Usecase if have error in MovEquipVisitTercPassagRepository delete`() =
         runTest {
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
             whenever(
                 movEquipVisitTercPassagRepository.delete(
                     idVisitTerc = 1,
@@ -25,25 +27,24 @@ class DeletePassagVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = IDeletePassagVisitTerc(
-                movEquipVisitTercPassagRepository
-            )
             val result = usecase(
                 idVisitTerc = 1,
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.delete"
+                "IDeletePassagVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if MovEquipVisitTercPassagRepository delete execute success`() =
         runTest {
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
             whenever(
                 movEquipVisitTercPassagRepository.delete(
                     idVisitTerc = 1,
@@ -53,15 +54,18 @@ class DeletePassagVisitTercImplTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = IDeletePassagVisitTerc(
-                movEquipVisitTercPassagRepository
-            )
             val result = usecase(
                 idVisitTerc = 1,
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

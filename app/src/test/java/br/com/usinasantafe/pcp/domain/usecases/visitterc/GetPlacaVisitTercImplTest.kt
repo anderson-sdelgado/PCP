@@ -9,9 +9,13 @@ import org.mockito.kotlin.whenever
 
 class GetPlacaVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = IGetPlacaVisitTerc(
+        movEquipVisitTercRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getPlaca`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getPlaca(
                 id = 1
@@ -21,20 +25,19 @@ class GetPlacaVisitTercImplTest {
                 Exception()
             )
         )
-        val usecase = IGetPlacaVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercRepository.getPlaca"
+            "IGetPlacaVisitTerc -> Unknown Error"
         )
     }
 
     @Test
     fun `Check return placa if GetPlaca execute success`() = runTest {
-        val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
             movEquipVisitTercRepository.getPlaca(
                 id = 1
@@ -44,11 +47,14 @@ class GetPlacaVisitTercImplTest {
                 "Placa"
             )
         )
-        val usecase = IGetPlacaVisitTerc(
-            movEquipVisitTercRepository
-        )
         val result = usecase(id = 1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "Placa")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "Placa"
+        )
     }
 }

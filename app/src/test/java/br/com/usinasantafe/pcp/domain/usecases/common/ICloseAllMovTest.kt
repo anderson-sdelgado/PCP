@@ -47,7 +47,7 @@ class ICloseAllMovTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioRepository.listOpen"
+            "ICloseAllMov -> Unknown Error"
         )
     }
 
@@ -81,7 +81,7 @@ class ICloseAllMovTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioRepository.setClose"
+            "ICloseAllMov -> Unknown Error"
         )
     }
 
@@ -90,7 +90,9 @@ class ICloseAllMovTest {
         val movEquipProprio = MovEquipProprio(
             idMovEquipProprio = 1
         )
-        whenever(movEquipProprioRepository.listOpen()).thenReturn(
+        whenever(
+            movEquipProprioRepository.listOpen()
+        ).thenReturn(
             Result.success(
                 listOf(
                     movEquipProprio
@@ -104,7 +106,9 @@ class ICloseAllMovTest {
         ).thenReturn(
             Result.success(true)
         )
-        whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
+        whenever(
+            movEquipVisitTercRepository.listOpen()
+        ).thenReturn(
             Result.failure(
                 Exception()
             )
@@ -116,7 +120,7 @@ class ICloseAllMovTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioVisitTerc.listOpen"
+            "ICloseAllMov -> Unknown Error"
         )
     }
 
@@ -128,7 +132,9 @@ class ICloseAllMovTest {
         val movEquipVisitTerc = MovEquipVisitTerc(
             idMovEquipVisitTerc = 1
         )
-        whenever(movEquipProprioRepository.listOpen()).thenReturn(
+        whenever(
+            movEquipProprioRepository.listOpen()
+        ).thenReturn(
             Result.success(
                 listOf(
                     movEquipProprio
@@ -163,7 +169,7 @@ class ICloseAllMovTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipProprioVisitTerc.setClose"
+            "ICloseAllMov -> Unknown Error"
         )
     }
 
@@ -176,7 +182,9 @@ class ICloseAllMovTest {
             val movEquipVisitTerc = MovEquipVisitTerc(
                 idMovEquipVisitTerc = 1
             )
-            whenever(movEquipProprioRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipProprioRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipProprio
@@ -190,7 +198,9 @@ class ICloseAllMovTest {
             ).thenReturn(
                 Result.success(true)
             )
-            whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipVisitTercRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipVisitTerc
@@ -202,7 +212,9 @@ class ICloseAllMovTest {
             ).thenReturn(
                 Result.success(true)
             )
-            whenever(movEquipResidenciaRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipResidenciaRepository.listOpen()
+            ).thenReturn(
                 Result.failure(
                     Exception()
                 )
@@ -214,7 +226,7 @@ class ICloseAllMovTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.listOpen"
+                "ICloseAllMov -> Unknown Error"
             )
         }
 
@@ -230,7 +242,9 @@ class ICloseAllMovTest {
             val movEquipResidencia = MovEquipResidencia(
                 idMovEquipResidencia = 1
             )
-            whenever(movEquipProprioRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipProprioRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipProprio
@@ -244,7 +258,9 @@ class ICloseAllMovTest {
             ).thenReturn(
                 Result.success(true)
             )
-            whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipVisitTercRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipVisitTerc
@@ -277,7 +293,7 @@ class ICloseAllMovTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipResidenciaRepository.setClose"
+                "ICloseAllMov -> Unknown Error"
             )
         }
 
@@ -307,7 +323,9 @@ class ICloseAllMovTest {
             ).thenReturn(
                 Result.success(true)
             )
-            whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipVisitTercRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipVisitTerc
@@ -347,7 +365,7 @@ class ICloseAllMovTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.listOpen"
+                "ICloseAllMov -> Unknown Error"
             )
         }
 
@@ -366,7 +384,9 @@ class ICloseAllMovTest {
             val movChave = MovChave(
                 idMovChave = 1
             )
-            whenever(movEquipProprioRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipProprioRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipProprio
@@ -380,7 +400,9 @@ class ICloseAllMovTest {
             ).thenReturn(
                 Result.success(true)
             )
-            whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipVisitTercRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipVisitTerc
@@ -429,7 +451,7 @@ class ICloseAllMovTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.setClose"
+                "ICloseAllMov -> Unknown Error"
             )
         }
 
@@ -448,7 +470,9 @@ class ICloseAllMovTest {
             val movChave = MovChave(
                 idMovChave = 1
             )
-            whenever(movEquipProprioRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipProprioRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipProprio
@@ -462,7 +486,9 @@ class ICloseAllMovTest {
             ).thenReturn(
                 Result.success(true)
             )
-            whenever(movEquipVisitTercRepository.listOpen()).thenReturn(
+            whenever(
+                movEquipVisitTercRepository.listOpen()
+            ).thenReturn(
                 Result.success(
                     listOf(
                         movEquipVisitTerc
@@ -516,7 +542,7 @@ class ICloseAllMovTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.listOpen"
+                "ICloseAllMov -> Unknown Error"
             )
         }
 
@@ -615,7 +641,7 @@ class ICloseAllMovTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.setClose"
+                "ICloseAllMov -> Unknown Error"
             )
         }
 

@@ -15,57 +15,20 @@ import org.mockito.kotlin.whenever
 
 class GetPassagVisitTercListImplTest {
 
-    @Test
-    fun `Chech return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() =
-        runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
-            whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
-                    flowApp = FlowApp.ADD,
-                    id = 0
-                )
-            ).thenReturn(
-                Result.failure(
-                    Exception()
-                )
-            )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
-            val result = usecase(
-                flowApp = FlowApp.ADD,
-                id = 0
-            )
-            assertTrue(result.isFailure)
-            assertEquals(
-                result.exceptionOrNull()!!.message,
-                "Failure Usecase -> GetPassagVisitTercListImpl"
-            )
-        }
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
+    private val terceiroRepository = mock<TerceiroRepository>()
+    private val visitanteRepository = mock<VisitanteRepository>()
+    private val usecase = IGetPassagVisitTercList(
+        movEquipVisitTercRepository = movEquipVisitTercRepository,
+        movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
+        terceiroRepository = terceiroRepository,
+        visitanteRepository = visitanteRepository
+    )
 
     @Test
-    fun `Chech return failure if have error in MovEquipVisitTercPassagRepository list Visitante`() =
+    fun `Check return failure if have error in MovEquipVisitTercPassagRepository list Visitante`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
-            whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
-                    flowApp = FlowApp.ADD,
-                    id = 0
-                )
-            ).thenReturn(
-                Result.success(
-                    TypeVisitTerc.VISITANTE
-                )
-            )
             whenever(
                 movEquipVisitTercPassagRepository.list(
                     flowApp = FlowApp.ADD,
@@ -76,40 +39,23 @@ class GetPassagVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.list"
+                "IGetPassagVisitTercList -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return failure if have error in VisitanteRepository getCpf`() =
+    fun `Check return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
-            whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
-                    flowApp = FlowApp.ADD,
-                    id = 0
-                )
-            ).thenReturn(
-                Result.success(
-                    TypeVisitTerc.VISITANTE
-                )
-            )
             whenever(
                 movEquipVisitTercPassagRepository.list(
                     flowApp = FlowApp.ADD,
@@ -122,6 +68,57 @@ class GetPassagVisitTercListImplTest {
                             idVisitTerc = 1
                         )
                     )
+                )
+            )
+            whenever(
+                movEquipVisitTercRepository.getTypeVisitTerc(
+                    flowApp = FlowApp.ADD,
+                    id = 0
+                )
+            ).thenReturn(
+                Result.failure(
+                    Exception()
+                )
+            )
+            val result = usecase(
+                flowApp = FlowApp.ADD,
+                id = 0
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IGetPassagVisitTercList -> Unknown Error"
+            )
+        }
+
+    @Test
+    fun `Check return failure if have error in VisitanteRepository getCpf`() =
+        runTest {
+            whenever(
+                movEquipVisitTercPassagRepository.list(
+                    flowApp = FlowApp.ADD,
+                    id = 0
+                )
+            ).thenReturn(
+                Result.success(
+                    listOf(
+                        MovEquipVisitTercPassag(
+                            idVisitTerc = 1
+                        )
+                    )
+                )
+            )
+            whenever(
+                movEquipVisitTercRepository.getTypeVisitTerc(
+                    flowApp = FlowApp.ADD,
+                    id = 0
+                )
+            ).thenReturn(
+                Result.success(
+                    TypeVisitTerc.VISITANTE
                 )
             )
             whenever(
@@ -133,40 +130,23 @@ class GetPassagVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> VisitanteRepository.getCpf"
+                "IGetPassagVisitTercList -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return failure if have error in VisitanteRepository getNome`() =
+    fun `Check return failure if have error in VisitanteRepository getNome`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
-            whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
-                    flowApp = FlowApp.ADD,
-                    id = 0
-                )
-            ).thenReturn(
-                Result.success(
-                    TypeVisitTerc.VISITANTE
-                )
-            )
             whenever(
                 movEquipVisitTercPassagRepository.list(
                     flowApp = FlowApp.ADD,
@@ -179,6 +159,16 @@ class GetPassagVisitTercListImplTest {
                             idVisitTerc = 1
                         )
                     )
+                )
+            )
+            whenever(
+                movEquipVisitTercRepository.getTypeVisitTerc(
+                    flowApp = FlowApp.ADD,
+                    id = 0
+                )
+            ).thenReturn(
+                Result.success(
+                    TypeVisitTerc.VISITANTE
                 )
             )
             whenever(
@@ -197,40 +187,23 @@ class GetPassagVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> VisitanteRepository.getNome"
+                "IGetPassagVisitTercList -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return list if GetPassagVisitTercListImpl execute successfully Visitante`() =
+    fun `Check return list if GetPassagVisitTercListImpl execute successfully Visitante`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
-            whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
-                    flowApp = FlowApp.ADD,
-                    id = 0
-                )
-            ).thenReturn(
-                Result.success(
-                    TypeVisitTerc.VISITANTE
-                )
-            )
             whenever(
                 movEquipVisitTercPassagRepository.list(
                     flowApp = FlowApp.ADD,
@@ -243,6 +216,16 @@ class GetPassagVisitTercListImplTest {
                             idVisitTerc = 1
                         )
                     )
+                )
+            )
+            whenever(
+                movEquipVisitTercRepository.getTypeVisitTerc(
+                    flowApp = FlowApp.ADD,
+                    id = 0
+                )
+            ).thenReturn(
+                Result.success(
+                    TypeVisitTerc.VISITANTE
                 )
             )
             whenever(
@@ -261,31 +244,36 @@ class GetPassagVisitTercListImplTest {
                     "ANDERSON DA SILVA DELGADO"
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val ret = result.getOrNull()!!
-            assertEquals(ret.size, 1)
-            assertEquals(ret[0].id, 1)
-            assertEquals(ret[0].cpf, "123.456.789-00")
-            assertEquals(ret[0].nome, "ANDERSON DA SILVA DELGADO")
+            assertEquals(
+                ret.size,
+                1
+            )
+            assertEquals(
+                ret[0].id,
+                1
+            )
+            assertEquals(
+                ret[0].cpf,
+                "123.456.789-00"
+            )
+            assertEquals(
+                ret[0].nome,
+                "ANDERSON DA SILVA DELGADO"
+            )
         }
 
     @Test
-    fun `Chech return failure if have error in MovEquipVisitTercPassagRepository list Terceiro`() =
+    fun `Check return failure if have error in MovEquipVisitTercPassagRepository list Terceiro`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
             whenever(
                 movEquipVisitTercRepository.getTypeVisitTerc(
                     flowApp = FlowApp.ADD,
@@ -306,30 +294,23 @@ class GetPassagVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRepository.list"
+                "IGetPassagVisitTercList -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return failure if have error in TerceiroRepository getCpf`() =
+    fun `Check return failure if have error in TerceiroRepository getCpf`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
             whenever(
                 movEquipVisitTercRepository.getTypeVisitTerc(
                     flowApp = FlowApp.ADD,
@@ -363,30 +344,23 @@ class GetPassagVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> TerceiroRepository.getCpf"
+                "IGetPassagVisitTercList -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return failure if have error in TerceiroRepository getNome`() =
+    fun `Check return failure if have error in TerceiroRepository getNome`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
             whenever(
                 movEquipVisitTercRepository.getTypeVisitTerc(
                     flowApp = FlowApp.ADD,
@@ -427,30 +401,23 @@ class GetPassagVisitTercListImplTest {
                     Exception()
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> TerceiroRepository.getNome"
+                "IGetPassagVisitTercList -> Unknown Error"
             )
         }
 
     @Test
-    fun `Chech return list if GetPassagVisitTercListImpl execute successfully Terceiro`() =
+    fun `Check return list if GetPassagVisitTercListImpl execute successfully Terceiro`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
-            val movEquipVisitTercPassagRepository = mock<MovEquipVisitTercPassagRepository>()
-            val terceiroRepository = mock<TerceiroRepository>()
-            val visitanteRepository = mock<VisitanteRepository>()
             whenever(
                 movEquipVisitTercRepository.getTypeVisitTerc(
                     flowApp = FlowApp.ADD,
@@ -491,21 +458,30 @@ class GetPassagVisitTercListImplTest {
                     "ANDERSON DA SILVA DELGADO"
                 )
             )
-            val usecase = IGetPassagVisitTercList(
-                movEquipVisitTercRepository = movEquipVisitTercRepository,
-                movEquipVisitTercPassagRepository = movEquipVisitTercPassagRepository,
-                terceiroRepository = terceiroRepository,
-                visitanteRepository = visitanteRepository
-            )
             val result = usecase(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val ret = result.getOrNull()!!
-            assertEquals(ret.size, 1)
-            assertEquals(ret[0].id, 1)
-            assertEquals(ret[0].cpf, "123.456.789-00")
-            assertEquals(ret[0].nome, "ANDERSON DA SILVA DELGADO")
+            assertEquals(
+                ret.size, 
+                1
+            )
+            assertEquals(
+                ret[0].id, 
+                1
+            )
+            assertEquals(
+                ret[0].cpf, 
+                "123.456.789-00"
+            )
+            assertEquals(
+                ret[0].nome, 
+                "ANDERSON DA SILVA DELGADO"
+            )
         }
 }

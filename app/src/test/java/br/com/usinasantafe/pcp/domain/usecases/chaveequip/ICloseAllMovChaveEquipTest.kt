@@ -34,7 +34,7 @@ class ICloseAllMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.listOpen"
+                "ICloseAllMovChaveEquip -> Unknown Error"
             )
         }
 
@@ -74,7 +74,7 @@ class ICloseAllMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveRepository.setClose"
+                "ICloseAllMovChaveEquip -> Unknown Error"
             )
         }
 

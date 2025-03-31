@@ -10,10 +10,14 @@ import org.mockito.kotlin.whenever
 
 class SetTipoVisitTercImplTest {
 
+    private val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
+    private val usecase = ISetTipoVisitTerc(
+        movEquipVisitTercRepository
+    )
+
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository setPlaca`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.setTipoVisitTerc(
                     typeVisitTerc = TypeVisitTerc.TERCEIRO
@@ -23,23 +27,22 @@ class SetTipoVisitTercImplTest {
                     Exception()
                 )
             )
-            val usecase = ISetTipoVisitTerc(
-                movEquipVisitTercRepository
-            )
             val result = usecase(
                 typeVisitTerc = TypeVisitTerc.TERCEIRO
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercRepository.setTipoVisitTerc"
+                "ISetTipoVisitTerc -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if SetTipoVisitTercImpl execute successfully`() =
         runTest {
-            val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
             whenever(
                 movEquipVisitTercRepository.setTipoVisitTerc(
                     typeVisitTerc = TypeVisitTerc.TERCEIRO
@@ -47,14 +50,17 @@ class SetTipoVisitTercImplTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetTipoVisitTerc(
-                movEquipVisitTercRepository
-            )
             val result = usecase(
                 typeVisitTerc = TypeVisitTerc.TERCEIRO
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
 }

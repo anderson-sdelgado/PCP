@@ -31,7 +31,7 @@ class IStartReceiptMovChaveEquipTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovChaveEquipRepository.start"
+                "IStartReceiptMovChaveEquip -> Unknown Error"
             )
         }
 

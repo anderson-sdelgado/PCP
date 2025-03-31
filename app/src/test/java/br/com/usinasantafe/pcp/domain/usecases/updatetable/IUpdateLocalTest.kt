@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.updatetable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.IUpdateLocal
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.cleantable.CleanLocal
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.getserver.GetServerLocal
@@ -21,7 +22,7 @@ class IUpdateLocalTest {
     private val cleanLocal = mock<CleanLocal>()
     private val getServerLocal = mock<GetServerLocal>()
     private val saveLocal = mock<SaveLocal>()
-    private fun getUsecase() = IUpdateLocal(
+    private val usecase = IUpdateLocal(
         cleanLocal = cleanLocal,
         getServerLocal = getServerLocal,
         saveLocal = saveLocal,
@@ -34,11 +35,12 @@ class IUpdateLocalTest {
             whenever(
                 getServerLocal()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "GetServerLocal",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -59,8 +61,8 @@ class IUpdateLocalTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> GetAllLocalServer -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> GetAllLocalServer -> java.lang.NullPointerException",
+                    failure = "IUpdateLocal -> GetServerLocal -> java.lang.Exception",
+                    msgProgress = "IUpdateLocal -> GetServerLocal -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -80,11 +82,12 @@ class IUpdateLocalTest {
             whenever(
                 cleanLocal()
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "CleanLocal",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -113,8 +116,8 @@ class IUpdateLocalTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanLocal -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanLocal -> java.lang.NullPointerException",
+                    failure = "IUpdateLocal -> CleanLocal -> java.lang.Exception",
+                    msgProgress = "IUpdateLocal -> CleanLocal -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -139,11 +142,12 @@ class IUpdateLocalTest {
             whenever(
                 saveLocal(localList)
             ).thenReturn(
-                Result.failure(
-                    Exception()
+                resultFailure(
+                    context = "SaveLocal",
+                    message = "-",
+                    cause = Exception()
                 )
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f
@@ -180,8 +184,8 @@ class IUpdateLocalTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> SaveAllLocal -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> SaveAllLocal -> java.lang.NullPointerException",
+                    failure = "IUpdateLocal -> SaveLocal -> java.lang.Exception",
+                    msgProgress = "IUpdateLocal -> SaveLocal -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -208,7 +212,6 @@ class IUpdateLocalTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = getUsecase()
             val result = usecase(
                 sizeAll = 16f,
                 count = 1f

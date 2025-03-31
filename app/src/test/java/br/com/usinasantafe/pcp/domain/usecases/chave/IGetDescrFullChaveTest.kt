@@ -36,7 +36,7 @@ class IGetDescrFullChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ChaveRepository.get"
+                "IGetDescrFullChave -> Unknown Error"
             )
         }
 
@@ -68,7 +68,7 @@ class IGetDescrFullChaveTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> LocalTrabRepository.getDescr"
+                "IGetDescrFullChave -> Unknown Error"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
