@@ -16,7 +16,7 @@ class IColabRepositoryTest {
 
     private val colabRoomDatasource = mock<ColabRoomDatasource>()
     private val colabRetrofitDatasource = mock<ColabRetrofitDatasource>()
-    private fun getRepository() = IColabRepository(
+    private val repository = IColabRepository(
         colabRoomDatasource,
         colabRetrofitDatasource
     )
@@ -28,10 +28,15 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -43,12 +48,14 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRoomDatasource.deleteAll"
+            "IColabRepository.deleteAll -> Unknown Error"
         )
     }
 
@@ -63,12 +70,14 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRetrofitDatasource.recoverAll"
+            "IColabRepository.recoverAll -> Unknown Error"
         )
     }
 
@@ -91,10 +100,15 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result, Result.success(entityList))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result,
+            Result.success(entityList)
+        )
     }
 
     @Test
@@ -118,10 +132,15 @@ class IColabRepositoryTest {
                 true
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(colabList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -145,12 +164,14 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(colabList)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRoomDatasource.addAll"
+            "IColabRepository.addAll -> Unknown Error"
         )
     }
 
@@ -161,10 +182,15 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success(false)
         )
-        val repository = getRepository()
         val result = repository.checkMatric(19759)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, false)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -174,10 +200,15 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.checkMatric(19759)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -189,12 +220,14 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.checkMatric(19759)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRoomDatasource.checkMatric"
+            "IColabRepository.checkMatric -> Unknown Error"
         )
     }
 
@@ -205,10 +238,15 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
-        val repository = getRepository()
         val result = repository.getNome(19759)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "ANDERSON DA SILVA DELGADO")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "ANDERSON DA SILVA DELGADO"
+        )
     }
 
     @Test
@@ -220,12 +258,14 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.getNome(19759)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ColabRoomDatasource.getNome"
+            "IColabRepository.getNome -> Unknown Error"
         )
     }
 

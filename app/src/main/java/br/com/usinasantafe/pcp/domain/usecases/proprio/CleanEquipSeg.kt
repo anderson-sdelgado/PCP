@@ -12,7 +12,7 @@ class ICleanEquipSeg(
 ): CleanEquipSeg {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movEquipProprioEquipSegRepository.clear()
+        val result = movEquipProprioEquipSegRepository.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

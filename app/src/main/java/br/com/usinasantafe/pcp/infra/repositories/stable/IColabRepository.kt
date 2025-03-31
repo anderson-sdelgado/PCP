@@ -20,7 +20,7 @@ class IColabRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IColabRepository.add",
+                    context = "IColabRepository.addAll",
                     message = e.message,
                     cause = e
                 )

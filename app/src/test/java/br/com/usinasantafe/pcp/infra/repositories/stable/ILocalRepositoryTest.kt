@@ -16,7 +16,7 @@ class ILocalRepositoryTest {
 
     private val localRoomDatasource = mock<LocalRoomDatasource>()
     private val localRetrofitDatasource = mock<LocalRetrofitDatasource>()
-    private fun getRepository() = ILocalRepository(
+    private val repository = ILocalRepository(
         localRoomDatasource,
         localRetrofitDatasource
     )
@@ -28,10 +28,15 @@ class ILocalRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -43,10 +48,15 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRoomDatasource.deleteAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRepository.deleteAll -> Unknown Error"
+        )
     }
 
     val token = "Bearer E49AD0C7AAA85FA6AB01FFD4AF7205C7"
@@ -60,10 +70,15 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRetrofitDatasource.recoverAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRepository.recoverAll -> Unknown Error"
+        )
     }
 
     @Test
@@ -85,10 +100,15 @@ class ILocalRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result, Result.success(entityList))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result,
+            Result.success(entityList)
+        )
     }
 
     @Test
@@ -112,10 +132,15 @@ class ILocalRepositoryTest {
                 true
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(localList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -139,14 +164,19 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(localList)
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRoomDatasource.addAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRepository.addAll -> Unknown Error"
+        )
     }
 
     @Test
-    fun `Check failure Datasource in getAll`() = runTest {
+    fun `Check failure Datasource in list`() = runTest {
         whenever(
             localRoomDatasource.listAll()
         ).thenReturn(
@@ -154,10 +184,15 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.list()
-        assertEquals(result.isFailure, true)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRoomDatasource.getAll")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRepository.list -> Unknown Error"
+        )
     }
 
     @Test
@@ -181,12 +216,20 @@ class ILocalRepositoryTest {
                 localRoomModels
             )
         )
-        val repository = getRepository()
         val result = repository.list()
-        assertEquals(result.isSuccess, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val localsResult = result.getOrNull()!!
-        assertEquals(localsResult, locals)
-        assertEquals(localsResult[0].descrLocal, locals[0].descrLocal)
+        assertEquals(
+            localsResult,
+            locals
+        )
+        assertEquals(
+            localsResult[0].descrLocal,
+            locals[0].descrLocal
+        )
     }
 
     @Test
@@ -196,10 +239,15 @@ class ILocalRepositoryTest {
         ).thenReturn(
             Result.success("USINA")
         )
-        val repository = getRepository()
         val result = repository.getDescr(1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "USINA")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "USINA"
+        )
     }
 
     @Test
@@ -211,9 +259,14 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.getDescr(1)
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRoomDatasource.getDescr")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRepository.getDescr -> Unknown Error"
+        )
     }
 }

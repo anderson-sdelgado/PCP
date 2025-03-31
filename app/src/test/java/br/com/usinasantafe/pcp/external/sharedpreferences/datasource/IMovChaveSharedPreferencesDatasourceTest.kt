@@ -216,7 +216,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
                 model.observMovChave,
                 "TESTE"
             )
-            val resultClear = iMovChaveSharedPreferencesDatasource.clear()
+            val resultClear = iMovChaveSharedPreferencesDatasource.clean()
             assertEquals(
                 resultClear.isSuccess,
                 true

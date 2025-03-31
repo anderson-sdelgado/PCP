@@ -21,7 +21,7 @@ class ILocalRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "ILocalRepository.add",
+                    context = "ILocalRepository.addAll",
                     message = e.message,
                     cause = e
                 )

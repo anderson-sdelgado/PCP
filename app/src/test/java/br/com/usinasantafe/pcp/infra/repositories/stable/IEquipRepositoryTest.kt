@@ -16,7 +16,7 @@ class IEquipRepositoryTest {
 
     private val equipRoomDatasource = mock<EquipRoomDatasource>()
     private val equipRetrofitDatasource = mock<EquipRetrofitDatasource>()
-    private fun getRepository() = IEquipRepository(
+    private val repository = IEquipRepository(
         equipRoomDatasource,
         equipRetrofitDatasource
     )
@@ -28,10 +28,15 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -43,12 +48,14 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRoomDatasource.deleteAll"
+            "IEquipRepository.deleteAll -> Unknown Error"
         )
     }
 
@@ -63,12 +70,14 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRetrofitDatasource.recoverAll"
+            "IEquipRepository.recoverAll -> Unknown Error"
         )
     }
 
@@ -93,10 +102,15 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result, Result.success(entityList))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result,
+            Result.success(entityList)
+        )
     }
 
     @Test
@@ -122,10 +136,15 @@ class IEquipRepositoryTest {
                 true
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(equipList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -151,12 +170,14 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(equipList)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRoomDatasource.addAll"
+            "IEquipRepository.addAll -> Unknown Error"
         )
     }
 
@@ -167,10 +188,15 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(false)
         )
-        val repository = getRepository()
         val result = repository.checkNro(100)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, false)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -180,10 +206,15 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.checkNro(100)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -195,12 +226,14 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.checkNro(100)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRoomDatasource.checkNro"
+            "IEquipRepository.checkNro -> Unknown Error"
         )
     }
 
@@ -213,12 +246,14 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.getNro(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRoomDatasource.getNro"
+            "IEquipRepository.getNro -> Unknown Error"
         )
     }
 
@@ -229,12 +264,14 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(0)
         )
-        val repository = getRepository()
         val result = repository.getNro(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> EquipRepositoryImpl.getNro"
+            "IEquipRepository.getNro"
         )
         assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.Exception: Nro is 0")
     }
@@ -246,10 +283,15 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(100)
         )
-        val repository = getRepository()
         val result = repository.getNro(1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, 100)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            100
+        )
     }
 
 
@@ -262,12 +304,14 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.getId(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> EquipRoomDatasource.getId"
+            "IEquipRepository.getId -> Unknown Error"
         )
     }
 
@@ -278,12 +322,14 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(0)
         )
-        val repository = getRepository()
         val result = repository.getId(100)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> EquipRepositoryImpl.getId"
+            "IEquipRepository.getId"
         )
         assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.Exception: Id is 0")
     }
@@ -295,9 +341,15 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(10)
         )
-        val repository = getRepository()
         val result = repository.getId(100)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, 10)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            10
+        )
     }
+
 }

@@ -17,7 +17,7 @@ class IMovEquipVisitTercPassagRepositoryTest {
     private val movEquipVisitTercPassagRoomDatasource =
         mock<MovEquipVisitTercPassagRoomDatasource>()
 
-    private fun getRepository() = IMovEquipVisitTercPassagRepository(
+    private val repository = IMovEquipVisitTercPassagRepository(
         movEquipVisitTercPassagSharedPreferencesDatasource,
         movEquipVisitTercPassagRoomDatasource
     )
@@ -32,16 +32,18 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.add(
                 idVisitTerc = 10,
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagSharedPreferencesDatasource.add"
+                "IMovEquipVisitTercPassagRepository.add -> Unknown Error"
             )
         }
 
@@ -55,16 +57,18 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.add(
                 idVisitTerc = 10,
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRoomDatasource.add"
+                "IMovEquipVisitTercPassagRepository.add -> Unknown Error"
             )
         }
 
@@ -76,14 +80,19 @@ class IMovEquipVisitTercPassagRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.add(
                 idVisitTerc = 10,
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -94,32 +103,39 @@ class IMovEquipVisitTercPassagRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.add(
                 idVisitTerc = 10,
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
-    fun `Check return failure if have error in MovEquipVisitTercPassagRepository clear`() =
+    fun `Check return failure if have error in MovEquipVisitTercPassagRepository clean`() =
         runTest {
             whenever(
-                movEquipVisitTercPassagSharedPreferencesDatasource.clear()
+                movEquipVisitTercPassagSharedPreferencesDatasource.clean()
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val repository = getRepository()
-            val result = repository.clear()
-            assertTrue(result.isFailure)
+            val result = repository.clean()
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagSharedPreferencesDatasource.clear"
+                "IMovEquipVisitTercPassagRepository.clean -> Unknown Error"
             )
         }
 
@@ -127,14 +143,19 @@ class IMovEquipVisitTercPassagRepositoryTest {
     fun `Check return true if MovEquipVisitTercPassagRepositoryImpl Clear execute successfully`() =
         runTest {
             whenever(
-                movEquipVisitTercPassagSharedPreferencesDatasource.clear()
+                movEquipVisitTercPassagSharedPreferencesDatasource.clean()
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
-            val result = repository.clear()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            val result = repository.clean()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -147,16 +168,18 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.delete(
                 idVisitTerc = 10,
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagSharedPreferencesDatasource.delete"
+                "IMovEquipVisitTercPassagRepository.delete -> Unknown Error"
             )
         }
 
@@ -170,16 +193,18 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.delete(
                 idVisitTerc = 10,
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> MovEquipVisitTercPassagRoomDatasource.delete"
+                "IMovEquipVisitTercPassagRepository.delete -> Unknown Error"
             )
         }
 
@@ -191,14 +216,19 @@ class IMovEquipVisitTercPassagRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.delete(
                 idVisitTerc = 10,
                 flowApp = FlowApp.ADD,
                 id = 0
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -209,14 +239,19 @@ class IMovEquipVisitTercPassagRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.delete(
                 idVisitTerc = 10,
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -229,15 +264,17 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.list(
                 FlowApp.ADD,
                 0
             )
-            assertEquals(result.isFailure, true)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovEquipVisitTercPassagSharedPreferencesDatasource.list"
+                "IMovEquipVisitTercPassagRepository.list -> Unknown Error"
             )
         }
 
@@ -251,15 +288,17 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.list(
                 FlowApp.CHANGE,
                 1
             )
-            assertEquals(result.isFailure, true)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovEquipVisitTercPassagRoomDatasource.list"
+                "IMovEquipVisitTercPassagRepository.list -> Unknown Error"
             )
         }
 
@@ -273,14 +312,22 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     listOf(10)
                 )
             )
-            val repository = getRepository()
             val result = repository.list(
                 FlowApp.ADD,
                 0
             )
-            assertEquals(result.isSuccess, true)
-            assertEquals(result.getOrNull()!!.size, 1)
-            assertEquals(result.getOrNull()!![0].idVisitTerc, 10)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!.size,
+                1
+            )
+            assertEquals(
+                result.getOrNull()!![0].idVisitTerc,
+                10
+            )
         }
 
     @Test
@@ -299,14 +346,22 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     )
                 )
             )
-            val repository = getRepository()
             val result = repository.list(
                 FlowApp.CHANGE,
                 1
             )
-            assertEquals(result.isSuccess, true)
-            assertEquals(result.getOrNull()!!.size, 1)
-            assertEquals(result.getOrNull()!![0].idVisitTerc, 10)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!.size,
+                1
+            )
+            assertEquals(
+                result.getOrNull()!![0].idVisitTerc,
+                10
+            )
         }
 
     @Test
@@ -318,12 +373,14 @@ class IMovEquipVisitTercPassagRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.save(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> MovEquipVisitTercPassagSharedPreferencesDatasource.list"
+            "IMovEquipVisitTercPassagRepository.save -> Unknown Error"
         )
     }
 
@@ -349,12 +406,14 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.save(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovEquipVisitTercPassagRoomDatasource.addAll"
+                "IMovEquipVisitTercPassagRepository.save -> Unknown Error"
             )
         }
 
@@ -378,10 +437,15 @@ class IMovEquipVisitTercPassagRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.save(1)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -394,12 +458,14 @@ class IMovEquipVisitTercPassagRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.delete(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovEquipVisitTercPassagRoomDatasource.delete"
+                "IMovEquipVisitTercPassagRepository.delete -> Unknown Error"
             )
         }
 
@@ -411,9 +477,14 @@ class IMovEquipVisitTercPassagRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.delete(1)
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 }

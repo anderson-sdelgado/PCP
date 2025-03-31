@@ -40,7 +40,7 @@ class IMovEquipProprioPassagSharedPreferencesDatasource(
         }
     }
 
-    override suspend fun clear(): Result<Boolean> {
+    override suspend fun clean(): Result<Boolean> {
         try {
             val editor = sharedPreferences.edit()
             editor.putString(BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_PASSAG, null)

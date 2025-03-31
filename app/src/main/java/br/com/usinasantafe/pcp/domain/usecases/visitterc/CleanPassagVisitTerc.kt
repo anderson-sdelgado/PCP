@@ -12,7 +12,7 @@ class ICleanPassagVisitTerc(
 ): CleanPassagVisitTerc {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movEquipVisitTercPassagRepository.clear()
+        val result = movEquipVisitTercPassagRepository.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

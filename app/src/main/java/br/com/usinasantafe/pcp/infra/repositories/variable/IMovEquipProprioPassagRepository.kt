@@ -44,12 +44,12 @@ class IMovEquipProprioPassagRepository(
 
     }
 
-    override suspend fun clear(): Result<Boolean> {
-        val result = movEquipProprioPassagSharedPreferencesDatasource.clear()
+    override suspend fun clean(): Result<Boolean> {
+        val result = movEquipProprioPassagSharedPreferencesDatasource.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IMovEquipProprioPassagRepository.clear",
+                context = "IMovEquipProprioPassagRepository.clean",
                 message = e.message,
                 cause = e
             )

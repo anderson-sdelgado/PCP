@@ -47,7 +47,17 @@ class IMovEquipResidenciaRepository(
 
     override suspend fun delete(id: Int): Result<Boolean> {
         try {
-            val result = movEquipResidenciaRoomDatasource.get(id)
+            val resultGet = movEquipResidenciaRoomDatasource.get(id)
+            if (resultGet.isFailure) {
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaRepository.delete",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            val result = movEquipResidenciaRoomDatasource.delete(model)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -56,8 +66,7 @@ class IMovEquipResidenciaRepository(
                     cause = e
                 )
             }
-            val model = result.getOrNull()!!
-            return movEquipResidenciaRoomDatasource.delete(model)
+            return result
         } catch (e: Exception) {
             return resultFailure(
                 context = "IMovEquipResidenciaRepository.delete",
@@ -317,7 +326,7 @@ class IMovEquipResidenciaRepository(
                     cause = Exception("Id is 0")
                 )
             }
-            val resultClear = movEquipResidenciaSharedPreferencesDatasource.clear()
+            val resultClear = movEquipResidenciaSharedPreferencesDatasource.clean()
             if (resultClear.isFailure) {
                 val e = resultClear.exceptionOrNull()!!
                 return resultFailure(
@@ -444,7 +453,7 @@ class IMovEquipResidenciaRepository(
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IMovEquipResidenciaRepository.start",
+                context = "IMovEquipResidenciaRepository.setOutside",
                 message = e.message,
                 cause = e
             )

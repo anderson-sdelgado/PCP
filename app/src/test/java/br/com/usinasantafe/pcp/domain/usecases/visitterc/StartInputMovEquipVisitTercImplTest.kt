@@ -47,7 +47,7 @@ class StartInputMovEquipVisitTercImplTest {
                 Result.success(true)
             )
             whenever(
-                movEquipVisitTercPassagRepository.clear()
+                movEquipVisitTercPassagRepository.clean()
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -73,7 +73,7 @@ class StartInputMovEquipVisitTercImplTest {
                 Result.success(true)
             )
             whenever(
-                movEquipVisitTercPassagRepository.clear()
+                movEquipVisitTercPassagRepository.clean()
             ).thenReturn(
                 Result.success(true)
             )

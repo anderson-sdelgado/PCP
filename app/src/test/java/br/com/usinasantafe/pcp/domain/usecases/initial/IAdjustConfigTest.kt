@@ -98,7 +98,7 @@ class IAdjustConfigTest {
             )
         )
         whenever(
-            configRepository.cleanConfig()
+            configRepository.clean()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -133,7 +133,7 @@ class IAdjustConfigTest {
             )
         )
         whenever(
-            configRepository.cleanConfig()
+            configRepository.clean()
         ).thenReturn(
             Result.success(true)
         )

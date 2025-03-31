@@ -64,7 +64,7 @@ class IConfigSharedPreferencesDatasourceTest {
         val resultGetBefore = datasource.get()
         assertTrue(resultGetBefore.isSuccess)
         assertEquals(resultGetBefore.getOrNull()!!.password, "12345")
-        val resultClear = datasource.clear()
+        val resultClear = datasource.clean()
         assertTrue(resultClear.isSuccess)
         val resultHas = datasource.has()
         assertTrue(resultHas.isSuccess)

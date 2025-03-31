@@ -20,7 +20,7 @@ class ILocalTrabRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "ILocalTrabRepository.add",
+                    context = "ILocalTrabRepository.addAll",
                     message = e.message,
                     cause = e
                 )

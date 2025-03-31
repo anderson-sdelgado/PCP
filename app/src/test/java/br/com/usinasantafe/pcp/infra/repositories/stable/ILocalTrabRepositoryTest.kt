@@ -15,7 +15,7 @@ class ILocalTrabRepositoryTest {
 
     private val localTrabRoomDatasource = mock<LocalTrabRoomDatasource>()
     private val localTrabRetrofitDatasource = mock<LocalTrabRetrofitDatasource>()
-    private fun getRepository() = ILocalTrabRepository(
+    private val repository = ILocalTrabRepository(
         localTrabRoomDatasource = localTrabRoomDatasource,
         localTrabRetrofitDatasource = localTrabRetrofitDatasource
     )
@@ -42,7 +42,6 @@ class ILocalTrabRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.addAll(entityList)
             assertEquals(
                 result.isFailure,
@@ -50,7 +49,7 @@ class ILocalTrabRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ILocalTrabRepository.addAll"
+                "ILocalTrabRepository.addAll -> Unknown Error"
             )
         }
 
@@ -74,7 +73,6 @@ class ILocalTrabRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.addAll(entityList)
             assertEquals(
                 result.isSuccess,
@@ -96,7 +94,6 @@ class ILocalTrabRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isFailure,
@@ -104,7 +101,7 @@ class ILocalTrabRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ILocalTrabRepository.deleteAll"
+                "ILocalTrabRepository.deleteAll -> Unknown Error"
             )
         }
 
@@ -116,7 +113,6 @@ class ILocalTrabRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isSuccess,
@@ -138,7 +134,6 @@ class ILocalTrabRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll("token")
             assertEquals(
                 result.isFailure,
@@ -146,7 +141,7 @@ class ILocalTrabRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ILocalTrabRepository.recoverAll"
+                "ILocalTrabRepository.recoverAll -> Unknown Error"
             )
         }
 
@@ -172,7 +167,6 @@ class ILocalTrabRepositoryTest {
                     retrofitModelList
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll("token")
             assertEquals(
                 result.isSuccess,
@@ -194,7 +188,6 @@ class ILocalTrabRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getDescr(1)
             assertEquals(
                 result.isFailure,
@@ -202,7 +195,7 @@ class ILocalTrabRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> ILocalTrabRepository.getDescr"
+                "ILocalTrabRepository.getDescr -> Unknown Error"
             )
         }
 
@@ -214,7 +207,6 @@ class ILocalTrabRepositoryTest {
             ).thenReturn(
                 Result.success("TI")
             )
-            val repository = getRepository()
             val result = repository.getDescr(1)
             assertEquals(
                 result.isSuccess,

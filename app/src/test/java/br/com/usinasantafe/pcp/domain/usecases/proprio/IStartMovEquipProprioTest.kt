@@ -50,7 +50,7 @@ class IStartMovEquipProprioTest {
             Result.success(true)
         )
         whenever(
-            movEquipProprioEquipSegRepository.clear()
+            movEquipProprioEquipSegRepository.clean()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -75,12 +75,12 @@ class IStartMovEquipProprioTest {
             Result.success(true)
         )
         whenever(
-            movEquipProprioEquipSegRepository.clear()
+            movEquipProprioEquipSegRepository.clean()
         ).thenReturn(
             Result.success(true)
         )
         whenever(
-            movEquipProprioPassagRepository.clear()
+            movEquipProprioPassagRepository.clean()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -105,12 +105,12 @@ class IStartMovEquipProprioTest {
             Result.success(true)
         )
         whenever(
-            movEquipProprioEquipSegRepository.clear()
+            movEquipProprioEquipSegRepository.clean()
         ).thenReturn(
             Result.success(true)
         )
         whenever(
-            movEquipProprioPassagRepository.clear()
+            movEquipProprioPassagRepository.clean()
         ).thenReturn(
             Result.success(true)
         )

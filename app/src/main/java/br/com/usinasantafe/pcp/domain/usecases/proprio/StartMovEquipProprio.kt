@@ -27,7 +27,7 @@ class IStartMovEquipProprio(
                     cause = e
                 )
             }
-            val resultEquipSegClear = movEquipProprioEquipSegRepository.clear()
+            val resultEquipSegClear = movEquipProprioEquipSegRepository.clean()
             if (resultEquipSegClear.isFailure) {
                 val e = resultEquipSegClear.exceptionOrNull()!!
                 return resultFailure(
@@ -36,7 +36,7 @@ class IStartMovEquipProprio(
                     cause = e
                 )
             }
-            val resultPassagClear = movEquipProprioPassagRepository.clear()
+            val resultPassagClear = movEquipProprioPassagRepository.clean()
             if (resultPassagClear.isFailure) {
                 val e = resultPassagClear.exceptionOrNull()!!
                 return resultFailure(

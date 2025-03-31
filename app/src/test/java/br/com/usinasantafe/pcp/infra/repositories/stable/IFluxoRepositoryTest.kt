@@ -15,7 +15,7 @@ class IFluxoRepositoryTest {
 
     private val fluxoRoomDatasource = mock<FluxoRoomDatasource>()
     private val fluxoRetrofitDatasource = mock<FluxoRetrofitDatasource>()
-    private fun getRepository() = IFluxoRepository(
+    private val repository = IFluxoRepository(
         fluxoRoomDatasource,
         fluxoRetrofitDatasource
     )
@@ -44,7 +44,6 @@ class IFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.addAll(
                 entityList
             )
@@ -54,7 +53,7 @@ class IFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRoomDatasource.addAll"
+                "IFluxoRepository.addAll -> Unknown Error"
             )
         }
 
@@ -82,7 +81,6 @@ class IFluxoRepositoryTest {
                     true
                 )
             )
-            val repository = getRepository()
             val result = repository.addAll(
                 entityList
             )
@@ -108,7 +106,6 @@ class IFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isFailure,
@@ -116,7 +113,7 @@ class IFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRoomDatasource.deleteAll"
+                "IFluxoRepository.deleteAll -> Unknown Error"
             )
         }
 
@@ -128,7 +125,6 @@ class IFluxoRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isSuccess,
@@ -152,7 +148,6 @@ class IFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll(
                 "token"
             )
@@ -162,7 +157,7 @@ class IFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRetrofitDatasource.recoverAll"
+                "IFluxoRepository.recoverAll -> Unknown Error"
             )
         }
 
@@ -190,7 +185,6 @@ class IFluxoRepositoryTest {
                     retrofitModelList
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll(
                 "token"
             )
@@ -216,7 +210,6 @@ class IFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.get(1)
             assertEquals(
                 result.isFailure,
@@ -224,7 +217,7 @@ class IFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRoomDatasource.get"
+                "IFluxoRepository.get -> Unknown Error"
             )
         }
 

@@ -33,7 +33,7 @@ class IChaveRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IChaveRetrofitDatasource.recoverAll"
+                "IChaveRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

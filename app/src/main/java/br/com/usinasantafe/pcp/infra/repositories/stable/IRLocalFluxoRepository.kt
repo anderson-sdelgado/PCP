@@ -21,7 +21,7 @@ class IRLocalFluxoRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IRLocalFluxoRepository.add",
+                    context = "IRLocalFluxoRepository.addAll",
                     message = e.message,
                     cause = e
                 )

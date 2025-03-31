@@ -11,7 +11,7 @@ class IConfigSharedPreferencesDatasource(
     private val sharedPreferences: SharedPreferences
 ) : ConfigSharedPreferencesDatasource {
 
-    override suspend fun clear(): Result<Boolean> {
+    override suspend fun clean(): Result<Boolean> {
         try {
             val editor = sharedPreferences.edit()
             editor.clear()

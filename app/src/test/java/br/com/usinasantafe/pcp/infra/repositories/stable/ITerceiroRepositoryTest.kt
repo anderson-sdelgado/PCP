@@ -16,7 +16,7 @@ class ITerceiroRepositoryTest {
 
     private val terceiroRoomDatasource = mock<TerceiroRoomDatasource>()
     private val terceiroRetrofitDatasource = mock<TerceiroRetrofitDatasource>()
-    private fun getRepository() = ITerceiroRepository(
+    private val repository = ITerceiroRepository(
         terceiroRoomDatasource,
         terceiroRetrofitDatasource
     )
@@ -28,10 +28,15 @@ class ITerceiroRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -43,12 +48,14 @@ class ITerceiroRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> TerceiroRoomDatasource.deleteAll"
+            "ITerceiroRepository.deleteAll -> Unknown Error"
         )
     }
 
@@ -63,12 +70,14 @@ class ITerceiroRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> TerceiroRetrofitDatasource.recoverAll"
+            "ITerceiroRepository.recoverAll -> Unknown Error"
         )
     }
 
@@ -97,10 +106,15 @@ class ITerceiroRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result, Result.success(entityList))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result,
+            Result.success(entityList)
+        )
     }
 
     @Test
@@ -130,10 +144,15 @@ class ITerceiroRepositoryTest {
                 true
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(terceiroList)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull(), true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -163,12 +182,14 @@ class ITerceiroRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(terceiroList)
-        assertEquals(result.isFailure, true)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> TerceiroRoomDatasource.addAll"
+            "ITerceiroRepository.addAll -> Unknown Error"
         )
     }
 
@@ -182,12 +203,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.checkCPF("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> TerceiroRoomDatasource.checkCPF"
+                "ITerceiroRepository.checkCPF -> Unknown Error"
             )
         }
 
@@ -199,10 +222,15 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.checkCPF("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -215,12 +243,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.get(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> TerceiroRoomDatasource.get"
+                "ITerceiroRepository.get -> Unknown Error"
             )
         }
 
@@ -241,9 +271,11 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val repository = getRepository()
             val result = repository.get(1)
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val entity = result.getOrNull()!!
             assertEquals(
                 entity.nomeTerceiro,
@@ -261,12 +293,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.get(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> TerceiroRoomDatasource.get"
+                "ITerceiroRepository.get -> Unknown Error"
             )
         }
 
@@ -287,10 +321,15 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val repository = getRepository()
             val result = repository.getCpf(1)
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "123.456.789-00")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "123.456.789-00"
+            )
         }
 
     @Test
@@ -303,12 +342,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getId("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> TerceiroRoomDatasource.get"
+                "ITerceiroRepository.getId -> Unknown Error"
             )
         }
 
@@ -336,10 +377,15 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val repository = getRepository()
             val result = repository.getId("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, 1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
+            )
         }
 
     @Test
@@ -352,12 +398,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getNome("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> TerceiroRoomDatasource.get"
+                "ITerceiroRepository.getNome -> Unknown Error"
             )
         }
 
@@ -385,10 +433,15 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val repository = getRepository()
             val result = repository.getNome("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Terceiro")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "Terceiro"
+            )
         }
 
     @Test
@@ -401,12 +454,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getEmpresas("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> TerceiroRoomDatasource.get"
+                "ITerceiroRepository.getEmpresas -> Unknown Error"
             )
         }
 
@@ -434,9 +489,14 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val repository = getRepository()
             val result = repository.getEmpresas("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Empresa Terceiro\nEmpresa Terceiro 2")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "Empresa Terceiro\nEmpresa Terceiro 2"
+            )
         }
 }

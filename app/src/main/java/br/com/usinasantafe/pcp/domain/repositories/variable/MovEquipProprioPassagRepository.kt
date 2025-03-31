@@ -10,7 +10,7 @@ interface MovEquipProprioPassagRepository {
         id: Int
     ): Result<Boolean>
 
-    suspend fun clear(): Result<Boolean>
+    suspend fun clean(): Result<Boolean>
     suspend fun delete(id: Int): Result<Boolean>
     suspend fun delete(
         matricColab: Int,

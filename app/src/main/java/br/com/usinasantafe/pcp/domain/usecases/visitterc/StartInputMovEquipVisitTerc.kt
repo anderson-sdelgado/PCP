@@ -24,7 +24,7 @@ class IStartInputMovEquipVisitTerc(
                     cause = e
                 )
             }
-            val resultClear = movEquipVisitTercPassagRepository.clear()
+            val resultClear = movEquipVisitTercPassagRepository.clean()
             if (resultClear.isFailure) {
                 val e = resultClear.exceptionOrNull()!!
                 return resultFailure(

@@ -244,9 +244,15 @@ class IMovChaveEquipRepository(
                     cause = Exception("Id is 0")
                 )
             }
-            val resultClear = movChaveEquipSharedPreferencesDatasource.clear()
-            if (resultClear.isFailure)
-                return Result.failure(resultClear.exceptionOrNull()!!)
+            val resultClean = movChaveEquipSharedPreferencesDatasource.clean()
+            if (resultClean.isFailure) {
+                val e = resultClean.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveEquipRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             return Result.success(id)
         } catch (e: Exception) {
             return resultFailure(
@@ -396,7 +402,7 @@ class IMovChaveEquipRepository(
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IConfigRepository.setOutside",
+                context = "IMovChaveEquipRepository.setOutside",
                 message = e.message,
                 cause = e
             )
@@ -411,7 +417,7 @@ class IMovChaveEquipRepository(
                 if (result.isFailure) {
                     val e = result.exceptionOrNull()!!
                     return resultFailure(
-                        context = "IConfigRepository.setSent",
+                        context = "IMovChaveEquipRepository.setSent",
                         message = e.message,
                         cause = e
                     )
@@ -420,7 +426,7 @@ class IMovChaveEquipRepository(
             return Result.success(true)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IConfigRepository.setSent",
+                context = "IMovChaveEquipRepository.setSent",
                 message = "-",
                 cause = e
             )
@@ -432,7 +438,7 @@ class IMovChaveEquipRepository(
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IConfigRepository.start(INSIDE)",
+                context = "IMovChaveEquipRepository.start(INSIDE)",
                 message = e.message,
                 cause = e
             )
@@ -447,7 +453,7 @@ class IMovChaveEquipRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IConfigRepository.start(OUTSIDE)",
+                    context = "IMovChaveEquipRepository.start(OUTSIDE)",
                     message = e.message,
                     cause = e
                 )
@@ -455,7 +461,7 @@ class IMovChaveEquipRepository(
             return result
         } catch (e: Exception) {
             return resultFailure(
-                context = "IConfigRepository.start(OUTSIDE)",
+                context = "IMovChaveEquipRepository.start(OUTSIDE)",
                 message = "-",
                 cause = e
             )

@@ -21,7 +21,7 @@ class ITerceiroRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "ITerceiroRepository.add",
+                    context = "ITerceiroRepository.addAll",
                     message = e.message,
                     cause = e
                 )

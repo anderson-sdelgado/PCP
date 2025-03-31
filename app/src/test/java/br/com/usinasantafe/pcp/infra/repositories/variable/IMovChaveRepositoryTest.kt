@@ -51,7 +51,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveRepository.listInside"
+                "IMovChaveRepository.listInside -> Unknown Error"
             )
         }
 
@@ -126,7 +126,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveRepository.setIdChave"
+                "IMovChaveRepository.setIdChave -> Unknown Error"
             )
         }
 
@@ -174,7 +174,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveSharePreferenceDatasource.setMatricColab"
+                "IMovChaveRepository.setMatricColab -> Unknown Error"
             )
         }
 
@@ -222,7 +222,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveSharePreferenceDatasource.setObserv"
+                "IMovChaveRepository.setObserv -> Unknown Error"
             )
         }
 
@@ -270,7 +270,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveSharePreferenceDatasource.get"
+                "IMovChaveRepository.save -> Unknown Error"
             )
         }
 
@@ -315,7 +315,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.save"
+                "IMovChaveRepository.save -> Unknown Error"
             )
         }
 
@@ -358,7 +358,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IMovChaveRepository.save"
+                "IMovChaveRepository.save"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause!!.message,
@@ -367,7 +367,7 @@ class IMovChaveRepositoryTest {
         }
 
     @Test
-    fun `save - Check return failure if have error in MovChaveSharedPreferencesDatasource clear`() =
+    fun `save - Check return failure if have error in MovChaveSharedPreferencesDatasource clean`() =
         runTest {
             val sharedPreferencesModel = MovChaveSharedPreferencesModel(
                 dthrMovChave = Date(),
@@ -395,7 +395,7 @@ class IMovChaveRepositoryTest {
                 Result.success(1)
             )
             whenever(
-                movChaveSharedPreferencesDatasource.clear()
+                movChaveSharedPreferencesDatasource.clean()
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -412,7 +412,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveSharePreferenceDatasource.clear"
+                "IMovChaveRepository.save -> Unknown Error"
             )
         }
 
@@ -445,7 +445,7 @@ class IMovChaveRepositoryTest {
                 Result.success(1)
             )
             whenever(
-                movChaveSharedPreferencesDatasource.clear()
+                movChaveSharedPreferencesDatasource.clean()
             ).thenReturn(
                 Result.success(true)
             )
@@ -481,7 +481,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.get"
+                "IMovChaveRepository.get -> Unknown Error"
             )
         }
 
@@ -559,7 +559,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveSharePreferenceDatasource.start"
+                "IMovChaveRepository.start(OUTSIDE) -> Unknown Error"
             )
         }
 
@@ -614,7 +614,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.setStatusOutside"
+                "IMovChaveRepository.setOutside -> Unknown Error"
             )
         }
 
@@ -654,7 +654,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveRepository.listOpen"
+                "IMovChaveRepository.listOpen -> Unknown Error"
             )
         }
 
@@ -725,7 +725,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.setClose"
+                "IMovChaveRepository.setClose -> Unknown Error"
             )
         }
 
@@ -772,7 +772,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.setIdChave"
+                "IMovChaveRepository.setIdChave -> Unknown Error"
             )
         }
 
@@ -859,7 +859,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.setMatricColab"
+                "IMovChaveRepository.setMatricColab -> Unknown Error"
             )
         }
 
@@ -910,7 +910,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.setObserv"
+                "IMovChaveRepository.setObserv -> Unknown Error"
             )
         }
 
@@ -987,7 +987,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.checkSend"
+                "IMovChaveRepository.checkSend -> Unknown Error"
             )
         }
 
@@ -1027,7 +1027,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.listSend"
+                "IMovChaveRepository.listSend -> Unknown Error"
             )
         }
 
@@ -1091,7 +1091,9 @@ class IMovChaveRepositoryTest {
                     observMovChave = "Teste"
                 )
             )
-            val retrofitModelOutputList = entityList.map { it.entityToRetrofitModelOutput(16997417840) }
+            val retrofitModelOutputList = entityList.map {
+                it.entityToRetrofitModelOutput(16997417840)
+            }
             whenever(
                 movChaveRetrofitDatasource.send(
                     list = retrofitModelOutputList,
@@ -1113,7 +1115,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRetrofitDatasource.send"
+                "IMovChaveRepository.send -> Unknown Error"
             )
         }
 
@@ -1197,7 +1199,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.setSent"
+                "IMovChaveRepository.setSent -> Unknown Error"
             )
         }
 
@@ -1242,7 +1244,7 @@ class IMovChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> MovChaveRoomDatasource.checkOpen"
+                "IMovChaveRepository.checkOpen -> Unknown Error"
             )
         }
 

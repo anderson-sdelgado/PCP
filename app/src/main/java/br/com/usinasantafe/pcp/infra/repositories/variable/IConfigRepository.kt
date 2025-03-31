@@ -115,12 +115,12 @@ class IConfigRepository(
         }
     }
 
-    override suspend fun cleanConfig(): Result<Boolean> {
-        val result = configSharedPreferencesDatasource.clear()
+    override suspend fun clean(): Result<Boolean> {
+        val result = configSharedPreferencesDatasource.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IConfigRepository.cleanConfig",
+                context = "IConfigRepository.clean",
                 message = e.message,
                 cause = e
             )

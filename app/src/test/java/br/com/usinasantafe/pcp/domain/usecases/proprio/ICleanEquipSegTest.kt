@@ -18,7 +18,7 @@ class ICleanEquipSegTest {
     @Test
     fun `Chech return failure Datasource if have error in cleanEquipSeg`() = runTest {
         whenever(
-            movEquipProprioEquipSegRepository.clear()
+            movEquipProprioEquipSegRepository.clean()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -42,7 +42,7 @@ class ICleanEquipSegTest {
     @Test
     fun `Chech return true Datasource if cleanEquipSeg execute success`() = runTest {
         whenever(
-            movEquipProprioEquipSegRepository.clear()
+            movEquipProprioEquipSegRepository.clean()
         ).thenReturn(
             Result.success(true)
         )

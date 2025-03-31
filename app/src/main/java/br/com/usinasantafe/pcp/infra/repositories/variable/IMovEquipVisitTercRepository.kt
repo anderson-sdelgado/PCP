@@ -38,7 +38,7 @@ class IMovEquipVisitTercRepository(
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IMovEquipVisitTercRepository.checkOpen",
+                context = "IMovEquipVisitTercRepository.checkSend",
                 message = e.message,
                 cause = e
             )
@@ -48,17 +48,26 @@ class IMovEquipVisitTercRepository(
 
     override suspend fun delete(id: Int): Result<Boolean> {
         try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
+            val resultGet = movEquipVisitTercRoomDatasource.get(id)
+            if (resultGet.isFailure) {
+                val e = resultGet.exceptionOrNull()!!
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.delete",
                     message = e.message,
                     cause = e
                 )
             }
-            val model = result.getOrNull()!!
-            return movEquipVisitTercRoomDatasource.delete(model)
+            val model = resultGet.getOrNull()!!
+            val resultDelete = movEquipVisitTercRoomDatasource.delete(model)
+            if (resultDelete.isFailure) {
+                val e = resultDelete.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipVisitTercRepository.delete",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            return resultDelete
         } catch (e: Exception) {
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.delete",
@@ -449,7 +458,7 @@ class IMovEquipVisitTercRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IMovEquipVisitTercRepository.setClose",
+                    context = "IMovEquipVisitTercRepository.setDestino",
                     message = e.message,
                     cause = e
                 )

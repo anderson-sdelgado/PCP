@@ -1,10 +1,9 @@
 package br.com.usinasantafe.pcp.infra.datasource.sharepreferences
 
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipResidenciaSharedPreferencesModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
 
 interface MovEquipResidenciaSharedPreferencesDatasource {
-    suspend fun clear(): Result<Boolean>
+    suspend fun clean(): Result<Boolean>
     suspend fun get(): Result<MovEquipResidenciaSharedPreferencesModel>
     suspend fun setMotorista(motorista: String): Result<Boolean>
     suspend fun setObserv(observ: String?): Result<Boolean>

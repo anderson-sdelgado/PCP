@@ -21,7 +21,7 @@ class IFluxoRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IFluxoRepository.add",
+                    context = "IFluxoRepository.addAll",
                     message = e.message,
                     cause = e
                 )

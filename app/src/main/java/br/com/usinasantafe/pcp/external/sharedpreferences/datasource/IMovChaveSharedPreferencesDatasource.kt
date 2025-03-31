@@ -11,7 +11,7 @@ class IMovChaveSharedPreferencesDatasource(
     private val sharedPreferences: SharedPreferences
 ): MovChaveSharedPreferencesDatasource {
 
-    override suspend fun clear(): Result<Boolean> {
+    override suspend fun clean(): Result<Boolean> {
         try {
             val editor = sharedPreferences.edit()
             editor.putString(

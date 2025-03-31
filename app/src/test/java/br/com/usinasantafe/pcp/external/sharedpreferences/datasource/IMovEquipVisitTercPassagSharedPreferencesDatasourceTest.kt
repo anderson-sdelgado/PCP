@@ -67,7 +67,7 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasourceTest {
         val list = resultList.getOrNull()!!
         assertTrue(resultList.isSuccess)
         assertEquals(list.size, 1)
-        val clearResult = IMovEquipVisitTercPassagSharedPreferencesDatasource.clear()
+        val clearResult = IMovEquipVisitTercPassagSharedPreferencesDatasource.clean()
         assertTrue(clearResult.isSuccess)
         assertTrue(clearResult.getOrNull()!!)
         val resultListClear = IMovEquipVisitTercPassagSharedPreferencesDatasource.list()

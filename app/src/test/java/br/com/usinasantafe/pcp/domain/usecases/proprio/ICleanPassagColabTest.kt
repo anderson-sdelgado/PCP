@@ -18,7 +18,7 @@ class ICleanPassagColabTest {
     @Test
     fun `Chech return failure Datasource if have error in cleanPassag`() = runTest {
         whenever(
-            movEquipProprioPassagRepository.clear()
+            movEquipProprioPassagRepository.clean()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -42,7 +42,7 @@ class ICleanPassagColabTest {
     @Test
     fun `Chech return true Datasource if cleanPassag execute success`() = runTest {
         whenever(
-            movEquipProprioPassagRepository.clear()
+            movEquipProprioPassagRepository.clean()
         ).thenReturn(
             Result.success(true)
         )

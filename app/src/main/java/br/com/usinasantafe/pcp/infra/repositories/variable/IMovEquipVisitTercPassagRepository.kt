@@ -42,12 +42,12 @@ class IMovEquipVisitTercPassagRepository(
         }
     }
 
-    override suspend fun clear(): Result<Boolean> {
-        val result = movEquipVisitTercPassagSharedPreferencesDatasource.clear()
+    override suspend fun clean(): Result<Boolean> {
+        val result = movEquipVisitTercPassagSharedPreferencesDatasource.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.clear",
+                context = "IMovEquipVisitTercPassagRepository.clean",
                 message = e.message,
                 cause = e
             )

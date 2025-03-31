@@ -28,19 +28,19 @@ class IMovEquipProprioEquipSegRepository(
             val e = result.exceptionOrNull()!!
             return resultFailure(
                 context = "IMovEquipProprioEquipSegRepository.add",
-                message = "-",
+                message = e.message,
                 cause = e
             )
         }
         return result
     }
 
-    override suspend fun clear(): Result<Boolean> {
-        val result = movEquipProprioEquipSegSharedPreferencesDatasource.clear()
+    override suspend fun clean(): Result<Boolean> {
+        val result = movEquipProprioEquipSegSharedPreferencesDatasource.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IMovEquipProprioEquipSegRepository.clear",
+                context = "IMovEquipProprioEquipSegRepository.clean",
                 message = e.message,
                 cause = e
             )

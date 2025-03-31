@@ -62,7 +62,7 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasourceTest {
         val list = resultList.getOrNull()!!
         assertTrue(resultList.isSuccess)
         assertEquals(list.size, 1)
-        val clearResult = IMovEquipProprioEquipSegSharedPreferencesDatasource.clear()
+        val clearResult = IMovEquipProprioEquipSegSharedPreferencesDatasource.clean()
         assertTrue(clearResult.isSuccess)
         assertTrue(clearResult.getOrNull()!!)
         val resultListClear = IMovEquipProprioEquipSegSharedPreferencesDatasource.list()

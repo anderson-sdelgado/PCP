@@ -12,7 +12,7 @@ class ICleanPassagColab(
 ) : CleanPassagColab {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movEquipProprioPassagRepository.clear()
+        val result = movEquipProprioPassagRepository.clean()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

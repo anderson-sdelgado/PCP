@@ -48,17 +48,26 @@ class IMovEquipProprioRepository(
 
     override suspend fun delete(id: Int): Result<Boolean> {
         try {
-            val result = movEquipProprioRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
+            val resultGet = movEquipProprioRoomDatasource.get(id)
+            if (resultGet.isFailure) {
+                val e = resultGet.exceptionOrNull()!!
                 return resultFailure(
                     context = "IMovEquipProprioRepository.delete",
                     message = e.message,
                     cause = e
                 )
             }
-            val model = result.getOrNull()!!
-            return movEquipProprioRoomDatasource.delete(model)
+            val model = resultGet.getOrNull()!!
+            val resultDelete = movEquipProprioRoomDatasource.delete(model)
+            if (resultDelete.isFailure) {
+                val e = resultDelete.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipProprioRepository.delete",
+                    message = e.message,
+                    cause = e
+                )
+            }
+            return resultDelete
         } catch (e: Exception) {
             return resultFailure(
                 context = "IMovEquipProprioRepository.delete",
@@ -74,7 +83,7 @@ class IMovEquipProprioRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IMovEquipProprioRepository.delete",
+                    context = "IMovEquipProprioRepository.get",
                     message = e.message,
                     cause = e
                 )
@@ -325,7 +334,7 @@ class IMovEquipProprioRepository(
                     cause = Exception("Id is 0")
                 )
             }
-            val resultClear = movEquipProprioSharedPreferencesDatasource.clear()
+            val resultClear = movEquipProprioSharedPreferencesDatasource.clean()
             if (resultClear.isFailure) {
                 val e = resultClear.exceptionOrNull()!!
                 return resultFailure(
@@ -381,7 +390,7 @@ class IMovEquipProprioRepository(
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
-                context = "IMovEquipProprioRepository.send",
+                context = "IMovEquipProprioRepository.setClose",
                 message = e.message,
                 cause = e
             )
@@ -577,7 +586,7 @@ class IMovEquipProprioRepository(
             val e = result.exceptionOrNull()!!
             return resultFailure(
                 context = "IMovEquipProprioRepository.start",
-                message = "-",
+                message = e.message,
                 cause = e
             )
         }

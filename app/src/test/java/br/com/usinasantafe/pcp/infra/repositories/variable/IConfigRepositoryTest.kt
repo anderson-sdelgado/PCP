@@ -20,7 +20,7 @@ class IConfigRepositoryTest {
     private val configRetrofitDatasource =
         mock<ConfigRetrofitDatasource>()
 
-    private fun getRepository() = IConfigRepository(
+    private val repository = IConfigRepository(
         configSharedPreferencesDatasource,
         configRetrofitDatasource
     )
@@ -32,7 +32,6 @@ class IConfigRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.hasConfig()
         assertEquals(
             result.isSuccess,
@@ -51,7 +50,6 @@ class IConfigRepositoryTest {
         ).thenReturn(
             Result.success(false)
         )
-        val repository = getRepository()
         val result = repository.hasConfig()
         assertEquals(
             result.isSuccess,
@@ -72,7 +70,6 @@ class IConfigRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.hasConfig()
         assertEquals(
             result.isFailure,
@@ -80,7 +77,7 @@ class IConfigRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ConfigSharedPreferencesDatasource.hasConfig"
+            "IConfigRepository.hasConfig -> Unknown Error"
         )
     }
 
@@ -93,7 +90,6 @@ class IConfigRepositoryTest {
                 Config(password = "12345")
             )
         )
-        val repository = getRepository()
         val result = repository.getPassword()
         assertEquals(
             result.isSuccess,
@@ -114,7 +110,6 @@ class IConfigRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.getPassword()
         assertEquals(
             result.isFailure,
@@ -122,7 +117,7 @@ class IConfigRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ConfigSharedPreferencesDatasource.getConfig"
+            "IConfigRepository.getPassword -> Unknown Error"
         )
     }
 
@@ -135,7 +130,6 @@ class IConfigRepositoryTest {
                 Config(flagUpdate = FlagUpdate.UPDATED)
             )
         )
-        val repository = getRepository()
         val result = repository.getFlagUpdate()
         assertEquals(
             result.isSuccess,
@@ -156,7 +150,6 @@ class IConfigRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.getFlagUpdate()
         assertEquals(
             result.isFailure,
@@ -164,7 +157,7 @@ class IConfigRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ConfigSharedPreferencesDatasource.getConfig"
+            "IConfigRepository.getFlagUpdate -> Unknown Error"
         )
     }
 
@@ -179,7 +172,6 @@ class IConfigRepositoryTest {
         ).thenReturn(
             Result.success(config)
         )
-        val repository = getRepository()
         val result = repository.getConfig()
         assertEquals(
             result.getOrNull()!!.number,
@@ -193,7 +185,6 @@ class IConfigRepositoryTest {
 
     @Test
     fun `Check return failure de Repository if Config is null`() = runTest {
-        val repository = getRepository()
         val result = repository.send(
             Config()
         )
@@ -203,9 +194,12 @@ class IConfigRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Repository -> ConfigRepositoryImpl.send"
+            "IConfigRepository.send"
         )
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), NullPointerException().toString())
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            NullPointerException().toString()
+        )
     }
 
     @Test
@@ -223,7 +217,6 @@ class IConfigRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.send(config)
         assertEquals(
             result.isFailure,
@@ -231,9 +224,12 @@ class IConfigRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> ConfigRetrofitDatasource.recoverToken"
+            "IConfigRepository.send -> Unknown Error"
         )
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), NullPointerException().toString())
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.Exception"
+        )
     }
 
     @Test
@@ -252,7 +248,6 @@ class IConfigRepositoryTest {
         ).thenReturn(
             Result.success(configRetrofitModelInput)
         )
-        val repository = getRepository()
         val result = repository.send(config)
         assertEquals(
             result.isSuccess,
@@ -268,21 +263,20 @@ class IConfigRepositoryTest {
     fun `Check return failure if have error in configSharedPreferencesDatasource clear`() =
         runTest {
             whenever(
-                configSharedPreferencesDatasource.clear()
+                configSharedPreferencesDatasource.clean()
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val repository = getRepository()
-            val result = repository.cleanConfig()
+            val result = repository.clean()
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ConfigSharedPreferencesDatasource.clear"
+                "IConfigRepository.clean -> Unknown Error"
             )
         }
 
@@ -290,12 +284,11 @@ class IConfigRepositoryTest {
     fun `Check return true if CleanConfig execute successfully`() =
         runTest {
             whenever(
-                configSharedPreferencesDatasource.clear()
+                configSharedPreferencesDatasource.clean()
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
-            val result = repository.cleanConfig()
+            val result = repository.clean()
             assertEquals(
                 result.isSuccess,
                 true

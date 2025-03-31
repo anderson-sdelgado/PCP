@@ -15,7 +15,7 @@ class IRLocalFluxoRepositoryTest {
     
     private val rLocalFluxoRoomDatasource = mock<RLocalFluxoRoomDatasource>()
     private val rLocalFluxoRetrofitDatasource = mock<RLocalFluxoRetrofitDatasource>()
-    private fun getRepository() = IRLocalFluxoRepository(
+    private val repository = IRLocalFluxoRepository(
         rLocalFluxoRoomDatasource,
         rLocalFluxoRetrofitDatasource
     )
@@ -44,7 +44,6 @@ class IRLocalFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.addAll(entityList)
             assertEquals(
                 result.isFailure,
@@ -52,7 +51,7 @@ class IRLocalFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepositoryImpl.addAll"
+                "IRLocalFluxoRepository.addAll -> Unknown Error"
             )
         }
 
@@ -78,7 +77,6 @@ class IRLocalFluxoRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.addAll(entityList)
             assertEquals(
                 result.isSuccess,
@@ -100,7 +98,6 @@ class IRLocalFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isFailure,
@@ -108,7 +105,7 @@ class IRLocalFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepositoryImpl.deleteAll"
+                "IRLocalFluxoRepository.deleteAll -> Unknown Error"
             )
         }
 
@@ -120,7 +117,6 @@ class IRLocalFluxoRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isSuccess,
@@ -142,7 +138,6 @@ class IRLocalFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll("token")
             assertEquals(
                 result.isFailure,
@@ -150,7 +145,7 @@ class IRLocalFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepositoryImpl.recoverAll"
+                "IRLocalFluxoRepository.recoverAll -> Unknown Error"
             )
         }
 
@@ -178,7 +173,6 @@ class IRLocalFluxoRepositoryTest {
                     retrofitModelList
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll("token")
             assertEquals(
                 result.isSuccess,
@@ -200,7 +194,6 @@ class IRLocalFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.list(1)
             assertEquals(
                 result.isFailure,
@@ -208,7 +201,7 @@ class IRLocalFluxoRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> RLocalFluxoRepositoryImpl.list"
+                "IRLocalFluxoRepository.list -> Unknown Error"
             )
         }
 
@@ -236,7 +229,6 @@ class IRLocalFluxoRepositoryTest {
                     roomModelList
                 )
             )
-            val repository = getRepository()
             val result = repository.list(1)
             assertEquals(
                 result.isSuccess,

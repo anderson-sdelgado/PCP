@@ -6,7 +6,7 @@ import br.com.usinasantafe.pcp.utils.StatusSend
 
 interface ConfigRepository {
 
-    suspend fun cleanConfig(): Result<Boolean>
+    suspend fun clean(): Result<Boolean>
     suspend fun getConfig(): Result<Config>
     suspend fun getFlagUpdate(): Result<FlagUpdate>
     suspend fun getPassword(): Result<String>

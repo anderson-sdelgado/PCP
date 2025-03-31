@@ -17,7 +17,7 @@ class IVisitanteRepositoryTest {
 
     private val visitanteRoomDatasource = mock<VisitanteRoomDatasource>()
     private val visitanteRetrofitDatasource = mock<VisitanteRetrofitDatasource>()
-    private fun getRepository() = IVisitanteRepository(
+    private val repository = IVisitanteRepository(
         visitanteRoomDatasource,
         visitanteRetrofitDatasource
     )
@@ -29,10 +29,15 @@ class IVisitanteRepositoryTest {
         ).thenReturn(
             Result.success(true)
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -44,12 +49,14 @@ class IVisitanteRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.deleteAll()
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> VisitanteRoomDatasource.deleteAll"
+            "IVisitanteRepository.deleteAll -> Unknown Error"
         )
     }
 
@@ -64,12 +71,14 @@ class IVisitanteRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> VisitanteRetrofitDatasource.recoverAll"
+            "IVisitanteRepository.recoverAll -> Unknown Error"
         )
     }
 
@@ -88,11 +97,16 @@ class IVisitanteRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val repository = getRepository()
         val result = repository.recoverAll(token)
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val resultList = result.getOrNull()!!
-        assertTrue(resultList.isNotEmpty())
+        assertEquals(
+            resultList.isNotEmpty(),
+            true
+        )
         val entity = resultList[0]
         assertEquals(
             entity.nomeVisitante,
@@ -125,10 +139,15 @@ class IVisitanteRepositoryTest {
                 true
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(visitanteList)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -156,12 +175,14 @@ class IVisitanteRepositoryTest {
                 Exception()
             )
         )
-        val repository = getRepository()
         val result = repository.addAll(visitanteList)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> VisitanteRoomDatasource.addAll"
+            "IVisitanteRepository.addAll -> Unknown Error"
         )
     }
 
@@ -175,12 +196,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.checkCPF("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRoomDatasource.checkCPF"
+                "IVisitanteRepository.checkCPF -> Unknown Error"
             )
         }
 
@@ -192,7 +215,6 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.checkCPF("123.456.789-00")
             assertTrue(result.isSuccess)
             assertTrue(result.getOrNull()!!)
@@ -206,10 +228,15 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(false)
             )
-            val repository = getRepository()
             val result = repository.checkCPF("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertFalse(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
         }
 
     @Test
@@ -222,12 +249,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.get(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRoomDatasource.get"
+                "IVisitanteRepository.get -> Unknown Error"
             )
         }
 
@@ -245,9 +274,11 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val repository = getRepository()
             val result = repository.get(1)
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val resultRoomModel = result.getOrNull()!!
             assertEquals(
                 resultRoomModel.nomeVisitante,
@@ -265,12 +296,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getCpf(1)
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRoomDatasource.getCPF"
+                "IVisitanteRepository.getCpf -> Unknown Error"
             )
         }
 
@@ -288,9 +321,11 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val repository = getRepository()
             val result = repository.getCpf(1)
-            assertTrue(result.isSuccess)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             assertEquals(
                 result.getOrNull()!!,
                 "123.456.789-00"
@@ -307,12 +342,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getId("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRoomDatasource.getId"
+                "IVisitanteRepository.getId -> Unknown Error"
             )
         }
 
@@ -330,10 +367,15 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val repository = getRepository()
             val result = repository.getId("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, 1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
+            )
         }
 
     @Test
@@ -346,12 +388,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getNome("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRoomDatasource.getNome"
+                "IVisitanteRepository.getNome -> Unknown Error"
             )
         }
 
@@ -369,10 +413,15 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val repository = getRepository()
             val result = repository.getNome("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Visitante")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "Visitante"
+            )
         }
 
     @Test
@@ -385,12 +434,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.getEmpresas("123.456.789-00")
-            assertTrue(result.isFailure)
+            assertEquals(
+                result.isFailure,
+                true
+            )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> VisitanteRoomDatasource.getEmpresas"
+                "IVisitanteRepository.getEmpresas -> Unknown Error"
             )
         }
 
@@ -408,9 +459,14 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val repository = getRepository()
             val result = repository.getEmpresas("123.456.789-00")
-            assertTrue(result.isSuccess)
-            assertEquals(result.getOrNull()!!, "Empresa Visitante")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                "Empresa Visitante"
+            )
         }
 }

@@ -222,9 +222,15 @@ class IMovChaveRepository(
                     cause = Exception("Id is 0")
                 )
             }
-            val resultClear = movChaveSharedPreferencesDatasource.clear()
-            if (resultClear.isFailure)
-                return Result.failure(resultClear.exceptionOrNull()!!)
+            val resultClean = movChaveSharedPreferencesDatasource.clean()
+            if (resultClean.isFailure) {
+                val e = resultClean.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveRepository.save",
+                    message = e.message,
+                    cause = e
+                )
+            }
             return Result.success(id)
         } catch (e: Exception) {
             return resultFailure(

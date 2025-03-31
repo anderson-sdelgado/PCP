@@ -15,7 +15,7 @@ class IChaveRepositoryTest {
 
     private val chaveRoomDatasource = mock<ChaveRoomDatasource>()
     private val chaveRetrofitDatasource = mock<ChaveRetrofitDatasource>()
-    private fun getRepository() = IChaveRepository(
+    private val repository = IChaveRepository(
         chaveRetrofitDatasource = chaveRetrofitDatasource,
         chaveRoomDatasource = chaveRoomDatasource
     )
@@ -44,7 +44,6 @@ class IChaveRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.addAll(entityList)
             assertEquals(
                 result.isFailure,
@@ -52,7 +51,7 @@ class IChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.addAll"
+                "IChaveRepository.addAll -> Unknown Error"
             )
         }
 
@@ -78,7 +77,6 @@ class IChaveRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.addAll(entityList)
             assertEquals(
                 result.isSuccess,
@@ -100,7 +98,6 @@ class IChaveRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isFailure,
@@ -108,7 +105,7 @@ class IChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.deleteAll"
+                "IChaveRepository.deleteAll -> Unknown Error"
             )
         }
 
@@ -120,7 +117,6 @@ class IChaveRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val repository = getRepository()
             val result = repository.deleteAll()
             assertEquals(
                 result.isSuccess,
@@ -142,7 +138,6 @@ class IChaveRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll("token")
             assertEquals(
                 result.isFailure,
@@ -150,7 +145,7 @@ class IChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.recoverAll"
+                "IChaveRepository.recoverAll -> Unknown Error"
             )
         }
 
@@ -178,7 +173,6 @@ class IChaveRepositoryTest {
                     retrofitModelList
                 )
             )
-            val repository = getRepository()
             val result = repository.recoverAll("token")
             assertEquals(
                 result.isSuccess,
@@ -200,7 +194,6 @@ class IChaveRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.get(1)
             assertEquals(
                 result.isFailure,
@@ -208,7 +201,7 @@ class IChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.get"
+                "IChaveRepository.get -> Unknown Error"
             )
         }
 
@@ -222,7 +215,6 @@ class IChaveRepositoryTest {
                     Exception()
                 )
             )
-            val repository = getRepository()
             val result = repository.listAll()
             assertEquals(
                 result.isFailure,
@@ -230,7 +222,7 @@ class IChaveRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Repository -> IChaveRepository.get"
+                "IChaveRepository.listAll -> Unknown Error"
             )
         }
 
@@ -250,7 +242,6 @@ class IChaveRepositoryTest {
                     )
                 )
             )
-            val repository = getRepository()
             val result = repository.listAll()
             assertEquals(
                 result.isSuccess,

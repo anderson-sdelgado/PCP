@@ -40,7 +40,7 @@ class IAdjustConfig(
                 config.version?.let {
                     if(it != version) {
                         checkVersion = false
-                        val resultClean = configRepository.cleanConfig()
+                        val resultClean = configRepository.clean()
                         if (resultClean.isFailure) {
                             val e = resultClean.exceptionOrNull()!!
                             return resultFailure(

@@ -21,7 +21,7 @@ class IEquipRepository(
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
-                    context = "IEquipRepository.add",
+                    context = "IEquipRepository.addAll",
                     message = e.message,
                     cause = e
                 )

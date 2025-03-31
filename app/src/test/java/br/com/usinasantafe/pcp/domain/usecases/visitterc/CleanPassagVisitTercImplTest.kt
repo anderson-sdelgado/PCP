@@ -15,7 +15,7 @@ class CleanPassagVisitTercImplTest {
     @Test
     fun `Check return failure Datasource if have error in cleanPassag`() = runTest {
         whenever(
-            movEquipVisitTercPassagRepository.clear()
+            movEquipVisitTercPassagRepository.clean()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -39,7 +39,7 @@ class CleanPassagVisitTercImplTest {
     @Test
     fun `Check return true Datasource if cleanPassag execute success`() = runTest {
         whenever(
-            movEquipVisitTercPassagRepository.clear()
+            movEquipVisitTercPassagRepository.clean()
         ).thenReturn(
             Result.success(true)
         )
