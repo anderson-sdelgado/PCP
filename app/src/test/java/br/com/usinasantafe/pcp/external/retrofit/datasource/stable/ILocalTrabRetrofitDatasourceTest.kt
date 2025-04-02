@@ -33,7 +33,7 @@ class ILocalTrabRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ILocalTrabRetrofitDatasource.recoverAll"
+                "ILocalTrabRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -61,7 +61,7 @@ class ILocalTrabRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ILocalTrabRetrofitDatasource.recoverAll"
+                "ILocalTrabRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

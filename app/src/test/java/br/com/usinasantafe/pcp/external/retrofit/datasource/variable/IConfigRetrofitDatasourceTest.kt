@@ -26,8 +26,14 @@ class IConfigRetrofitDatasourceTest {
         val service: ConfigApi = retrofit.create(ConfigApi::class.java)
         val datasource = IConfigRetrofitDatasource(service)
         val result = datasource.recoverToken(configRetrofitModelOutput)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull(), ConfigRetrofitModelInput(idBD = 1))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull(),
+            ConfigRetrofitModelInput(idBD = 1)
+        )
     }
 
     @Test
@@ -43,9 +49,18 @@ class IConfigRetrofitDatasourceTest {
         val service: ConfigApi = retrofit.create(ConfigApi::class.java)
         val datasource = IConfigRetrofitDatasource(service)
         val result = datasource.recoverToken(configRetrofitModelOutput)
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> ConfigRetrofitDatasourceImpl.recoverToken")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), NullPointerException().toString())
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IConfigRetrofitDatasource.recoverToken"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            NullPointerException().toString()
+        )
     }
 
     @Test
@@ -61,9 +76,18 @@ class IConfigRetrofitDatasourceTest {
         val service: ConfigApi = retrofit.create(ConfigApi::class.java)
         val datasource = IConfigRetrofitDatasource(service)
         val result = datasource.recoverToken(configRetrofitModelOutput)
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> ConfigRetrofitDatasourceImpl.recoverToken")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 1 path \$")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IConfigRetrofitDatasource.recoverToken"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 1 path \$"
+        )
     }
 
     @Test
@@ -79,8 +103,17 @@ class IConfigRetrofitDatasourceTest {
         val service: ConfigApi = retrofit.create(ConfigApi::class.java)
         val datasource = IConfigRetrofitDatasource(service)
         val result = datasource.recoverToken(configRetrofitModelOutput)
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> ConfigRetrofitDatasourceImpl.recoverToken")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 9 path \$.idBD")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IConfigRetrofitDatasource.recoverToken"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 9 path \$.idBD"
+        )
     }
 }

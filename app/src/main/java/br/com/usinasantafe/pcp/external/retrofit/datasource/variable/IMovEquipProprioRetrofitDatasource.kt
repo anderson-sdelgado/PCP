@@ -22,7 +22,7 @@ class IMovEquipProprioRetrofitDatasource(
             return Result.success(response.body()!!)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IMovEquipProprioRetrofitDatasource.recoverAll",
+                context = "IMovEquipProprioRetrofitDatasource.send",
                 message = "-",
                 cause = e
             )

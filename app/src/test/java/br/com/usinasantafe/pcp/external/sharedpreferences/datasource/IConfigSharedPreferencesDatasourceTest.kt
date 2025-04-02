@@ -29,14 +29,22 @@ class IConfigSharedPreferencesDatasourceTest {
     @Test
     fun `Return false if don't have data in Config SharedPreferences internal`() = runTest {
         val result = datasource.has()
-        assertFalse(result.getOrNull()!!)
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
     fun `Return true if have data in Config SharedPreferences internal`() = runTest {
-        datasource.save(Config(password = "12345"))
+        datasource.save(
+            Config(password = "12345")
+        )
         val result = datasource.has()
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -44,8 +52,14 @@ class IConfigSharedPreferencesDatasourceTest {
         val data = Config(password = "12345")
         datasource.save(data)
         val result = datasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, data)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            data
+        )
     }
 
     @Test
@@ -53,8 +67,14 @@ class IConfigSharedPreferencesDatasourceTest {
         val data = Config(password = "12345")
         datasource.save(data)
         val result = datasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.password, "12345")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.password,
+            "12345"
+        )
     }
 
     @Test
@@ -62,13 +82,28 @@ class IConfigSharedPreferencesDatasourceTest {
         val data = Config(password = "12345")
         datasource.save(data)
         val resultGetBefore = datasource.get()
-        assertTrue(resultGetBefore.isSuccess)
-        assertEquals(resultGetBefore.getOrNull()!!.password, "12345")
+        assertEquals(
+            resultGetBefore.isSuccess,
+            true
+        )
+        assertEquals(
+            resultGetBefore.getOrNull()!!.password,
+            "12345")
+
         val resultClear = datasource.clean()
-        assertTrue(resultClear.isSuccess)
-        val resultHas = datasource.has()
-        assertTrue(resultHas.isSuccess)
-        assertFalse(resultHas.getOrNull()!!)
+        assertEquals(
+            resultClear.isSuccess,
+            true
+        )
+        val result = datasource.has()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
 }

@@ -38,7 +38,10 @@ class IColabRoomDatasourceTest {
     fun `Check execution correct deleteAll`() = runTest {
         val datasource = IColabRoomDatasource(colabDao)
         val result = datasource.deleteAll()
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
     }
 
     @Test
@@ -56,9 +59,18 @@ class IColabRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> ColabRoomDatasourceImpl.addAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IColabRoomDatasource.addAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID"
+        )
     }
 
     @Test
@@ -76,16 +88,28 @@ class IColabRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isSuccess)
-        assertEquals(result, Result.success(true))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check return false if not exist Colab`() = runTest {
         val datasource = IColabRoomDatasource(colabDao)
         val result = datasource.checkMatric(19759)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, false)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -104,8 +128,14 @@ class IColabRoomDatasourceTest {
             )
         )
         val result = datasource.checkMatric(19759)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -117,7 +147,10 @@ class IColabRoomDatasourceTest {
         } catch (exception: Exception){
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -136,7 +169,13 @@ class IColabRoomDatasourceTest {
             )
         )
         val result = datasource.getNome(19759)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "ANDERSON DA SILVA DELGADO")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "ANDERSON DA SILVA DELGADO"
+        )
     }
 }

@@ -48,7 +48,10 @@ class IMovEquipResidenciaRetrofitDatasourceTest {
             )
             , "123456"
         )
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
     }
 
     @Test
@@ -82,10 +85,13 @@ class IMovEquipResidenciaRetrofitDatasourceTest {
             )
             , "123456"
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> MovEquipResidenciaRetrofitDatasourceImpl.send"
+            "IMovEquipResidenciaRetrofitDatasource.send"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),
@@ -126,10 +132,13 @@ class IMovEquipResidenciaRetrofitDatasourceTest {
             )
             , "123456"
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> MovEquipResidenciaRetrofitDatasourceImpl.send"
+            "IMovEquipResidenciaRetrofitDatasource.send"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),
@@ -170,10 +179,13 @@ class IMovEquipResidenciaRetrofitDatasourceTest {
             )
             , "123456"
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> MovEquipResidenciaRetrofitDatasourceImpl.send"
+            "IMovEquipResidenciaRetrofitDatasource.send"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),

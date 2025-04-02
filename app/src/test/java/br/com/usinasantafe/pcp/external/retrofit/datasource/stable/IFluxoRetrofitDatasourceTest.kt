@@ -31,7 +31,7 @@ class IFluxoRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRetrofitDatasourceImpl.recoverAll"
+                "IFluxoRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -57,7 +57,7 @@ class IFluxoRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRetrofitDatasourceImpl.recoverAll"
+                "IFluxoRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

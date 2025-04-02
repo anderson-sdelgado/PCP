@@ -22,7 +22,7 @@ class IMovEquipResidenciaRetrofitDatasource(
             return Result.success(response.body()!!)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IMovEquipResidenciaRetrofitDatasource.recoverAll",
+                context = "IMovEquipResidenciaRetrofitDatasource.send",
                 message = "-",
                 cause = e
             )

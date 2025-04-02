@@ -21,9 +21,18 @@ class IEquipRetrofitDatasourceTest {
         val service: EquipApi = retrofit.create(EquipApi::class.java)
         val datasource = IEquipRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> EquipRetrofitDatasourceImpl.recoverAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IEquipRetrofitDatasource.recoverAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$"
+        )
     }
 
     @Test
@@ -35,9 +44,18 @@ class IEquipRetrofitDatasourceTest {
         val service: EquipApi = retrofit.create(EquipApi::class.java)
         val datasource = IEquipRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> EquipRetrofitDatasourceImpl.recoverAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), NullPointerException().toString())
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IEquipRetrofitDatasource.recoverAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            NullPointerException().toString()
+        )
     }
 
     @Test
@@ -49,7 +67,10 @@ class IEquipRetrofitDatasourceTest {
         val service: EquipApi = retrofit.create(EquipApi::class.java)
         val datasource = IEquipRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(result,
             Result.success(
                 listOf(
@@ -66,5 +87,5 @@ class IEquipRetrofitDatasourceTest {
 }
 
 val resultEquipRetrofit = """
-    [{"idEquip":19,"nroEquip":190}]
+    [{"idEquip":19,"nroEquip":190,"descrEquip":"teste"}]
 """.trimIndent()

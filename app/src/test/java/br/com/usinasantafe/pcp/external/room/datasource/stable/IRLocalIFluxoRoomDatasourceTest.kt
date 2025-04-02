@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class RLocalIFluxoRoomDatasourceTest {
+class IRLocalIFluxoRoomDatasourceTest {
 
     private lateinit var rLocalFluxoDao: RLocalFluxoDao
     private lateinit var db: AppDatabaseRoom
@@ -34,7 +34,7 @@ class RLocalIFluxoRoomDatasourceTest {
     }
 
     @Test
-    fun `AddAll - Check return failure if have row repeated`() =
+    fun `addAll - Check return failure if have row repeated`() =
         runTest {
             val datasource = IRLocalFluxoRoomDatasource(rLocalFluxoDao)
             val result = datasource.addAll(
@@ -57,7 +57,7 @@ class RLocalIFluxoRoomDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> RLocalFluxoDatasourceImpl.addAll"
+                "IRLocalFluxoRoomDatasource.addAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -66,7 +66,7 @@ class RLocalIFluxoRoomDatasourceTest {
         }
 
     @Test
-    fun `AddAll - Check return true and check data inserted`() =
+    fun `addAll - Check return true and check data inserted`() =
         runTest {
             val datasource = IRLocalFluxoRoomDatasource(rLocalFluxoDao)
             val result = datasource.addAll(
@@ -108,7 +108,7 @@ class RLocalIFluxoRoomDatasourceTest {
         }
 
     @Test
-    fun `DeleteAll - Check return true and check data inserted`() =
+    fun `deleteAll - Check return true and check data inserted`() =
         runTest {
             val datasource = IRLocalFluxoRoomDatasource(rLocalFluxoDao)
             val resultAdd = datasource.addAll(
@@ -147,7 +147,7 @@ class RLocalIFluxoRoomDatasourceTest {
         }
 
     @Test
-    fun `List - Check return true and check data inserted`() =
+    fun `list - Check return true and check data inserted`() =
         runTest {
             val datasource = IRLocalFluxoRoomDatasource(rLocalFluxoDao)
             val resultAdd = datasource.addAll(

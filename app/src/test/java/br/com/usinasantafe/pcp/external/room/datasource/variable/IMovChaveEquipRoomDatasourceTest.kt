@@ -17,11 +17,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.KoinTest
 import org.robolectric.RobolectricTestRunner
 import java.util.Date
 
 @RunWith(RobolectricTestRunner::class)
-class IMovChaveEquipRoomDatasourceTest {
+class IMovChaveEquipRoomDatasourceTest{
 
     private lateinit var movChaveEquipDao: MovChaveEquipDao
     private lateinit var db: AppDatabaseRoom

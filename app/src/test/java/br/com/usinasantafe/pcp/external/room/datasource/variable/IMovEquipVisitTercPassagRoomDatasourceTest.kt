@@ -48,8 +48,14 @@ class IMovEquipVisitTercPassagRoomDatasourceTest {
                 ),
             )
         )
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -68,25 +74,55 @@ class IMovEquipVisitTercPassagRoomDatasourceTest {
             )
         )
         val result = datasource.list(1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.size, 2)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.size,
+            2
+        )
         val model = result.getOrNull()!![1]
-        assertEquals(model.idMovEquipVisitTercPassag, 2)
-        assertEquals(model.idVisitTerc, 20)
+        assertEquals(
+            model.idMovEquipVisitTercPassag,
+            2
+        )
+        assertEquals(
+            model.idVisitTerc,
+            20
+        )
     }
 
     @Test
     fun  `Check success add if have row is correct`() = runTest {
         val datasource = IMovEquipVisitTercPassagRoomDatasource(movEquipVisitTercPassagDao)
         val result = datasource.add(10, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val resultList = datasource.list(1)
-        assertTrue(result.isSuccess)
-        assertEquals(resultList.getOrNull()!!.size, 1)
+        assertEquals(
+            resultList.isSuccess,
+            true
+        )
+        assertEquals(
+            resultList.getOrNull()!!.size,
+            1
+        )
         val model = resultList.getOrNull()!![0]
-        assertEquals(model.idMovEquipVisitTercPassag, 1)
-        assertEquals(model.idVisitTerc, 10)
+        assertEquals(
+            model.idMovEquipVisitTercPassag,
+            1
+        )
+        assertEquals(
+            model.idVisitTerc,
+            10
+        )
     }
 
     @Test
@@ -109,19 +145,46 @@ class IMovEquipVisitTercPassagRoomDatasourceTest {
             )
         )
         val result = datasource.list(1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.size, 3)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.size,
+            3
+        )
         val modelBefore = result.getOrNull()!![1]
-        assertEquals(modelBefore.idMovEquipVisitTercPassag, 2)
-        assertEquals(modelBefore.idVisitTerc, 20)
+        assertEquals(
+            modelBefore.idMovEquipVisitTercPassag,
+            2
+        )
+        assertEquals(
+            modelBefore.idVisitTerc,
+            20
+        )
         val resultDelete = datasource.delete(20, 1)
-        assertTrue(resultDelete.isSuccess)
-        assertTrue(resultDelete.getOrNull()!!)
+        assertEquals(
+            resultDelete.isSuccess,
+            true
+        )
+        assertEquals(
+            resultDelete.getOrNull()!!,
+            true
+        )
         val resultList = datasource.list(1)
-        assertEquals(resultList.getOrNull()!!.size, 2)
+        assertEquals(
+            resultList.getOrNull()!!.size,
+            2
+        )
         val modelAfter = resultList.getOrNull()!![1]
-        assertEquals(modelAfter.idMovEquipVisitTercPassag, 3)
-        assertEquals(modelAfter.idVisitTerc, 30)
+        assertEquals(
+            modelAfter.idMovEquipVisitTercPassag,
+            3
+        )
+        assertEquals(
+            modelAfter.idVisitTerc,
+            30
+        )
     }
 
     @Test
@@ -144,12 +207,27 @@ class IMovEquipVisitTercPassagRoomDatasourceTest {
             )
         )
         val result = datasource.list(1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.size, 3)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.size,
+            3
+        )
         val resultDelete = datasource.delete(1)
-        assertTrue(resultDelete.isSuccess)
-        assertTrue(resultDelete.getOrNull()!!)
+        assertEquals(
+            resultDelete.isSuccess,
+            true
+        )
+        assertEquals(
+            resultDelete.getOrNull()!!,
+            true
+        )
         val resultList = datasource.list(1)
-        assertEquals(resultList.getOrNull()!!.size, 0)
+        assertEquals(
+            resultList.getOrNull()!!.size,
+            0
+        )
     }
 }

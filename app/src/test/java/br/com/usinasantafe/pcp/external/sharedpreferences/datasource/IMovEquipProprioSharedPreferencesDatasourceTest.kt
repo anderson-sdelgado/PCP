@@ -17,80 +17,140 @@ class IMovEquipProprioSharedPreferencesDatasourceTest {
 
     private lateinit var context : Context
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var IMovEquipProprioSharedPreferencesDatasource : IMovEquipProprioSharedPreferencesDatasource
+    private lateinit var iMovEquipProprioSharedPreferencesDatasource : IMovEquipProprioSharedPreferencesDatasource
 
     @Before
     fun before() {
         context = ApplicationProvider.getApplicationContext()
         sharedPreferences = context.getSharedPreferences("teste", Context.MODE_PRIVATE)
-        IMovEquipProprioSharedPreferencesDatasource = IMovEquipProprioSharedPreferencesDatasource(sharedPreferences)
+        iMovEquipProprioSharedPreferencesDatasource = IMovEquipProprioSharedPreferencesDatasource(sharedPreferences)
     }
 
     @Test
     fun `Check return data correct if MovEquipProprioSharedPreferences Start execute correctly`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
     }
 
     @Test
     fun `Check altered in table if MovEquipProprioSharedPreferences setMatricColab execute correctly`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        IMovEquipProprioSharedPreferencesDatasource.setMatricColab(19759)
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.matricColabMovEquipProprio, 19759)
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.setMatricColab(19759)
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.matricColabMovEquipProprio,
+            19759
+        )
     }
 
     @Test
     fun `Check return idEquip correct if MovEquipProprioSharedPreferences setIdEquip execute correctly`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        IMovEquipProprioSharedPreferencesDatasource.setIdEquip(10)
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.idEquipMovEquipProprio, 10)
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.setIdEquip(10)
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.idEquipMovEquipProprio,
+            10
+        )
     }
 
     @Test
     fun `Check return destino correct if MovEquipProprioSharedPreferences setDestino execute correctly`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        IMovEquipProprioSharedPreferencesDatasource.setDestino("Teste")
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.destinoMovEquipProprio, "Teste")
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.setDestino("Teste")
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.destinoMovEquipProprio,
+            "Teste"
+        )
     }
 
     @Test
     fun `Check return destino correct if MovEquipProprioSharedPreferences setNotaFiscal execute correctly`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        IMovEquipProprioSharedPreferencesDatasource.setNotaFiscal(123456)
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.notaFiscalMovEquipProprio, 123456)
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.setNotaFiscal(123456)
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.notaFiscalMovEquipProprio,
+            123456
+        )
     }
 
     @Test
     fun `Check return destino correct if MovEquipProprioSharedPreferences setNotaFiscal execute correctly and value is null`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        IMovEquipProprioSharedPreferencesDatasource.setNotaFiscal(null)
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.notaFiscalMovEquipProprio, null)
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.setNotaFiscal(null)
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.notaFiscalMovEquipProprio,
+            null
+        )
     }
 
     @Test
     fun `Check return observ correct if MovEquipProprioSharedPreferences setObserv execute correctly`() = runTest {
-        IMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
-        IMovEquipProprioSharedPreferencesDatasource.setObserv("Teste")
-        val result = IMovEquipProprioSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipProprio, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.observMovEquipProprio, "Teste")
+        iMovEquipProprioSharedPreferencesDatasource.start(TypeMovEquip.INPUT)
+        iMovEquipProprioSharedPreferencesDatasource.setObserv("Teste")
+        val result = iMovEquipProprioSharedPreferencesDatasource.get()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipProprio,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipProprio,
+            "Teste"
+        )
     }
 }

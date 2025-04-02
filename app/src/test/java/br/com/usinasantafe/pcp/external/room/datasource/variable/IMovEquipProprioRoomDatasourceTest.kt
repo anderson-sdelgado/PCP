@@ -46,7 +46,10 @@ class IMovEquipProprioRoomDatasourceTest {
         } catch (exception: Exception){
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -69,9 +72,15 @@ class IMovEquipProprioRoomDatasourceTest {
             movEquipProprioRoomModel
         )
         val result = datasource.listOpen()
-        assertEquals(result.isSuccess, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val resultList = result.getOrNull()!!
-        assertEquals(resultList[0].dthrMovEquipProprio, movEquipProprioRoomModel.dthrMovEquipProprio)
+        assertEquals(
+            resultList[0].dthrMovEquipProprio,
+            movEquipProprioRoomModel.dthrMovEquipProprio
+        )
     }
 
     @Test
@@ -94,12 +103,24 @@ class IMovEquipProprioRoomDatasourceTest {
             movEquipProprioRoomModel
         )
         val movEquipProprioRoomModelBefore = movEquipProprioDao.get(id.toInt())
-        assertEquals(movEquipProprioRoomModelBefore.statusMovEquipProprio, StatusData.OPEN)
+        assertEquals(
+            movEquipProprioRoomModelBefore.statusMovEquipProprio,
+            StatusData.OPEN
+        )
         val result = datasource.setClose(1)
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(id.toInt())
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, true)
-        assertEquals(movEquipProprioRoomModelAfter.statusMovEquipProprio, StatusData.CLOSE)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusMovEquipProprio,
+            StatusData.CLOSE
+        )
     }
 
     @Test
@@ -120,12 +141,24 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         val resultSave = datasource.save(movEquipProprioRoomModel)
         val id = resultSave.getOrNull()!!
-        assertEquals(id.toInt(), 1)
+        assertEquals(
+            id.toInt(),
+            1
+        )
         val resultList = datasource.listOpen()
-        assertEquals(resultList.isSuccess, true)
+        assertEquals(
+            resultList.isSuccess,
+            true
+        )
         val model = resultList.getOrNull()!![0]
-        assertEquals(model.dthrMovEquipProprio, movEquipProprioRoomModel.dthrMovEquipProprio)
-        assertEquals(model.destinoMovEquipProprio, movEquipProprioRoomModel.destinoMovEquipProprio)
+        assertEquals(
+            model.dthrMovEquipProprio,
+            movEquipProprioRoomModel.dthrMovEquipProprio
+        )
+        assertEquals(
+            model.destinoMovEquipProprio,
+            movEquipProprioRoomModel.destinoMovEquipProprio
+        )
     }
 
     @Test
@@ -145,17 +178,29 @@ class IMovEquipProprioRoomDatasourceTest {
         )
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
-        val resultCheckSend = datasource.checkSend()
-        assertTrue(resultCheckSend.isSuccess)
-        assertTrue(resultCheckSend.getOrNull()!!)
+        val result = datasource.checkSend()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check return false if not have mov send`() = runTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         val result = datasource.checkSend()
-        assertTrue(result.isSuccess)
-        assertFalse(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -176,20 +221,32 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.listSend()
-        assertEquals(result.isSuccess, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val resultList = result.getOrNull()!!
-        assertEquals(resultList[0].dthrMovEquipProprio, movEquipProprioRoomModel.dthrMovEquipProprio)
-        assertEquals(resultList[0].idMovEquipProprio, 1)
+        assertEquals(
+            resultList[0].dthrMovEquipProprio,
+            movEquipProprioRoomModel.dthrMovEquipProprio
+        )
+        assertEquals(
+            resultList[0].idMovEquipProprio,
+            1
+        )
     }
 
     @Test
     fun `Sent - Check return failure if not have mov`() = runTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         val result = datasource.setSent(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> MovEquipProprioRoomDatasourceImpl.setSent"
+            "IMovEquipProprioRoomDatasource.setSent"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),
@@ -216,8 +273,14 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setSent(1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
         assertEquals(
             movEquipProprioRoomModelAfter.observMovEquipProprio,
@@ -238,7 +301,10 @@ class IMovEquipProprioRoomDatasourceTest {
         } catch (exception: Exception){
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -260,9 +326,15 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.get(1)
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val roomModel = result.getOrNull()!!
-        assertEquals(roomModel.observMovEquipProprio, "TESTE OBSERV")
+        assertEquals(
+            roomModel.observMovEquipProprio,
+            "TESTE OBSERV"
+        )
     }
 
     @Test
@@ -284,11 +356,23 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setIdEquip(10, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.idEquipMovEquipProprio, 10)
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.idEquipMovEquipProprio,
+            10
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -310,11 +394,23 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setMatricColab(18017, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.matricColabMovEquipProprio, 18017)
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.matricColabMovEquipProprio,
+            18017
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -336,11 +432,23 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setDestino("TESTE ALTERAR DESTINO", 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.destinoMovEquipProprio, "TESTE ALTERAR DESTINO")
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.destinoMovEquipProprio,
+            "TESTE ALTERAR DESTINO"
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -362,11 +470,23 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setNotaFiscal(123456, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.notaFiscalMovEquipProprio, 123456)
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.notaFiscalMovEquipProprio,
+            123456
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -388,11 +508,23 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setNotaFiscal(null, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.notaFiscalMovEquipProprio, null)
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.notaFiscalMovEquipProprio,
+            null
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -414,11 +546,23 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setObserv("TESTE ALTERAR OBSERV", 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.observMovEquipProprio, "TESTE ALTERAR OBSERV")
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.observMovEquipProprio,
+            "TESTE ALTERAR OBSERV"
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -440,21 +584,36 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setObserv(null, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
-        assertEquals(movEquipProprioRoomModelAfter.observMovEquipProprio, null)
-        assertEquals(movEquipProprioRoomModelAfter.statusSendMovEquipProprio, StatusSend.SEND)
+        assertEquals(
+            movEquipProprioRoomModelAfter.observMovEquipProprio,
+            null
+        )
+        assertEquals(
+            movEquipProprioRoomModelAfter.statusSendMovEquipProprio,
+            StatusSend.SEND
+        )
     }
 
     @Test
     fun `Send - Check return failure if not have mov`() = runTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         val result = datasource.setSend(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> MovEquipProprioRoomDatasourceImpl.setSend"
+            "IMovEquipProprioRoomDatasource.setSend"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),
@@ -481,8 +640,14 @@ class IMovEquipProprioRoomDatasourceTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
         val result = datasource.setSend(1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
         assertEquals(
             movEquipProprioRoomModelAfter.observMovEquipProprio,
@@ -544,11 +709,23 @@ class IMovEquipProprioRoomDatasourceTest {
             movEquipProprioDao.insert(roomModel3)
             val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
             val result = datasource.listSent()
-            assertEquals(result.isSuccess, true)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val list = result.getOrNull()!!
-            assertEquals(list.size, 2)
-            assertEquals(list[0].idMovEquipProprio, 1)
-            assertEquals(list[1].idMovEquipProprio, 2)
+            assertEquals(
+                list.size,
+                2
+            )
+            assertEquals(
+                list[0].idMovEquipProprio,
+                1
+            )
+            assertEquals(
+                list[1].idMovEquipProprio,
+                2
+            )
         }
 
     @Test
@@ -586,12 +763,24 @@ class IMovEquipProprioRoomDatasourceTest {
             movEquipProprioDao.insert(roomModel2)
             val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
             val result = datasource.delete(roomModel1)
-            assertEquals(result.isSuccess, true)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val resultList = datasource.listSent()
-            assertEquals(resultList.isSuccess, true)
+            assertEquals(
+                resultList.isSuccess,
+                true
+            )
             val list = resultList.getOrNull()!!
-            assertEquals(list.size, 1)
-            assertEquals(list[0].idMovEquipProprio, 2)
+            assertEquals(
+                list.size,
+                1
+            )
+            assertEquals(
+                list[0].idMovEquipProprio,
+                2
+            )
         }
 
     @Test
@@ -611,17 +800,29 @@ class IMovEquipProprioRoomDatasourceTest {
         )
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         datasource.save(movEquipProprioRoomModel)
-        val resultCheckSend = datasource.checkOpen()
-        assertTrue(resultCheckSend.isSuccess)
-        assertTrue(resultCheckSend.getOrNull()!!)
+        val result = datasource.checkOpen()
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check return false if not have mov open`() = runTest {
         val datasource = IMovEquipProprioRoomDatasource(movEquipProprioDao)
         val result = datasource.checkOpen()
-        assertTrue(result.isSuccess)
-        assertFalse(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
 }

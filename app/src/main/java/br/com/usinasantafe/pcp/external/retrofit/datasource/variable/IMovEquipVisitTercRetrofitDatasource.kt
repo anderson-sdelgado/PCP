@@ -22,7 +22,7 @@ class IMovEquipVisitTercRetrofitDatasource(
             return Result.success(response.body()!!)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IMovEquipVisitTercRetrofitDatasource.recoverAll",
+                context = "IMovEquipVisitTercRetrofitDatasource.send",
                 message = "-",
                 cause = e
             )

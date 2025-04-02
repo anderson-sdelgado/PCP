@@ -36,7 +36,7 @@ class IMovChaveEquipSharedPreferencesDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveEquipSharedPreferencesDatasource.get"
+                "IMovChaveEquipSharedPreferencesDatasource.get"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -74,7 +74,7 @@ class IMovChaveEquipSharedPreferencesDatasourceTest {
             )
             assertEquals(
                 resultStart.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveEquipSharedPreferencesDatasource.get"
+                "IMovChaveEquipSharedPreferencesDatasource.get"
             )
             assertEquals(
                 resultStart.exceptionOrNull()!!.cause.toString(),
@@ -117,7 +117,7 @@ class IMovChaveEquipSharedPreferencesDatasourceTest {
             )
             assertEquals(
                 resultStart.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveEquipSharedPreferencesDatasource.get"
+                "IMovChaveEquipSharedPreferencesDatasource.get"
             )
             assertEquals(
                 resultStart.exceptionOrNull()!!.cause.toString(),
@@ -160,7 +160,7 @@ class IMovChaveEquipSharedPreferencesDatasourceTest {
             )
             assertEquals(
                 resultStart.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveEquipSharedPreferencesDatasource.get"
+                "IMovChaveEquipSharedPreferencesDatasource.get"
             )
             assertEquals(
                 resultStart.exceptionOrNull()!!.cause.toString(),

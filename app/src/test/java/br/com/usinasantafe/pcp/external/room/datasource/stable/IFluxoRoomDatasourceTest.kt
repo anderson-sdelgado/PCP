@@ -56,7 +56,7 @@ class IFluxoRoomDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> FluxoRoomDatasourceImpl.addAll"
+                "IFluxoRoomDatasource.addAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -65,7 +65,7 @@ class IFluxoRoomDatasourceTest {
         }
 
     @Test
-    fun `AddAll - Check return true and check data inserted`() =
+    fun `addAll - Check return true and check data inserted`() =
         runTest {
             val datasource = IFluxoRoomDatasource(fluxoDao)
             val result = datasource.addAll(
@@ -106,7 +106,7 @@ class IFluxoRoomDatasourceTest {
         }
 
     @Test
-    fun `DeleteAll - Check return true and check data deleted`() =
+    fun `deleteAll - Check return true and check data deleted`() =
         runTest {
             val datasource = IFluxoRoomDatasource(fluxoDao)
             val resultAdd = datasource.addAll(
@@ -144,7 +144,7 @@ class IFluxoRoomDatasourceTest {
         }
 
     @Test
-    fun `Get - Check return entity if FluxoRoomDatasourceImpl get execute successfully`() =
+    fun `get - Check return entity if FluxoRoomDatasourceImpl get execute successfully`() =
         runTest {
             val datasource = IFluxoRoomDatasource(fluxoDao)
             val resultAdd = datasource.addAll(

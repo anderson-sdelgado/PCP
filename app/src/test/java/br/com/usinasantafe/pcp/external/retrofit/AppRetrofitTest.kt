@@ -21,8 +21,6 @@ private fun provideHttpClient(): OkHttpClient {
         .build()
 }
 
-private fun gson(): Gson = GsonBuilder().create()
-
 fun provideRetrofitTest(url: String): Retrofit = Retrofit.Builder()
         .baseUrl(url)
         .addConverterFactory(GsonConverterFactory.create())

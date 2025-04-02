@@ -111,7 +111,7 @@ class IMovChaveRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveRetrofitDatasource.send"
+                "IMovChaveRetrofitDatasource.send"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -161,7 +161,7 @@ class IMovChaveRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveRetrofitDatasource.send"
+                "IMovChaveRetrofitDatasource.send"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -213,7 +213,7 @@ class IMovChaveRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IMovChaveRetrofitDatasource.send"
+                "IMovChaveRetrofitDatasource.send"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

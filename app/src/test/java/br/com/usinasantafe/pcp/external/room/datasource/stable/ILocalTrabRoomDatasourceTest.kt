@@ -58,12 +58,15 @@ class ILocalTrabRoomDatasourceTest {
                     )
                 )
             )
-            assertTrue(result.isFailure)
-            Assert.assertEquals(
-                result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ILocalTrabRoomDatasource.addAll"
+            assertEquals(
+                result.isFailure,
+                true
             )
-            Assert.assertEquals(
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "ILocalTrabRoomDatasource.addAll"
+            )
+            assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
                 "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID"
             )

@@ -22,7 +22,7 @@ class IMovChaveRetrofitDatasource(
             return Result.success(response.body()!!)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IMovChaveRetrofitDatasource.recoverAll",
+                context = "IMovChaveRetrofitDatasource.send",
                 message = "-",
                 cause = e
             )

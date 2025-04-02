@@ -32,7 +32,7 @@ class IColabRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ColabRetrofitDatasourceImpl.recoverAll"
+                "IColabRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -60,7 +60,7 @@ class IColabRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> ColabRetrofitDatasourceImpl.recoverAll"
+                "IColabRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

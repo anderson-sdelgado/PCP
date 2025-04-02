@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.external.retrofit.datasource.stable
 import br.com.usinasantafe.pcp.domain.entities.stable.Terceiro
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.TerceiroApi
 import br.com.usinasantafe.pcp.external.retrofit.provideRetrofitTest
+import br.com.usinasantafe.pcp.infra.models.retrofit.stable.TerceiroRetrofitModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -21,9 +22,18 @@ class ITerceiroRetrofitDatasourceTest {
         val service: TerceiroApi = retrofit.create(TerceiroApi::class.java)
         val datasource = ITerceiroRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> TerceiroRetrofitDatasourceImpl.recoverAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ITerceiroRetrofitDatasource.recoverAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$"
+        )
     }
 
     @Test
@@ -35,9 +45,18 @@ class ITerceiroRetrofitDatasourceTest {
         val service: TerceiroApi = retrofit.create(TerceiroApi::class.java)
         val datasource = ITerceiroRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> TerceiroRetrofitDatasourceImpl.recoverAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), NullPointerException().toString())
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ITerceiroRetrofitDatasource.recoverAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            NullPointerException().toString()
+        )
     }
 
     @Test
@@ -49,12 +68,15 @@ class ITerceiroRetrofitDatasourceTest {
         val service: TerceiroApi = retrofit.create(TerceiroApi::class.java)
         val datasource = ITerceiroRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(
             result,
             Result.success(
                 listOf(
-                    Terceiro(
+                    TerceiroRetrofitModel(
                         idTerceiro = 1,
                         idBDTerceiro = 1,
                         cpfTerceiro = "123.456.789-00",

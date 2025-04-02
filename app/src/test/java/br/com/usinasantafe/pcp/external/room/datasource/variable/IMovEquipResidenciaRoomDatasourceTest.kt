@@ -48,7 +48,10 @@ class IMovEquipResidenciaRoomDatasourceTest {
         } catch (exception: Exception) {
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -71,10 +74,19 @@ class IMovEquipResidenciaRoomDatasourceTest {
             movEquipResidenciaRoomModel
         )
         val result = datasource.listOpen()
-        assertEquals(result.isSuccess, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val model = result.getOrNull()!![0]
-        assertEquals(model.motoristaMovEquipResidencia, "MOTORISTA TESTE")
-        assertEquals(model.placaMovEquipResidencia, "PLACA TESTE")
+        assertEquals(
+            model.motoristaMovEquipResidencia,
+            "MOTORISTA TESTE"
+        )
+        assertEquals(
+            model.placaMovEquipResidencia,
+            "PLACA TESTE"
+        )
     }
 
     @Test
@@ -97,12 +109,24 @@ class IMovEquipResidenciaRoomDatasourceTest {
             movEquipResidenciaRoomModel
         )
         val roomModelBefore = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelBefore.statusMovEquipResidencia, StatusData.OPEN)
+        assertEquals(
+            roomModelBefore.statusMovEquipResidencia,
+            StatusData.OPEN
+        )
         val result = datasource.setClose(1)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.statusMovEquipResidencia, StatusData.CLOSE)
+        assertEquals(
+            roomModelAfter.statusMovEquipResidencia,
+            StatusData.CLOSE
+        )
     }
 
     @Test
@@ -123,9 +147,15 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         val resultSave = datasource.save(movEquipResidenciaRoomModel)
         val id = resultSave.getOrNull()!!
-        assertEquals(id.toInt(), 1)
+        assertEquals(
+            id.toInt(),
+            1
+        )
         val resultList = datasource.listOpen()
-        assertEquals(resultList.isSuccess, true)
+        assertEquals(
+            resultList.isSuccess,
+            true
+        )
         val model = resultList.getOrNull()!![0]
         assertEquals(
             model.dthrMovEquipResidencia,
@@ -146,7 +176,10 @@ class IMovEquipResidenciaRoomDatasourceTest {
         } catch (exception: Exception) {
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -167,9 +200,15 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(movEquipResidenciaRoomModel)
         val result = datasource.get(1)
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val roomModel = result.getOrNull()!!
-        assertEquals(roomModel.observMovEquipResidencia, "OBSERV TESTE")
+        assertEquals(
+            roomModel.observMovEquipResidencia,
+            "OBSERV TESTE"
+        )
     }
 
     @Test
@@ -190,11 +229,23 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(movEquipResidenciaRoomModel)
         val result = datasource.setMotorista("MOTORISTA TESTE ALTERAR", 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.motoristaMovEquipResidencia, "MOTORISTA TESTE ALTERAR")
-        assertEquals(roomModelAfter.statusSendMovEquipResidencia, StatusSend.SEND)
+        assertEquals(
+            roomModelAfter.motoristaMovEquipResidencia,
+            "MOTORISTA TESTE ALTERAR"
+        )
+        assertEquals(
+            roomModelAfter.statusSendMovEquipResidencia,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -215,11 +266,23 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(movEquipResidenciaRoomModel)
         val result = datasource.setObserv("OBSERV TESTE ALTERAR", 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.observMovEquipResidencia, "OBSERV TESTE ALTERAR")
-        assertEquals(roomModelAfter.statusSendMovEquipResidencia, StatusSend.SEND)
+        assertEquals(
+            roomModelAfter.observMovEquipResidencia,
+            "OBSERV TESTE ALTERAR"
+        )
+        assertEquals(
+            roomModelAfter.statusSendMovEquipResidencia,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -240,11 +303,23 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(movEquipResidenciaRoomModel)
         val result = datasource.setObserv(null, 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.observMovEquipResidencia, null)
-        assertEquals(roomModelAfter.statusSendMovEquipResidencia, StatusSend.SEND)
+        assertEquals(
+            roomModelAfter.observMovEquipResidencia,
+            null
+        )
+        assertEquals(
+            roomModelAfter.statusSendMovEquipResidencia,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -268,12 +343,24 @@ class IMovEquipResidenciaRoomDatasourceTest {
             movEquipResidenciaRoomModel
         )
         val roomModelBefore = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelBefore.statusMovEquipForeignerResidencia, StatusForeigner.INSIDE)
+        assertEquals(
+            roomModelBefore.statusMovEquipForeignerResidencia,
+            StatusForeigner.INSIDE
+        )
         val result = datasource.setOutside(1)
-        assertEquals(result.isSuccess, true)
-        assertEquals(result.getOrNull()!!, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.statusMovEquipForeignerResidencia, StatusForeigner.OUTSIDE)
+        assertEquals(
+            roomModelAfter.statusMovEquipForeignerResidencia,
+            StatusForeigner.OUTSIDE
+        )
     }
 
     @Test
@@ -293,12 +380,27 @@ class IMovEquipResidenciaRoomDatasourceTest {
         )
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(movEquipResidenciaRoomModel)
-        val result = datasource.setPlaca("PLACA TESTE ALTERAR", 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        val result = datasource.setPlaca(
+            "PLACA TESTE ALTERAR",
+            1
+        )
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.placaMovEquipResidencia, "PLACA TESTE ALTERAR")
-        assertEquals(roomModelAfter.statusSendMovEquipResidencia, StatusSend.SEND)
+        assertEquals(
+            roomModelAfter.placaMovEquipResidencia,
+            "PLACA TESTE ALTERAR"
+        )
+        assertEquals(
+            roomModelAfter.statusSendMovEquipResidencia,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -319,11 +421,23 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(movEquipResidenciaRoomModel)
         val result = datasource.setVeiculo("VEICULO TESTE ALTERAR", 1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
-        assertEquals(roomModelAfter.veiculoMovEquipResidencia, "VEICULO TESTE ALTERAR")
-        assertEquals(roomModelAfter.statusSendMovEquipResidencia, StatusSend.SEND)
+        assertEquals(
+            roomModelAfter.veiculoMovEquipResidencia,
+            "VEICULO TESTE ALTERAR"
+        )
+        assertEquals(
+            roomModelAfter.statusSendMovEquipResidencia,
+            StatusSend.SEND
+        )
     }
 
     @Test
@@ -345,8 +459,14 @@ class IMovEquipResidenciaRoomDatasourceTest {
             val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
             datasource.save(movEquipResidenciaRoomModel)
             val result = datasource.checkSend()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -354,8 +474,14 @@ class IMovEquipResidenciaRoomDatasourceTest {
         runTest {
             val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
             val result = datasource.checkSend()
-            assertTrue(result.isSuccess)
-            assertFalse(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
         }
 
     @Test
@@ -376,12 +502,24 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(roomModel)
         val result = datasource.listSend()
-        assertEquals(result.isSuccess, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val list = result.getOrNull()!!
-        assertEquals(list.size, 1)
+        assertEquals(
+            list.size,
+            1
+        )
         val entity = list[0]
-        assertEquals(entity.dthrMovEquipResidencia, roomModel.dthrMovEquipResidencia)
-        assertEquals(entity.motoristaMovEquipResidencia, "MOTORISTA TESTE")
+        assertEquals(
+            entity.dthrMovEquipResidencia,
+            roomModel.dthrMovEquipResidencia
+        )
+        assertEquals(
+            entity.motoristaMovEquipResidencia,
+            "MOTORISTA TESTE"
+        )
     }
 
     @Test
@@ -402,19 +540,28 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(roomModel)
         val result = datasource.listSend()
-        assertEquals(result.isSuccess, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val list = result.getOrNull()!!
-        assertEquals(list.size, 0)
+        assertEquals(
+            list.size,
+            0
+        )
     }
 
     @Test
     fun `setSent - Check return failure in setSent if not have mov`() = runTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         val result = datasource.setSent(1)
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> MovEquipResidenciaRoomDatasourceImpl.setSent"
+            "IMovEquipResidenciaRoomDatasource.setSent"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),
@@ -440,8 +587,14 @@ class IMovEquipResidenciaRoomDatasourceTest {
         val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
         datasource.save(roomModel)
         val result = datasource.setSent(1)
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
         val roomModelAfter = movEquipResidenciaDao.get(1)
         assertEquals(
             roomModelAfter.statusSendMovEquipResidencia,
@@ -503,11 +656,23 @@ class IMovEquipResidenciaRoomDatasourceTest {
             movEquipResidenciaDao.insert(roomModel3)
             val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
             val result = datasource.listSent()
-            assertEquals(result.isSuccess, true)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val list = result.getOrNull()!!
-            assertEquals(list.size, 2)
-            assertEquals(list[0].idMovEquipResidencia, 1)
-            assertEquals(list[1].idMovEquipResidencia, 2)
+            assertEquals(
+                list.size,
+                2
+            )
+            assertEquals(
+                list[0].idMovEquipResidencia,
+                1
+            )
+            assertEquals(
+                list[1].idMovEquipResidencia,
+                2
+            )
         }
 
     @Test
@@ -545,12 +710,24 @@ class IMovEquipResidenciaRoomDatasourceTest {
             movEquipResidenciaDao.insert(roomModel2)
             val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
             val result = datasource.delete(roomModel1)
-            assertEquals(result.isSuccess, true)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
             val resultList = datasource.listSent()
-            assertEquals(resultList.isSuccess, true)
+            assertEquals(
+                resultList.isSuccess,
+                true
+            )
             val list = resultList.getOrNull()!!
-            assertEquals(list.size, 1)
-            assertEquals(list[0].idMovEquipResidencia, 2)
+            assertEquals(
+                list.size,
+                1
+            )
+            assertEquals(
+                list[0].idMovEquipResidencia,
+                2
+            )
         }
 
     @Test
@@ -572,8 +749,14 @@ class IMovEquipResidenciaRoomDatasourceTest {
             val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
             datasource.save(movEquipResidenciaRoomModel)
             val result = datasource.checkOpen()
-            assertTrue(result.isSuccess)
-            assertTrue(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
         }
 
     @Test
@@ -581,8 +764,14 @@ class IMovEquipResidenciaRoomDatasourceTest {
         runTest {
             val datasource = IMovEquipResidenciaRoomDatasource(movEquipResidenciaDao)
             val result = datasource.checkOpen()
-            assertTrue(result.isSuccess)
-            assertFalse(result.getOrNull()!!)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
         }
 
 }

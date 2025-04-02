@@ -31,7 +31,7 @@ class RLocalIFluxoRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> RLocalFluxoRetrofitDatasourceImpl.recoverAll"
+                "IRLocalFluxoRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -57,7 +57,7 @@ class RLocalIFluxoRetrofitDatasourceTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "Failure Datasource -> RLocalFluxoRetrofitDatasourceImpl.recoverAll"
+                "IRLocalFluxoRetrofitDatasource.recoverAll"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),

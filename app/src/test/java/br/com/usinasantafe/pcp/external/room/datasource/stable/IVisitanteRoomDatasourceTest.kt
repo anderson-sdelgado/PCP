@@ -39,7 +39,10 @@ class IVisitanteRoomDatasourceTest {
     fun `Check execution correct deleteAll`() = runTest {
         val datasource = IVisitanteRoomDatasource(visitanteDao)
         val result = datasource.deleteAll()
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
     }
 
     @Test
@@ -61,9 +64,18 @@ class IVisitanteRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> VisitanteRoomDatasourceImpl.addAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IVisitanteRoomDatasource.addAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID"
+        )
     }
 
     @Test
@@ -85,16 +97,28 @@ class IVisitanteRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isSuccess)
-        assertEquals(result, Result.success(true))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check return false if not exist Cpf researched`() = runTest {
         val datasource = IVisitanteRoomDatasource(visitanteDao)
         val result = datasource.checkCpf("123.456.789-00")
-        assertTrue(result.isSuccess)
-        assertFalse(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -117,8 +141,14 @@ class IVisitanteRoomDatasourceTest {
             )
         )
         val result = datasource.checkCpf("123.456.789-00")
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -141,10 +171,19 @@ class IVisitanteRoomDatasourceTest {
             )
         )
         val result = datasource.get(1)
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val roomModel = result.getOrNull()!!
-        assertEquals(roomModel.idVisitante, 1)
-        assertEquals(roomModel.empresaVisitante, "Empresa Visitante")
+        assertEquals(
+            roomModel.idVisitante,
+            1
+        )
+        assertEquals(
+            roomModel.empresaVisitante,
+            "Empresa Visitante"
+        )
     }
 
     @Test
@@ -167,9 +206,18 @@ class IVisitanteRoomDatasourceTest {
             )
         )
         val result = datasource.get("123.456.789-99")
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         val roomModel = result.getOrNull()!!
-        assertEquals(roomModel.idVisitante, 2)
-        assertEquals(roomModel.empresaVisitante, "Empresa Visitante 2")
+        assertEquals(
+            roomModel.idVisitante,
+            2
+        )
+        assertEquals(
+            roomModel.empresaVisitante,
+            "Empresa Visitante 2"
+        )
     }
 }

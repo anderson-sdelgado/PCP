@@ -59,12 +59,15 @@ class IChaveRoomDatasourceTest {
                     )
                 )
             )
-            assertTrue(result.isFailure)
             Assert.assertEquals(
-                result.exceptionOrNull()!!.message,
-                "Failure Datasource -> IChaveRoomDatasource.addAll"
+                result.isFailure,
+                true
             )
-            Assert.assertEquals(
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IChaveRoomDatasource.addAll"
+            )
+            assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
                 "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID"
             )
@@ -103,8 +106,8 @@ class IChaveRoomDatasourceTest {
                 true
             )
             assertEquals(
-                result,
-                Result.success(true)
+                result.getOrNull()!!,
+                true
             )
             val qtdAfter = chaveDao.listAll().size
             assertEquals(

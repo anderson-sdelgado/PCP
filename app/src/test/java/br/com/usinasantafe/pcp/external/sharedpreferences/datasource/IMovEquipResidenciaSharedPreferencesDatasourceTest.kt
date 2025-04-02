@@ -32,8 +32,14 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
             MovEquipResidenciaSharedPreferencesModel()
         )
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipResidencia, TypeMovEquip.INPUT)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipResidencia,
+            TypeMovEquip.INPUT
+        )
     }
 
     @Test
@@ -43,9 +49,18 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setMotorista("MOTORISTA")
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipResidencia, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.motoristaMovEquipResidencia, "MOTORISTA")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipResidencia,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.motoristaMovEquipResidencia,
+            "MOTORISTA"
+        )
     }
 
     @Test
@@ -55,9 +70,18 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setObserv("OBSERV")
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipResidencia, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.observMovEquipResidencia, "OBSERV")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipResidencia,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipResidencia,
+            "OBSERV"
+        )
     }
 
     @Test
@@ -67,9 +91,18 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setObserv(null)
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipResidencia, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.observMovEquipResidencia, null)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipResidencia,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipResidencia,
+            null
+        )
     }
 
     @Test
@@ -79,10 +112,22 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setPlaca("PLACA")
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipResidencia, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.placaMovEquipResidencia, "PLACA")
-        assertEquals(result.getOrNull()!!.observMovEquipResidencia, null)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipResidencia,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.placaMovEquipResidencia,
+            "PLACA"
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipResidencia,
+            null
+        )
     }
 
     @Test
@@ -92,10 +137,22 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setVeiculo("VEICULO")
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipResidencia, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.veiculoMovEquipResidencia, "VEICULO")
-        assertEquals(result.getOrNull()!!.placaMovEquipResidencia, null)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipResidencia,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.veiculoMovEquipResidencia,
+            "VEICULO"
+        )
+        assertEquals(
+            result.getOrNull()!!.placaMovEquipResidencia,
+            null
+        )
     }
 
 }

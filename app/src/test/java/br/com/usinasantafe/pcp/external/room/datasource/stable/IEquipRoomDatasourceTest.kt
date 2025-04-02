@@ -38,7 +38,10 @@ class IEquipRoomDatasourceTest {
     fun `Check execution correct deleteAll`() = runTest {
         val datasource = IEquipRoomDatasource(equipDao)
         val result = datasource.deleteAll()
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
     }
 
     @Test
@@ -58,9 +61,18 @@ class IEquipRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> EquipRoomDatasourceImpl.addAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "IEquipRoomDatasource.addAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID"
+        )
     }
 
     @Test
@@ -80,16 +92,28 @@ class IEquipRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isSuccess)
-        assertEquals(result, Result.success(true))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check return false if not exist Equip`() = runTest {
         val datasource = IEquipRoomDatasource(equipDao)
         val result = datasource.checkNro(100)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, false)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -105,8 +129,14 @@ class IEquipRoomDatasourceTest {
             )
         )
         val result = datasource.checkNro(100)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, true)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -118,7 +148,10 @@ class IEquipRoomDatasourceTest {
         } catch (exception: Exception){
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -134,8 +167,14 @@ class IEquipRoomDatasourceTest {
             )
         )
         val result = datasource.getNro(10)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, 100)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            100
+        )
     }
 
     @Test
@@ -147,7 +186,10 @@ class IEquipRoomDatasourceTest {
         } catch (exception: Exception){
             exception
         }
-        assertEquals(exception, null)
+        assertEquals(
+            exception,
+            null
+        )
     }
 
     @Test
@@ -163,8 +205,14 @@ class IEquipRoomDatasourceTest {
             )
         )
         val result = datasource.getId(100)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, 10)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            10
+        )
     }
 
 }

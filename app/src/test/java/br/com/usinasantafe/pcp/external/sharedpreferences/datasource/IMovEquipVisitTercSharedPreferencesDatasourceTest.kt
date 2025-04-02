@@ -33,8 +33,14 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
             MovEquipVisitTercSharedPreferencesModel()
         )
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
     }
 
     @Test
@@ -44,9 +50,18 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setDestino("DESTINO")
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.destinoMovEquipVisitTerc, "DESTINO")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.destinoMovEquipVisitTerc,
+            "DESTINO"
+        )
     }
 
     @Test
@@ -56,9 +71,18 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setIdVisitTerc(10)
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.idVisitTercMovEquipVisitTerc, 10)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.idVisitTercMovEquipVisitTerc,
+            10
+        )
     }
 
     @Test
@@ -68,9 +92,18 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setObserv(null)
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.observMovEquipVisitTerc, null)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipVisitTerc,
+            null
+        )
     }
 
     @Test
@@ -80,9 +113,18 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setObserv("OBSERV")
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.observMovEquipVisitTerc, "OBSERV")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipVisitTerc,
+            "OBSERV"
+        )
     }
 
     @Test
@@ -92,9 +134,18 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setPlaca("PLACA")
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.placaMovEquipVisitTerc, "PLACA")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.placaMovEquipVisitTerc,
+            "PLACA"
+        )
     }
 
     @Test
@@ -104,10 +155,22 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(TypeVisitTerc.TERCEIRO)
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.tipoVisitTercMovEquipVisitTerc, TypeVisitTerc.TERCEIRO)
-        assertEquals(result.getOrNull()!!.observMovEquipVisitTerc, null)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoVisitTercMovEquipVisitTerc,
+            TypeVisitTerc.TERCEIRO
+        )
+        assertEquals(
+            result.getOrNull()!!.observMovEquipVisitTerc,
+            null
+        )
     }
 
     @Test
@@ -117,9 +180,21 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setVeiculo("VEICULO")
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!.tipoMovEquipVisitTerc, TypeMovEquip.INPUT)
-        assertEquals(result.getOrNull()!!.veiculoMovEquipVisitTerc, "VEICULO")
-        assertEquals(result.getOrNull()!!.placaMovEquipVisitTerc, null)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!.tipoMovEquipVisitTerc,
+            TypeMovEquip.INPUT
+        )
+        assertEquals(
+            result.getOrNull()!!.veiculoMovEquipVisitTerc,
+            "VEICULO"
+        )
+        assertEquals(
+            result.getOrNull()!!.placaMovEquipVisitTerc,
+            null
+        )
     }
 }

@@ -21,9 +21,18 @@ class ILocalRetrofitDatasourceTest {
         val service: LocalApi = retrofit.create(LocalApi::class.java)
         val datasource = ILocalRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRetrofitDatasourceImpl.recoverAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRetrofitDatasource.recoverAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$"
+        )
     }
 
     @Test
@@ -35,9 +44,18 @@ class ILocalRetrofitDatasourceTest {
         val service: LocalApi = retrofit.create(LocalApi::class.java)
         val datasource = ILocalRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> LocalRetrofitDatasourceImpl.recoverAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), NullPointerException().toString())
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ILocalRetrofitDatasource.recoverAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            NullPointerException().toString()
+        )
     }
 
     @Test
@@ -49,7 +67,10 @@ class ILocalRetrofitDatasourceTest {
         val service: LocalApi = retrofit.create(LocalApi::class.java)
         val datasource = ILocalRetrofitDatasource(service)
         val result = datasource.recoverAll("12345")
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
         assertEquals(result,
             Result.success(
                 listOf(

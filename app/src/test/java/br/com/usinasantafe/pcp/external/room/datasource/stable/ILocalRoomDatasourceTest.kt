@@ -39,7 +39,10 @@ class ILocalRoomDatasourceTest {
     fun `Check execution correct deleteAll`() = runTest {
         val datasource = ILocalRoomDatasource(localDao)
         val result = datasource.deleteAll()
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
     }
 
     @Test
@@ -57,10 +60,13 @@ class ILocalRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isFailure)
+        assertEquals(
+            result.isFailure,
+            true
+        )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "Failure Datasource -> LocalRoomDatasourceImpl.addAll"
+            "ILocalRoomDatasource.addAll"
         )
         assertEquals(
             result.exceptionOrNull()!!.cause.toString(),
@@ -83,8 +89,14 @@ class ILocalRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isSuccess)
-        assertEquals(result, Result.success(true))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -109,8 +121,8 @@ class ILocalRoomDatasourceTest {
             true
         )
         assertEquals(
-            result,
-            Result.success(localRooms)
+            result.getOrNull()!!,
+            localRooms
         )
     }
 
@@ -126,7 +138,13 @@ class ILocalRoomDatasourceTest {
             )
         )
         val result = datasource.getDescr(1)
-        assertTrue(result.isSuccess)
-        assertEquals(result.getOrNull()!!, "USINA")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            "USINA"
+        )
     }
 }

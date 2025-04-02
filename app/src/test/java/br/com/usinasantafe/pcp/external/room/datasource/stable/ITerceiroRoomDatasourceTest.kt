@@ -9,7 +9,6 @@ import br.com.usinasantafe.pcp.infra.models.room.stable.TerceiroRoomModel
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -39,7 +38,10 @@ class ITerceiroRoomDatasourceTest {
     fun `Check execution correct deleteAll`() = runTest {
         val datasource = ITerceiroRoomDatasource(terceiroDao)
         val result = datasource.deleteAll()
-        assertTrue(result.isSuccess)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
     }
 
     @Test
@@ -63,9 +65,18 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isFailure)
-        assertEquals(result.exceptionOrNull()!!.message, "Failure Datasource -> TerceiroRoomDatasourceImpl.addAll")
-        assertEquals(result.exceptionOrNull()!!.cause.toString(), "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID")
+        assertEquals(
+            result.isFailure,
+            true
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.message,
+            "ITerceiroRoomDatasource.addAll"
+        )
+        assertEquals(
+            result.exceptionOrNull()!!.cause.toString(),
+            "android.database.sqlite.SQLiteConstraintException: Cannot execute for last inserted row ID"
+        )
     }
 
     @Test
@@ -89,16 +100,28 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        assertTrue(result.isSuccess)
-        assertEquals(result, Result.success(true))
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
     fun `Check return false if not exist Cpf researched`() = runTest {
         val datasource = ITerceiroRoomDatasource(terceiroDao)
         val result = datasource.checkCpf("123.456.789-00")
-        assertTrue(result.isSuccess)
-        assertFalse(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            false
+        )
     }
 
     @Test
@@ -123,8 +146,14 @@ class ITerceiroRoomDatasourceTest {
             )
         )
         val result = datasource.checkCpf("123.456.789-00")
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()!!)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
     }
 
     @Test
@@ -148,15 +177,26 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        val resultList = datasource.get(1)
-        assertTrue(resultList.isSuccess)
-        val list = resultList.getOrNull()!!
-        assertEquals(list.size, 2)
+        val result = datasource.get(1)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        val list = result.getOrNull()!!
+        assertEquals(
+            list.size,
+            2
+        )
         val roomModel = list[0]
-        assertEquals(roomModel.idTerceiro, 1)
-        assertEquals(roomModel.empresaTerceiro, "Empresa Terceiro")
+        assertEquals(
+            roomModel.idTerceiro,
+            1
+        )
+        assertEquals(
+            roomModel.empresaTerceiro,
+            "Empresa Terceiro"
+        )
     }
-
 
     @Test
     fun `Check return roomModel if have data researched in get cpf`() = runTest {
@@ -179,12 +219,24 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        val resultList = datasource.get("123.456.789-00")
-        assertTrue(resultList.isSuccess)
-        val list = resultList.getOrNull()!!
-        assertEquals(list.size, 2)
+        val result = datasource.get("123.456.789-00")
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        val list = result.getOrNull()!!
+        assertEquals(
+            list.size,
+            2
+        )
         val roomModel = list[1]
-        assertEquals(roomModel.idTerceiro, 2)
-        assertEquals(roomModel.empresaTerceiro, "Empresa Terceiro 2")
+        assertEquals(
+            roomModel.idTerceiro,
+            2
+        )
+        assertEquals(
+            roomModel.empresaTerceiro,
+            "Empresa Terceiro 2"
+        )
     }
 }

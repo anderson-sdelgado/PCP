@@ -16,7 +16,7 @@ class IConfigRetrofitDatasource(
             return Result.success(response.body()!!)
         } catch (e: Exception) {
             return resultFailure(
-                context = "IConfigRetrofitDatasource.recoverAll",
+                context = "IConfigRetrofitDatasource.recoverToken",
                 message = "-",
                 cause = e
             )
