@@ -29,7 +29,7 @@ class IMovEquipVisitTercPassagRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercPassagRepository.add",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -49,7 +49,7 @@ class IMovEquipVisitTercPassagRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercPassagRepository.clean",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -62,7 +62,7 @@ class IMovEquipVisitTercPassagRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercPassagRepository.delete",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -84,7 +84,7 @@ class IMovEquipVisitTercPassagRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercPassagRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -111,8 +111,8 @@ class IMovEquipVisitTercPassagRepository(
                         return resultFailure(
                             context = "IMovEquipVisitTercPassagRepository.list",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val list = result.getOrNull()!!
                     val movEquipVisitTercPassagList = list.map {
@@ -130,8 +130,8 @@ class IMovEquipVisitTercPassagRepository(
                         return resultFailure(
                             context = "IMovEquipVisitTercPassagRepository.list",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val list = result.getOrNull()!!
                     val movEquipVisitTercPassagList = list.map { it.modelRoomToEntity() }
@@ -155,7 +155,7 @@ class IMovEquipVisitTercPassagRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercPassagRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = resultList.getOrNull()!!
@@ -171,7 +171,7 @@ class IMovEquipVisitTercPassagRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercPassagRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

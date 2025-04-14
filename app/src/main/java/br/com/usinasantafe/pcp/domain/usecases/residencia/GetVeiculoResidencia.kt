@@ -22,7 +22,7 @@ class IGetVeiculoResidencia(
             return resultFailure(
                 context = "IGetVeiculoResidencia",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

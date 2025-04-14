@@ -18,7 +18,7 @@ class ICheckSendMovChave(
             return resultFailure(
                 context = "ICheckSendMovChave",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

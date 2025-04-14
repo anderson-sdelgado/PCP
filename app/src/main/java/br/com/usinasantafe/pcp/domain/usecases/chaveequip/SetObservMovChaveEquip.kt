@@ -34,7 +34,7 @@ class ISetObservMovChaveEquip(
                 return resultFailure(
                     context = "ISetObservMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

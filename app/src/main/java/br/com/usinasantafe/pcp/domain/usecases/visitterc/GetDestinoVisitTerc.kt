@@ -22,7 +22,7 @@ class IGetDestinoVisitTerc(
             return resultFailure(
                 context = "IGetDestinoVisitTerc",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

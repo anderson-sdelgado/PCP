@@ -25,7 +25,7 @@ class IGetMovChaveInsideList(
                 return resultFailure(
                     context = "IGetMovChaveInsideList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultList.getOrNull()!!.map {
@@ -35,7 +35,7 @@ class IGetMovChaveInsideList(
                     return resultFailure(
                         context = "IGetMovChaveInsideList",
                         message = e.message,
-                        cause = e
+                        cause = e.cause
                     )
                 }
                 val nomeColab = resultNomeColab.getOrNull()!!
@@ -45,7 +45,7 @@ class IGetMovChaveInsideList(
                     return resultFailure(
                         context = "IGetMovChaveInsideList",
                         message = e.message,
-                        cause = e
+                        cause = e.cause
                     )
                 }
                 val descrFullChave = resultGetDescrFullChave.getOrNull()!!

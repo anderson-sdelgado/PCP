@@ -24,7 +24,7 @@ class IGetHeader(
                 return resultFailure(
                     context = "IGetHeader",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -34,7 +34,7 @@ class IGetHeader(
                 return resultFailure(
                     context = "IGetHeader",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val nomeColab = resultNomeColab.getOrNull()!!
@@ -44,7 +44,7 @@ class IGetHeader(
                 return resultFailure(
                     context = "IGetHeader",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val descrLocal = resultLocal.getOrNull()!!

@@ -22,7 +22,7 @@ class IGetStatusSend(
                 resultFailure(
                     context = "IGetStatusSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             )
             return@flow

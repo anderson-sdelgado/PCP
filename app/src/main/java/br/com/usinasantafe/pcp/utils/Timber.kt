@@ -9,40 +9,41 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FileLoggingTree(private val context: Context) : Timber.Tree() {
+class FileLoggingTree(context: Context) : Timber.Tree() {
 
     private val logFile = File(context.filesDir, "app_log.txt")
-    private val logRetentionPeriod = 30 * 24 * 60 * 60 * 1000L // 30 dias (em milissegundos)
+    private val maxLines = 1000
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         if (priority == Log.ERROR || priority == Log.WARN) {
             val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-            val logMessage = "$timeStamp - $tag: $message\n${t?.stackTraceToString()}\n"
+            val logMessage = "\n$timeStamp - $message"
 
             try {
                 if (!logFile.exists()) {
                     logFile.createNewFile()
                 }
+
                 FileWriter(logFile, true).apply {
                     write(logMessage)
                     close()
                 }
 
-                cleanOldLogs()
+                // Limpa linhas antigas, mantendo apenas as mais novas
+                trimOldLogs()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
     }
 
-    private fun cleanOldLogs() {
-        if (logFile.exists()) {
-            val lastModified = logFile.lastModified()
-            val currentTime = System.currentTimeMillis()
+    private fun trimOldLogs() {
+        if (!logFile.exists()) return
 
-            if (currentTime - lastModified > logRetentionPeriod) {
-                logFile.delete()
-            }
+        val lines = logFile.readLines()
+        if (lines.size > maxLines) {
+            val newContent = lines.takeLast(maxLines) // Mantém apenas as últimas 'maxLines'
+            logFile.writeText(newContent.joinToString("\n")) // Sobrescreve o arquivo
         }
     }
 }

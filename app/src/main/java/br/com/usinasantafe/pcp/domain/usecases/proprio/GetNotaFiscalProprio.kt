@@ -23,7 +23,7 @@ class IGetNotaFiscalProprio(
                 return resultFailure(
                     context = "IGetNotaFiscalProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val notaFiscal = if(resultNotaFiscal.getOrNull() == null) null else resultNotaFiscal.getOrNull().toString()

@@ -19,7 +19,7 @@ class ISaveTerceiro(
             return resultFailure(
                 context = "ISaveTerceiro",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

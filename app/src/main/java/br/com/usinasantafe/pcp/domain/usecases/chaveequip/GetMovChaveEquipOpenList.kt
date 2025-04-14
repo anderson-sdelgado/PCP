@@ -27,7 +27,7 @@ class IGetMovChaveEquipOpenList(
                 return resultFailure(
                     context = "IGetMovChaveEquipOpenList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultList.getOrNull()!!.map {
@@ -37,8 +37,8 @@ class IGetMovChaveEquipOpenList(
                     return resultFailure(
                         context = "IGetMovChaveEquipOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val nomeColab = resultNomeColab.getOrNull()!!
                 val resultGetEquip = equipRepository.getDescr(it.idEquipMovChaveEquip!!)
@@ -47,8 +47,8 @@ class IGetMovChaveEquipOpenList(
                     return resultFailure(
                         context = "IGetMovChaveEquipOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val descrEquip = resultGetEquip.getOrNull()!!
                 ControleChaveEquipModel(

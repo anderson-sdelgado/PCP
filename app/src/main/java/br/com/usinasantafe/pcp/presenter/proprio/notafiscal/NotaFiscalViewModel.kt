@@ -11,10 +11,12 @@ import br.com.usinasantafe.pcp.ui.theme.addTextField
 import br.com.usinasantafe.pcp.ui.theme.clearTextField
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class NotaFiscalState(
     val notaFiscal: String? = null,
@@ -89,7 +91,8 @@ class NotaFiscalViewModel(
             val resultSetNotaFiscal = getNotaFiscalProprio(uiState.value.id)
             if (resultSetNotaFiscal.isFailure) {
                 val error = resultSetNotaFiscal.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -116,7 +119,8 @@ class NotaFiscalViewModel(
         )
         if (resultSetNotaFiscal.isFailure) {
             val error = resultSetNotaFiscal.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

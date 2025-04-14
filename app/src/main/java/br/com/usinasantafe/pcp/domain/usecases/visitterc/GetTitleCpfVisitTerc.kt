@@ -29,7 +29,7 @@ class IGetTitleCpfVisitTerc(
                 return resultFailure(
                     context = "IGetTitleCpfVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val typeVisitTerc = result.getOrNull()!!.name

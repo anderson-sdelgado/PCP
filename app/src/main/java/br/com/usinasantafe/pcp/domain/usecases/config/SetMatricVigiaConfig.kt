@@ -19,7 +19,7 @@ class ISetMatricVigiaConfig(
                 return resultFailure(
                     context = "ISetMatricVigiaConfig",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

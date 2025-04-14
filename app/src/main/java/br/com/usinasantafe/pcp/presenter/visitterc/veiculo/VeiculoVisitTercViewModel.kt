@@ -8,10 +8,12 @@ import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetVeiculoVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class VeiculoVisitTercState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -66,7 +68,8 @@ class VeiculoVisitTercViewModel(
             )
             if (resultGetVeiculo.isFailure) {
                 val error = resultGetVeiculo.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -102,7 +105,8 @@ class VeiculoVisitTercViewModel(
             )
             if (resultSetVeiculo.isFailure) {
                 val error = resultSetVeiculo.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

@@ -8,10 +8,12 @@ import br.com.usinasantafe.pcp.domain.usecases.common.CloseAllMov
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetFlowList
 import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class MenuApontState(
     val flows: List<Fluxo> = emptyList(),
@@ -52,8 +54,8 @@ class MenuApontViewModel(
             getStatusSend().collect { statusSend ->
                 if (statusSend.isFailure) {
                     val error = statusSend.exceptionOrNull()!!
-                    val failure =
-                        "${error.message} -> ${error.cause.toString()}"
+                    val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                    Timber.e(failure)
                     _uiState.update {
                         it.copy(
                             failureStatus = failure
@@ -73,8 +75,8 @@ class MenuApontViewModel(
         val resultRecoverHeader = getHeader()
         if(resultRecoverHeader.isFailure){
             val error = resultRecoverHeader.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -96,8 +98,8 @@ class MenuApontViewModel(
         val resultRecoverFlows = getFlowList()
         if(resultRecoverFlows.isFailure){
             val error = resultRecoverFlows.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -118,8 +120,8 @@ class MenuApontViewModel(
         val resultCloseAllMovOpen = closeAllMov()
         if(resultCloseAllMovOpen.isFailure){
             val error = resultCloseAllMovOpen.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

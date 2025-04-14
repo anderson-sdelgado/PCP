@@ -20,7 +20,7 @@ class IStartInputMovEquipResidencia(
                 return resultFailure(
                     context = "IStartInputMovEquipResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

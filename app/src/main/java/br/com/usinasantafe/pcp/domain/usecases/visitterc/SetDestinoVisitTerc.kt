@@ -33,7 +33,7 @@ class ISetDestinoVisitTerc(
             return resultFailure(
                 context = "ISetDestinoVisitTerc",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         if(flowApp == FlowApp.CHANGE)

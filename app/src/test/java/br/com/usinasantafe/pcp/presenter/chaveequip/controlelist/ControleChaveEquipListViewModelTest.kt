@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.chaveequip.controlelist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMovChaveEquipInsideList
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.StartReceiptMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
@@ -25,7 +26,7 @@ class ControleChaveEquipListViewModelTest {
     private val getMovChaveEquipInsideList = mock<GetMovChaveEquipInsideList>()
     private val startReceiptMovChaveEquip = mock<StartReceiptMovChaveEquip>()
 
-    private fun getViewModel() = ControleChaveEquipListViewModel(
+    private val viewModel = ControleChaveEquipListViewModel(
         getHeader,
         getMovChaveEquipInsideList,
         startReceiptMovChaveEquip
@@ -36,11 +37,12 @@ class ControleChaveEquipListViewModelTest {
         whenever(
             getHeader()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetHeader",
+                "-",
                 Exception()
             )
         )
-        val viewModel = getViewModel()
         viewModel.returnHeader()
         assertEquals(
             viewModel.uiState.value.flagDialog,
@@ -48,7 +50,7 @@ class ControleChaveEquipListViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> ConfigSharedPreferences.hasConfig -> java.lang.Exception"
+            "ControleChaveEquipListViewModel.returnHeader -> GetHeader - java.lang.Exception"
         )
     }
 
@@ -65,7 +67,6 @@ class ControleChaveEquipListViewModelTest {
                     )
                 )
             )
-            val viewModel = getViewModel()
             viewModel.returnHeader()
             assertEquals(
                 viewModel.uiState.value.descrVigia,
@@ -83,11 +84,12 @@ class ControleChaveEquipListViewModelTest {
             whenever(
                 getMovChaveEquipInsideList()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetControleChaveEquipRemoveList",
+                    "-",
                     Exception()
                 )
             )
-            val viewModel = getViewModel()
             viewModel.recoverMovList()
             assertEquals(
                 viewModel.uiState.value.flagDialog,
@@ -95,7 +97,7 @@ class ControleChaveEquipListViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetControleChaveEquipRemoveList -> java.lang.Exception"
+                "ControleChaveEquipListViewModel.recoverMovList -> GetControleChaveEquipRemoveList - java.lang.Exception"
             )
         }
 
@@ -116,7 +118,6 @@ class ControleChaveEquipListViewModelTest {
                     )
                 )
             )
-            val viewModel = getViewModel()
             viewModel.recoverMovList()
             val entityList = viewModel.uiState.value.controleChaveEquipModelList
             assertEquals(
@@ -140,11 +141,12 @@ class ControleChaveEquipListViewModelTest {
             whenever(
                 startReceiptMovChaveEquip()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "StartReceiptMovChaveEquip",
+                    "-",
                     Exception()
                 )
             )
-            val viewModel = getViewModel()
             viewModel.startMov()
             assertEquals(
                 viewModel.uiState.value.flagDialog,
@@ -152,7 +154,7 @@ class ControleChaveEquipListViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> StartReceiptMovChaveEquip -> java.lang.Exception"
+                "ControleChaveEquipListViewModel.startMov -> StartReceiptMovChaveEquip - java.lang.Exception"
             )
         }
 
@@ -164,7 +166,6 @@ class ControleChaveEquipListViewModelTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val viewModel = getViewModel()
             viewModel.startMov()
             assertEquals(
                 viewModel.uiState.value.flagAccess,

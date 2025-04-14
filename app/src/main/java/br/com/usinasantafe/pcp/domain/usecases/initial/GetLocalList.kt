@@ -19,7 +19,7 @@ class IGetLocalList(
             return resultFailure(
                 context = "IGetLocalList",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

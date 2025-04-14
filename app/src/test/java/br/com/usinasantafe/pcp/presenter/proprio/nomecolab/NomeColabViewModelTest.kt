@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.proprio.nomecolab
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetMatricColab
 import br.com.usinasantafe.pcp.presenter.Args
@@ -23,82 +24,75 @@ class NomeColabViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val getNomeColab = mock<GetNomeColab>()
+    private val setMatricColab = mock<SetMatricColab>()
+    private val viewModel = NomeColabViewModel(
+        SavedStateHandle(
+            mapOf(
+                Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
+                Args.ID_ARGS to 0,
+                Args.MATRIC_COLAB_ARGS to "19759"
+            )
+        ),
+        getNomeColab,
+        setMatricColab
+    )
+
     @Test
     fun `Check set fields initial`() {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
-        val viewModel = NomeColabViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
-                    Args.ID_ARGS to 0,
-                    Args.MATRIC_COLAB_ARGS to "19759"
-                )
-            ),
-            getNomeColab,
-            setMatricColab
+        assertEquals(
+            viewModel.uiState.value.flowApp,
+            FlowApp.ADD
         )
-        assertEquals(viewModel.uiState.value.flowApp, FlowApp.ADD)
-        assertEquals(viewModel.uiState.value.typeOcupante, TypeOcupante.MOTORISTA)
+        assertEquals(
+            viewModel.uiState.value.typeOcupante,
+            TypeOcupante.MOTORISTA
+        )
     }
 
     @Test
     fun `Check return failure if RecoverNomeColab have failure`() = runTest {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
         whenever(
             getNomeColab("19759")
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "RecoverNomeColab",
+                "-",
                 Exception()
             )
         )
-        val viewModel = NomeColabViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
-                    Args.ID_ARGS to 0,
-                    Args.MATRIC_COLAB_ARGS to "19759"
-                )
-            ),
-            getNomeColab,
-            setMatricColab
-        )
         viewModel.returnNomeColab()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> RecoverNomeColab -> java.lang.Exception")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NomeColabViewModel.returnNomeColab -> RecoverNomeColab - java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return name if RecoverNomeColab execute success`() = runTest {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
-        whenever(getNomeColab("19759")).thenReturn(
+        whenever(
+            getNomeColab("19759")
+        ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
-        val viewModel = NomeColabViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
-                    Args.ID_ARGS to 0,
-                    Args.MATRIC_COLAB_ARGS to "19759"
-                )
-            ),
-            getNomeColab,
-            setMatricColab
-        )
         viewModel.returnNomeColab()
-        assertEquals(viewModel.uiState.value.flagDialog, false)
-        assertEquals(viewModel.uiState.value.nomeColab, "ANDERSON DA SILVA DELGADO")
+        assertEquals(
+            viewModel.uiState.value.flagDialog, 
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.nomeColab, 
+            "ANDERSON DA SILVA DELGADO"
+        )
     }
 
     @Test
     fun `Check return failure if SetMatricColab have failure in add Motorista`() = runTest {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
         whenever(
             setMatricColab(
                 matricColab = "19759",
@@ -107,60 +101,48 @@ class NomeColabViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetMatricColab",
+                "-",
                 Exception()
             )
         )
-        val viewModel = NomeColabViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
-                    Args.ID_ARGS to 0,
-                    Args.MATRIC_COLAB_ARGS to "19759"
-                )
-            ),
-            getNomeColab,
-            setMatricColab
-        )
         viewModel.setMatric()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> SetMatricColab -> java.lang.Exception")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NomeColabViewModel.setMatric -> SetMatricColab - java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return name if SetMatricColab execute success in add Motorista`() = runTest {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
-        whenever(setMatricColab(
-            matricColab = "19759",
-            flowApp = FlowApp.ADD,
-            typeOcupante = TypeOcupante.MOTORISTA,
-            id = 0
-        )).thenReturn(
+        whenever(
+            setMatricColab(
+                matricColab = "19759",
+                flowApp = FlowApp.ADD,
+                typeOcupante = TypeOcupante.MOTORISTA,
+                id = 0
+            )
+        ).thenReturn(
             Result.success(true)
         )
-        val viewModel = NomeColabViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
-                    Args.ID_ARGS to 0,
-                    Args.MATRIC_COLAB_ARGS to "19759"
-                )
-            ),
-            getNomeColab,
-            setMatricColab
-        )
         viewModel.setMatric()
-        assertEquals(viewModel.uiState.value.flagAccess, true)
-        assertEquals(viewModel.uiState.value.flagDialog, false)
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
     }
 
     @Test
     fun `Check return failure if SetMatricColab have failure in add Passag`() = runTest {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
         whenever(
             setMatricColab(
                 matricColab = "19759",
@@ -169,7 +151,9 @@ class NomeColabViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetMatricColab",
+                "-",
                 Exception()
             )
         )
@@ -186,20 +170,26 @@ class NomeColabViewModelTest {
             setMatricColab
         )
         viewModel.setMatric()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> SetMatricColab -> java.lang.Exception")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NomeColabViewModel.setMatric -> SetMatricColab - java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return success if SetMatricColab execute success in add Passag`() = runTest {
-        val getNomeColab = mock<GetNomeColab>()
-        val setMatricColab = mock<SetMatricColab>()
-        whenever(setMatricColab(
-            matricColab = "19759",
-            flowApp = FlowApp.ADD,
-            typeOcupante = TypeOcupante.PASSAGEIRO,
-            id = 0
-        )).thenReturn(
+        whenever(
+            setMatricColab(
+                matricColab = "19759",
+                flowApp = FlowApp.ADD,
+                typeOcupante = TypeOcupante.PASSAGEIRO,
+                id = 0
+            )
+        ).thenReturn(
             Result.success(true)
         )
         val viewModel = NomeColabViewModel(
@@ -215,8 +205,14 @@ class NomeColabViewModelTest {
             setMatricColab
         )
         viewModel.setMatric()
-        assertEquals(viewModel.uiState.value.flagAccess, true)
-        assertEquals(viewModel.uiState.value.flagDialog, false)
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
     }
 
 }

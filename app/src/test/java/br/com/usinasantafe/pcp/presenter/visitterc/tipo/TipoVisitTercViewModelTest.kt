@@ -1,7 +1,9 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.tipo
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetTipoVisitTerc
+import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.TypeVisitTerc
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -19,31 +21,65 @@ class TipoVisitTercViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val setTipoVisitTerc = mock<SetTipoVisitTerc>()
+
+    private fun getViewModel() = TipoVisitTercViewModel(setTipoVisitTerc)
+
     @Test
     fun `Check return failure if have error on set type visit terc`() = runTest {
-        val setTipoVisitTerc = mock<SetTipoVisitTerc>()
         whenever(
-            setTipoVisitTerc(TypeVisitTerc.TERCEIRO)
+            setTipoVisitTerc(
+                TypeVisitTerc.TERCEIRO
+            )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetTipoVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = TipoVisitTercViewModel(setTipoVisitTerc)
-        viewModel.setTypeVisitTerc(TypeVisitTerc.TERCEIRO)
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> SetTipoVisitTerc -> java.lang.Exception")
+        val viewModel = getViewModel()
+
+        viewModel.setTypeVisitTerc(
+            TypeVisitTerc.TERCEIRO
+        )
+        val state = viewModel.uiState.value
+
+        assertEquals(
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            "TipoVisitTercViewModel.setTypeVisitTerc -> SetTipoVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        assertEquals(
+            state.flagAccess,
+            false
+        )
     }
 
     @Test
     fun `Check return true if set type visit terc execute success`() = runTest {
-        val setTipoVisitTerc = mock<SetTipoVisitTerc>()
-        whenever(setTipoVisitTerc(TypeVisitTerc.TERCEIRO)).thenReturn(
+        whenever(
+            setTipoVisitTerc(TypeVisitTerc.TERCEIRO)
+        ).thenReturn(
             Result.success(true)
         )
-        val viewModel = TipoVisitTercViewModel(setTipoVisitTerc)
+        val viewModel = getViewModel()
+
         viewModel.setTypeVisitTerc(TypeVisitTerc.TERCEIRO)
-        assertTrue(viewModel.uiState.value.flagAccess)
+        val state = viewModel.uiState.value
+
+        assertEquals(
+            state.flagAccess,
+            true
+        )
+        assertEquals(
+            state.flagDialog,
+            false
+        )
+        
     }
 
 }

@@ -11,10 +11,12 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_OCUPANTE_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class PassagVisitTercListState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -82,8 +84,8 @@ class PassagVisitTercListViewModel(
             val resultClean = cleanPassagVisitTerc()
             if (resultClean.isFailure) {
                 val error = resultClean.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -105,8 +107,8 @@ class PassagVisitTercListViewModel(
         )
         if(resultRecoverPassag.isFailure){
             val error = resultRecoverPassag.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -129,8 +131,8 @@ class PassagVisitTercListViewModel(
         )
         if(resultDeletePassag.isFailure){
             val error = resultDeletePassag.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

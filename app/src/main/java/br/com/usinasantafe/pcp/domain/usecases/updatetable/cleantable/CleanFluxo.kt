@@ -18,7 +18,7 @@ class ICleanFluxo(
             return resultFailure(
                 context = "ICleanFluxo",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

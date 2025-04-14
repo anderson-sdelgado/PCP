@@ -6,6 +6,8 @@ import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMotoristaResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.SetMotoristaResidencia
 import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.domain.errors.resultFailure // Adicionado/Confirmado
+import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -21,28 +23,39 @@ class MotoristaResidenciaViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // Mocks movidos para fora das funções de teste
+    private val setMotoristaResidencia = mock<SetMotoristaResidencia>()
+    private val getMotoristaResidencia = mock<GetMotoristaResidencia>()
+
+    // Função helper para criar o ViewModel
+    private fun createViewModel(savedStateHandle: SavedStateHandle) = MotoristaResidenciaViewModel(
+        savedStateHandle,
+        getMotoristaResidencia,
+        setMotoristaResidencia
+    )
+
     @Test
-    fun `Check return failure if fields is empty`() {
-        val setMotoristaResidencia = mock<SetMotoristaResidencia>()
-        val getMotoristaResidencia = mock<GetMotoristaResidencia>()
-        val viewModel = MotoristaResidenciaViewModel(
+    fun `Check return failure if fields is empty`() { // Não precisa de runTest aqui
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getMotoristaResidencia,
-            setMotoristaResidencia
+            )
         )
-        viewModel.setMotorista()
-        assertTrue(viewModel.uiState.value.flagDialog)
+        viewModel.setMotorista() // Chama com campo vazio
+        val state = viewModel.uiState.value
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        
     }
 
     @Test
     fun `Check return failure if have error in setMotorista`() = runTest {
-        val setMotoristaResidencia = mock<SetMotoristaResidencia>()
-        val getMotoristaResidencia = mock<GetMotoristaResidencia>()
         whenever(
             setMotoristaResidencia(
                 motorista = "Anderson",
@@ -50,34 +63,37 @@ class MotoristaResidenciaViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            // PADRONIZADO - Simulação de Falha
+            resultFailure(
+                "SetMotoristaResidencia",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MotoristaResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getMotoristaResidencia,
-            setMotoristaResidencia
+            )
         )
         viewModel.onMotoristaChanged("Anderson")
         viewModel.setMotorista()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Padronizado
             state.failure,
-            "Failure Usecase -> SetMotoristaResidencia -> java.lang.Exception"
+            "MotoristaResidenciaViewModel.setMotorista -> SetMotoristaResidencia -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return true if setMotorista execute successfully`() = runTest {
-        val setMotoristaResidencia = mock<SetMotoristaResidencia>()
-        val getMotoristaResidencia = mock<GetMotoristaResidencia>()
         whenever(
             setMotoristaResidencia(
                 motorista = "Anderson",
@@ -87,58 +103,67 @@ class MotoristaResidenciaViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = MotoristaResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getMotoristaResidencia,
-            setMotoristaResidencia
+            )
         )
         viewModel.onMotoristaChanged("Anderson")
         viewModel.setMotorista()
         val state = viewModel.uiState.value
-        assertTrue(state.flagAccess)
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagAccess,
+            true
+        )
+        assertEquals( // Padronizado
+            state.flagDialog,
+            false // Garante que não houve diálogo de erro
+        )
+        // PADRONIZADO: Verificar ausência de erro
+        
     }
 
     @Test
     fun `Check return failure if have error in GetMotorista`() = runTest {
-        val setMotoristaResidencia = mock<SetMotoristaResidencia>()
-        val getMotoristaResidencia = mock<GetMotoristaResidencia>()
         whenever(
             getMotoristaResidencia(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            // PADRONIZADO - Simulação de Falha
+            resultFailure(
+                "GetMotoristaResidencia",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MotoristaResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1
                 )
-            ),
-            getMotoristaResidencia,
-            setMotoristaResidencia
+            )
         )
         viewModel.recoverMotorista()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Padronizado
             state.failure,
-            "Failure Usecase -> GetMotoristaResidencia -> java.lang.Exception"
+            "MotoristaResidenciaViewModel.recoverMotorista -> GetMotoristaResidencia -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return motorista if GetMotorista execute successfully`() = runTest {
-        val setMotoristaResidencia = mock<SetMotoristaResidencia>()
-        val getMotoristaResidencia = mock<GetMotoristaResidencia>()
         whenever(
             getMotoristaResidencia(
                 id = 1
@@ -146,18 +171,27 @@ class MotoristaResidenciaViewModelTest {
         ).thenReturn(
             Result.success("Anderson")
         )
-        val viewModel = MotoristaResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1
                 )
-            ),
-            getMotoristaResidencia,
-            setMotoristaResidencia
+            )
         )
         viewModel.recoverMotorista()
         val state = viewModel.uiState.value
-        assertEquals(state.motorista, "Anderson")
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.motorista,
+            "Anderson"
+        )
+        assertEquals( // Padronizado
+            state.flagDialog,
+            false // Garante que não houve diálogo de erro
+        )
+        // PADRONIZADO: Verificar ausência de erro
+
+        
     }
 }

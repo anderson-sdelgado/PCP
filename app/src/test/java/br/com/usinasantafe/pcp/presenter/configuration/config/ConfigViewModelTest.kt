@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.configuration.config
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.config.GetConfigInternal
 import br.com.usinasantafe.pcp.domain.usecases.config.SaveDataConfig
 import br.com.usinasantafe.pcp.domain.usecases.config.SendDataConfig
@@ -134,7 +135,9 @@ class ConfigViewModelTest {
                 version = "6.00"
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "ISendDataConfig",
+                "-",
                 Exception()
             )
         )
@@ -143,7 +146,10 @@ class ConfigViewModelTest {
         viewModel.onPasswordChanged("12345")
         viewModel.updateVersion("6.00")
         val result = viewModel.token().toList()
-        assertEquals(result.count(), 2)
+        assertEquals(
+            result.count(),
+            2
+        )
         assertEquals(
             result[0],
             ConfigState(
@@ -158,15 +164,15 @@ class ConfigViewModelTest {
                 errors = Errors.TOKEN,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> SendDataConfig -> java.lang.NumberFormatException: For input string: \"1df52\"",
-                msgProgress = "Failure Usecase -> SendDataConfig -> java.lang.NumberFormatException: For input string: \"1df52\"",
+                failure = "ConfigViewModel.token -> ISendDataConfig -> java.lang.Exception",
+                msgProgress = "ConfigViewModel.token -> ISendDataConfig -> java.lang.Exception",
                 currentProgress = 1f,
             )
         )
         viewModel.saveTokenAndUpdateAllDatabase()
         assertEquals(
             viewModel.uiState.value.msgProgress,
-            "Failure Usecase -> SendDataConfig -> java.lang.NumberFormatException: For input string: \"1df52\""
+            "ConfigViewModel.token -> ISendDataConfig -> java.lang.Exception"
         )
     }
 
@@ -179,7 +185,9 @@ class ConfigViewModelTest {
                 version = "6.00"
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "ISendDataConfig",
+                "-",
                 Exception()
             )
         )
@@ -203,15 +211,15 @@ class ConfigViewModelTest {
                 errors = Errors.TOKEN,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Datasource -> SendDataConfig -> java.lang.NullPointerException",
-                msgProgress = "Failure Datasource -> SendDataConfig -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.token -> ISendDataConfig -> java.lang.Exception",
+                msgProgress = "ConfigViewModel.token -> ISendDataConfig -> java.lang.Exception",
                 currentProgress = 1f,
             )
         )
         viewModel.saveTokenAndUpdateAllDatabase()
         assertEquals(
             viewModel.uiState.value.msgProgress,
-            "Failure Datasource -> SendDataConfig -> java.lang.NullPointerException"
+            "ConfigViewModel.token -> ISendDataConfig -> java.lang.Exception"
         )
     }
 
@@ -234,7 +242,9 @@ class ConfigViewModelTest {
                 idBD = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "ISaveDataConfig",
+                "-",
                 Exception()
             )
         )
@@ -243,7 +253,10 @@ class ConfigViewModelTest {
         viewModel.onPasswordChanged("12345")
         viewModel.updateVersion("6.00")
         val result = viewModel.token().toList()
-        assertEquals(result.count(), 3)
+        assertEquals(
+            result.count(),
+            3
+        )
         assertEquals(
             result[0],
             ConfigState(
@@ -266,15 +279,15 @@ class ConfigViewModelTest {
                 errors = Errors.TOKEN,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> SaveDataConfig -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> SaveDataConfig -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.token -> ISaveDataConfig -> java.lang.Exception",
+                msgProgress = "ConfigViewModel.token -> ISaveDataConfig -> java.lang.Exception",
                 currentProgress = 1f,
             )
         )
         viewModel.saveTokenAndUpdateAllDatabase()
         assertEquals(
             viewModel.uiState.value.msgProgress,
-            "Failure Usecase -> SaveDataConfig -> java.lang.NullPointerException"
+            "ConfigViewModel.token -> ISaveDataConfig -> java.lang.Exception"
         )
     }
 
@@ -349,8 +362,8 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
+                    failure = "CleanChave -> java.lang.NullPointerException",
+                    msgProgress = "CleanChave -> java.lang.NullPointerException",
                 )
             )
         )
@@ -371,8 +384,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanChave -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanChave -> java.lang.NullPointerException",
             )
         )
     }
@@ -397,14 +410,17 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                    failure = "CleanColab -> java.lang.NullPointerException",
+                    msgProgress = "CleanColab -> java.lang.NullPointerException",
                 )
             )
         )
         val viewModel = getViewModel()
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), ((qtdBefore * 3) + 2).toInt())
+        assertEquals(
+            result.count(),
+            ((qtdBefore * 3) + 2).toInt()
+        )
         checkResultUpdateChave(result)
         assertEquals(
             result[(qtdBefore * 3).toInt()],
@@ -420,8 +436,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
             )
         )
     }
@@ -447,14 +463,17 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
+                    failure = "CleanEquip -> java.lang.NullPointerException",
+                    msgProgress = "CleanEquip -> java.lang.NullPointerException",
                 )
             )
         )
         val viewModel = getViewModel()
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), ((qtdBefore * 3) + 2).toInt())
+        assertEquals(
+            result.count(),
+            ((qtdBefore * 3) + 2).toInt()
+        )
         checkResultUpdateChave(result)
         checkResultUpdateColab(result)
         assertEquals(
@@ -471,8 +490,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
             )
         )
     }
@@ -499,14 +518,17 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanFluxo -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanFluxo -> java.lang.NullPointerException",
+                    failure = "CleanFluxo -> java.lang.NullPointerException",
+                    msgProgress = "CleanFluxo -> java.lang.NullPointerException",
                 )
             )
         )
         val viewModel = getViewModel()
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), ((qtdBefore * 3) + 2).toInt())
+        assertEquals(
+            result.count(),
+            ((qtdBefore * 3) + 2).toInt()
+        )
         checkResultUpdateChave(result)
         checkResultUpdateColab(result)
         checkResultUpdateEquip(result)
@@ -524,8 +546,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanFluxo -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanFluxo -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanFluxo -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanFluxo -> java.lang.NullPointerException",
             )
         )
     }
@@ -553,14 +575,17 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanLocal -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanLocal -> java.lang.NullPointerException",
+                    failure = "CleanLocal -> java.lang.NullPointerException",
+                    msgProgress = "CleanLocal -> java.lang.NullPointerException",
                 )
             )
         )
         val viewModel = getViewModel()
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), ((qtdBefore * 3) + 2).toInt())
+        assertEquals(
+            result.count(),
+            ((qtdBefore * 3) + 2).toInt()
+        )
         checkResultUpdateChave(result)
         checkResultUpdateColab(result)
         checkResultUpdateEquip(result)
@@ -579,8 +604,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanLocal -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanLocal -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanLocal -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanLocal -> java.lang.NullPointerException",
             )
         )
     }
@@ -609,8 +634,8 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
+                    failure = "CleanLocalTrab -> java.lang.NullPointerException",
+                    msgProgress = "CleanLocalTrab -> java.lang.NullPointerException",
                 )
             )
         )
@@ -635,8 +660,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanLocalTrab -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanLocalTrab -> java.lang.NullPointerException",
             )
         )
     }
@@ -666,8 +691,8 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanRLocalFluxo -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanRLocalFluxo -> java.lang.NullPointerException",
+                    failure = "CleanRLocalFluxo -> java.lang.NullPointerException",
+                    msgProgress = "CleanRLocalFluxo -> java.lang.NullPointerException",
                 )
             )
         )
@@ -694,8 +719,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanRLocalFluxo -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanRLocalFluxo -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanRLocalFluxo -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanRLocalFluxo -> java.lang.NullPointerException",
             )
         )
     }
@@ -726,8 +751,8 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
+                    failure = "CleanTerceiro -> java.lang.NullPointerException",
+                    msgProgress = "CleanTerceiro -> java.lang.NullPointerException",
                 )
             )
         )
@@ -755,8 +780,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanTerceiro -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanTerceiro -> java.lang.NullPointerException",
             )
         )
     }
@@ -788,8 +813,8 @@ class ConfigViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
+                    failure = "CleanVisitante -> java.lang.NullPointerException",
+                    msgProgress = "CleanVisitante -> java.lang.NullPointerException",
                 )
             )
         )
@@ -818,8 +843,8 @@ class ConfigViewModelTest {
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
+                failure = "ConfigViewModel.updateAllDatabase -> CleanVisitante -> java.lang.NullPointerException",
+                msgProgress = "ConfigViewModel.updateAllDatabase -> CleanVisitante -> java.lang.NullPointerException",
             )
         )
     }
@@ -839,7 +864,9 @@ class ConfigViewModelTest {
         whenever(
             setCheckUpdateAllTable(FlagUpdate.UPDATED)
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "ISetCheckUpdateAllTable",
+                "-",
                 Exception()
             )
         )
@@ -861,7 +888,7 @@ class ConfigViewModelTest {
                 errors = Errors.EXCEPTION,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Datasource -> SetCheckUpdateAllTable -> java.lang.Exception",
+                failure = "ConfigViewModel.updateAllDatabase -> ISetCheckUpdateAllTable -> java.lang.Exception",
             )
         )
     }

@@ -34,7 +34,7 @@ class ISetObservVisitTerc(
                 return resultFailure(
                     context = "ISetObservVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

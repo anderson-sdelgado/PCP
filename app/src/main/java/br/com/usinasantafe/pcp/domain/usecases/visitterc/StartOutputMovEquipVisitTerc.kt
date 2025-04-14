@@ -25,7 +25,7 @@ class IStartOutputMovEquipVisitTerc(
                 return resultFailure(
                     context = "IStartOutputMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipVisitTerc = resultMov.getOrNull()!!
@@ -40,7 +40,7 @@ class IStartOutputMovEquipVisitTerc(
                 return resultFailure(
                     context = "IStartOutputMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultPassagList = movEquipVisitTercPassagRepository.list(
@@ -52,7 +52,7 @@ class IStartOutputMovEquipVisitTerc(
                 return resultFailure(
                     context = "IStartOutputMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val passagList = resultPassagList.getOrNull()
@@ -68,8 +68,8 @@ class IStartOutputMovEquipVisitTerc(
                         return resultFailure(
                             context = "IStartOutputMovEquipVisitTerc",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                 }
             }

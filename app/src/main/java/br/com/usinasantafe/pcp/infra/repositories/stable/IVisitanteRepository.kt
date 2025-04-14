@@ -23,7 +23,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class IVisitanteRepository(
             return resultFailure(
                 context = "IVisitanteRepository.checkCPF",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -56,7 +56,7 @@ class IVisitanteRepository(
             return resultFailure(
                 context = "IVisitanteRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -70,7 +70,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity())
@@ -91,7 +91,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.getCpf",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().cpfVisitante)
@@ -112,7 +112,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.getId",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().idVisitante)
@@ -133,7 +133,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.getNome",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().nomeVisitante)
@@ -154,7 +154,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.getEmpresas",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().empresaVisitante)
@@ -175,7 +175,7 @@ class IVisitanteRepository(
                 return resultFailure(
                     context = "IVisitanteRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

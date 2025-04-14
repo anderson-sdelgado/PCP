@@ -3,10 +3,12 @@ package br.com.usinasantafe.pcp.presenter.initial.nomevigia
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetNomeVigia
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class NomeVigiaState(
     val nomeVigia: String = "",
@@ -31,8 +33,8 @@ class NomeVigiaViewModel(
         val recoverNome = getNomeVigia()
         if(recoverNome.isFailure){
             val error = recoverNome.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

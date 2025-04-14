@@ -21,7 +21,7 @@ class IGetConfigInternal(
                 return resultFailure(
                     context = "IGetConfigInternal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if (!resulCheckHasConfig.getOrNull()!!)
@@ -32,7 +32,7 @@ class IGetConfigInternal(
                 return resultFailure(
                     context = "IGetConfigInternal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resulGetConfig.getOrNull()!!.toConfigModel())

@@ -22,7 +22,7 @@ class IStartReceiptMovChave(
                 return resultFailure(
                     context = "IStartReceiptMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movChave = resultGet.getOrNull()!!
@@ -36,7 +36,7 @@ class IStartReceiptMovChave(
                 return resultFailure(
                     context = "IStartReceiptMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

@@ -33,7 +33,7 @@ class ISetObservProprio(
             return resultFailure(
                 context = "ISetObservProprio",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         if(flowApp == FlowApp.CHANGE){

@@ -33,7 +33,7 @@ class ICheckCpfVisitTerc(
                 return resultFailure(
                     context = "ICheckCpfVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
@@ -46,7 +46,7 @@ class ICheckCpfVisitTerc(
                 return resultFailure(
                     context = "ICheckCpfVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val result = resultCheck.getOrNull()!!

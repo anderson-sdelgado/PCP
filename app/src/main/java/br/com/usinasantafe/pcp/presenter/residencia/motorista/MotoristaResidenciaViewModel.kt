@@ -8,10 +8,12 @@ import br.com.usinasantafe.pcp.domain.usecases.residencia.SetMotoristaResidencia
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class MotoristaResidenciaState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -64,7 +66,8 @@ class MotoristaResidenciaViewModel(
             val resultGetMotorista = getMotoristaResidencia(id = uiState.value.id)
             if (resultGetMotorista.isFailure) {
                 val error = resultGetMotorista.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -100,7 +103,8 @@ class MotoristaResidenciaViewModel(
             )
             if (resultSetMotorista.isFailure) {
                 val error = resultSetMotorista.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

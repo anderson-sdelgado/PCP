@@ -12,10 +12,12 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_EQUIP_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeEquip
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class EquipSegListState(
     val equipSegList: List<Equip> = emptyList(),
@@ -74,8 +76,8 @@ class EquipSegListViewModel(
             val resultClean = cleanEquipSeg()
             if (resultClean.isFailure) {
                 val error = resultClean.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -98,8 +100,8 @@ class EquipSegListViewModel(
         )
         if (resultRecoverEquipSeg.isFailure) {
             val error = resultRecoverEquipSeg.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -132,8 +134,8 @@ class EquipSegListViewModel(
         )
         if (resultDeletePassag.isFailure) {
             val error = resultDeletePassag.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

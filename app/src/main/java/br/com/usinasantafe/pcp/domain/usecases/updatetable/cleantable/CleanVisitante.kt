@@ -18,7 +18,7 @@ class ICleanVisitante(
             return resultFailure(
                 context = "ICleanVisitante",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

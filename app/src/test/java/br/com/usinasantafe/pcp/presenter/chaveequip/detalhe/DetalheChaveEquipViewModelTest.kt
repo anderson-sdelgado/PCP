@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.CloseMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetDetalheMovChaveEquip
 import br.com.usinasantafe.pcp.presenter.Args
@@ -22,7 +23,6 @@ class DetalheChaveEquipViewModelTest {
 
     private val getDetalheMovChaveEquip = mock<GetDetalheMovChaveEquip>()
     private val closeMovChaveEquip = mock<CloseMovChaveEquip>()
-
     private fun getViewModel(
         savedStateHandle: SavedStateHandle =
             SavedStateHandle(
@@ -42,7 +42,9 @@ class DetalheChaveEquipViewModelTest {
             whenever(
                 getDetalheMovChaveEquip(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetDetalheMovChaveEquip",
+                    "-",
                     Exception()
                 )
             )
@@ -55,7 +57,7 @@ class DetalheChaveEquipViewModelTest {
             )
             assertEquals(
                 state.failure,
-                "Failure Usecase -> GetDetalheMovChaveEquip -> java.lang.Exception"
+                "DetalheChaveEquipViewModel.recoverDetalhe -> GetDetalheMovChaveEquip -> java.lang.Exception"
             )
         }
 
@@ -110,7 +112,9 @@ class DetalheChaveEquipViewModelTest {
             whenever(
                 closeMovChaveEquip(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "CloseMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -123,7 +127,7 @@ class DetalheChaveEquipViewModelTest {
             )
             assertEquals(
                 state.failure,
-                "Failure Usecase -> CloseMovChave -> java.lang.Exception"
+                "DetalheChaveEquipViewModel.closeMov -> CloseMovChave -> java.lang.Exception"
             )
         }
 

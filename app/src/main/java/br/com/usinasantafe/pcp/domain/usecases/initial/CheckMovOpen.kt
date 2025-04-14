@@ -28,7 +28,7 @@ class ICheckMovOpen(
                 return resultFailure(
                     context = "ICheckMovOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(resultCheckProprio.getOrNull()!!) return Result.success(true)
@@ -38,7 +38,7 @@ class ICheckMovOpen(
                 return resultFailure(
                     context = "ICheckMovOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(resultCheckVisitTerc.getOrNull()!!) return Result.success(true)
@@ -48,7 +48,7 @@ class ICheckMovOpen(
                 return resultFailure(
                     context = "ICheckMovOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(resultCheckResidencia.getOrNull()!!) return Result.success(true)
@@ -58,7 +58,7 @@ class ICheckMovOpen(
                 return resultFailure(
                     context = "ICheckMovOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(resultCheckChave.getOrNull()!!) return Result.success(true)
@@ -68,7 +68,7 @@ class ICheckMovOpen(
                 return resultFailure(
                     context = "ICheckMovOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(resultCheckChaveEquip.getOrNull()!!) return Result.success(true)

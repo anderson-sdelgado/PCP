@@ -27,7 +27,7 @@ class ISaveMovEquipProprio(
                 return resultFailure(
                     context = "ISaveMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -40,7 +40,7 @@ class ISaveMovEquipProprio(
                 return resultFailure(
                     context = "ISaveMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = resultSave.getOrNull()!!
@@ -50,7 +50,7 @@ class ISaveMovEquipProprio(
                 return resultFailure(
                     context = "ISaveMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultSaveEquipSeg = movEquipProprioEquipSegRepository.save(id)
@@ -59,7 +59,7 @@ class ISaveMovEquipProprio(
                 return resultFailure(
                     context = "ISaveMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             startProcessSendData()

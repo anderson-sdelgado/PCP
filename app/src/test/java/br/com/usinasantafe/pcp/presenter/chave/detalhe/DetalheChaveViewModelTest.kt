@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.chave.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.CloseMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetDetalheMovChave
 import br.com.usinasantafe.pcp.presenter.Args
@@ -41,7 +42,9 @@ class DetalheChaveViewModelTest {
             whenever(
                 getDetalheMovChave(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetDetalheMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -54,7 +57,7 @@ class DetalheChaveViewModelTest {
             )
             assertEquals(
                 state.failure,
-                "Failure Usecase -> GetDetalheMovChave -> java.lang.Exception"
+                "DetalheChaveViewModel.recoverDetalhe -> GetDetalheMovChave -> java.lang.Exception"
             )
         }
 
@@ -109,7 +112,9 @@ class DetalheChaveViewModelTest {
             whenever(
                 closeMovChave(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "CloseMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -122,7 +127,7 @@ class DetalheChaveViewModelTest {
             )
             assertEquals(
                 state.failure,
-                "Failure Usecase -> CloseMovChave -> java.lang.Exception"
+                "DetalheChaveViewModel.closeMov -> CloseMovChave -> java.lang.Exception"
             )
         }
 

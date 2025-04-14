@@ -10,18 +10,21 @@ import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_OCUPANTE_ARGS
+import br.com.usinasantafe.pcp.presenter.initial.matricvigia.resultUpdateToMatricVigia
 import br.com.usinasantafe.pcp.ui.theme.addTextField
 import br.com.usinasantafe.pcp.ui.theme.clearTextField
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
 import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class MatricColabState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -40,18 +43,28 @@ data class MatricColabState(
 )
 
 fun ResultUpdate.resultUpdateToMatricColab(): MatricColabState {
-    return with(this){
-        MatricColabState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "MatricColabViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "MatricColabViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return MatricColabState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
 
 class MatricColabViewModel(
     saveStateHandle: SavedStateHandle,
@@ -104,6 +117,8 @@ class MatricColabViewModel(
 
             TypeButton.OK -> {
                 if (uiState.value.matricColab.isEmpty()) {
+                    val failure = "${getClassAndMethod()} -> Campo vazio!"
+                    Timber.e(failure)
                     _uiState.update {
                         it.copy(
                             flagDialog = true,
@@ -135,8 +150,8 @@ class MatricColabViewModel(
             val resultGetMatric = getMatricColab(uiState.value.id)
             if (resultGetMatric.isFailure) {
                 val error = resultGetMatric.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -161,8 +176,8 @@ class MatricColabViewModel(
         val resultCheckMatric = checkMatricColab(uiState.value.matricColab)
         if (resultCheckMatric.isFailure) {
             val error = resultCheckMatric.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -191,8 +206,11 @@ class MatricColabViewModel(
             state = it.resultUpdateToMatricColab()
             emit(it.resultUpdateToMatricColab())
         }
-        if (state.flagFailure)
+        if (state.flagFailure) {
+            val failure = "${getClassAndMethod()} -> ${state.failure}"
+            Timber.e(failure)
             return@flow
+        }
         emit(
             MatricColabState(
                 flagDialog = true,

@@ -33,8 +33,8 @@ class ISaveMovEquipVisitTerc(
                     return resultFailure(
                         context = "ISaveMovEquipVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             val resultConfig = configRepository.getConfig()
@@ -43,7 +43,7 @@ class ISaveMovEquipVisitTerc(
                 return resultFailure(
                     context = "ISaveMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -56,7 +56,7 @@ class ISaveMovEquipVisitTerc(
                 return resultFailure(
                     context = "ISaveMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idSave = resultSave.getOrNull()!!
@@ -66,7 +66,7 @@ class ISaveMovEquipVisitTerc(
                 return resultFailure(
                     context = "ISaveMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if (typeMov == TypeMovEquip.OUTPUT) {
@@ -76,8 +76,8 @@ class ISaveMovEquipVisitTerc(
                     return resultFailure(
                         context = "ISaveMovEquipVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             startProcessSendData()

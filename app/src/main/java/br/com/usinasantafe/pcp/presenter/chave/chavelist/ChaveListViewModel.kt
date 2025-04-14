@@ -10,6 +10,7 @@ import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocalTrab
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ChaveListState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -36,18 +38,29 @@ data class ChaveListState(
 )
 
 fun ResultUpdate.resultUpdateToState(): ChaveListState {
-    return with(this){
-        ChaveListState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "ChaveListViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "ChaveListViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return ChaveListState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
+
 
 class ChaveListViewModel(
     savedStateHandle: SavedStateHandle,
@@ -56,8 +69,6 @@ class ChaveListViewModel(
     private val updateChave: UpdateChave,
     private val updateLocalTrab: UpdateLocalTrab
 ) : ViewModel() {
-
-    private val tag = javaClass.simpleName
 
     private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
     private val id: Int = savedStateHandle[ID_ARGS]!!
@@ -112,8 +123,8 @@ class ChaveListViewModel(
             val resultList = getChaveList()
             if (resultList.isFailure) {
                 val error = resultList.exceptionOrNull()!!
-                val failure =
-                    "${tag}.recoverList -> GetChaveList -> ${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         errors = Errors.EXCEPTION,
@@ -141,7 +152,8 @@ class ChaveListViewModel(
         )
         if (resultSet.isFailure) {
             val error = resultSet.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     errors = Errors.EXCEPTION,

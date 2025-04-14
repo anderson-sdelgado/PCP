@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.proprio.movlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.proprio.CloseAllMovProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetMovEquipProprioOpenList
@@ -23,40 +24,44 @@ class MovEquipProprioViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val getHeader = mock<GetHeader>()
+    private val startMovEquipProprio = mock<StartMovEquipProprio>()
+    private val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
+    private val closeAllMovProprio = mock<CloseAllMovProprio>()
+    private val viewModel = MovEquipProprioListViewModel(
+        getHeader,
+        startMovEquipProprio,
+        getMovEquipProprioOpenList,
+        closeAllMovProprio
+    )
+
     @Test
     fun `Check return failure if recoverHeader have failure`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
         whenever(
             getHeader()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetHeader",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.returnHeader()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> ConfigSharedPreferences.hasConfig -> java.lang.Exception"
+            "MovEquipProprioListViewModel.returnHeader -> GetHeader -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return nome Vigia if recoverHeader execute correctly`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(getHeader()).thenReturn(
+        whenever(
+            getHeader()
+        ).thenReturn(
             Result.success(
                 HeaderModel(
                     descrVigia = "19759 - Anderson da Silva Delgado",
@@ -64,110 +69,99 @@ class MovEquipProprioViewModelTest {
                 )
             )
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.returnHeader()
-        assertEquals(viewModel.uiState.value.descrVigia, "19759 - Anderson da Silva Delgado")
-        assertEquals(viewModel.uiState.value.descrLocal, "1 - Usina")
+        assertEquals(
+            viewModel.uiState.value.descrVigia,
+            "19759 - Anderson da Silva Delgado"
+        )
+        assertEquals(
+            viewModel.uiState.value.descrLocal,
+            "1 - Usina"
+        )
     }
 
     @Test
     fun `Check return failure if startMovEquipProprio have failure`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
         whenever(
             startMovEquipProprio(
                 typeMov = TypeMovEquip.INPUT
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "StartMovEquipProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.startMov(typeMov = TypeMovEquip.INPUT)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> StartMovEquipProprio -> java.lang.Exception"
+            "MovEquipProprioListViewModel.startMov -> StartMovEquipProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return success if startMovEquipProprio execute correctly`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(startMovEquipProprio(typeMov = TypeMovEquip.INPUT)).thenReturn(
+        whenever(
+            startMovEquipProprio(
+                typeMov = TypeMovEquip.INPUT
+            )
+        ).thenReturn(
             Result.success(true)
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
+        viewModel.startMov(
+            typeMov = TypeMovEquip.INPUT
         )
-        viewModel.startMov(typeMov = TypeMovEquip.INPUT)
-        assertEquals(viewModel.uiState.value.flagDialog, false)
-        assertEquals(viewModel.uiState.value.flagAccess, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
     }
 
     @Test
     fun `Check return failure if RecoverMovEquipProprioOpen have failure`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
         whenever(
             getMovEquipProprioOpenList()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetMovEquipProprioOpenList",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.recoverMovEquipOpenList()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> RecoverMovEquipProprio -> java.lang.Exception"
+            "MovEquipProprioListViewModel.recoverMovEquipOpenList -> GetMovEquipProprioOpenList -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return emptyList if not have mov open`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(getMovEquipProprioOpenList()).thenReturn(
-            Result.success(emptyList())
-        )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
+        whenever(
+            getMovEquipProprioOpenList()
+        ).thenReturn(
+            Result.success(
+                emptyList()
+            )
         )
         viewModel.recoverMovEquipOpenList()
-        assertEquals(viewModel.uiState.value.movEquipProprioModelList.isEmpty(), true)
+        assertEquals(
+            viewModel.uiState.value.movEquipProprioModelList.isEmpty(),
+            true
+        )
     }
 
     @Test
@@ -179,71 +173,59 @@ class MovEquipProprioViewModelTest {
             equip = "2300",
             colab = "19759 - ANDERSON DA SILVA DELGADO"
         )
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(getMovEquipProprioOpenList()).thenReturn(
+        whenever(
+            getMovEquipProprioOpenList()
+        ).thenReturn(
             Result.success(
                 listOf(
                     movEquipProprioViewModel
                 )
             )
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.recoverMovEquipOpenList()
-        assertEquals(viewModel.uiState.value.movEquipProprioModelList.size, 1)
-        assertEquals(viewModel.uiState.value.movEquipProprioModelList[0], movEquipProprioViewModel)
+        assertEquals(
+            viewModel.uiState.value.movEquipProprioModelList.size,
+            1
+        )
+        assertEquals(
+            viewModel.uiState.value.movEquipProprioModelList[0],
+            movEquipProprioViewModel
+        )
     }
 
     @Test
     fun `Check return failure if closeAllMovProprioOpen have failure`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
         whenever(
             closeAllMovProprio()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CloseAllMovProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.closeAllMov()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> CloseAllMovProprioOpen -> java.lang.Exception"
+            "MovEquipProprioListViewModel.closeAllMov -> CloseAllMovProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return true if closeAllMovProprioOpen execute correctly`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startMovEquipProprio = mock<StartMovEquipProprio>()
-        val getMovEquipProprioOpenList = mock<GetMovEquipProprioOpenList>()
-        val closeAllMovProprio = mock<CloseAllMovProprio>()
-        whenever(closeAllMovProprio()).thenReturn(
+        whenever(
+            closeAllMovProprio()
+        ).thenReturn(
             Result.success(true)
         )
-        val viewModel = MovEquipProprioListViewModel(
-            getHeader,
-            startMovEquipProprio,
-            getMovEquipProprioOpenList,
-            closeAllMovProprio
-        )
         viewModel.closeAllMov()
-        assertEquals(viewModel.uiState.value.flagCloseAllMov, true)
+        assertEquals(
+            viewModel.uiState.value.flagCloseAllMov,
+            true
+        )
     }
 }

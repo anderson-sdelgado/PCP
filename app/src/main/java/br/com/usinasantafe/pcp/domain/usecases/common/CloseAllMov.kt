@@ -27,7 +27,7 @@ class ICloseAllMov(
                 return resultFailure(
                     context = "ICloseAllMov",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipProprioList = resultProprioList.getOrNull()!!
@@ -38,8 +38,8 @@ class ICloseAllMov(
                     return resultFailure(
                         context = "ICloseAllMov",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             val resultVisitTercList = movEquipVisitTercRepository.listOpen()
@@ -48,7 +48,7 @@ class ICloseAllMov(
                 return resultFailure(
                     context = "ICloseAllMov",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipVisitTercList = resultVisitTercList.getOrNull()!!
@@ -59,8 +59,8 @@ class ICloseAllMov(
                     return resultFailure(
                         context = "ICloseAllMov",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             val resultResidenciaList = movEquipResidenciaRepository.listOpen()
@@ -69,7 +69,7 @@ class ICloseAllMov(
                 return resultFailure(
                     context = "ICloseAllMov",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipResidenciaList = resultResidenciaList.getOrNull()!!
@@ -80,8 +80,8 @@ class ICloseAllMov(
                     return resultFailure(
                         context = "ICloseAllMov",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             val resultChaveList = movChaveRepository.listOpen()
@@ -90,7 +90,7 @@ class ICloseAllMov(
                 return resultFailure(
                     context = "ICloseAllMov",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movChaveList = resultChaveList.getOrNull()!!
@@ -101,8 +101,8 @@ class ICloseAllMov(
                     return resultFailure(
                         context = "ICloseAllMov",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             val resultChaveEquipList = movChaveEquipRepository.listOpen()
@@ -111,7 +111,7 @@ class ICloseAllMov(
                 return resultFailure(
                     context = "ICloseAllMov",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movChaveEquipList = resultChaveEquipList.getOrNull()!!
@@ -122,8 +122,8 @@ class ICloseAllMov(
                     return resultFailure(
                         context = "ICloseAllMov",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)

@@ -19,7 +19,7 @@ class ISaveVisitante(
             return resultFailure(
                 context = "ISaveVisitante",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

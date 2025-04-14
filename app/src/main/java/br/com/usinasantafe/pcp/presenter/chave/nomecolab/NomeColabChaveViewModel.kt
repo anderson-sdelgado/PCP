@@ -12,10 +12,12 @@ import br.com.usinasantafe.pcp.presenter.Args.MATRIC_COLAB_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class NomeColabChaveState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -64,8 +66,8 @@ class NomeColabChaveViewModel(
         val recoverNome = getNomeColab(uiState.value.matricColab)
         if (recoverNome.isFailure) {
             val error = recoverNome.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -90,7 +92,8 @@ class NomeColabChaveViewModel(
             val resultStart = startReceiptMovChave(uiState.value.id)
             if(resultStart.isFailure) {
                 val error = resultStart.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -108,7 +111,7 @@ class NomeColabChaveViewModel(
         if (resultSetMatric.isFailure){
             val error = resultSetMatric.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,

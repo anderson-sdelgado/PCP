@@ -23,7 +23,7 @@ class ISendMovChaveEquipList(
                 return resultFailure(
                     context = "ISendMovChaveEquipList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = resultListSend.getOrNull()!!
@@ -33,7 +33,7 @@ class ISendMovChaveEquipList(
                 return resultFailure(
                     context = "ISendMovChaveEquipList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -52,7 +52,7 @@ class ISendMovChaveEquipList(
                 return resultFailure(
                     context = "ISendMovChaveEquipList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultSend.getOrNull()!!)

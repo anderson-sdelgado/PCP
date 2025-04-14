@@ -19,7 +19,7 @@ class ISetStatusSentMovChaveEquip(
             return resultFailure(
                 context = "ISetStatusSentMovChaveEquip",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

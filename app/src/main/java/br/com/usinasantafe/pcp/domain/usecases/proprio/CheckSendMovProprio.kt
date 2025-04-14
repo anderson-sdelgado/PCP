@@ -18,7 +18,7 @@ class ICheckSendMovProprio(
             return resultFailure(
                 context = "ICheckSendMovProprio",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

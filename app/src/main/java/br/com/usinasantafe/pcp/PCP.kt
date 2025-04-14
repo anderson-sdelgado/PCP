@@ -33,16 +33,19 @@ import br.com.usinasantafe.pcp.di.viewModelResidenciaModule
 import br.com.usinasantafe.pcp.di.viewModelSplashModule
 import br.com.usinasantafe.pcp.di.viewModelVisitTercModule
 import br.com.usinasantafe.pcp.di.workManagerModule
+import br.com.usinasantafe.pcp.utils.FileLoggingTree
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
+import timber.log.Timber
 
 class PCP : Application(), KoinComponent, Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(FileLoggingTree(this))
         startKoin {
             androidLogger()
             androidContext(this@PCP)

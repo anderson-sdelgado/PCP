@@ -19,7 +19,7 @@ class ISaveRLocalFluxo(
             return resultFailure(
                 context = "ISaveRLocalFluxo",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

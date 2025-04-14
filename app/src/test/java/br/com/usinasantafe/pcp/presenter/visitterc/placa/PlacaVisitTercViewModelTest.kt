@@ -2,9 +2,11 @@ package br.com.usinasantafe.pcp.presenter.visitterc.placa
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetPlacaVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetPlacaVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
+import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -22,28 +24,52 @@ class PlacaVisitTercViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val setPlacaVisitTerc = mock<SetPlacaVisitTerc>()
+    private val getPlacaVisitTerc = mock<GetPlacaVisitTerc>()
+
+    private fun getViewModel(
+        savedStateHandle: SavedStateHandle
+    ) = PlacaVisitTercViewModel(
+        savedStateHandle,
+        setPlacaVisitTerc,
+        getPlacaVisitTerc
+    )
+
     @Test
     fun `Check return failure if field is empty`() {
-        val setPlacaVisitTerc = mock<SetPlacaVisitTerc>()
-        val getPlacaVisitTerc = mock<GetPlacaVisitTerc>()
-        val viewModel = PlacaVisitTercViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setPlacaVisitTerc,
-            getPlacaVisitTerc
+            )
         )
+
         viewModel.setPlaca()
-        assertTrue(viewModel.uiState.value.flagDialog)
+        val state = viewModel.uiState.value
+
+        assertEquals(
+            state.flagDialog,
+            true
+        )
+
+        assertEquals(
+            state.placa,
+            ""
+        )
+        assertEquals(
+            state.checkGetPlaca,
+            true
+        )
+        assertEquals(
+            state.flagAccess,
+            false
+        )
     }
 
     @Test
     fun `Check return failure if have error in SetPlaca`() = runTest {
-        val setPlacaVisitTerc = mock<SetPlacaVisitTerc>()
-        val getPlacaVisitTerc = mock<GetPlacaVisitTerc>()
         whenever(
             setPlacaVisitTerc(
                 placa = "AAA0000",
@@ -51,30 +77,49 @@ class PlacaVisitTercViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetPlacaVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PlacaVisitTercViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setPlacaVisitTerc,
-            getPlacaVisitTerc
+            )
         )
+
         viewModel.onPlacaChanged("AAA0000")
         viewModel.setPlaca()
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> setPlacaVisitTerc -> java.lang.Exception")
+        val state = viewModel.uiState.value
+
+        assertEquals(
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            "PlacaVisitTercViewModel.setPlaca -> SetPlacaVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        assertEquals(
+            state.placa,
+            "AAA0000"
+        )
+        assertEquals(
+            state.checkGetPlaca,
+            true
+        )
+        assertEquals(
+            state.flagAccess,
+            false
+        )
     }
 
     @Test
     fun `Check return true if SetPlaca execute success`() = runTest {
-        val setPlacaVisitTerc = mock<SetPlacaVisitTerc>()
-        val getPlacaVisitTerc = mock<GetPlacaVisitTerc>()
         whenever(
             setPlacaVisitTerc(
                 placa = "AAA0000",
@@ -84,53 +129,87 @@ class PlacaVisitTercViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = PlacaVisitTercViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setPlacaVisitTerc,
-            getPlacaVisitTerc
+            )
         )
+
         viewModel.onPlacaChanged("AAA0000")
         viewModel.setPlaca()
-        assertTrue(viewModel.uiState.value.flagAccess)
+        val state = viewModel.uiState.value
+
+        assertEquals(
+            state.flagAccess,
+            true
+        )
+        assertEquals(
+            state.flagDialog,
+            false
+        )
+
+        assertEquals(
+            state.placa,
+            "AAA0000"
+        )
+        assertEquals(
+            state.checkGetPlaca,
+            true
+        )
     }
 
     @Test
     fun `Check return failure if have error in GetPlaca`() = runTest {
-        val setPlacaVisitTerc = mock<SetPlacaVisitTerc>()
-        val getPlacaVisitTerc = mock<GetPlacaVisitTerc>()
         whenever(
             getPlacaVisitTerc(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetPlacaVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PlacaVisitTercViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1
                 )
-            ),
-            setPlacaVisitTerc,
-            getPlacaVisitTerc
+            )
         )
+
         viewModel.recoverPlaca()
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> GetPlacaVisitTerc -> java.lang.Exception")
+        val state = viewModel.uiState.value
+
+        assertEquals(
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            "PlacaVisitTercViewModel.recoverPlaca -> GetPlacaVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        assertEquals(
+            state.placa,
+            ""
+        )
+        assertEquals(
+            state.checkGetPlaca,
+            true
+        )
+        assertEquals(
+            state.flagAccess,
+            false
+        )
     }
 
     @Test
     fun `Check return placa if GetPlaca execute successfully`() = runTest {
-        val setPlacaVisitTerc = mock<SetPlacaVisitTerc>()
-        val getPlacaVisitTerc = mock<GetPlacaVisitTerc>()
         whenever(
             getPlacaVisitTerc(
                 id = 1
@@ -138,18 +217,33 @@ class PlacaVisitTercViewModelTest {
         ).thenReturn(
             Result.success("AAA0000")
         )
-        val viewModel = PlacaVisitTercViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1
                 )
-            ),
-            setPlacaVisitTerc,
-            getPlacaVisitTerc
+            )
         )
+
         viewModel.recoverPlaca()
         val state = viewModel.uiState.value
-        assertEquals(state.placa, "AAA0000")
+
+        assertEquals(
+            "AAA0000",
+            state.placa
+        )
+        assertEquals(
+            state.checkGetPlaca,
+            false
+        )
+        assertEquals(
+            state.flagDialog,
+            false
+        )
+        assertEquals(
+            state.flagAccess,
+            false
+        )
     }
 }

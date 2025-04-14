@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.CloseAllMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMovChaveEquipOpenList
 import br.com.usinasantafe.pcp.presenter.chaveequip.model.ControleChaveEquipModel
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ControleChaveEquipEditListState(
     val controleChaveEquipModelList: List<ControleChaveEquipModel> = listOf(),
@@ -42,8 +44,8 @@ class ControleChaveEquipEditListViewModel(
         val resultCloseAllMov = closeAllMovChaveEquip()
         if (resultCloseAllMov.isFailure) {
             val error = resultCloseAllMov.exceptionOrNull()!!
-            val failure =
-                "ControleChaveEquipEditListViewModel.closeAllMov -> CloseAllMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -64,8 +66,8 @@ class ControleChaveEquipEditListViewModel(
         val resultGetList = getMovChaveEquipOpenList()
         if (resultGetList.isFailure) {
             val error = resultGetList.exceptionOrNull()!!
-            val failure =
-                "ControleChaveEquipEditListViewModel.recoverMovOpenList -> GetMovChaveEquipOpenList -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

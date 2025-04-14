@@ -19,7 +19,7 @@ class ICloseAllMovVisitTerc(
                 return resultFailure(
                     context = "ICloseAllMovVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultVisitTercList.getOrNull()!!
@@ -30,8 +30,8 @@ class ICloseAllMovVisitTerc(
                     return resultFailure(
                         context = "ICloseAllMovVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)

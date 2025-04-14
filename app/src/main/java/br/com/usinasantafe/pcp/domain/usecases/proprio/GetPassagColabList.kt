@@ -29,7 +29,7 @@ class IGetPassagColabList(
                 return resultFailure(
                     context = "IGetPassagColabList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val passagList = resultList.getOrNull()!!
@@ -40,8 +40,8 @@ class IGetPassagColabList(
                     return resultFailure(
                         context = "IGetPassagColabList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 Colab(
                     matricColab = it.matricColab!!,

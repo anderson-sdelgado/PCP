@@ -16,12 +16,14 @@ import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
 import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class MatricColabChaveEquipState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -40,18 +42,28 @@ data class MatricColabChaveEquipState(
 )
 
 fun ResultUpdate.resultUpdateToMatricColabChaveEquip(): MatricColabChaveEquipState {
-    return with(this){
-        MatricColabChaveEquipState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "MatricColabChaveEquipViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "MatricColabChaveEquipViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return MatricColabChaveEquipState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
 
 class MatricColabChaveEquipViewModel(
     saveStateHandle: SavedStateHandle,
@@ -91,8 +103,8 @@ class MatricColabChaveEquipViewModel(
             val resultGetMatric = getMatricColabMovChaveEquip(uiState.value.id)
             if (resultGetMatric.isFailure) {
                 val error = resultGetMatric.exceptionOrNull()!!
-                val failure =
-                    "MatricColabChaveEquipViewModel.getMatricColab -> GetMatricColabMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -157,8 +169,8 @@ class MatricColabChaveEquipViewModel(
         val resultCheckMatric = checkMatricColab(uiState.value.matricColab)
         if (resultCheckMatric.isFailure) {
             val error = resultCheckMatric.exceptionOrNull()!!
-            val failure =
-                "MatricColabChaveEquipViewModel.setMatricColab -> CheckMatricColab -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

@@ -30,7 +30,7 @@ class IDeleteMovSent(
                 return resultFailure(
                     context = "IDeleteMovSent",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movProprioList = resultMovProprioList.getOrNull()!!
@@ -43,8 +43,8 @@ class IDeleteMovSent(
                         return resultFailure(
                             context = "IDeleteMovSent",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val resultDelMovProprioEquipSeg =
                         movEquipProprioEquipSegRepository.delete(movProprio.idMovEquipProprio!!)
@@ -53,8 +53,8 @@ class IDeleteMovSent(
                         return resultFailure(
                             context = "IDeleteMovSent",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val resultDelMovProprio =
                         movEquipProprioRepository.delete(movProprio.idMovEquipProprio!!)
@@ -63,8 +63,8 @@ class IDeleteMovSent(
                         return resultFailure(
                             context = "IDeleteMovSent",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                 }
             }
@@ -74,7 +74,7 @@ class IDeleteMovSent(
                 return resultFailure(
                     context = "IDeleteMovSent",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movVisitTercList = resultMovVisitTercList.getOrNull()!!
@@ -86,8 +86,8 @@ class IDeleteMovSent(
                         return resultFailure(
                             context = "IDeleteMovSent",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val resultDelMovVisitTercPassag = movEquipVisitTercPassagRepository.delete(movVisitTerc.idMovEquipVisitTerc!!)
                     if (resultDelMovVisitTercPassag.isFailure) {
@@ -95,8 +95,8 @@ class IDeleteMovSent(
                         return resultFailure(
                             context = "IDeleteMovSent",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                 }
             }
@@ -106,7 +106,7 @@ class IDeleteMovSent(
                 return resultFailure(
                     context = "IDeleteMovSent",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movResidenciaList = resultMovResidenciaList.getOrNull()!!
@@ -118,8 +118,8 @@ class IDeleteMovSent(
                         return resultFailure(
                             context = "IDeleteMovSent",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                 }
             }

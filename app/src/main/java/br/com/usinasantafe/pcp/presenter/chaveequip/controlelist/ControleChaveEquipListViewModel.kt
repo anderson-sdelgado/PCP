@@ -6,10 +6,12 @@ import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMovChaveEquipInside
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.StartReceiptMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.presenter.chaveequip.model.ControleChaveEquipModel
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ControleChaveEquipListState(
     val controleChaveEquipModelList: List<ControleChaveEquipModel> = emptyList(),
@@ -39,8 +41,8 @@ class ControleChaveEquipListViewModel(
         val recoverHeader = getHeader()
         if (recoverHeader.isFailure) {
             val error = recoverHeader.exceptionOrNull()!!
-            val failure =
-                "ControleChaveEquipListViewModel.returnHeader -> GetHeader -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -62,8 +64,8 @@ class ControleChaveEquipListViewModel(
         val resultGetList = getMovChaveEquipInsideList()
         if (resultGetList.isFailure) {
             val error = resultGetList.exceptionOrNull()!!
-            val failure =
-                "ControleChaveEquipListViewModel.recoverMovList -> GetMovChaveEquipInsideList -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -84,8 +86,8 @@ class ControleChaveEquipListViewModel(
         val resultStart = startReceiptMovChaveEquip()
         if (resultStart.isFailure) {
             val error = resultStart.exceptionOrNull()!!
-            val failure =
-                "ControleChaveEquipListViewModel.startMov -> StartReceiptMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

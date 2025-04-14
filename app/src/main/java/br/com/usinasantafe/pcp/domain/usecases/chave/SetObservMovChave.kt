@@ -34,7 +34,7 @@ class ISetObservMovChave(
                 return resultFailure(
                     context = "ISetObservMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

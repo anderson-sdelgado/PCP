@@ -20,7 +20,7 @@ class ISetMatricColab(
     private val movEquipProprioRepository: MovEquipProprioRepository,
     private val movEquipProprioPassagRepository: MovEquipProprioPassagRepository,
     private val startProcessSendData: StartProcessSendData
-): SetMatricColab {
+) : SetMatricColab {
 
     override suspend fun invoke(
         matricColab: String,
@@ -41,7 +41,7 @@ class ISetMatricColab(
                         return resultFailure(
                             context = "ISetMatricColab",
                             message = e.message,
-                            cause = e
+                            cause = e.cause
                         )
                     }
                 }
@@ -57,27 +57,27 @@ class ISetMatricColab(
                         return resultFailure(
                             context = "ISetMatricColab",
                             message = e.message,
-                            cause = e
+                            cause = e.cause
                         )
                     }
-                    if(flowApp == FlowApp.CHANGE){
+                    if (flowApp == FlowApp.CHANGE) {
                         val resultSend = movEquipProprioRepository.setSend(id)
                         if (resultSend.isFailure) {
                             val e = resultSend.exceptionOrNull()!!
                             return resultFailure(
                                 context = "ISetMatricColab",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                     }
                 }
             }
-            if(flowApp == FlowApp.CHANGE){
+            if (flowApp == FlowApp.CHANGE) {
                 startProcessSendData()
             }
             return Result.success(true)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             return resultFailure(
                 context = "ISetMatricColab",
                 message = "-",

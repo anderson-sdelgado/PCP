@@ -27,7 +27,7 @@ class IGetMovEquipProprioOpenList(
                 return resultFailure(
                     context = "IGetMovEquipProprioOpenList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = resultList.getOrNull()!!
@@ -38,8 +38,8 @@ class IGetMovEquipProprioOpenList(
                     return resultFailure(
                         context = "IGetMovEquipProprioOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val descrEquip = resultNro.getOrNull()!!
                 val resultGetNome = colabRepository.getNome(it.matricColabMovEquipProprio!!)
@@ -48,8 +48,8 @@ class IGetMovEquipProprioOpenList(
                     return resultFailure(
                         context = "IGetMovEquipProprioOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val nomeColab = resultGetNome.getOrNull()!!
                 MovEquipProprioModel(
@@ -60,7 +60,7 @@ class IGetMovEquipProprioOpenList(
                     ).format(it.dthrMovEquipProprio),
                     typeMov = if (it.tipoMovEquipProprio == TypeMovEquip.INPUT) "ENTRADA" else "SAIDA",
                     equip = descrEquip,
-                    colab = " ${it.matricColabMovEquipProprio!!} - $nomeColab"
+                    colab = "${it.matricColabMovEquipProprio!!} - $nomeColab"
                 )
             }
             return Result.success(modelList)

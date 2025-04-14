@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CloseMovVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetDetalheVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class DetalheVisitTercState(
     val id: Int = 0,
@@ -63,7 +65,8 @@ class DetalheVisitTercViewModel(
         val resultRecoverDetalhe = getDetalheVisitTerc(uiState.value.id)
         if(resultRecoverDetalhe.isFailure) {
             val error = resultRecoverDetalhe.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -92,7 +95,8 @@ class DetalheVisitTercViewModel(
         val resultCloseMov = closeMovVisitTerc(id)
         if(resultCloseMov.isFailure) {
             val error = resultCloseMov.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

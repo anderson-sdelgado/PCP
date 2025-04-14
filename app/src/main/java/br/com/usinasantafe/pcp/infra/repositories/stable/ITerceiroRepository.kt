@@ -23,7 +23,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class ITerceiroRepository(
             return resultFailure(
                 context = "ITerceiroRepository.checkCPF",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -56,7 +56,7 @@ class ITerceiroRepository(
             return resultFailure(
                 context = "ITerceiroRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -70,7 +70,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!
@@ -92,7 +92,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.getCpf",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!
@@ -114,7 +114,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.getId",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!
@@ -136,7 +136,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.getNome",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!
@@ -158,7 +158,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.getEmpresas",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!
@@ -187,7 +187,7 @@ class ITerceiroRepository(
                 return resultFailure(
                     context = "ITerceiroRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

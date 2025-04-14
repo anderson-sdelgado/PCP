@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseAllMovResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMovEquipResidenciaOpenList
 import br.com.usinasantafe.pcp.presenter.residencia.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class MovEquipResidenciaEditListState(
     val movEquipResidenciaModelList: List<MovEquipResidenciaModel> = listOf(),
@@ -42,8 +44,8 @@ class MovEquipResidenciaEditListViewModel(
         val resultCloseAllMov = closeAllMovResidencia()
         if (resultCloseAllMov.isFailure) {
             val error = resultCloseAllMov.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -63,8 +65,7 @@ class MovEquipResidenciaEditListViewModel(
         val resultGetList = getMovEquipResidenciaOpenList()
         if (resultGetList.isFailure) {
             val error = resultGetList.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -80,6 +81,4 @@ class MovEquipResidenciaEditListViewModel(
             )
         }
     }
-
-
 }

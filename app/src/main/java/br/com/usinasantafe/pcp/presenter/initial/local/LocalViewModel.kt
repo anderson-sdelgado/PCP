@@ -7,6 +7,8 @@ import br.com.usinasantafe.pcp.domain.entities.stable.Local
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocal
+import br.com.usinasantafe.pcp.presenter.chaveequip.nroequip.resultUpdateToNroEquipChaveEquip
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.Errors
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class LocalState(
     val locals: List<Local> = emptyList(),
@@ -28,18 +31,29 @@ data class LocalState(
 )
 
 fun ResultUpdate.resultUpdateToLocal(): LocalState {
-    return with(this){
-        LocalState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "LocalViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "LocalViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return LocalState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
+
 
 class LocalViewModel(
     private val getLocalList: GetLocalList,
@@ -60,8 +74,8 @@ class LocalViewModel(
         val resultRecoverLocals = getLocalList()
         if (resultRecoverLocals.isFailure) {
             val error = resultRecoverLocals.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -83,8 +97,8 @@ class LocalViewModel(
         val resultSetIdLocalConfig = setIdLocalConfig(id)
         if (resultSetIdLocalConfig.isFailure) {
             val error = resultSetIdLocalConfig.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

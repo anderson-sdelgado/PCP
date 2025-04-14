@@ -20,7 +20,7 @@ class ISetCheckUpdateAllTable (
                 return resultFailure(
                     context = "ISetCheckUpdateAllTable",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

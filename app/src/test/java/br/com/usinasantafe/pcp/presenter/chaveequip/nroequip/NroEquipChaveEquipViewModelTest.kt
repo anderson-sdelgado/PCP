@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.nroequip
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetNroEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetIdEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
@@ -120,16 +121,18 @@ class NroEquipChaveEquipViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
+                        failure = "CleanEquip -> java.lang.NullPointerException",
+                        msgProgress = "CleanEquip -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
             )
             val viewModel = getViewModel()
             val result = viewModel.updateAllDatabase().toList()
-            Assert.assertEquals(result.count(), 2)
-            Assert.assertEquals(
+            assertEquals(
+                result.count(), 2
+            )
+            assertEquals(
                 result[0],
                 NroEquipChaveEquipState(
                     flagProgress = true,
@@ -137,21 +140,24 @@ class NroEquipChaveEquipViewModelTest {
                     currentProgress = percentage(1f, 4f)
                 )
             )
-            Assert.assertEquals(
+            assertEquals(
                 result[1],
                 NroEquipChaveEquipState(
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
+                    failure = "NroEquipChaveEquipViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
+                    msgProgress = "NroEquipChaveEquipViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
-            viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
-            Assert.assertEquals(
+            viewModel.setTextField(
+                "ATUALIZAR DADOS",
+                TypeButton.UPDATE
+            )
+            assertEquals(
                 viewModel.uiState.value.msgProgress,
-                "Failure Usecase -> CleanEquip -> java.lang.NullPointerException"
+                "NroEquipChaveEquipViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException"
             )
         }
 
@@ -233,7 +239,9 @@ class NroEquipChaveEquipViewModelTest {
             whenever(
                 checkNroEquip("19759")
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "CheckNroEquip",
+                    "-",
                     Exception()
                 )
             )
@@ -258,7 +266,7 @@ class NroEquipChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> CheckNroEquip -> java.lang.NullPointerException"
+                "NroEquipChaveEquipViewModel.setNroEquip -> CheckNroEquip -> java.lang.Exception"
             )
         }
 
@@ -310,7 +318,9 @@ class NroEquipChaveEquipViewModelTest {
                     id = 0
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "SetIdEquipMovChaveEquip",
+                    "-",
                     Exception()
                 )
             )
@@ -335,7 +345,7 @@ class NroEquipChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> SetIdEquipMovChaveEquip -> java.lang.Exception"
+                "NroEquipChaveEquipViewModel.setNroEquip -> SetIdEquipMovChaveEquip -> java.lang.Exception"
             )
         }
     @Test
@@ -381,7 +391,9 @@ class NroEquipChaveEquipViewModelTest {
             whenever(
                 getNroEquipMovChaveEquip(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetMatricColabMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -408,7 +420,7 @@ class NroEquipChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetMatricColabMovChave -> java.lang.Exception"
+                "NroEquipChaveEquipViewModel.getNroEquip -> GetMatricColabMovChave -> java.lang.Exception"
             )
         }
 

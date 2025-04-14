@@ -20,7 +20,7 @@ class ICheckAccessMain(
                 return resultFailure(
                     context = "ICheckAccessMain",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if (!resultCheckHasConfig.getOrNull()!!)
@@ -31,7 +31,7 @@ class ICheckAccessMain(
                 return resultFailure(
                     context = "ICheckAccessMain",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if (resultFlagUpdate.getOrNull()!! == FlagUpdate.OUTDATED)

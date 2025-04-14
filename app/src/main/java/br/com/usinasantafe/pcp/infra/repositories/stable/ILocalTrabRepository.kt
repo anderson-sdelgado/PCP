@@ -22,7 +22,7 @@ class ILocalTrabRepository(
                 return resultFailure(
                     context = "ILocalTrabRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -42,7 +42,7 @@ class ILocalTrabRepository(
             return resultFailure(
                 context = "ILocalTrabRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -55,7 +55,7 @@ class ILocalTrabRepository(
             return resultFailure(
                 context = "ILocalTrabRepository.getDescr",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -69,7 +69,7 @@ class ILocalTrabRepository(
                 return resultFailure(
                     context = "ILocalTrabRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

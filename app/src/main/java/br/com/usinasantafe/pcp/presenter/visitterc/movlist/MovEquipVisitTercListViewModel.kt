@@ -6,6 +6,7 @@ import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetMovEquipVisitTercInsideList
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.StartInputMovEquipVisitTerc
 import br.com.usinasantafe.pcp.presenter.visitterc.model.MovEquipVisitTercModel
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -39,8 +40,7 @@ class MovEquipVisitTercListViewModel(
         val recoverHeader = getHeader()
         if (recoverHeader.isFailure) {
             val error = recoverHeader.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -62,8 +62,7 @@ class MovEquipVisitTercListViewModel(
         val resultGetList = getMovEquipVisitTercInsideList()
         if (resultGetList.isFailure) {
             val error = resultGetList.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -84,8 +83,7 @@ class MovEquipVisitTercListViewModel(
         val resultStart = startInputMovEquipVisitTerc()
         if (resultStart.isFailure) {
             val error = resultStart.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,

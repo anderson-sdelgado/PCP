@@ -19,7 +19,7 @@ class ICloseAllMovProprio(
                 return resultFailure(
                     context = "ICloseAllMovProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultProprioList.getOrNull()!!
@@ -30,8 +30,8 @@ class ICloseAllMovProprio(
                     return resultFailure(
                         context = "ICloseAllMovProprio",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)

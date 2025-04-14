@@ -32,7 +32,7 @@ class ISetIdEquipMovChaveEquip(
                 return resultFailure(
                     context = "ISetIdEquipMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idEquip = resultId.getOrNull()!!
@@ -46,7 +46,7 @@ class ISetIdEquipMovChaveEquip(
                 return resultFailure(
                     context = "ISetIdEquipMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

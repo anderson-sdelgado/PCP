@@ -22,7 +22,7 @@ class ICloseMovProprio(
             return resultFailure(
                 context = "ICloseMovProprio",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

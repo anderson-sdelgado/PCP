@@ -5,6 +5,8 @@ import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseMovResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetDetalheResidencia
 import br.com.usinasantafe.pcp.presenter.Args
+import br.com.usinasantafe.pcp.domain.errors.resultFailure // Adicionado/Confirmado como a importação correta
+import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -20,114 +22,157 @@ class DetalheResidenciaViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // Mocks movidos para fora das funções de teste
+    private val getDetalheResidencia = mock<GetDetalheResidencia>()
+    private val closeMovResidencia = mock<CloseMovResidencia>()
+
+    // Função helper para criar o ViewModel
+    private fun createViewModel(savedStateHandle: SavedStateHandle) = DetalheResidenciaViewModel(
+        savedStateHandle,
+        getDetalheResidencia,
+        closeMovResidencia
+    )
+
     @Test
     fun `Check return failure if have error in recoverDetalhe`() = runTest {
-        val getDetalheResidencia = mock<GetDetalheResidencia>()
-        val closeMovResidencia = mock<CloseMovResidencia>()
         whenever(
             getDetalheResidencia(1)
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetDetalheResidencia",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DetalheResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 )
-            ),
-            getDetalheResidencia,
-            closeMovResidencia
+            )
         )
         viewModel.recoverDetalhe()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Padronizado
             state.failure,
-            "Failure Usecase -> RecoverDetalheResidencia -> java.lang.Exception"
+            "DetalheResidenciaViewModel.recoverDetalhe -> GetDetalheResidencia -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return model if recoverDetalhe execute correctly`() = runTest {
-        val getDetalheResidencia = mock<GetDetalheResidencia>()
-        val closeMovResidencia = mock<CloseMovResidencia>()
-        whenever(getDetalheResidencia(1)).thenReturn(
-            Result.success(
-                DetalheResidenciaModel(
-                    id = 1,
-                    dthr = "08/08/2024 12:00",
-                    tipoMov = "ENTRADA",
-                    veiculo = "GOL",
-                    placa = "AAA-0000",
-                    motorista = "19759 - ANDERSON DA SILVA DELGADO",
-                    observ = "Teste Observ",
-                )
-            )
+        val detalheModel = DetalheResidenciaModel(
+            id = 1,
+            dthr = "08/08/2024 12:00",
+            tipoMov = "ENTRADA",
+            veiculo = "GOL",
+            placa = "AAA-0000",
+            motorista = "19759 - ANDERSON DA SILVA DELGADO",
+            observ = "Teste Observ",
         )
-        val viewModel = DetalheResidenciaViewModel(
+        whenever(getDetalheResidencia(1)).thenReturn(
+            Result.success(detalheModel)
+        )
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 ),
-            ),
-            getDetalheResidencia,
-            closeMovResidencia
+            )
         )
         viewModel.recoverDetalhe()
         val state = viewModel.uiState.value
-        assertEquals(state.dthr, "08/08/2024 12:00")
-        assertEquals(state.tipoMov, "ENTRADA")
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            false // Garante que não houve diálogo de erro
+        )
+        assertEquals( // Padronizado
+            state.dthr,
+            "08/08/2024 12:00"
+        )
+        assertEquals( // Padronizado
+            state.tipoMov,
+            "ENTRADA"
+        )
+        assertEquals( // Padronizado
+            state.veiculo,
+            "GOL"
+        )
+        assertEquals( // Padronizado
+            state.placa,
+            "AAA-0000"
+        )
+        assertEquals( // Padronizado
+            state.motorista,
+            "19759 - ANDERSON DA SILVA DELGADO"
+        )
+        assertEquals( // Padronizado
+            state.observ,
+            "Teste Observ"
+        )
+        
     }
 
     @Test
-    fun `Check return failure if have error in CloseMovResidenciaOpen`() = runTest {
-        val getDetalheResidencia = mock<GetDetalheResidencia>()
-        val closeMovResidencia = mock<CloseMovResidencia>()
+    fun `Check return failure if have error in CloseMovResidencia`() = runTest { // Nome do teste ligeiramente ajustado
         whenever(
             closeMovResidencia(1)
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CloseMovResidencia",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DetalheResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 ),
-                ),
-            getDetalheResidencia,
-            closeMovResidencia
+            )
         )
         viewModel.closeMov()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Padronizado
             state.failure,
-            "Failure Usecase -> CloseMovResidenciaOpen -> java.lang.Exception"
+            "DetalheResidenciaViewModel.closeMov -> CloseMovResidencia -> java.lang.Exception"
         )
     }
 
     @Test
-    fun `Check return true if CloseMovResidenciaOpen execute correctly`() = runTest {
-        val getDetalheResidencia = mock<GetDetalheResidencia>()
-        val closeMovResidencia = mock<CloseMovResidencia>()
+    fun `Check return true if CloseMovResidencia execute correctly`() = runTest { // Nome do teste ligeiramente ajustado
         whenever(closeMovResidencia(1)).thenReturn(
             Result.success(true)
         )
-        val viewModel = DetalheResidenciaViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 ),
-            ),
-            getDetalheResidencia,
-            closeMovResidencia
+            )
         )
         viewModel.closeMov()
         val state = viewModel.uiState.value
-        assertTrue(state.flagCloseMov)
+        // FORMATADO: Todos assertEquals em multi-linhas
+        assertEquals( // Padronizado
+            state.flagDialog,
+            false // Garante que não houve diálogo de erro
+        )
+        assertEquals( // Padronizado
+            state.flagCloseMov,
+            true
+        )
+        
     }
 }

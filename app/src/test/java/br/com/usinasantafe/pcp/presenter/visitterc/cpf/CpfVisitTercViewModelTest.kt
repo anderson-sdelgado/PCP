@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.presenter.visitterc.cpf
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure // <<<--- IMPORT ADICIONADO
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateTerceiro
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateVisitante
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CheckCpfVisitTerc
@@ -32,11 +33,14 @@ class CpfVisitTercViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // PADRONIZADO: Mocks como propriedades da classe
     private val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
     private val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
     private val getCpfVisitTerc = mock<GetCpfVisitTerc>()
     private val updateTerceiro = mock<UpdateTerceiro>()
     private val updateVisitante = mock<UpdateVisitante>()
+
+    // PADRONIZADO: Helper function para criar ViewModel
     private fun getViewModel(
         savedStateHandle: SavedStateHandle
     ) = CpfVisitTercViewModel(
@@ -47,10 +51,11 @@ class CpfVisitTercViewModelTest {
         updateTerceiro,
         updateVisitante
     )
-    private val sizeAll = 7f
+    private val sizeAll = 7f // Mantido para testes de update
 
     @Test
     fun `Check return failure if fields is empty`() {
+        // PADRONIZADO: Usando getViewModel
         val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
@@ -62,13 +67,25 @@ class CpfVisitTercViewModelTest {
         )
         viewModel.setTextField("", TypeButton.OK)
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertTrue(state.flagFailure)
-        assertEquals(Errors.FIELDEMPTY, state.errors)
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertTrue
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Convertido de assertTrue
+            state.flagFailure,
+            true
+        )
+        assertEquals(
+            Errors.FIELDEMPTY,
+            state.errors
+        )
+        
     }
 
     @Test
     fun `Check adjustment of cpf in typing`() {
+        // PADRONIZADO: Usando getViewModel
         val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
@@ -90,17 +107,18 @@ class CpfVisitTercViewModelTest {
         viewModel.setTextField("0", TypeButton.NUMERIC)
         viewModel.setTextField("0", TypeButton.NUMERIC)
         val state = viewModel.uiState.value
-        assertEquals("123.456.789-00", state.cpf)
+        // FORMATADO: assertEquals em multi-linhas (ordem mantida para não booleanos/null)
+        assertEquals(
+            "123.456.789-00",
+            state.cpf
+        )
     }
 
     @Test
     fun `Check return failure if have error in CleanTerceiro`() = runTest {
         val qtdBefore = 0f
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
+        // PADRONIZADO: Mock retorna a falha originada no use case
         whenever(
             updateTerceiro(
                 sizeAll = sizeAll,
@@ -117,61 +135,77 @@ class CpfVisitTercViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
+                    failure = "CleanTerceiro -> java.lang.NullPointerException", // Falha do use case
+                    msgProgress = "CleanTerceiro -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.setTextField("", TypeButton.UPDATE)
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), ((qtdBefore * 3) + 2).toInt())
+        // FORMATADO: assertEquals em multi-linhas (ordem mantida para não booleanos/null)
         assertEquals(
-            result[0],
+            ((qtdBefore * 3) + 2).toInt(),
+            result.count()
+        )
+        assertEquals(
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Limpando a tabela tb_terceiro",
                 currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
-            )
+            ),
+            result[0]
         )
+        // PADRONIZADO: Asserção no estado emitido espera a string completa (ViewModel + UseCase)
         assertEquals(
-            result[1],
             CpfVisitTercState(
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException",
+                failure = "CpfVisitTercViewModel.updateAllDatabase -> CleanTerceiro -> java.lang.NullPointerException",
+                msgProgress = "CpfVisitTercViewModel.updateAllDatabase -> CleanTerceiro -> java.lang.NullPointerException",
                 currentProgress = 1f,
-            )
+            ),
+            result[1]
         )
-        assertEquals(
-            viewModel.uiState.value.msgProgress,
-            "Failure Usecase -> CleanTerceiro -> java.lang.NullPointerException"
+        // PADRONIZADO: Asserção no estado final do ViewModel
+        val finalState = viewModel.uiState.value
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertTrue
+            finalState.flagDialog,
+            true
+        )
+        assertEquals( // Convertido de assertTrue
+            finalState.flagFailure,
+            true
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            Errors.UPDATE,
+            finalState.errors
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            "CpfVisitTercViewModel.updateAllDatabase -> CleanTerceiro -> java.lang.NullPointerException",
+            finalState.failure
+        )
+        assertEquals( // Verifica msgProgress final também (Ordem mantida)
+            "CpfVisitTercViewModel.updateAllDatabase -> CleanTerceiro -> java.lang.NullPointerException",
+            finalState.msgProgress
         )
     }
 
     @Test
     fun `Check return failure if have error in CleanVisitante`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             updateTerceiro(
                 sizeAll = sizeAll,
@@ -196,6 +230,7 @@ class CpfVisitTercViewModelTest {
                 ),
             )
         )
+        // PADRONIZADO: Mock retorna a falha originada no use case
         whenever(
             updateVisitante(
                 sizeAll = sizeAll,
@@ -212,85 +247,101 @@ class CpfVisitTercViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
+                    failure = "CleanVisitante -> java.lang.NullPointerException", // Falha do use case
+                    msgProgress = "CleanVisitante -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.setTextField("", TypeButton.UPDATE)
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), 5)
+        // FORMATADO: assertEquals em multi-linhas (ordem mantida para não booleanos/null)
         assertEquals(
-            result[0],
+            5,
+            result.count()
+        )
+        assertEquals(
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Limpando a tabela tb_terceiro",
                 currentProgress = percentage(1f, 7f)
-            )
+            ),
+            result[0]
         )
         assertEquals(
-            result[1],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Recuperando dados da tabela tb_terceiro do Web Service",
                 currentProgress = percentage(2f, 7f)
-            )
+            ),
+            result[1]
         )
         assertEquals(
-            result[2],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Salvando dados na tabela tb_terceiro",
                 currentProgress = percentage(3f, 7f)
-            )
+            ),
+            result[2]
         )
         assertEquals(
-            result[3],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Limpando a tabela tb_visitante",
                 currentProgress = percentage(4f, 7f)
-            )
+            ),
+            result[3]
         )
+        // PADRONIZADO: Asserção no estado emitido espera a string completa (ViewModel + UseCase)
         assertEquals(
-            result[4],
             CpfVisitTercState(
                 errors = Errors.UPDATE,
                 flagDialog = true,
                 flagFailure = true,
-                failure = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
-                msgProgress = "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException",
+                failure = "CpfVisitTercViewModel.updateAllDatabase -> CleanVisitante -> java.lang.NullPointerException",
+                msgProgress = "CpfVisitTercViewModel.updateAllDatabase -> CleanVisitante -> java.lang.NullPointerException",
                 currentProgress = 1f,
-            )
+            ),
+            result[4]
         )
-        assertEquals(
-            viewModel.uiState.value.msgProgress,
-            "Failure Usecase -> CleanVisitante -> java.lang.NullPointerException"
+        // PADRONIZADO: Asserção no estado final do ViewModel
+        val finalState = viewModel.uiState.value
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertTrue
+            finalState.flagDialog,
+            true
+        )
+        assertEquals( // Convertido de assertTrue
+            finalState.flagFailure,
+            true
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            Errors.UPDATE,
+            finalState.errors
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            "CpfVisitTercViewModel.updateAllDatabase -> CleanVisitante -> java.lang.NullPointerException",
+            finalState.failure
+        )
+        assertEquals( // Verifica msgProgress final também (Ordem mantida)
+            "CpfVisitTercViewModel.updateAllDatabase -> CleanVisitante -> java.lang.NullPointerException",
+            finalState.msgProgress
         )
     }
 
     @Test
     fun `Check return success if UpdateAllTable execute successfully`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             updateTerceiro(
                 sizeAll = sizeAll,
@@ -339,94 +390,98 @@ class CpfVisitTercViewModelTest {
                 ),
             )
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.setTextField("", TypeButton.UPDATE)
         val result = viewModel.updateAllDatabase().toList()
-        assertEquals(result.count(), 7)
+        // FORMATADO: assertEquals em multi-linhas (ordem mantida para não booleanos/null)
         assertEquals(
-            result[0],
+            7,
+            result.count()
+        )
+        assertEquals(
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Limpando a tabela tb_terceiro",
                 currentProgress = percentage(1f, 7f)
-            )
+            ),
+            result[0]
         )
         assertEquals(
-            result[1],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Recuperando dados da tabela tb_terceiro do Web Service",
                 currentProgress = percentage(2f, 7f)
-            )
+            ),
+            result[1]
         )
         assertEquals(
-            result[2],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Salvando dados na tabela tb_terceiro",
                 currentProgress = percentage(3f, 7f)
-            )
+            ),
+            result[2]
         )
         assertEquals(
-            result[3],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Limpando a tabela tb_visitante",
                 currentProgress = percentage(4f, 7f)
-            )
+            ),
+            result[3]
         )
         assertEquals(
-            result[4],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Recuperando dados da tabela tb_visitante do Web Service",
                 currentProgress = percentage(5f, 7f)
-            )
+            ),
+            result[4]
         )
         assertEquals(
-            result[5],
             CpfVisitTercState(
                 flagProgress = true,
                 msgProgress = "Salvando dados na tabela tb_visitante",
                 currentProgress = percentage(6f, 7f)
-            )
+            ),
+            result[5]
         )
         assertEquals(
-            result[6],
             CpfVisitTercState(
-                flagDialog = true,
+                flagDialog = true, // Dialogo de sucesso
                 flagProgress = false,
                 flagFailure = false,
                 msgProgress = "Atualização de dados realizado com sucesso!",
                 currentProgress = 1f,
-            )
+            ),
+            result[6]
         )
-        assertEquals(
-            viewModel.uiState.value.msgProgress,
-            "Atualização de dados realizado com sucesso!"
+        val finalState = viewModel.uiState.value
+        assertEquals( // Convertido de assertTrue
+            finalState.flagDialog, // Dialogo de sucesso
+            true
+        )
+        assertEquals( // Convertido de assertFalse
+            finalState.flagFailure,
+            false
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            "Atualização de dados realizado com sucesso!",
+            finalState.msgProgress
         )
     }
 
     @Test
     fun `Check return failure if have error in CheckCpfVisitTerc`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
         whenever(
             checkCpfVisitTerc(
                 cpf = "123.456.789-00",
@@ -434,40 +489,51 @@ class CpfVisitTercViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CheckCpfVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = CpfVisitTercViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
-        viewModel.setTextField("123.456.789-00", TypeButton.NUMERIC)
-        viewModel.setTextField("", TypeButton.OK)
+        viewModel.setTextField(
+            "123.456.789-00",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "",
+            TypeButton.OK
+        )
         val state = viewModel.uiState.value
-        assertEquals(state.flagDialog, true)
-        assertEquals(state.flagFailure, true)
-        assertEquals(state.errors, Errors.EXCEPTION)
-        assertEquals(state.failure, "Failure Usecase -> CheckCpfVisitTerc -> java.lang.Exception")
+        assertEquals(
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            state.flagFailure,
+            true
+        )
+        assertEquals(
+            Errors.EXCEPTION,
+            state.errors
+        )
+        assertEquals(
+            "CpfVisitTercViewModel.checkCpf -> CheckCpfVisitTerc -> java.lang.Exception",
+            state.failure
+        )
     }
 
     @Test
     fun `Check return true if cpf is correct`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             checkCpfVisitTerc(
                 cpf = "123.456.789-00",
@@ -477,35 +543,40 @@ class CpfVisitTercViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.setTextField("123.456.789-00", TypeButton.NUMERIC)
         viewModel.setTextField("", TypeButton.OK)
         val state = viewModel.uiState.value
-        assertEquals(state.flagAccess, true)
-        assertEquals(state.flagDialog, false)
-        assertEquals(state.flagFailure, false)
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertTrue
+            state.flagAccess,
+            true
+        )
+        // PADRONIZADO: Verificar ausência de erro
+        assertEquals( // Convertido de assertFalse
+            state.flagDialog,
+            false
+        )
+        assertEquals( // Convertido de assertFalse
+            state.flagFailure,
+            false
+        )
+
+        
     }
 
     @Test
     fun `Check return false if cpf is incorrect`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             checkCpfVisitTerc(
                 cpf = "123.456.789-00",
@@ -513,75 +584,87 @@ class CpfVisitTercViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.success(false)
+            Result.success(false) // Use case indica CPF inválido/não encontrado
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.setTextField("123.456.789-00", TypeButton.NUMERIC)
         viewModel.setTextField("", TypeButton.OK)
         val state = viewModel.uiState.value
-        assertEquals(state.flagAccess, false)
-        assertEquals(state.flagDialog, true)
-        assertEquals(state.flagFailure, true)
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertFalse
+            state.flagAccess,
+            false
+        )
+        assertEquals( // Convertido de assertTrue
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Convertido de assertTrue
+            state.flagFailure,
+            true
+        )
+
     }
 
     @Test
     fun `Check return failure if have error in GetCpfVisitTerc`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
+        // PADRONIZADO: Usando resultFailure
         whenever(
             getCpfVisitTerc(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetCpfVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 1,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.getCpf()
         val state = viewModel.uiState.value
-        assertEquals(state.flagDialog, true)
-        assertEquals(state.flagFailure, true)
-        assertEquals(state.errors, Errors.EXCEPTION)
-        assertEquals(state.failure, "Failure Usecase -> GetCpfVisitTerc -> java.lang.Exception")
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertTrue
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Convertido de assertTrue
+            state.flagFailure,
+            true
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            Errors.EXCEPTION,
+            state.errors
+        )
+        // PADRONIZADO: Formato da mensagem de erro (Ordem mantida)
+        assertEquals(
+            "CpfVisitTercViewModel.getCpf -> GetCpfVisitTerc -> java.lang.Exception",
+            state.failure
+        )
     }
 
     @Test
     fun `Check return cpf if GetCpfVisitTerc execute successfully`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             getCpfVisitTerc(
                 id = 1
@@ -589,94 +672,124 @@ class CpfVisitTercViewModelTest {
         ).thenReturn(
             Result.success("123.456.789-00")
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 1,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.getCpf()
         val state = viewModel.uiState.value
-        assertEquals(state.cpf, "123.456.789-00")
-        assertEquals(state.checkGetCpf, false)
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Ordem mantida para não booleanos/null
+            "123.456.789-00",
+            state.cpf
+        )
+        assertEquals( // Convertido de assertFalse
+            state.checkGetCpf, // Flag interna do ViewModel
+            false
+        )
+        // PADRONIZADO: Verificar ausência de erro
+        assertEquals( // Convertido de assertFalse
+            state.flagDialog,
+            false
+        )
+        assertEquals( // Convertido de assertFalse
+            state.flagFailure,
+            false
+        )
+
+        
     }
 
     @Test
     fun `Check return failure if have error in GetTitleCpfVisitTerc`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
+        // PADRONIZADO: Mocks não são mais criados aqui
+        // PADRONIZADO: Usando resultFailure
         whenever(
             getTitleCpfVisitTerc(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetTitleCpfVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.recoverTitle()
         val state = viewModel.uiState.value
-        assertEquals(state.flagDialog, true)
-        assertEquals(state.flagFailure, true)
-        assertEquals(state.errors, Errors.EXCEPTION)
-        assertEquals(state.failure, "Failure Usecase -> GetTitleCpfVisitTerc -> java.lang.Exception")
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Convertido de assertTrue
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Convertido de assertTrue
+            state.flagFailure,
+            true
+        )
+        assertEquals( // Ordem mantida para não booleanos/null
+            Errors.EXCEPTION,
+            state.errors
+        )
+        // PADRONIZADO: Formato da mensagem de erro (Ordem mantida)
+        assertEquals(
+            "CpfVisitTercViewModel.recoverTitle -> GetTitleCpfVisitTerc -> java.lang.Exception",
+            state.failure
+        )
     }
 
     @Test
     fun `Check return title if GetTitleCpfVisitTerc execute successfully`() = runTest {
-        val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
-        val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
-        val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-        val updateTerceiro = mock<UpdateTerceiro>()
-        val updateVisitante = mock<UpdateVisitante>()
-        whenever(getTitleCpfVisitTerc(
-            flowApp = FlowApp.ADD,
-            id = 0
-        )).thenReturn(
+        // PADRONIZADO: Mocks não são mais criados aqui
+        whenever(
+            getTitleCpfVisitTerc(
+                flowApp = FlowApp.ADD,
+                id = 0
+            )
+        ).thenReturn(
             Result.success("CPF VISITANTE")
         )
-        val viewModel = CpfVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getTitleCpfVisitTerc,
-            checkCpfVisitTerc,
-            getCpfVisitTerc,
-            updateTerceiro,
-            updateVisitante
+            )
         )
         viewModel.recoverTitle()
         val state = viewModel.uiState.value
-        assertEquals(state.title, "CPF VISITANTE")
+        // FORMATADO: assertEquals em multi-linhas e ordem invertida (state, expected)
+        assertEquals( // Ordem mantida para não booleanos/null
+            "CPF VISITANTE",
+            state.title
+        )
+        // PADRONIZADO: Verificar ausência de erro
+        assertEquals( // Convertido de assertFalse
+            state.flagDialog,
+            false
+        )
+        assertEquals( // Convertido de assertFalse
+            state.flagFailure,
+            false
+        )
     }
 }

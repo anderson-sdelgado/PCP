@@ -19,7 +19,7 @@ class ICloseAllMovChave(
                 return resultFailure(
                     context = "ICloseAllMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultList.getOrNull()!!
@@ -30,7 +30,7 @@ class ICloseAllMovChave(
                     return resultFailure(
                         context = "ICloseAllMovChave",
                         message = e.message,
-                        cause = e
+                        cause = e.cause
                     )
                 }
             }

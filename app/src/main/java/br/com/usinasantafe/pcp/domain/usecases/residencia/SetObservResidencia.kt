@@ -34,7 +34,7 @@ class ISetObservResidencia(
                 return resultFailure(
                     context = "ISetObservResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

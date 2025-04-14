@@ -34,7 +34,7 @@ class ISaveDataConfig(
                 return resultFailure(
                     context = "ISaveDataConfig",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

@@ -29,7 +29,7 @@ class IMovEquipProprioEquipSegRepository(
             return resultFailure(
                 context = "IMovEquipProprioEquipSegRepository.add",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -42,7 +42,7 @@ class IMovEquipProprioEquipSegRepository(
             return resultFailure(
                 context = "IMovEquipProprioEquipSegRepository.clean",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -55,7 +55,7 @@ class IMovEquipProprioEquipSegRepository(
             return resultFailure(
                 context = "IMovEquipProprioEquipSegRepository.delete",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -73,8 +73,8 @@ class IMovEquipProprioEquipSegRepository(
                     return resultFailure(
                         context = "IMovEquipProprioEquipSegRepository.list",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val list = result.getOrNull()!!
                 val movEquipProprioEquipSegList = list.map {
@@ -91,8 +91,8 @@ class IMovEquipProprioEquipSegRepository(
                     return resultFailure(
                         context = "IMovEquipProprioEquipSegRepository.list",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val list = result.getOrNull()!!
                 val movEquipProprioEquipSegList = list.map { it.modelRoomToEntity() }
@@ -116,7 +116,7 @@ class IMovEquipProprioEquipSegRepository(
             return resultFailure(
                 context = "IMovEquipProprioEquipSegRepository.delete",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -130,7 +130,7 @@ class IMovEquipProprioEquipSegRepository(
                 return resultFailure(
                     context = "IMovEquipProprioEquipSegRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = resultList.getOrNull()!!
@@ -147,7 +147,7 @@ class IMovEquipProprioEquipSegRepository(
                 return resultFailure(
                     context = "IMovEquipProprioEquipSegRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

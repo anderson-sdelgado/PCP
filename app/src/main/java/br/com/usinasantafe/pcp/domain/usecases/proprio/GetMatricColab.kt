@@ -19,7 +19,7 @@ class IGetMatricColab(
                 return resultFailure(
                     context = "IGetMatricColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val matricColab = resultMatricColab.getOrNull()!!

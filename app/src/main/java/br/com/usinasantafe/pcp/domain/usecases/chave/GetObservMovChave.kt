@@ -18,7 +18,7 @@ class IGetObservMovChave(
             return resultFailure(
                 context = "IGetObservMovChave",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

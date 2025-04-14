@@ -19,7 +19,7 @@ class ISaveChave(
             return resultFailure(
                 context = "ISaveChave",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

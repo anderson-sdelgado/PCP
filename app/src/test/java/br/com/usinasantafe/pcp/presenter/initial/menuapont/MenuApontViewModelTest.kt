@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.initial.menuapont
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Fluxo
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.common.CloseAllMov
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
@@ -26,8 +27,7 @@ class MenuApontViewModelTest {
     private val getHeader = mock<GetHeader>()
     private val closeAllMov = mock<CloseAllMov>()
     private val getStatusSend = mock<GetStatusSend>()
-
-    private fun getViewModel() = MenuApontViewModel(
+    private val viewModel = MenuApontViewModel(
         getFlowList = getFlowList,
         getHeader = getHeader,
         closeAllMov = closeAllMov,
@@ -39,11 +39,12 @@ class MenuApontViewModelTest {
         whenever(
             getHeader()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetHeader",
+                "-",
                 Exception()
             )
         )
-        val viewModel = getViewModel()
         viewModel.returnHeader()
         assertEquals(
             viewModel.uiState.value.flagDialog,
@@ -51,7 +52,7 @@ class MenuApontViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> ConfigSharedPreferences.hasConfig -> java.lang.Exception"
+            "MenuApontViewModel.returnHeader -> GetHeader -> java.lang.Exception"
         )
     }
 
@@ -60,11 +61,12 @@ class MenuApontViewModelTest {
         whenever(
             closeAllMov()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CloseAllMovOpen",
+                "-",
                 Exception()
             )
         )
-        val viewModel = getViewModel()
         viewModel.closeAllMovOpen()
         assertEquals(
             viewModel.uiState.value.flagDialog,
@@ -72,7 +74,7 @@ class MenuApontViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> CloseAllMovOpen -> java.lang.Exception"
+            "MenuApontViewModel.closeAllMovOpen -> CloseAllMovOpen -> java.lang.Exception"
         )
     }
 
@@ -83,7 +85,6 @@ class MenuApontViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = getViewModel()
         viewModel.closeAllMovOpen()
         assertEquals(
             viewModel.uiState.value.flagDialog,
@@ -101,11 +102,12 @@ class MenuApontViewModelTest {
             whenever(
                 getFlowList()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetFlowList",
+                    "-",
                     Exception()
                 )
             )
-            val viewModel = getViewModel()
             viewModel.flowList()
             assertEquals(
                 viewModel.uiState.value.flagDialog,
@@ -113,7 +115,7 @@ class MenuApontViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetFlowList -> java.lang.Exception"
+                "MenuApontViewModel.flowList -> GetFlowList -> java.lang.Exception"
             )
         }
 
@@ -132,7 +134,6 @@ class MenuApontViewModelTest {
                     )
                 )
             )
-            val viewModel = getViewModel()
             viewModel.flowList()
             val list = viewModel.uiState.value.flows
             assertEquals(

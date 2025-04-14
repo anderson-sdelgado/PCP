@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.presenter.chave.chavelist
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetChaveList
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetIdChaveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
@@ -54,7 +55,9 @@ class ChaveListGetViewModelTest {
             whenever(
                 getChaveList()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetChaveList",
+                    "-",
                     Exception()
                 )
             )
@@ -66,7 +69,7 @@ class ChaveListGetViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetChaveList -> java.lang.Exception"
+                "ChaveListViewModel.recoverList -> GetChaveList -> java.lang.Exception"
             )
         }
 
@@ -118,8 +121,8 @@ class ChaveListGetViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
+                        failure = "CleanChave -> java.lang.NullPointerException",
+                        msgProgress = "CleanChave -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
@@ -145,14 +148,14 @@ class ChaveListGetViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanChave -> java.lang.NullPointerException",
+                    failure = "ChaveListViewModel.updateAllDatabase -> CleanChave -> java.lang.NullPointerException",
+                    msgProgress = "ChaveListViewModel.updateAllDatabase -> CleanChave -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
             assertEquals(
                 viewModel.uiState.value.msgProgress,
-                "Failure Usecase -> CleanChave -> java.lang.NullPointerException"
+                "ChaveListViewModel.updateAllDatabase -> CleanChave -> java.lang.NullPointerException"
             )
         }
 
@@ -199,8 +202,8 @@ class ChaveListGetViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
+                        failure = "CleanLocalTrab -> java.lang.NullPointerException",
+                        msgProgress = "CleanLocalTrab -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
@@ -250,14 +253,14 @@ class ChaveListGetViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException",
+                    failure = "ChaveListViewModel.updateAllDatabase -> CleanLocalTrab -> java.lang.NullPointerException",
+                    msgProgress = "ChaveListViewModel.updateAllDatabase -> CleanLocalTrab -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
             assertEquals(
                 viewModel.uiState.value.msgProgress,
-                "Failure Usecase -> CleanLocalTrab -> java.lang.NullPointerException"
+                "ChaveListViewModel.updateAllDatabase -> CleanLocalTrab -> java.lang.NullPointerException"
             )
         }
 
@@ -393,7 +396,9 @@ class ChaveListGetViewModelTest {
                     id = 0
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "SetIdChaveMov",
+                    "-",
                     Exception()
                 )
             )
@@ -405,7 +410,7 @@ class ChaveListGetViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> SetIdChaveMov -> java.lang.Exception"
+                "ChaveListViewModel.setIdChave -> SetIdChaveMov -> java.lang.Exception"
             )
         }
 

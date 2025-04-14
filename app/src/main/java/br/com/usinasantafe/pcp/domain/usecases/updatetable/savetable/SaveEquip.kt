@@ -19,7 +19,7 @@ class ISaveEquip(
             return resultFailure(
                 context = "ISaveEquip",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

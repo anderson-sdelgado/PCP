@@ -31,8 +31,8 @@ class ISaveMovEquipResidencia(
                     return resultFailure(
                         context = "ISaveMovEquipResidencia",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             val resultConfig = configRepository.getConfig()
@@ -41,7 +41,7 @@ class ISaveMovEquipResidencia(
                 return resultFailure(
                     context = "ISaveMovEquipResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -54,7 +54,7 @@ class ISaveMovEquipResidencia(
                 return resultFailure(
                     context = "ISaveMovEquipResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idSave = resultSave.getOrNull()!!
@@ -65,8 +65,8 @@ class ISaveMovEquipResidencia(
                     return resultFailure(
                         context = "ISaveMovEquipResidencia",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             startProcessSendData()

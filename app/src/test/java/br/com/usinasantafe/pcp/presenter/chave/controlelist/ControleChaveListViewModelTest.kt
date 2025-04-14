@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.chave.controlelist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetMovChaveInsideList
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartRemoveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
@@ -15,7 +16,7 @@ import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
-class ControleChaveListGetViewModelTest {
+class ControleChaveListViewModelTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -25,7 +26,7 @@ class ControleChaveListGetViewModelTest {
     private val getMovChaveInsideList = mock<GetMovChaveInsideList>()
     private val startRemoveMovChave = mock<StartRemoveMovChave>()
 
-    private fun getViewModel() = ControleChaveListViewModel(
+    private val viewModel = ControleChaveListViewModel(
         getHeader = getHeader,
         getMovChaveInsideList = getMovChaveInsideList,
         startRemoveMovChave = startRemoveMovChave
@@ -36,11 +37,12 @@ class ControleChaveListGetViewModelTest {
         whenever(
             getHeader()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetHeader",
+                "-",
                 Exception()
             )
         )
-        val viewModel = getViewModel()
         viewModel.returnHeader()
         assertEquals(
             viewModel.uiState.value.flagDialog,
@@ -48,7 +50,7 @@ class ControleChaveListGetViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> ConfigSharedPreferences.hasConfig -> java.lang.Exception"
+            "ControleChaveListViewModel.returnHeader -> GetHeader -> java.lang.Exception"
         )
     }
 
@@ -65,7 +67,6 @@ class ControleChaveListGetViewModelTest {
                     )
                 )
             )
-            val viewModel = getViewModel()
             viewModel.returnHeader()
             assertEquals(
                 viewModel.uiState.value.descrVigia,
@@ -78,16 +79,17 @@ class ControleChaveListGetViewModelTest {
         }
 
     @Test
-    fun `Check return failure if have error in GetControleChaveRemoveList`() =
+    fun `Check return failure if have error in GetMovChaveInsideList`() =
         runTest {
             whenever(
                 getMovChaveInsideList()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetMovChaveInsideList",
+                    "-",
                     Exception()
                 )
             )
-            val viewModel = getViewModel()
             viewModel.recoverMovList()
             assertEquals(
                 viewModel.uiState.value.flagDialog,
@@ -95,12 +97,12 @@ class ControleChaveListGetViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetControleChaveRemoveList -> java.lang.Exception"
+                "ControleChaveListViewModel.recoverMovList -> GetMovChaveInsideList -> java.lang.Exception"
             )
         }
 
     @Test
-    fun `Check return true if GetControleChaveRemoveList execute successfully`() =
+    fun `Check return true if GetMovChaveInsideList execute successfully`() =
         runTest {
             whenever(
                 getMovChaveInsideList()
@@ -116,7 +118,6 @@ class ControleChaveListGetViewModelTest {
                     )
                 )
             )
-            val viewModel = getViewModel()
             viewModel.recoverMovList()
             val entityList = viewModel.uiState.value.controleChaveModelList
             assertEquals(
@@ -140,11 +141,12 @@ class ControleChaveListGetViewModelTest {
             whenever(
                 startRemoveMovChave()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "StartRemoveChave",
+                    "-",
                     Exception()
                 )
             )
-            val viewModel = getViewModel()
             viewModel.startMov()
             assertEquals(
                 viewModel.uiState.value.flagDialog,
@@ -152,7 +154,7 @@ class ControleChaveListGetViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> StartRemoveChave -> java.lang.Exception"
+                "ControleChaveListViewModel.startMov -> StartRemoveChave -> java.lang.Exception"
             )
         }
 
@@ -164,7 +166,6 @@ class ControleChaveListGetViewModelTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val viewModel = getViewModel()
             viewModel.startMov()
             assertEquals(
                 viewModel.uiState.value.flagAccess,

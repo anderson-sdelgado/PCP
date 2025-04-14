@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.proprio.notafiscal
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNotaFiscalProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetNotaFiscalProprio
 import br.com.usinasantafe.pcp.presenter.Args
@@ -23,28 +24,33 @@ class NotaFiscalViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val setNotaFiscalProprio = mock<SetNotaFiscalProprio>()
+    private val getNotaFiscalProprio = mock<GetNotaFiscalProprio>()
+    private val viewModel = NotaFiscalViewModel(
+        SavedStateHandle(
+            mapOf(
+                Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                Args.ID_ARGS to 0,
+            )
+        ),
+        setNotaFiscalProprio,
+        getNotaFiscalProprio
+    )
+
     @Test
     fun `Check return access true if button ok pressed`() = runTest {
-        val setNotaFiscalProprio = mock<SetNotaFiscalProprio>()
-        val getNotaFiscalProprio = mock<GetNotaFiscalProprio>()
-        val viewModel = NotaFiscalViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setNotaFiscalProprio,
-            getNotaFiscalProprio
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
         )
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertTrue(viewModel.uiState.value.flagAccess)
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
     }
 
     @Test
     fun `Check return failure if have error in SetNotaFiscalProprio`() = runTest {
-        val setNotaFiscalProprio = mock<SetNotaFiscalProprio>()
-        val getNotaFiscalProprio = mock<GetNotaFiscalProprio>()
         whenever(
             setNotaFiscalProprio(
                 notaFiscal = "123456",
@@ -52,30 +58,32 @@ class NotaFiscalViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetNotaFiscalProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = NotaFiscalViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setNotaFiscalProprio,
-            getNotaFiscalProprio
+        viewModel.setTextField(
+            "123456",
+            TypeButton.NUMERIC
         )
-        viewModel.setTextField("123456", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> SetNotaFiscalProprio -> java.lang.Exception")
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NotaFiscalViewModel.setNotaFiscal -> SetNotaFiscalProprio -> java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return access true if SetNotaFiscalProprio execute successfully`() = runTest {
-        val setNotaFiscalProprio = mock<SetNotaFiscalProprio>()
-        val getNotaFiscalProprio = mock<GetNotaFiscalProprio>()
         whenever(
             setNotaFiscalProprio(
                 notaFiscal = "123456",
@@ -85,32 +93,34 @@ class NotaFiscalViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = NotaFiscalViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setNotaFiscalProprio,
-            getNotaFiscalProprio
+        viewModel.setTextField(
+            "123456",
+            TypeButton.NUMERIC
         )
-        viewModel.setTextField("123456", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertFalse(viewModel.uiState.value.flagDialog)
-        assertTrue(viewModel.uiState.value.flagAccess)
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
     }
 
     @Test
     fun `Check return failure if have error in GetNotaFiscalProprio`() = runTest {
-        val setNotaFiscalProprio = mock<SetNotaFiscalProprio>()
-        val getNotaFiscalProprio = mock<GetNotaFiscalProprio>()
         whenever(
             getNotaFiscalProprio(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetNotaFiscalProprio",
+                "-",
                 Exception()
             )
         )
@@ -125,15 +135,19 @@ class NotaFiscalViewModelTest {
             getNotaFiscalProprio
         )
         viewModel.getNotaFiscal()
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> GetNotaFiscalProprio -> java.lang.Exception")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NotaFiscalViewModel.getNotaFiscal -> GetNotaFiscalProprio -> java.lang.Exception"
+        )
     }
 
 
     @Test
     fun `Check return observ if GetNotaFiscalProprio execute successfully`() = runTest {
-        val setNotaFiscalProprio = mock<SetNotaFiscalProprio>()
-        val getNotaFiscalProprio = mock<GetNotaFiscalProprio>()
         whenever(
             getNotaFiscalProprio(
                 id = 1
@@ -152,7 +166,13 @@ class NotaFiscalViewModelTest {
             getNotaFiscalProprio
         )
         viewModel.getNotaFiscal()
-        assertFalse(viewModel.uiState.value.flagDialog)
-        assertEquals(viewModel.uiState.value.notaFiscal, "123456")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.notaFiscal,
+            "123456"
+        )
     }
 }

@@ -18,7 +18,7 @@ class ICloseMovChaveEquip(
             return resultFailure(
                 context = "ICloseMovChaveEquip",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

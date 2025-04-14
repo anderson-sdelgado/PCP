@@ -21,7 +21,7 @@ class IStartInputMovEquipVisitTerc(
                 return resultFailure(
                     context = "IStartInputMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultClear = movEquipVisitTercPassagRepository.clean()
@@ -30,7 +30,7 @@ class IStartInputMovEquipVisitTerc(
                 return resultFailure(
                     context = "IStartInputMovEquipVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

@@ -19,7 +19,7 @@ class ICheckNroEquip(
                 return resultFailure(
                     context = "ICheckNroEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseMovResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetDetalheResidencia
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class DetalheResidenciaState(
     val id: Int = 0,
@@ -60,7 +62,8 @@ class DetalheResidenciaViewModel(
         val resultRecoverDetalhe = getDetalheResidencia(uiState.value.id)
         if(resultRecoverDetalhe.isFailure) {
             val error = resultRecoverDetalhe.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -86,7 +89,8 @@ class DetalheResidenciaViewModel(
         val resultCloseMov = closeMovResidencia(uiState.value.id)
         if(resultCloseMov.isFailure) {
             val error = resultCloseMov.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialogCheck = false,

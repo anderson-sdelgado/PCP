@@ -23,7 +23,7 @@ class IEquipRepository(
                 return resultFailure(
                     context = "IEquipRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class IEquipRepository(
             return resultFailure(
                 context = "IEquipRepository.checkNro",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -56,7 +56,7 @@ class IEquipRepository(
             return resultFailure(
                 context = "IEquipRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -70,7 +70,7 @@ class IEquipRepository(
                 return resultFailure(
                     context = "IEquipRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = result.getOrNull()!!.roomModelToEntity()
@@ -92,7 +92,7 @@ class IEquipRepository(
                 return resultFailure(
                     context = "IEquipRepository.getId",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = result.getOrNull()!!
@@ -120,7 +120,7 @@ class IEquipRepository(
                 return resultFailure(
                     context = "IEquipRepository.getNro",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = result.getOrNull()!!
@@ -135,7 +135,7 @@ class IEquipRepository(
             return resultFailure(
                 context = "IEquipRepository.getNro",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
     }
@@ -148,7 +148,7 @@ class IEquipRepository(
                 return resultFailure(
                     context = "IEquipRepository.getDescr",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = result.getOrNull()!!.roomModelToEntity()
@@ -170,7 +170,7 @@ class IEquipRepository(
                 return resultFailure(
                     context = "IEquipRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

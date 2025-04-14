@@ -27,7 +27,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.checkOpen",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -40,7 +40,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.checkSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -54,7 +54,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val model = resultGet.getOrNull()!!
@@ -64,7 +64,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return resultDelete
@@ -85,7 +85,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity())
@@ -106,7 +106,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.getDestino",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -129,7 +129,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.getIdVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -152,7 +152,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.getObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -175,7 +175,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.getPlaca",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -202,8 +202,8 @@ class IMovEquipVisitTercRepository(
                     return resultFailure(
                         context = "IMovEquipVisitTercRepository.getTypeVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 return Result.success(result.getOrNull()!!.tipoVisitTercMovEquipVisitTerc!!)
             }
@@ -215,8 +215,8 @@ class IMovEquipVisitTercRepository(
                     return resultFailure(
                         context = "IMovEquipVisitTercRepository.getTypeVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 return Result.success(result.getOrNull()!!.tipoVisitTercMovEquipVisitTerc)
             }
@@ -231,7 +231,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.getVeiculo",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -254,7 +254,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.listOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!.map {
@@ -279,7 +279,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.listInside",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!.map {
@@ -304,7 +304,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.listSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = result.getOrNull()!!.map {
@@ -329,7 +329,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.listSent",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = result.getOrNull()!!.map {
@@ -357,7 +357,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipVisitTercRoomModel =
@@ -369,7 +369,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = resultSave.getOrNull()!!.toInt()
@@ -386,7 +386,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(id)
@@ -414,7 +414,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.send",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listInput = result.getOrNull()!!
@@ -438,7 +438,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.setClose",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -460,7 +460,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.setDestino",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -492,7 +492,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.setIdVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -521,7 +521,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.setObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -541,7 +541,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.setOutside",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -563,7 +563,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.setPlaca",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -583,7 +583,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.setTipoVisitTerc",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -605,7 +605,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.setVeiculo",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -628,8 +628,8 @@ class IMovEquipVisitTercRepository(
                     return resultFailure(
                         context = "IMovEquipVisitTercRepository.setSent",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)
@@ -649,7 +649,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.setSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -662,7 +662,7 @@ class IMovEquipVisitTercRepository(
             return resultFailure(
                 context = "IMovEquipVisitTercRepository.start(INSIDE)",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -680,7 +680,7 @@ class IMovEquipVisitTercRepository(
                 return resultFailure(
                     context = "IMovEquipVisitTercRepository.start(OUTSIDE)",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

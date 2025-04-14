@@ -26,7 +26,7 @@ class IGetMovChaveOpenList(
                 return resultFailure(
                     context = "IGetMovChaveOpenList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultList.getOrNull()!!.map {
@@ -36,8 +36,8 @@ class IGetMovChaveOpenList(
                     return resultFailure(
                         context = "IGetMovChaveOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val nomeColab = resultNomeColab.getOrNull()!!
                 val resultGetDescrFullChave = getDescrFullChave(it.idChaveMovChave!!)
@@ -46,8 +46,8 @@ class IGetMovChaveOpenList(
                     return resultFailure(
                         context = "IGetMovChaveOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val descrFullChave = resultGetDescrFullChave.getOrNull()!!
                 ControleChaveModel(

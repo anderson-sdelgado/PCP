@@ -2,9 +2,11 @@ package br.com.usinasantafe.pcp.presenter.visitterc.nome
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetNomeVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetIdVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
+import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeOcupante
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,10 +25,23 @@ class NomeVisitTercViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // Mocks como propriedades da classe
+    private val getNomeVisitTerc = mock<GetNomeVisitTerc>()
+    private val setIdVisitTerc = mock<SetIdVisitTerc>()
+
+    // Helper function para criar ViewModel
+    private fun getViewModel(
+        savedStateHandle: SavedStateHandle
+    ) = NomeVisitTercViewModel(
+        savedStateHandle,
+        getNomeVisitTerc,
+        setIdVisitTerc
+    )
+
     @Test
     fun `Check return failure if have error in GetNomeVisitTerc`() = runTest {
-        val getNomeVisitTerc = mock<GetNomeVisitTerc>()
-        val setIdVisitTerc = mock<SetIdVisitTerc>()
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             getNomeVisitTerc(
                 cpf = "123.456.789-00",
@@ -34,11 +49,14 @@ class NomeVisitTercViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetNomeVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = NomeVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.CPF_VISIT_TERC_ARGS to "123.456.789-00",
@@ -46,22 +64,51 @@ class NomeVisitTercViewModelTest {
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getNomeVisitTerc,
-            setIdVisitTerc
+            )
         )
+
+        // Act
         viewModel.returnNome()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(
-            viewModel.uiState.value.failure,
-            "Failure Usecase -> GetNomeVisitTerc -> java.lang.Exception"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem padronizado
+            "NomeVisitTercViewModel.returnNome -> GetNomeVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.tipo,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.nome,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.empresa,
+            ""
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial/erro
+            state.flagAccess,
+            false
         )
     }
 
     @Test
     fun `Check return model if GetNomeVisitTerc execute successfully`() = runTest {
-        val getNomeVisitTerc = mock<GetNomeVisitTerc>()
-        val setIdVisitTerc = mock<SetIdVisitTerc>()
+        // Arrange
+        val expectedModel = NomeVisitTercModel( // PADRONIZADO: Nome da variável mais descritivo
+            tipo = "Tipo",
+            nome = "Nome",
+            empresa = "Empresa"
+        )
+        // PADRONIZADO: whenever multi-linha
         whenever(
             getNomeVisitTerc(
                 cpf = "123.456.789-00",
@@ -69,15 +116,10 @@ class NomeVisitTercViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.success(
-                NomeVisitTercModel(
-                    tipo = "Tipo",
-                    nome = "Nome",
-                    empresa = "Empresa"
-                )
-            )
+            Result.success(expectedModel)
         )
-        val viewModel = NomeVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.CPF_VISIT_TERC_ARGS to "123.456.789-00",
@@ -85,21 +127,43 @@ class NomeVisitTercViewModelTest {
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getNomeVisitTerc,
-            setIdVisitTerc
+            )
         )
+
+        // Act
         viewModel.returnNome()
         val state = viewModel.uiState.value
-        assertEquals(state.tipo, "Tipo")
-        assertEquals(state.nome, "Nome")
-        assertEquals(state.empresa, "Empresa")
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // expected, actual (string)
+            expectedModel.tipo,
+            state.tipo
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.nome,
+            state.nome
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.empresa,
+            state.empresa
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (boolean) - Estado inicial
+            state.flagAccess,
+            false
+        )
     }
 
     @Test
-    fun `Check return failure if have error in SetCpfVisitTerc`() = runTest {
-        val getNomeVisitTerc = mock<GetNomeVisitTerc>()
-        val setIdVisitTerc = mock<SetIdVisitTerc>()
+    fun `Check return failure if have error in SetIdVisitTerc`() = runTest {
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             setIdVisitTerc(
                 cpf = "123.456.789-00",
@@ -108,11 +172,14 @@ class NomeVisitTercViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetIdVisitTerc", // Nome do use case correto
+                "-",
                 Exception()
             )
         )
-        val viewModel = NomeVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.CPF_VISIT_TERC_ARGS to "123.456.789-00",
@@ -120,22 +187,46 @@ class NomeVisitTercViewModelTest {
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getNomeVisitTerc,
-            setIdVisitTerc
+            )
         )
+
+        // Act
         viewModel.setCPF()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(
-            viewModel.uiState.value.failure,
-            "Failure Usecase -> SetCpfVisitTerc -> java.lang.Exception"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem padronizado
+            "NomeVisitTercViewModel.setCPF -> SetIdVisitTerc -> java.lang.Exception", // Nome do use case correto
+            state.failure
+        )
+        // PADRONIZADO: Verificar outros estados relevantes (returnNome não foi chamado/sucedido)
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.tipo,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.nome,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.empresa,
+            ""
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial/erro
+            state.flagAccess,
+            false
         )
     }
 
     @Test
-    fun `Check return true if SetCpfVisitTerc execute successfully`() = runTest {
-        val getNomeVisitTerc = mock<GetNomeVisitTerc>()
-        val setIdVisitTerc = mock<SetIdVisitTerc>()
+    fun `Check return true if SetIdVisitTerc execute successfully`() = runTest {
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             setIdVisitTerc(
                 cpf = "123.456.789-00",
@@ -146,7 +237,8 @@ class NomeVisitTercViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = NomeVisitTercViewModel(
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.CPF_VISIT_TERC_ARGS to "123.456.789-00",
@@ -154,11 +246,36 @@ class NomeVisitTercViewModelTest {
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getNomeVisitTerc,
-            setIdVisitTerc
+            )
         )
+
+        // Act
         viewModel.setCPF()
-        assertEquals(viewModel.uiState.value.flagAccess, true)
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagAccess,
+            true // Acesso/sucesso ocorreu
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
+        // PADRONIZADO: Verificar outros estados relevantes (returnNome não foi chamado/sucedido)
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.tipo,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.nome,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.empresa,
+            ""
+        )
     }
 }

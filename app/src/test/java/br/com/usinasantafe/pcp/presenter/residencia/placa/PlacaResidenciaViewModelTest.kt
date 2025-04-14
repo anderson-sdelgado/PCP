@@ -2,9 +2,11 @@ package br.com.usinasantafe.pcp.presenter.residencia.placa
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure // Já presente
 import br.com.usinasantafe.pcp.domain.usecases.residencia.GetPlacaResidencia
 import br.com.usinasantafe.pcp.domain.usecases.residencia.SetPlacaResidencia
 import br.com.usinasantafe.pcp.presenter.Args
+import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import br.com.usinasantafe.pcp.utils.FlowApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -21,122 +23,153 @@ class PlacaResidenciaViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // PADRONIZADO: Mocks declarados como propriedades da classe
+    private val getPlacaResidencia = mock<GetPlacaResidencia>()
+    private val setPlacaResidencia = mock<SetPlacaResidencia>()
+
+    // PADRONIZADO: Helper function usa os mocks da classe
+    private fun createViewModel(
+        savedStateHandle: SavedStateHandle
+    ) = PlacaResidenciaViewModel(
+        savedStateHandle,
+        getPlacaResidencia, // Usa o mock da classe
+        setPlacaResidencia  // Usa o mock da classe
+    )
+
     @Test
     fun `Check return failure if fields is empty`() {
-        val setPlacaResidencia = mock<SetPlacaResidencia>()
-        val getPlacaResidencia = mock<GetPlacaResidencia>()
-        val viewModel = PlacaResidenciaViewModel(
+        // PADRONIZADO: Chamada simplificada para createViewModel
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getPlacaResidencia,
-            setPlacaResidencia
+            )
         )
         viewModel.setPlaca()
-        assertTrue(viewModel.uiState.value.flagDialog)
+        val state = viewModel.uiState.value
+        // FORMATADO: assertEquals em multi-linhas
+        // PADRONIZADO: Verificações de falha (adaptado para validação interna)
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
     }
 
     @Test
     fun `Check return failure if have error in setPlaca`() = runTest {
-        val setPlacaResidencia = mock<SetPlacaResidencia>()
-        val getPlacaResidencia = mock<GetPlacaResidencia>()
         whenever(
             setPlacaResidencia(
-                placa = "AAA-0000",
+                placa = "AAA0000",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            // PADRONIZADO: Usando resultFailure
+            resultFailure(
+                "SetPlacaResidencia",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PlacaResidenciaViewModel(
+        // PADRONIZADO: Chamada simplificada para createViewModel
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getPlacaResidencia,
-            setPlacaResidencia
+            )
         )
-        viewModel.onPlacaChanged("AAA-0000")
+        viewModel.onPlacaChanged("AAA0000")
         viewModel.setPlaca()
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(
-            viewModel.uiState.value.failure,
-            "Failure Usecase -> SetPlacaResidencia -> java.lang.Exception"
+        val state = viewModel.uiState.value
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Padronizado
+            state.failure,
+            "PlacaResidenciaViewModel.setPlaca -> SetPlacaResidencia -> java.lang.Exception"
         )
     }
 
     @Test
-    fun `Check return true if setPlaca execute successfully`() = runTest {
-        val setPlacaResidencia = mock<SetPlacaResidencia>()
-        val getPlacaResidencia = mock<GetPlacaResidencia>()
+    fun `Check access true if setPlaca execute successfully`() = runTest { // Nome ajustado para clareza
         whenever(
             setPlacaResidencia(
-                placa = "AAA-0000",
+                placa = "AAA0000",
                 flowApp = FlowApp.ADD,
                 id = 0
             )
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = PlacaResidenciaViewModel(
+        // PADRONIZADO: Chamada simplificada para createViewModel
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            getPlacaResidencia,
-            setPlacaResidencia
+            )
         )
-        viewModel.onPlacaChanged("AAA-0000")
+        viewModel.onPlacaChanged("AAA0000")
         viewModel.setPlaca()
-        assertTrue(viewModel.uiState.value.flagAccess)
+        val state = viewModel.uiState.value
+        // FORMATADO: assertEquals em multi-linhas
+        // PADRONIZADO: Verificações completas de sucesso
+        assertEquals( // Padronizado
+            state.flagAccess,
+            true
+        )
+        assertEquals( // Padronizado
+            state.flagDialog,
+            false
+        )
+        
     }
 
     @Test
     fun `Check return failure if have error in GetPlaca`() = runTest {
-        val setPlacaResidencia = mock<SetPlacaResidencia>()
-        val getPlacaResidencia = mock<GetPlacaResidencia>()
         whenever(
             getPlacaResidencia(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            // PADRONIZADO: Usando resultFailure
+            resultFailure(
+                "GetPlacaResidencia",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PlacaResidenciaViewModel(
+        // PADRONIZADO: Chamada simplificada para createViewModel
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1
                 )
-            ),
-            getPlacaResidencia,
-            setPlacaResidencia
+            )
         )
         viewModel.recoverPlaca()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
+        // FORMATADO: assertEquals em multi-linhas
+        // PADRONIZADO: Verificações completas de falha
+        assertEquals( // Padronizado
+            state.flagDialog,
+            true
+        )
+        assertEquals( // Padronizado
             state.failure,
-            "Failure Usecase -> GetPlacaResidencia -> java.lang.Exception"
+            "PlacaResidenciaViewModel.recoverPlaca -> GetPlacaResidencia -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return placa if GetPlaca execute successfully`() = runTest {
-        val setPlacaResidencia = mock<SetPlacaResidencia>()
-        val getPlacaResidencia = mock<GetPlacaResidencia>()
         whenever(
             getPlacaResidencia(
                 id = 1
@@ -144,18 +177,27 @@ class PlacaResidenciaViewModelTest {
         ).thenReturn(
             Result.success("AAA-0000")
         )
-        val viewModel = PlacaResidenciaViewModel(
+        // PADRONIZADO: Chamada simplificada para createViewModel
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1
                 )
-            ),
-            getPlacaResidencia,
-            setPlacaResidencia
+            )
         )
         viewModel.recoverPlaca()
         val state = viewModel.uiState.value
-        assertEquals(state.placa, "AAA-0000")
+        // FORMATADO: assertEquals em multi-linhas
+        // PADRONIZADO: Verificações completas de sucesso (adaptado para recuperação de dados)
+        assertEquals( // Padronizado
+            state.placa,
+            "AAA-0000"
+        )
+        assertEquals( // Padronizado
+            state.flagDialog,
+            false
+        )
+        
     }
 }

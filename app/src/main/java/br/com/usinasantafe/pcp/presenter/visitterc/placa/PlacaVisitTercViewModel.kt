@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.placa
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,10 +8,12 @@ import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetPlacaVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class PlacaVisitTercState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -69,7 +70,8 @@ class PlacaVisitTercViewModel(
             )
             if (resultGetPlaca.isFailure) {
                 val error = resultGetPlaca.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -105,13 +107,15 @@ class PlacaVisitTercViewModel(
             )
             if (resultSetPlaca.isFailure) {
                 val error = resultSetPlaca.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
                         failure = failure,
                     )
                 }
+                return@launch
             }
             _uiState.update {
                 it.copy(

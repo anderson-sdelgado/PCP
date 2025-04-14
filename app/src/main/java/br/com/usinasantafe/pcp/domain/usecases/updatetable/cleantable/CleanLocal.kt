@@ -18,7 +18,7 @@ class ICleanLocal(
             return resultFailure(
                 context = "ICleanLocal",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

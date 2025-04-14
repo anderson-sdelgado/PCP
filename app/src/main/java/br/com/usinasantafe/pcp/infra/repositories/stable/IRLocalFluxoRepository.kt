@@ -23,7 +23,7 @@ class IRLocalFluxoRepository(
                 return resultFailure(
                     context = "IRLocalFluxoRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class IRLocalFluxoRepository(
             return resultFailure(
                 context = "IRLocalFluxoRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -57,7 +57,7 @@ class IRLocalFluxoRepository(
                 return resultFailure(
                     context = "IRLocalFluxoRepository.list",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.roomModelToEntity() }
@@ -79,7 +79,7 @@ class IRLocalFluxoRepository(
                 return resultFailure(
                     context = "IRLocalFluxoRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

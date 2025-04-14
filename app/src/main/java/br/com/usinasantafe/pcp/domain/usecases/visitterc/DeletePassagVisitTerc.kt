@@ -31,7 +31,7 @@ class IDeletePassagVisitTerc(
             return resultFailure(
                 context = "IDeletePassagVisitTerc",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

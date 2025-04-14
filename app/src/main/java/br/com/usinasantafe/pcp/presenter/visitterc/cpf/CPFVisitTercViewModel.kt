@@ -12,8 +12,10 @@ import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetTitleCpfVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_OCUPANTE_ARGS
+import br.com.usinasantafe.pcp.presenter.proprio.nroequip.resultUpdateToNroEquipProprio
 import br.com.usinasantafe.pcp.ui.theme.addTextField
 import br.com.usinasantafe.pcp.ui.theme.clearTextField
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
@@ -24,6 +26,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class CpfVisitTercState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -43,18 +46,29 @@ data class CpfVisitTercState(
 )
 
 fun ResultUpdate.resultUpdateToState(): CpfVisitTercState {
-    return with(this){
-        CpfVisitTercState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "CpfVisitTercViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "CpfVisitTercViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return CpfVisitTercState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
+
 
 class CpfVisitTercViewModel(
     savedStateHandle: SavedStateHandle,
@@ -144,8 +158,8 @@ class CpfVisitTercViewModel(
             )
             if (resultGetTitle.isFailure) {
                 val error = resultGetTitle.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -172,8 +186,8 @@ class CpfVisitTercViewModel(
             val resultGetCpf = getCpfVisitTerc(uiState.value.id)
             if (resultGetCpf.isFailure) {
                 val error = resultGetCpf.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -202,8 +216,8 @@ class CpfVisitTercViewModel(
         )
         if (resultCheckCpf.isFailure) {
             val error = resultCheckCpf.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

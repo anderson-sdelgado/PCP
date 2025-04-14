@@ -28,7 +28,7 @@ class ISendMovProprioList(
                 return resultFailure(
                     context = "ISendMovProprioList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = resultListSend.getOrNull()!!
@@ -42,8 +42,8 @@ class ISendMovProprioList(
                     return resultFailure(
                         context = "ISendMovProprioList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 entity.movEquipProprioEquipSegList = resultListEquipSeg.getOrNull()!!
                 val resultListPassag = movEquipProprioPassagRepository.list(
@@ -55,8 +55,8 @@ class ISendMovProprioList(
                     return resultFailure(
                         context = "ISendMovProprioList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 entity.movEquipProprioPassagList = resultListPassag.getOrNull()!!
                 return@map entity
@@ -67,7 +67,7 @@ class ISendMovProprioList(
                 return resultFailure(
                     context = "ISendMovProprioList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -86,7 +86,7 @@ class ISendMovProprioList(
                 return resultFailure(
                     context = "ISendMovProprioList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultSend.getOrNull()!!)

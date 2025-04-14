@@ -19,7 +19,7 @@ class ISetStatusSentMovChave(
             return resultFailure(
                 context = "ISetObservMovChave",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

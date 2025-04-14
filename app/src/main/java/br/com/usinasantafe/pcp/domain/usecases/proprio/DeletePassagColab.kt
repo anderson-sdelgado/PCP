@@ -31,7 +31,7 @@ class IDeletePassagColab(
             return resultFailure(
                 context = "IDeletePassagColab",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

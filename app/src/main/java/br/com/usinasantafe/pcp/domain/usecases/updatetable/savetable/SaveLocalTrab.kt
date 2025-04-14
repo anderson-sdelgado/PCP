@@ -19,7 +19,7 @@ class ISaveLocalTrab(
             return resultFailure(
                 context = "ISaveLocalTrab",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

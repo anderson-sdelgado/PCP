@@ -11,6 +11,7 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_OCUPANTE_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -62,8 +63,7 @@ class NomeColabViewModel(
         val recoverNome = getNomeColab(uiState.value.matricColab)
         if (recoverNome.isFailure) {
             val error = recoverNome.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -89,8 +89,7 @@ class NomeColabViewModel(
         )
         if (resultSetMatric.isFailure){
             val error = resultSetMatric.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,

@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.proprio.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.proprio.CloseMovProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetDetalheProprio
 import br.com.usinasantafe.pcp.presenter.Args
@@ -21,40 +22,46 @@ class DetalheProprioViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val getDetalheProprio = mock<GetDetalheProprio>()
+    private val closeMovProprio = mock<CloseMovProprio>()
+    private val viewModel = DetalheProprioViewModel(
+        SavedStateHandle(
+            mapOf(
+                Args.ID_ARGS to 1
+            )
+        ),
+        getDetalheProprio,
+        closeMovProprio
+    )
+
     @Test
     fun `Check return failure if have error in recoverDetalhe`() = runTest {
-        val getDetalheProprio = mock<GetDetalheProprio>()
-        val closeMovProprio = mock<CloseMovProprio>()
         whenever(
             getDetalheProprio(1)
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetDetalheProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DetalheProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.ID_ARGS to 1
-                )
-            ),
-            getDetalheProprio,
-            closeMovProprio
-        )
         viewModel.recoverDetalhe()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
+        assertEquals(
+            state.flagDialog,
+            true
+        )
         assertEquals(
             state.failure,
-            "Failure Usecase -> RecoverDetalheProprio -> java.lang.Exception"
+            "DetalheProprioViewModel.recoverDetalhe -> GetDetalheProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return model if recoverDetalhe execute correctly`() = runTest {
-        val getDetalheProprio = mock<GetDetalheProprio>()
-        val closeMovProprio = mock<CloseMovProprio>()
-        whenever(getDetalheProprio(1)).thenReturn(
+        whenever(
+            getDetalheProprio(1)
+        ).thenReturn(
             Result.success(
                 DetalheProprioModel(
                     dthr = "08/08/2024 12:00",
@@ -69,68 +76,53 @@ class DetalheProprioViewModelTest {
                 )
             )
         )
-        val viewModel = DetalheProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.ID_ARGS to 1
-                )
-            ),
-            getDetalheProprio,
-            closeMovProprio
-        )
         viewModel.recoverDetalhe()
         val state = viewModel.uiState.value
-        assertEquals(state.dthr, "08/08/2024 12:00")
-        assertEquals(state.tipoMov, "ENTRADA")
+        assertEquals(
+            state.dthr,
+            "08/08/2024 12:00"
+        )
+        assertEquals(
+            state.tipoMov,
+            "ENTRADA"
+        )
     }
 
     @Test
     fun `Check return failure if have error in CloseMovProprioOpen`() = runTest {
-        val getDetalheProprio = mock<GetDetalheProprio>()
-        val closeMovProprio = mock<CloseMovProprio>()
         whenever(
             closeMovProprio(1)
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CloseMovProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DetalheProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.ID_ARGS to 1
-                )
-            ),
-            getDetalheProprio,
-            closeMovProprio
-        )
         viewModel.closeMov()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
+        assertEquals(
+            state.flagDialog,
+            true
+        )
         assertEquals(
             state.failure,
-            "Failure Usecase -> CloseMovProprioOpen -> java.lang.Exception"
+            "DetalheProprioViewModel.closeMov -> CloseMovProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return true if CloseMovProprioOpen execute correctly`() = runTest {
-        val getDetalheProprio = mock<GetDetalheProprio>()
-        val closeMovProprio = mock<CloseMovProprio>()
-        whenever(closeMovProprio(1)).thenReturn(
+        whenever(
+            closeMovProprio(1)
+        ).thenReturn(
             Result.success(true)
-        )
-        val viewModel = DetalheProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.ID_ARGS to 1
-                )
-            ),
-            getDetalheProprio,
-            closeMovProprio
         )
         viewModel.closeMov()
         val state = viewModel.uiState.value
-        assertTrue(state.flagCloseMov)
+        assertEquals(
+            state.flagCloseMov,
+            true
+        )
     }
 }

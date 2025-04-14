@@ -20,7 +20,7 @@ class ICheckMatricColab(
                 return resultFailure(
                     context = "ICheckMatricColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

@@ -39,7 +39,7 @@ class ISetIdEquipProprio(
                 return resultFailure(
                     context = "ISetIdEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idEquip = resultId.getOrNull()!!
@@ -55,8 +55,8 @@ class ISetIdEquipProprio(
                         return resultFailure(
                             context = "ISetIdEquipProprio",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                 }
 
@@ -71,8 +71,8 @@ class ISetIdEquipProprio(
                         return resultFailure(
                             context = "ISetIdEquipProprio",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     if(flowApp == FlowApp.CHANGE) {
                         val resultSend = movEquipProprioRepository.setSend(id)
@@ -81,7 +81,7 @@ class ISetIdEquipProprio(
                             return resultFailure(
                                 context = "ISetIdEquipProprio",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                     }

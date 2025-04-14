@@ -100,12 +100,14 @@ import br.com.usinasantafe.pcp.external.room.AppDatabaseRoom
 import br.com.usinasantafe.pcp.external.sharedpreferences.providerSharedPreferences
 import br.com.usinasantafe.pcp.external.retrofit.provideRetrofit
 import br.com.usinasantafe.pcp.external.room.provideRoom
+import br.com.usinasantafe.pcp.utils.UUIDProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -198,7 +200,7 @@ val usecaseChaveModule = module {
     singleOf(::IGetMovChaveOpenList) { bind<GetMovChaveOpenList>() }
     singleOf(::IGetMovChaveInsideList) { bind<GetMovChaveInsideList>() }
     singleOf(::IGetObservMovChave) { bind<GetObservMovChave>() }
-    singleOf(::ISaveMovChave) { bind<SaveMovChave>() }
+    single { ISaveMovChave(get(), get(), get(), UUIDProvider) } bind SaveMovChave::class
     singleOf(::ISendMovChaveList) { bind<SendMovChaveList>() }
     singleOf(::ISetMatricColabMovChave) { bind<SetMatricColabMovChave>() }
     singleOf(::ISetIdChaveMovChave) { bind<SetIdChaveMovChave>() }
@@ -218,7 +220,7 @@ val usecaseChaveEquipModule = module {
     singleOf(::IGetMovChaveEquipOpenList) { bind<GetMovChaveEquipOpenList>() }
     singleOf(::IGetNroEquipMovChaveEquip) { bind<GetNroEquipMovChaveEquip>() }
     singleOf(::IGetObservMovChaveEquip) { bind<GetObservMovChaveEquip>() }
-    singleOf(::ISaveMovChaveEquip) { bind<SaveMovChaveEquip>() }
+    single { ISaveMovChaveEquip(get(), get(), get(), UUIDProvider) } bind SaveMovChaveEquip::class
     singleOf(::ISendMovChaveEquipList) { bind<SendMovChaveEquipList>() }
     singleOf(::ISetIdEquipMovChaveEquip) { bind<SetIdEquipMovChaveEquip>() }
     singleOf(::ISetMatricColabMovChaveEquip) { bind<SetMatricColabMovChaveEquip>() }

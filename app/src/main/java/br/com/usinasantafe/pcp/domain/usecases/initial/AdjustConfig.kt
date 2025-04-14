@@ -22,7 +22,7 @@ class IAdjustConfig(
                 return resultFailure(
                     context = "IAdjustConfig",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val hasConfig = resultHasConfig.getOrNull()!!
@@ -33,8 +33,8 @@ class IAdjustConfig(
                     return resultFailure(
                         context = "IAdjustConfig",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val config = resultGetConfig.getOrNull()!!
                 config.version?.let {
@@ -46,7 +46,7 @@ class IAdjustConfig(
                             return resultFailure(
                                 context = "IAdjustConfig",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                     }

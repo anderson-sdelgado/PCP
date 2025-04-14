@@ -19,7 +19,7 @@ class ISaveLocal(
             return resultFailure(
                 context = "ISaveLocal",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

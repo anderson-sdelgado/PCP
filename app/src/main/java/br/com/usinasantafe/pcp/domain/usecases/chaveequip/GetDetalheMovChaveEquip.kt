@@ -27,7 +27,7 @@ class IGetDetalheMovChaveEquip(
                 return resultFailure(
                     context = "IGetDetalheMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = resultMovChave.getOrNull()!!
@@ -37,7 +37,7 @@ class IGetDetalheMovChaveEquip(
                 return resultFailure(
                     context = "IGetDetalheMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val nomeColab = resultNomeColab.getOrNull()!!
@@ -47,7 +47,7 @@ class IGetDetalheMovChaveEquip(
                 return resultFailure(
                     context = "IGetDetalheMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val descrEquip = resultGetEquip.getOrNull()!!

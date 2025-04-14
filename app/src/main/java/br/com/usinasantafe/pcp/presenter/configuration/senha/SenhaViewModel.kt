@@ -3,10 +3,12 @@ package br.com.usinasantafe.pcp.presenter.configuration.senha
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckPassword
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class SenhaState(
     val password: String = "",
@@ -40,8 +42,8 @@ class SenhaViewModel(
             val resultCheck = checkPassword(password = uiState.value.password)
             if(resultCheck.isFailure) {
                 val error = resultCheck.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

@@ -24,7 +24,7 @@ class IStartMovEquipProprio(
                 return resultFailure(
                     context = "IStartMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultEquipSegClear = movEquipProprioEquipSegRepository.clean()
@@ -33,7 +33,7 @@ class IStartMovEquipProprio(
                 return resultFailure(
                     context = "IStartMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultPassagClear = movEquipProprioPassagRepository.clean()
@@ -42,7 +42,7 @@ class IStartMovEquipProprio(
                 return resultFailure(
                     context = "IStartMovEquipProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

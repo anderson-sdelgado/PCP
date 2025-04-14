@@ -34,7 +34,7 @@ class ISetMotoristaResidencia(
                 return resultFailure(
                     context = "ISetMotoristaResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

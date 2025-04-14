@@ -19,7 +19,7 @@ class IGetMatricColabMovChave(
                 return resultFailure(
                     context = "IGetMatricColabMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val matricColab = resultGetMatricColab.getOrNull()!!

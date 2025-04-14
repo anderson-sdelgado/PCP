@@ -1,11 +1,13 @@
 package br.com.usinasantafe.pcp.presenter.visitterc.movlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetMovEquipVisitTercInsideList
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.StartInputMovEquipVisitTerc
 import br.com.usinasantafe.pcp.presenter.model.HeaderModel
 import br.com.usinasantafe.pcp.presenter.visitterc.model.MovEquipVisitTercModel
+import br.com.usinasantafe.pcp.utils.Errors
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -22,158 +24,302 @@ class MovEquipVisitTercListViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // Mocks como propriedades da classe (já estava padronizado)
+    private val getHeader = mock<GetHeader>()
+    private val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
+    private val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
+
+    // Helper function para criar ViewModel (já estava padronizado)
+    private fun getViewModel() = MovEquipVisitTercListViewModel(
+        getHeader,
+        getMovEquipVisitTercInsideList,
+        startInputMovEquipVisitTerc
+    )
+
     @Test
     fun `Check return failure if have error in getHeader`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
-        val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             getHeader()
         ).thenReturn(
-            Result.failure(
+            resultFailure( // PADRONIZADO: Usando resultFailure
+                "GetHeader",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipVisitTercListViewModel(
-            getHeader,
-            getMovEquipVisitTercInsideList,
-            startInputMovEquipVisitTerc
-        )
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel()
+
+        // Act
         viewModel.returnHeader()
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(
-            viewModel.uiState.value.failure,
-            "Failure Datasource -> ConfigSharedPreferences.hasConfig -> java.lang.Exception"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem padronizado
+            "MovEquipVisitTercListViewModel.returnHeader -> GetHeader -> java.lang.Exception",
+            state.failure
+        )
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.descrVigia,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.descrLocal,
+            ""
+        )
+        assertEquals( // actual, expected (list) - Estado inicial/erro
+            state.movEquipVisitTercModelList,
+            emptyList<MovEquipVisitTercModel>()
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial/erro
+            state.flagAccess,
+            false
         )
     }
 
     @Test
     fun `Check return Nome Vigia if getHeader execute correctly`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
-        val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
-        whenever(getHeader()).thenReturn(
-            Result.success(
-                HeaderModel(
-                    descrVigia = "19759 - Anderson da Silva Delgado",
-                    descrLocal = "1 - Usina"
-                )
-            )
+        // Arrange
+        val expectedHeader = HeaderModel( // PADRONIZADO: Nome da variável mais descritivo
+            descrVigia = "19759 - Anderson da Silva Delgado",
+            descrLocal = "1 - Usina"
         )
-        val viewModel = MovEquipVisitTercListViewModel(
-            getHeader,
-            getMovEquipVisitTercInsideList,
-            startInputMovEquipVisitTerc
+        // PADRONIZADO: whenever multi-linha
+        whenever(
+            getHeader()
+        ).thenReturn(
+            Result.success(expectedHeader)
         )
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel()
+
+        // Act
         viewModel.returnHeader()
-        assertEquals(viewModel.uiState.value.descrVigia, "19759 - Anderson da Silva Delgado")
-        assertEquals(
-            viewModel.uiState.value.descrLocal,
-            "1 - Usina"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // expected, actual (string)
+            expectedHeader.descrVigia,
+            state.descrVigia
+        )
+        assertEquals( // expected, actual (string)
+            expectedHeader.descrLocal,
+            state.descrLocal
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (list) - Estado inicial
+            state.movEquipVisitTercModelList,
+            emptyList<MovEquipVisitTercModel>()
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial
+            state.flagAccess,
+            false
         )
     }
 
     @Test
-    fun `Check return failure if have error in recoverMovEquipInputList`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
-        val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
+    fun `Check return failure if have error in recoverMovEquipList`() = runTest {
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             getMovEquipVisitTercInsideList()
         ).thenReturn(
-            Result.failure(
+            resultFailure( // PADRONIZADO: Usando resultFailure
+                "GetMovEquipVisitTercInsideList",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipVisitTercListViewModel(
-            getHeader,
-            getMovEquipVisitTercInsideList,
-            startInputMovEquipVisitTerc
-        )
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel()
+
+        // Act
         viewModel.recoverMovEquipList()
-        assertTrue(viewModel.uiState.value.flagDialog)
-        assertEquals(
-            viewModel.uiState.value.failure,
-            "Failure Usecase -> GetMovEquipVisitTercInputOpenList -> java.lang.Exception"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem padronizado
+            "MovEquipVisitTercListViewModel.recoverMovEquipList -> GetMovEquipVisitTercInsideList -> java.lang.Exception",
+            state.failure
+        )
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.descrVigia,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.descrLocal,
+            ""
+        )
+        assertEquals( // actual, expected (list) - Estado inicial/erro
+            state.movEquipVisitTercModelList,
+            emptyList<MovEquipVisitTercModel>()
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial/erro
+            state.flagAccess,
+            false
         )
     }
 
     @Test
-    fun `Check return list if recoverMovEquipInputList execute correctly`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
-        val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
+    fun `Check return list if recoverMovEquipList execute correctly`() = runTest {
+        // Arrange
+        val expectedList = listOf( // PADRONIZADO: Nome da variável mais descritivo
+            MovEquipVisitTercModel(
+                id = 1,
+                dthr = "DATA/HORA: 08/08/2024 12:00",
+                motorista = "MOTORISTA: 326.949.728-88 - ANDERSON DA SILVA DELGADO",
+                veiculo = "VEÍCULO: GOL",
+                placa = "PLACA: ABC1234",
+                tipoVisitTerc = "VISITANTE"
+            )
+        )
+        // PADRONIZADO: whenever multi-linha
         whenever(
             getMovEquipVisitTercInsideList()
         ).thenReturn(
-            Result.success(
-                listOf(
-                    MovEquipVisitTercModel(
-                        id = 1,
-                        dthr = "DATA/HORA: 08/08/2024 12:00",
-                        motorista = "MOTORISTA: 326.949.728-88 - ANDERSON DA SILVA DELGADO",
-                        veiculo = "VEÍCULO: GOL",
-                        placa = "PLACA: ABC1234",
-                        tipoVisitTerc = "VISITANTE"
-                    )
-                )
-            )
+            Result.success(expectedList)
         )
-        val viewModel = MovEquipVisitTercListViewModel(
-            getHeader,
-            getMovEquipVisitTercInsideList,
-            startInputMovEquipVisitTerc
-        )
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel()
+
+        // Act
         viewModel.recoverMovEquipList()
-        assertEquals(viewModel.uiState.value.movEquipVisitTercModelList.size, 1)
-        assertEquals(
-            viewModel.uiState.value.movEquipVisitTercModelList[0].dthr,
-            "DATA/HORA: 08/08/2024 12:00"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // expected, actual (list) - Comparar a lista inteira
+            expectedList,
+            state.movEquipVisitTercModelList
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.descrVigia,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.descrLocal,
+            ""
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial
+            state.flagAccess,
+            false
         )
     }
 
     @Test
-    fun `Check return failure if have error in startMovEquipVisitTerc`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
-        val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
+    fun `Check return failure if have error in startMov`() = runTest {
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             startInputMovEquipVisitTerc()
         ).thenReturn(
-            Result.failure(
+            resultFailure( // PADRONIZADO: Usando resultFailure
+                "StartInputMovEquipVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = MovEquipVisitTercListViewModel(
-            getHeader,
-            getMovEquipVisitTercInsideList,
-            startInputMovEquipVisitTerc
-        )
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel()
+
+        // Act
         viewModel.startMov()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(
-            viewModel.uiState.value.failure,
-            "Failure Usecase -> StartMovEquipVisitTerc -> java.lang.Exception"
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem padronizado
+            "MovEquipVisitTercListViewModel.startMov -> StartInputMovEquipVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.descrVigia,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial/erro
+            state.descrLocal,
+            ""
+        )
+        assertEquals( // actual, expected (list) - Estado inicial/erro
+            state.movEquipVisitTercModelList,
+            emptyList<MovEquipVisitTercModel>()
+        )
+        assertEquals( // actual, expected (boolean) - Estado inicial/erro
+            state.flagAccess,
+            false
         )
     }
 
     @Test
-    fun `Check return true if startMovEquipVisitTerc execute correctly`() = runTest {
-        val getHeader = mock<GetHeader>()
-        val startInputMovEquipVisitTerc = mock<StartInputMovEquipVisitTerc>()
-        val getMovEquipVisitTercInsideList = mock<GetMovEquipVisitTercInsideList>()
+    fun `Check return true if startMov execute correctly`() = runTest {
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             startInputMovEquipVisitTerc()
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = MovEquipVisitTercListViewModel(
-            getHeader,
-            getMovEquipVisitTercInsideList,
-            startInputMovEquipVisitTerc
-        )
+        // PADRONIZADO: Usando getViewModel
+        val viewModel = getViewModel()
+
+        // Act
         viewModel.startMov()
-        assertTrue(viewModel.uiState.value.flagAccess)
-        assertFalse(viewModel.uiState.value.flagDialog)
+        val state = viewModel.uiState.value
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagAccess,
+            true // Acesso/sucesso ocorreu
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
+        // PADRONIZADO: Verificar outros estados relevantes
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.descrVigia,
+            ""
+        )
+        assertEquals( // actual, expected (string) - Estado inicial
+            state.descrLocal,
+            ""
+        )
+        assertEquals( // actual, expected (list) - Estado inicial
+            state.movEquipVisitTercModelList,
+            emptyList<MovEquipVisitTercModel>()
+        )
     }
 }

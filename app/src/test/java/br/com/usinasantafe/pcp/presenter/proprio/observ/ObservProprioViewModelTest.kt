@@ -9,6 +9,7 @@ import br.com.usinasantafe.pcp.domain.usecases.proprio.SetObservProprio
 import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.domain.errors.resultFailure // Ou use esta importação
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -25,61 +26,64 @@ class ObservProprioViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val setObservProprio = mock<SetObservProprio>()
+    private val getObservProprio = mock<GetObservProprio>()
+    private val saveMovEquipProprio = mock<SaveMovEquipProprio>()
+    private val getTypeMov = mock<GetTypeMov>()
+
+    private fun createViewModel(savedStateHandle: SavedStateHandle) = ObservProprioViewModel(
+        savedStateHandle,
+        setObservProprio,
+        getObservProprio,
+        saveMovEquipProprio,
+        getTypeMov
+    )
+
     @Test
     fun `Check return failure if have failure in GetTypeMov`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             getTypeMov()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetTypeMov",
+                "-",
                 Exception()
             )
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.setReturn()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        // PADRONIZADO
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> GetTypeMov -> java.lang.Exception"
+            "ObservProprioViewModel.setReturn -> GetTypeMov -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return TypeMov if GetTypeMov execute success`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             getTypeMov()
         ).thenReturn(
             Result.success(TypeMovEquip.INPUT)
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.setReturn()
         assertEquals(viewModel.uiState.value.flagReturn, true)
@@ -88,32 +92,24 @@ class ObservProprioViewModelTest {
 
     @Test
     fun `Check return access if execute SetObservProprio with field empty`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
-        val viewModel = ObservProprioViewModel(
+        // Mock para SaveMovEquipProprio retornar sucesso, pois é chamado mesmo com observ vazio
+        whenever(
+            saveMovEquipProprio()).thenReturn(Result.success(true))
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.setObserv()
         assertEquals(viewModel.uiState.value.flagAccess, true)
+        assertFalse(viewModel.uiState.value.flagDialog) // Garante que não houve diálogo de erro
     }
 
     @Test
     fun `Check return failure if have errors in SetObservProprio`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             setObservProprio(
                 observ = "Teste",
@@ -121,70 +117,63 @@ class ObservProprioViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetObservProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.onObservChanged("Teste")
         viewModel.setObserv()
         assertEquals(viewModel.uiState.value.flagDialog, true)
+        // PADRONIZADO
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> SetObservProprio -> java.lang.Exception"
+            "ObservProprioViewModel.setObserv -> SetObservProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return failure with observ empty if have errors in SaveMovEquipProprio`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
+        // Mock para SetObservProprio não ser chamado ou retornar sucesso (não relevante aqui)
+        // O importante é a falha no SaveMovEquipProprio
         whenever(
             saveMovEquipProprio()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SaveMovEquipProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
-        viewModel.setObserv()
+        viewModel.setObserv() // Chama com observ vazio
         assertEquals(viewModel.uiState.value.flagDialog, true)
+        // PADRONIZADO
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> SaveMovEquipProprio -> java.lang.Exception"
+            "ObservProprioViewModel.setObserv -> SaveMovEquipProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return failure if have errors in SaveMovEquipProprio`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
+        // Mock para SetObservProprio retornar sucesso
         whenever(
             setObservProprio(
                 observ = "Teste",
@@ -194,40 +183,36 @@ class ObservProprioViewModelTest {
         ).thenReturn(
             Result.success(true)
         )
+        // Mock para SaveMovEquipProprio retornar falha
         whenever(
             saveMovEquipProprio()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SaveMovEquipProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.onObservChanged("Teste")
         viewModel.setObserv()
         assertEquals(viewModel.uiState.value.flagDialog, true)
+        // PADRONIZADO
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> SaveMovEquipProprio -> java.lang.Exception"
+            "ObservProprioViewModel.setObserv -> SaveMovEquipProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return access if SetObservProprio execute success`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             setObservProprio(
                 observ = "Teste",
@@ -240,89 +225,72 @@ class ObservProprioViewModelTest {
         whenever(saveMovEquipProprio()).thenReturn(
             Result.success(true)
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.onObservChanged("Teste")
         viewModel.setObserv()
         assertEquals(viewModel.uiState.value.flagAccess, true)
+        assertFalse(viewModel.uiState.value.flagDialog) // Garante que não houve diálogo de erro
     }
 
     @Test
-    fun `Check return access with observ empty if SetObservProprio execute success`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
+    fun `Check return access with observ empty if SaveMovEquipProprio execute success`() = runTest {
+        // Mock para SetObservProprio não ser chamado ou retornar sucesso (não relevante aqui)
+        // O importante é o sucesso no SaveMovEquipProprio
         whenever(saveMovEquipProprio()).thenReturn(
             Result.success(true)
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
-        viewModel.setObserv()
+        viewModel.setObserv() // Chama com observ vazio
         assertEquals(viewModel.uiState.value.flagAccess, true)
+        assertFalse(viewModel.uiState.value.flagDialog) // Garante que não houve diálogo de erro
     }
 
     @Test
     fun `Check return failure if have error in GetObservProprio`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             getObservProprio(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetObservProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.getObserv()
         assertTrue(viewModel.uiState.value.flagDialog)
+        // PADRONIZADO
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> GetObservProprio -> java.lang.Exception"
+            "ObservProprioViewModel.getObserv -> GetObservProprio -> java.lang.Exception"
         )
     }
 
     @Test
     fun `Check return observ if GetObservProprio execute success`() = runTest {
-        val setObservProprio = mock<SetObservProprio>()
-        val getObservProprio = mock<GetObservProprio>()
-        val saveMovEquipProprio = mock<SaveMovEquipProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             getObservProprio(
                 id = 1
@@ -330,21 +298,17 @@ class ObservProprioViewModelTest {
         ).thenReturn(
             Result.success("Observação")
         )
-        val viewModel = ObservProprioViewModel(
+        val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
                     Args.ID_ARGS to 1,
                 )
-            ),
-            setObservProprio,
-            getObservProprio,
-            saveMovEquipProprio,
-            getTypeMov
+            )
         )
         viewModel.getObserv()
         val state = viewModel.uiState.value
-        assertFalse(state.flagGetObserv)
+        assertFalse(state.flagDialog) // Garante que não houve diálogo de erro
         assertEquals(state.observ, "Observação")
     }
 }

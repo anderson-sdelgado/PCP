@@ -18,7 +18,7 @@ class ICleanPassagVisitTerc(
             return resultFailure(
                 context = "ICleanPassagVisitTerc",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

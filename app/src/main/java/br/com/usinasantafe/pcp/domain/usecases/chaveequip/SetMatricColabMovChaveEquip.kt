@@ -34,7 +34,7 @@ class ISetMatricColabMovChaveEquip(
                 return resultFailure(
                     context = "ISetMatricColabMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

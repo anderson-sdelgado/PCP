@@ -18,7 +18,7 @@ class ICleanEquipSeg(
             return resultFailure(
                 context = "ICleanEquipSeg",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

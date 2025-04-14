@@ -18,7 +18,7 @@ class ICleanTerceiro(
             return resultFailure(
                 context = "ICleanTerceiro",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

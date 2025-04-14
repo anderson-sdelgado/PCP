@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.configuration.menuinicial
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckAccessMain
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,20 +20,24 @@ class MenuInicialViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+
+    private val checkAccessMain = mock<CheckAccessMain>()
+    private val getStatusSend = mock<GetStatusSend>()
+    private val viewModel = MenuInicialViewModel(
+        checkAccessMain,
+        getStatusSend
+    )
+
     @Test
     fun `check return failure if checkAccess have failure`() = runTest {
-        val checkAccessMain = mock<CheckAccessMain>()
-        val getStatusSend = mock<GetStatusSend>()
         whenever(
             checkAccessMain()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CheckAccessMain",
+                "-",
                 Exception()
             )
-        )
-        val viewModel = MenuInicialViewModel(
-            checkAccessMain,
-            getStatusSend
         )
         viewModel.checkAccess()
         assertEquals(
@@ -49,22 +54,16 @@ class MenuInicialViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> ConfigSharedPreferences.hasConfig -> java.lang.Exception"
+            "MenuInicialViewModel.checkAccess -> CheckAccessMain -> java.lang.Exception"
         )
     }
 
     @Test
     fun `check blocked access`() = runTest {
-        val checkAccessMain = mock<CheckAccessMain>()
-        val getStatusSend = mock<GetStatusSend>()
         whenever(
             checkAccessMain()
         ).thenReturn(
             Result.success(false)
-        )
-        val viewModel = MenuInicialViewModel(
-            checkAccessMain,
-            getStatusSend
         )
         viewModel.checkAccess()
         assertEquals(
@@ -83,16 +82,10 @@ class MenuInicialViewModelTest {
 
     @Test
     fun `check access granted`() = runTest {
-        val checkAccessMain = mock<CheckAccessMain>()
-        val getStatusSend = mock<GetStatusSend>()
         whenever(
             checkAccessMain()
         ).thenReturn(
             Result.success(true)
-        )
-        val viewModel = MenuInicialViewModel(
-            checkAccessMain,
-            getStatusSend
         )
         viewModel.checkAccess()
         assertEquals(

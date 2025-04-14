@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.matriccolab
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMatricColabMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
@@ -10,6 +11,7 @@ import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
+import br.com.usinasantafe.pcp.utils.TypeMovKey
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -36,6 +38,7 @@ class MatricColabChaveEquipViewModelTest {
         savedStateHandle: SavedStateHandle = SavedStateHandle(
             mapOf(
                 Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                Args.TYPE_MOV_ARGS to TypeMovKey.RECEIPT.ordinal,
                 Args.ID_ARGS to 0
             )
         )
@@ -116,8 +119,8 @@ class MatricColabChaveEquipViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                        failure = "CleanColab -> java.lang.NullPointerException",
+                        msgProgress = "CleanColab -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
@@ -139,15 +142,15 @@ class MatricColabChaveEquipViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                    failure = "MatricColabChaveEquipViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
+                    msgProgress = "MatricColabChaveEquipViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
             viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
             Assert.assertEquals(
                 viewModel.uiState.value.msgProgress,
-                "Failure Usecase -> CleanColab -> java.lang.NullPointerException"
+                "MatricColabChaveEquipViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException"
             )
         }
 
@@ -229,7 +232,9 @@ class MatricColabChaveEquipViewModelTest {
             whenever(
                 checkMatricColab("19759")
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "CheckMatricColab",
+                    "-",
                     Exception()
                 )
             )
@@ -254,7 +259,7 @@ class MatricColabChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> CheckMatricColab -> java.lang.NullPointerException"
+                "MatricColabChaveEquipViewModel.setMatricColab -> CheckMatricColab -> java.lang.Exception"
             )
         }
 
@@ -326,7 +331,9 @@ class MatricColabChaveEquipViewModelTest {
             whenever(
                 getMatricColabMovChaveEquip(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetMatricColabMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -334,6 +341,7 @@ class MatricColabChaveEquipViewModelTest {
                 SavedStateHandle(
                     mapOf(
                         Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
+                        Args.TYPE_MOV_ARGS to TypeMovKey.RECEIPT.ordinal,
                         Args.ID_ARGS to 1
                     )
                 )
@@ -353,7 +361,7 @@ class MatricColabChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetMatricColabMovChave -> java.lang.Exception"
+                "MatricColabChaveEquipViewModel.getMatricColab -> GetMatricColabMovChave -> java.lang.Exception"
             )
         }
 
@@ -369,6 +377,7 @@ class MatricColabChaveEquipViewModelTest {
                 SavedStateHandle(
                     mapOf(
                         Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
+                        Args.TYPE_MOV_ARGS to TypeMovKey.RECEIPT.ordinal,
                         Args.ID_ARGS to 1
                     )
                 )

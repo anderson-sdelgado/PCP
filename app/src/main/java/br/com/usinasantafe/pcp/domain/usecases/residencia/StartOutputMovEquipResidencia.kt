@@ -22,7 +22,7 @@ class IStartOutputMovEquipResidencia(
                 return resultFailure(
                     context = "IStartOutputMovEquipResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipResidencia = resultMov.getOrNull()!!
@@ -36,7 +36,7 @@ class IStartOutputMovEquipResidencia(
                 return resultFailure(
                     context = "IStartOutputMovEquipResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

@@ -18,7 +18,7 @@ class ICleanChave(
             return resultFailure(
                 context = "ICleanChave",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

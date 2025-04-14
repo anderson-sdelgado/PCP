@@ -26,7 +26,7 @@ class IMovEquipResidenciaRepository(
             return resultFailure(
                 context = "IMovEquipResidenciaRepository.checkOpen",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -39,7 +39,7 @@ class IMovEquipResidenciaRepository(
             return resultFailure(
                 context = "IMovEquipResidenciaRepository.checkSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -53,7 +53,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val model = resultGet.getOrNull()!!
@@ -63,7 +63,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -84,7 +84,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -107,7 +107,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.getMotorista",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -130,7 +130,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.getObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -153,7 +153,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.getPlaca",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -176,7 +176,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.getVeiculo",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(
@@ -199,7 +199,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.listOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!.map {
@@ -223,7 +223,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.listInside",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!.map {
@@ -248,7 +248,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.listSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = result.getOrNull()!!.map {
@@ -273,7 +273,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.listSent",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = result.getOrNull()!!.map {
@@ -300,7 +300,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipResidenciaRoomModel =
@@ -315,7 +315,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = resultSave.getOrNull()!!.toInt()
@@ -332,7 +332,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(id)
@@ -360,7 +360,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.send",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listInput = result.getOrNull()!!
@@ -384,7 +384,7 @@ class IMovEquipResidenciaRepository(
             return resultFailure(
                 context = "IMovEquipResidenciaRepository.setClose",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -406,7 +406,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.setMotorista",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -435,7 +435,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.setObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -455,7 +455,7 @@ class IMovEquipResidenciaRepository(
             return resultFailure(
                 context = "IMovEquipResidenciaRepository.setOutside",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -477,7 +477,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.setPlaca",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -506,7 +506,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.setVeiculo",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -529,8 +529,8 @@ class IMovEquipResidenciaRepository(
                     return resultFailure(
                         context = "IMovEquipResidenciaRepository.setSent",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)
@@ -550,7 +550,7 @@ class IMovEquipResidenciaRepository(
             return resultFailure(
                 context = "IMovEquipResidenciaRepository.start(INSIDE)",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -568,7 +568,7 @@ class IMovEquipResidenciaRepository(
                 return resultFailure(
                     context = "IMovEquipResidenciaRepository.start(OUTSIDE)",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

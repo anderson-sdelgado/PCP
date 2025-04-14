@@ -2,6 +2,8 @@ package br.com.usinasantafe.pcp.presenter.proprio.nroequip
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNroEquipProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetIdEquipProprio
@@ -11,7 +13,10 @@ import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
 import br.com.usinasantafe.pcp.utils.TypeEquip
+import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Rule
@@ -26,10 +31,10 @@ class NroEquipProprioViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    val checkNroEquip = mock<CheckNroEquip>()
-    val setIdEquipProprio = mock<SetIdEquipProprio>()
-    val updateEquip = mock<UpdateEquip>()
-    val getNroEquipProprio = mock<GetNroEquipProprio>()
+    private val checkNroEquip = mock<CheckNroEquip>()
+    private val setIdEquipProprio = mock<SetIdEquipProprio>()
+    private val updateEquip = mock<UpdateEquip>()
+    private val getNroEquipProprio = mock<GetNroEquipProprio>()
     private fun getViewModel(
         savedStateHandle: SavedStateHandle
     ) = NroEquipProprioViewModel(
@@ -51,8 +56,14 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        assertEquals(viewModel.uiState.value.nroEquip, "19759")
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        assertEquals(
+            viewModel.uiState.value.nroEquip,
+            "19759"
+        )
     }
 
     @Test
@@ -66,12 +77,30 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        viewModel.setTextField("APAGAR", TypeButton.CLEAN)
-        viewModel.setTextField("APAGAR", TypeButton.CLEAN)
-        viewModel.setTextField("APAGAR", TypeButton.CLEAN)
-        viewModel.setTextField("1", TypeButton.NUMERIC)
-        assertEquals(viewModel.uiState.value.nroEquip, "191")
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "APAGAR",
+            TypeButton.CLEAN
+        )
+        viewModel.setTextField(
+            "APAGAR",
+            TypeButton.CLEAN
+        )
+        viewModel.setTextField(
+            "APAGAR",
+            TypeButton.CLEAN
+        )
+        viewModel.setTextField(
+            "1",
+            TypeButton.NUMERIC
+        )
+        assertEquals(
+            viewModel.uiState.value.nroEquip,
+            "191"
+        )
     }
 
     @Test
@@ -85,17 +114,28 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.errors, Errors.FIELDEMPTY)
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.errors,
+            Errors.FIELDEMPTY
+        )
     }
 
     @Test
-    fun `Check return failure if have error in CheckMatricEquip`() = runTest {
+    fun `Check return failure if have error in CheckNroEquipProprio`() = runTest {
         whenever(
             checkNroEquip("100")
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CheckNroEquip",
+                "-",
                 Exception()
             )
         )
@@ -108,14 +148,29 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("100", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.errors, Errors.EXCEPTION)
-        assertEquals(viewModel.uiState.value.flagFailure, true)
+        viewModel.setTextField(
+            "100",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.errors,
+            Errors.EXCEPTION
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> CheckEquipProprio -> java.lang.Exception"
+            "NroEquipProprioViewModel.setNroEquip -> CheckNroEquip -> java.lang.Exception"
         )
     }
 
@@ -124,7 +179,11 @@ class NroEquipProprioViewModelTest {
         whenever(
             checkNroEquip("100")
         ).thenReturn(
-            Result.success(false)
+            resultFailure(
+                "CheckNroEquip",
+                "-",
+                Exception()
+            )
         )
         val viewModel = getViewModel(
             SavedStateHandle(
@@ -135,11 +194,30 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("100", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.flagAccess, false)
-        assertEquals(viewModel.uiState.value.flagFailure, true)
+        viewModel.setTextField(
+            "100",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NroEquipProprioViewModel.setNroEquip -> CheckNroEquip -> java.lang.Exception"
+        )
     }
 
     @Test
@@ -158,11 +236,26 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("100", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, false)
-        assertEquals(viewModel.uiState.value.flagAccess, true)
-        assertEquals(viewModel.uiState.value.flagFailure, false)
+        viewModel.setTextField(
+            "100",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            false
+        )
     }
 
     @Test
@@ -180,7 +273,9 @@ class NroEquipProprioViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetIdEquipProprio",
+                "-",
                 Exception()
             )
         )
@@ -193,14 +288,29 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("100", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.errors, Errors.EXCEPTION)
-        assertEquals(viewModel.uiState.value.flagFailure, true)
+        viewModel.setTextField(
+            "100",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.errors,
+            Errors.EXCEPTION
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> SetEquipProprio -> java.lang.Exception"
+            "NroEquipProprioViewModel.setNroEquip -> SetIdEquipProprio -> java.lang.Exception"
         )
     }
 
@@ -230,559 +340,320 @@ class NroEquipProprioViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("100", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, false)
-        assertEquals(viewModel.uiState.value.flagAccess, true)
-        assertEquals(viewModel.uiState.value.flagFailure, false)
+        viewModel.setTextField(
+            "100",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            false
+        )
     }
-//
-//    @Test
-//    fun `check return failure datasource if have error in usecase CleanEquip is datasource`() =
-//        runTest {
-//            val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//            val setNroEquip = mock<SetNroEquip>()
-//            val cleanEquip = mock<CleanEquip>()
-//            val getAllEquipServer = mock<GetAllEquipServer>()
-//            val saveAllEquip = mock<SaveAllEquip>()
-//            val getNroEquip = mock<GetNroEquip>()
-//            whenever(
-//                cleanEquip()
-//            ).thenReturn(
-//                Result.failure(
-//                    DatasourceException(
-//                        function = "CleanEquip",
-//                        cause = NullPointerException()
-//                    )
-//                )
-//            )
-//            val viewModel = NroEquipProprioViewModel(
-//                SavedStateHandle(
-//                    mapOf(
-//                        Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                        Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                        Args.ID_ARGS to 0
-//                    )
-//                ),
-//                checkNroEquipProprio,
-//                setNroEquip,
-//                cleanEquip,
-//                getAllEquipServer,
-//                saveAllEquip,
-//                getNroEquip
-//            )
-//            val result = viewModel.updateAllEquip(count = 1f, sizeAll = 4f).toList()
-//            assertEquals(result.count(), 2)
-//            assertEquals(
-//                result[0],
-//                NroEquipProprioState(
-//                    flagProgress = true,
-//                    msgProgress = "Limpando a tabela tb_equip",
-//                    currentProgress = porc(1f, 4f)
-//                )
-//            )
-//            assertEquals(
-//                result[1],
-//                NroEquipProprioState(
-//                    errors = Errors.UPDATE,
-//                    flagDialog = true,
-//                    flagFailure = true,
-//                    failure = "Failure Datasource -> CleanEquip -> java.lang.NullPointerException",
-//                    msgProgress = "Failure Datasource -> CleanEquip -> java.lang.NullPointerException",
-//                    currentProgress = 1f,
-//                )
-//            )
-//        }
-//
-//    @Test
-//    fun `check return failure datasource if have error in datasource RecoverAllEquip`() = runTest {
-//        val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//        val setNroEquip = mock<SetNroEquip>()
-//        val cleanEquip = mock<CleanEquip>()
-//        val getAllEquipServer = mock<GetAllEquipServer>()
-//        val saveAllEquip = mock<SaveAllEquip>()
-//        val getNroEquip = mock<GetNroEquip>()
-//        whenever(
-//            cleanEquip()
-//        ).thenReturn(
-//            Result.success(true)
-//        )
-//        whenever(
-//            getAllEquipServer()
-//        ).thenReturn(
-//            Result.failure(
-//                DatasourceException(
-//                    function = "RecoverEquipServer",
-//                    cause = Exception()
-//                )
-//            )
-//        )
-//        val viewModel = NroEquipProprioViewModel(
-//            SavedStateHandle(
-//                mapOf(
-//                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                    Args.ID_ARGS to 0
-//                )
-//            ),
-//            checkNroEquipProprio,
-//            setNroEquip,
-//            cleanEquip,
-//            getAllEquipServer,
-//            saveAllEquip,
-//            getNroEquip
-//        )
-//        val result = viewModel.updateAllEquip(count = 1f, sizeAll = 4f).toList()
-//        assertEquals(result.count(), 3)
-//        assertEquals(
-//            result[0],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Limpando a tabela tb_equip",
-//                currentProgress = porc(1f, 4f)
-//            )
-//        )
-//        assertEquals(
-//            result[1],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
-//                currentProgress = porc(2f, 4f),
-//            )
-//        )
-//        assertEquals(
-//            result[2],
-//            NroEquipProprioState(
-//                errors = Errors.UPDATE,
-//                flagDialog = true,
-//                flagFailure = true,
-//                failure = "Failure Datasource -> RecoverEquipServer -> java.lang.Exception",
-//                msgProgress = "Failure Datasource -> RecoverEquipServer -> java.lang.Exception",
-//                currentProgress = 1f,
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun `Check return failure datasource if have error in datasource SaveAllEquip`() = runTest {
-//        val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//        val setNroEquip = mock<SetNroEquip>()
-//        val cleanEquip = mock<CleanEquip>()
-//        val getAllEquipServer = mock<GetAllEquipServer>()
-//        val saveAllEquip = mock<SaveAllEquip>()
-//        val getNroEquip = mock<GetNroEquip>()
-//        val equipList = listOf(
-//            Equip(
-//                idEquip = 10,
-//                nroEquip = 100,
-//            )
-//        )
-//        whenever(
-//            cleanEquip()
-//        ).thenReturn(
-//            Result.success(true)
-//        )
-//        whenever(
-//            getAllEquipServer()
-//        ).thenReturn(
-//            Result.success(equipList)
-//        )
-//        whenever(
-//            saveAllEquip(equipList)
-//        ).thenReturn(
-//            Result.failure(
-//                DatasourceException(
-//                    function = "SaveAllEquip",
-//                    cause = Exception()
-//                )
-//            )
-//        )
-//        val viewModel = NroEquipProprioViewModel(
-//            SavedStateHandle(
-//                mapOf(
-//                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                    Args.ID_ARGS to 0
-//                )
-//            ),
-//            checkNroEquipProprio,
-//            setNroEquip,
-//            cleanEquip,
-//            getAllEquipServer,
-//            saveAllEquip,
-//            getNroEquip
-//        )
-//        val result = viewModel.updateAllEquip(count = 1f, sizeAll = 4f).toList()
-//        assertEquals(result.count(), 4)
-//        assertEquals(
-//            result[0],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Limpando a tabela tb_equip",
-//                currentProgress = porc(1f, 4f)
-//            )
-//        )
-//        assertEquals(
-//            result[1],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
-//                currentProgress = porc(2f, 4f),
-//            )
-//        )
-//        assertEquals(
-//            result[2],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Salvando dados na tabela tb_equip",
-//                currentProgress = porc(3f, 4f),
-//            )
-//        )
-//        assertEquals(
-//            result[3],
-//            NroEquipProprioState(
-//                errors = Errors.UPDATE,
-//                flagDialog = true,
-//                flagFailure = true,
-//                failure = "Failure Datasource -> SaveAllEquip -> java.lang.Exception",
-//                msgProgress = "Failure Datasource -> SaveAllEquip -> java.lang.Exception",
-//                currentProgress = 1f,
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun `Check return failure usecase execute updateAllDatabase if have error in usecase RecoverEquipServer`() =
-//        runTest {
-//            val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//            val setNroEquip = mock<SetNroEquip>()
-//            val cleanEquip = mock<CleanEquip>()
-//            val getAllEquipServer = mock<GetAllEquipServer>()
-//            val saveAllEquip = mock<SaveAllEquip>()
-//            val getNroEquip = mock<GetNroEquip>()
-//            whenever(
-//                cleanEquip()
-//            ).thenReturn(
-//                Result.success(true)
-//            )
-//            whenever(
-//                getAllEquipServer()
-//            ).thenReturn(
-//                Result.failure(
-//                    UsecaseException(
-//                        function = "RecoverEquipServer",
-//                        cause = NullPointerException()
-//                    )
-//                )
-//            )
-//            val viewModel = NroEquipProprioViewModel(
-//                SavedStateHandle(
-//                    mapOf(
-//                        Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                        Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                        Args.ID_ARGS to 0
-//                    )
-//                ),
-//                checkNroEquipProprio,
-//                setNroEquip,
-//                cleanEquip,
-//                getAllEquipServer,
-//                saveAllEquip,
-//                getNroEquip
-//            )
-//            val result = viewModel.updateAllDatabase().toList()
-//            assertEquals(result.count(), 3)
-//            assertEquals(
-//                result[0],
-//                NroEquipProprioState(
-//                    flagProgress = true,
-//                    msgProgress = "Limpando a tabela tb_equip",
-//                    currentProgress = porc(1f, 4f)
-//                )
-//            )
-//            assertEquals(
-//                result[1],
-//                NroEquipProprioState(
-//                    flagProgress = true,
-//                    msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
-//                    currentProgress = porc(2f, 4f),
-//                )
-//            )
-//            assertEquals(
-//                result[2],
-//                NroEquipProprioState(
-//                    errors = Errors.UPDATE,
-//                    flagDialog = true,
-//                    flagFailure = true,
-//                    failure = "Failure Usecase -> RecoverEquipServer -> java.lang.NullPointerException",
-//                    msgProgress = "Failure Usecase -> RecoverEquipServer -> java.lang.NullPointerException",
-//                    currentProgress = 1f,
-//                )
-//            )
-//        }
-//
-//    @Test
-//    fun `check return failure usecase in setTextField if have error in usecase CleanEquip`() =
-//        runTest {
-//            val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//            val setNroEquip = mock<SetNroEquip>()
-//            val cleanEquip = mock<CleanEquip>()
-//            val getAllEquipServer = mock<GetAllEquipServer>()
-//            val saveAllEquip = mock<SaveAllEquip>()
-//            val getNroEquip = mock<GetNroEquip>()
-//            whenever(
-//                cleanEquip()
-//            ).thenReturn(
-//                Result.failure(
-//                    UsecaseException(
-//                        function = "CleanEquip",
-//                        cause = NullPointerException()
-//                    )
-//                )
-//            )
-//            val viewModel = NroEquipProprioViewModel(
-//                SavedStateHandle(
-//                    mapOf(
-//                        Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                        Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                        Args.ID_ARGS to 0
-//                    )
-//                ),
-//                checkNroEquipProprio,
-//                setNroEquip,
-//                cleanEquip,
-//                getAllEquipServer,
-//                saveAllEquip,
-//                getNroEquip
-//            )
-//            val result = viewModel.updateAllDatabase().toList()
-//            assertEquals(result.count(), 2)
-//            assertEquals(
-//                result[0],
-//                NroEquipProprioState(
-//                    flagProgress = true,
-//                    msgProgress = "Limpando a tabela tb_equip",
-//                    currentProgress = porc(1f, 4f)
-//                )
-//            )
-//            assertEquals(
-//                result[1],
-//                NroEquipProprioState(
-//                    errors = Errors.UPDATE,
-//                    flagDialog = true,
-//                    flagFailure = true,
-//                    failure = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-//                    msgProgress = "Failure Usecase -> CleanEquip -> java.lang.NullPointerException",
-//                    currentProgress = 1f,
-//                )
-//            )
-//            viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
-//            assertEquals(
-//                viewModel.uiState.value.msgProgress,
-//                "Failure Usecase -> CleanEquip -> java.lang.NullPointerException"
-//            )
-//        }
-//
-//    @Test
-//    fun `check return success in updateAllDatabase if all update run correctly`() = runTest {
-//        val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//        val setNroEquip = mock<SetNroEquip>()
-//        val cleanEquip = mock<CleanEquip>()
-//        val getAllEquipServer = mock<GetAllEquipServer>()
-//        val saveAllEquip = mock<SaveAllEquip>()
-//        val getNroEquip = mock<GetNroEquip>()
-//        val equipList = listOf(
-//            Equip(
-//                idEquip = 10,
-//                nroEquip = 100,
-//            ),
-//        )
-//        whenever(
-//            cleanEquip()
-//        ).thenReturn(
-//            Result.success(true)
-//        )
-//        whenever(
-//            getAllEquipServer()
-//        ).thenReturn(
-//            Result.success(equipList)
-//        )
-//        whenever(
-//            saveAllEquip(equipList)
-//        ).thenReturn(
-//            Result.success(true)
-//        )
-//        val viewModel = NroEquipProprioViewModel(
-//            SavedStateHandle(
-//                mapOf(
-//                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                    Args.ID_ARGS to 0
-//                )
-//            ),
-//            checkNroEquipProprio,
-//            setNroEquip,
-//            cleanEquip,
-//            getAllEquipServer,
-//            saveAllEquip,
-//            getNroEquip
-//        )
-//        val result = viewModel.updateAllDatabase().toList()
-//        assertEquals(result.count(), 4)
-//        assertEquals(
-//            result[0],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Limpando a tabela tb_equip",
-//                currentProgress = porc(1f, 4f)
-//            )
-//        )
-//        assertEquals(
-//            result[1],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
-//                currentProgress = porc(2f, 4f),
-//            )
-//        )
-//        assertEquals(
-//            result[2],
-//            NroEquipProprioState(
-//                flagProgress = true,
-//                msgProgress = "Salvando dados na tabela tb_equip",
-//                currentProgress = porc(3f, 4f),
-//            )
-//        )
-//        assertEquals(
-//            result[3],
-//            NroEquipProprioState(
-//                flagDialog = true,
-//                flagProgress = false,
-//                flagFailure = false,
-//                msgProgress = "Atualização de dados realizado com sucesso!",
-//                currentProgress = 1f,
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun `check return success if setTextField update is success`() = runTest {
-//        val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//        val setNroEquip = mock<SetNroEquip>()
-//        val cleanEquip = mock<CleanEquip>()
-//        val getAllEquipServer = mock<GetAllEquipServer>()
-//        val saveAllEquip = mock<SaveAllEquip>()
-//        val getNroEquip = mock<GetNroEquip>()
-//        val equipList = listOf(
-//            Equip(
-//                idEquip = 10,
-//                nroEquip = 100,
-//            ),
-//        )
-//        whenever(
-//            cleanEquip()
-//        ).thenReturn(
-//            Result.success(true)
-//        )
-//        whenever(
-//            getAllEquipServer()
-//        ).thenReturn(
-//            Result.success(equipList)
-//        )
-//        whenever(
-//            saveAllEquip(equipList)
-//        ).thenReturn(
-//            Result.success(true)
-//        )
-//        val viewModel = NroEquipProprioViewModel(
-//            SavedStateHandle(
-//                mapOf(
-//                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-//                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                    Args.ID_ARGS to 0
-//                )
-//            ),
-//            checkNroEquipProprio,
-//            setNroEquip,
-//            cleanEquip,
-//            getAllEquipServer,
-//            saveAllEquip,
-//            getNroEquip
-//        )
-//        viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
-//        assertEquals(viewModel.uiState.value.flagDialog, true)
-//        assertEquals(
-//            viewModel.uiState.value.msgProgress,
-//            "Atualização de dados realizado com sucesso!"
-//        )
-//    }
-//
-//    @Test
-//    fun `check return failure usecase if have error in usecase GetNroEquip`() = runTest {
-//        val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//        val setNroEquip = mock<SetNroEquip>()
-//        val cleanEquip = mock<CleanEquip>()
-//        val getAllEquipServer = mock<GetAllEquipServer>()
-//        val saveAllEquip = mock<SaveAllEquip>()
-//        val getNroEquip = mock<GetNroEquip>()
-//        whenever(getNroEquip(1)).thenReturn(
-//            Result.failure(
-//                UsecaseException(
-//                    function = "GetNroEquip",
-//                    cause = Exception()
-//                )
-//            )
-//        )
-//        val viewModel = NroEquipProprioViewModel(
-//            SavedStateHandle(
-//                mapOf(
-//                    Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
-//                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                    Args.ID_ARGS to 1
-//                )
-//            ),
-//            checkNroEquipProprio,
-//            setNroEquip,
-//            cleanEquip,
-//            getAllEquipServer,
-//            saveAllEquip,
-//            getNroEquip
-//        )
-//        viewModel.getNroEquip()
-//        assertEquals(viewModel.uiState.value.flagDialog, true)
-//        assertEquals(
-//            viewModel.uiState.value.failure,
-//            "Failure Usecase -> GetNroEquip -> java.lang.Exception"
-//        )
-//    }
-//
-//    @Test
-//    fun `check return nroEquip if GetNroEquip execute success`() = runTest {
-//        val checkNroEquipProprio = mock<CheckNroEquipProprio>()
-//        val setNroEquip = mock<SetNroEquip>()
-//        val cleanEquip = mock<CleanEquip>()
-//        val getAllEquipServer = mock<GetAllEquipServer>()
-//        val saveAllEquip = mock<SaveAllEquip>()
-//        val getNroEquip = mock<GetNroEquip>()
-//        whenever(getNroEquip(1)).thenReturn(
-//            Result.success("100")
-//        )
-//        val viewModel = NroEquipProprioViewModel(
-//            SavedStateHandle(
-//                mapOf(
-//                    Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
-//                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
-//                    Args.ID_ARGS to 1
-//                )
-//            ),
-//            checkNroEquipProprio,
-//            setNroEquip,
-//            cleanEquip,
-//            getAllEquipServer,
-//            saveAllEquip,
-//            getNroEquip
-//        )
-//        viewModel.getNroEquip()
-//        assertEquals(viewModel.uiState.value.nroEquip, "100")
-//    }
+
+    @Test
+    fun `Check return failure datasource if have error in usecase CleanEquip is datasource`() =
+        runTest {
+            whenever(
+                updateEquip(
+                    count = 1f,
+                    sizeAll = 4f
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdate(
+                        flagProgress = true,
+                        msgProgress = "Limpando a tabela tb_equip",
+                        currentProgress = percentage(1f, 4f)
+                    ),
+                    ResultUpdate(
+                        errors = Errors.UPDATE,
+                        flagDialog = true,
+                        flagFailure = true,
+                        failure = "CleanEquip -> java.lang.NullPointerException",
+                        msgProgress = "CleanEquip -> java.lang.NullPointerException",
+                        currentProgress = 1f,
+                    )
+                )
+            )
+            val viewModel = getViewModel(
+                SavedStateHandle(
+                    mapOf(
+                        Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                        Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
+                        Args.ID_ARGS to 0
+                    )
+                )
+            )
+            val result = viewModel.updateAllDatabase().toList()
+            assertEquals(result.count(), 2)
+            assertEquals(
+                result[0],
+                NroEquipProprioState(
+                    flagProgress = true,
+                    msgProgress = "Limpando a tabela tb_equip",
+                    currentProgress = percentage(1f, 4f)
+                )
+            )
+            assertEquals(
+                result[1],
+                NroEquipProprioState(
+                    errors = Errors.UPDATE,
+                    flagDialog = true,
+                    flagFailure = true,
+                    failure = "NroEquipProprioViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
+                    msgProgress = "NroEquipProprioViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
+                    currentProgress = 1f,
+                )
+            )
+        }
+
+    @Test
+    fun `Check return failure usecase in setTextField if have error in usecase CleanEquip`() =
+        runTest {
+            whenever(
+                updateEquip(
+                    count = 1f,
+                    sizeAll = 4f
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdate(
+                        flagProgress = true,
+                        msgProgress = "Limpando a tabela tb_equip",
+                        currentProgress = percentage(1f, 4f)
+                    ),
+                    ResultUpdate(
+                        errors = Errors.UPDATE,
+                        flagDialog = true,
+                        flagFailure = true,
+                        failure = "CleanEquip -> java.lang.NullPointerException",
+                        msgProgress = "CleanEquip -> java.lang.NullPointerException",
+                        currentProgress = 1f,
+                    )
+                )
+            )
+            val viewModel = getViewModel(
+                SavedStateHandle(
+                    mapOf(
+                        Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                        Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
+                        Args.ID_ARGS to 0
+                    )
+                )
+            )
+            val result = viewModel.updateAllDatabase().toList()
+            assertEquals(result.count(), 2)
+            assertEquals(
+                result[0],
+                NroEquipProprioState(
+                    flagProgress = true,
+                    msgProgress = "Limpando a tabela tb_equip",
+                    currentProgress = percentage(1f, 4f)
+                )
+            )
+            assertEquals(
+                result[1],
+                NroEquipProprioState(
+                    errors = Errors.UPDATE,
+                    flagDialog = true,
+                    flagFailure = true,
+                    failure = "NroEquipProprioViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
+                    msgProgress = "NroEquipProprioViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException",
+                    currentProgress = 1f,
+                )
+            )
+            viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
+            assertEquals(
+                viewModel.uiState.value.msgProgress,
+                "NroEquipProprioViewModel.updateAllDatabase -> CleanEquip -> java.lang.NullPointerException"
+            )
+        }
+
+    @Test
+    fun `Check return success in updateAllDatabase if all update run correctly`() = runTest {
+        whenever(
+            updateEquip(
+                count = 1f,
+                sizeAll = 4f
+            )
+        ).thenReturn(
+            flowOf(
+                ResultUpdate(
+                    flagProgress = true,
+                    msgProgress = "Limpando a tabela tb_equip",
+                    currentProgress = percentage(1f, 4f)
+                ),
+                ResultUpdate(
+                    flagProgress = true,
+                    msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
+                    currentProgress = percentage(2f, 4f)
+                ),
+                ResultUpdate(
+                    flagProgress = true,
+                    msgProgress = "Salvando dados na tabela tb_equip",
+                    currentProgress = percentage(3f, 4f)
+                ),
+            )
+        )
+        val viewModel = getViewModel(
+            SavedStateHandle(
+                mapOf(
+                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
+                    Args.ID_ARGS to 0
+                )
+            )
+        )
+        val result = viewModel.updateAllDatabase().toList()
+        assertEquals(result.count(), 4)
+        assertEquals(
+            result[0],
+            NroEquipProprioState(
+                flagProgress = true,
+                msgProgress = "Limpando a tabela tb_equip",
+                currentProgress = percentage(1f, 4f)
+            )
+        )
+        assertEquals(
+            result[1],
+            NroEquipProprioState(
+                flagProgress = true,
+                msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
+                currentProgress = percentage(2f, 4f),
+            )
+        )
+        assertEquals(
+            result[2],
+            NroEquipProprioState(
+                flagProgress = true,
+                msgProgress = "Salvando dados na tabela tb_equip",
+                currentProgress = percentage(3f, 4f),
+            )
+        )
+        assertEquals(
+            result[3],
+            NroEquipProprioState(
+                flagDialog = true,
+                flagProgress = false,
+                flagFailure = false,
+                msgProgress = "Atualização de dados realizado com sucesso!",
+                currentProgress = 1f,
+            )
+        )
+    }
+
+    @Test
+    fun `Check return success if setTextField update is success`() = runTest {
+        whenever(
+            updateEquip(
+                count = 1f,
+                sizeAll = 4f
+            )
+        ).thenReturn(
+            flowOf(
+                ResultUpdate(
+                    flagProgress = true,
+                    msgProgress = "Limpando a tabela tb_equip",
+                    currentProgress = percentage(1f, 4f)
+                ),
+                ResultUpdate(
+                    flagProgress = true,
+                    msgProgress = "Recuperando dados da tabela tb_equip do Web Service",
+                    currentProgress = percentage(2f, 4f)
+                ),
+                ResultUpdate(
+                    flagProgress = true,
+                    msgProgress = "Salvando dados na tabela tb_equip",
+                    currentProgress = percentage(3f, 4f)
+                ),
+            )
+        )
+        val viewModel = getViewModel(
+            SavedStateHandle(
+                mapOf(
+                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
+                    Args.ID_ARGS to 0
+                )
+            )
+        )
+        viewModel.setTextField(
+            "ATUALIZAR DADOS",
+            TypeButton.UPDATE
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.msgProgress,
+            "Atualização de dados realizado com sucesso!"
+        )
+    }
+
+    @Test
+    fun `check return failure usecase if have error in usecase GetNroEquip`() = runTest {
+        whenever(
+            getNroEquipProprio(1)
+        ).thenReturn(
+            resultFailure(
+                "GetNroEquip",
+                "-",
+                Exception()
+            )
+        )
+        val viewModel = getViewModel(
+            SavedStateHandle(
+                mapOf(
+                    Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
+                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
+                    Args.ID_ARGS to 1
+                )
+            )
+        )
+        viewModel.getNroEquip()
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "NroEquipProprioViewModel.getNroEquip -> GetNroEquip -> java.lang.Exception"
+        )
+    }
+
+    @Test
+    fun `check return nroEquip if GetNroEquip execute success`() = runTest {
+        whenever(
+            getNroEquipProprio(1)
+        ).thenReturn(
+            Result.success("100")
+        )
+        val viewModel = getViewModel(
+            SavedStateHandle(
+                mapOf(
+                    Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
+                    Args.TYPE_EQUIP_ARGS to TypeEquip.VEICULO.ordinal,
+                    Args.ID_ARGS to 1
+                )
+            )
+        )
+        viewModel.getNroEquip()
+        assertEquals(
+            viewModel.uiState.value.nroEquip,
+            "100"
+        )
+    }
 }

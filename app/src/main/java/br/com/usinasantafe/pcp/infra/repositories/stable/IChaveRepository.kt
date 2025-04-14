@@ -23,7 +23,7 @@ class IChaveRepository(
                 return resultFailure(
                     context = "IChaveRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class IChaveRepository(
             return resultFailure(
                 context = "IChaveRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -51,13 +51,15 @@ class IChaveRepository(
 
     override suspend fun get(id: Int): Result<Chave> {
         try {
-            val result = chaveRoomDatasource.get(id).map { it.roomModelToEntity() }
+            val result = chaveRoomDatasource.get(id).map {
+                it.roomModelToEntity()
+            }
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
                     context = "IChaveRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -78,7 +80,7 @@ class IChaveRepository(
                 return resultFailure(
                     context = "IChaveRepository.listAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultRoomList.getOrNull()!!.map { it.roomModelToEntity() }
@@ -100,7 +102,7 @@ class IChaveRepository(
                 return resultFailure(
                     context = "IChaveRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

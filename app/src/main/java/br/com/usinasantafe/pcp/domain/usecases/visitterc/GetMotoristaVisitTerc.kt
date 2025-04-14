@@ -30,8 +30,8 @@ class IGetMotoristaVisitTerc(
                     return resultFailure(
                         context = "IGetMotoristaVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val visitante = resultGetVisit.getOrNull()!!
                 return Result.success("${visitante.cpfVisitante} - ${visitante.nomeVisitante}")
@@ -45,8 +45,8 @@ class IGetMotoristaVisitTerc(
                     return resultFailure(
                         context = "IGetMotoristaVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val terceiro = resultGetTerc.getOrNull()!!
                 return Result.success("${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}")

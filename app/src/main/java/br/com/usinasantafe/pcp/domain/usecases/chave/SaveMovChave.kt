@@ -35,8 +35,8 @@ class ISaveMovChave(
                     return resultFailure(
                         context = "ISaveMovChave",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val resultGet = movChaveRepository.get(id)
                 if (resultGet.isFailure) {
@@ -44,8 +44,8 @@ class ISaveMovChave(
                     return resultFailure(
                         context = "ISaveMovChave",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 uuidString = resultGet.getOrNull()!!.uuidMainMovChave!!
             }
@@ -55,7 +55,7 @@ class ISaveMovChave(
                 return resultFailure(
                     context = "ISaveMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -69,7 +69,7 @@ class ISaveMovChave(
                 return resultFailure(
                     context = "ISaveMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idSave = resultSave.getOrNull()!!
@@ -80,8 +80,8 @@ class ISaveMovChave(
                     return resultFailure(
                         context = "ISaveMovChave",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             startProcessSendData()

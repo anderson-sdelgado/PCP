@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.presenter.proprio.matriccolab
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
@@ -53,8 +54,14 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        assertEquals(viewModel.uiState.value.matricColab, "19759")
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        assertEquals(
+            viewModel.uiState.value.matricColab,
+            "19759"
+        )
     }
 
     @Test
@@ -68,12 +75,30 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        viewModel.setTextField("APAGAR", TypeButton.CLEAN)
-        viewModel.setTextField("APAGAR", TypeButton.CLEAN)
-        viewModel.setTextField("APAGAR", TypeButton.CLEAN)
-        viewModel.setTextField("1", TypeButton.NUMERIC)
-        assertEquals(viewModel.uiState.value.matricColab, "191")
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "APAGAR",
+            TypeButton.CLEAN
+        )
+        viewModel.setTextField(
+            "APAGAR",
+            TypeButton.CLEAN
+        )
+        viewModel.setTextField(
+            "APAGAR",
+            TypeButton.CLEAN
+        )
+        viewModel.setTextField(
+            "1",
+            TypeButton.NUMERIC
+        )
+        assertEquals(
+            viewModel.uiState.value.matricColab,
+            "191"
+        )
     }
 
     @Test
@@ -87,9 +112,18 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.errors, Errors.FIELDEMPTY)
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.errors,
+            Errors.FIELDEMPTY
+        )
     }
 
     @Test
@@ -97,7 +131,9 @@ class MatricColabViewModelTest {
         whenever(
             checkMatricColab("19759")
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CheckMatricColab",
+                "-",
                 Exception()
             )
         )
@@ -110,14 +146,29 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.errors, Errors.EXCEPTION)
-        assertEquals(viewModel.uiState.value.flagFailure, true)
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.errors,
+            Errors.EXCEPTION
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> CheckMatricColab -> java.lang.Exception"
+            "MatricColabViewModel.setMatricColab -> CheckMatricColab -> java.lang.Exception"
         )
     }
 
@@ -137,11 +188,26 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, false)
-        assertEquals(viewModel.uiState.value.flagAccess, true)
-        assertEquals(viewModel.uiState.value.flagFailure, false)
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            false
+        )
     }
 
     @Test
@@ -160,11 +226,26 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("19759", TypeButton.NUMERIC)
-        viewModel.setTextField("OK", TypeButton.OK)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.flagAccess, false)
-        assertEquals(viewModel.uiState.value.flagFailure, true)
+        viewModel.setTextField(
+            "19759",
+            TypeButton.NUMERIC
+        )
+        viewModel.setTextField(
+            "OK",
+            TypeButton.OK
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagFailure,
+            true
+        )
     }
 
     @Test
@@ -186,8 +267,8 @@ class MatricColabViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                        failure = "CleanColab -> java.lang.NullPointerException",
+                        msgProgress = "CleanColab -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
@@ -217,8 +298,8 @@ class MatricColabViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                    failure = "MatricColabViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
+                    msgProgress = "MatricColabViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
@@ -243,8 +324,8 @@ class MatricColabViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                        failure = "CleanColab -> java.lang.NullPointerException",
+                        msgProgress = "CleanColab -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
@@ -274,15 +355,15 @@ class MatricColabViewModelTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                    failure = "MatricColabViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
+                    msgProgress = "MatricColabViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
             viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
             assertEquals(
                 viewModel.uiState.value.msgProgress,
-                "Failure Usecase -> CleanColab -> java.lang.NullPointerException"
+                "MatricColabViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException"
             )
         }
 
@@ -394,8 +475,14 @@ class MatricColabViewModelTest {
                 )
             )
         )
-        viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        viewModel.setTextField(
+            "ATUALIZAR DADOS",
+            TypeButton.UPDATE
+        )
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
         assertEquals(
             viewModel.uiState.value.msgProgress,
             "Atualização de dados realizado com sucesso!"
@@ -407,7 +494,9 @@ class MatricColabViewModelTest {
         whenever(
             getMatricColab(1)
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetMatricColab",
+                "-",
                 Exception()
             )
         )
@@ -421,11 +510,17 @@ class MatricColabViewModelTest {
             )
         )
         viewModel.getMatricColab()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.errors, Errors.EXCEPTION)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.errors,
+            Errors.EXCEPTION
+        )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Usecase -> GetMatricColab -> java.lang.Exception"
+            "MatricColabViewModel.getMatricColab -> GetMatricColab -> java.lang.Exception"
         )
     }
 
@@ -446,6 +541,9 @@ class MatricColabViewModelTest {
             )
         )
         viewModel.getMatricColab()
-        assertEquals(viewModel.uiState.value.matricColab, "19759")
+        assertEquals(
+            viewModel.uiState.value.matricColab,
+            "19759"
+        )
     }
 }

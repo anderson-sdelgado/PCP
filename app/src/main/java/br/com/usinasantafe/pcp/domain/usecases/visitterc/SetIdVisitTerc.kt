@@ -43,7 +43,7 @@ class ISetIdVisitTerc(
                 return resultFailure(
                     context = "ISetIdVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val typeVisitTerc = resultGetType.getOrNull()!!
@@ -56,7 +56,7 @@ class ISetIdVisitTerc(
                 return resultFailure(
                     context = "ISetIdVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idVisitTerc = resultGetId.getOrNull()!!
@@ -72,8 +72,8 @@ class ISetIdVisitTerc(
                         return resultFailure(
                             context = "ISetIdVisitTerc",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                 }
                 TypeOcupante.PASSAGEIRO -> {
@@ -87,8 +87,8 @@ class ISetIdVisitTerc(
                         return resultFailure(
                             context = "ISetIdVisitTerc",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     if(flowApp == FlowApp.CHANGE){
                         val resultSend = movEquipVisitTercRepository.setSend(id)
@@ -97,7 +97,7 @@ class ISetIdVisitTerc(
                             return resultFailure(
                                 context = "ISetIdVisitTerc",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                     }

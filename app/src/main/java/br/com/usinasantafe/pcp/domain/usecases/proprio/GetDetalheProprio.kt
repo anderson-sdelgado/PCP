@@ -35,7 +35,7 @@ class IGetDetalheProprio(
                 return resultFailure(
                     context = "IGetDetalheProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val mov = resultGet.getOrNull()!!
@@ -50,7 +50,7 @@ class IGetDetalheProprio(
                 return resultFailure(
                     context = "IGetDetalheProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val veiculo = resultGetDescr.getOrNull()!!
@@ -61,7 +61,7 @@ class IGetDetalheProprio(
                 return resultFailure(
                     context = "IGetDetalheProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val equipSegList = resultEquipSegList.getOrNull()!!
@@ -73,8 +73,8 @@ class IGetDetalheProprio(
                     return resultFailure(
                         context = "IGetDetalheProprio",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val nroEquipSeg = resultNroEquipSeg.getOrNull()!!
                 veicSeg += "$nroEquipSeg - "
@@ -85,7 +85,7 @@ class IGetDetalheProprio(
                 return resultFailure(
                     context = "IGetDetalheProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val nome = resultGetNome.getOrNull()!!
@@ -100,7 +100,7 @@ class IGetDetalheProprio(
                 return resultFailure(
                     context = "IGetDetalheProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val passagList = resultPassagList.getOrNull()!!
@@ -112,8 +112,8 @@ class IGetDetalheProprio(
                     return resultFailure(
                         context = "IGetDetalheProprio",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 passageiro += "${passag.matricColab!!} - ${resultGetNomePassag.getOrNull()!!}; "
             }

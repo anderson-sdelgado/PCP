@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.presenter.chave.controleeditlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.CloseAllMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetMovChaveOpenList
 import br.com.usinasantafe.pcp.presenter.chave.model.ControleChaveModel
@@ -21,7 +22,7 @@ class ControleChaveEditListViewModelTest {
 
     private val getMovChaveOpenList = mock<GetMovChaveOpenList>()
     private val closeAllMovChave = mock<CloseAllMovChave>()
-    private val getViewmModel = ControleChaveEditListViewModel(
+    private val viewModel = ControleChaveEditListViewModel(
         getMovChaveOpenList,
         closeAllMovChave
     )
@@ -32,19 +33,21 @@ class ControleChaveEditListViewModelTest {
             whenever(
                 getMovChaveOpenList()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetMovChaveOpenList",
+                    "-",
                     Exception()
                 )
             )
-            getViewmModel.recoverMovOpenList()
-            val state = getViewmModel.uiState.value
+            viewModel.recoverMovOpenList()
+            val state = viewModel.uiState.value
             assertEquals(
                 state.flagDialog,
                 true
             )
             assertEquals(
                 state.failure,
-                "Failure Usecase -> GetMovChaveOpenList -> java.lang.Exception"
+                "ControleChaveEditListViewModel.recoverMovOpenList -> GetMovChaveOpenList -> java.lang.Exception"
             )
         }
 
@@ -67,8 +70,8 @@ class ControleChaveEditListViewModelTest {
                     list
                 )
             )
-            getViewmModel.recoverMovOpenList()
-            val state = getViewmModel.uiState.value
+            viewModel.recoverMovOpenList()
+            val state = viewModel.uiState.value
             assertEquals(
                 state.flagDialog,
                 false
@@ -107,19 +110,21 @@ class ControleChaveEditListViewModelTest {
             whenever(
                 closeAllMovChave()
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "CloseAllMovChave",
+                    "-",
                     Exception()
                 )
             )
-            getViewmModel.closeAllMov()
-            val state = getViewmModel.uiState.value
+            viewModel.closeAllMov()
+            val state = viewModel.uiState.value
             assertEquals(
                 state.flagDialog,
                 true
             )
             assertEquals(
                 state.failure,
-                "Failure Usecase -> CloseAllMovChave -> java.lang.Exception"
+                "ControleChaveEditListViewModel.closeAllMov -> CloseAllMovChave -> java.lang.Exception"
             )
         }
 
@@ -133,8 +138,8 @@ class ControleChaveEditListViewModelTest {
                     true
                 )
             )
-            getViewmModel.closeAllMov()
-            val state = getViewmModel.uiState.value
+            viewModel.closeAllMov()
+            val state = viewModel.uiState.value
             assertEquals(
                 state.flagDialog,
                 false

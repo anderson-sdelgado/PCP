@@ -22,7 +22,7 @@ class IGetServerRLocalFluxo(
                 return resultFailure(
                     context = "IGetServerRLocalFluxo",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val token = resultToken.getOrNull()!!
@@ -32,7 +32,7 @@ class IGetServerRLocalFluxo(
                 return resultFailure(
                     context = "IGetServerRLocalFluxo",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultRecoverAll.getOrNull()!!)

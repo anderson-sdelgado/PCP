@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.initial.local
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocal
@@ -35,7 +36,9 @@ class LocalViewModelTest {
         whenever(
             getLocalList()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "RecoverLocals",
+                "-",
                 Exception()
             )
         )
@@ -46,7 +49,7 @@ class LocalViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.failure,
-            "Failure Datasource -> RecoverNomeVigia -> java.lang.Exception"
+            "LocalViewModel.localList -> RecoverLocals -> java.lang.Exception"
         )
     }
 
@@ -66,7 +69,13 @@ class LocalViewModelTest {
             )
         )
         viewModel.localList()
-        assertEquals(viewModel.uiState.value.flagDialog, false)
-        assertEquals(viewModel.uiState.value.locals, locals)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.locals,
+            locals
+        )
     }
 }

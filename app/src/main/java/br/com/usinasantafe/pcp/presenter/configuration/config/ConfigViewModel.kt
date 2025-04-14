@@ -18,6 +18,7 @@ import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateTerceiro
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateVisitante
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.percentage
 import br.com.usinasantafe.pcp.utils.sizeUpdate
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ConfigState(
     val number: String = "",
@@ -41,18 +43,29 @@ data class ConfigState(
 )
 
 fun ResultUpdate.resultUpdateToConfig(): ConfigState {
-    return with(this) {
-        ConfigState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "ConfigViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "ConfigViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return ConfigState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
+
 
 class ConfigViewModel(
     private val getConfigInternal: GetConfigInternal,
@@ -103,8 +116,8 @@ class ConfigViewModel(
         val recoverConfig = getConfigInternal()
         if (recoverConfig.isFailure) {
             val error = recoverConfig.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     errors = Errors.EXCEPTION,
@@ -174,7 +187,8 @@ class ConfigViewModel(
         )
         if (resultSend.isFailure) {
             val error = resultSend.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             emit(
                 ConfigState(
                     errors = Errors.TOKEN,
@@ -202,7 +216,8 @@ class ConfigViewModel(
         )
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             emit(
                 ConfigState(
                     errors = Errors.TOKEN,
@@ -277,7 +292,8 @@ class ConfigViewModel(
         if (result.isFailure) {
             val error = result.exceptionOrNull()!!
             val failure =
-                "${error.message} -> ${error.cause.toString()}"
+                "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             emit(
                 ConfigState(
                     errors = Errors.EXCEPTION,

@@ -30,7 +30,7 @@ class IGetCpfVisitTerc(
                 return resultFailure(
                     context = "IGetCpfVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val typeVisitTerc = resultGetType.getOrNull()!!
@@ -40,7 +40,7 @@ class IGetCpfVisitTerc(
                 return resultFailure(
                     context = "IGetCpfVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idVisitTerc = resultGetIdVisitTerc.getOrNull()!!
@@ -53,7 +53,7 @@ class IGetCpfVisitTerc(
                 return resultFailure(
                     context = "IGetCpfVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultGetCpf.getOrNull()!!)

@@ -26,7 +26,7 @@ class ISendMovVisitTercList(
                 return resultFailure(
                     context = "ISendMovVisitTercList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = resultListSend.getOrNull()!!
@@ -40,8 +40,8 @@ class ISendMovVisitTercList(
                     return resultFailure(
                         context = "ISendMovVisitTercList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 entity.movEquipVisitTercPassagList = resultListPassag.getOrNull()!!
                 return@map entity
@@ -52,7 +52,7 @@ class ISendMovVisitTercList(
                 return resultFailure(
                     context = "ISendMovVisitTercList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -71,7 +71,7 @@ class ISendMovVisitTercList(
                 return resultFailure(
                     context = "ISendMovVisitTercList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultSend.getOrNull()!!)

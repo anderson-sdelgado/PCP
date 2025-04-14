@@ -21,7 +21,7 @@ class IGetDescrFullChave(
                 return resultFailure(
                     context = "IGetDescrFullChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = resultChave.getOrNull()!!
@@ -33,7 +33,7 @@ class IGetDescrFullChave(
                 return resultFailure(
                     context = "IGetDescrFullChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val descrLocalTrab = resultDescrLocalTrab.getOrNull()!!

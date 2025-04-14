@@ -23,7 +23,7 @@ class IFluxoRepository(
                 return resultFailure(
                     context = "IFluxoRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class IFluxoRepository(
             return resultFailure(
                 context = "IFluxoRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -57,7 +57,7 @@ class IFluxoRepository(
                 return resultFailure(
                     context = "IFluxoRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -78,7 +78,7 @@ class IFluxoRepository(
                 return resultFailure(
                     context = "IFluxoRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

@@ -19,7 +19,7 @@ class ISetStatusSentMovProprio(
             return resultFailure(
                 context = "ISetStatusSentMovProprio",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

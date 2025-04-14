@@ -13,13 +13,22 @@ class IGetNomeColab(
 
     override suspend fun invoke(matric: String): Result<String> {
         try {
-            val result = colabRepository.getNome(matric.toInt())
+            val result = colabRepository.getNome(
+                matric.toInt()
+            )
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
                     context = "IGetNomeColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
+                )
+            }
+            if(result.getOrNull() == null){
+                return resultFailure(
+                    context = "IGetNomeColab",
+                    message = "-",
+                    cause = NullPointerException()
                 )
             }
             return result

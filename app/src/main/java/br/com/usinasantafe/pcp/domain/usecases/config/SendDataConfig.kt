@@ -33,7 +33,7 @@ class ISendDataConfig (
                 return resultFailure(
                     context = "ISendDataConfig",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

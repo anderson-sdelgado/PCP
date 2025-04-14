@@ -2,10 +2,12 @@ package br.com.usinasantafe.pcp.presenter.visitterc.passaglist
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CleanPassagVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.DeletePassagVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetPassagVisitTercList
 import br.com.usinasantafe.pcp.presenter.Args
+import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeOcupante
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,150 +26,203 @@ class PassagVisitTercListViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    private val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
+    private val getPassagVisitTercList = mock<GetPassagVisitTercList>()
+    private val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
+
+    private fun getViewModel(
+        savedStateHandle: SavedStateHandle
+    ) = PassagVisitTercListViewModel(
+        savedStateHandle,
+        cleanPassagVisitTerc,
+        getPassagVisitTercList,
+        deletePassagVisitTerc
+    )
+
     @Test
     fun `Check return failure if have error in CleanPassagVisitTerc`() = runTest {
-        val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
-        val getPassagVisitTercList = mock<GetPassagVisitTercList>()
-        val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
         whenever(
             cleanPassagVisitTerc()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "CleanPassagVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PassagVisitTercListViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            cleanPassagVisitTerc,
-            getPassagVisitTercList,
-            deletePassagVisitTerc
+            )
         )
+
         viewModel.cleanPassag()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
+
         assertEquals(
-            state.failure,
-            "Failure Usecase -> CleanPassagVisitTerc -> java.lang.Exception"
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            "PassagVisitTercListViewModel.cleanPassag -> CleanPassagVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        assertEquals(
+            state.flagClean,
+            true
+        )
+        assertEquals(
+            state.flagDialogCheck,
+            false
+        )
+        assertEquals(
+            state.passagList,
+            emptyList<PassagVisitTercModel>()
         )
     }
 
     @Test
     fun `Check return true if CleanPassagVisitTerc execute successfully`() = runTest {
-        val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
-        val getPassagVisitTercList = mock<GetPassagVisitTercList>()
-        val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
         whenever(
             cleanPassagVisitTerc()
         ).thenReturn(
             Result.success(true)
         )
-        val viewModel = PassagVisitTercListViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            cleanPassagVisitTerc,
-            getPassagVisitTercList,
-            deletePassagVisitTerc
+            )
         )
+
         viewModel.cleanPassag()
         val state = viewModel.uiState.value
-        assertFalse(state.flagDialog)
-        assertFalse(state.flagClean)
+
+        assertEquals(
+            state.flagClean,
+            false
+        )
+        assertEquals(
+            state.flagDialog,
+            false
+        )
+
+        assertEquals(
+            state.flagDialogCheck,
+            false
+        )
+        assertEquals(
+            state.passagList,
+            emptyList<PassagVisitTercModel>()
+        )
     }
 
     @Test
     fun `Check return failure if have error in GetPassagVisitTercList`() = runTest {
-        val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
-        val getPassagVisitTercList = mock<GetPassagVisitTercList>()
-        val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
         whenever(
             getPassagVisitTercList(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetPassagVisitTercList",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PassagVisitTercListViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            cleanPassagVisitTerc,
-            getPassagVisitTercList,
-            deletePassagVisitTerc
+            )
         )
+
         viewModel.recoverPassag()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
+
         assertEquals(
-            state.failure,
-            "Failure Usecase -> GetPassagVisitTercList -> java.lang.Exception"
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            "PassagVisitTercListViewModel.recoverPassag -> GetPassagVisitTercList -> java.lang.Exception",
+            state.failure
+        )
+        assertEquals(
+            state.flagClean,
+            true
+        )
+        assertEquals(
+            state.flagDialogCheck,
+            false
+        )
+        assertEquals(
+            state.passagList,
+            emptyList<PassagVisitTercModel>()
         )
     }
 
     @Test
     fun `Check return list if GetPassagVisitTercList execute successfully`() = runTest {
-        val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
-        val getPassagVisitTercList = mock<GetPassagVisitTercList>()
-        val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
+        val expectedList = listOf(
+            PassagVisitTercModel(
+                id = 1,
+                cpf = "123.456.789-00",
+                nome = "Nome"
+            )
+        )
         whenever(
             getPassagVisitTercList(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
         ).thenReturn(
-            Result.success(
-                listOf(
-                    PassagVisitTercModel(
-                        id = 1,
-                        cpf = "123.456.789-00",
-                        nome = "Nome"
-                    )
-                )
-            )
+            Result.success(expectedList)
         )
-        val viewModel = PassagVisitTercListViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            cleanPassagVisitTerc,
-            getPassagVisitTercList,
-            deletePassagVisitTerc
+            )
         )
+
         viewModel.recoverPassag()
         val state = viewModel.uiState.value
-        assertFalse(state.flagDialog)
-        assertEquals(state.passagList.size, 1)
-        assertEquals(state.passagList[0].id, 1)
-        assertEquals(state.passagList[0].cpf, "123.456.789-00")
-        assertEquals(state.passagList[0].nome, "Nome")
+
+        assertEquals(
+            expectedList,
+            state.passagList
+        )
+        assertEquals(
+            state.flagDialog,
+            false
+        )
+        assertEquals(
+            state.flagClean,
+            true
+        )
+        assertEquals(
+            state.flagDialogCheck,
+            false
+        )
     }
 
     @Test
     fun `Check return failure if have error in DeletePassagVisitTerc`() = runTest {
-        val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
-        val getPassagVisitTercList = mock<GetPassagVisitTercList>()
-        val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
         whenever(
             deletePassagVisitTerc(
                 idVisitTerc = 1,
@@ -175,37 +230,57 @@ class PassagVisitTercListViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "DeletePassagVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = PassagVisitTercListViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            cleanPassagVisitTerc,
-            getPassagVisitTercList,
-            deletePassagVisitTerc
+            )
         )
+
         viewModel.setDelete(1)
         viewModel.deletePassag()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
+
         assertEquals(
-            state.failure,
-            "Failure Usecase -> DeletePassagVisitTerc -> java.lang.Exception"
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            "PassagVisitTercListViewModel.deletePassag -> DeletePassagVisitTerc -> java.lang.Exception",
+            state.failure
+        )
+        assertEquals(
+            state.flagClean,
+            true
+        )
+        assertEquals(
+            state.flagDialogCheck,
+            true
+        )
+        assertEquals(
+            state.passagList,
+            emptyList<PassagVisitTercModel>()
         )
     }
 
     @Test
     fun `Check return true if DeletePassagVisitTerc execute successfully`() = runTest {
-        val cleanPassagVisitTerc = mock<CleanPassagVisitTerc>()
-        val getPassagVisitTercList = mock<GetPassagVisitTercList>()
-        val deletePassagVisitTerc = mock<DeletePassagVisitTerc>()
+        val expectedListAfterDelete = listOf(
+            PassagVisitTercModel(
+                id = 2, // Simula que o item 1 foi removido
+                cpf = "987.654.321-00",
+                nome = "Outro Nome"
+            )
+        )
         whenever(
             deletePassagVisitTerc(
                 idVisitTerc = 1,
@@ -221,36 +296,37 @@ class PassagVisitTercListViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.success(
-                listOf(
-                    PassagVisitTercModel(
-                        id = 1,
-                        cpf = "123.456.789-00",
-                        nome = "Nome"
-                    )
-                )
-            )
+            Result.success(expectedListAfterDelete)
         )
-        val viewModel = PassagVisitTercListViewModel(
+        val viewModel = getViewModel(
             SavedStateHandle(
                 mapOf(
                     Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
                     Args.TYPE_OCUPANTE_ARGS to TypeOcupante.MOTORISTA.ordinal,
                     Args.ID_ARGS to 0,
                 )
-            ),
-            cleanPassagVisitTerc,
-            getPassagVisitTercList,
-            deletePassagVisitTerc
+            )
         )
+
         viewModel.setDelete(1)
         viewModel.deletePassag()
         val state = viewModel.uiState.value
-        assertFalse(state.flagDialogCheck)
-        assertFalse(state.flagDialog)
-        assertEquals(state.passagList.size, 1)
-        assertEquals(state.passagList[0].id, 1)
-        assertEquals(state.passagList[0].cpf, "123.456.789-00")
-        assertEquals(state.passagList[0].nome, "Nome")
+
+        assertEquals(
+            expectedListAfterDelete,
+            state.passagList
+        )
+        assertEquals(
+            state.flagDialogCheck,
+            false
+        )
+        assertEquals(
+            state.flagDialog,
+            false
+        )
+        assertEquals(
+            state.flagClean,
+            true
+        )
     }
 }

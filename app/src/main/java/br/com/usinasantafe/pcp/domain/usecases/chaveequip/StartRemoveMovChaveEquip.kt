@@ -22,7 +22,7 @@ class IStartRemoveMovChaveEquip(
                 return resultFailure(
                     context = "IStartRemoveMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movChaveEquip = resultGet.getOrNull()!!
@@ -36,7 +36,7 @@ class IStartRemoveMovChaveEquip(
                 return resultFailure(
                     context = "IStartRemoveMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

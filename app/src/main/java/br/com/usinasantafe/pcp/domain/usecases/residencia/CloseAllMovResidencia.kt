@@ -19,7 +19,7 @@ class ICloseAllMovResidencia(
                 return resultFailure(
                     context = "ICloseAllMovResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultList.getOrNull()!!
@@ -30,8 +30,8 @@ class ICloseAllMovResidencia(
                     return resultFailure(
                         context = "ICloseAllMovResidencia",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)

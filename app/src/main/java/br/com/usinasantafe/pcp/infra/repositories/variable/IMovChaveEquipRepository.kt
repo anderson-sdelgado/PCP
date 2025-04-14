@@ -26,7 +26,7 @@ class IMovChaveEquipRepository(
             return resultFailure(
                 context = "IMovChaveEquipRepository.checkOpen",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -39,7 +39,7 @@ class IMovChaveEquipRepository(
             return resultFailure(
                 context = "IMovChaveEquipRepository.checkSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -53,7 +53,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = result.getOrNull()!!.roomModelToEntity()
@@ -75,7 +75,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.getMatricColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = result.getOrNull()!!.roomModelToEntity()
@@ -97,7 +97,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.getIdEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = result.getOrNull()!!.roomModelToEntity()
@@ -119,7 +119,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.getObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entity = result.getOrNull()!!.roomModelToEntity()
@@ -141,7 +141,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.listInside",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map {
@@ -165,7 +165,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.listOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map {
@@ -189,7 +189,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.listSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map {
@@ -217,7 +217,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val roomModel = resultGetMov.getOrNull()!!
@@ -233,7 +233,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = resultSave.getOrNull()!!.toInt()
@@ -250,7 +250,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(id)
@@ -280,7 +280,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.send",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val retrofitModelInputList = result.getOrNull()!!
@@ -304,7 +304,7 @@ class IMovChaveEquipRepository(
             return resultFailure(
                 context = "IMovChaveEquipRepository.setClose",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -326,7 +326,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.setIdEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -355,7 +355,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.setMatricColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -384,7 +384,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.setObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -404,7 +404,7 @@ class IMovChaveEquipRepository(
             return resultFailure(
                 context = "IMovChaveEquipRepository.setOutside",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -419,8 +419,8 @@ class IMovChaveEquipRepository(
                     return resultFailure(
                         context = "IMovChaveEquipRepository.setSent",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)
@@ -440,7 +440,7 @@ class IMovChaveEquipRepository(
             return resultFailure(
                 context = "IMovChaveEquipRepository.start(INSIDE)",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -455,7 +455,7 @@ class IMovChaveEquipRepository(
                 return resultFailure(
                     context = "IMovChaveEquipRepository.start(OUTSIDE)",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

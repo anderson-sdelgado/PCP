@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.presenter.chave.matriccolab
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetMatricColabMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
@@ -10,6 +11,7 @@ import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
+import br.com.usinasantafe.pcp.utils.TypeMovKey
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -36,6 +38,7 @@ class MatricColabChaveViewModelTest {
         savedStateHandle: SavedStateHandle = SavedStateHandle(
             mapOf(
                 Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                Args.TYPE_MOV_ARGS to TypeMovKey.REMOVE.ordinal,
                 Args.ID_ARGS to 0
             )
         )
@@ -82,7 +85,10 @@ class MatricColabChaveViewModelTest {
     fun `Check return failure if click in button ok and matricColab is empty`() =
         runTest {
             val viewModel = getViewModel()
-            viewModel.setTextField("", TypeButton.OK)
+            viewModel.setTextField(
+                "",
+                TypeButton.OK
+            )
             assertEquals(
                 viewModel.uiState.value.flagDialog,
                 true
@@ -116,16 +122,18 @@ class MatricColabChaveViewModelTest {
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                        msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                        failure = "CleanColab -> java.lang.NullPointerException",
+                        msgProgress = "CleanColab -> java.lang.NullPointerException",
                         currentProgress = 1f,
                     )
                 )
             )
             val viewModel = getViewModel()
             val result = viewModel.updateAllDatabase().toList()
-            Assert.assertEquals(result.count(), 2)
-            Assert.assertEquals(
+            assertEquals(
+                result.count(), 2
+            )
+            assertEquals(
                 result[0],
                 MatricColabChaveState(
                     flagProgress = true,
@@ -133,21 +141,21 @@ class MatricColabChaveViewModelTest {
                     currentProgress = percentage(1f, 4f)
                 )
             )
-            Assert.assertEquals(
+            assertEquals(
                 result[1],
                 MatricColabChaveState(
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
-                    msgProgress = "Failure Usecase -> CleanColab -> java.lang.NullPointerException",
+                    failure = "MatricColabChaveViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
+                    msgProgress = "MatricColabChaveViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException",
                     currentProgress = 1f,
                 )
             )
             viewModel.setTextField("ATUALIZAR DADOS", TypeButton.UPDATE)
-            Assert.assertEquals(
+            assertEquals(
                 viewModel.uiState.value.msgProgress,
-                "Failure Usecase -> CleanColab -> java.lang.NullPointerException"
+                "MatricColabChaveViewModel.updateAllDatabase -> CleanColab -> java.lang.NullPointerException"
             )
         }
 
@@ -229,7 +237,9 @@ class MatricColabChaveViewModelTest {
             whenever(
                 checkMatricColab("19759")
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "CheckMatricColab",
+                    "-",
                     Exception()
                 )
             )
@@ -254,7 +264,7 @@ class MatricColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> CheckMatricColab -> java.lang.NullPointerException"
+                "MatricColabChaveViewModel.setMatricColab -> CheckMatricColab -> java.lang.Exception"
             )
         }
 
@@ -326,7 +336,9 @@ class MatricColabChaveViewModelTest {
             whenever(
                 getMatricColabMovChave(1)
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetMatricColabMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -334,6 +346,7 @@ class MatricColabChaveViewModelTest {
                 SavedStateHandle(
                     mapOf(
                         Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
+                        Args.TYPE_MOV_ARGS to TypeMovKey.REMOVE.ordinal,
                         Args.ID_ARGS to 1
                     )
                 )
@@ -353,7 +366,7 @@ class MatricColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetMatricColabMovChave -> java.lang.Exception"
+                "MatricColabChaveViewModel.getMatricColab -> GetMatricColabMovChave -> java.lang.Exception"
             )
         }
 
@@ -369,6 +382,7 @@ class MatricColabChaveViewModelTest {
                 SavedStateHandle(
                     mapOf(
                         Args.FLOW_APP_ARGS to FlowApp.CHANGE.ordinal,
+                        Args.TYPE_MOV_ARGS to TypeMovKey.REMOVE.ordinal,
                         Args.ID_ARGS to 1
                     )
                 )

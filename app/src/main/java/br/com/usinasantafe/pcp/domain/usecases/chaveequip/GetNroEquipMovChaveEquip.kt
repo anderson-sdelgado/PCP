@@ -21,7 +21,7 @@ class IGetNroEquipMovChaveEquip(
                 return resultFailure(
                     context = "IGetNroEquipMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val idEquip = resultIdEquip.getOrNull()!!
@@ -31,7 +31,7 @@ class IGetNroEquipMovChaveEquip(
                 return resultFailure(
                     context = "IGetNroEquipMovChaveEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultEquip.getOrNull()!!.toString())

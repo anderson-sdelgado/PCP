@@ -27,7 +27,7 @@ class IMovEquipProprioRepository(
             return resultFailure(
                 context = "IMovEquipProprioRepository.checkOpen",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -40,7 +40,7 @@ class IMovEquipProprioRepository(
             return resultFailure(
                 context = "IMovEquipProprioRepository.checkSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -54,7 +54,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val model = resultGet.getOrNull()!!
@@ -64,7 +64,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return resultDelete
@@ -85,7 +85,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.get",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity())
@@ -106,7 +106,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.getDestino",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().destinoMovEquipProprio!!)
@@ -127,7 +127,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.getTipoMov",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val type = result.getOrNull()!!.tipoMovEquipProprio
@@ -149,7 +149,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.getIdEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().idEquipMovEquipProprio!!)
@@ -170,7 +170,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.getObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().observMovEquipProprio)
@@ -191,7 +191,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.getMatricColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().matricColabMovEquipProprio!!)
@@ -212,7 +212,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.getNotaFiscal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.roomModelToEntity().notaFiscalMovEquipProprio)
@@ -233,7 +233,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.listOpen",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = result.getOrNull()!!.map {
@@ -258,7 +258,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.listSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSend = result.getOrNull()!!.map {
@@ -283,7 +283,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.listSent",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listSent = result.getOrNull()!!.map {
@@ -311,7 +311,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val movEquipProprioRoomModel =
@@ -323,7 +323,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val id = resultSave.getOrNull()!!.toInt()
@@ -340,7 +340,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(id)
@@ -368,7 +368,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.send",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val listInput = result.getOrNull()!!
@@ -392,7 +392,7 @@ class IMovEquipProprioRepository(
             return resultFailure(
                 context = "IMovEquipProprioRepository.setClose",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -414,7 +414,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.setDestino",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -443,7 +443,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.setIdEquip",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -472,7 +472,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.setMatricColab",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -501,7 +501,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.setNotaFiscal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -530,7 +530,7 @@ class IMovEquipProprioRepository(
                 return resultFailure(
                     context = "IMovEquipProprioRepository.setObserv",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -553,8 +553,8 @@ class IMovEquipProprioRepository(
                     return resultFailure(
                         context = "IMovEquipProprioRepository.setSent",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
             }
             return Result.success(true)
@@ -574,7 +574,7 @@ class IMovEquipProprioRepository(
             return resultFailure(
                 context = "IMovEquipProprioRepository.setSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -587,7 +587,7 @@ class IMovEquipProprioRepository(
             return resultFailure(
                 context = "IMovEquipProprioRepository.start",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

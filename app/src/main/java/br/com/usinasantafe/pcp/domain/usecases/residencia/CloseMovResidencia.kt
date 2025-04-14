@@ -22,7 +22,7 @@ class ICloseMovResidencia(
             return resultFailure(
                 context = "ICloseMovResidencia",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

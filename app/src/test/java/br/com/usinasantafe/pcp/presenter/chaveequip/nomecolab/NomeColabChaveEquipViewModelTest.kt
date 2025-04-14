@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.nomecolab
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetMatricColabMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveequip.StartRemoveMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
@@ -42,14 +43,15 @@ class NomeColabChaveEquipViewModelTest {
         startRemoveMovChaveEquip
     )
 
-
     @Test
     fun `returnNomeColab - Check return failure if have error in GetNomeColab`() =
         runTest {
             whenever(
                 getNomeColab("19759")
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetNomeColab",
+                    "-",
                     Exception()
                 )
             )
@@ -61,7 +63,7 @@ class NomeColabChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetNomeColab -> java.lang.Exception"
+                "NomeColabChaveEquipViewModel.returnNomeColab -> GetNomeColab -> java.lang.Exception"
             )
         }
 
@@ -91,7 +93,9 @@ class NomeColabChaveEquipViewModelTest {
                     id = 0
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "ISetMatricColabMovChaveEquip",
+                    "-",
                     Exception()
                 )
             )
@@ -103,7 +107,7 @@ class NomeColabChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> ISetMatricColabMovChaveEquip -> java.lang.Exception"
+                "NomeColabChaveEquipViewModel.setMatricColab -> ISetMatricColabMovChaveEquip -> java.lang.Exception"
             )
         }
 
@@ -139,7 +143,9 @@ class NomeColabChaveEquipViewModelTest {
                     1
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "IStartReceiptChaveEquip",
+                    "-",
                     Exception()
                 )
             )
@@ -147,8 +153,8 @@ class NomeColabChaveEquipViewModelTest {
                 SavedStateHandle(
                     mapOf(
                         Args.MATRIC_COLAB_ARGS to "19759",
-                        Args.FLOW_APP_ARGS  to FlowApp.ADD.ordinal,
-                        Args.TYPE_MOV_ARGS  to TypeMovKey.RECEIPT.ordinal,
+                        Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                        Args.TYPE_MOV_ARGS to TypeMovKey.REMOVE.ordinal,
                         Args.ID_ARGS to 1
                     )
                 )
@@ -160,7 +166,7 @@ class NomeColabChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> IStartReceiptChaveEquip -> java.lang.Exception"
+                "NomeColabChaveEquipViewModel.setMatricColab -> IStartReceiptChaveEquip -> java.lang.Exception"
             )
         }
 
@@ -181,7 +187,9 @@ class NomeColabChaveEquipViewModelTest {
                     id = 1
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "ISetMatricColabMovChaveEquip",
+                    "-",
                     Exception()
                 )
             )
@@ -190,7 +198,7 @@ class NomeColabChaveEquipViewModelTest {
                     mapOf(
                         Args.MATRIC_COLAB_ARGS to "19759",
                         Args.FLOW_APP_ARGS  to FlowApp.ADD.ordinal,
-                        Args.TYPE_MOV_ARGS  to TypeMovKey.RECEIPT.ordinal,
+                        Args.TYPE_MOV_ARGS  to TypeMovKey.REMOVE.ordinal,
                         Args.ID_ARGS to 1
                     )
                 )
@@ -202,7 +210,7 @@ class NomeColabChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> ISetMatricColabMovChave -> java.lang.Exception"
+                "NomeColabChaveEquipViewModel.setMatricColab -> ISetMatricColabMovChaveEquip -> java.lang.Exception"
             )
         }
 

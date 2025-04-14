@@ -2,9 +2,11 @@ package br.com.usinasantafe.pcp.presenter.visitterc.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure // Import necessário
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CloseMovVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetDetalheVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
+import br.com.usinasantafe.pcp.utils.Errors // Import necessário
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -20,120 +22,205 @@ class DetalheVisitTercViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+    // Mocks como propriedades da classe (já estava padronizado)
+    private val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
+    private val closeMovVisitTerc = mock<CloseMovVisitTerc>()
+
+    // Helper function para criar ViewModel (já estava padronizado)
+    private fun getViewModel(
+        savedStateHandle: SavedStateHandle
+    ) = DetalheVisitTercViewModel(
+        savedStateHandle,
+        getDetalheVisitTerc,
+        closeMovVisitTerc
+    )
+
     @Test
     fun `Check return failure if have error in recoverDetalhe`() = runTest {
-        val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
-        val closeMovVisitTerc = mock<CloseMovVisitTerc>()
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             getDetalheVisitTerc(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure( // Usando resultFailure (já estava padronizado)
+                "GetDetalheVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DetalheVisitTercViewModel(
+        val viewModel = getViewModel( // Usando getViewModel (já estava padronizado)
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 )
-            ),
-            getDetalheVisitTerc,
-            closeMovVisitTerc
+            )
         )
+
+        // Act
         viewModel.recoverDetalhe()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
-            state.failure,
-            "Failure Usecase -> RecoverDetalheVisitTerc -> java.lang.Exception"
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem já estava padronizado
+            "DetalheVisitTercViewModel.recoverDetalhe -> GetDetalheVisitTerc -> java.lang.Exception",
+            state.failure
         )
     }
 
     @Test
     fun `Check return model if recoverDetalhe execute correctly`() = runTest {
-        val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
-        val closeMovVisitTerc = mock<CloseMovVisitTerc>()
-        whenever(getDetalheVisitTerc(1)).thenReturn(
-            Result.success(
-                DetalheVisitTercModel(
-                    dthr = "08/08/2024 12:00",
-                    tipoMov = "ENTRADA",
-                    veiculo = "GOL",
-                    placa = "AAA-0000",
-                    tipoVisitTerc = "VISITANTE",
-                    motorista = "19759 - ANDERSON DA SILVA DELGADO",
-                    passageiro = "19035 - JOSE DONIZETE; 18017 - RONALDO;",
-                    destino = "Teste Destino",
-                    observ = "Teste Observ"
-                )
-            )
+        // Arrange
+        val expectedModel = DetalheVisitTercModel(
+            dthr = "08/08/2024 12:00",
+            tipoMov = "ENTRADA",
+            veiculo = "GOL",
+            placa = "AAA-0000",
+            tipoVisitTerc = "VISITANTE",
+            motorista = "19759 - ANDERSON DA SILVA DELGADO",
+            passageiro = "19035 - JOSE DONIZETE; 18017 - RONALDO;",
+            destino = "Teste Destino",
+            observ = "Teste Observ"
         )
-        val viewModel = DetalheVisitTercViewModel(
+        // PADRONIZADO: whenever multi-linha (aplicado aqui)
+        whenever(
+            getDetalheVisitTerc(1)
+        ).thenReturn(
+            Result.success(expectedModel)
+        )
+        val viewModel = getViewModel( // Usando getViewModel (já estava padronizado)
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 )
-            ),
-            getDetalheVisitTerc,
-            closeMovVisitTerc
+            )
         )
+
+        // Act
         viewModel.recoverDetalhe()
         val state = viewModel.uiState.value
-        assertEquals(state.dthr, "08/08/2024 12:00")
-        assertEquals(state.tipoMov, "ENTRADA")
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // expected, actual (string)
+            expectedModel.dthr,
+            state.dthr
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.tipoMov,
+            state.tipoMov
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.veiculo,
+            state.veiculo
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.placa,
+            state.placa
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.tipoVisitTerc,
+            state.tipoVisitTerc
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.motorista,
+            state.motorista
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.passageiro,
+            state.passageiro
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.destino,
+            state.destino
+        )
+        assertEquals( // expected, actual (string)
+            expectedModel.observ,
+            state.observ
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
     }
 
     @Test
     fun `Check return failure if have error in CloseMovVisitTercOpen`() = runTest {
-        val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
-        val closeMovVisitTerc = mock<CloseMovVisitTerc>()
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
         whenever(
             closeMovVisitTerc(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure( // Usando resultFailure (já estava padronizado)
+                "CloseMovVisitTerc",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DetalheVisitTercViewModel(
+        val viewModel = getViewModel( // Usando getViewModel (já estava padronizado)
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 )
-            ),
-            getDetalheVisitTerc,
-            closeMovVisitTerc
+            )
         )
+
+        // Act
         viewModel.closeMov()
         val state = viewModel.uiState.value
-        assertTrue(state.flagDialog)
-        assertEquals(
-            state.failure,
-            "Failure Usecase -> CloseMovVisitTercOpen -> java.lang.Exception"
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagDialog,
+            true
+        )
+        assertEquals( // expected, actual (string multi-linha) - Formato da mensagem já estava padronizado
+            "DetalheVisitTercViewModel.closeMov -> CloseMovVisitTerc -> java.lang.Exception",
+            state.failure
         )
     }
 
     @Test
     fun `Check return true if CloseMovVisitTercOpen execute correctly`() = runTest {
-        val getDetalheVisitTerc = mock<GetDetalheVisitTerc>()
-        val closeMovVisitTerc = mock<CloseMovVisitTerc>()
-        whenever(closeMovVisitTerc(1)).thenReturn(
+        // Arrange
+        // PADRONIZADO: whenever multi-linha
+        whenever(
+            closeMovVisitTerc(1)
+        ).thenReturn(
             Result.success(true)
         )
-        val viewModel = DetalheVisitTercViewModel(
+        val viewModel = getViewModel( // Usando getViewModel (já estava padronizado)
             SavedStateHandle(
                 mapOf(
                     Args.ID_ARGS to 1
                 )
-            ),
-            getDetalheVisitTerc,
-            closeMovVisitTerc
+            )
         )
+
+        // Act
         viewModel.closeMov()
         val state = viewModel.uiState.value
-        assertTrue(state.flagCloseMov)
+
+        // Assert
+        // PADRONIZADO: Asserts individuais multi-linha com comentários
+        assertEquals( // actual, expected (boolean)
+            state.flagCloseMov,
+            true
+        )
+        assertEquals( // actual, expected (boolean) - Verificação de ausência de erro
+            state.flagDialog,
+            false
+        )
+        
     }
 }

@@ -22,7 +22,7 @@ class ICloseMovVisitTerc(
             return resultFailure(
                 context = "ICloseMovVisitTerc",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

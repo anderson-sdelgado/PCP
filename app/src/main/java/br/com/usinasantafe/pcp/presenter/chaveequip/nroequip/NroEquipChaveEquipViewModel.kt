@@ -10,17 +10,20 @@ import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
 import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateEquip
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.presenter.chaveequip.matriccolab.resultUpdateToMatricColabChaveEquip
 import br.com.usinasantafe.pcp.ui.theme.addTextField
 import br.com.usinasantafe.pcp.ui.theme.clearTextField
 import br.com.usinasantafe.pcp.utils.Errors
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeButton
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class NroEquipChaveEquipState(
     val nroEquip: String = "",
@@ -38,18 +41,28 @@ data class NroEquipChaveEquipState(
 )
 
 fun ResultUpdate.resultUpdateToNroEquipChaveEquip(): NroEquipChaveEquipState {
-    return with(this){
-        NroEquipChaveEquipState(
+    val fail = if(failure.isNotEmpty()){
+        val ret = "NroEquipChaveEquipViewModel.updateAllDatabase -> ${this.failure}"
+        Timber.e(ret)
+        ret
+    } else {
+        this.failure
+    }
+    val msg = if(failure.isNotEmpty()){
+        "NroEquipChaveEquipViewModel.updateAllDatabase -> ${this.failure}"
+    } else {
+        this.msgProgress
+    }
+    return NroEquipChaveEquipState(
             flagDialog = this.flagDialog,
             flagFailure = this.flagFailure,
             errors = this.errors,
-            failure = this.failure,
+            failure = fail,
             flagProgress = this.flagProgress,
-            msgProgress = this.msgProgress,
+            msgProgress = msg,
             currentProgress = this.currentProgress,
         )
     }
-}
 
 class NroEquipChaveEquipViewModel(
     saveStateHandle: SavedStateHandle,
@@ -127,8 +140,8 @@ class NroEquipChaveEquipViewModel(
         val resultCheckEquip = checkNroEquip(uiState.value.nroEquip)
         if (resultCheckEquip.isFailure) {
             val error = resultCheckEquip.exceptionOrNull()!!
-            val failure =
-                "NroEquipChaveEquipViewModel.setNroEquip -> CheckNroEquip -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -148,8 +161,8 @@ class NroEquipChaveEquipViewModel(
             )
             if (resultSetEquip.isFailure) {
                 val error = resultSetEquip.exceptionOrNull()!!
-                val failure =
-                    "NroEquipChaveEquipViewModel.setNroEquip -> SetIdEquipMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -199,8 +212,8 @@ class NroEquipChaveEquipViewModel(
             val resultGetNro = getNroEquipMovChaveEquip(uiState.value.id)
             if (resultGetNro.isFailure) {
                 val error = resultGetNro.exceptionOrNull()!!
-                val failure =
-                    "NroEquipChaveEquipViewModel.getNroEquip -> GetNroEquipMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

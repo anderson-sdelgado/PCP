@@ -19,7 +19,7 @@ class IGetTypeMov(
             return resultFailure(
                 context = "IGetObservProprio",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

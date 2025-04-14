@@ -37,7 +37,7 @@ class IGetNomeVisitTerc(
                 return resultFailure(
                     context = "IGetNomeVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
@@ -50,7 +50,7 @@ class IGetNomeVisitTerc(
                 return resultFailure(
                     context = "IGetNomeVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultEmpresaVisitTerc = when (typeVisitTerc) {
@@ -62,7 +62,7 @@ class IGetNomeVisitTerc(
                 return resultFailure(
                     context = "IGetNomeVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(

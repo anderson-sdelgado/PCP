@@ -31,7 +31,7 @@ class IDeleteEquipSeg(
             return resultFailure(
                 context = "IDeleteEquipSeg",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

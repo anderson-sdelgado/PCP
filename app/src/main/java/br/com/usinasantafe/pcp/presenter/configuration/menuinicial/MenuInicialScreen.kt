@@ -27,6 +27,7 @@ import br.com.usinasantafe.pcp.ui.theme.ItemListDesign
 import br.com.usinasantafe.pcp.ui.theme.PCPTheme
 import br.com.usinasantafe.pcp.ui.theme.TitleDesign
 import br.com.usinasantafe.pcp.utils.StatusSend
+import timber.log.Timber
 
 @Composable
 fun MenuInicialScreen(

@@ -20,7 +20,7 @@ class IGetToken(
                 return resultFailure(
                     context = "IGetToken",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultGetConfig.getOrNull()!!

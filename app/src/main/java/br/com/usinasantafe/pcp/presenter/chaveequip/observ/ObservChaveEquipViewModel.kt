@@ -11,10 +11,12 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ObservChaveEquipState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -71,7 +73,8 @@ class ObservChaveEquipViewModel(
             val resultGetObserv = getObservMovChaveEquip(uiState.value.id)
             if (resultGetObserv.isFailure) {
                 val error = resultGetObserv.exceptionOrNull()!!
-                val failure = "ObservChaveEquipViemModel.getObserv -> GetObservMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -97,7 +100,8 @@ class ObservChaveEquipViewModel(
         )
         if(resultSetObserv.isFailure) {
             val error = resultSetObserv.exceptionOrNull()!!
-            val failure = "ObservChaveEquipViemModel.setObserv -> SetObservMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -113,7 +117,8 @@ class ObservChaveEquipViewModel(
             )
             if (resultSaveMov.isFailure) {
                 val error = resultSaveMov.exceptionOrNull()!!
-                val failure = "ObservChaveEquipViemModel.setObserv -> SaveMovChaveEquip -> ${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

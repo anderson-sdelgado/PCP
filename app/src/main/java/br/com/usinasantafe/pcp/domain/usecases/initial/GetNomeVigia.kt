@@ -21,7 +21,7 @@ class IGetNomeVigia(
                 return resultFailure(
                     context = "IGetNomeVigia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val matric = resultGetConfig.getOrNull()!!.matricVigia!!
@@ -31,7 +31,7 @@ class IGetNomeVigia(
                 return resultFailure(
                     context = "IGetNomeVigia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(resultGetNome.getOrNull()!!)

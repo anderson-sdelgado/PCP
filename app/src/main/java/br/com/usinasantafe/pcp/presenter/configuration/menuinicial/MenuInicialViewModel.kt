@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckAccessMain
 import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class MenuInicialState(
     val flagDialog: Boolean = false,
@@ -40,8 +42,8 @@ class MenuInicialViewModel(
             getStatusSend().collect { statusSend ->
                 if (statusSend.isFailure) {
                     val error = statusSend.exceptionOrNull()!!
-                    val failure =
-                        "${tag}.recoverStatusSend -> GetStatusSend -> ${error.message} -> ${error.cause.toString()}"
+                    val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                    Timber.e(failure)
                     _uiState.update {
                         it.copy(
                             failureStatus = failure
@@ -62,8 +64,8 @@ class MenuInicialViewModel(
             val resultCheckAccess = checkAccessMain()
             if(resultCheckAccess.isFailure){
                 val error = resultCheckAccess.exceptionOrNull()!!
-                val failure =
-                    "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

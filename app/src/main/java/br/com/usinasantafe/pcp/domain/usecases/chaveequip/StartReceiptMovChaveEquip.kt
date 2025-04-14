@@ -18,7 +18,7 @@ class IStartReceiptMovChaveEquip(
             return resultFailure(
                 context = "IStartReceiptMovChaveEquip",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

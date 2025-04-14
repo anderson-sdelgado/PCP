@@ -34,7 +34,7 @@ class ISetIdChaveMovChave(
                 return resultFailure(
                     context = "ISetIdChaveMovChave",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE)

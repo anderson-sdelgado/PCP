@@ -22,7 +22,7 @@ class IGetDestinoProprio(
             return resultFailure(
                 context = "IGetDestinoProprio",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

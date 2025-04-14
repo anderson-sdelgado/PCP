@@ -34,7 +34,7 @@ class ISetNotaFiscalProprio(
                 return resultFailure(
                     context = "ISetNotaFiscalProprio",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if(flowApp == FlowApp.CHANGE){

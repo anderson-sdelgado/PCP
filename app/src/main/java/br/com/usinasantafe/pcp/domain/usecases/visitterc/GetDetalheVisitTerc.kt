@@ -31,7 +31,7 @@ class IGetDetalheVisitTerc(
                 return resultFailure(
                     context = "IGetDetalheVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val mov = resultGet.getOrNull()!!
@@ -55,7 +55,7 @@ class IGetDetalheVisitTerc(
                 return resultFailure(
                     context = "IGetDetalheVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val motorista = resultGetMotorista.getOrNull()!!
@@ -69,7 +69,7 @@ class IGetDetalheVisitTerc(
                 return resultFailure(
                     context = "IGetDetalheVisitTerc",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val passagList = resultPassagList.getOrNull()!!
@@ -84,8 +84,8 @@ class IGetDetalheVisitTerc(
                     return resultFailure(
                         context = "IGetDetalheVisitTerc",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 if(passageiro != ""){
                     passageiro += " "

@@ -22,7 +22,7 @@ class IColabRepository(
                 return resultFailure(
                     context = "IColabRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -42,7 +42,7 @@ class IColabRepository(
             return resultFailure(
                 context = "IColabRepository.checkMatric",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -55,7 +55,7 @@ class IColabRepository(
             return resultFailure(
                 context = "IColabRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -68,7 +68,7 @@ class IColabRepository(
             return resultFailure(
                 context = "IColabRepository.getNome",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -82,7 +82,7 @@ class IColabRepository(
                 return resultFailure(
                     context = "IColabRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val resultAll = recoverAll.getOrNull()!!

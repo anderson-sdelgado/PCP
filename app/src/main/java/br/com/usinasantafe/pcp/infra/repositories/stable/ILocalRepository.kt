@@ -23,7 +23,7 @@ class ILocalRepository(
                 return resultFailure(
                     context = "ILocalRepository.addAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -43,7 +43,7 @@ class ILocalRepository(
             return resultFailure(
                 context = "ILocalRepository.deleteAll",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -57,7 +57,7 @@ class ILocalRepository(
                 return resultFailure(
                     context = "ILocalRepository.list",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val localRoomModels = result.getOrNull()!!
@@ -79,7 +79,7 @@ class ILocalRepository(
             return resultFailure(
                 context = "ILocalRepository.getDescr",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -93,7 +93,7 @@ class ILocalRepository(
                 return resultFailure(
                     context = "ILocalRepository.recoverAll",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }

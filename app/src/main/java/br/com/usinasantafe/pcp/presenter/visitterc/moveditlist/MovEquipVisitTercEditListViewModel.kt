@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.CloseAllMovVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetMovEquipVisitTercOpenList
 import br.com.usinasantafe.pcp.presenter.visitterc.model.MovEquipVisitTercModel
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -42,8 +43,7 @@ class MovEquipVisitTercEditListViewModel(
         val resultCloseAllMov = closeAllMovVisitTerc()
         if(resultCloseAllMov.isFailure) {
             val error = resultCloseAllMov.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -63,8 +63,7 @@ class MovEquipVisitTercEditListViewModel(
         val resultGetList = getMovEquipVisitTercOpenList()
         if (resultGetList.isFailure) {
             val error = resultGetList.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             _uiState.update {
                 it.copy(
                     flagDialog = true,

@@ -32,7 +32,7 @@ class IGetEquipSegList(
                 return resultFailure(
                     context = "IGetEquipSegList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val equipList = resultList.getOrNull()!!
@@ -43,8 +43,8 @@ class IGetEquipSegList(
                     return resultFailure(
                         context = "IGetEquipSegList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 return@map resultNroEquip.getOrNull()!!
             }

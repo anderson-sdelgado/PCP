@@ -21,7 +21,7 @@ class IConfigRepository(
             return resultFailure(
                 context = "IConfigRepository.hasConfig",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -46,7 +46,7 @@ class IConfigRepository(
             return resultFailure(
                 context = "IConfigRepository.saveInitial",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -60,7 +60,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.getPassword",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.password!!)
@@ -81,7 +81,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.getFlagUpdate",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.flagUpdate)
@@ -102,7 +102,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.getMatricVigia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.matricVigia!!)
@@ -122,7 +122,7 @@ class IConfigRepository(
             return resultFailure(
                 context = "IConfigRepository.clean",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -135,7 +135,7 @@ class IConfigRepository(
             return resultFailure(
                 context = "IConfigRepository.getConfig",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -149,7 +149,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.send",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(result.getOrNull()!!.idBD)
@@ -170,7 +170,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setFlagUpdate",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -181,7 +181,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setFlagUpdate",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)
@@ -202,7 +202,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setIdLocal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -213,7 +213,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setIdLocal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)
@@ -234,7 +234,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setIdLocal",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -245,7 +245,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setMatricVigia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)
@@ -266,7 +266,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setStatusSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -277,7 +277,7 @@ class IConfigRepository(
                 return resultFailure(
                     context = "IConfigRepository.setStatusSend",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

@@ -24,7 +24,7 @@ class IGetMovEquipVisitTercOpenList(
                 return resultFailure(
                     context = "IGetMovEquipVisitTercOpenList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = resultList.getOrNull()!!
@@ -38,8 +38,8 @@ class IGetMovEquipVisitTercOpenList(
                     return resultFailure(
                         context = "IGetMovEquipVisitTercOpenList",
                         message = e.message,
-                        cause = e
-                    )
+                                cause = e.cause
+                            )
                 }
                 val motorista = resultMotorista.getOrNull()!!
                 MovEquipVisitTercModel(

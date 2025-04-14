@@ -30,7 +30,7 @@ class IMovEquipProprioPassagRepository(
                 return resultFailure(
                     context = "IMovEquipProprioPassagRepository.add",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -51,7 +51,7 @@ class IMovEquipProprioPassagRepository(
             return resultFailure(
                 context = "IMovEquipProprioPassagRepository.clean",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -64,7 +64,7 @@ class IMovEquipProprioPassagRepository(
             return resultFailure(
                 context = "IMovEquipProprioPassagRepository.delete",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
@@ -86,7 +86,7 @@ class IMovEquipProprioPassagRepository(
                 return resultFailure(
                     context = "IMovEquipProprioPassagRepository.delete",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result
@@ -113,8 +113,8 @@ class IMovEquipProprioPassagRepository(
                         return resultFailure(
                             context = "IMovEquipProprioPassagRepository.list",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val list = result.getOrNull()!!
                     val movEquipProprioPassagList = list.map {
@@ -132,8 +132,8 @@ class IMovEquipProprioPassagRepository(
                         return resultFailure(
                             context = "IMovEquipProprioPassagRepository.list",
                             message = e.message,
-                            cause = e
-                        )
+                cause = e.cause
+            )
                     }
                     val list = result.getOrNull()!!
                     val movEquipProprioPassagList = list.map { it.modelRoomToEntity() }
@@ -157,7 +157,7 @@ class IMovEquipProprioPassagRepository(
                 return resultFailure(
                     context = "IMovEquipProprioPassagRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = resultList.getOrNull()!!
@@ -174,7 +174,7 @@ class IMovEquipProprioPassagRepository(
                 return resultFailure(
                     context = "IMovEquipProprioPassagRepository.save",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return Result.success(true)

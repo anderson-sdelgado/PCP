@@ -26,7 +26,7 @@ class IGetDetalheResidencia(
                 return resultFailure(
                     context = "IGetDetalheResidencia",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val mov = resultGet.getOrNull()!!

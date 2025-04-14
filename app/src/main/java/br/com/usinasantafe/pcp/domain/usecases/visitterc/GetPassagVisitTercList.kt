@@ -34,7 +34,7 @@ class IGetPassagVisitTercList(
                 return resultFailure(
                     context = "IGetPassagVisitTercList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val passagList = resultList.getOrNull()!!
@@ -49,7 +49,7 @@ class IGetPassagVisitTercList(
                 return resultFailure(
                     context = "IGetPassagVisitTercList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
@@ -63,7 +63,7 @@ class IGetPassagVisitTercList(
                             return resultFailure(
                                 context = "IGetPassagVisitTercList",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                         val cpf = resultCPF.getOrNull()!!
@@ -73,7 +73,7 @@ class IGetPassagVisitTercList(
                             return resultFailure(
                                 context = "IGetPassagVisitTercList",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                         val nome = resultNome.getOrNull()!!
@@ -92,7 +92,7 @@ class IGetPassagVisitTercList(
                             return resultFailure(
                                 context = "IGetPassagVisitTercList",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                         val cpf = resultCPF.getOrNull()!!
@@ -102,7 +102,7 @@ class IGetPassagVisitTercList(
                             return resultFailure(
                                 context = "IGetPassagVisitTercList",
                                 message = e.message,
-                                cause = e
+                                cause = e.cause
                             )
                         }
                         val nome = resultNome.getOrNull()!!

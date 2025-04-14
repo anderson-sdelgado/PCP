@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.chave.observ
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetObservMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.SaveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetObservMovChave
@@ -51,7 +52,9 @@ class ObservChaveViewModelTest {
                     observ = null
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "SetObservMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -63,7 +66,7 @@ class ObservChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> SetObservMovChaveImpl -> java.lang.Exception"
+                "ObservChaveViewModel.setObserv -> SetObservMovChave -> java.lang.Exception"
             )
         }
 
@@ -85,7 +88,9 @@ class ObservChaveViewModelTest {
                     id = 0
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "SaveMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -97,7 +102,7 @@ class ObservChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> SaveMovChaveImpl -> java.lang.Exception"
+                "ObservChaveViewModel.setObserv -> SaveMovChave -> java.lang.Exception"
             )
         }
 
@@ -141,7 +146,9 @@ class ObservChaveViewModelTest {
                     id = 1
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetObservMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -161,7 +168,7 @@ class ObservChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetObservMovChaveImpl -> java.lang.Exception"
+                "ObservChaveViewModel.getObserv -> GetObservMovChave -> java.lang.Exception"
             )
         }
 

@@ -19,7 +19,7 @@ class ISaveColab(
             return resultFailure(
                 context = "ISaveColab",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

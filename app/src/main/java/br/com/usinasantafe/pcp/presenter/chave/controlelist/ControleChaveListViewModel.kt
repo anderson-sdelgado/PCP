@@ -6,10 +6,12 @@ import br.com.usinasantafe.pcp.domain.usecases.chave.GetMovChaveInsideList
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartRemoveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.presenter.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ControleChaveListState(
     val controleChaveModelList: List<ControleChaveModel> = emptyList(),
@@ -39,8 +41,8 @@ class ControleChaveListViewModel(
         val recoverHeader = getHeader()
         if (recoverHeader.isFailure) {
             val error = recoverHeader.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -62,8 +64,8 @@ class ControleChaveListViewModel(
         val resultGetList = getMovChaveInsideList()
         if (resultGetList.isFailure) {
             val error = resultGetList.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -84,8 +86,8 @@ class ControleChaveListViewModel(
         val resultStart = startRemoveMovChave()
         if (resultStart.isFailure) {
             val error = resultStart.exceptionOrNull()!!
-            val failure =
-                "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,

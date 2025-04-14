@@ -19,7 +19,7 @@ class ISetIdLocalConfig(
                 return resultFailure(
                     context = "ISetIdLocalConfig",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             return result

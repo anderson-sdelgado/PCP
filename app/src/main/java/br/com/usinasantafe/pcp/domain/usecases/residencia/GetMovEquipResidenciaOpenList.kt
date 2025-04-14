@@ -23,7 +23,7 @@ class IGetMovEquipResidenciaOpenList(
                 return resultFailure(
                     context = "IGetMovEquipResidenciaOpenList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val list = resultList.getOrNull()!!

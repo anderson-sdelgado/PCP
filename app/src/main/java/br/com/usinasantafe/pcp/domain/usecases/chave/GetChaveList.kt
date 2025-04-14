@@ -21,7 +21,7 @@ class IGetChaveList(
                 return resultFailure(
                     context = "IGetChaveList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val entityList = resultChaveList.getOrNull()!!
@@ -32,7 +32,7 @@ class IGetChaveList(
                     return resultFailure(
                         context = "IGetChaveList",
                         message = e.message,
-                        cause = e
+                        cause = e.cause
                     )
                 }
                 val descr = resultDescr.getOrNull()!!

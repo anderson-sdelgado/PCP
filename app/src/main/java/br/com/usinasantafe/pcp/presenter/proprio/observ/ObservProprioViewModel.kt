@@ -11,10 +11,12 @@ import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.FlowApp
 import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 data class ObservProprioState(
     val flowApp: FlowApp = FlowApp.ADD,
@@ -72,7 +74,8 @@ class ObservProprioViewModel(
             )
             if (resultGetObserv.isFailure) {
                 val error = resultGetObserv.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -99,7 +102,8 @@ class ObservProprioViewModel(
         )
         if (resultSetObserv.isFailure) {
             val error = resultSetObserv.exceptionOrNull()!!
-            val failure = "${error.message} -> ${error.cause.toString()}"
+            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+            Timber.e(failure)
             _uiState.update {
                 it.copy(
                     flagDialog = true,
@@ -112,7 +116,8 @@ class ObservProprioViewModel(
             val resultSaveMovEquip = saveMovEquipProprio()
             if (resultSaveMovEquip.isFailure) {
                 val error = resultSaveMovEquip.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,
@@ -135,7 +140,8 @@ class ObservProprioViewModel(
             val resultGetTypeMov = getTypeMov()
             if (resultGetTypeMov.isFailure) {
                 val error = resultGetTypeMov.exceptionOrNull()!!
-                val failure = "${error.message} -> ${error.cause.toString()}"
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
                 _uiState.update {
                     it.copy(
                         flagDialog = true,

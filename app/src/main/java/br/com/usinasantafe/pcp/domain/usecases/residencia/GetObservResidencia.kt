@@ -22,7 +22,7 @@ class IGetObservResidencia(
             return resultFailure(
                 context = "IGetObservResidencia",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

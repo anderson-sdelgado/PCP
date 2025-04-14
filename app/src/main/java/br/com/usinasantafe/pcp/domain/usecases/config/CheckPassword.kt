@@ -19,7 +19,7 @@ class ICheckPassword(
                 return resultFailure(
                     context = "ICheckPassword",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if (!resultCheckHasConfig.getOrNull()!!)
@@ -30,7 +30,7 @@ class ICheckPassword(
                 return resultFailure(
                     context = "ICheckPassword",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             if (resultPasswordBD.getOrNull() == password)

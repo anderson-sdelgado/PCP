@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.proprio.destino
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetDestinoProprio
 import br.com.usinasantafe.pcp.domain.usecases.proprio.GetTypeMov
 import br.com.usinasantafe.pcp.domain.usecases.proprio.SetDestinoProprio
@@ -24,32 +25,33 @@ class DestinoProprioViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
+
+    private val setDestinoProprio = mock<SetDestinoProprio>()
+    private val getDestinoProprio = mock<GetDestinoProprio>()
+    private val getTypeMov = mock<GetTypeMov>()
+    private val viewModel = DestinoProprioViewModel(
+        SavedStateHandle(
+            mapOf(
+                Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
+                Args.ID_ARGS to 0,
+            )
+        ),
+        setDestinoProprio,
+        getDestinoProprio,
+        getTypeMov
+    )
+
     @Test
     fun `Check view msg if field is empty`() {
-        val setDestinoProprio = mock<SetDestinoProprio>()
-        val getDestinoProprio = mock<GetDestinoProprio>()
-        val getTypeMov = mock<GetTypeMov>()
-
-        val viewModel = DestinoProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setDestinoProprio,
-            getDestinoProprio,
-            getTypeMov
-        )
         viewModel.setDestino()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
     }
 
     @Test
     fun `Check return failure if have failure in SetDestino`() = runTest {
-        val setDestinoProprio = mock<SetDestinoProprio>()
-        val getDestinoProprio = mock<GetDestinoProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             setDestinoProprio(
                 destino = "Teste",
@@ -57,32 +59,26 @@ class DestinoProprioViewModelTest {
                 id = 0
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "SetDestinoProprio",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DestinoProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setDestinoProprio,
-            getDestinoProprio,
-            getTypeMov
-        )
         viewModel.onDestinoChanged("Teste")
         viewModel.setDestino()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> SetDestinoProprio -> java.lang.Exception")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "DestinoProprioViewModel.setDestino -> SetDestinoProprio -> java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return failure if have failure in GetTypeMov`() = runTest {
-        val setDestinoProprio = mock<SetDestinoProprio>()
-        val getDestinoProprio = mock<GetDestinoProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             setDestinoProprio(
                 destino = "Teste",
@@ -95,33 +91,30 @@ class DestinoProprioViewModelTest {
         whenever(
             getTypeMov()
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetTypeMov",
+                "-",
                 Exception()
             )
         )
-        val viewModel = DestinoProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setDestinoProprio,
-            getDestinoProprio,
-            getTypeMov
-        )
         viewModel.onDestinoChanged("Teste")
         viewModel.setDestino()
-        assertEquals(viewModel.uiState.value.flagDialog, true)
-        assertEquals(viewModel.uiState.value.flagAccess, false)
-        assertEquals(viewModel.uiState.value.failure, "Failure Usecase -> GetTypeMov -> java.lang.Exception")
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.failure,
+            "DestinoProprioViewModel.setDestino -> GetTypeMov -> java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return TypeMov INPUT if execute success`() = runTest {
-        val setDestinoProprio = mock<SetDestinoProprio>()
-        val getDestinoProprio = mock<GetDestinoProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             setDestinoProprio(
                 destino = "Teste",
@@ -136,35 +129,32 @@ class DestinoProprioViewModelTest {
         ).thenReturn(
             Result.success(TypeMovEquip.INPUT)
         )
-        val viewModel = DestinoProprioViewModel(
-            SavedStateHandle(
-                mapOf(
-                    Args.FLOW_APP_ARGS to FlowApp.ADD.ordinal,
-                    Args.ID_ARGS to 0,
-                )
-            ),
-            setDestinoProprio,
-            getDestinoProprio,
-            getTypeMov
-        )
         viewModel.onDestinoChanged("Teste")
         viewModel.setDestino()
-        assertFalse(viewModel.uiState.value.flagDialog)
-        assertTrue(viewModel.uiState.value.flagAccess)
-        assertEquals(viewModel.uiState.value.typeMov, TypeMovEquip.INPUT)
+        assertEquals(
+            viewModel.uiState.value.flagDialog,
+            false
+        )
+        assertEquals(
+            viewModel.uiState.value.flagAccess,
+            true
+        )
+        assertEquals(
+            viewModel.uiState.value.typeMov,
+            TypeMovEquip.INPUT
+        )
     }
 
     @Test
     fun `Check return failure if have failure in GetDestino`() = runTest {
-        val setDestinoProprio = mock<SetDestinoProprio>()
-        val getDestinoProprio = mock<GetDestinoProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             getDestinoProprio(
                 id = 1
             )
         ).thenReturn(
-            Result.failure(
+            resultFailure(
+                "GetDestinoProprio",
+                "-",
                 Exception()
             )
         )
@@ -181,15 +171,18 @@ class DestinoProprioViewModelTest {
         )
         viewModel.getDestino()
         val state = viewModel.uiState.value
-        assertEquals(state.flagDialog, true)
-        assertEquals(state.failure, "Failure Usecase -> GetDestinoProprio -> java.lang.Exception")
+        assertEquals(
+            state.flagDialog,
+            true
+        )
+        assertEquals(
+            state.failure,
+            "DestinoProprioViewModel.getDestino -> GetDestinoProprio -> java.lang.Exception"
+        )
     }
 
     @Test
     fun `Check return destino if GetDestino execute success`() = runTest {
-        val setDestinoProprio = mock<SetDestinoProprio>()
-        val getDestinoProprio = mock<GetDestinoProprio>()
-        val getTypeMov = mock<GetTypeMov>()
         whenever(
             getDestinoProprio(
                 id = 1
@@ -210,7 +203,13 @@ class DestinoProprioViewModelTest {
         )
         viewModel.getDestino()
         val state = viewModel.uiState.value
-        assertFalse(state.flagGetDestino)
-        assertEquals(state.destino, "Destino")
+        assertEquals(
+            state.flagGetDestino,
+            false
+        )
+        assertEquals(
+            state.destino,
+            "Destino"
+        )
     }
 }

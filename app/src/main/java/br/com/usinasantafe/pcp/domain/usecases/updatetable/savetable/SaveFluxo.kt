@@ -19,7 +19,7 @@ class ISaveFluxo(
             return resultFailure(
                 context = "ISaveFluxo",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

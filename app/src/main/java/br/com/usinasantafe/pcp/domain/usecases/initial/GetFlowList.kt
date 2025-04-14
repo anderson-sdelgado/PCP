@@ -24,7 +24,7 @@ class IGetFlowList(
                 return resultFailure(
                     context = "IGetFlowList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val config = resultConfig.getOrNull()!!
@@ -36,7 +36,7 @@ class IGetFlowList(
                 return resultFailure(
                     context = "IGetFlowList",
                     message = e.message,
-                    cause = e
+                    cause = e.cause
                 )
             }
             val rLocalFluxoList = resultRLocalFluxo.getOrNull()!!
@@ -47,7 +47,7 @@ class IGetFlowList(
                     return resultFailure(
                         context = "IGetFlowList",
                         message = e.message,
-                        cause = e
+                        cause = e.cause
                     )
                 }
                 return@map resultFluxo.getOrNull()!!

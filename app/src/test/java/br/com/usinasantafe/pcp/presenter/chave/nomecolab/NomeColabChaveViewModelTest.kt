@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.presenter.chave.nomecolab
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetMatricColabMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartReceiptMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
@@ -48,7 +49,9 @@ class NomeColabChaveViewModelTest {
             whenever(
                 getNomeColab("19759")
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "GetNomeColab",
+                    "-",
                     Exception()
                 )
             )
@@ -60,7 +63,7 @@ class NomeColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> GetNomeColab -> java.lang.Exception"
+                "NomeColabChaveViewModel.returnNomeColab -> GetNomeColab -> java.lang.Exception"
             )
         }
 
@@ -90,7 +93,9 @@ class NomeColabChaveViewModelTest {
                     id = 0
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "ISetMatricColabMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -102,7 +107,7 @@ class NomeColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> ISetMatricColabMovChave -> java.lang.Exception"
+                "NomeColabChaveViewModel.setMatricColab -> ISetMatricColabMovChave -> java.lang.Exception"
             )
         }
 
@@ -138,7 +143,9 @@ class NomeColabChaveViewModelTest {
                     1
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "StartReceiptChaveImpl",
+                    "-",
                     Exception()
                 )
             )
@@ -159,7 +166,7 @@ class NomeColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> StartReceiptChaveImpl -> java.lang.Exception"
+                "NomeColabChaveViewModel.setMatricColab -> StartReceiptChaveImpl -> java.lang.Exception"
             )
         }
 
@@ -180,7 +187,9 @@ class NomeColabChaveViewModelTest {
                     id = 1
                 )
             ).thenReturn(
-                Result.failure(
+                resultFailure(
+                    "ISetMatricColabMovChave",
+                    "-",
                     Exception()
                 )
             )
@@ -201,7 +210,7 @@ class NomeColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "Failure Usecase -> ISetMatricColabMovChave -> java.lang.Exception"
+                "NomeColabChaveViewModel.setMatricColab -> ISetMatricColabMovChave -> java.lang.Exception"
             )
         }
 

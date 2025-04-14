@@ -18,7 +18,7 @@ class ICleanLocalTrab(
             return resultFailure(
                 context = "ICleanLocalTrab",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result

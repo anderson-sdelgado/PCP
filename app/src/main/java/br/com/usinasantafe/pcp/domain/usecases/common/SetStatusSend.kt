@@ -19,7 +19,7 @@ class ISetStatusSend(
             return resultFailure(
                 context = "ISetStatusSend",
                 message = e.message,
-                cause = e
+                cause = e.cause
             )
         }
         return result
