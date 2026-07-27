@@ -50,7 +50,7 @@ class ISetTipoVisitTercTest : KoinTest {
     @Test
     fun check_return_true_if_set_tipo_execute_success_and_check_data() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start()
+            movEquipVisitTercSharedPreferencesDatasource.save()
             val result = usecase(TypeVisitTerc.TERCEIRO)
             assertEquals(
                 result.isSuccess,

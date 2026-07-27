@@ -5,6 +5,8 @@ import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovChaveEquipApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovChaveEquipRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovChaveEquipRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovChaveEquipRetrofitModelOutput
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class IMovChaveEquipRetrofitDatasource @Inject constructor(
@@ -14,19 +16,8 @@ class IMovChaveEquipRetrofitDatasource @Inject constructor(
     override suspend fun send(
         list: List<MovChaveEquipRetrofitModelOutput>,
         token: String
-    ): Result<List<MovChaveEquipRetrofitModelInput>> {
-        try {
-            val response = api.send(
-                auth = token,
-                data = list
-            )
-            return Result.success(response.body()!!)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveEquipRetrofitDatasource.send",
-                message = "-",
-                cause = e
-            )
+    ): Result<List<MovChaveEquipRetrofitModelInput>> =
+        result(getClassAndMethod()) {
+            api.send(token, list).body()!!
         }
-    }
 }

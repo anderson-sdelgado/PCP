@@ -55,7 +55,7 @@ class ISetObservMovChaveTest: KoinTest {
     @Test
     fun check_return_true_and_data_returned_and_value_is_null() =
         runTest {
-            movChaveSharedPreferencesDatasource.start()
+            movChaveSharedPreferencesDatasource.save()
             val result = usecase(
                 observ = null,
                 flowApp = FlowApp.ADD,
@@ -80,7 +80,7 @@ class ISetObservMovChaveTest: KoinTest {
     @Test
     fun check_return_true_and_data_returned() =
         runTest {
-            movChaveSharedPreferencesDatasource.start()
+            movChaveSharedPreferencesDatasource.save()
             val result = usecase(
                 observ = "TESTE",
                 flowApp = FlowApp.ADD,

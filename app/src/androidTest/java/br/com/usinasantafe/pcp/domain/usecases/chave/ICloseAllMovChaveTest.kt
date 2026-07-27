@@ -82,13 +82,13 @@ class ICloseAllMovChaveTest : KoinTest {
             movChaveDao.insert(roomModel1)
             movChaveDao.insert(roomModel2)
             val roomModelBefore1 =
-                movChaveDao.get(1)
+                movChaveDao.getById(1)
             assertEquals(
                 roomModelBefore1.statusMovChave,
                 StatusData.OPEN
             )
             val roomModelBefore2 =
-                movChaveDao.get(2)
+                movChaveDao.getById(2)
             assertEquals(
                 roomModelBefore2.statusMovChave,
                 StatusData.OPEN
@@ -103,13 +103,13 @@ class ICloseAllMovChaveTest : KoinTest {
                 true
             )
             val roomModelAfter1 =
-                movChaveDao.get(1)
+                movChaveDao.getById(1)
             assertEquals(
                 roomModelAfter1.statusMovChave,
                 StatusData.CLOSE
             )
             val roomModelAfter2 =
-                movChaveDao.get(2)
+                movChaveDao.getById(2)
             assertEquals(
                 roomModelAfter2.statusMovChave,
                 StatusData.CLOSE

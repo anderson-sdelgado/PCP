@@ -239,7 +239,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return failure if have failure in EquipRoomDatasource getNro`() = runTest {
         whenever(
-            equipRoomDatasource.getNro(1)
+            equipRoomDatasource.getNroById(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -259,7 +259,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return failure if have failure in EquipRoomDatasource getNro return 0`() = runTest {
         whenever(
-            equipRoomDatasource.getNro(1)
+            equipRoomDatasource.getNroById(1)
         ).thenReturn(
             Result.success(0)
         )
@@ -278,7 +278,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return nroEquip if EquipRoomDatasource getNro execute successfully`() = runTest {
         whenever(
-            equipRoomDatasource.getNro(1)
+            equipRoomDatasource.getNroById(1)
         ).thenReturn(
             Result.success(100)
         )
@@ -297,7 +297,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return failure if have failure in EquipRoomDatasource getId`() = runTest {
         whenever(
-            equipRoomDatasource.getId(1)
+            equipRoomDatasource.getIdByNro(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -317,7 +317,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return failure if have failure in EquipRoomDatasource getId return 0`() = runTest {
         whenever(
-            equipRoomDatasource.getId(100)
+            equipRoomDatasource.getIdByNro(100)
         ).thenReturn(
             Result.success(0)
         )
@@ -336,7 +336,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return idEquip if EquipRoomDatasource getId execute successfully`() = runTest {
         whenever(
-            equipRoomDatasource.getId(100)
+            equipRoomDatasource.getIdByNro(100)
         ).thenReturn(
             Result.success(10)
         )

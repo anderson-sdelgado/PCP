@@ -83,7 +83,7 @@ class IGetTitleCpfVisitTercTest : KoinTest {
     @Test
     fun check_return_type_if_get_title_execute_success_and_flow_add() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )

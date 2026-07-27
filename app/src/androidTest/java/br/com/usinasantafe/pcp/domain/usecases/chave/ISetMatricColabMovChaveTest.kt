@@ -85,7 +85,7 @@ class ISetMatricColabMovChaveTest: KoinTest {
     @Test
     fun check_return_true_and_data_returned() =
         runTest {
-            movChaveSharedPreferencesDatasource.start()
+            movChaveSharedPreferencesDatasource.save()
             val result = usecase(
                 matricColab = "19759",
                 flowApp = FlowApp.ADD,
@@ -147,7 +147,7 @@ class ISetMatricColabMovChaveTest: KoinTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             Assert.assertEquals(
                 modelBefore.matricColabMovChave,
                 19035
@@ -165,7 +165,7 @@ class ISetMatricColabMovChaveTest: KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             assertEquals(
                 modelAfter.matricColabMovChave,
                 18017

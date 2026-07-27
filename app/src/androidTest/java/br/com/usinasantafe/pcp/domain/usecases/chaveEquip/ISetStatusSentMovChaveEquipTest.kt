@@ -77,7 +77,7 @@ class ISetStatusSentMovChaveEquipTest: KoinTest {
                     uuidMainMovChaveEquip = "UUID"
                 )
             )
-            val listBefore = movChaveEquipDao.listStatusData(StatusData.OPEN)
+            val listBefore = movChaveEquipDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listBefore.size,
                 1
@@ -102,7 +102,7 @@ class ISetStatusSentMovChaveEquipTest: KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val listAfter = movChaveEquipDao.listStatusData(StatusData.OPEN)
+            val listAfter = movChaveEquipDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listAfter.size,
                 1

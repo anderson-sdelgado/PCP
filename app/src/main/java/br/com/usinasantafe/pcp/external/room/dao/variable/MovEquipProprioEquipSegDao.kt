@@ -19,8 +19,14 @@ interface MovEquipProprioEquipSegDao {
     @Delete
     suspend fun delete(movEquipProprioEquipSegRoomModel: MovEquipProprioEquipSegRoomModel)
 
+    @Query("DELETE FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov")
+    suspend fun deleteByIdMov(idMov: Int)
+
+    @Query("DELETE FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov AND idEquip = :idEquip")
+    suspend fun deleteByIdMovAndIdEquip(idMov: Int, idEquip: Int): MovEquipProprioEquipSegRoomModel
+
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov")
-    suspend fun list(idMov: Int): List<MovEquipProprioEquipSegRoomModel>
+    suspend fun listById(idMov: Int): List<MovEquipProprioEquipSegRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov AND idEquip = :idEquip")
     suspend fun get(idMov: Int, idEquip: Int): MovEquipProprioEquipSegRoomModel

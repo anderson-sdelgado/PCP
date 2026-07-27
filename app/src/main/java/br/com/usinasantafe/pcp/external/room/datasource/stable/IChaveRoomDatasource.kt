@@ -4,60 +4,32 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.ChaveDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ChaveRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.ChaveRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class IChaveRoomDatasource @Inject constructor(
     private val chaveDao: ChaveDao
 ): ChaveRoomDatasource {
 
-    override suspend fun addAll(list: List<ChaveRoomModel>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<ChaveRoomModel>): EmptyResult =
+        result(getClassAndMethod()) {
             chaveDao.insertAll(list)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRoomDatasource.addAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        try {
+    override suspend fun deleteAll(): EmptyResult =
+        result(getClassAndMethod()) {
             chaveDao.deleteAll()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRoomDatasource.deleteAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun get(id: Int): Result<ChaveRoomModel> {
-        try {
-            val model = chaveDao.get(id)
-            return Result.success(model)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRoomDatasource.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun get(id: Int): Result<ChaveRoomModel> =
+        result(getClassAndMethod()) {
+            chaveDao.get(id)
         }
-    }
 
-    override suspend fun listAll(): Result<List<ChaveRoomModel>> {
-        return try{
-            Result.success(chaveDao.listAll())
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRoomDatasource.listAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(): Result<List<ChaveRoomModel>> =
+        result(getClassAndMethod()) {
+            chaveDao.listAll()
         }
-    }
 }

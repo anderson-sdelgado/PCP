@@ -29,7 +29,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check return data correct if Start execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         val result = iMovEquipVisitTercSharedPreferencesDatasource.get()
@@ -45,7 +45,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setDestino execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setDestino("DESTINO")
@@ -66,7 +66,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setIdVisitTerc execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setIdVisitTerc(10)
@@ -87,7 +87,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setObserv execute correctly and value is null`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setObserv(null)
@@ -108,7 +108,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setObserv execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setObserv("OBSERV")
@@ -129,7 +129,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setPlaca execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setPlaca("PLACA")
@@ -150,7 +150,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setTipoVisitTerc execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(TypeVisitTerc.TERCEIRO)
@@ -175,7 +175,7 @@ class IMovEquipVisitTercSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setVeiculo execute correctly`() = runTest {
-        iMovEquipVisitTercSharedPreferencesDatasource.start(
+        iMovEquipVisitTercSharedPreferencesDatasource.save(
             MovEquipVisitTercSharedPreferencesModel()
         )
         iMovEquipVisitTercSharedPreferencesDatasource.setVeiculo("VEICULO")

@@ -16,7 +16,7 @@ class ICheckSendMovChaveTest {
     fun `Check return failure if have error in MovChaveRepository checkSend`() =
         runTest {
             whenever(
-                movChaveRepository.checkSend()
+                movChaveRepository.hasSend()
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -37,7 +37,7 @@ class ICheckSendMovChaveTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                movChaveRepository.checkSend()
+                movChaveRepository.hasSend()
             ).thenReturn(
                 Result.success(true)
             )

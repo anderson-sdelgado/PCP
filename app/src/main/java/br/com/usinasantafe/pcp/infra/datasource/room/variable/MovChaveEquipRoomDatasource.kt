@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.infra.datasource.room.variable
 
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveEquipRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface MovChaveEquipRoomDatasource {
     suspend fun checkOpen(): Result<Boolean>
@@ -10,19 +11,19 @@ interface MovChaveEquipRoomDatasource {
     suspend fun listOpen(): Result<List<MovChaveEquipRoomModel>>
     suspend fun listSend(): Result<List<MovChaveEquipRoomModel>>
     suspend fun save(movChaveEquipRoomModel: MovChaveEquipRoomModel): Result<Long>
-    suspend fun setClose(id: Int): Result<Boolean>
+    suspend fun setClose(id: Int): EmptyResult
     suspend fun setIdEquip(
         idEquip: Int,
         id: Int
-    ): Result<Boolean>
+    ): EmptyResult
     suspend fun setObserv(
         observ: String?,
         id: Int
-    ): Result<Boolean>
+    ): EmptyResult
     suspend fun setMatricColab(
         matric: Int,
         id: Int
-    ): Result<Boolean>
-    suspend fun setSent(id: Int): Result<Boolean>
-    suspend fun setOutside(id: Int): Result<Boolean>
+    ): EmptyResult
+    suspend fun setSent(id: Int): EmptyResult
+    suspend fun setOutside(id: Int): EmptyResult
 }

@@ -168,7 +168,7 @@ class IVisitanteRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.get(1)
+        val result = datasource.getByCpf(1)
         assertEquals(
             result.isSuccess,
             true
@@ -203,7 +203,7 @@ class IVisitanteRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.get("123.456.789-99")
+        val result = datasource.getByCpf("123.456.789-99")
         assertEquals(
             result.isSuccess,
             true

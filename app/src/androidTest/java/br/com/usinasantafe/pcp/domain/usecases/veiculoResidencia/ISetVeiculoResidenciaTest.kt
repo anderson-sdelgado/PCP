@@ -84,7 +84,7 @@ class ISetVeiculoResidenciaTest : KoinTest {
     @Test
     fun check_return_true_if_set_motorista_execute_success_and_flow_add_and_field_was_null() =
         runTest {
-            movEquipResidenciaSharedPreferencesDatasource.start(
+            movEquipResidenciaSharedPreferencesDatasource.save(
                 MovEquipResidenciaSharedPreferencesModel()
             )
             val resultGetBefore = movEquipResidenciaSharedPreferencesDatasource.get()
@@ -125,7 +125,7 @@ class ISetVeiculoResidenciaTest : KoinTest {
     @Test
     fun check_return_true_if_set_motorista_execute_success_and_flow_add() =
         runTest {
-            movEquipResidenciaSharedPreferencesDatasource.start(
+            movEquipResidenciaSharedPreferencesDatasource.save(
                 MovEquipResidenciaSharedPreferencesModel(
                     veiculoMovEquipResidencia = "Teste"
                 )

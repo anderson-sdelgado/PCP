@@ -135,7 +135,7 @@ class ISetObservMovChaveEquipTest: KoinTest {
                     uuidMainMovChaveEquip = "UUID"
                 )
             )
-            val listRoomBefore = movChavEquipeDao.listStatusData(StatusData.OPEN)
+            val listRoomBefore = movChavEquipeDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listRoomBefore.size,
                 1
@@ -154,7 +154,7 @@ class ISetObservMovChaveEquipTest: KoinTest {
                 result.isSuccess,
                 true
             )
-            val listRoomAfter = movChavEquipeDao.listStatusData(StatusData.OPEN)
+            val listRoomAfter = movChavEquipeDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listRoomAfter.size,
                 1

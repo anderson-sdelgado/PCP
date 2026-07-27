@@ -1,148 +1,85 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovChaveSharedPreferencesDatasource
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveEquipSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE_EQUIP
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import com.google.gson.Gson
 import javax.inject.Inject
+import kotlin.getOrThrow
 
 class IMovChaveSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): MovChaveSharedPreferencesDatasource {
 
-    override suspend fun clean(): Result<Boolean> {
-        try {
-            val editor = sharedPreferences.edit()
-            editor.putString(
+    suspend fun updateModel(block: MovChaveSharedPreferencesModel.() -> Unit) {
+        val model = get().getOrThrow()
+        model.block()
+        save(model).getOrThrow()
+    }
+
+    override suspend fun clean(): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
+                    null
+                )
+            }
+        }
+
+    override suspend fun get(): Result<MovChaveSharedPreferencesModel> =
+        result(getClassAndMethod()) {
+            val data = sharedPreferences.getString(
                 BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
                 null
             )
-            editor.apply()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveSharedPreferencesDatasource.clear",
-                message = "-",
-                cause = e
+            if (data.isNullOrEmpty()) return@result MovChaveSharedPreferencesModel()
+            val model = Gson().fromJson(
+                data,
+                MovChaveSharedPreferencesModel::class.java
             )
+            model.sharedPreferencesModelToEntity()
+            model
         }
-    }
 
-    override suspend fun get(): Result<MovChaveSharedPreferencesModel> {
-        try {
-            val movChave = sharedPreferences.getString(
-                BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
-                null
-            )!!
-            return Result.success(
-                Gson().fromJson(
-                    movChave,
-                    MovChaveSharedPreferencesModel::class.java
-                )
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveSharedPreferencesDatasource.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setIdChave(idChave: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.idChaveMovChave = idChave
+            }
         }
-    }
 
-    override suspend fun setIdChave(idChave: Int): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovChaveSharedPreferencesDatasource.setIdChave",
-                    message = e.message,
-                    cause = e.cause
+    override suspend fun setMatricColab(matricColab: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.matricColabMovChave = matricColab
+            }
+        }
+
+    override suspend fun setObserv(observ: String?): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.observMovChave = observ
+            }
+        }
+
+    override suspend fun save(model: MovChaveSharedPreferencesModel): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
+                    Gson().toJson(model)
                 )
             }
-            val movChave = resultGet.getOrNull()!!
-            movChave.idChaveMovChave = idChave
-            save(movChave)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveSharedPreferencesDatasource.setIdChave",
-                message = "-",
-                cause = e
-            )
         }
-    }
-
-    override suspend fun setMatricColab(matricColab: Int): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovChaveSharedPreferencesDatasource.setMatricColab",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movChave = resultGet.getOrNull()!!
-            movChave.matricColabMovChave = matricColab
-            save(movChave)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveSharedPreferencesDatasource.setMatricColab",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setObserv(observ: String?): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovChaveSharedPreferencesDatasource.setObserv",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movChave = resultGet.getOrNull()!!
-            movChave.observMovChave = observ
-            save(movChave)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveSharedPreferencesDatasource.setObserv",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun start(movChaveSharedPreferencesModel: MovChaveSharedPreferencesModel): Result<Boolean> {
-        try {
-            save(movChaveSharedPreferencesModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovChaveSharedPreferencesDatasource.start",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    fun save(movChave: MovChaveSharedPreferencesModel) {
-        val editor = sharedPreferences.edit()
-        editor.putString(
-            BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
-            Gson().toJson(movChave)
-        )
-        editor.apply()
-    }
 
 }

@@ -15,8 +15,8 @@ interface LocalTrabDao {
     @Query("DELETE FROM $TB_LOCAL_TRAB")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM $TB_LOCAL_TRAB WHERE idLocalTrab = :id")
-    suspend fun get(id: Int): LocalTrabRoomModel
+    @Query("SELECT descrLocalTrab FROM $TB_LOCAL_TRAB WHERE idLocalTrab = :id")
+    suspend fun getDescrById(id: Int): String
 
     @Query("SELECT * FROM $TB_LOCAL_TRAB")
     suspend fun listAll(): List<LocalTrabRoomModel>

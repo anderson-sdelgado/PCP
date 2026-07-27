@@ -142,7 +142,7 @@ class IEquipRoomDatasourceTest {
     fun `Check return failure getNro if not have data researched`() = runTest {
         val datasource = IEquipRoomDatasource(equipDao)
         val exception = try {
-            datasource.getNro(1)
+            datasource.getNroById(1)
             null
         } catch (exception: Exception){
             exception
@@ -165,7 +165,7 @@ class IEquipRoomDatasourceTest {
                 ),
             )
         )
-        val result = datasource.getNro(10)
+        val result = datasource.getNroById(10)
         assertEquals(
             result.isSuccess,
             true
@@ -180,7 +180,7 @@ class IEquipRoomDatasourceTest {
     fun `Check return failure getId if not have data researched`() = runTest {
         val datasource = IEquipRoomDatasource(equipDao)
         val exception = try {
-            datasource.getId(10)
+            datasource.getIdByNro(10)
             null
         } catch (exception: Exception){
             exception
@@ -203,7 +203,7 @@ class IEquipRoomDatasourceTest {
                 ),
             )
         )
-        val result = datasource.getId(100)
+        val result = datasource.getIdByNro(100)
         assertEquals(
             result.isSuccess,
             true

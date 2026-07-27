@@ -4,87 +4,43 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.EquipDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.EquipRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class IEquipRoomDatasource @Inject constructor(
     private val equipDao: EquipDao
 ) : EquipRoomDatasource {
 
-    override suspend fun addAll(list: List<EquipRoomModel>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<EquipRoomModel>): EmptyResult =
+        result(getClassAndMethod()) {
             equipDao.insertAll(list)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRoomDatasource.addAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun checkNro(nroEquip: Long): Result<Boolean> {
-        try {
-            val result = equipDao.checkNro(nroEquip) > 0
-            return Result.success(result)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRoomDatasource.checkNro",
-                message = "-",
-                cause = e
-            )
+    override suspend fun checkNro(nroEquip: Long): Result<Boolean> =
+        result(getClassAndMethod()) {
+            equipDao.checkNro(nroEquip) > 0
         }
-    }
 
-    override suspend fun get(idEquip: Int): Result<EquipRoomModel> {
-        return try {
-            val result = equipDao.get(idEquip)
-            Result.success(result)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRoomDatasource.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getById(idEquip: Int): Result<EquipRoomModel> =
+        result(getClassAndMethod()) {
+            equipDao.getById(idEquip)
         }
-    }
 
-    override suspend fun getId(nroEquip: Long): Result<Int> {
-        return try {
-            Result.success(equipDao.getId(nroEquip))
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRoomDatasource.getId",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getIdByNro(nroEquip: Long): Result<Int> =
+        result(getClassAndMethod()) {
+            equipDao.getIdByNro(nroEquip)
         }
-    }
 
-    override suspend fun getNro(idEquip: Int): Result<Long> {
-        return try {
-            val result = equipDao.getNro(idEquip)
-            Result.success(result)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRoomDatasource.getNro",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getNroById(idEquip: Int): Result<Long> =
+        result(getClassAndMethod()) {
+            equipDao.getNroById(idEquip)
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        try {
+    override suspend fun deleteAll(): EmptyResult =
+        result(getClassAndMethod()) {
             equipDao.deleteAll()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRoomDatasource.deleteAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
 }

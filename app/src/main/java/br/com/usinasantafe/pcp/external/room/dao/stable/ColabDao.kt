@@ -19,7 +19,7 @@ interface ColabDao {
     suspend fun check(matric: Int): Int
 
     @Query("SELECT nomeColab FROM $TB_COLAB WHERE matricColab = :matric")
-    suspend fun getNome(matric: Int): String
+    suspend fun getNomeByMatric(matric: Int): String
 
     @Query("SELECT * FROM $TB_COLAB")
     suspend fun listAll(): List<ColabRoomModel>

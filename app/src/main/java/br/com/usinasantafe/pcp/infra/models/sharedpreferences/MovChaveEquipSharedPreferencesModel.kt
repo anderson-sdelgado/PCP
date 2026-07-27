@@ -13,7 +13,7 @@ data class MovChaveEquipSharedPreferencesModel(
 )
 
 
-fun MovChaveEquipSharedPreferencesModel.entityToSharedPreferencesModel(): MovChaveEquip {
+fun MovChaveEquipSharedPreferencesModel.sharedPreferencesModelToEntity(): MovChaveEquip {
     return with(this) {
         MovChaveEquip(
             dthrMovChaveEquip = this.dthrMovChaveEquip,

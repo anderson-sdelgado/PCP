@@ -8,7 +8,7 @@ import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprio
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovEquipProprioRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitModelOutput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInputToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
@@ -316,7 +316,7 @@ class IMovEquipProprioRepository @Inject constructor(
                 )
             }
             val movEquipProprioRoomModel =
-                resultGetMov.getOrNull()!!.entityToSharedPreferencesModel()
+                resultGetMov.getOrNull()!!.sharedPreferencesModelToEntity()
                     .entityToRoomModel(matricVigia, idLocal)
             val resultSave = movEquipProprioRoomDatasource.save(movEquipProprioRoomModel)
             if (resultSave.isFailure) {

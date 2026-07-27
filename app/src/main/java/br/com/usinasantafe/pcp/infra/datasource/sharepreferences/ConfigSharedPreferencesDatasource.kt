@@ -1,10 +1,11 @@
 package br.com.usinasantafe.pcp.infra.datasource.sharepreferences
 
-import br.com.usinasantafe.pcp.domain.entities.variable.Config
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface ConfigSharedPreferencesDatasource {
-    suspend fun clean(): Result<Boolean>
+    suspend fun clean(): EmptyResult
     suspend fun has(): Result<Boolean>
-    suspend fun get(): Result<Config>
-    suspend fun save(config: Config): Result<Boolean>
+    suspend fun get(): Result<ConfigSharedPreferencesModel>
+    suspend fun save(model: ConfigSharedPreferencesModel): EmptyResult
 }

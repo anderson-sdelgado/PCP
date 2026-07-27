@@ -99,7 +99,7 @@ class ISaveMovChaveTest : KoinTest {
                     idLocal = 1
                 )
             )
-            movChaveSharedPreferencesDatasource.start(
+            movChaveSharedPreferencesDatasource.save(
                 MovChaveSharedPreferencesModel(
                     dthrMovChave = Date(),
                     tipoMovChave = TypeMovKey.REMOVE,
@@ -108,7 +108,7 @@ class ISaveMovChaveTest : KoinTest {
                     observMovChave = "TESTE"
                 )
             )
-            val listBefore = movChaveDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val listBefore = movChaveDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 listBefore.size,
                 0
@@ -121,7 +121,7 @@ class ISaveMovChaveTest : KoinTest {
                 result.isSuccess,
                 true
             )
-            val listAfter = movChaveDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val listAfter = movChaveDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 listAfter.size,
                 1
@@ -260,7 +260,7 @@ class ISaveMovChaveTest : KoinTest {
                     idLocal = 1
                 )
             )
-            movChaveSharedPreferencesDatasource.start(
+            movChaveSharedPreferencesDatasource.save(
                 MovChaveSharedPreferencesModel(
                     dthrMovChave = Date(),
                     tipoMovChave = TypeMovKey.RECEIPT,
@@ -269,7 +269,7 @@ class ISaveMovChaveTest : KoinTest {
                     observMovChave = "TESTE RETORNO"
                 )
             )
-            val listBefore = movChaveDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val listBefore = movChaveDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 listBefore.size,
                 1
@@ -282,12 +282,12 @@ class ISaveMovChaveTest : KoinTest {
                 result.isSuccess,
                 true
             )
-            val listAfter = movChaveDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val listAfter = movChaveDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 listAfter.size,
                 0
             )
-            val listOpen = movChaveDao.listStatusData(StatusData.OPEN)
+            val listOpen = movChaveDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listOpen.size,
                 2

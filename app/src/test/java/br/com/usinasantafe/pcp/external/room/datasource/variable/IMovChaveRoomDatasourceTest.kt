@@ -122,7 +122,7 @@ class IMovChaveRoomDatasourceTest {
                 statusForeignerMovChave = StatusForeigner.INSIDE,
                 uuidMainMovChave = "UUID"
             )
-            val modelList = movChaveDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val modelList = movChaveDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 modelList.size,
                 0
@@ -137,7 +137,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 1L
             )
-            val modelListAfter = movChaveDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val modelListAfter = movChaveDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 modelListAfter.size,
                 1
@@ -201,7 +201,7 @@ class IMovChaveRoomDatasourceTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val listOpenBefore = movChaveDao.listStatusData(StatusData.OPEN)
+            val listOpenBefore = movChaveDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listOpenBefore.size,
                 1
@@ -224,7 +224,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val model = movChaveDao.get(1)
+            val model = movChaveDao.getById(1)
             assertEquals(
                 model.idMovChave,
                 1
@@ -233,7 +233,7 @@ class IMovChaveRoomDatasourceTest {
                 model.statusForeignerMovChave,
                 StatusForeigner.OUTSIDE
             )
-            val listOpenAfter = movChaveDao.listStatusData(StatusData.OPEN)
+            val listOpenAfter = movChaveDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listOpenAfter.size,
                 1
@@ -317,7 +317,7 @@ class IMovChaveRoomDatasourceTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             assertEquals(
                 modelBefore.idMovChave,
                 1
@@ -340,7 +340,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             assertEquals(
                 modelAfter.idMovChave,
                 1
@@ -373,7 +373,7 @@ class IMovChaveRoomDatasourceTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             assertEquals(
                 modelBefore.idChaveMovChave,
                 1
@@ -388,7 +388,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             assertEquals(
                 modelAfter.idChaveMovChave,
                 2
@@ -413,7 +413,7 @@ class IMovChaveRoomDatasourceTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             assertEquals(
                 modelBefore.matricColabMovChave,
                 19035
@@ -431,7 +431,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             assertEquals(
                 modelAfter.matricColabMovChave,
                 18017
@@ -456,7 +456,7 @@ class IMovChaveRoomDatasourceTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             assertEquals(
                 modelBefore.observMovChave,
                 "OBSERV"
@@ -471,7 +471,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             assertEquals(
                 modelAfter.observMovChave,
                 "OBSERV ALTERADO"
@@ -627,7 +627,7 @@ class IMovChaveRoomDatasourceTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             assertEquals(
                 modelBefore.statusSendMovChave,
                 StatusSend.SEND
@@ -642,7 +642,7 @@ class IMovChaveRoomDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             assertEquals(
                 modelAfter.statusSendMovChave,
                 StatusSend.SENT

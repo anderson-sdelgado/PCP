@@ -74,7 +74,7 @@ class ILocalRepository @Inject constructor(
     }
 
     override suspend fun getDescr(id: Int): Result<String> {
-        val result = localRoomDatasource.getDescr(id)
+        val result = localRoomDatasource.getDescrById(id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

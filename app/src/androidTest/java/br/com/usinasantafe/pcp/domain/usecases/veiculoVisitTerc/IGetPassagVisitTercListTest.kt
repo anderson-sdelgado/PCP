@@ -100,7 +100,7 @@ class IGetPassagVisitTercListTest : KoinTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(10)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(30)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -129,7 +129,7 @@ class IGetPassagVisitTercListTest : KoinTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(10)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(30)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -174,7 +174,7 @@ class IGetPassagVisitTercListTest : KoinTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(10)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(30)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -238,7 +238,7 @@ class IGetPassagVisitTercListTest : KoinTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(10)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(30)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                 )
@@ -267,7 +267,7 @@ class IGetPassagVisitTercListTest : KoinTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(10)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(30)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                 )
@@ -314,7 +314,7 @@ class IGetPassagVisitTercListTest : KoinTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(10)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
             movEquipVisitTercPassagSharedPreferencesDatasource.add(30)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )

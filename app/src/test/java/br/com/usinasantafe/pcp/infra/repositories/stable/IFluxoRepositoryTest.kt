@@ -204,7 +204,7 @@ class IFluxoRepositoryTest {
     fun `Get - Check return failure if have error in FluxoRoomDatasource get`() =
         runTest {
             whenever(
-                fluxoRoomDatasource.get(1)
+                fluxoRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()

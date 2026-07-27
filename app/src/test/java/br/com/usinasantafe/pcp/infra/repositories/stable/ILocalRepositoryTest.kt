@@ -234,7 +234,7 @@ class ILocalRepositoryTest {
     @Test
     fun `Check return DescrLocal if have success in getDescr`() = runTest {
         whenever(
-            localRoomDatasource.getDescr(1)
+            localRoomDatasource.getDescrById(1)
         ).thenReturn(
             Result.success("USINA")
         )
@@ -252,7 +252,7 @@ class ILocalRepositoryTest {
     @Test
     fun `Check return failure if have error in getNome Datasource`() = runTest {
         whenever(
-            localRoomDatasource.getDescr(1)
+            localRoomDatasource.getDescrById(1)
         ).thenReturn(
             Result.failure(
                 Exception()

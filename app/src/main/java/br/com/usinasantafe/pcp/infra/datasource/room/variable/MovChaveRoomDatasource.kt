@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.infra.datasource.room.variable
 
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface MovChaveRoomDatasource {
     suspend fun checkOpen(): Result<Boolean>
@@ -10,19 +11,19 @@ interface MovChaveRoomDatasource {
     suspend fun listOpen(): Result<List<MovChaveRoomModel>>
     suspend fun listSend(): Result<List<MovChaveRoomModel>>
     suspend fun save(movChaveRoomModel: MovChaveRoomModel): Result<Long>
-    suspend fun setClose(id: Int): Result<Boolean>
+    suspend fun setClose(id: Int): EmptyResult
     suspend fun setIdChave(
         idChave: Int,
         id: Int
-    ): Result<Boolean>
+    ): EmptyResult
     suspend fun setObserv(
         observ: String?,
         id: Int
-    ): Result<Boolean>
+    ): EmptyResult
     suspend fun setMatricColab(
         matric: Int,
         id: Int
-    ): Result<Boolean>
-    suspend fun setSent(id: Int): Result<Boolean>
-    suspend fun setOutside(id: Int): Result<Boolean>
+    ): EmptyResult
+    suspend fun setSent(id: Int): EmptyResult
+    suspend fun setOutside(id: Int): EmptyResult
 }

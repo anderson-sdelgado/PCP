@@ -104,7 +104,7 @@ class ISaveMovChaveEquipTest : KoinTest {
                     observMovChaveEquip = "TESTE"
                 )
             )
-            val listBefore = movChaveEquipDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val listBefore = movChaveEquipDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 listBefore.size,
                 0
@@ -117,7 +117,7 @@ class ISaveMovChaveEquipTest : KoinTest {
                 result.isSuccess,
                 true
             )
-            val listAfter = movChaveEquipDao.listStatusForeigner(StatusForeigner.INSIDE)
+            val listAfter = movChaveEquipDao.listByStatusForeigner(StatusForeigner.INSIDE)
             assertEquals(
                 listAfter.size,
                 1

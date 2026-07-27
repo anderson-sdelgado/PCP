@@ -37,7 +37,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_true_if_cpf_is_valid_visitante() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(
             TypeVisitTerc.VISITANTE
         )
@@ -68,7 +68,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_true_if_cpf_is_valid_terceiro() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(
             TypeVisitTerc.TERCEIRO
         )
@@ -121,7 +121,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_failure_if_have_data_in_shared_preferences_and_have_not_type() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         val result = usecase(
             cpf = "326.949.728-88",
             flowApp = FlowApp.ADD,
@@ -143,7 +143,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_false_if_have_not_data_in_visitante() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(
             TypeVisitTerc.VISITANTE
         )
@@ -164,7 +164,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_false_if_not_exist_cpf_in_visitante() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(
             TypeVisitTerc.VISITANTE
         )
@@ -195,7 +195,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_false_if_have_not_data_in_terceiro() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(
             TypeVisitTerc.TERCEIRO
         )
@@ -216,7 +216,7 @@ class ICheckCpfVisitTercTest : KoinTest {
 
     @Test
     fun check_return_false_if_not_exist_cpf_in_terceiro() = runTest {
-        movEquipVisitTercSharedPreferencesDatasource.start()
+        movEquipVisitTercSharedPreferencesDatasource.save()
         movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(
             TypeVisitTerc.TERCEIRO
         )

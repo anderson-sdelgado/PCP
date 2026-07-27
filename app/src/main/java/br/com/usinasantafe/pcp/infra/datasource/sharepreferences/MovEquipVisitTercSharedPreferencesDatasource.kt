@@ -2,18 +2,16 @@ package br.com.usinasantafe.pcp.infra.datasource.sharepreferences
 
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
+import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface MovEquipVisitTercSharedPreferencesDatasource {
-    suspend fun clear(): Result<Boolean>
+    suspend fun clear(): EmptyResult
     suspend fun get(): Result<MovEquipVisitTercSharedPreferencesModel>
-    suspend fun setDestino(destino: String): Result<Boolean>
-    suspend fun setIdVisitTerc(idVisitTerc: Int): Result<Boolean>
-    suspend fun setObserv(observ: String?): Result<Boolean>
-    suspend fun setPlaca(placa: String): Result<Boolean>
-    suspend fun setTipoVisitTerc(typeVisitTerc: TypeVisitTerc): Result<Boolean>
-    suspend fun setVeiculo(veiculo: String): Result<Boolean>
-    suspend fun start(
-        movEquipVisitTercSharedPreferencesModel: MovEquipVisitTercSharedPreferencesModel =
-            MovEquipVisitTercSharedPreferencesModel()
-    ): Result<Boolean>
+    suspend fun setDestino(destino: String): EmptyResult
+    suspend fun setIdVisitTerc(idVisitTerc: Int): EmptyResult
+    suspend fun setObserv(observ: String?):EmptyResult
+    suspend fun setPlaca(placa: String): EmptyResult
+    suspend fun setTipoVisitTerc(typeVisitTerc: TypeVisitTerc): EmptyResult
+    suspend fun setVeiculo(veiculo: String): EmptyResult
+    suspend fun save(model: MovEquipVisitTercSharedPreferencesModel): EmptyResult
 }

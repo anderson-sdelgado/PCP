@@ -50,7 +50,7 @@ class ILocalTrabRepository @Inject constructor(
     }
 
     override suspend fun getDescr(id: Int): Result<String> {
-        val result = localTrabRoomDatasource.getDescr(id)
+        val result = localTrabRoomDatasource.getDescrById(id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

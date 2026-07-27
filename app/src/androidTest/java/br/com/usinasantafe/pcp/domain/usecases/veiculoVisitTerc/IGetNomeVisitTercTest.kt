@@ -91,7 +91,7 @@ class IGetNomeVisitTercTest : KoinTest {
     @Test
     fun check_return_failure_if_not_have_data_in_visitante_and_flow_add() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -118,7 +118,7 @@ class IGetNomeVisitTercTest : KoinTest {
     @Test
     fun check_return_model_if_usecase_execute_successfully_and_flow_add_and_visitante() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -160,7 +160,7 @@ class IGetNomeVisitTercTest : KoinTest {
     @Test
     fun check_return_failure_if_not_have_data_in_terceiro_and_flow_add() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                 )
@@ -187,7 +187,7 @@ class IGetNomeVisitTercTest : KoinTest {
     @Test
     fun check_return_model_if_usecase_execute_successfully_and_flow_add_and_terceiro() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                 )

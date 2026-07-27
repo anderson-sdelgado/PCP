@@ -63,7 +63,7 @@ class IColabRepository @Inject constructor(
     }
 
     override suspend fun getNome(matric: Int): Result<String> {
-        val result = colabRoomDatasource.getNome(matric)
+        val result = colabRoomDatasource.getNomeByMatric(matric)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

@@ -77,7 +77,7 @@ class ISetIdVisitTercTest : KoinTest {
     @Test
     fun check_return_failure_if_have_mov_and_without_visit_and_flow_add_and_type_motorista() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -105,7 +105,7 @@ class ISetIdVisitTercTest : KoinTest {
     @Test
     fun check_return_failure_if_have_mov_and_without_terc_and_flow_add_and_type_motorista() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                 )
@@ -133,7 +133,7 @@ class ISetIdVisitTercTest : KoinTest {
     @Test
     fun check_return_true_if_set_id_executes_correctly_and_type_visit_and_flow_add_and_type_motorista() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE,
                     idVisitTercMovEquipVisitTerc = 10
@@ -188,7 +188,7 @@ class ISetIdVisitTercTest : KoinTest {
     @Test
     fun check_return_true_if_set_id_executes_correctly_and_type_terc_and_flow_add_and_type_motorista() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO,
                     idVisitTercMovEquipVisitTerc = 10
@@ -267,7 +267,7 @@ class ISetIdVisitTercTest : KoinTest {
     @Test
     fun check_return_failure_if_have_mov_and_without_visit_and_flow_add_and_type_passag() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE
                 )
@@ -295,7 +295,7 @@ class ISetIdVisitTercTest : KoinTest {
     @Test
     fun check_return_failure_if_have_mov_and_without_terc_and_flow_add_and_type_passag() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO
                 )
@@ -324,7 +324,7 @@ class ISetIdVisitTercTest : KoinTest {
     fun check_return_true_if_set_id_executes_correctly_and_type_visit_and_flow_add_and_type_passag() =
         runTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.VISITANTE,
                     idVisitTercMovEquipVisitTerc = 10
@@ -392,7 +392,7 @@ class ISetIdVisitTercTest : KoinTest {
     fun check_return_true_if_set_id_executes_correctly_and_type_terc_and_flow_add_and_type_passag() =
         runTest {
             movEquipVisitTercPassagSharedPreferencesDatasource.add(20)
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoVisitTercMovEquipVisitTerc = TypeVisitTerc.TERCEIRO,
                     idVisitTercMovEquipVisitTerc = 10

@@ -236,7 +236,7 @@ class ITerceiroRepositoryTest {
     fun `Get - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.get(1)
+                terceiroRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -266,7 +266,7 @@ class ITerceiroRepositoryTest {
                 )
             )
             whenever(
-                terceiroRoomDatasource.get(1)
+                terceiroRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(list)
             )
@@ -286,7 +286,7 @@ class ITerceiroRepositoryTest {
     fun `GetCpf - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.get(1)
+                terceiroRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -316,7 +316,7 @@ class ITerceiroRepositoryTest {
                 )
             )
             whenever(
-                terceiroRoomDatasource.get(1)
+                terceiroRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(list)
             )
@@ -335,7 +335,7 @@ class ITerceiroRepositoryTest {
     fun `GetId - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.get("123.456.789-00")
+                terceiroRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -372,7 +372,7 @@ class ITerceiroRepositoryTest {
                 )
             )
             whenever(
-                terceiroRoomDatasource.get("123.456.789-00")
+                terceiroRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(list)
             )
@@ -391,7 +391,7 @@ class ITerceiroRepositoryTest {
     fun `GetNome - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.get("123.456.789-00")
+                terceiroRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -428,7 +428,7 @@ class ITerceiroRepositoryTest {
                 )
             )
             whenever(
-                terceiroRoomDatasource.get("123.456.789-00")
+                terceiroRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(list)
             )
@@ -447,7 +447,7 @@ class ITerceiroRepositoryTest {
     fun `GetEmpresas - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.get("123.456.789-00")
+                terceiroRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -484,7 +484,7 @@ class ITerceiroRepositoryTest {
                 )
             )
             whenever(
-                terceiroRoomDatasource.get("123.456.789-00")
+                terceiroRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(list)
             )

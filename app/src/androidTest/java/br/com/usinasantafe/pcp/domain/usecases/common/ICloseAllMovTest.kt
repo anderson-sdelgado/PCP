@@ -159,12 +159,12 @@ class ICloseAllMovTest: KoinTest {
                 movEquipResidenciaRoomModelBefore.statusMovEquipResidencia,
                 StatusData.OPEN
             )
-            val movChaveRoomModelBefore = movChaveDao.get(1)
+            val movChaveRoomModelBefore = movChaveDao.getById(1)
             assertEquals(
                 movChaveRoomModelBefore.statusMovChave,
                 StatusData.OPEN
             )
-            val movChaveEquipRoomModelBefore = movChaveEquipDao.get(1)
+            val movChaveEquipRoomModelBefore = movChaveEquipDao.getById(1)
             assertEquals(
                 movChaveEquipRoomModelBefore.statusMovChaveEquip,
                 StatusData.OPEN
@@ -195,12 +195,12 @@ class ICloseAllMovTest: KoinTest {
                 movEquipResidenciaRoomModelAfter.statusMovEquipResidencia,
                 StatusData.CLOSE
             )
-            val movChaveRoomModelAfter = movChaveDao.get(1)
+            val movChaveRoomModelAfter = movChaveDao.getById(1)
             assertEquals(
                 movChaveRoomModelAfter.statusMovChave,
                 StatusData.CLOSE
             )
-            val movChaveEquipRoomModelAfter = movChaveEquipDao.get(1)
+            val movChaveEquipRoomModelAfter = movChaveEquipDao.getById(1)
             assertEquals(
                 movChaveEquipRoomModelAfter.statusMovChaveEquip,
                 StatusData.CLOSE

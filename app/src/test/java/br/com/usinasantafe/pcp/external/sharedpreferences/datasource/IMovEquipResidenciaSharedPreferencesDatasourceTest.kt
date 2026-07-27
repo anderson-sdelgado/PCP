@@ -28,7 +28,7 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check return data correct if Start execute correctly`() = runTest {
-        iMovEquipResidenciaSharedPreferencesDatasource.start(
+        iMovEquipResidenciaSharedPreferencesDatasource.save(
             MovEquipResidenciaSharedPreferencesModel()
         )
         val result = iMovEquipResidenciaSharedPreferencesDatasource.get()
@@ -44,7 +44,7 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setMotorista execute correctly`() = runTest {
-        iMovEquipResidenciaSharedPreferencesDatasource.start(
+        iMovEquipResidenciaSharedPreferencesDatasource.save(
             MovEquipResidenciaSharedPreferencesModel()
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setMotorista("MOTORISTA")
@@ -65,7 +65,7 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setObserv execute correctly`() = runTest {
-        iMovEquipResidenciaSharedPreferencesDatasource.start(
+        iMovEquipResidenciaSharedPreferencesDatasource.save(
             MovEquipResidenciaSharedPreferencesModel()
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setObserv("OBSERV")
@@ -86,7 +86,7 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setObserv execute correctly and value is null`() = runTest {
-        iMovEquipResidenciaSharedPreferencesDatasource.start(
+        iMovEquipResidenciaSharedPreferencesDatasource.save(
             MovEquipResidenciaSharedPreferencesModel()
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setObserv(null)
@@ -107,7 +107,7 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setPlaca execute correctly`() = runTest {
-        iMovEquipResidenciaSharedPreferencesDatasource.start(
+        iMovEquipResidenciaSharedPreferencesDatasource.save(
             MovEquipResidenciaSharedPreferencesModel()
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setPlaca("PLACA")
@@ -132,7 +132,7 @@ class IMovEquipResidenciaSharedPreferencesDatasourceTest {
 
     @Test
     fun `Check altered in table if setVeiculo execute correctly`() = runTest {
-        iMovEquipResidenciaSharedPreferencesDatasource.start(
+        iMovEquipResidenciaSharedPreferencesDatasource.save(
             MovEquipResidenciaSharedPreferencesModel()
         )
         iMovEquipResidenciaSharedPreferencesDatasource.setVeiculo("VEICULO")

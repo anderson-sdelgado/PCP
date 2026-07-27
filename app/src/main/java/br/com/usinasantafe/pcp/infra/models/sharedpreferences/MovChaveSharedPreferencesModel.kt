@@ -12,7 +12,7 @@ data class MovChaveSharedPreferencesModel(
     var observMovChave: String? = null,
 )
 
-fun MovChaveSharedPreferencesModel.entityToSharedPreferencesModel(): MovChave {
+fun MovChaveSharedPreferencesModel.sharedPreferencesModelToEntity(): MovChave {
     return with(this) {
         MovChave(
             dthrMovChave = this.dthrMovChave,
@@ -24,7 +24,7 @@ fun MovChaveSharedPreferencesModel.entityToSharedPreferencesModel(): MovChave {
     }
 }
 
-fun MovChave.entityToSharedPreferencesModel(): MovChaveSharedPreferencesModel {
+fun MovChave.sharedPreferencesModelToEntity(): MovChaveSharedPreferencesModel {
     return with(this) {
         MovChaveSharedPreferencesModel(
             dthrMovChave = this.dthrMovChave,

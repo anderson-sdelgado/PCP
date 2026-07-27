@@ -65,7 +65,7 @@ class IEquipRepository @Inject constructor(
 
     override suspend fun get(idEquip: Int): Result<Equip> {
         try{
-            val result = equipRoomDatasource.get(idEquip)
+            val result = equipRoomDatasource.getById(idEquip)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -87,7 +87,7 @@ class IEquipRepository @Inject constructor(
 
     override suspend fun getId(nroEquip: Long): Result<Int> {
         try{
-            val result = equipRoomDatasource.getId(nroEquip)
+            val result = equipRoomDatasource.getIdByNro(nroEquip)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -115,7 +115,7 @@ class IEquipRepository @Inject constructor(
 
     override suspend fun getNro(idEquip: Int): Result<Long> {
         try{
-            val result = equipRoomDatasource.getNro(idEquip)
+            val result = equipRoomDatasource.getNroById(idEquip)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -143,7 +143,7 @@ class IEquipRepository @Inject constructor(
 
     override suspend fun getDescr(idEquip: Int): Result<String> {
         try{
-            val result = equipRoomDatasource.get(idEquip)
+            val result = equipRoomDatasource.getById(idEquip)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

@@ -242,7 +242,7 @@ class IVisitanteRepositoryTest {
     fun `Get - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                visitanteRoomDatasource.get(1)
+                visitanteRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -269,7 +269,7 @@ class IVisitanteRepositoryTest {
                 empresaVisitante = "Empresa Visitante"
             )
             whenever(
-                visitanteRoomDatasource.get(1)
+                visitanteRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(roomModel)
             )
@@ -289,7 +289,7 @@ class IVisitanteRepositoryTest {
     fun `GetCPF - Check return failure if have error in VisitanteRoomDatasource getCPF`() =
         runTest {
             whenever(
-                visitanteRoomDatasource.get(1)
+                visitanteRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -316,7 +316,7 @@ class IVisitanteRepositoryTest {
                 empresaVisitante = "Empresa Visitante"
             )
             whenever(
-                visitanteRoomDatasource.get(1)
+                visitanteRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(roomModel)
             )
@@ -335,7 +335,7 @@ class IVisitanteRepositoryTest {
     fun `GetId - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                visitanteRoomDatasource.get("123.456.789-00")
+                visitanteRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -362,7 +362,7 @@ class IVisitanteRepositoryTest {
                 empresaVisitante = "Empresa Visitante"
             )
             whenever(
-                visitanteRoomDatasource.get("123.456.789-00")
+                visitanteRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(roomModel)
             )
@@ -381,7 +381,7 @@ class IVisitanteRepositoryTest {
     fun `GetNome - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                visitanteRoomDatasource.get("123.456.789-00")
+                visitanteRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -408,7 +408,7 @@ class IVisitanteRepositoryTest {
                 empresaVisitante = "Empresa Visitante"
             )
             whenever(
-                visitanteRoomDatasource.get("123.456.789-00")
+                visitanteRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(roomModel)
             )
@@ -427,7 +427,7 @@ class IVisitanteRepositoryTest {
     fun `GetEmpresas - Check return failure if have error in VisitanteRoomDatasource get`() =
         runTest {
             whenever(
-                visitanteRoomDatasource.get("123.456.789-00")
+                visitanteRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -454,7 +454,7 @@ class IVisitanteRepositoryTest {
                 empresaVisitante = "Empresa Visitante"
             )
             whenever(
-                visitanteRoomDatasource.get("123.456.789-00")
+                visitanteRoomDatasource.getByCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(roomModel)
             )

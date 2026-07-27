@@ -1,193 +1,104 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipProprioSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import com.google.gson.Gson
 import javax.inject.Inject
+import kotlin.getOrThrow
 
 class IMovEquipProprioSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : MovEquipProprioSharedPreferencesDatasource {
 
-    override suspend fun clean(): Result<Boolean> {
-        try {
-            val editor = sharedPreferences.edit()
-            editor.putString(BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO, null)
-            editor.apply()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.clear",
-                message = "-",
-                cause = e
-            )
-        }
+    suspend fun updateModel(block: MovEquipProprioSharedPreferencesModel.() -> Unit) {
+        val model = get().getOrThrow()
+        model.block()
+        save(model).getOrThrow()
     }
 
-    override suspend fun get(): Result<MovEquipProprioSharedPreferencesModel> {
-        try {
-            val movEquipProprio = sharedPreferences.getString(
+    override suspend fun clean(): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO,
+                    null
+                )
+            }
+        }
+
+    override suspend fun get(): Result<MovEquipProprioSharedPreferencesModel> =
+        result(getClassAndMethod()) {
+            val data = sharedPreferences.getString(
                 BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO, null
-            )!!
-            return Result.success(
-                Gson().fromJson(
-                    movEquipProprio,
-                    MovEquipProprioSharedPreferencesModel::class.java
-                )
             )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.get",
-                message = "-",
-                cause = e
+            if (data.isNullOrEmpty()) return@result MovEquipProprioSharedPreferencesModel()
+            val model = Gson().fromJson(
+                data,
+                MovEquipProprioSharedPreferencesModel::class.java
             )
+            model.sharedPreferencesModelToEntity()
+            model
         }
-    }
 
-    override suspend fun setDestino(destino: String): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioSharedPreferencesDatasource.setDestino",
-                    message = e.message,
-                    cause = e.cause
+    override suspend fun setDestino(destino: String): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.destinoMovEquipProprio = destino
+            }
+        }
+
+    override suspend fun setIdEquip(idEquip: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.idEquipMovEquipProprio = idEquip
+            }
+        }
+
+    override suspend fun setNotaFiscal(notaFiscal: Int?): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.notaFiscalMovEquipProprio = notaFiscal
+            }
+        }
+
+    override suspend fun setMatricColab(matric: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.matricColabMovEquipProprio = matric
+            }
+        }
+
+    override suspend fun setObserv(observ: String?): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.observMovEquipProprio = observ
+            }
+        }
+
+    override suspend fun start(typeMov: TypeMovEquip): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.tipoMovEquipProprio = typeMov
+            }
+        }
+
+    suspend fun save(model: MovEquipProprioSharedPreferencesModel): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO,
+                    Gson().toJson(model)
                 )
             }
-            val movEquipProprio = resultGet.getOrNull()!!
-            movEquipProprio.destinoMovEquipProprio = destino
-            save(movEquipProprio)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.setDestino",
-                message = "-",
-                cause = e
-            )
         }
-    }
-
-    override suspend fun setIdEquip(idEquip: Int): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioSharedPreferencesDatasource.setIdEquip",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movEquipProprio = resultGet.getOrNull()!!
-            movEquipProprio.idEquipMovEquipProprio = idEquip
-            save(movEquipProprio)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.setIdEquip",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setNotaFiscal(notaFiscal: Int?): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioSharedPreferencesDatasource.setNotaFiscal",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movEquipProprio = resultGet.getOrNull()!!
-            movEquipProprio.notaFiscalMovEquipProprio = notaFiscal
-            save(movEquipProprio)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.setNotaFiscal",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setMatricColab(matric: Int): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioSharedPreferencesDatasource.setMatricColab",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movEquipProprio = resultGet.getOrNull()!!
-            movEquipProprio.matricColabMovEquipProprio = matric
-            save(movEquipProprio)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.setMatricColab",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setObserv(observ: String?): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure){
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioSharedPreferencesDatasource.setObserv",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movEquipProprio = resultGet.getOrNull()!!
-            movEquipProprio.observMovEquipProprio = observ
-            save(movEquipProprio)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.setObserv",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun start(typeMov: TypeMovEquip): Result<Boolean> {
-        try {
-            save(MovEquipProprioSharedPreferencesModel(tipoMovEquipProprio = typeMov))
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioSharedPreferencesDatasource.start",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    fun save(movEquipProprio: MovEquipProprioSharedPreferencesModel) {
-        val editor = sharedPreferences.edit()
-        editor.putString(
-            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO,
-            Gson().toJson(movEquipProprio)
-        )
-        editor.apply()
-    }
 
 }

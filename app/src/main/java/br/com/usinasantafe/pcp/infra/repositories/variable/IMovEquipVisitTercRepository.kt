@@ -10,7 +10,7 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitMo
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInputToEntity
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import javax.inject.Inject
@@ -362,7 +362,7 @@ class IMovEquipVisitTercRepository @Inject constructor(
                 )
             }
             val movEquipVisitTercRoomModel =
-                resultGetMov.getOrNull()!!.entityToSharedPreferencesModel()
+                resultGetMov.getOrNull()!!.sharedPreferencesModelToEntity()
                     .entityToRoomModel(matricVigia, idLocal)
             val resultSave = movEquipVisitTercRoomDatasource.save(movEquipVisitTercRoomModel)
             if (resultSave.isFailure) {
@@ -657,7 +657,7 @@ class IMovEquipVisitTercRepository @Inject constructor(
     }
 
     override suspend fun start(): Result<Boolean> {
-        val result = movEquipVisitTercSharedPreferencesDatasource.start()
+        val result = movEquipVisitTercSharedPreferencesDatasource.save()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
@@ -672,8 +672,8 @@ class IMovEquipVisitTercRepository @Inject constructor(
     override suspend fun start(movEquipVisitTerc: MovEquipVisitTerc): Result<Boolean> {
         try {
             val movEquipVisitTercSharedPreferencesModel =
-                movEquipVisitTerc.entityToSharedPreferencesModel()
-            val result = movEquipVisitTercSharedPreferencesDatasource.start(
+                movEquipVisitTerc.sharedPreferencesModelToEntity()
+            val result = movEquipVisitTercSharedPreferencesDatasource.save(
                 movEquipVisitTercSharedPreferencesModel
             )
             if (result.isFailure) {

@@ -136,7 +136,7 @@ class ILocalRoomDatasourceTest {
                 ),
             )
         )
-        val result = datasource.getDescr(1)
+        val result = datasource.getDescrById(1)
         assertEquals(
             result.isSuccess,
             true

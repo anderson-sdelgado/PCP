@@ -4,62 +4,33 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.ColabRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class IColabRoomDatasource @Inject constructor(
     private val colabDao: ColabDao
 ): ColabRoomDatasource {
 
-    override suspend fun addAll(list: List<ColabRoomModel>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<ColabRoomModel>): EmptyResult =
+        result(getClassAndMethod()) {
             colabDao.insertAll(list)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IColabRoomDatasource.addAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun checkMatric(matric: Int): Result<Boolean> {
-        try {
-            val result = colabDao.check(matric) > 0
-            return Result.success(result)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IColabRoomDatasource.checkMatric",
-                message = "-",
-                cause = e
-            )
+    override suspend fun checkMatric(matric: Int): Result<Boolean> =
+        result(getClassAndMethod()) {
+            colabDao.check(matric) > 0
         }
-    }
 
-    override suspend fun getNome(matric: Int): Result<String> {
-        try {
-            val nome = colabDao.getNome(matric)
-            return Result.success(nome)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IColabRoomDatasource.getNome",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getNomeByMatric(matric: Int): Result<String> =
+        result(getClassAndMethod()) {
+            colabDao.getNomeByMatric(matric)
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        try {
+    override suspend fun deleteAll(): EmptyResult =
+        result(getClassAndMethod()) {
             colabDao.deleteAll()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IColabRoomDatasource.deleteAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
 }

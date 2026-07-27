@@ -10,7 +10,7 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveSharedPreferencesModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusForeigner
@@ -292,7 +292,7 @@ class IMovChaveRepositoryTest {
             whenever(
                 movChaveRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -337,7 +337,7 @@ class IMovChaveRepositoryTest {
             whenever(
                 movChaveRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -384,7 +384,7 @@ class IMovChaveRepositoryTest {
             whenever(
                 movChaveRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -434,7 +434,7 @@ class IMovChaveRepositoryTest {
             whenever(
                 movChaveRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -544,8 +544,8 @@ class IMovChaveRepositoryTest {
                 statusForeignerMovChave = StatusForeigner.INSIDE
             )
             whenever(
-                movChaveSharedPreferencesDatasource.start(
-                    entity.entityToSharedPreferencesModel()
+                movChaveSharedPreferencesDatasource.save(
+                    entity.sharedPreferencesModelToEntity()
                 )
             ).thenReturn(
                 Result.failure(
@@ -580,8 +580,8 @@ class IMovChaveRepositoryTest {
                 statusForeignerMovChave = StatusForeigner.INSIDE
             )
             whenever(
-                movChaveSharedPreferencesDatasource.start(
-                    entity.entityToSharedPreferencesModel()
+                movChaveSharedPreferencesDatasource.save(
+                    entity.sharedPreferencesModelToEntity()
                 )
             ).thenReturn(
                 Result.success(true)

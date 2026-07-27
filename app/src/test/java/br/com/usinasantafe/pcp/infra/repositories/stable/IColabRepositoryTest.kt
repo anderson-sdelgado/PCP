@@ -234,7 +234,7 @@ class IColabRepositoryTest {
     @Test
     fun `Check return NomeVigia if have success in getNome`() = runTest {
         whenever(
-            colabRoomDatasource.getNome(19759)
+            colabRoomDatasource.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
@@ -252,7 +252,7 @@ class IColabRepositoryTest {
     @Test
     fun `Check return failure if have error in getNome Datasource`() = runTest {
         whenever(
-            colabRoomDatasource.getNome(19759)
+            colabRoomDatasource.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()

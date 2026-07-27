@@ -176,7 +176,7 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.get(1)
+        val result = datasource.getById(1)
         assertEquals(
             result.isSuccess,
             true
@@ -218,7 +218,7 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.get("123.456.789-00")
+        val result = datasource.getById("123.456.789-00")
         assertEquals(
             result.isSuccess,
             true

@@ -173,7 +173,7 @@ class ISaveMovEquipVisitTercTest: KoinTest {
                     idLocal = 1,
                 )
             )
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoMovEquipVisitTerc = TypeMovEquip.OUTPUT,
                     idVisitTercMovEquipVisitTerc = 1000,
@@ -290,7 +290,7 @@ class ISaveMovEquipVisitTercTest: KoinTest {
                     idLocal = 1,
                 )
             )
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     tipoMovEquipVisitTerc = TypeMovEquip.INPUT,
                     idVisitTercMovEquipVisitTerc = 1000,

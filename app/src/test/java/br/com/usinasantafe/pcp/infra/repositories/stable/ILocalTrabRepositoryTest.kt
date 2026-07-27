@@ -182,7 +182,7 @@ class ILocalTrabRepositoryTest {
     fun `Check return failure if have error in ILocalTrabRepository getDescr`() =
         runTest {
             whenever(
-                localTrabRoomDatasource.getDescr(1)
+                localTrabRoomDatasource.getDescrById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -203,7 +203,7 @@ class ILocalTrabRepositoryTest {
     fun `Check return description if ILocalTrabRepository getDescr execute successfully`() =
         runTest {
             whenever(
-                localTrabRoomDatasource.getDescr(1)
+                localTrabRoomDatasource.getDescrById(1)
             ).thenReturn(
                 Result.success("TI")
             )

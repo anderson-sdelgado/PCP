@@ -52,7 +52,7 @@ class IFluxoRepository @Inject constructor(
 
     override suspend fun get(id: Int): Result<Fluxo> {
         try {
-            val result = fluxoRoomDatasource.get(id).map { it.roomModelToEntity() }
+            val result = fluxoRoomDatasource.getById(id).map { it.roomModelToEntity() }
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

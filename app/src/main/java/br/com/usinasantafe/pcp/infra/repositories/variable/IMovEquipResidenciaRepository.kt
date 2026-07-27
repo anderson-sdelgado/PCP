@@ -10,7 +10,7 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitMo
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInputToEntity
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import javax.inject.Inject
 
@@ -305,7 +305,7 @@ class IMovEquipResidenciaRepository @Inject constructor(
                 )
             }
             val movEquipResidenciaRoomModel =
-                resultGetMov.getOrNull()!!.entityToSharedPreferencesModel()
+                resultGetMov.getOrNull()!!.sharedPreferencesModelToEntity()
                     .entityToRoomModel(
                         matricVigia = matricVigia,
                         idLocal = idLocal
@@ -545,7 +545,7 @@ class IMovEquipResidenciaRepository @Inject constructor(
     }
 
     override suspend fun start(): Result<Boolean> {
-        val result = movEquipResidenciaSharedPreferencesDatasource.start()
+        val result = movEquipResidenciaSharedPreferencesDatasource.save()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
@@ -560,8 +560,8 @@ class IMovEquipResidenciaRepository @Inject constructor(
     override suspend fun start(movEquipResidencia: MovEquipResidencia): Result<Boolean> {
         try {
             val movEquipResidenciaSharedPreferencesModel =
-                movEquipResidencia.entityToSharedPreferencesModel()
-            val result = movEquipResidenciaSharedPreferencesDatasource.start(
+                movEquipResidencia.sharedPreferencesModelToEntity()
+            val result = movEquipResidenciaSharedPreferencesDatasource.save(
                 movEquipResidenciaSharedPreferencesModel
             )
             if (result.isFailure) {

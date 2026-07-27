@@ -164,7 +164,7 @@ class ISaveMovEquipResidenciaTest : KoinTest {
                     idLocal = 1,
                 )
             )
-            movEquipResidenciaSharedPreferencesDatasource.start(
+            movEquipResidenciaSharedPreferencesDatasource.save(
                 MovEquipResidenciaSharedPreferencesModel(
                     tipoMovEquipResidencia = TypeMovEquip.OUTPUT,
                     dthrMovEquipResidencia = Date(1723213270250),
@@ -279,7 +279,7 @@ class ISaveMovEquipResidenciaTest : KoinTest {
                     idLocal = 1,
                 )
             )
-            movEquipResidenciaSharedPreferencesDatasource.start(
+            movEquipResidenciaSharedPreferencesDatasource.save(
                 MovEquipResidenciaSharedPreferencesModel(
                     tipoMovEquipResidencia = TypeMovEquip.INPUT,
                     dthrMovEquipResidencia = Date(1723213270250),

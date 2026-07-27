@@ -19,13 +19,13 @@ interface EquipDao {
     suspend fun checkNro(nroEquip: Long): Int
 
     @Query("SELECT * FROM $TB_EQUIP WHERE idEquip = :id")
-    suspend fun get(id: Int): EquipRoomModel
+    suspend fun getById(id: Int): EquipRoomModel
 
     @Query("SELECT nroEquip FROM $TB_EQUIP WHERE idEquip = :id")
-    suspend fun getNro(id: Int): Long
+    suspend fun getNroById(id: Int): Long
 
     @Query("SELECT idEquip FROM $TB_EQUIP WHERE nroEquip = :nro")
-    suspend fun getId(nro: Long): Int
+    suspend fun getIdByNro(nro: Long): Int
 
     @Query("SELECT * FROM $TB_EQUIP")
     suspend fun listAll(): List<EquipRoomModel>

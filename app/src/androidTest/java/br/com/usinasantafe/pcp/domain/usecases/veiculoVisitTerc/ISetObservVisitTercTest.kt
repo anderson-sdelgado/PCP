@@ -85,7 +85,7 @@ class ISetObservVisitTercTest : KoinTest {
     @Test
     fun check_return_true_if_set_observ_execute_success_and_flow_add() =
         runTest {
-            movEquipVisitTercSharedPreferencesDatasource.start(
+            movEquipVisitTercSharedPreferencesDatasource.save(
                 MovEquipVisitTercSharedPreferencesModel(
                     observMovEquipVisitTerc = "Teste",
                 )

@@ -20,15 +20,21 @@ interface MovChaveEquipDao {
     suspend fun update(movChaveEquipRoomModel: MovChaveEquipRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_CHAVE_EQUIP WHERE idMovChaveEquip = :id")
-    suspend fun get(id: Int): MovChaveEquipRoomModel
+    suspend fun getById(id: Int): MovChaveEquipRoomModel
+
+    @Query("SELECT EXISTS(SELECT * FROM $TB_MOV_CHAVE_EQUIP WHERE statusMovChaveEquip = :status)")
+    suspend fun hasByStatusData(status: StatusData): Boolean
 
     @Query("SELECT * FROM $TB_MOV_CHAVE_EQUIP WHERE statusMovChaveEquip = :status")
-    suspend fun listStatusData(status: StatusData): List<MovChaveEquipRoomModel>
+    suspend fun listByStatusData(status: StatusData): List<MovChaveEquipRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_CHAVE_EQUIP WHERE statusForeignerMovChaveEquip = :statusForeigner")
-    suspend fun listStatusForeigner(statusForeigner: StatusForeigner): List<MovChaveEquipRoomModel>
+    suspend fun listByStatusForeigner(statusForeigner: StatusForeigner): List<MovChaveEquipRoomModel>
+
+    @Query("SELECT EXISTS(SELECT * FROM $TB_MOV_CHAVE_EQUIP WHERE statusSendMovChaveEquip = :statusSend)")
+    suspend fun hasByStatusSend(statusSend: StatusSend): Boolean
 
     @Query("SELECT * FROM $TB_MOV_CHAVE_EQUIP WHERE statusSendMovChaveEquip = :statusSend")
-    suspend fun listStatusSend(statusSend: StatusSend): List<MovChaveEquipRoomModel>
+    suspend fun listByStatusSend(statusSend: StatusSend): List<MovChaveEquipRoomModel>
 
 }

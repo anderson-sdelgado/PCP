@@ -11,6 +11,7 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveEquipSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusForeigner
@@ -292,7 +293,7 @@ class IMovChaveEquipRepositoryTest {
             whenever(
                 movChaveEquipRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -337,7 +338,7 @@ class IMovChaveEquipRepositoryTest {
             whenever(
                 movChaveEquipRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -384,7 +385,7 @@ class IMovChaveEquipRepositoryTest {
             whenever(
                 movChaveEquipRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,
@@ -434,7 +435,7 @@ class IMovChaveEquipRepositoryTest {
             whenever(
                 movChaveEquipRoomDatasource.save(
                     sharedPreferencesModel
-                        .entityToSharedPreferencesModel()
+                        .sharedPreferencesModelToEntity()
                         .entityToRoomModel(
                             matricVigia = 19035,
                             idLocal = 1,

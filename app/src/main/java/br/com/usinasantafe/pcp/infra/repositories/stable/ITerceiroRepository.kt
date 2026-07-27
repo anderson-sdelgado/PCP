@@ -65,7 +65,7 @@ class ITerceiroRepository @Inject constructor(
 
     override suspend fun get(id: Int): Result<Terceiro> {
         try {
-            val result = terceiroRoomDatasource.get(id)
+            val result = terceiroRoomDatasource.getById(id)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -87,7 +87,7 @@ class ITerceiroRepository @Inject constructor(
 
     override suspend fun getCpf(id: Int): Result<String> {
         try {
-            val result = terceiroRoomDatasource.get(id)
+            val result = terceiroRoomDatasource.getById(id)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -109,7 +109,7 @@ class ITerceiroRepository @Inject constructor(
 
     override suspend fun getId(cpf: String): Result<Int> {
         try {
-            val result = terceiroRoomDatasource.get(cpf)
+            val result = terceiroRoomDatasource.getByCpf(cpf)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -131,7 +131,7 @@ class ITerceiroRepository @Inject constructor(
 
     override suspend fun getNome(cpf: String): Result<String> {
         try {
-            val result = terceiroRoomDatasource.get(cpf)
+            val result = terceiroRoomDatasource.getByCpf(cpf)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -153,7 +153,7 @@ class ITerceiroRepository @Inject constructor(
 
     override suspend fun getEmpresas(cpf: String): Result<String> {
         try {
-            val result = terceiroRoomDatasource.get(cpf)
+            val result = terceiroRoomDatasource.getByCpf(cpf)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

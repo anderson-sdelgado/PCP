@@ -65,7 +65,7 @@ class IVisitanteRepository @Inject constructor(
 
     override suspend fun get(id: Int): Result<Visitante> {
         try {
-            val result = visitanteRoomDatasource.get(id)
+            val result = visitanteRoomDatasource.getById(id)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -86,7 +86,7 @@ class IVisitanteRepository @Inject constructor(
 
     override suspend fun getCpf(id: Int): Result<String> {
         try {
-            val result = visitanteRoomDatasource.get(id)
+            val result = visitanteRoomDatasource.getById(id)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -107,7 +107,7 @@ class IVisitanteRepository @Inject constructor(
 
     override suspend fun getId(cpf: String): Result<Int> {
         try {
-            val result = visitanteRoomDatasource.get(cpf)
+            val result = visitanteRoomDatasource.getByCpf(cpf)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -128,7 +128,7 @@ class IVisitanteRepository @Inject constructor(
 
     override suspend fun getNome(cpf: String): Result<String> {
         try {
-            val result = visitanteRoomDatasource.get(cpf)
+            val result = visitanteRoomDatasource.getByCpf(cpf)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(
@@ -149,7 +149,7 @@ class IVisitanteRepository @Inject constructor(
 
     override suspend fun getEmpresas(cpf: String): Result<String> {
         try {
-            val result = visitanteRoomDatasource.get(cpf)
+            val result = visitanteRoomDatasource.getByCpf(cpf)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

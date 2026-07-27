@@ -164,7 +164,7 @@ class IFluxoRoomDatasourceTest {
                 resultAdd.isSuccess,
                 true
             )
-            val result = datasource.get(1)
+            val result = datasource.getById(1)
             val roomModel = result.getOrNull()!!
             assertEquals(
                 roomModel.idFluxo,

@@ -16,7 +16,7 @@ data class MovEquipVisitTercSharedPreferencesModel(
     var observMovEquipVisitTerc: String? = null,
 )
 
-fun MovEquipVisitTercSharedPreferencesModel.entityToSharedPreferencesModel(): MovEquipVisitTerc {
+fun MovEquipVisitTercSharedPreferencesModel.sharedPreferencesModelToEntity(): MovEquipVisitTerc {
     return with(this){
         MovEquipVisitTerc(
             dthrMovEquipVisitTerc = this.dthrMovEquipVisitTerc,
@@ -31,7 +31,7 @@ fun MovEquipVisitTercSharedPreferencesModel.entityToSharedPreferencesModel(): Mo
     }
 }
 
-fun MovEquipVisitTerc.entityToSharedPreferencesModel(): MovEquipVisitTercSharedPreferencesModel {
+fun MovEquipVisitTerc.sharedPreferencesModelToEntity(): MovEquipVisitTercSharedPreferencesModel {
     return with(this){
         MovEquipVisitTercSharedPreferencesModel(
             dthrMovEquipVisitTerc = this.dthrMovEquipVisitTerc,

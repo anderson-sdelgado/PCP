@@ -47,7 +47,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
     @Test
     fun `start and get - Check return correct if function execute successfully`() =
         runTest {
-            val resultStart = iMovChaveSharedPreferencesDatasource.start()
+            val resultStart = iMovChaveSharedPreferencesDatasource.save()
             assertEquals(
                 resultStart.isSuccess,
                 true
@@ -85,7 +85,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
     @Test
     fun `setIdChave - Check return correct if function execute successfully`() =
         runTest {
-            val resultStart = iMovChaveSharedPreferencesDatasource.start()
+            val resultStart = iMovChaveSharedPreferencesDatasource.save()
             assertEquals(
                 resultStart.isSuccess,
                 true
@@ -128,7 +128,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
     @Test
     fun `setMatriColab - Check return correct if function execute successfully`() =
         runTest {
-            val resultStart = iMovChaveSharedPreferencesDatasource.start()
+            val resultStart = iMovChaveSharedPreferencesDatasource.save()
             assertEquals(
                 resultStart.isSuccess,
                 true
@@ -171,7 +171,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
     @Test
     fun `setObserv - Check return correct if function execute successfully`() =
         runTest {
-            val resultStart = iMovChaveSharedPreferencesDatasource.start()
+            val resultStart = iMovChaveSharedPreferencesDatasource.save()
             assertEquals(
                 resultStart.isSuccess,
                 true
@@ -196,7 +196,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
     @Test
     fun `clear - Check return correct if function execute successfully`() =
         runTest {
-            val resultStart = iMovChaveSharedPreferencesDatasource.start()
+            val resultStart = iMovChaveSharedPreferencesDatasource.save()
             assertEquals(
                 resultStart.isSuccess,
                 true
@@ -231,7 +231,7 @@ class IMovChaveSharedPreferencesDatasourceTest {
     @Test
     fun `start and get - Check return correct if function execute successfully - RECEIPT`() =
         runTest {
-            val resultStart = iMovChaveSharedPreferencesDatasource.start(
+            val resultStart = iMovChaveSharedPreferencesDatasource.save(
                 MovChaveSharedPreferencesModel(
                     tipoMovChave = TypeMovKey.RECEIPT
                 )

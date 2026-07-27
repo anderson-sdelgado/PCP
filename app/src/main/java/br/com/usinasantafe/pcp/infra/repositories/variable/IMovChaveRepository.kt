@@ -10,7 +10,7 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitMo
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInputToEntity
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.utils.EmptyResult
 import javax.inject.Inject
@@ -201,7 +201,7 @@ class IMovChaveRepository @Inject constructor(
                 )
             }
             val roomModel = resultGetMov.getOrNull()!!
-                .entityToSharedPreferencesModel()
+                .sharedPreferencesModelToEntity()
                 .entityToRoomModel(
                     matricVigia = matricVigia,
                     idLocal = idLocal,
@@ -413,7 +413,7 @@ class IMovChaveRepository @Inject constructor(
     }
 
     override suspend fun start(): Result<Boolean> {
-        val result = movChaveSharedPreferencesDatasource.start()
+        val result = movChaveSharedPreferencesDatasource.save()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(
@@ -427,8 +427,8 @@ class IMovChaveRepository @Inject constructor(
 
     override suspend fun start(movChave: MovChave): Result<Boolean> {
         try {
-            val sharedPreferenceModel = movChave.entityToSharedPreferencesModel()
-            val result = movChaveSharedPreferencesDatasource.start(sharedPreferenceModel)
+            val sharedPreferenceModel = movChave.sharedPreferencesModelToEntity()
+            val result = movChaveSharedPreferencesDatasource.save(sharedPreferenceModel)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

@@ -20,15 +20,21 @@ interface MovChaveDao {
     suspend fun update(movChaveRoomModel: MovChaveRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_CHAVE WHERE idMovChave = :id")
-    suspend fun get(id: Int): MovChaveRoomModel
+    suspend fun getById(id: Int): MovChaveRoomModel
+
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_CHAVE WHERE statusMovChave = :status)")
+    suspend fun hasByStatusData(status: StatusData): Boolean
 
     @Query("SELECT * FROM $TB_MOV_CHAVE WHERE statusMovChave = :status")
-    suspend fun listStatusData(status: StatusData): List<MovChaveRoomModel>
+    suspend fun listByStatusData(status: StatusData): List<MovChaveRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_CHAVE WHERE statusForeignerMovChave = :statusForeigner")
-    suspend fun listStatusForeigner(statusForeigner: StatusForeigner): List<MovChaveRoomModel>
+    suspend fun listByStatusForeigner(statusForeigner: StatusForeigner): List<MovChaveRoomModel>
+
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_CHAVE WHERE statusSendMovChave = :status)")
+    suspend fun hasByStatusSend(status: StatusSend): Boolean
 
     @Query("SELECT * FROM $TB_MOV_CHAVE WHERE statusSendMovChave = :status")
-    suspend fun listStatusSend(status: StatusSend): List<MovChaveRoomModel>
+    suspend fun listByStatusSend(status: StatusSend): List<MovChaveRoomModel>
 
 }

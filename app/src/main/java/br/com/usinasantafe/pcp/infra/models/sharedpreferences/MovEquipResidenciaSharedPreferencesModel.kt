@@ -13,7 +13,7 @@ data class MovEquipResidenciaSharedPreferencesModel(
     var observMovEquipResidencia: String? = null,
 )
 
-fun MovEquipResidenciaSharedPreferencesModel.entityToSharedPreferencesModel(): MovEquipResidencia {
+fun MovEquipResidenciaSharedPreferencesModel.sharedPreferencesModelToEntity(): MovEquipResidencia {
     return with(this){
         MovEquipResidencia(
             dthrMovEquipResidencia = this.dthrMovEquipResidencia,
@@ -26,7 +26,7 @@ fun MovEquipResidenciaSharedPreferencesModel.entityToSharedPreferencesModel(): M
     }
 }
 
-fun MovEquipResidencia.entityToSharedPreferencesModel(): MovEquipResidenciaSharedPreferencesModel {
+fun MovEquipResidencia.sharedPreferencesModelToEntity(): MovEquipResidenciaSharedPreferencesModel {
     return with(this){
         MovEquipResidenciaSharedPreferencesModel(
             dthrMovEquipResidencia = this.dthrMovEquipResidencia,

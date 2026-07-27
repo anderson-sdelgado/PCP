@@ -5,6 +5,8 @@ import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovEquipResidencia
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovEquipResidenciaRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipResidenciaRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipResidenciaRetrofitModelOutput
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class IMovEquipResidenciaRetrofitDatasource @Inject constructor(
@@ -14,20 +16,9 @@ class IMovEquipResidenciaRetrofitDatasource @Inject constructor(
     override suspend fun send(
         list: List<MovEquipResidenciaRetrofitModelOutput>,
         token: String
-    ): Result<List<MovEquipResidenciaRetrofitModelInput>> {
-        try {
-            val response = api.send(
-                auth = token,
-                data = list
-            )
-            return Result.success(response.body()!!)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipResidenciaRetrofitDatasource.send",
-                message = "-",
-                cause = e
-            )
+    ): Result<List<MovEquipResidenciaRetrofitModelInput>> =
+        result(getClassAndMethod()) {
+            api.send(token, list).body()!!
         }
-    }
 
 }

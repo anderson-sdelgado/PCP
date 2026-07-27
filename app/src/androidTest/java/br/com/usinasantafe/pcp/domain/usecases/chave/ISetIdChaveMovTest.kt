@@ -63,7 +63,7 @@ class ISetIdChaveMovTest: KoinTest {
     @Test
     fun check_return_true_and_data_returned_add() =
         runTest {
-            movChaveSharedPreferencesDatasource.start()
+            movChaveSharedPreferencesDatasource.save()
             val result = usecase(
                 idChave = 1,
                 flowApp = FlowApp.ADD,
@@ -125,7 +125,7 @@ class ISetIdChaveMovTest: KoinTest {
                 uuidMainMovChave = "UUID"
             )
             movChaveDao.insert(roomModel)
-            val modelBefore = movChaveDao.get(1)
+            val modelBefore = movChaveDao.getById(1)
             Assert.assertEquals(
                 modelBefore.idChaveMovChave,
                 1
@@ -143,7 +143,7 @@ class ISetIdChaveMovTest: KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val modelAfter = movChaveDao.get(1)
+            val modelAfter = movChaveDao.getById(1)
             Assert.assertEquals(
                 modelAfter.idChaveMovChave,
                 2

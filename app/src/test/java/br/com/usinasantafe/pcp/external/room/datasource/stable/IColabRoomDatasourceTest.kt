@@ -142,7 +142,7 @@ class IColabRoomDatasourceTest {
     fun `Check return failure if not have data researched`() = runTest {
         val datasource = IColabRoomDatasource(colabDao)
         val exception = try {
-            datasource.getNome(19759)
+            datasource.getNomeByMatric(19759)
             null
         } catch (exception: Exception){
             exception
@@ -168,7 +168,7 @@ class IColabRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.getNome(19759)
+        val result = datasource.getNomeByMatric(19759)
         assertEquals(
             result.isSuccess,
             true

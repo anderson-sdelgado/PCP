@@ -11,6 +11,7 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import javax.inject.Inject
 
@@ -222,7 +223,7 @@ class IMovChaveEquipRepository @Inject constructor(
                 )
             }
             val roomModel = resultGetMov.getOrNull()!!
-                .entityToSharedPreferencesModel()
+                .sharedPreferencesModelToEntity()
                 .entityToRoomModel(
                     matricVigia = matricVigia,
                     idLocal = idLocal,

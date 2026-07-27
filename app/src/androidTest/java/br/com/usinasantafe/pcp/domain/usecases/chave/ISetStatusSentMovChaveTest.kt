@@ -76,7 +76,7 @@ class ISetStatusSentMovChaveTest: KoinTest {
                     statusForeignerMovChave = StatusForeigner.INSIDE
                 )
             )
-            val listBefore = movChaveDao.listStatusData(StatusData.OPEN)
+            val listBefore = movChaveDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listBefore.size,
                 1
@@ -101,7 +101,7 @@ class ISetStatusSentMovChaveTest: KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val listAfter = movChaveDao.listStatusData(StatusData.OPEN)
+            val listAfter = movChaveDao.listByStatusData(StatusData.OPEN)
             assertEquals(
                 listAfter.size,
                 1

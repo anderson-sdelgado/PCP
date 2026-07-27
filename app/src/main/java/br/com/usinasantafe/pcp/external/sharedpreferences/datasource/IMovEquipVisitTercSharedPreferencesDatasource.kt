@@ -1,11 +1,17 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTercSharedPreferencesDatasource
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipResidenciaSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import com.google.gson.Gson
 import javax.inject.Inject
 
@@ -13,175 +19,87 @@ class IMovEquipVisitTercSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : MovEquipVisitTercSharedPreferencesDatasource {
 
-    override suspend fun clear(): Result<Boolean> {
-        try {
-            val editor = sharedPreferences.edit()
-            editor.putString(
-                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
-                null
-            )
-            editor.apply()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.clear",
-                message = "-",
-                cause = e
-            )
-        }
+    suspend fun updateModel(block: MovEquipVisitTercSharedPreferencesModel.() -> Unit) {
+        val model = get().getOrThrow()
+        model.block()
+        save(model).getOrThrow()
     }
 
-    override suspend fun get(): Result<MovEquipVisitTercSharedPreferencesModel> {
-        try {
-            val movEquipVisitTerc = sharedPreferences.getString(
-                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
-                null
-            )!!
-            return Result.success(
-                Gson().fromJson(
-                    movEquipVisitTerc,
-                    MovEquipVisitTercSharedPreferencesModel::class.java
+    override suspend fun clear(): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
+                    null
                 )
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.get",
-                message = "-",
-                cause = e
-            )
+            }
         }
-    }
 
-    override suspend fun setDestino(destino: String): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val movEquipVisitTerc = resultGet.getOrNull()!!
-            movEquipVisitTerc.destinoMovEquipVisitTerc = destino
-            save(movEquipVisitTerc)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.setDestino",
-                message = "-",
-                cause = e
+    override suspend fun get(): Result<MovEquipVisitTercSharedPreferencesModel> =
+        result(getClassAndMethod()) {
+            val data = sharedPreferences.getString(
+                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
+                null
             )
-        }
-    }
-
-    override suspend fun setIdVisitTerc(idVisitTerc: Int): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val movEquipVisitTerc = resultGet.getOrNull()!!
-            movEquipVisitTerc.idVisitTercMovEquipVisitTerc = idVisitTerc
-            save(movEquipVisitTerc)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.setIdVisitTerc",
-                message = "-",
-                cause = e
+            if (data.isNullOrEmpty()) return@result MovEquipVisitTercSharedPreferencesModel()
+            val model = Gson().fromJson(
+                data,
+                MovEquipVisitTercSharedPreferencesModel::class.java
             )
+            model.sharedPreferencesModelToEntity()
+            model
         }
-    }
 
-    override suspend fun setObserv(observ: String?): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val movEquipVisitTerc = resultGet.getOrNull()!!
-            movEquipVisitTerc.observMovEquipVisitTerc = observ
-            save(movEquipVisitTerc)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.setObserv",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setDestino(destino: String): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.destinoMovEquipVisitTerc = destino
+            }
         }
-    }
 
-    override suspend fun setPlaca(placa: String): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val movEquipVisitTerc = resultGet.getOrNull()!!
-            movEquipVisitTerc.placaMovEquipVisitTerc = placa
-            save(movEquipVisitTerc)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.setPlaca",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setIdVisitTerc(idVisitTerc: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.idVisitTercMovEquipVisitTerc = idVisitTerc
+            }
         }
-    }
 
-    override suspend fun setTipoVisitTerc(typeVisitTerc: TypeVisitTerc): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val movEquipVisitTerc = resultGet.getOrNull()!!
-            movEquipVisitTerc.tipoVisitTercMovEquipVisitTerc = typeVisitTerc
-            save(movEquipVisitTerc)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setObserv(observ: String?): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.observMovEquipVisitTerc = observ
+            }
         }
-    }
 
-    override suspend fun setVeiculo(veiculo: String): Result<Boolean> {
-        try {
-            val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
-            val movEquipVisitTerc = resultGet.getOrNull()!!
-            movEquipVisitTerc.veiculoMovEquipVisitTerc = veiculo
-            save(movEquipVisitTerc)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.setVeiculo",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setPlaca(placa: String): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.placaMovEquipVisitTerc = placa
+            }
         }
-    }
 
-    override suspend fun start(
-        movEquipVisitTercSharedPreferencesModel: MovEquipVisitTercSharedPreferencesModel
-    ): Result<Boolean> {
-        try {
-            save(movEquipVisitTercSharedPreferencesModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercSharedPreferencesDatasource.start",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setTipoVisitTerc(typeVisitTerc: TypeVisitTerc): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.tipoVisitTercMovEquipVisitTerc = typeVisitTerc
+            }
         }
-    }
 
-    fun save(movEquipVisitTerc: MovEquipVisitTercSharedPreferencesModel) {
-        val editor = sharedPreferences.edit()
-        editor.putString(
-            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
-            Gson().toJson(movEquipVisitTerc)
-        )
-        editor.apply()
-    }
+    override suspend fun setVeiculo(veiculo: String): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel {
+                this.veiculoMovEquipVisitTerc = veiculo
+            }
+        }
+
+    override suspend fun save(model: MovEquipVisitTercSharedPreferencesModel): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
+                    Gson().toJson(model)
+                )
+            }
+        }
 
 }

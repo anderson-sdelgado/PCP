@@ -1,10 +1,14 @@
 package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 
 import android.content.SharedPreferences
-import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
+import androidx.core.content.edit
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_CONFIG
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import com.google.gson.Gson
 import javax.inject.Inject
 
@@ -12,88 +16,49 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ConfigSharedPreferencesDatasource {
 
-    override suspend fun updateModel(block: ConfigSharedPreferencesModel.() -> Unit) {
-        val model = get().getOrThrow()
-        model.block()
-        save(model).getOrThrow()
-    }
-
-    override suspend fun <T> readModel(
-        block: ConfigSharedPreferencesModel.() -> T
-    ): T =
-        get()
-            .getOrThrow()
-            .block()
-
-    override suspend fun clean(): Result<Boolean> {
-        try {
-            val editor = sharedPreferences.edit()
-            editor.clear()
-            editor.apply()
-            return Result.success(true)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IConfigSharedPreferencesDatasource.clear",
-                message = "-",
-                cause = e
-            )
+    override suspend fun clean(): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_CONFIG,
+                    null
+                )
+            }
         }
-    }
 
-    override suspend fun has(): Result<Boolean> {
-        try {
-            val result = sharedPreferences.getString(
+    override suspend fun has(): Result<Boolean> =
+        result(getClassAndMethod()) {
+            val data = sharedPreferences.getString(
                 BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 null
             )
-            return Result.success(result != null)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IConfigSharedPreferencesDatasource.has",
-                message = "-",
-                cause = e
-            )
+            !data.isNullOrEmpty()
         }
-    }
 
-    override suspend fun get(): Result<Config> {
-        try {
+    override suspend fun get(): Result<ConfigSharedPreferencesModel> =
+        result(getClassAndMethod()) {
             val config = sharedPreferences.getString(
                 BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 null
             )
-            if(config.isNullOrEmpty())
-                return Result.success(Config())
-            return Result.success(
-                Gson().fromJson(
-                    config,
-                    Config::class.java
-                )
+            if(config.isNullOrEmpty()) return@result ConfigSharedPreferencesModel()
+            val model = Gson().fromJson(
+                config,
+                ConfigSharedPreferencesModel::class.java
             )
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IConfigSharedPreferencesDatasource.get",
-                message = "-",
-                cause = e
-            )
+            model.sharedPreferencesModelToEntity()
+            model
         }
-    }
 
-    override suspend fun save(config: Config): Result<Boolean> {
-        try {
-            val editor = sharedPreferences.edit()
-            editor.putString(
-                BASE_SHARED_PREFERENCES_TABLE_CONFIG,
-                Gson().toJson(config)
-            )
-            editor.apply()
-            return Result.success(true)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IConfigSharedPreferencesDatasource.save",
-                message = "-",
-                cause = e
-            )
+
+    override suspend fun save(model: ConfigSharedPreferencesModel): EmptyResult =
+        result(getClassAndMethod()) {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARED_PREFERENCES_TABLE_CONFIG,
+                    Gson().toJson(model)
+                )
+            }
         }
-    }
+
 }

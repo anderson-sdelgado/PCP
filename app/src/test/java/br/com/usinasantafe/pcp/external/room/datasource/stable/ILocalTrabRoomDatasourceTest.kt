@@ -151,7 +151,7 @@ class ILocalTrabRoomDatasourceTest {
                 )
             )
             val datasource = ILocalTrabRoomDatasource(localTrabDao)
-            val result = datasource.getDescr(1)
+            val result = datasource.getDescrById(1)
             assertEquals(
                 result.isSuccess,
                 true

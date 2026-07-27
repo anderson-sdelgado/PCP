@@ -208,7 +208,7 @@ class IDeleteMovSentTest : KoinTest {
                 movProprioPassagListBefore.size,
                 1
             )
-            val movProprioEquipSegListBefore = movEquipProprioEquipSegDao.list(1)
+            val movProprioEquipSegListBefore = movEquipProprioEquipSegDao.listById(1)
             assertEquals(
                 movProprioEquipSegListBefore.size,
                 1
@@ -250,7 +250,7 @@ class IDeleteMovSentTest : KoinTest {
                 movProprioPassagListAfter.size,
                 0
             )
-            val movProprioEquipSegListAfter = movEquipProprioEquipSegDao.list(1)
+            val movProprioEquipSegListAfter = movEquipProprioEquipSegDao.listById(1)
             assertEquals(
                 movProprioEquipSegListAfter.size,
                 0

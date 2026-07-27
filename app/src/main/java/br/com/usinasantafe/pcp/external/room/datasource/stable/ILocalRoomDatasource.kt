@@ -4,61 +4,32 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class ILocalRoomDatasource @Inject constructor(
     private val localDao: LocalDao
 ): LocalRoomDatasource {
 
-    override suspend fun addAll(list: List<LocalRoomModel>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<LocalRoomModel>): EmptyResult =
+        result(getClassAndMethod()) {
             localDao.insertAll(list)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "ILocalRoomDatasource.addAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-
-    override suspend fun getDescr(id: Int): Result<String> {
-        try {
-            val descrLocal = localDao.getDescr(id)
-            return Result.success(descrLocal)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "ILocalRoomDatasource.getDescr",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getDescrById(id: Int): Result<String> =
+        result(getClassAndMethod()) {
+            localDao.getDescrById(id)
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        try {
+    override suspend fun deleteAll(): EmptyResult =
+        result(getClassAndMethod()) {
             localDao.deleteAll()
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "ILocalRoomDatasource.deleteAll",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun listAll(): Result<List<LocalRoomModel>> {
-        return try {
-            Result.success(localDao.listAll())
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "ILocalRoomDatasource.listAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(): Result<List<LocalRoomModel>> =
+        result(getClassAndMethod()) {
+            localDao.listAll()
         }
-    }
 }

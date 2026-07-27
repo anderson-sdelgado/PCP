@@ -9,7 +9,7 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipResidencia
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipResidenciaRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipResidenciaSharedPreferencesModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusForeigner
@@ -535,7 +535,7 @@ class IMovEquipResidenciaRepositoryTest {
                 Result.success(movEquipResidenciaSharedPreferencesModel)
             )
             val movEquipResidenciaRoomModel =
-                movEquipResidenciaSharedPreferencesModel.entityToSharedPreferencesModel()
+                movEquipResidenciaSharedPreferencesModel.sharedPreferencesModelToEntity()
                     .entityToRoomModel(
                         matricVigia = 19759,
                         idLocal = 1
@@ -578,7 +578,7 @@ class IMovEquipResidenciaRepositoryTest {
                 Result.success(movEquipResidenciaSharedPreferencesModel)
             )
             val movEquipResidenciaRoomModel =
-                movEquipResidenciaSharedPreferencesModel.entityToSharedPreferencesModel()
+                movEquipResidenciaSharedPreferencesModel.sharedPreferencesModelToEntity()
                     .entityToRoomModel(
                         matricVigia = 19759,
                         idLocal = 1
@@ -623,7 +623,7 @@ class IMovEquipResidenciaRepositoryTest {
                 Result.success(movEquipResidenciaSharedPreferencesModel)
             )
             val movEquipResidenciaRoomModel =
-                movEquipResidenciaSharedPreferencesModel.entityToSharedPreferencesModel()
+                movEquipResidenciaSharedPreferencesModel.sharedPreferencesModelToEntity()
                     .entityToRoomModel(
                         matricVigia = 19759,
                         idLocal = 1
@@ -671,7 +671,7 @@ class IMovEquipResidenciaRepositoryTest {
                 Result.success(movEquipResidenciaSharedPreferencesModel)
             )
             val movEquipResidenciaRoomModel =
-                movEquipResidenciaSharedPreferencesModel.entityToSharedPreferencesModel()
+                movEquipResidenciaSharedPreferencesModel.sharedPreferencesModelToEntity()
                     .entityToRoomModel(
                         matricVigia = 19759,
                         idLocal = 1
@@ -1142,8 +1142,8 @@ class IMovEquipResidenciaRepositoryTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             whenever(
-                movEquipResidenciaSharedPreferencesDatasource.start(
-                    movEquipResidencia.entityToSharedPreferencesModel()
+                movEquipResidenciaSharedPreferencesDatasource.save(
+                    movEquipResidencia.sharedPreferencesModelToEntity()
                 )
             ).thenReturn(
                 Result.failure(
@@ -1179,8 +1179,8 @@ class IMovEquipResidenciaRepositoryTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             whenever(
-                movEquipResidenciaSharedPreferencesDatasource.start(
-                    movEquipResidencia.entityToSharedPreferencesModel()
+                movEquipResidenciaSharedPreferencesDatasource.save(
+                    movEquipResidencia.sharedPreferencesModelToEntity()
                 )
             ).thenReturn(
                 Result.success(true)
