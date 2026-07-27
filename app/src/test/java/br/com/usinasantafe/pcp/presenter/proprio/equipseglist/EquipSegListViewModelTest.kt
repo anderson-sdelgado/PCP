@@ -4,12 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.proprio.CleanEquipSeg
-import br.com.usinasantafe.pcp.domain.usecases.proprio.DeleteEquipSeg
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetEquipSegList
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.CleanEquipSeg
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.DeleteEquipSeg
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetEquipSegList
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeEquip
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeEquip
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

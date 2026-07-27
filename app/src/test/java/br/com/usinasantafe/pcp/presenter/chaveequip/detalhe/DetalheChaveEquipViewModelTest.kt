@@ -3,8 +3,8 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.detalhe
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.CloseMovChaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetDetalheMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.CloseMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetDetalheMovChaveEquip
 import br.com.usinasantafe.pcp.presenter.Args
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

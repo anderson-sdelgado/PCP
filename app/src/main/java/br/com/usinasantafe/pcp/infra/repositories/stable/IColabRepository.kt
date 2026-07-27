@@ -7,8 +7,9 @@ import br.com.usinasantafe.pcp.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ColabRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
+import javax.inject.Inject
 
-class IColabRepository(
+class IColabRepository @Inject constructor(
     private val colabRoomDatasource: ColabRoomDatasource,
     private val colabRetrofitDatasource: ColabRetrofitDatasource
 ): ColabRepository {
@@ -74,7 +75,7 @@ class IColabRepository(
         return result
     }
 
-    override suspend fun recoverAll(token: String): Result<List<Colab>> {
+    override suspend fun listAll(token: String): Result<List<Colab>> {
         try {
             val recoverAll = colabRetrofitDatasource.recoverAll(token)
             if (recoverAll.isFailure) {

@@ -4,13 +4,14 @@ import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
-import br.com.usinasantafe.pcp.utils.token
+import br.com.usinasantafe.pcp.lib.token
+import javax.inject.Inject
 
 interface SendMovChaveList {
     suspend operator fun invoke(): Result<List<MovChave>>
 }
 
-class ISendMovChaveList(
+class ISendMovChaveList @Inject constructor(
     private val movChaveRepository: MovChaveRepository,
     private val configRepository: ConfigRepository
 ): SendMovChaveList {

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.lib.FlagUpdate
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 

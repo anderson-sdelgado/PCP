@@ -6,12 +6,13 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
+import javax.inject.Inject
 
 interface CloseAllMov {
     suspend operator fun invoke(): Result<Boolean>
 }
 
-class ICloseAllMov(
+class ICloseAllMov @Inject constructor(
     private val movEquipProprioRepository: MovEquipProprioRepository,
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,

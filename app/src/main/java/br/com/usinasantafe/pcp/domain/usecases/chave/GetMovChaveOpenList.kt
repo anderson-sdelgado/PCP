@@ -3,16 +3,17 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
-import br.com.usinasantafe.pcp.presenter.chave.model.ControleChaveModel
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 interface GetMovChaveOpenList {
     suspend operator fun invoke(): Result<List<ControleChaveModel>>
 }
 
-class IGetMovChaveOpenList(
+class IGetMovChaveOpenList @Inject constructor(
     private val movChaveRepository: MovChaveRepository,
     private val colabRepository: ColabRepository,
     private val getDescrFullChave: GetDescrFullChave,

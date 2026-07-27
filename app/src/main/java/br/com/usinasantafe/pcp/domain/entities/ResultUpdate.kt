@@ -1,11 +1,11 @@
 package br.com.usinasantafe.pcp.domain.entities
 
-import br.com.usinasantafe.pcp.utils.Errors
+import br.com.usinasantafe.pcp.lib.Errors
 
 data class ResultUpdate(
     val flagDialog: Boolean = false,
     val flagFailure: Boolean = false,
-    val errors: Errors = Errors.FIELDEMPTY,
+    val errors: Errors = Errors.FIELD_EMPTY,
     val failure: String = "",
     val flagProgress: Boolean = false,
     val msgProgress: String = "",

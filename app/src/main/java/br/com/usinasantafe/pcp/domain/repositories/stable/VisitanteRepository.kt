@@ -11,5 +11,5 @@ interface VisitanteRepository {
     suspend fun getId(cpf: String): Result<Int>
     suspend fun getNome(cpf: String): Result<String>
     suspend fun getEmpresas(cpf: String): Result<String>
-    suspend fun recoverAll(token: String): Result<List<Visitante>>
+    suspend fun listAll(token: String): Result<List<Visitante>>
 }

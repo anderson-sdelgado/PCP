@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.ColabRoomModel
+import javax.inject.Inject
 
-class IColabRoomDatasource(
+class IColabRoomDatasource @Inject constructor(
     private val colabDao: ColabDao
 ): ColabRoomDatasource {
 

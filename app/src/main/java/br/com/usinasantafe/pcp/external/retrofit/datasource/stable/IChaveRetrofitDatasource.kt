@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.ChaveApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ChaveRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.ChaveRetrofitModel
+import javax.inject.Inject
 
-class IChaveRetrofitDatasource(
+class IChaveRetrofitDatasource @Inject constructor(
     private val chaveApi: ChaveApi
 ): ChaveRetrofitDatasource {
 

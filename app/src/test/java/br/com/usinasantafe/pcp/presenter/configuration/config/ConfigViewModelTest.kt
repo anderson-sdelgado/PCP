@@ -6,17 +6,17 @@ import br.com.usinasantafe.pcp.domain.usecases.config.GetConfigInternal
 import br.com.usinasantafe.pcp.domain.usecases.config.SaveDataConfig
 import br.com.usinasantafe.pcp.domain.usecases.config.SendDataConfig
 import br.com.usinasantafe.pcp.domain.usecases.config.SetCheckUpdateAllTable
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateEquip
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateFluxo
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocal
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocalTrab
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateRLocalFluxo
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateTerceiro
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateVisitante
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableChave
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableColab
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableEquip
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableFluxo
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocal
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocalTrab
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableRLocalFluxo
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableTerceiro
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableVisitante
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlagUpdate
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -39,15 +39,15 @@ class ConfigViewModelTest {
     private val getConfigInternal = mock<GetConfigInternal>()
     private val sendDataConfig = mock<SendDataConfig>()
     private val saveDataConfig = mock<SaveDataConfig>()
-    private val updateChave = mock<UpdateChave>()
-    private val updateColab = mock<UpdateColab>()
-    private val updateEquip = mock<UpdateEquip>()
-    private val updateFluxo = mock<UpdateFluxo>()
-    private val updateLocal = mock<UpdateLocal>()
-    private val updateLocalTrab = mock<UpdateLocalTrab>()
-    private val updateRLocalFluxo = mock<UpdateRLocalFluxo>()
-    private val updateTerceiro = mock<UpdateTerceiro>()
-    private val updateVisitante = mock<UpdateVisitante>()
+    private val updateTableChave = mock<UpdateTableChave>()
+    private val updateTableColab = mock<UpdateTableColab>()
+    private val updateTableEquip = mock<UpdateTableEquip>()
+    private val updateTableFluxo = mock<UpdateTableFluxo>()
+    private val updateTableLocal = mock<UpdateTableLocal>()
+    private val updateTableLocalTrab = mock<UpdateTableLocalTrab>()
+    private val updateTableRLocalFluxo = mock<UpdateTableRLocalFluxo>()
+    private val updateTableTerceiro = mock<UpdateTableTerceiro>()
+    private val updateTableVisitante = mock<UpdateTableVisitante>()
     private val setCheckUpdateAllTable = mock<SetCheckUpdateAllTable>()
     private val sizeAll = 28f
     private var contWhenever = 0f
@@ -58,15 +58,15 @@ class ConfigViewModelTest {
         getConfigInternal = getConfigInternal,
         sendDataConfig = sendDataConfig,
         saveDataConfig = saveDataConfig,
-        updateChave = updateChave,
-        updateColab = updateColab,
-        updateEquip = updateEquip,
-        updateFluxo = updateFluxo,
-        updateLocal = updateLocal,
-        updateLocalTrab = updateLocalTrab,
-        updateRLocalFluxo = updateRLocalFluxo,
-        updateTerceiro = updateTerceiro,
-        updateVisitante = updateVisitante,
+        updateChave = updateTableChave,
+        updateColab = updateTableColab,
+        updateEquip = updateTableEquip,
+        updateFluxo = updateTableFluxo,
+        updateLocal = updateTableLocal,
+        updateLocalTrab = updateTableLocalTrab,
+        updateRLocalFluxo = updateTableRLocalFluxo,
+        updateTerceiro = updateTableTerceiro,
+        updateVisitante = updateTableVisitante,
         setCheckUpdateAllTable = setCheckUpdateAllTable,
     )
 
@@ -122,7 +122,7 @@ class ConfigViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.errors,
-            Errors.FIELDEMPTY
+            Errors.FIELD_EMPTY
         )
     }
 
@@ -347,7 +347,7 @@ class ConfigViewModelTest {
     @Test
     fun `Check return failure usecase if have error in usecase UpdateChave`() = runTest {
         whenever(
-            updateChave(
+            updateTableChave(
                 sizeAll = sizeAll,
                 count = 1f
             )
@@ -395,7 +395,7 @@ class ConfigViewModelTest {
         val qtdBefore = 1f
         wheneverSuccessChave()
         whenever(
-            updateColab(
+            updateTableColab(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -448,7 +448,7 @@ class ConfigViewModelTest {
         wheneverSuccessChave()
         wheneverSuccessColab()
         whenever(
-            updateEquip(
+            updateTableEquip(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -503,7 +503,7 @@ class ConfigViewModelTest {
         wheneverSuccessColab()
         wheneverSuccessEquip()
         whenever(
-            updateFluxo(
+            updateTableFluxo(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -560,7 +560,7 @@ class ConfigViewModelTest {
         wheneverSuccessEquip()
         wheneverSuccessFluxo()
         whenever(
-            updateLocal(
+            updateTableLocal(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -619,7 +619,7 @@ class ConfigViewModelTest {
         wheneverSuccessFluxo()
         wheneverSuccessLocal()
         whenever(
-            updateLocalTrab(
+            updateTableLocalTrab(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -676,7 +676,7 @@ class ConfigViewModelTest {
         wheneverSuccessLocal()
         wheneverSuccessLocalTrab()
         whenever(
-            updateRLocalFluxo(
+            updateTableRLocalFluxo(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -736,7 +736,7 @@ class ConfigViewModelTest {
         wheneverSuccessLocalTrab()
         wheneverSuccessRLocalFluxo()
         whenever(
-            updateTerceiro(
+            updateTableTerceiro(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -798,7 +798,7 @@ class ConfigViewModelTest {
         wheneverSuccessRLocalFluxo()
         wheneverSuccessTerceiro()
         whenever(
-            updateVisitante(
+            updateTableVisitante(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -981,7 +981,7 @@ class ConfigViewModelTest {
     private fun wheneverSuccessChave() =
         runTest {
             whenever(
-                updateChave(
+                updateTableChave(
                     sizeAll = sizeAll,
                     count = ++contUpdate
                 )
@@ -1036,7 +1036,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessColab() = runTest {
         whenever(
-            updateColab(
+            updateTableColab(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1091,7 +1091,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessEquip() = runTest {
         whenever(
-            updateEquip(
+            updateTableEquip(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1145,7 +1145,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessFluxo() = runTest {
         whenever(
-            updateFluxo(
+            updateTableFluxo(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1199,7 +1199,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessLocal() = runTest {
         whenever(
-            updateLocal(
+            updateTableLocal(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1253,7 +1253,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessLocalTrab() = runTest {
         whenever(
-            updateLocalTrab(
+            updateTableLocalTrab(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1307,7 +1307,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessRLocalFluxo() = runTest {
         whenever(
-            updateRLocalFluxo(
+            updateTableRLocalFluxo(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1361,7 +1361,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessTerceiro() = runTest {
         whenever(
-            updateTerceiro(
+            updateTableTerceiro(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )
@@ -1415,7 +1415,7 @@ class ConfigViewModelTest {
 
     private fun wheneverSuccessVisitante() = runTest {
         whenever(
-            updateVisitante(
+            updateTableVisitante(
                 sizeAll = sizeAll,
                 count = ++contUpdate
             )

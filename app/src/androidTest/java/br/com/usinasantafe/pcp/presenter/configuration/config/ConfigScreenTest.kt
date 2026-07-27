@@ -17,13 +17,11 @@ import br.com.usinasantafe.pcp.dispatcherSuccess
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.pcp.ui.theme.BUTTON_OK_ALERT_DIALOG_SIMPLE
+import br.com.usinasantafe.pcp.presenter.theme.BUTTON_OK_ALERT_DIALOG_SIMPLE
 import br.com.usinasantafe.pcp.utils.waitUntilTimeout
 import kotlinx.coroutines.test.runTest
-import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Rule
 
 import org.junit.Test
@@ -41,8 +39,14 @@ class ConfigScreenTest: KoinTest {
     fun verify_check_token_correct() {
         val server = MockWebServer()
         server.start()
-        server.enqueue(MockResponse().setBody("""{"idBD":1}"""))
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        server.enqueue(
+            MockResponse().setBody("""{"idBD":1}""")
+        )
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")
@@ -54,7 +58,11 @@ class ConfigScreenTest: KoinTest {
     fun verify_input_in_page() {
         val server = MockWebServer()
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithText("NRO APARELHO:").assertIsDisplayed()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
@@ -68,8 +76,14 @@ class ConfigScreenTest: KoinTest {
 
         val server = MockWebServer()
         server.start()
-        server.enqueue(MockResponse().setBody("""{"idBD":1}"""))
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        server.enqueue(
+            MockResponse().setBody("""{"idBD":1}""")
+        )
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
 
         val configSharedPreferences: ConfigSharedPreferencesDatasource by inject()
         configSharedPreferences.save(
@@ -90,8 +104,14 @@ class ConfigScreenTest: KoinTest {
     fun verify_check_failure_connection() {
         val server = MockWebServer()
         server.start()
-        server.enqueue(MockResponse().setResponseCode(404))
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        server.enqueue(
+            MockResponse().setResponseCode(404)
+        )
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")
@@ -105,7 +125,11 @@ class ConfigScreenTest: KoinTest {
     fun verify_failure_all_field_empty() {
         val server = MockWebServer()
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithText("SALVAR/ATUALIZAR DADOS").performClick()
         composeTestRule.waitUntilTimeout(2_000)
@@ -121,7 +145,11 @@ class ConfigScreenTest: KoinTest {
     fun verify_failure_password_empty() {
         val server = MockWebServer()
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithText("SALVAR/ATUALIZAR DADOS").performClick()
@@ -138,7 +166,11 @@ class ConfigScreenTest: KoinTest {
     fun verify_failure_number_empty() {
         val server = MockWebServer()
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")
         composeTestRule.onNodeWithText("SALVAR/ATUALIZAR DADOS").performClick()
@@ -156,7 +188,11 @@ class ConfigScreenTest: KoinTest {
         val server = MockWebServer()
         server.dispatcher = dispatcherFailureToken
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")
@@ -171,7 +207,11 @@ class ConfigScreenTest: KoinTest {
         val server = MockWebServer()
         server.dispatcher = dispatcherFailureColab
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")
@@ -186,7 +226,11 @@ class ConfigScreenTest: KoinTest {
         val server = MockWebServer()
         server.dispatcher = dispatcherFailureTerceiro
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")
@@ -201,7 +245,11 @@ class ConfigScreenTest: KoinTest {
         val server = MockWebServer()
         server.dispatcher = dispatcherSuccess
         server.start()
-        loadKoinModules(generateTestAppComponent(server.url("").toString()))
+        loadKoinModules(
+            generateTestAppComponent(
+                server.url("").toString()
+            )
+        )
         setContent()
         composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN).performTextInput("16997417840")
         composeTestRule.onNodeWithTag(TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN).performTextInput("12345")

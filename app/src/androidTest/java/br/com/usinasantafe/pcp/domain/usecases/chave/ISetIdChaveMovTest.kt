@@ -4,11 +4,11 @@ import br.com.usinasantafe.pcp.external.room.dao.variable.MovChaveDao
 import br.com.usinasantafe.pcp.external.sharedpreferences.datasource.IMovChaveSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert

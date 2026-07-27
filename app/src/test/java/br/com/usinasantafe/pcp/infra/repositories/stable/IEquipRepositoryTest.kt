@@ -7,7 +7,6 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.stable.EquipRetrofitModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
@@ -70,7 +69,7 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.recoverAll(token)
+        val result = repository.listAll(token)
         assertEquals(
             result.isFailure,
             true
@@ -102,7 +101,7 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val result = repository.recoverAll(token)
+        val result = repository.listAll(token)
         assertEquals(
             result.isSuccess,
             true

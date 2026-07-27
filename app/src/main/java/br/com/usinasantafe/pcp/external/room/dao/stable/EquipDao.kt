@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
-import br.com.usinasantafe.pcp.utils.TB_EQUIP
+import br.com.usinasantafe.pcp.lib.TB_EQUIP
 
 @Dao
 interface EquipDao {

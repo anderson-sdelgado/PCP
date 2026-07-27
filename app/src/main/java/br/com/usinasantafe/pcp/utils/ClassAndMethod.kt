@@ -1,23 +1,42 @@
 package br.com.usinasantafe.pcp.utils
 
 fun getClassAndMethod(): String {
-    return Thread.currentThread().stackTrace
-        .firstOrNull { element ->
-            element.fileName?.endsWith(".kt") == true &&
-                    element.methodName != "getClassAndMethod"
-        }?.let { element ->
-            // Ajusta a classe: tira tudo após $ (ex: $recoverMovOpenList$1)
-            val className = element.className
-                .substringAfterLast('.')     // Pega apenas o nome simples da classe
-                .substringBefore('$')        // Remove o que vem depois de "$"
+    val pkg = "br.com.usinasantafe"
+    val stack = Throwable().stackTrace
 
-            // Ajusta o método: tenta extrair de dentro do className, se possível
-            val methodNameFromClass = element.className
-                .substringAfter("$")         // Tenta pegar o nome do método de dentro do className
-                .substringBefore('$')        // Remove sufixos como $1
+    val calls = stack
+        .filter {
+            it.className.contains(pkg)
+        }
+        .map { el ->
+            val clsFull = el.className.substringAfterLast('.')
+            val realMethod = clsFull.substringAfter('$', "").substringBefore('$')
+            val cls = clsFull.substringBefore('$')
+            val meth = realMethod.ifBlank { el.methodName }
+            "$cls.$meth"
+        }
+        .distinct()
+        .reversed()
 
-            val methodName = methodNameFromClass.ifBlank { element.methodName }
+    val listFinish = calls
+        .filter {
+            !it.endsWith("invokeSuspend") &&
+                    !it.contains("access") &&
+                    !it.contains("Test") &&
+                    !it.contains("handleFailure") &&
+                    !it.contains("DefaultImpls") &&
+                    !it.contains("SafeCallKt.call") &&
+                    !it.contains("SafeCallKt.flowCall") &&
+                    !it.contains("lambda") &&
+                    !it.contains("Screen") &&
+                    !it.endsWith("Failure") &&
+                    !it.endsWith("getClassAndMethod") &&
+                    !it.endsWith("default")
+        }
+        .map {
+            it.replace(".invoke", "").substringBefore('-')
+        }
 
-            "$className.$methodName"
-        } ?: "Classe.MétodoDesconhecido"
+
+    return listFinish.joinToString(" -> ").ifBlank { "Classe.MetodoDesconhecido" }
 }

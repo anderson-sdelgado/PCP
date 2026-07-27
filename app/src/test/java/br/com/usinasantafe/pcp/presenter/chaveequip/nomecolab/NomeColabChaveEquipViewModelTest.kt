@@ -3,12 +3,12 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.nomecolab
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetMatricColabMovChaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.StartRemoveMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.SetMatricColabMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.StartRemoveMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

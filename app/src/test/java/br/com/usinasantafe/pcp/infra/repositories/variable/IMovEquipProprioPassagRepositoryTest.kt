@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.infra.repositories.variable
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioPassagRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioPassagSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioPassagRoomModel
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 

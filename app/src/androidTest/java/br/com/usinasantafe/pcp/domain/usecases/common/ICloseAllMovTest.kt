@@ -11,16 +11,15 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipResidenciaRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeMovKey
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 
 import org.junit.Test

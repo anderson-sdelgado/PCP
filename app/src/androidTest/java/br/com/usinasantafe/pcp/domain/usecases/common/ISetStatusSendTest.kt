@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.domain.usecases.common
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.StatusSend
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before

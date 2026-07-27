@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.Mockito.mock

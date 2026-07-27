@@ -10,9 +10,9 @@ import androidx.compose.ui.test.performClick
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNroEquipProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.SetIdEquipProprio
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateEquip
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetNroEquipProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetIdEquipProprio
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableEquip
 import br.com.usinasantafe.pcp.external.room.dao.stable.EquipDao
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipProprioDao
 import br.com.usinasantafe.pcp.generateTestAppComponent
@@ -20,12 +20,12 @@ import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPre
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.ui.theme.BUTTON_OK_ALERT_DIALOG_SIMPLE
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeEquip
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.presenter.theme.BUTTON_OK_ALERT_DIALOG_SIMPLE
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeEquip
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import br.com.usinasantafe.pcp.utils.waitUntilTimeout
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -46,7 +46,7 @@ class NroEquipScreenTest: KoinTest {
     val checkNroEquip: CheckNroEquip by inject()
     val setIdEquipProprio: SetIdEquipProprio by inject()
     val getNroEquipProprio: GetNroEquipProprio by inject()
-    val updateEquip: UpdateEquip by inject()
+    val updateTableEquip: UpdateTableEquip by inject()
 
     @Before
     fun before() {
@@ -274,7 +274,7 @@ class NroEquipScreenTest: KoinTest {
                     ),
                     checkNroEquip,
                     setIdEquipProprio,
-                    updateEquip,
+                    updateTableEquip,
                     getNroEquipProprio
                 ),
                 onNavMovProprioList = {},

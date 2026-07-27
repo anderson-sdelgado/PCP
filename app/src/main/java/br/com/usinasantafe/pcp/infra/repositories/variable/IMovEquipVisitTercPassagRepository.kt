@@ -7,9 +7,10 @@ import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipVisitTercP
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTercPassagSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercPassagRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.modelRoomToEntity
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
+import javax.inject.Inject
 
-class IMovEquipVisitTercPassagRepository(
+class IMovEquipVisitTercPassagRepository @Inject constructor(
     private val movEquipVisitTercPassagSharedPreferencesDatasource: MovEquipVisitTercPassagSharedPreferencesDatasource,
     private val movEquipVisitTercPassagRoomDatasource: MovEquipVisitTercPassagRoomDatasource,
 ): MovEquipVisitTercPassagRepository {

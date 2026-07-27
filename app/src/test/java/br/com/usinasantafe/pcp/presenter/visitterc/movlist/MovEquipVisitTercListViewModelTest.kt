@@ -3,11 +3,10 @@ package br.com.usinasantafe.pcp.presenter.visitterc.movlist
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetMovEquipVisitTercInsideList
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.StartInputMovEquipVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetMovEquipVisitTercInsideList
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.StartInputMovEquipVisitTerc
 import br.com.usinasantafe.pcp.presenter.model.HeaderModel
 import br.com.usinasantafe.pcp.presenter.visitterc.model.MovEquipVisitTercModel
-import br.com.usinasantafe.pcp.utils.Errors
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

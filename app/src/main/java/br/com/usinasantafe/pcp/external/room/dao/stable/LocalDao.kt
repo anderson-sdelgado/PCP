@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalRoomModel
-import br.com.usinasantafe.pcp.utils.TB_LOCAL
+import br.com.usinasantafe.pcp.lib.TB_LOCAL
 
 @Dao
 interface LocalDao {

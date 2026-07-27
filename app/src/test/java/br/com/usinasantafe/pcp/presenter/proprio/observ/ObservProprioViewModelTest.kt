@@ -2,13 +2,13 @@ package br.com.usinasantafe.pcp.presenter.proprio.observ
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetObservProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetTypeMov
-import br.com.usinasantafe.pcp.domain.usecases.proprio.SaveMovEquipProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.SetObservProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetObservProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetTypeMov
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SaveMovEquipProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetObservProprio
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Ou use esta importação
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

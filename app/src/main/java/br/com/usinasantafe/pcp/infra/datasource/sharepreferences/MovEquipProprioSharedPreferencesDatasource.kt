@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.datasource.sharepreferences
 
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipProprioSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 
 interface MovEquipProprioSharedPreferencesDatasource {
     suspend fun clean(): Result<Boolean>

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipResidencia
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 
 interface MovEquipResidenciaRepository {
     suspend fun checkOpen(): Result<Boolean>

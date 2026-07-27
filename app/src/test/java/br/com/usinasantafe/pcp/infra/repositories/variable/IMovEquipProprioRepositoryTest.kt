@@ -8,10 +8,10 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipProprioRet
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipProprioRetrofitModelOutput
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipProprioSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 

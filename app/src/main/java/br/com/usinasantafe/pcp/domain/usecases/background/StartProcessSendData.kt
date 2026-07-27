@@ -7,7 +7,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import br.com.usinasantafe.pcp.domain.usecases.common.SetStatusSend
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.StatusSend
 import java.util.concurrent.TimeUnit
 
 interface StartProcessSendData {

@@ -5,8 +5,9 @@ import br.com.usinasantafe.pcp.external.retrofit.api.variable.ConfigApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.ConfigRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.ConfigRetrofitModelOutput
+import javax.inject.Inject
 
-class IConfigRetrofitDatasource(
+class IConfigRetrofitDatasource @Inject constructor(
     private val configApi: ConfigApi
 ): ConfigRetrofitDatasource {
 

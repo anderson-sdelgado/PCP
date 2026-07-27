@@ -2,11 +2,10 @@ package br.com.usinasantafe.pcp.presenter.residencia.detalhe
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseMovResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.GetDetalheResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.CloseMovResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetDetalheResidencia
 import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Adicionado/Confirmado como a importação correta
-import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

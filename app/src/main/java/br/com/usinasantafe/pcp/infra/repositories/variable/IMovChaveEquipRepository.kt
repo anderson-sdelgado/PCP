@@ -11,9 +11,10 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
+import javax.inject.Inject
 
-class IMovChaveEquipRepository(
+class IMovChaveEquipRepository @Inject constructor(
     private val movChaveEquipRoomDatasource: MovChaveEquipRoomDatasource,
     private val movChaveEquipSharedPreferencesDatasource: MovChaveEquipSharedPreferencesDatasource,
     private val movChaveEquipRetrofitDatasource: MovChaveEquipRetrofitDatasource

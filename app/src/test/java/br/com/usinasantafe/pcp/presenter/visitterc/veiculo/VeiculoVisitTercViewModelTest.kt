@@ -3,11 +3,10 @@ package br.com.usinasantafe.pcp.presenter.visitterc.veiculo
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetVeiculoVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetVeiculoVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetVeiculoVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.SetVeiculoVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

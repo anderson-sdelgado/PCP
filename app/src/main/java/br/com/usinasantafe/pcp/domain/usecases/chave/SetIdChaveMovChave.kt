@@ -3,7 +3,8 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
+import javax.inject.Inject
 
 interface SetIdChaveMovChave {
     suspend operator fun invoke(
@@ -13,7 +14,7 @@ interface SetIdChaveMovChave {
     ): Result<Boolean>
 }
 
-class ISetIdChaveMovChave(
+class ISetIdChaveMovChave @Inject constructor(
     private val movChaveRepository: MovChaveRepository,
     private val startProcessSendData: StartProcessSendData
 ): SetIdChaveMovChave {

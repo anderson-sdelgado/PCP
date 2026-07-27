@@ -8,8 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.VisitanteRetrofi
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
+import javax.inject.Inject
 
-class IVisitanteRepository(
+class IVisitanteRepository @Inject constructor(
     private val visitanteRoomDatasource: VisitanteRoomDatasource,
     private val visitanteRetrofitDatasource: VisitanteRetrofitDatasource
 ): VisitanteRepository {
@@ -167,7 +168,7 @@ class IVisitanteRepository(
         }
     }
 
-    override suspend fun recoverAll(token: String): Result<List<Visitante>> {
+    override suspend fun listAll(token: String): Result<List<Visitante>> {
         try {
             val result = visitanteRetrofitDatasource.recoverAll(token)
             if (result.isFailure) {

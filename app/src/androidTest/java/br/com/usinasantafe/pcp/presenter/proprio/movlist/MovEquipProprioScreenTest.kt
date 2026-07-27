@@ -16,9 +16,9 @@ import br.com.usinasantafe.pcp.infra.models.room.stable.ColabRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import br.com.usinasantafe.pcp.utils.waitUntilTimeout
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer

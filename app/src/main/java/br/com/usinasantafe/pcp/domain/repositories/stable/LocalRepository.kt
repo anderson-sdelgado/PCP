@@ -8,5 +8,5 @@ interface LocalRepository {
     suspend fun deleteAll(): Result<Boolean>
     suspend fun getDescr(id: Int): Result<String>
     suspend fun list(): Result<List<Local>>
-    suspend fun recoverAll(token: String): Result<List<Local>>
+    suspend fun listAll(token: String): Result<List<Local>>
 }

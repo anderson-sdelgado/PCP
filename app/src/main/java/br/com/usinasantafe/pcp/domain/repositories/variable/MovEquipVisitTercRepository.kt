@@ -1,8 +1,8 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTerc
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 
 interface MovEquipVisitTercRepository {
     suspend fun checkOpen(): Result<Boolean>

@@ -6,11 +6,11 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetChaveList
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetIdChaveMovChave
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocalTrab
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableChave
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocalTrab
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -30,8 +30,8 @@ class ChaveListGetViewModelTest {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val getChaveList = mock<GetChaveList>()
-    private val updateChave = mock<UpdateChave>()
-    private val updateLocalTrab = mock<UpdateLocalTrab>()
+    private val updateTableChave = mock<UpdateTableChave>()
+    private val updateTableLocalTrab = mock<UpdateTableLocalTrab>()
     private val setIdChaveMovChave = mock<SetIdChaveMovChave>()
     private fun getViewModel(
         savedStateHandle: SavedStateHandle = SavedStateHandle(
@@ -43,8 +43,8 @@ class ChaveListGetViewModelTest {
     ) = ChaveListViewModel(
         savedStateHandle = savedStateHandle,
         getChaveList = getChaveList,
-        updateChave = updateChave,
-        updateLocalTrab = updateLocalTrab,
+        updateChave = updateTableChave,
+        updateLocalTrab = updateTableLocalTrab,
         setIdChaveMovChave = setIdChaveMovChave
     )
     private val sizeAll = 7f
@@ -106,7 +106,7 @@ class ChaveListGetViewModelTest {
     fun `updateDatabase - Check return failure if have error in UpdateChave`() =
         runTest {
             whenever(
-                updateChave(
+                updateTableChave(
                     count = 1f,
                     sizeAll = sizeAll
                 )
@@ -163,7 +163,7 @@ class ChaveListGetViewModelTest {
     fun `updateDatabase - Check return failure if have error in UpdateLocalTrab`() =
         runTest {
             whenever(
-                updateChave(
+                updateTableChave(
                     sizeAll = sizeAll,
                     count = 1f
                 )
@@ -187,7 +187,7 @@ class ChaveListGetViewModelTest {
                 )
             )
             whenever(
-                updateLocalTrab(
+                updateTableLocalTrab(
                     count = 2f,
                     sizeAll = sizeAll
                 )
@@ -268,7 +268,7 @@ class ChaveListGetViewModelTest {
     fun `Check return success if UpdateAllTable execute successfully`() =
         runTest {
             whenever(
-                updateChave(
+                updateTableChave(
                     sizeAll = sizeAll,
                     count = 1f
                 )
@@ -292,7 +292,7 @@ class ChaveListGetViewModelTest {
                 )
             )
             whenever(
-                updateLocalTrab(
+                updateTableLocalTrab(
                     sizeAll = sizeAll,
                     count = 2f
                 )

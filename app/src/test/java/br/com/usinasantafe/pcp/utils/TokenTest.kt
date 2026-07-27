@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.utils
 
+import br.com.usinasantafe.pcp.lib.token
 import org.junit.Assert.*
 
 import org.junit.Test

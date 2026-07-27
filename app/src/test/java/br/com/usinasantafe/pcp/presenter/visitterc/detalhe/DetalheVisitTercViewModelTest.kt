@@ -3,10 +3,9 @@ package br.com.usinasantafe.pcp.presenter.visitterc.detalhe
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Import necessário
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.CloseMovVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetDetalheVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.CloseMovVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetDetalheVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors // Import necessário
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

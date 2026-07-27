@@ -8,8 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.room.stable.RLocalFluxoRoomDatas
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import javax.inject.Inject
 
-class IRLocalFluxoRepository(
+class IRLocalFluxoRepository @Inject constructor(
     private val rLocalFluxoRoomDatasource: RLocalFluxoRoomDatasource,
     private val rLocalFluxoRetrofitDatasource: RLocalFluxoRetrofitDatasource
 ): RLocalFluxoRepository {
@@ -49,7 +50,7 @@ class IRLocalFluxoRepository(
         return result
     }
 
-    override suspend fun list(idLocal: Int): Result<List<RLocalFluxo>> {
+    override suspend fun listByIdLocal(idLocal: Int): Result<List<RLocalFluxo>> {
         try {
             val result = rLocalFluxoRoomDatasource.list(idLocal)
             if (result.isFailure) {
@@ -71,7 +72,7 @@ class IRLocalFluxoRepository(
         }
     }
 
-    override suspend fun recoverAll(token: String): Result<List<RLocalFluxo>> {
+    override suspend fun listAll(token: String): Result<List<RLocalFluxo>> {
         try {
             val result = rLocalFluxoRetrofitDatasource.recoverAll(token)
             if (result.isFailure) {

@@ -7,9 +7,10 @@ import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioEqu
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprioEquipSegSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioEquipSegRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.modelRoomToEntity
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
+import javax.inject.Inject
 
-class IMovEquipProprioEquipSegRepository(
+class IMovEquipProprioEquipSegRepository @Inject constructor(
     private val movEquipProprioEquipSegSharedPreferencesDatasource: MovEquipProprioEquipSegSharedPreferencesDatasource,
     private val movEquipProprioEquipSegRoomDatasource: MovEquipProprioEquipSegRoomDatasource
 ) : MovEquipProprioEquipSegRepository {

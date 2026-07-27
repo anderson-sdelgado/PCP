@@ -3,14 +3,14 @@ package br.com.usinasantafe.pcp.external.room.datasource.variable
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcp.external.room.AppDatabaseRoom
+import br.com.usinasantafe.pcp.external.room.DatabaseRoom
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipVisitTercDao
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.*
@@ -24,13 +24,13 @@ import org.robolectric.RobolectricTestRunner
 class IMovEquipVisitTercRoomDatasourceTest {
 
     private lateinit var movEquipVisitTercDao: MovEquipVisitTercDao
-    private lateinit var db: AppDatabaseRoom
+    private lateinit var db: DatabaseRoom
 
     @Before
     fun before() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabaseRoom::class.java
+            context, DatabaseRoom::class.java
         ).allowMainThreadQueries().build()
         movEquipVisitTercDao = db.movEquipVisitTercDao()
     }

@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.infra.models.room.stable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.usinasantafe.pcp.utils.TB_LOCAL
+import br.com.usinasantafe.pcp.lib.TB_LOCAL
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
 
 @Entity(tableName = TB_LOCAL)

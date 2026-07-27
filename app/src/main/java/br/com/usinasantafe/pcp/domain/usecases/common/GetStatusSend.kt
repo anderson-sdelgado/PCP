@@ -2,15 +2,16 @@ package br.com.usinasantafe.pcp.domain.usecases.common
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.StatusSend
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 interface GetStatusSend {
     suspend operator fun invoke(): Flow<Result<StatusSend>>
 }
 
-class IGetStatusSend(
+class IGetStatusSend @Inject constructor(
     private val configRepository: ConfigRepository,
 ): GetStatusSend {
 

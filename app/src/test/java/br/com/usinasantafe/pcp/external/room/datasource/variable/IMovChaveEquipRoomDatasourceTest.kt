@@ -3,21 +3,19 @@ package br.com.usinasantafe.pcp.external.room.datasource.variable
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcp.external.room.AppDatabaseRoom
+import br.com.usinasantafe.pcp.external.room.DatabaseRoom
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovChaveEquipDao
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveEquipRoomModel
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.test.KoinTest
 import org.robolectric.RobolectricTestRunner
 import java.util.Date
 
@@ -25,13 +23,13 @@ import java.util.Date
 class IMovChaveEquipRoomDatasourceTest{
 
     private lateinit var movChaveEquipDao: MovChaveEquipDao
-    private lateinit var db: AppDatabaseRoom
+    private lateinit var db: DatabaseRoom
 
     @Before
     fun before() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabaseRoom::class.java
+            context, DatabaseRoom::class.java
         ).allowMainThreadQueries().build()
         movChaveEquipDao = db.movChaveEquipDao()
     }

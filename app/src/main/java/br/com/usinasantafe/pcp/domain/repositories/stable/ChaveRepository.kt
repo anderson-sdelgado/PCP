@@ -7,5 +7,5 @@ interface ChaveRepository {
     suspend fun deleteAll(): Result<Boolean>
     suspend fun get(id: Int): Result<Chave>
     suspend fun listAll(): Result<List<Chave>>
-    suspend fun recoverAll(token: String): Result<List<Chave>>
+    suspend fun listAll(token: String): Result<List<Chave>>
 }

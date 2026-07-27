@@ -9,11 +9,11 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepos
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test

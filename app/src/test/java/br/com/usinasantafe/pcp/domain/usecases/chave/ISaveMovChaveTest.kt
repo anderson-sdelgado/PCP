@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import br.com.usinasantafe.pcp.utils.UUIDProvider
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

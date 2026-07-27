@@ -1,47 +1,27 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.required
+import javax.inject.Inject
 
 interface CloseAllMovChave {
-    suspend operator fun invoke(): Result<Boolean>
+    suspend operator fun invoke(): EmptyResult
 }
 
-class ICloseAllMovChave(
+class ICloseAllMovChave @Inject constructor(
     private val movChaveRepository: MovChaveRepository
 ): CloseAllMovChave {
 
-    override suspend fun invoke(): Result<Boolean> {
-        try {
-            val resultList = movChaveRepository.listOpen()
-            if (resultList.isFailure){
-                val e = resultList.exceptionOrNull()!!
-                return resultFailure(
-                    context = "ICloseAllMovChave",
-                    message = e.message,
-                    cause = e.cause
-                )
+    override suspend fun invoke(): EmptyResult =
+        call(getClassAndMethod()) {
+            val entityList = movChaveRepository.listOpen().getOrThrow()
+            for (entity in entityList) {
+                val id = entity::idMovChave.required()
+                movChaveRepository.setClose(id).getOrThrow()
             }
-            val entityList = resultList.getOrNull()!!
-            for(entity in entityList){
-                val resulClose = movChaveRepository.setClose(entity.idMovChave!!)
-                if (resulClose.isFailure){
-                    val e = resulClose.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "ICloseAllMovChave",
-                        message = e.message,
-                        cause = e.cause
-                    )
-                }
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "ICloseAllMovChave",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
 }

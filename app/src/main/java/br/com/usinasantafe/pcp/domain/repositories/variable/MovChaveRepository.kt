@@ -1,11 +1,12 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface MovChaveRepository {
-    suspend fun checkOpen(): Result<Boolean>
-    suspend fun checkSend(): Result<Boolean>
+    suspend fun hasOpen(): Result<Boolean>
+    suspend fun hasSend(): Result<Boolean>
     suspend fun get(id: Int): Result<MovChave>
     suspend fun getMatricColab(id: Int): Result<Int>
     suspend fun getObserv(id: Int): Result<String?>
@@ -22,7 +23,7 @@ interface MovChaveRepository {
         number: Long,
         token: String
     ): Result<List<MovChave>>
-    suspend fun setClose(id: Int): Result<Boolean>
+    suspend fun setClose(id: Int): EmptyResult
     suspend fun setIdChave(
         idChave: Int,
         flowApp: FlowApp,

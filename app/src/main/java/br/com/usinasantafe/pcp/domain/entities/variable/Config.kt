@@ -1,8 +1,7 @@
 package br.com.usinasantafe.pcp.domain.entities.variable
 
-import br.com.usinasantafe.pcp.utils.FlagUpdate
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.FlagUpdate
+import br.com.usinasantafe.pcp.lib.StatusSend
 
 data class Config(
     var number: Long? = null,

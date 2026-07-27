@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.domain.entities.stable.Local
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateLocal
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -24,11 +24,11 @@ class LocalViewModelTest {
 
     private val setIdLocalConfig = mock<SetIdLocalConfig>()
     private val getLocalList = mock<GetLocalList>()
-    private val updateLocal = mock<UpdateLocal>()
+    private val updateTableLocal = mock<UpdateTableLocal>()
     private val viewModel = LocalViewModel(
         getLocalList,
         setIdLocalConfig,
-        updateLocal
+        updateTableLocal
     )
 
     @Test

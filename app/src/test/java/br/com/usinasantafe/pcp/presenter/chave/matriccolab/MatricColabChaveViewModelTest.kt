@@ -6,12 +6,12 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetMatricColabMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableColab
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeButton
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -31,7 +31,7 @@ class MatricColabChaveViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val updateColab = mock<UpdateColab>()
+    private val updateTableColab = mock<UpdateTableColab>()
     private val checkMatricColab = mock<CheckMatricColab>()
     private val getMatricColabMovChave = mock<GetMatricColabMovChave>()
     private fun getViewModel(
@@ -44,7 +44,7 @@ class MatricColabChaveViewModelTest {
         )
     ) = MatricColabChaveViewModel(
         savedStateHandle,
-        updateColab,
+        updateTableColab,
         checkMatricColab,
         getMatricColabMovChave
     )
@@ -99,7 +99,7 @@ class MatricColabChaveViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.errors,
-                Errors.FIELDEMPTY
+                Errors.FIELD_EMPTY
             )
         }
 
@@ -107,7 +107,7 @@ class MatricColabChaveViewModelTest {
     fun `Check return failure usecase in setTextField if have error in usecase UpdateColab`() =
         runTest {
             whenever(
-                updateColab(
+                updateTableColab(
                     count = 1f,
                     sizeAll = 4f
                 )
@@ -163,7 +163,7 @@ class MatricColabChaveViewModelTest {
     fun `Check return success in updateAllDatabase if all update run correctly`() =
         runTest {
             whenever(
-                updateColab(
+                updateTableColab(
                     count = 1f,
                     sizeAll = 4f
                 )

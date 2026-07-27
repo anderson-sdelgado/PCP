@@ -4,14 +4,14 @@ import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetNroEquipMovChaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetIdEquipMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetNroEquipMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.SetIdEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateEquip
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableEquip
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeButton
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeButton
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -33,7 +33,7 @@ class NroEquipChaveEquipViewModelTest {
 
     private val checkNroEquip = mock<CheckNroEquip>()
     private val setIdEquipMovChaveEquip = mock<SetIdEquipMovChaveEquip>()
-    private val updateEquip = mock<UpdateEquip>()
+    private val updateTableEquip = mock<UpdateTableEquip>()
     private val getNroEquipMovChaveEquip = mock<GetNroEquipMovChaveEquip>()
 
     private fun getViewModel(
@@ -47,7 +47,7 @@ class NroEquipChaveEquipViewModelTest {
         savedStateHandle,
         checkNroEquip,
         setIdEquipMovChaveEquip,
-        updateEquip,
+        updateTableEquip,
         getNroEquipMovChaveEquip
     )
 
@@ -98,7 +98,7 @@ class NroEquipChaveEquipViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.errors,
-                Errors.FIELDEMPTY
+                Errors.FIELD_EMPTY
             )
         }
 
@@ -106,7 +106,7 @@ class NroEquipChaveEquipViewModelTest {
     fun `Check return failure usecase in setTextField if have error in usecase UpdateEquip`() =
         runTest {
             whenever(
-                updateEquip(
+                updateTableEquip(
                     count = 1f,
                     sizeAll = 4f
                 )
@@ -165,7 +165,7 @@ class NroEquipChaveEquipViewModelTest {
     fun `Check return success in updateAllDatabase if all update run correctly`() =
         runTest {
             whenever(
-                updateEquip(
+                updateTableEquip(
                     count = 1f,
                     sizeAll = 4f
                 )

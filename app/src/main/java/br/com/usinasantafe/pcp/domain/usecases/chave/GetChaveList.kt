@@ -2,13 +2,14 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
-import br.com.usinasantafe.pcp.presenter.chave.chavelist.ChaveModel
+import br.com.usinasantafe.pcp.presenter.view.chave.chavelist.ChaveModel
+import javax.inject.Inject
 
 interface GetChaveList {
     suspend operator fun invoke(): Result<List<ChaveModel>>
 }
 
-class IGetChaveList(
+class IGetChaveList @Inject constructor(
     private val chaveRepository: ChaveRepository,
     private val getDescrFullChave: GetDescrFullChave
 ): GetChaveList {

@@ -3,11 +3,10 @@ package br.com.usinasantafe.pcp.presenter.residencia.placa
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Já presente
-import br.com.usinasantafe.pcp.domain.usecases.residencia.GetPlacaResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.SetPlacaResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetPlacaResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.SetPlacaResidencia
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

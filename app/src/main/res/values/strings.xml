@@ -64,4 +64,11 @@
     <string name="text_status_send">Existe dados para serem enviado</string>
     <string name="text_status_sending">Dados estão sendo enviados</string>
     <string name="text_status_sent">Não existe dados para serens enviados</string>
+    <string name="text_msg_recovery">RECUPERANDO DADOS DA TABELA \"%1$s\" DO WEB SERVICE.</string>
+    <string name="text_msg_clean">LIMPANDO A TABELA \"%1$s\".</string>
+    <string name="text_msg_save">SALVANDO DADOS NA TABELA \"%1$s\".</string>
+    <string name="text_msg_get_token">ENVIANDO DADOS DE TOKEN</string>
+    <string name="text_msg_save_token">SALVANDO DADOS DE TOKEN</string>
+    <string name="text_msg_finish_update_initial">AJUSTE INICIAIS FINALIZADO COM SUCESSO!</string>
+    <string name="text_msg_finish_update_completed">ATUALIZAÇÃO DE DADOS REALIZADO COM SUCESSO!</string>
 </resources>

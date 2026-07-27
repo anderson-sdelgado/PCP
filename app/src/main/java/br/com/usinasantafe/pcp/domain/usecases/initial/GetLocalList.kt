@@ -3,12 +3,13 @@ package br.com.usinasantafe.pcp.domain.usecases.initial
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalRepository
+import javax.inject.Inject
 
 interface GetLocalList {
     suspend operator fun invoke(): Result<List<Local>>
 }
 
-class IGetLocalList(
+class IGetLocalList @Inject constructor(
     private val localRepository: LocalRepository
 ): GetLocalList {
 

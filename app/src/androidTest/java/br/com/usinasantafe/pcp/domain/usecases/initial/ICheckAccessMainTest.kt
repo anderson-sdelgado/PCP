@@ -4,7 +4,7 @@ import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckAccessMain
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.lib.FlagUpdate
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.*

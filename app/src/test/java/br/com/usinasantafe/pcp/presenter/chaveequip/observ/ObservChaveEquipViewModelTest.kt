@@ -3,12 +3,12 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.observ
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetObservMovChaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SaveMovChaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.SetObservMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetObservMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.SaveMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.SetObservMovChaveEquip
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

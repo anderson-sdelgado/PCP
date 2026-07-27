@@ -4,9 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import br.com.usinasantafe.pcp.utils.UUIDProvider
-import br.com.usinasantafe.pcp.utils.UUIDProvider.uuid
+import javax.inject.Inject
 
 interface SaveMovChave {
     suspend operator fun invoke(
@@ -15,7 +15,7 @@ interface SaveMovChave {
     ): Result<Boolean>
 }
 
-class ISaveMovChave(
+class ISaveMovChave @Inject constructor(
     private val configRepository: ConfigRepository,
     private val movChaveRepository: MovChaveRepository,
     private val startProcessSendData: StartProcessSendData,

@@ -148,7 +148,7 @@ class IFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.recoverAll(
+            val result = repository.listAll(
                 "token"
             )
             assertEquals(
@@ -185,7 +185,7 @@ class IFluxoRepositoryTest {
                     retrofitModelList
                 )
             )
-            val result = repository.recoverAll(
+            val result = repository.listAll(
                 "token"
             )
             assertEquals(

@@ -3,13 +3,12 @@ package br.com.usinasantafe.pcp.presenter.proprio.passaglist
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.stable.Colab
-import br.com.usinasantafe.pcp.domain.usecases.proprio.CleanPassagColab
-import br.com.usinasantafe.pcp.domain.usecases.proprio.DeletePassagColab
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetPassagColabList
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.CleanPassagColab
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.DeletePassagColab
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetPassagColabList
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeOcupante
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Import necessário
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -27,12 +26,10 @@ class PassagColabListViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    // PADRONIZADO: Mocks como propriedades da classe
     private val cleanPassagColab = mock<CleanPassagColab>()
     private val getPassagColabList = mock<GetPassagColabList>()
     private val deletePassagColab = mock<DeletePassagColab>()
 
-    // PADRONIZADO: Helper function para criar ViewModel
     private fun createViewModel(
         savedStateHandle: SavedStateHandle
     ) = PassagColabListViewModel(
@@ -44,7 +41,6 @@ class PassagColabListViewModelTest {
 
     @Test
     fun `Check return failure if CleanPassagColab have failure`() = runTest {
-        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             cleanPassagColab()
         ).thenReturn(
@@ -54,7 +50,6 @@ class PassagColabListViewModelTest {
                 Exception()
             )
         )
-        // PADRONIZADO: Usando createViewModel
         val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
@@ -65,13 +60,12 @@ class PassagColabListViewModelTest {
             )
         )
         viewModel.cleanPassag()
-        val state = viewModel.uiState.value // PADRONIZADO: Usando state
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
+        val state = viewModel.uiState.value
+        assertEquals(
             state.flagDialog,
             true
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.failure,
             "PassagColabListViewModel.cleanPassag -> CleanPassagColab -> java.lang.Exception"
         )
@@ -79,7 +73,6 @@ class PassagColabListViewModelTest {
 
     @Test
     fun `Check return failure if have failure in GetPassagColabList`() = runTest {
-        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             getPassagColabList(
                 FlowApp.ADD,
@@ -92,7 +85,6 @@ class PassagColabListViewModelTest {
                 Exception()
             )
         )
-        // PADRONIZADO: Usando createViewModel
         val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
@@ -103,13 +95,12 @@ class PassagColabListViewModelTest {
             )
         )
         viewModel.recoverPassag()
-        val state = viewModel.uiState.value // PADRONIZADO: Usando state
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
+        val state = viewModel.uiState.value
+        assertEquals(
             state.flagDialog,
             true
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.failure,
             "PassagColabListViewModel.recoverPassag -> GetPassagColabList -> java.lang.Exception"
         )
@@ -117,7 +108,6 @@ class PassagColabListViewModelTest {
 
     @Test
     fun `Check return list Colab if GetPassagColabList execute successfully`() = runTest {
-        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             getPassagColabList(
                 FlowApp.ADD,
@@ -137,7 +127,6 @@ class PassagColabListViewModelTest {
                 )
             )
         )
-        // PADRONIZADO: Usando createViewModel
         val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
@@ -148,18 +137,16 @@ class PassagColabListViewModelTest {
             )
         )
         viewModel.recoverPassag()
-        val state = viewModel.uiState.value // PADRONIZADO: Usando state
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
+        val state = viewModel.uiState.value
+        assertEquals(
             state.passagList.size,
             2
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.passagList[0].matricColab,
             19759
         )
-        // PADRONIZADO: Verificar ausência de erro
-        assertEquals( // Padronizado
+        assertEquals(
             state.flagDialog,
             false
         )
@@ -168,7 +155,6 @@ class PassagColabListViewModelTest {
 
     @Test
     fun `Check return failure if have failure in DeletePassagColab`() = runTest {
-        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             deletePassagColab(
                 19759,
@@ -182,7 +168,6 @@ class PassagColabListViewModelTest {
                 Exception()
             )
         )
-        // PADRONIZADO: Usando createViewModel
         val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
@@ -193,23 +178,21 @@ class PassagColabListViewModelTest {
             )
         )
         viewModel.setDelete(19759)
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
-            viewModel.uiState.value.flagDialogCheck, // Mantido viewModel aqui
+        assertEquals(
+            viewModel.uiState.value.flagDialogCheck,
             true
         )
         viewModel.deletePassag()
-        val state = viewModel.uiState.value // PADRONIZADO: Usando state
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
+        val state = viewModel.uiState.value
+        assertEquals(
             state.flagDialogCheck,
             false
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.flagDialog,
             true
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.failure,
             "PassagColabListViewModel.deletePassag -> DeletePassagColab -> java.lang.Exception"
         )
@@ -217,7 +200,6 @@ class PassagColabListViewModelTest {
 
     @Test
     fun `Check return list Colab after deletePassag execute successfully`() = runTest {
-        // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
             deletePassagColab(
                 19759,
@@ -236,13 +218,12 @@ class PassagColabListViewModelTest {
             Result.success(
                 listOf(
                     Colab(
-                        matricColab = 19035, // Apenas o passageiro restante
+                        matricColab = 19035,
                         nomeColab = "JOSE DONIZETE"
                     )
                 )
             )
         )
-        // PADRONIZADO: Usando createViewModel
         val viewModel = createViewModel(
             SavedStateHandle(
                 mapOf(
@@ -253,27 +234,25 @@ class PassagColabListViewModelTest {
             )
         )
         viewModel.setDelete(19759)
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
-            viewModel.uiState.value.flagDialogCheck, // Mantido viewModel aqui
+        assertEquals(
+            viewModel.uiState.value.flagDialogCheck,
             true
         )
         viewModel.deletePassag()
-        val state = viewModel.uiState.value // PADRONIZADO: Usando state
-        // FORMATADO: Todos assertEquals em multi-linhas
-        assertEquals( // Padronizado
+        val state = viewModel.uiState.value
+        assertEquals(
             state.flagDialogCheck,
             false
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.flagDialog,
             false
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.passagList.size,
             1
         )
-        assertEquals( // Padronizado
+        assertEquals(
             state.passagList[0].matricColab,
             19035
         )

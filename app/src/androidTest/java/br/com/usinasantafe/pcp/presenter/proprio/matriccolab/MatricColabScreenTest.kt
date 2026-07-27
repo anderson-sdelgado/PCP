@@ -1,38 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.proprio.matriccolab
 
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotDisplayed
-import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.lifecycle.SavedStateHandle
-import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetMatricColab
-import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipProprioDao
-import br.com.usinasantafe.pcp.generateTestAppComponent
-import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
-import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.ui.theme.BUTTON_OK_ALERT_DIALOG_SIMPLE
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeOcupante
-import br.com.usinasantafe.pcp.utils.waitUntilTimeout
-import kotlinx.coroutines.test.runTest
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.Before
-import org.junit.Rule
-
-import org.junit.Test
-import org.koin.core.context.loadKoinModules
 import org.koin.test.KoinTest
-import org.koin.test.inject
 
 class MatricColabScreenTest : KoinTest {
 //

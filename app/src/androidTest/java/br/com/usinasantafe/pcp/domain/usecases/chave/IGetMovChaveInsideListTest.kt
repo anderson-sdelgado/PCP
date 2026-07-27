@@ -9,10 +9,10 @@ import br.com.usinasantafe.pcp.infra.models.room.stable.ChaveRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.ColabRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalTrabRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals

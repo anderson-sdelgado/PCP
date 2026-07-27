@@ -5,12 +5,13 @@ import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.presenter.model.HeaderModel
+import javax.inject.Inject
 
 interface GetHeader {
     suspend operator fun invoke(): Result<HeaderModel>
 }
 
-class IGetHeader(
+class IGetHeader @Inject constructor(
     private val configRepository: ConfigRepository,
     private val colabRepository: ColabRepository,
     private val localRepository: LocalRepository,

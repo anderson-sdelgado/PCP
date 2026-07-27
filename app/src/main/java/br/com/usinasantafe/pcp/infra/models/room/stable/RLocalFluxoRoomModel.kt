@@ -3,8 +3,7 @@ package br.com.usinasantafe.pcp.infra.models.room.stable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.usinasantafe.pcp.domain.entities.stable.RLocalFluxo
-import br.com.usinasantafe.pcp.utils.TB_FLUXO
-import br.com.usinasantafe.pcp.utils.TB_R_LOCAL_FLUXO
+import br.com.usinasantafe.pcp.lib.TB_R_LOCAL_FLUXO
 
 @Entity(tableName = TB_R_LOCAL_FLUXO)
 data class RLocalFluxoRoomModel(

@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.infra.models.room.variable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprioPassag
-import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_PROPRIO_PASSAG
+import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_PROPRIO_PASSAG
 
 @Entity(tableName = TB_MOV_EQUIP_PROPRIO_PASSAG)
 data class MovEquipProprioPassagRoomModel(

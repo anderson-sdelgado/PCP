@@ -8,8 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.room.stable.ChaveRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import javax.inject.Inject
 
-class IChaveRepository(
+class IChaveRepository @Inject constructor(
     private val chaveRoomDatasource: ChaveRoomDatasource,
     private val chaveRetrofitDatasource: ChaveRetrofitDatasource
 ): ChaveRepository {
@@ -94,7 +95,7 @@ class IChaveRepository(
         }
     }
 
-    override suspend fun recoverAll(token: String): Result<List<Chave>> {
+    override suspend fun listAll(token: String): Result<List<Chave>> {
         try {
             val result = chaveRetrofitDatasource.recoverAll(token)
             if (result.isFailure) {

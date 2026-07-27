@@ -26,7 +26,7 @@ class IChaveRetrofitDatasourceTest {
             )
             val service = retrofit.create(ChaveApi::class.java)
             val datasource = IChaveRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.recoverAll("TOKEN")
             assertEquals(
                 result.isFailure,
                 true
@@ -54,7 +54,7 @@ class IChaveRetrofitDatasourceTest {
             )
             val service = retrofit.create(ChaveApi::class.java)
             val datasource = IChaveRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.recoverAll("TOKEN")
             assertEquals(
                 result.isFailure,
                 true

@@ -6,9 +6,9 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_PROPRIO
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_PROPRIO
 
 @Dao
 interface MovEquipProprioDao {

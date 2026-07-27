@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.infra.models.room.stable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.usinasantafe.pcp.utils.TB_VISITANTE
+import br.com.usinasantafe.pcp.lib.TB_VISITANTE
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
 
 @Entity(tableName = TB_VISITANTE)

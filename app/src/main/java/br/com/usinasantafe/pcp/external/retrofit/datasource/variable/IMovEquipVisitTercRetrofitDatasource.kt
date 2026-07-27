@@ -5,8 +5,9 @@ import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovEquipVisitTercA
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovEquipVisitTercRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipVisitTercRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipVisitTercRetrofitModelOutput
+import javax.inject.Inject
 
-class IMovEquipVisitTercRetrofitDatasource(
+class IMovEquipVisitTercRetrofitDatasource @Inject constructor(
     private val api: MovEquipVisitTercApi
 ): MovEquipVisitTercRetrofitDatasource {
 

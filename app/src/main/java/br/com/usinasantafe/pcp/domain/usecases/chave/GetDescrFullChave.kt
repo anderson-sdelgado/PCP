@@ -3,12 +3,13 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalTrabRepository
+import javax.inject.Inject
 
 interface GetDescrFullChave {
     suspend operator fun invoke(id: Int): Result<String>
 }
 
-class IGetDescrFullChave(
+class IGetDescrFullChave @Inject constructor(
     private val chaveRepository: ChaveRepository,
     private val localTrabRepository: LocalTrabRepository,
 ): GetDescrFullChave {

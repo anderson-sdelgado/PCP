@@ -2,9 +2,8 @@ package br.com.usinasantafe.pcp.presenter.visitterc.tipo
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetTipoVisitTerc
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.SetTipoVisitTerc
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

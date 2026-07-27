@@ -1,12 +1,12 @@
 package br.com.usinasantafe.pcp.infra.models.sharedpreferences
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChaveEquip
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import java.util.Date
 
 data class MovChaveEquipSharedPreferencesModel(
     var dthrMovChaveEquip: Date = Date(),
-    var tipoMovChaveEquip: TypeMovKey? =TypeMovKey.RECEIPT,
+    var tipoMovChaveEquip: TypeMovKey? = TypeMovKey.RECEIPT,
     var idEquipMovChaveEquip: Int? = null,
     var matricColabMovChaveEquip: Int? = null,
     var observMovChaveEquip: String? = null,

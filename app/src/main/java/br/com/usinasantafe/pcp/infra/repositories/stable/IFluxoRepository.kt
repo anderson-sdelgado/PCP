@@ -8,8 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.room.stable.FluxoRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import javax.inject.Inject
 
-class IFluxoRepository(
+class IFluxoRepository @Inject constructor(
     private val fluxoRoomDatasource: FluxoRoomDatasource,
     private val fluxoRetrofitDatasource: FluxoRetrofitDatasource
 ): FluxoRepository {
@@ -70,7 +71,7 @@ class IFluxoRepository(
         }
     }
 
-    override suspend fun recoverAll(token: String): Result<List<Fluxo>> {
+    override suspend fun listAll(token: String): Result<List<Fluxo>> {
         try {
             val result = fluxoRetrofitDatasource.recoverAll(token)
             if (result.isFailure) {

@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 
 import br.com.usinasantafe.pcp.external.sharedpreferences.datasource.IMovChaveSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.generateTestAppComponent
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before

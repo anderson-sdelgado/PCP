@@ -3,12 +3,13 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
+import javax.inject.Inject
 
 interface SetStatusSentMovChave {
     suspend operator fun invoke(list: List<MovChave>): Result<Boolean>
 }
 
-class ISetStatusSentMovChave(
+class ISetStatusSentMovChave @Inject constructor(
     private val movChaveRepository: MovChaveRepository
 ): SetStatusSentMovChave {
 

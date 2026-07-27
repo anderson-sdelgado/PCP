@@ -2,12 +2,13 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
+import javax.inject.Inject
 
 interface StartRemoveMovChave {
     suspend operator fun invoke(): Result<Boolean>
 }
 
-class IStartRemoveMovChave(
+class IStartRemoveMovChave @Inject constructor(
     private val movChaveRepository: MovChaveRepository
 ): StartRemoveMovChave {
 

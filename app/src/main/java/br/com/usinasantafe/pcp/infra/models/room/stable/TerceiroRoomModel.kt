@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.infra.models.room.stable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.usinasantafe.pcp.utils.TB_TERCEIRO
+import br.com.usinasantafe.pcp.lib.TB_TERCEIRO
 import br.com.usinasantafe.pcp.domain.entities.stable.Terceiro
 
 @Entity(tableName = TB_TERCEIRO)

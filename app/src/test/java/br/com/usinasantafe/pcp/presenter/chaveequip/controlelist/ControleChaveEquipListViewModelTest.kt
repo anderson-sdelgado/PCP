@@ -2,8 +2,8 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.controlelist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMovChaveEquipInsideList
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.StartReceiptMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetMovChaveEquipInsideList
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.StartReceiptMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.presenter.chaveequip.model.ControleChaveEquipModel
 import br.com.usinasantafe.pcp.presenter.model.HeaderModel

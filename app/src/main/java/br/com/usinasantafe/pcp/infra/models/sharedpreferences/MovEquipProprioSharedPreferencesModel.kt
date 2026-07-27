@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.models.sharedpreferences
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import java.util.Date
 
 

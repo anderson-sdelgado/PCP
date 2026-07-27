@@ -6,10 +6,11 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitModel
-import br.com.usinasantafe.pcp.utils.FlagUpdate
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.FlagUpdate
+import br.com.usinasantafe.pcp.lib.StatusSend
+import javax.inject.Inject
 
-class IConfigRepository(
+class IConfigRepository @Inject constructor(
     private val configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource,
     private val configRetrofitDatasource: ConfigRetrofitDatasource,
 ) : ConfigRepository {

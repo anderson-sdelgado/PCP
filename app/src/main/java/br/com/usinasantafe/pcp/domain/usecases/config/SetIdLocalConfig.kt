@@ -2,12 +2,13 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import javax.inject.Inject
 
 interface SetIdLocalConfig {
     suspend operator fun invoke(idLocal: Int): Result<Boolean>
 }
 
-class ISetIdLocalConfig(
+class ISetIdLocalConfig @Inject constructor(
     private val configRepository: ConfigRepository,
 ): SetIdLocalConfig {
 

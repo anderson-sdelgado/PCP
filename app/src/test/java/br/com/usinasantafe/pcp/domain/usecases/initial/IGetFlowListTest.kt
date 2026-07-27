@@ -57,7 +57,7 @@ class IGetFlowListTest {
                 )
             )
             whenever(
-                rLocalFluxoRepository.list(1)
+                rLocalFluxoRepository.listByIdLocal(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -87,7 +87,7 @@ class IGetFlowListTest {
                 )
             )
             whenever(
-                rLocalFluxoRepository.list(1)
+                rLocalFluxoRepository.listByIdLocal(1)
             ).thenReturn(
                 Result.success(
                     listOf(
@@ -130,7 +130,7 @@ class IGetFlowListTest {
                 )
             )
             whenever(
-                rLocalFluxoRepository.list(1)
+                rLocalFluxoRepository.listByIdLocal(1)
             ).thenReturn(
                 Result.success(
                     listOf(

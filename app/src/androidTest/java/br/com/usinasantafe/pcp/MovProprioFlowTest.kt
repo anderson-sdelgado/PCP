@@ -16,25 +16,25 @@ import br.com.usinasantafe.pcp.domain.entities.stable.RLocalFluxo
 import br.com.usinasantafe.pcp.domain.entities.stable.Terceiro
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveColab
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveFluxo
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveLocal
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveRLocalFluxo
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveTerceiro
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveVisitante
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveColab
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveFluxo
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveLocal
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveRLocalFluxo
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveTerceiro
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveVisitante
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipProprioDao
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.presenter.MainActivity
 import br.com.usinasantafe.pcp.presenter.proprio.destino.TAG_DESTINO_TEXT_FIELD_PROPRIO
 import br.com.usinasantafe.pcp.presenter.proprio.observ.TAG_OBSERV_TEXT_FIELD_PROPRIO
-import br.com.usinasantafe.pcp.ui.theme.TAG_BUTTON_YES_ALERT_DIALOG_CHECK
-import br.com.usinasantafe.pcp.utils.FlagUpdate
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.VERSION
+import br.com.usinasantafe.pcp.presenter.theme.TAG_BUTTON_YES_ALERT_DIALOG_CHECK
+import br.com.usinasantafe.pcp.lib.FlagUpdate
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.VERSION
 import br.com.usinasantafe.pcp.utils.dispatcherSuccessFunctional
 import br.com.usinasantafe.pcp.utils.returnDataServerColab
 import br.com.usinasantafe.pcp.utils.returnDataServerEquip
@@ -636,13 +636,13 @@ class MovProprioFlowTest : KoinTest {
             activity.onBackPressedDispatcher.onBackPressed()
         }
 
-        Log.d("TestDebug", "Position 72")
+        Log.d("TestDebug", "Position 73")
 
         composeTestRule.waitUntilTimeout(3_000)
 
         composeTestRule.onNodeWithTag("item_list_3").performClick()
 
-        Log.d("TestDebug", "Position 73")
+        Log.d("TestDebug", "Position 74")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -659,7 +659,7 @@ class MovProprioFlowTest : KoinTest {
         composeTestRule.onNodeWithText("7").performClick()
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 74")
+        Log.d("TestDebug", "Position 75")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -667,32 +667,32 @@ class MovProprioFlowTest : KoinTest {
         composeTestRule.onNodeWithText("RONALDO GOMES CARLOS").assertIsDisplayed()
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 75")
-
-        composeTestRule.waitUntilTimeout(3_000)
-
-        composeTestRule.onNodeWithTag("item_list_4").performClick()
-
         Log.d("TestDebug", "Position 76")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithText("CANCELAR").performClick()
+        composeTestRule.onNodeWithTag("item_list_4").performClick()
 
         Log.d("TestDebug", "Position 77")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag("item_list_4").performClick()
+        composeTestRule.onNodeWithText("CANCELAR").performClick()
 
         Log.d("TestDebug", "Position 78")
+
+        composeTestRule.waitUntilTimeout(3_000)
+
+        composeTestRule.onNodeWithTag("item_list_4").performClick()
+
+        Log.d("TestDebug", "Position 79")
 
         composeTestRule.waitUntilTimeout(3_000)
 
         composeTestRule.onNodeWithText("PASSAGEIRO(S)").assertIsDisplayed()
         composeTestRule.onNodeWithText("INSERIR").performClick()
 
-        Log.d("TestDebug", "Position 79")
+        Log.d("TestDebug", "Position 80")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -703,7 +703,7 @@ class MovProprioFlowTest : KoinTest {
         composeTestRule.onNodeWithText("9").performClick()
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 80")
+        Log.d("TestDebug", "Position 81")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -711,55 +711,55 @@ class MovProprioFlowTest : KoinTest {
         composeTestRule.onNodeWithText("ANDERSON DA SILVA DELGADO").assertIsDisplayed()
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 81")
-
-        composeTestRule.waitUntilTimeout(3_000)
-
-        composeTestRule.onNodeWithText("OK").performClick()
-
         Log.d("TestDebug", "Position 82")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag("item_list_4").performClick()
+        composeTestRule.onNodeWithText("OK").performClick()
 
         Log.d("TestDebug", "Position 83")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag("item_list_19035").performClick()
+        composeTestRule.onNodeWithTag("item_list_4").performClick()
 
         Log.d("TestDebug", "Position 84")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK).performClick()
+        composeTestRule.onNodeWithTag("item_list_19035").performClick()
 
         Log.d("TestDebug", "Position 85")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithText("OK").performClick()
+        composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK).performClick()
 
         Log.d("TestDebug", "Position 86")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag("item_list_5").performClick()
+        composeTestRule.onNodeWithText("OK").performClick()
 
         Log.d("TestDebug", "Position 87")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithText("CANCELAR").performClick()
+        composeTestRule.onNodeWithTag("item_list_5").performClick()
 
         Log.d("TestDebug", "Position 88")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag("item_list_5").performClick()
+        composeTestRule.onNodeWithText("CANCELAR").performClick()
 
         Log.d("TestDebug", "Position 89")
+
+        composeTestRule.waitUntilTimeout(3_000)
+
+        composeTestRule.onNodeWithTag("item_list_5").performClick()
+
+        Log.d("TestDebug", "Position 90")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -769,13 +769,13 @@ class MovProprioFlowTest : KoinTest {
             .performTextInput("Teste Destino Alterar")
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 90")
+        Log.d("TestDebug", "Position 91")
 
         composeTestRule.waitUntilTimeout(3_000)
 
         composeTestRule.onNodeWithTag("item_list_6").performClick()
 
-        Log.d("TestDebug", "Position 91")
+        Log.d("TestDebug", "Position 92")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -783,13 +783,13 @@ class MovProprioFlowTest : KoinTest {
             activity.onBackPressedDispatcher.onBackPressed()
         }
 
-        Log.d("TestDebug", "Position 92")
+        Log.d("TestDebug", "Position 93")
 
         composeTestRule.waitUntilTimeout(3_000)
 
         composeTestRule.onNodeWithTag("item_list_6").performClick()
 
-        Log.d("TestDebug", "Position 93")
+        Log.d("TestDebug", "Position 94")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -801,25 +801,25 @@ class MovProprioFlowTest : KoinTest {
         composeTestRule.onNodeWithText("0").performClick()
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 94")
-
-        composeTestRule.waitUntilTimeout(3_000)
-
-        composeTestRule.onNodeWithTag("item_list_7").performClick()
-
         Log.d("TestDebug", "Position 95")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithText("CANCELAR").performClick()
+        composeTestRule.onNodeWithTag("item_list_7").performClick()
 
         Log.d("TestDebug", "Position 96")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag("item_list_7").performClick()
+        composeTestRule.onNodeWithText("CANCELAR").performClick()
 
         Log.d("TestDebug", "Position 97")
+
+        composeTestRule.waitUntilTimeout(3_000)
+
+        composeTestRule.onNodeWithTag("item_list_7").performClick()
+
+        Log.d("TestDebug", "Position 98")
 
         composeTestRule.waitUntilTimeout(3_000)
 
@@ -829,32 +829,32 @@ class MovProprioFlowTest : KoinTest {
             .performTextInput("Teste Observação Alteração")
         composeTestRule.onNodeWithText("OK").performClick()
 
-        Log.d("TestDebug", "Position 98")
+        Log.d("TestDebug", "Position 99")
 
         composeTestRule.waitUntilTimeout(3_000)
 
         composeTestRule.onNodeWithText("MOVIMENTO").performClick()
         composeTestRule.onNodeWithText("FECHAR").performClick()
 
-        Log.d("TestDebug", "Position 99")
-
-        composeTestRule.waitUntilTimeout(3_000)
-
-        composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK).performClick()
-
         Log.d("TestDebug", "Position 100")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithText("FECHAR MOVIMENTO(S)").performClick()
+        composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK).performClick()
 
         Log.d("TestDebug", "Position 101")
 
         composeTestRule.waitUntilTimeout(3_000)
 
-        composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK).performClick()
+        composeTestRule.onNodeWithText("FECHAR MOVIMENTO(S)").performClick()
 
         Log.d("TestDebug", "Position 102")
+
+        composeTestRule.waitUntilTimeout(3_000)
+
+        composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK).performClick()
+
+        Log.d("TestDebug", "Position 103")
 
         composeTestRule.waitUntilTimeout(10_000)
 

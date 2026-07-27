@@ -7,8 +7,8 @@ import br.com.usinasantafe.pcp.domain.usecases.chave.GetObservMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.SaveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetObservMovChave
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

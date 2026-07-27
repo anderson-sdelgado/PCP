@@ -8,8 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.EquipRetrofitDat
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import javax.inject.Inject
 
-class IEquipRepository(
+class IEquipRepository @Inject constructor(
     private val equipRoomDatasource: EquipRoomDatasource,
     private val equipRetrofitDatasource: EquipRetrofitDatasource
 ): EquipRepository {
@@ -162,7 +163,7 @@ class IEquipRepository(
         }
     }
 
-    override suspend fun recoverAll(token: String): Result<List<Equip>> {
+    override suspend fun listAll(token: String): Result<List<Equip>> {
         try {
             val result =  equipRetrofitDatasource.recoverAll(token)
             if (result.isFailure) {

@@ -4,12 +4,26 @@ import android.content.SharedPreferences
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_CONFIG
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_CONFIG
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class IConfigSharedPreferencesDatasource(
+class IConfigSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ConfigSharedPreferencesDatasource {
+
+    override suspend fun updateModel(block: ConfigSharedPreferencesModel.() -> Unit) {
+        val model = get().getOrThrow()
+        model.block()
+        save(model).getOrThrow()
+    }
+
+    override suspend fun <T> readModel(
+        block: ConfigSharedPreferencesModel.() -> T
+    ): T =
+        get()
+            .getOrThrow()
+            .block()
 
     override suspend fun clean(): Result<Boolean> {
         try {
@@ -29,7 +43,7 @@ class IConfigSharedPreferencesDatasource(
     override suspend fun has(): Result<Boolean> {
         try {
             val result = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_CONFIG,
+                BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 null
             )
             return Result.success(result != null)
@@ -45,7 +59,7 @@ class IConfigSharedPreferencesDatasource(
     override suspend fun get(): Result<Config> {
         try {
             val config = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_CONFIG,
+                BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 null
             )
             if(config.isNullOrEmpty())
@@ -69,7 +83,7 @@ class IConfigSharedPreferencesDatasource(
         try {
             val editor = sharedPreferences.edit()
             editor.putString(
-                BASE_SHARE_PREFERENCES_TABLE_CONFIG,
+                BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 Gson().toJson(config)
             )
             editor.apply()

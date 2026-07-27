@@ -2,15 +2,16 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import java.util.Date
+import javax.inject.Inject
 
 interface StartReceiptMovChave {
     suspend operator fun invoke(id: Int): Result<Boolean>
 }
 
-class IStartReceiptMovChave(
+class IStartReceiptMovChave @Inject constructor(
     private val movChaveRepository: MovChaveRepository
 ): StartReceiptMovChave {
 

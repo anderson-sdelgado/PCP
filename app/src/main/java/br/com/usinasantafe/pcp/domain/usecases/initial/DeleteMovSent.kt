@@ -8,12 +8,13 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRe
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
 import br.com.usinasantafe.pcp.utils.dateToDelete
+import javax.inject.Inject
 
 interface DeleteMovSent {
     suspend operator fun invoke(): Result<Boolean>
 }
 
-class IDeleteMovSent(
+class IDeleteMovSent @Inject constructor(
     private val movEquipProprioRepository: MovEquipProprioRepository,
     private val movEquipProprioPassagRepository: MovEquipProprioPassagRepository,
     private val movEquipProprioEquipSegRepository: MovEquipProprioEquipSegRepository,
@@ -35,7 +36,8 @@ class IDeleteMovSent(
             }
             val movProprioList = resultMovProprioList.getOrNull()!!
             for(movProprio in movProprioList){
-                if(movProprio.dthrMovEquipProprio < dateToDelete()){
+                if(movProprio.dthrMovEquipProprio <
+                    dateToDelete()){
                     val resultDelMovProprioPassag =
                         movEquipProprioPassagRepository.delete(movProprio.idMovEquipProprio!!)
                     if (resultDelMovProprioPassag.isFailure) {

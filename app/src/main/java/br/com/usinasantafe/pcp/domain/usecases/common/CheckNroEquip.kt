@@ -2,12 +2,13 @@ package br.com.usinasantafe.pcp.domain.usecases.common
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
+import javax.inject.Inject
 
 interface CheckNroEquip {
     suspend operator fun invoke(nroEquip: String): Result<Boolean>
 }
 
-class ICheckNroEquip(
+class ICheckNroEquip @Inject constructor(
     private val equipRepository: EquipRepository
 ): CheckNroEquip {
 

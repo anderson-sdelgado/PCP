@@ -1,8 +1,8 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.utils.FlagUpdate
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.FlagUpdate
+import br.com.usinasantafe.pcp.lib.StatusSend
 
 interface ConfigRepository {
 

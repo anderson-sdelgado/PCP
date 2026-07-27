@@ -1,8 +1,7 @@
 package br.com.usinasantafe.pcp.domain.repositories.variable
 
-import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChaveEquip
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 
 interface MovChaveEquipRepository {
     suspend fun checkOpen(): Result<Boolean>

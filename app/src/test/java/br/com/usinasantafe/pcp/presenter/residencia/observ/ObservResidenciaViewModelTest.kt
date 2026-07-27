@@ -2,17 +2,16 @@ package br.com.usinasantafe.pcp.presenter.residencia.observ
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.usecases.residencia.GetObservResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.SaveMovEquipResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.SetObservResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.StartOutputMovEquipResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetObservResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.SaveMovEquipResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.SetObservResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.StartOutputMovEquipResidencia
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Adicionado/Confirmado
-import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

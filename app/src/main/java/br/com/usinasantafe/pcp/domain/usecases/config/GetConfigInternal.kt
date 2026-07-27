@@ -2,14 +2,15 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.presenter.configuration.config.ConfigModel
-import br.com.usinasantafe.pcp.presenter.configuration.config.toConfigModel
+import br.com.usinasantafe.pcp.presenter.view.configuration.config.toConfigModel
+import br.com.usinasantafe.pcp.presenter.view.configuration.config.ConfigModel
+import javax.inject.Inject
 
 interface GetConfigInternal {
     suspend operator fun invoke(): Result<ConfigModel?>
 }
 
-class IGetConfigInternal(
+class IGetConfigInternal @Inject constructor(
     private val configRepository: ConfigRepository
 ): GetConfigInternal {
 

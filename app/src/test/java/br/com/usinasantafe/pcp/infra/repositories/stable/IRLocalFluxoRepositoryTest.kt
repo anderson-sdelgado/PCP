@@ -138,7 +138,7 @@ class IRLocalFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.recoverAll("token")
+            val result = repository.listAll("token")
             assertEquals(
                 result.isFailure,
                 true
@@ -173,7 +173,7 @@ class IRLocalFluxoRepositoryTest {
                     retrofitModelList
                 )
             )
-            val result = repository.recoverAll("token")
+            val result = repository.listAll("token")
             assertEquals(
                 result.isSuccess,
                 true
@@ -194,7 +194,7 @@ class IRLocalFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.list(1)
+            val result = repository.listByIdLocal(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -229,7 +229,7 @@ class IRLocalFluxoRepositoryTest {
                     roomModelList
                 )
             )
-            val result = repository.list(1)
+            val result = repository.listByIdLocal(1)
             assertEquals(
                 result.isSuccess,
                 true

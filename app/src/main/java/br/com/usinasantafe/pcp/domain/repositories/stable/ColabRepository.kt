@@ -7,5 +7,5 @@ interface ColabRepository {
     suspend fun checkMatric(matric: Int): Result<Boolean>
     suspend fun deleteAll(): Result<Boolean>
     suspend fun getNome(matric: Int): Result<String>
-    suspend fun recoverAll(token: String): Result<List<Colab>>
+    suspend fun listAll(token: String): Result<List<Colab>>
 }

@@ -2,13 +2,14 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.lib.FlagUpdate
+import javax.inject.Inject
 
 interface CheckAccessMain {
     suspend operator fun invoke(): Result<Boolean>
 }
 
-class ICheckAccessMain(
+class ICheckAccessMain @Inject constructor(
     private val configRepository: ConfigRepository
 ): CheckAccessMain {
 

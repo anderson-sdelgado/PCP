@@ -11,15 +11,17 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import javax.inject.Inject
 
-class IMovChaveRepository(
+class IMovChaveRepository @Inject constructor(
     private val movChaveRoomDatasource: MovChaveRoomDatasource,
     private val movChaveSharedPreferencesDatasource: MovChaveSharedPreferencesDatasource,
     private val movChaveRetrofitDatasource: MovChaveRetrofitDatasource
 ): MovChaveRepository {
 
-    override suspend fun checkOpen(): Result<Boolean> {
+    override suspend fun hasOpen(): Result<Boolean> {
         val result = movChaveRoomDatasource.checkOpen()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
@@ -32,7 +34,7 @@ class IMovChaveRepository(
         return result
     }
 
-    override suspend fun checkSend(): Result<Boolean> {
+    override suspend fun hasSend(): Result<Boolean> {
         val result = movChaveRoomDatasource.checkSend()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
@@ -275,7 +277,7 @@ class IMovChaveRepository(
         }
     }
 
-    override suspend fun setClose(id: Int): Result<Boolean> {
+    override suspend fun setClose(id: Int): EmptyResult {
         val result = movChaveRoomDatasource.setClose(id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
@@ -285,7 +287,6 @@ class IMovChaveRepository(
                 cause = e.cause
             )
         }
-        return result
     }
 
     override suspend fun setIdChave(

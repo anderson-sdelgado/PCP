@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.infra.models.room.stable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.usinasantafe.pcp.domain.entities.stable.Chave
-import br.com.usinasantafe.pcp.utils.TB_CHAVE
+import br.com.usinasantafe.pcp.lib.TB_CHAVE
 
 @Entity(tableName = TB_CHAVE)
 data class ChaveRoomModel(

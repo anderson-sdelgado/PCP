@@ -21,7 +21,7 @@ class IChaveRepositoryTest {
     )
 
     @Test
-    fun `AddAll - Check return failure if have error`() =
+    fun `addAll - Check return failure if have error`() =
         runTest {
             val roomModelList = listOf(
                 ChaveRoomModel(
@@ -56,7 +56,7 @@ class IChaveRepositoryTest {
         }
 
     @Test
-    fun `AddAll - Check return true if function execute successfully`() =
+    fun `addAll - Check return true if function execute successfully`() =
         runTest {
             val roomModelList = listOf(
                 ChaveRoomModel(
@@ -89,7 +89,7 @@ class IChaveRepositoryTest {
         }
 
     @Test
-    fun `DeleteAll - Check return failure if have error`() =
+    fun `deleteAll - Check return failure if have error`() =
         runTest {
             whenever(
                 chaveRoomDatasource.deleteAll()
@@ -110,7 +110,7 @@ class IChaveRepositoryTest {
         }
 
     @Test
-    fun `DeleteAll - Check return true if function execute successfully`() =
+    fun `deleteAll - Check return true if function execute successfully`() =
         runTest {
             whenever(
                 chaveRoomDatasource.deleteAll()
@@ -129,7 +129,7 @@ class IChaveRepositoryTest {
         }
 
     @Test
-    fun `RecoverAll - Check return failure if have error`() =
+    fun `recoverAll - Check return failure if have error`() =
         runTest {
             whenever(
                 chaveRetrofitDatasource.recoverAll("token")
@@ -138,7 +138,7 @@ class IChaveRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.recoverAll("token")
+            val result = repository.listAll("token")
             assertEquals(
                 result.isFailure,
                 true
@@ -150,7 +150,7 @@ class IChaveRepositoryTest {
         }
 
     @Test
-    fun `RecoverAll - Check return true if function execute successfully`() =
+    fun `recoverAll - Check return true if function execute successfully`() =
         runTest {
             val retrofitModelList = listOf(
                 ChaveRetrofitModel(
@@ -173,7 +173,7 @@ class IChaveRepositoryTest {
                     retrofitModelList
                 )
             )
-            val result = repository.recoverAll("token")
+            val result = repository.listAll("token")
             assertEquals(
                 result.isSuccess,
                 true

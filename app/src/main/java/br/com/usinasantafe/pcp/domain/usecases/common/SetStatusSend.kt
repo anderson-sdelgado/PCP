@@ -2,13 +2,14 @@ package br.com.usinasantafe.pcp.domain.usecases.common
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.utils.StatusSend
+import br.com.usinasantafe.pcp.lib.StatusSend
+import javax.inject.Inject
 
 interface SetStatusSend {
     suspend operator fun invoke(statusSend: StatusSend): Result<Boolean>
 }
 
-class ISetStatusSend(
+class ISetStatusSend @Inject constructor(
     private val configRepository: ConfigRepository
 ): SetStatusSend {
 

@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -55,7 +55,7 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasourceTest {
     @Test
     fun `Check return list if have data in table internal`() = runTest {
         IMovEquipProprioEquipSegSharedPreferencesDatasource.add(1)
-        val result = sharedPreferences.getString(BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG, null)
+        val result = sharedPreferences.getString(BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG, null)
         assertEquals(
             result,
             "[1]"
@@ -75,7 +75,7 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasourceTest {
     @Test
     fun `Check return true if MovEquipProprioSegSharedPreferencesDatasource clear execute successfully`() = runTest {
         IMovEquipProprioEquipSegSharedPreferencesDatasource.add(1)
-        val result = sharedPreferences.getString(BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG, null)
+        val result = sharedPreferences.getString(BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG, null)
         assertEquals(
             result,
             "[1]"
@@ -115,7 +115,7 @@ class IMovEquipProprioEquipSegSharedPreferencesDatasourceTest {
         IMovEquipProprioEquipSegSharedPreferencesDatasource.add(10)
         IMovEquipProprioEquipSegSharedPreferencesDatasource.add(20)
         val result = sharedPreferences.getString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG, null)
+            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_EQUIP_SEG, null)
         assertEquals(
             result,
             "[10,20]"

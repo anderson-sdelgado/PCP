@@ -7,12 +7,12 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.SavedStateHandle
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetDestinoProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetTypeMov
-import br.com.usinasantafe.pcp.domain.usecases.proprio.SetDestinoProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetDestinoProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetTypeMov
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetDestinoProprio
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.utils.waitUntilTimeout
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before

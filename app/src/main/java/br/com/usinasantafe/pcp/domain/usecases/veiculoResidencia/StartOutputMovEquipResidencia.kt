@@ -1,0 +1,53 @@
+package br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia
+
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
+import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import java.util.Date
+import javax.inject.Inject
+
+interface StartOutputMovEquipResidencia {
+    suspend operator fun invoke(id: Int): Result<Boolean>
+}
+
+class IStartOutputMovEquipResidencia @Inject constructor(
+    private val movEquipResidenciaRepository: MovEquipResidenciaRepository
+) : StartOutputMovEquipResidencia {
+
+    override suspend fun invoke(id: Int): Result<Boolean> {
+        try {
+            val resultMov = movEquipResidenciaRepository.get(id)
+            if (resultMov.isFailure) {
+                val e = resultMov.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartOutputMovEquipResidencia",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
+            val movEquipResidencia = resultMov.getOrNull()!!
+            movEquipResidencia.observMovEquipResidencia = null
+            movEquipResidencia.tipoMovEquipResidencia = TypeMovEquip.OUTPUT
+            movEquipResidencia.dthrMovEquipResidencia = Date()
+            movEquipResidencia.statusMovEquipForeignerResidencia = StatusForeigner.OUTSIDE
+            val resultStart = movEquipResidenciaRepository.start(movEquipResidencia)
+            if (resultStart.isFailure) {
+                val e = resultStart.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IStartOutputMovEquipResidencia",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "IStartOutputMovEquipResidencia",
+                message = "-",
+                cause = e
+            )
+        }
+    }
+
+}

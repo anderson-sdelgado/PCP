@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.LocalApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.LocalRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.LocalRetrofitModel
+import javax.inject.Inject
 
-class ILocalRetrofitDatasource(
+class ILocalRetrofitDatasource @Inject constructor(
     private val localApi: LocalApi
 ): LocalRetrofitDatasource {
 

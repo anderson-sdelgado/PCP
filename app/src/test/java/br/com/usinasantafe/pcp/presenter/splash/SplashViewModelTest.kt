@@ -5,7 +5,6 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure // Já presente
 import br.com.usinasantafe.pcp.domain.usecases.initial.AdjustConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.CheckMovOpen
 import br.com.usinasantafe.pcp.domain.usecases.initial.DeleteMovSent
-import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

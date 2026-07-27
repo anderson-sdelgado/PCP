@@ -31,7 +31,6 @@ import br.com.usinasantafe.pcp.presenter.Routes.DETALHE_RESIDENCIA_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.DETALHE_VISIT_TERC_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.EQUIP_CHAVE_EQUIP_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.EQUIP_SEG_LIST_ROUTE
-import br.com.usinasantafe.pcp.presenter.Routes.INITIAL_TEST_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.NRO_EQUIP_PROPRIO_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.PASSAG_COLAB_LIST_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.LOCAL_ROUTE
@@ -66,130 +65,74 @@ import br.com.usinasantafe.pcp.presenter.Routes.SPLASH_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.TIPO_VISIT_TERC_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.VEICULO_RESIDENCIA_ROUTE
 import br.com.usinasantafe.pcp.presenter.Routes.VEICULO_VISIT_TERC_ROUTE
-import br.com.usinasantafe.pcp.presenter.chave.chavelist.ChaveListScreen
-import br.com.usinasantafe.pcp.presenter.chave.chavelist.ChaveListViewModel
-import br.com.usinasantafe.pcp.presenter.chave.controleeditlist.ControleChaveEditListScreen
-import br.com.usinasantafe.pcp.presenter.chave.controleeditlist.ControleChaveEditListViewModel
-import br.com.usinasantafe.pcp.presenter.chave.controlelist.ControleChaveListScreen
-import br.com.usinasantafe.pcp.presenter.chave.controlelist.ControleChaveListViewModel
-import br.com.usinasantafe.pcp.presenter.chave.detalhe.DetalheChaveScreen
-import br.com.usinasantafe.pcp.presenter.chave.detalhe.DetalheChaveViewModel
-import br.com.usinasantafe.pcp.presenter.chave.matriccolab.MatricColabChaveScreen
-import br.com.usinasantafe.pcp.presenter.chave.matriccolab.MatricColabChaveViewModel
-import br.com.usinasantafe.pcp.presenter.chave.nomecolab.NomeColabChaveScreen
-import br.com.usinasantafe.pcp.presenter.chave.nomecolab.NomeColabChaveViewModel
-import br.com.usinasantafe.pcp.presenter.chave.observ.ObservChaveScreen
-import br.com.usinasantafe.pcp.presenter.chave.observ.ObservChaveViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.controleeditlist.ControleChaveEquipEditListScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.controleeditlist.ControleChaveEquipEditListViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.controlelist.ControleChaveEquipListScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.controlelist.ControleChaveEquipListViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.detalhe.DetalheChaveEquipScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.detalhe.DetalheChaveEquipViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.matriccolab.MatricColabChaveEquipScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.matriccolab.MatricColabChaveEquipViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.nomecolab.NomeColabChaveEquipScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.nomecolab.NomeColabChaveEquipViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.nroequip.NroEquipChaveEquipScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.nroequip.NroEquipChaveEquipViewModel
-import br.com.usinasantafe.pcp.presenter.chaveequip.observ.ObservChaveEquipScreen
-import br.com.usinasantafe.pcp.presenter.chaveequip.observ.ObservChaveEquipViewModel
-import br.com.usinasantafe.pcp.presenter.configuration.config.ConfigScreen
-import br.com.usinasantafe.pcp.presenter.configuration.config.ConfigViewModel
-import br.com.usinasantafe.pcp.presenter.initial.local.LocalScreen
-import br.com.usinasantafe.pcp.presenter.initial.local.LocalViewModel
-import br.com.usinasantafe.pcp.presenter.initial.matricvigia.MatricVigiaScreen
-import br.com.usinasantafe.pcp.presenter.initial.matricvigia.MatricVigiaViewModel
-import br.com.usinasantafe.pcp.presenter.initial.menuapont.MenuApontScreen
-import br.com.usinasantafe.pcp.presenter.initial.menuapont.MenuApontViewModel
-import br.com.usinasantafe.pcp.presenter.configuration.senha.SenhaScreen
-import br.com.usinasantafe.pcp.presenter.configuration.menuinicial.MenuInicialScreen
-import br.com.usinasantafe.pcp.presenter.configuration.menuinicial.MenuInicialViewModel
-import br.com.usinasantafe.pcp.presenter.initial.nomevigia.NomeVigiaScreen
-import br.com.usinasantafe.pcp.presenter.initial.nomevigia.NomeVigiaViewModel
-import br.com.usinasantafe.pcp.presenter.configuration.senha.SenhaViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.destino.DestinoProprioScreen
-import br.com.usinasantafe.pcp.presenter.proprio.destino.DestinoProprioViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.passaglist.PassagColabListScreen
-import br.com.usinasantafe.pcp.presenter.proprio.detalhe.DetalheMovProprioScreen
-import br.com.usinasantafe.pcp.presenter.proprio.detalhe.DetalheProprioViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.equipseglist.EquipSegListScreen
-import br.com.usinasantafe.pcp.presenter.proprio.equipseglist.EquipSegListViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.nroequip.NroEquipScreen
-import br.com.usinasantafe.pcp.presenter.proprio.nroequip.NroEquipProprioViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.matriccolab.MatricColabScreen
-import br.com.usinasantafe.pcp.presenter.proprio.matriccolab.MatricColabViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.movlist.MovEquipProprioListScreen
-import br.com.usinasantafe.pcp.presenter.proprio.movlist.MovEquipProprioListViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.nomecolab.NomeColabScreen
-import br.com.usinasantafe.pcp.presenter.proprio.nomecolab.NomeColabViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.notafiscal.NotaFiscalProprioScreen
-import br.com.usinasantafe.pcp.presenter.proprio.notafiscal.NotaFiscalViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.observ.ObservProprioScreen
-import br.com.usinasantafe.pcp.presenter.proprio.observ.ObservProprioViewModel
-import br.com.usinasantafe.pcp.presenter.proprio.passaglist.PassagColabListViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.detalhe.DetalheResidenciaScreen
-import br.com.usinasantafe.pcp.presenter.residencia.detalhe.DetalheResidenciaViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.motorista.MotoristaResidenciaScreen
-import br.com.usinasantafe.pcp.presenter.residencia.motorista.MotoristaResidenciaViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.moveditlist.MovEquipResidenciaEditListScreen
-import br.com.usinasantafe.pcp.presenter.residencia.moveditlist.MovEquipResidenciaEditListViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.movlist.MovEquipResidenciaListScreen
-import br.com.usinasantafe.pcp.presenter.residencia.movlist.MovEquipResidenciaListViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.observ.ObservResidenciaScreen
-import br.com.usinasantafe.pcp.presenter.residencia.observ.ObservResidenciaViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.placa.PlacaResidenciaScreen
-import br.com.usinasantafe.pcp.presenter.residencia.placa.PlacaResidenciaViewModel
-import br.com.usinasantafe.pcp.presenter.residencia.veiculo.VeiculoResidenciaScreen
-import br.com.usinasantafe.pcp.presenter.residencia.veiculo.VeiculoResidenciaViewModel
-import br.com.usinasantafe.pcp.presenter.splash.SplashScreen
-import br.com.usinasantafe.pcp.presenter.splash.SplashViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.cpf.CpfVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.cpf.CpfVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.destino.DestinoVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.destino.DestinoVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.detalhe.DetalheVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.detalhe.DetalheVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.moveditlist.MovEquipVisitTercEditListScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.moveditlist.MovEquipVisitTercEditListViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.movlist.MovEquipVisitTercListScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.movlist.MovEquipVisitTercListViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.nome.NomeVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.nome.NomeVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.observ.ObservVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.observ.ObservVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.passaglist.PassagVisitTercListScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.passaglist.PassagVisitTercListViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.placa.PlacaVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.placa.PlacaVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.tipo.TipoVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.tipo.TipoVisitTercViewModel
-import br.com.usinasantafe.pcp.presenter.visitterc.veiculo.VeiculoVisitTercScreen
-import br.com.usinasantafe.pcp.presenter.visitterc.veiculo.VeiculoVisitTercViewModel
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeEquip
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeMovKey
-import br.com.usinasantafe.pcp.utils.TypeOcupante
-import org.koin.androidx.compose.koinViewModel
+import br.com.usinasantafe.pcp.presenter.view.chave.chavelist.ChaveListScreen
+import br.com.usinasantafe.pcp.presenter.view.chave.controleeditlist.ControleChaveEditListScreen
+import br.com.usinasantafe.pcp.presenter.view.chave.controlelist.ControleChaveListScreen
+import br.com.usinasantafe.pcp.presenter.view.chave.detalhe.DetalheChaveScreen
+import br.com.usinasantafe.pcp.presenter.view.chave.matriccolab.MatricColabChaveScreen
+import br.com.usinasantafe.pcp.presenter.view.chave.nomecolab.NomeColabChaveScreen
+import br.com.usinasantafe.pcp.presenter.view.chave.observ.ObservChaveScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.controleeditlist.ControleChaveEquipEditListScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.controlelist.ControleChaveEquipListScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.detalhe.DetalheChaveEquipScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.matriccolab.MatricColabChaveEquipScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.nomecolab.NomeColabChaveEquipScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.nroequip.NroEquipChaveEquipScreen
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.observ.ObservChaveEquipScreen
+import br.com.usinasantafe.pcp.presenter.view.configuration.config.ConfigScreen
+import br.com.usinasantafe.pcp.presenter.view.configuration.menuinicial.MenuInicialScreen
+import br.com.usinasantafe.pcp.presenter.view.configuration.senha.SenhaScreen
+import br.com.usinasantafe.pcp.presenter.view.initial.local.LocalScreen
+import br.com.usinasantafe.pcp.presenter.view.initial.matricvigia.MatricVigiaScreen
+import br.com.usinasantafe.pcp.presenter.view.initial.menuapont.MenuApontScreen
+import br.com.usinasantafe.pcp.presenter.view.initial.nomevigia.NomeVigiaScreen
+import br.com.usinasantafe.pcp.presenter.view.splash.SplashScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.destino.DestinoProprioScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.detalhe.DetalheMovProprioScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.equipseglist.EquipSegListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.matriccolab.MatricColabScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.movlist.MovEquipProprioListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.nomecolab.NomeColabScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.notafiscal.NotaFiscalProprioScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.nroequip.NroEquipScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.observ.ObservProprioScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.passaglist.PassagColabListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.detalhe.DetalheResidenciaScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.motorista.MotoristaResidenciaScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.moveditlist.MovEquipResidenciaEditListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.movlist.MovEquipResidenciaListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.observ.ObservResidenciaScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.placa.PlacaResidenciaScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.veiculo.VeiculoResidenciaScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.cpf.CpfVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.destino.DestinoVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.detalhe.DetalheVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.moveditlist.MovEquipVisitTercEditListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.movlist.MovEquipVisitTercListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.nome.NomeVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.observ.ObservVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.passaglist.PassagVisitTercListScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.placa.PlacaVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.tipo.TipoVisitTercScreen
+import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.veiculo.VeiculoVisitTercScreen
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeEquip
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeOcupante
 
 @Composable
 fun NavigationGraph(
     navHostController: NavHostController = rememberNavController(),
-    startDestination: String = INITIAL_TEST_ROUTE,
+    startDestination: String = SPLASH_ROUTE,
     navActions: NavigationActions = remember(navHostController) {
         NavigationActions(navHostController)
     }
 ) {
     NavHost(navController = navHostController, startDestination = startDestination) {
-        composable(INITIAL_TEST_ROUTE) {
-            InititalTestScreen(
-                onNavSplash = { navActions.navigateToSplash() }
-            )
-        }
+
         composable(SPLASH_ROUTE) {
             SplashScreen(
-                viewModel = koinViewModel<SplashViewModel>(),
                 onNavMenuInicial = { navActions.navigateToMenuInicial() },
                 onNavMenuApont = { navActions.navigateToMenuApont() }
             )
@@ -199,21 +142,18 @@ fun NavigationGraph(
 
         composable(MENU_INICIAL_ROUTE) {
             MenuInicialScreen(
-                viewModel = koinViewModel<MenuInicialViewModel>(),
                 onNavMatricVigia = { navActions.navigateToMatricVigia() },
                 onNavSenha = { navActions.navigateToSenha() }
             )
         }
         composable(SENHA_ROUTE) {
             SenhaScreen(
-                viewModel = koinViewModel<SenhaViewModel>(),
                 onNavMenuInicial = { navActions.navigateToMenuInicial() },
                 onNavConfig = { navActions.navigateToConfig() }
             )
         }
         composable(CONFIG_ROUTE) {
             ConfigScreen(
-                viewModel = koinViewModel<ConfigViewModel>(),
                 onNavMenuInicial = { navActions.navigateToMenuInicial() }
             )
         }
@@ -224,28 +164,24 @@ fun NavigationGraph(
 
         composable(MATRIC_VIGIA_ROUTE) {
             MatricVigiaScreen(
-                viewModel = koinViewModel<MatricVigiaViewModel>(),
                 onNavMenuInicial = { navActions.navigateToMenuInicial() },
                 onNavNomeVigia = { navActions.navigateToNomeVigia() }
             )
         }
         composable(NOME_VIGIA_ROUTE) {
             NomeVigiaScreen(
-                viewModel = koinViewModel<NomeVigiaViewModel>(),
                 onNavMatricVigia = { navActions.navigateToMatricVigia() },
                 onNavLocal = { navActions.navigateToLocal() }
             )
         }
         composable(LOCAL_ROUTE) {
             LocalScreen(
-                viewModel = koinViewModel<LocalViewModel>(),
                 onNavNomeVigia = { navActions.navigateToNomeVigia() },
                 onNavMenuApont = { navActions.navigateToMenuApont() }
             )
         }
         composable(MENU_APONT_ROUTE) {
             MenuApontScreen(
-                viewModel = koinViewModel<MenuApontViewModel>(),
                 onNavMovVeicProprio = { navActions.navigateToMovEquipProprioList() },
                 onNavMovVeicVisitTerc = { navActions.navigationToMovEquipVisitTercList() },
                 onNavMovVeicResidencia = { navActions.navigationToMovEquipResidenciaList() },
@@ -261,7 +197,6 @@ fun NavigationGraph(
 
         composable(MOV_EQUIP_PROPRIO_LIST_ROUTE) {
             MovEquipProprioListScreen(
-                viewModel = koinViewModel<MovEquipProprioListViewModel>(),
                 onNavNroEquip = {
                     navActions.navigationToNroEquip(
                         flowApp = FlowApp.ADD.ordinal,
@@ -285,7 +220,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             MatricColabScreen(
-                viewModel = koinViewModel<MatricColabViewModel>(),
                 onNavEquipSegList = {
                     navActions.navigationToEquipSegList(
                         flowApp = FlowApp.ADD.ordinal,
@@ -327,7 +261,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NomeColabScreen(
-                viewModel = koinViewModel<NomeColabViewModel>(),
                 onNavMatricColab = {
                     navActions.navigateToMatricColab(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -356,7 +289,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DetalheMovProprioScreen(
-                viewModel = koinViewModel<DetalheProprioViewModel>(),
                 onNavMovProprioList = { navActions.navigateToMovEquipProprioList() },
                 onNavNroEquip = {
                     navActions.navigationToNroEquip(
@@ -415,7 +347,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             PassagColabListScreen(
-                viewModel = koinViewModel<PassagColabListViewModel>(),
                 onNavMatricMotorista = {
                     navActions.navigateToMatricColab(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -454,7 +385,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NroEquipScreen(
-                viewModel = koinViewModel<NroEquipProprioViewModel>(),
                 onNavMovProprioList = {
                     navActions.navigateToMovEquipProprioList()
                 },
@@ -483,7 +413,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             EquipSegListScreen(
-                viewModel = koinViewModel<EquipSegListViewModel>(),
                 onNavDetalheMovProprio = {
                     navActions.navigationToDetalheProprio(
                         id = entry.arguments?.getInt(
@@ -515,7 +444,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DestinoProprioScreen(
-                viewModel = koinViewModel<DestinoProprioViewModel>(),
                 onNavPassagList = {
                     navActions.navigationToPassagColabList(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -552,7 +480,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NotaFiscalProprioScreen(
-                viewModel = koinViewModel<NotaFiscalViewModel>(),
                 onNavDestino = {
                     navActions.navigationToDestinoProprio(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -582,7 +509,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             ObservProprioScreen(
-                viewModel = koinViewModel<ObservProprioViewModel>(),
                 onNavDestino = {
                     navActions.navigationToDestinoProprio(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -614,7 +540,6 @@ fun NavigationGraph(
             MOV_EQUIP_VISIT_TERC_LIST_ROUTE
         ) {
             MovEquipVisitTercListScreen(
-                viewModel = koinViewModel<MovEquipVisitTercListViewModel>(),
                 onNavVeiculo = {
                     navActions.navigationToVeiculoVisitTerc(
                         flowApp = FlowApp.ADD.ordinal,
@@ -642,7 +567,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             VeiculoVisitTercScreen(
-                viewModel = koinViewModel<VeiculoVisitTercViewModel>(),
                 onNavPlaca = {
                     navActions.navigationToPlacaVisitTerc(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -669,7 +593,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             PlacaVisitTercScreen(
-                viewModel = koinViewModel<PlacaVisitTercViewModel>(),
                 onNavTipo = {
                     navActions.navigationToTipoVisitTerc()
                 },
@@ -692,7 +615,6 @@ fun NavigationGraph(
             TIPO_VISIT_TERC_ROUTE
         ) {
             TipoVisitTercScreen(
-                viewModel = koinViewModel<TipoVisitTercViewModel>(),
                 onNavPlacaVisitTerc = {
                     navActions.navigationToPlacaVisitTerc(
                         flowApp = FlowApp.ADD.ordinal,
@@ -717,7 +639,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             CpfVisitTercScreen(
-                viewModel = koinViewModel<CpfVisitTercViewModel>(),
                 onNavTipo = {
                     navActions.navigationToTipoVisitTerc()
                 },
@@ -759,7 +680,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NomeVisitTercScreen(
-                viewModel = koinViewModel<NomeVisitTercViewModel>(),
                 onNavCpf = {
                     navActions.navigationToCpfVisitTerc(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -796,7 +716,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             PassagVisitTercListScreen(
-                viewModel = koinViewModel<PassagVisitTercListViewModel>(),
                 onNavCpf = {
                     navActions.navigationToCpfVisitTerc(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -834,7 +753,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DestinoVisitTercScreen(
-                viewModel = koinViewModel<DestinoVisitTercViewModel>(),
                 onNavPassagList = {
                     navActions.navigationToPassagVisitTerc(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -867,7 +785,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             ObservVisitTercScreen(
-                viewModel = koinViewModel<ObservVisitTercViewModel>(),
                 onNavDestino = {
                     navActions.navigationToDestinoVisitTerc(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -890,7 +807,6 @@ fun NavigationGraph(
             MOV_EQUIP_VISIT_TERC_EDIT_ROUTE
         ) {
             MovEquipVisitTercEditListScreen(
-                viewModel = koinViewModel<MovEquipVisitTercEditListViewModel>(),
                 onNavMovEquipList = {
                     navActions.navigationToMovEquipVisitTercList()
                 },
@@ -908,7 +824,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DetalheVisitTercScreen(
-                viewModel = koinViewModel<DetalheVisitTercViewModel>(),
                 onNavMovEquipEditList = {
                     navActions.navigationToMovEquipVisitTercEditList()
                 },
@@ -974,7 +889,6 @@ fun NavigationGraph(
             MOV_EQUIP_RESIDENCIA_LIST_ROUTE
         ) {
             MovEquipResidenciaListScreen(
-                viewModel = koinViewModel<MovEquipResidenciaListViewModel>(),
                 onNavVeiculo = {
                     navActions.navigationToVeiculoResidencia(
                         flowApp = FlowApp.ADD.ordinal,
@@ -1004,7 +918,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             VeiculoResidenciaScreen(
-                viewModel = koinViewModel<VeiculoResidenciaViewModel>(),
                 onNavMovEquipList = {
                     navActions.navigationToMovEquipResidenciaList()
                 },
@@ -1033,7 +946,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             PlacaResidenciaScreen(
-                viewModel = koinViewModel<PlacaResidenciaViewModel>(),
                 onNavVeiculo = {
                     navActions.navigationToVeiculoResidencia(
                         flowApp = FlowApp.ADD.ordinal,
@@ -1063,7 +975,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             MotoristaResidenciaScreen(
-                viewModel = koinViewModel<MotoristaResidenciaViewModel>(),
                 onNavPlaca = {
                     navActions.navigationToPlacaResidencia(
                         flowApp = FlowApp.ADD.ordinal,
@@ -1097,7 +1008,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             ObservResidenciaScreen(
-                viewModel = koinViewModel<ObservResidenciaViewModel>(),
                 onNavMotorista = {
                     navActions.navigationToMotoristaResidencia(
                         flowApp = FlowApp.ADD.ordinal,
@@ -1120,7 +1030,6 @@ fun NavigationGraph(
             MOV_EQUIP_RESIDENCIA_EDIT_LIST_ROUTE
         ) {
             MovEquipResidenciaEditListScreen(
-                viewModel = koinViewModel<MovEquipResidenciaEditListViewModel>(),
                 onNavMovEquipList = {
                     navActions.navigationToMovEquipResidenciaList()
                 },
@@ -1138,7 +1047,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DetalheResidenciaScreen(
-                viewModel = koinViewModel<DetalheResidenciaViewModel>(),
                 onNavMovEquipEditList = {
                     navActions.navigationToMovEquipResidenciaEditList()
                 },
@@ -1186,7 +1094,6 @@ fun NavigationGraph(
             CONTROLE_CHAVE_LIST_ROUTE
         ) {
             ControleChaveListScreen(
-                viewModel = koinViewModel<ControleChaveListViewModel>(),
                 onNavControleChaveEditList = {
                     navActions.navigationToControleChaveEditList()
                 },
@@ -1217,7 +1124,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             ChaveListScreen(
-                viewModel = koinViewModel<ChaveListViewModel>(),
                 onNavMatricColab = {
                     navActions.navigationToMatriColabChave(
                         flowApp = FlowApp.ADD.ordinal,
@@ -1245,7 +1151,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             MatricColabChaveScreen(
-                viewModel = koinViewModel<MatricColabChaveViewModel>(),
                 onNavChaveList = {
                     navActions.navigationToChaveList(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -1283,7 +1188,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NomeColabChaveScreen(
-                viewModel = koinViewModel<NomeColabChaveViewModel>(),
                 onNavDetalhe = {
                     navActions.navigationToDetalheChave(
                         id = entry.arguments?.getInt(
@@ -1317,7 +1221,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             ObservChaveScreen(
-                viewModel = koinViewModel<ObservChaveViewModel>(),
                 onNavDetalhe = {
                     navActions.navigationToDetalheChave(
                         id = entry.arguments?.getInt(
@@ -1340,7 +1243,6 @@ fun NavigationGraph(
             CONTROLE_CHAVE_EDIT_LIST_ROUTE
         ) {
             ControleChaveEditListScreen(
-                viewModel = koinViewModel<ControleChaveEditListViewModel>(),
                 onNavControleList = { navActions.navigationToControleChaveList() },
                 onNavDetalhe = {
                     navActions.navigationToDetalheChave(
@@ -1357,7 +1259,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DetalheChaveScreen(
-                viewModel = koinViewModel<DetalheChaveViewModel>(),
                 onNavControleChaveEditList = { navActions.navigationToControleChaveEditList() },
                 onNavMatricColab = {
                     navActions.navigationToMatriColabChave(
@@ -1388,7 +1289,6 @@ fun NavigationGraph(
             CONTROLE_CHAVE_EQUIP_LIST_ROUTE
         ) {
             ControleChaveEquipListScreen(
-                viewModel = koinViewModel<ControleChaveEquipListViewModel>(),
                 onNavControleChaveEquipEditList = {
                     navActions.navigationToControleChaveEquipEditList()
                 },
@@ -1419,7 +1319,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NroEquipChaveEquipScreen(
-                viewModel = koinViewModel<NroEquipChaveEquipViewModel>(),
                 onNavMatricColab = {
                     navActions.navigationToMatriColabChaveEquip(
                         flowApp = FlowApp.ADD.ordinal,
@@ -1447,7 +1346,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             MatricColabChaveEquipScreen(
-                viewModel = koinViewModel<MatricColabChaveEquipViewModel>(),
                 onNavEquip = {
                     navActions.navigationToEquipChave(
                         flowApp = entry.arguments?.getInt(FLOW_APP_ARGS)!!,
@@ -1485,7 +1383,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             NomeColabChaveEquipScreen(
-                viewModel = koinViewModel<NomeColabChaveEquipViewModel>(),
                 onNavDetalhe = {
                     navActions.navigationToDetalheChaveEquip(
                         id = entry.arguments?.getInt(
@@ -1519,7 +1416,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             ObservChaveEquipScreen(
-                viewModel = koinViewModel<ObservChaveEquipViewModel>(),
                 onNavDetalhe = {
                     navActions.navigationToDetalheChaveEquip(
                         id = entry.arguments?.getInt(
@@ -1542,7 +1438,6 @@ fun NavigationGraph(
             CONTROLE_CHAVE_EQUIP_EDIT_LIST_ROUTE
         ) {
             ControleChaveEquipEditListScreen(
-                viewModel = koinViewModel<ControleChaveEquipEditListViewModel>(),
                 onNavControleList = { navActions.navigationToControleChaveEquipList() },
                 onNavDetalhe = {
                     navActions.navigationToDetalheChaveEquip(
@@ -1559,7 +1454,6 @@ fun NavigationGraph(
             )
         ) { entry ->
             DetalheChaveEquipScreen(
-                viewModel = koinViewModel<DetalheChaveEquipViewModel>(),
                 onNavControleChaveEquipEditList = { navActions.navigationToControleChaveEquipEditList() },
                 onNavMatricColab = {
                     navActions.navigationToMatriColabChaveEquip(

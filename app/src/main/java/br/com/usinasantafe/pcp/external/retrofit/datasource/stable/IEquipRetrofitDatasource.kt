@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.EquipApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.EquipRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.EquipRetrofitModel
+import javax.inject.Inject
 
-class IEquipRetrofitDatasource(
+class IEquipRetrofitDatasource @Inject constructor(
     private val equipApi: EquipApi
 ): EquipRetrofitDatasource {
 

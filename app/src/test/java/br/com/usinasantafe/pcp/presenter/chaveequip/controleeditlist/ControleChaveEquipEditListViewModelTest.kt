@@ -2,8 +2,8 @@ package br.com.usinasantafe.pcp.presenter.chaveequip.controleeditlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.CloseAllMovChaveEquip
-import br.com.usinasantafe.pcp.domain.usecases.chaveequip.GetMovChaveEquipOpenList
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.CloseAllMovChaveEquip
+import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetMovChaveEquipOpenList
 import br.com.usinasantafe.pcp.presenter.chaveequip.model.ControleChaveEquipModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

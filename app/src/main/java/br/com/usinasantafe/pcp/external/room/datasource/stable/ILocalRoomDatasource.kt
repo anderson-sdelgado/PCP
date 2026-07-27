@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalRoomModel
+import javax.inject.Inject
 
-class ILocalRoomDatasource(
+class ILocalRoomDatasource @Inject constructor(
     private val localDao: LocalDao
 ): LocalRoomDatasource {
 

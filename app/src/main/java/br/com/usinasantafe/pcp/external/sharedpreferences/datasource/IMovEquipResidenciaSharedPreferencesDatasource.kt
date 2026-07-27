@@ -4,10 +4,11 @@ import android.content.SharedPreferences
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipResidenciaSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipResidenciaSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class IMovEquipResidenciaSharedPreferencesDatasource(
+class IMovEquipResidenciaSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : MovEquipResidenciaSharedPreferencesDatasource {
 
@@ -15,7 +16,7 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
         try {
             val editor = sharedPreferences.edit()
             editor.putString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA,
                 null
             )
             editor.apply()
@@ -32,7 +33,7 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
     override suspend fun get(): Result<MovEquipResidenciaSharedPreferencesModel> {
         try {
             val movEquipResidencia = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA,
                 null
             )!!
             return Result.success(
@@ -53,8 +54,14 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
     override suspend fun setMotorista(motorista: String): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaSharedPreferencesDatasource.setMotorista",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movEquipResidencia = resultGet.getOrNull()!!
             movEquipResidencia.motoristaMovEquipResidencia = motorista
             save(movEquipResidencia)
@@ -71,8 +78,14 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
     override suspend fun setObserv(observ: String?): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaSharedPreferencesDatasource.setObserv",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movEquipResidencia = resultGet.getOrNull()!!
             movEquipResidencia.observMovEquipResidencia = observ
             save(movEquipResidencia)
@@ -89,8 +102,14 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
     override suspend fun setPlaca(placa: String): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaSharedPreferencesDatasource.setPlaca",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movEquipResidencia = resultGet.getOrNull()!!
             movEquipResidencia.placaMovEquipResidencia = placa
             save(movEquipResidencia)
@@ -107,8 +126,14 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
     override suspend fun setVeiculo(veiculo: String): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovEquipResidenciaSharedPreferencesDatasource.setVeiculo",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movEquipResidencia = resultGet.getOrNull()!!
             movEquipResidencia.veiculoMovEquipResidencia = veiculo
             save(movEquipResidencia)
@@ -140,7 +165,7 @@ class IMovEquipResidenciaSharedPreferencesDatasource(
     fun save(movEquipResidencia: MovEquipResidenciaSharedPreferencesModel) {
         val editor = sharedPreferences.edit()
         editor.putString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA,
             Gson().toJson(movEquipResidencia)
         )
         editor.apply()

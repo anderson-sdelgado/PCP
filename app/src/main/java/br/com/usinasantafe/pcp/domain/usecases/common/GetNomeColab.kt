@@ -2,12 +2,13 @@ package br.com.usinasantafe.pcp.domain.usecases.common
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
+import javax.inject.Inject
 
 interface GetNomeColab {
     suspend operator fun invoke(matric: String): Result<String>
 }
 
-class IGetNomeColab(
+class IGetNomeColab @Inject constructor(
     private val colabRepository: ColabRepository,
 ) : GetNomeColab {
 

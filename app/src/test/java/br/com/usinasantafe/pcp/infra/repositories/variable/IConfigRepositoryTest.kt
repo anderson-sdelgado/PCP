@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.ConfigRetrofit
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.ConfigRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitModel
-import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.lib.FlagUpdate
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 

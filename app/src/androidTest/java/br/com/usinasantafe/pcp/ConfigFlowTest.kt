@@ -10,10 +10,10 @@ import androidx.compose.ui.test.performTextInput
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.presenter.MainActivity
-import br.com.usinasantafe.pcp.presenter.configuration.config.TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN
-import br.com.usinasantafe.pcp.presenter.configuration.config.TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN
-import br.com.usinasantafe.pcp.presenter.configuration.senha.TAG_PASSWORD_TEXT_FIELD_SENHA_SCREEN
-import br.com.usinasantafe.pcp.utils.VERSION
+import br.com.usinasantafe.pcp.presenter.view.configuration.config.TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN
+import br.com.usinasantafe.pcp.presenter.view.configuration.config.TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN
+import br.com.usinasantafe.pcp.presenter.view.configuration.senha.TAG_PASSWORD_TEXT_FIELD_SENHA_SCREEN
+import br.com.usinasantafe.pcp.lib.VERSION
 import br.com.usinasantafe.pcp.utils.waitUntilTimeout
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.Dispatcher

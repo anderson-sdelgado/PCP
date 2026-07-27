@@ -3,13 +3,12 @@ package br.com.usinasantafe.pcp.external.room.datasource.stable
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcp.external.room.AppDatabaseRoom
+import br.com.usinasantafe.pcp.external.room.DatabaseRoom
 import br.com.usinasantafe.pcp.external.room.dao.stable.EquipDao
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,13 +18,13 @@ import org.robolectric.RobolectricTestRunner
 class IEquipRoomDatasourceTest {
 
     private lateinit var equipDao: EquipDao
-    private lateinit var db: AppDatabaseRoom
+    private lateinit var db: DatabaseRoom
 
     @Before
     fun before() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabaseRoom::class.java).allowMainThreadQueries().build()
+            context, DatabaseRoom::class.java).allowMainThreadQueries().build()
         equipDao = db.equipDao()
     }
 

@@ -2,12 +2,13 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import javax.inject.Inject
 
 interface CheckPassword {
     suspend operator fun invoke(password: String): Result<Boolean>
 }
 
-class ICheckPassword(
+class ICheckPassword @Inject constructor(
     private val configRepository: ConfigRepository
 ): CheckPassword {
 

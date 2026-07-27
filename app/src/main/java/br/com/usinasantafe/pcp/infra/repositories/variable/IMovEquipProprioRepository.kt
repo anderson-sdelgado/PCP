@@ -11,10 +11,11 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitModelOutput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInputToEntity
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import javax.inject.Inject
 
-class IMovEquipProprioRepository(
+class IMovEquipProprioRepository @Inject constructor(
     private val movEquipProprioSharedPreferencesDatasource: MovEquipProprioSharedPreferencesDatasource,
     private val movEquipProprioRoomDatasource: MovEquipProprioRoomDatasource,
     private val movEquipProprioRetrofitDatasource: MovEquipProprioRetrofitDatasource,

@@ -6,12 +6,13 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
+import javax.inject.Inject
 
 interface CheckMovOpen {
     suspend operator fun invoke(): Result<Boolean>
 }
 
-class ICheckMovOpen(
+class ICheckMovOpen @Inject constructor(
     private val movEquipProprioRepository: MovEquipProprioRepository,
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
@@ -52,7 +53,7 @@ class ICheckMovOpen(
                 )
             }
             if(resultCheckResidencia.getOrNull()!!) return Result.success(true)
-            val resultCheckChave = movChaveRepository.checkOpen()
+            val resultCheckChave = movChaveRepository.hasOpen()
             if (resultCheckChave.isFailure) {
                 val e = resultCheckChave.exceptionOrNull()!!
                 return resultFailure(

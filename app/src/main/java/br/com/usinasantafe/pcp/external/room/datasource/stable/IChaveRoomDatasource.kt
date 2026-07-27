@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.ChaveDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ChaveRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.ChaveRoomModel
+import javax.inject.Inject
 
-class IChaveRoomDatasource(
+class IChaveRoomDatasource @Inject constructor(
     private val chaveDao: ChaveDao
 ): ChaveRoomDatasource {
 

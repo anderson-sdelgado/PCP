@@ -8,8 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.LocalRetrofitDat
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import javax.inject.Inject
 
-class ILocalRepository(
+class ILocalRepository @Inject constructor(
     private val localRoomDatasource: LocalRoomDatasource,
     private val localRetrofitDatasource: LocalRetrofitDatasource
 ): LocalRepository {
@@ -85,7 +86,7 @@ class ILocalRepository(
         return result
     }
 
-    override suspend fun recoverAll(token: String): Result<List<Local>> {
+    override suspend fun listAll(token: String): Result<List<Local>> {
         try {
             val result = localRetrofitDatasource.recoverAll(token)
             if (result.isFailure) {

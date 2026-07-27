@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.EquipDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.EquipRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.EquipRoomModel
+import javax.inject.Inject
 
-class IEquipRoomDatasource(
+class IEquipRoomDatasource @Inject constructor(
     private val equipDao: EquipDao
 ) : EquipRoomDatasource {
 

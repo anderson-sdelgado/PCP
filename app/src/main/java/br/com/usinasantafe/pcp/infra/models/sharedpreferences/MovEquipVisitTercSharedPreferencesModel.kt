@@ -1,8 +1,8 @@
 package br.com.usinasantafe.pcp.infra.models.sharedpreferences
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTerc
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import java.util.Date
 
 data class MovEquipVisitTercSharedPreferencesModel(

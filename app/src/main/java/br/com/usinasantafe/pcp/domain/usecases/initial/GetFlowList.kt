@@ -5,12 +5,13 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.FluxoRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.RLocalFluxoRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import javax.inject.Inject
 
 interface GetFlowList {
     suspend operator fun invoke(): Result<List<Fluxo>>
 }
 
-class IGetFlowList(
+class IGetFlowList @Inject constructor(
     private val configRepository: ConfigRepository,
     private val rLocalFluxoRepository: RLocalFluxoRepository,
     private val fluxoRepository: FluxoRepository
@@ -28,7 +29,7 @@ class IGetFlowList(
                 )
             }
             val config = resultConfig.getOrNull()!!
-            val resultRLocalFluxo = rLocalFluxoRepository.list(
+            val resultRLocalFluxo = rLocalFluxoRepository.listByIdLocal(
                 config.idLocal!!
             )
             if (resultRLocalFluxo.isFailure) {

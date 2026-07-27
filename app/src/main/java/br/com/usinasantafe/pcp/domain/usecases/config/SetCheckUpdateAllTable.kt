@@ -2,13 +2,14 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.utils.FlagUpdate
+import br.com.usinasantafe.pcp.lib.FlagUpdate
+import javax.inject.Inject
 
 interface SetCheckUpdateAllTable {
     suspend operator fun invoke(flagUpdate: FlagUpdate): Result<Boolean>
 }
 
-class ISetCheckUpdateAllTable (
+class ISetCheckUpdateAllTable @Inject constructor(
     private val configRepository: ConfigRepository,
 ): SetCheckUpdateAllTable {
 

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.models.sharedpreferences
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import java.util.Date
 
 data class MovChaveSharedPreferencesModel(

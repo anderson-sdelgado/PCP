@@ -4,10 +4,11 @@ import android.content.SharedPreferences
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovChaveSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class IMovChaveSharedPreferencesDatasource(
+class IMovChaveSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): MovChaveSharedPreferencesDatasource {
 
@@ -15,7 +16,7 @@ class IMovChaveSharedPreferencesDatasource(
         try {
             val editor = sharedPreferences.edit()
             editor.putString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
                 null
             )
             editor.apply()
@@ -32,7 +33,7 @@ class IMovChaveSharedPreferencesDatasource(
     override suspend fun get(): Result<MovChaveSharedPreferencesModel> {
         try {
             val movChave = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
                 null
             )!!
             return Result.success(
@@ -53,8 +54,14 @@ class IMovChaveSharedPreferencesDatasource(
     override suspend fun setIdChave(idChave: Int): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveSharedPreferencesDatasource.setIdChave",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.idChaveMovChave = idChave
             save(movChave)
@@ -71,8 +78,14 @@ class IMovChaveSharedPreferencesDatasource(
     override suspend fun setMatricColab(matricColab: Int): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveSharedPreferencesDatasource.setMatricColab",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.matricColabMovChave = matricColab
             save(movChave)
@@ -89,8 +102,14 @@ class IMovChaveSharedPreferencesDatasource(
     override suspend fun setObserv(observ: String?): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveSharedPreferencesDatasource.setObserv",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.observMovChave = observ
             save(movChave)
@@ -120,7 +139,7 @@ class IMovChaveSharedPreferencesDatasource(
     fun save(movChave: MovChaveSharedPreferencesModel) {
         val editor = sharedPreferences.edit()
         editor.putString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE,
             Gson().toJson(movChave)
         )
         editor.apply()

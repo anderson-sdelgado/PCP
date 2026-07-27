@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.pcp.infra.models.room.stable.VisitanteRoomModel
-import br.com.usinasantafe.pcp.utils.TB_VISITANTE
+import br.com.usinasantafe.pcp.lib.TB_VISITANTE
 
 @Dao
 interface VisitanteDao {

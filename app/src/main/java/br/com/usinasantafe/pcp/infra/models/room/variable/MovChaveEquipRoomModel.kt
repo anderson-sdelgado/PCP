@@ -3,11 +3,11 @@ package br.com.usinasantafe.pcp.infra.models.room.variable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChaveEquip
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TB_MOV_CHAVE_EQUIP
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TB_MOV_CHAVE_EQUIP
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import java.util.Date
 
 @Entity(tableName = TB_MOV_CHAVE_EQUIP)

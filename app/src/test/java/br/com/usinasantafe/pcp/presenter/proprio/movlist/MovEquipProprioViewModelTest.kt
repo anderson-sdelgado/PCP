@@ -3,11 +3,11 @@ package br.com.usinasantafe.pcp.presenter.proprio.movlist
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
-import br.com.usinasantafe.pcp.domain.usecases.proprio.CloseAllMovProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetMovEquipProprioOpenList
-import br.com.usinasantafe.pcp.domain.usecases.proprio.StartMovEquipProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.CloseAllMovProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetMovEquipProprioOpenList
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.StartMovEquipProprio
 import br.com.usinasantafe.pcp.presenter.model.HeaderModel
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

@@ -3,12 +3,13 @@ package br.com.usinasantafe.pcp.domain.usecases.initial
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import javax.inject.Inject
 
 interface AdjustConfig {
     suspend operator fun invoke(version: String): Result<Boolean>
 }
 
-class IAdjustConfig(
+class IAdjustConfig @Inject constructor(
     private val configRepository: ConfigRepository,
     private val startProcessSendData: StartProcessSendData
 ): AdjustConfig {

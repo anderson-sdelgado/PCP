@@ -1,32 +1,28 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "br.com.usinasantafe.pcp"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "br.com.usinasantafe.pcp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 2
         versionName = "5.01"
 
         testInstrumentationRunner = "br.com.usinasantafe.pcp.InstrumentationTestRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += "room.incremental" to "true"
-            }
-        }
+
     }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -37,18 +33,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -56,10 +49,15 @@ android {
         }
     }
     testOptions.unitTests.isIncludeAndroidResources = true
-
+    testOptions {
+        unitTests.all { test ->
+            test.jvmArgs("-XX:+EnableDynamicAgentLoading")
+        }
+    }
     room {
         schemaDirectory("$projectDir/schemas")
     }
+
     productFlavors {
         flavorDimensions += "version"
         create("dev") {
@@ -82,35 +80,39 @@ android {
         }
     }
 
+    sourceSets {
+        getByName("androidTest") {
+            java.srcDirs("src/androidTest/java")
+            res.srcDirs("src/androidTest/res")
+            manifest.srcFile("src/androidTest/AndroidManifest.xml")
+        }
+    }
 }
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.core.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.exifinterface)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.rules)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    androidTestImplementation(libs.androidx.espresso.intents)
 
     implementation(libs.androidx.navigation.compose)
     androidTestImplementation(libs.androidx.navigation.testing)
     implementation(libs.androidx.tracing)
-    implementation(libs.koin)
-    implementation(libs.koin.compose)
-    implementation(libs.koin.workmanager)
-    implementation(libs.koin.test)
-    implementation(libs.koin.test.junit4)
     implementation(libs.androidx.lifecycle.compose.viewmodel)
     implementation(libs.androidx.lifecycle.compose.runtime)
     testImplementation(libs.mockito)
@@ -137,5 +139,26 @@ dependencies {
     implementation(libs.work.runtime)
     androidTestImplementation(libs.work.testing)
     testImplementation(libs.work.testing)
+    implementation(libs.hilt.android.core)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
+    testImplementation(libs.hilt.android.testing)
+    kaptTest(libs.hilt.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+    implementation(libs.hilt.ext.work)
+    kapt(libs.hilt.ext.compiler)
+    annotationProcessor(libs.hilt.ext.compiler)
     implementation(libs.timber)
+    testImplementation(kotlin("test"))
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.mockito)
+    implementation(libs.google.play.services.location)
+    implementation(libs.google.maps.compose)
+    androidTestImplementation(libs.androidx.rules)
+    implementation(libs.coil.compose)
+}
+
+kapt {
+    correctErrorTypes = true
 }

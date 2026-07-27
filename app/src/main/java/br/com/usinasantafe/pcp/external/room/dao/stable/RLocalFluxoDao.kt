@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.pcp.infra.models.room.stable.RLocalFluxoRoomModel
-import br.com.usinasantafe.pcp.utils.TB_R_LOCAL_FLUXO
+import br.com.usinasantafe.pcp.lib.TB_R_LOCAL_FLUXO
 
 @Dao
 interface RLocalFluxoDao {

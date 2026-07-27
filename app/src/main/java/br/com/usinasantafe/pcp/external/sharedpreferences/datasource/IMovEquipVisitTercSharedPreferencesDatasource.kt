@@ -4,11 +4,12 @@ import android.content.SharedPreferences
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTercSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class IMovEquipVisitTercSharedPreferencesDatasource(
+class IMovEquipVisitTercSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : MovEquipVisitTercSharedPreferencesDatasource {
 
@@ -16,7 +17,7 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
         try {
             val editor = sharedPreferences.edit()
             editor.putString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
                 null
             )
             editor.apply()
@@ -33,7 +34,7 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
     override suspend fun get(): Result<MovEquipVisitTercSharedPreferencesModel> {
         try {
             val movEquipVisitTerc = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
                 null
             )!!
             return Result.success(
@@ -177,7 +178,7 @@ class IMovEquipVisitTercSharedPreferencesDatasource(
     fun save(movEquipVisitTerc: MovEquipVisitTercSharedPreferencesModel) {
         val editor = sharedPreferences.edit()
         editor.putString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC,
             Gson().toJson(movEquipVisitTerc)
         )
         editor.apply()

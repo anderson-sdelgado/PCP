@@ -5,14 +5,14 @@ import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNroEquipProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.SetIdEquipProprio
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateEquip
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetNroEquipProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetIdEquipProprio
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableEquip
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeButton
-import br.com.usinasantafe.pcp.utils.TypeEquip
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.lib.TypeEquip
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -33,7 +33,7 @@ class NroEquipProprioViewModelTest {
 
     private val checkNroEquip = mock<CheckNroEquip>()
     private val setIdEquipProprio = mock<SetIdEquipProprio>()
-    private val updateEquip = mock<UpdateEquip>()
+    private val updateTableEquip = mock<UpdateTableEquip>()
     private val getNroEquipProprio = mock<GetNroEquipProprio>()
     private fun getViewModel(
         savedStateHandle: SavedStateHandle
@@ -41,7 +41,7 @@ class NroEquipProprioViewModelTest {
         savedStateHandle,
         checkNroEquip,
         setIdEquipProprio,
-        updateEquip,
+        updateTableEquip,
         getNroEquipProprio
     )
 
@@ -124,7 +124,7 @@ class NroEquipProprioViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.errors,
-            Errors.FIELDEMPTY
+            Errors.FIELD_EMPTY
         )
     }
 
@@ -366,7 +366,7 @@ class NroEquipProprioViewModelTest {
     fun `Check return failure datasource if have error in usecase CleanEquip is datasource`() =
         runTest {
             whenever(
-                updateEquip(
+                updateTableEquip(
                     count = 1f,
                     sizeAll = 4f
                 )
@@ -423,7 +423,7 @@ class NroEquipProprioViewModelTest {
     fun `Check return failure usecase in setTextField if have error in usecase CleanEquip`() =
         runTest {
             whenever(
-                updateEquip(
+                updateTableEquip(
                     count = 1f,
                     sizeAll = 4f
                 )
@@ -484,7 +484,7 @@ class NroEquipProprioViewModelTest {
     @Test
     fun `Check return success in updateAllDatabase if all update run correctly`() = runTest {
         whenever(
-            updateEquip(
+            updateTableEquip(
                 count = 1f,
                 sizeAll = 4f
             )
@@ -557,7 +557,7 @@ class NroEquipProprioViewModelTest {
     @Test
     fun `Check return success if setTextField update is success`() = runTest {
         whenever(
-            updateEquip(
+            updateTableEquip(
                 count = 1f,
                 sizeAll = 4f
             )

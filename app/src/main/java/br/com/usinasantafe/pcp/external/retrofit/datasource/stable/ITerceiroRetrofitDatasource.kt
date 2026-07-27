@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.TerceiroApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.TerceiroRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.TerceiroRetrofitModel
+import javax.inject.Inject
 
-class ITerceiroRetrofitDatasource(
+class ITerceiroRetrofitDatasource @Inject constructor(
     private val terceiroApi: TerceiroApi
 ): TerceiroRetrofitDatasource {
 

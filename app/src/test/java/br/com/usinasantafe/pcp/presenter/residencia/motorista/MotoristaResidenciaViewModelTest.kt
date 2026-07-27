@@ -2,12 +2,11 @@ package br.com.usinasantafe.pcp.presenter.residencia.motorista
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMotoristaResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.SetMotoristaResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetMotoristaResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.SetMotoristaResidencia
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
+import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Adicionado/Confirmado
-import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

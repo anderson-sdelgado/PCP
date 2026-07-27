@@ -5,13 +5,13 @@ import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetMatricColab
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateColab
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetMatricColab
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableColab
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeButton
-import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.lib.TypeOcupante
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -32,14 +32,14 @@ class MatricColabViewModelTest {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val checkMatricColab = mock<CheckMatricColab>()
-    private val updateColab = mock<UpdateColab>()
+    private val updateTableColab = mock<UpdateTableColab>()
     private val getMatricColab = mock<GetMatricColab>()
     private fun getViewModel(
         savedStateHandle: SavedStateHandle
     ) = MatricColabViewModel(
         savedStateHandle,
         checkMatricColab,
-        updateColab,
+        updateTableColab,
         getMatricColab
     )
 
@@ -122,7 +122,7 @@ class MatricColabViewModelTest {
         )
         assertEquals(
             viewModel.uiState.value.errors,
-            Errors.FIELDEMPTY
+            Errors.FIELD_EMPTY
         )
     }
 
@@ -252,7 +252,7 @@ class MatricColabViewModelTest {
     fun `Check return failure datasource if have error in usecase CleanColab is datasource`() =
         runTest {
             whenever(
-                updateColab(
+                updateTableColab(
                     count = 1f,
                     sizeAll = 4f
                 )
@@ -309,7 +309,7 @@ class MatricColabViewModelTest {
     fun `Check return failure usecase in setTextField if have error in usecase CleanColab`() =
         runTest {
             whenever(
-                updateColab(
+                updateTableColab(
                     count = 1f,
                     sizeAll = 4f
                 )
@@ -370,7 +370,7 @@ class MatricColabViewModelTest {
     @Test
     fun `Check return success in updateAllDatabase if all update run correctly`() = runTest {
         whenever(
-            updateColab(
+            updateTableColab(
                 count = 1f,
                 sizeAll = 4f
             )
@@ -443,7 +443,7 @@ class MatricColabViewModelTest {
     @Test
     fun `Check return success if setTextField update is success`() = runTest {
         whenever(
-            updateColab(
+            updateTableColab(
                 count = 1f,
                 sizeAll = 4f
             )

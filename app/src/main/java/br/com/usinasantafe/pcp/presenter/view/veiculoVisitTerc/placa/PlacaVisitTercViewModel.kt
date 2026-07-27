@@ -1,0 +1,132 @@
+package br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.placa
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetPlacaVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.SetPlacaVisitTerc
+import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
+import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
+
+data class PlacaVisitTercState(
+    val flowApp: FlowApp = FlowApp.ADD,
+    val id: Int = 0,
+    val placa: String = "",
+    val checkGetPlaca: Boolean = true,
+    val flagAccess: Boolean = false,
+    val flagDialog: Boolean = false,
+    val failure: String = "",
+)
+
+
+@HiltViewModel
+class PlacaVisitTercViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val setPlacaVisitTerc: SetPlacaVisitTerc,
+    private val getPlacaVisitTerc: GetPlacaVisitTerc
+) : ViewModel() {
+
+    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val id: Int = savedStateHandle[ID_ARGS]!!
+
+    private val _uiState = MutableStateFlow(PlacaVisitTercState())
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        _uiState.update {
+            it.copy(
+                flowApp = FlowApp.entries[flowApp],
+                id = id
+            )
+        }
+    }
+
+    fun setCloseDialog() {
+        _uiState.update {
+            it.copy(flagDialog = false)
+        }
+    }
+
+    fun onPlacaChanged(placa: String) {
+        if (placa.length <= 7) {
+            _uiState.update {
+                it.copy(placa = placa)
+            }
+        }
+    }
+
+    fun recoverPlaca() = viewModelScope.launch {
+        if (
+            (uiState.value.flowApp == FlowApp.CHANGE) &&
+            (uiState.value.checkGetPlaca)
+        ) {
+            val resultGetPlaca = getPlacaVisitTerc(
+                id = uiState.value.id
+            )
+            if (resultGetPlaca.isFailure) {
+                val error = resultGetPlaca.exceptionOrNull()!!
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        failure = failure,
+                    )
+                }
+                return@launch
+            }
+            val placa = resultGetPlaca.getOrNull()!!
+            _uiState.update {
+                it.copy(
+                    placa = placa,
+                    checkGetPlaca = false,
+                )
+            }
+        }
+    }
+
+    fun setPlaca() {
+        if (uiState.value.placa.isEmpty()) {
+            _uiState.update {
+                it.copy(
+                    flagDialog = true,
+                )
+            }
+            return
+        }
+        viewModelScope.launch {
+            val resultSetPlaca = setPlacaVisitTerc(
+                placa = uiState.value.placa,
+                flowApp = uiState.value.flowApp,
+                id = uiState.value.id
+            )
+            if (resultSetPlaca.isFailure) {
+                val error = resultSetPlaca.exceptionOrNull()!!
+                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        failure = failure,
+                    )
+                }
+                return@launch
+            }
+            _uiState.update {
+                it.copy(
+                    flagAccess = true,
+                )
+            }
+        }
+    }
+
+}

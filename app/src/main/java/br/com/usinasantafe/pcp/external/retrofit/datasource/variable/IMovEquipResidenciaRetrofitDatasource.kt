@@ -5,8 +5,9 @@ import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovEquipResidencia
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovEquipResidenciaRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipResidenciaRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipResidenciaRetrofitModelOutput
+import javax.inject.Inject
 
-class IMovEquipResidenciaRetrofitDatasource(
+class IMovEquipResidenciaRetrofitDatasource @Inject constructor(
     private val api: MovEquipResidenciaApi
 ) : MovEquipResidenciaRetrofitDatasource {
 

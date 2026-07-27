@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import javax.inject.Inject
 
 interface SendDataConfig {
     suspend operator fun invoke(
@@ -12,7 +13,7 @@ interface SendDataConfig {
     ): Result<Int>
 }
 
-class ISendDataConfig (
+class ISendDataConfig @Inject constructor(
     private val configRepository: ConfigRepository
 ) : SendDataConfig {
 

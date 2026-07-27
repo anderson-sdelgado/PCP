@@ -2,12 +2,13 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import javax.inject.Inject
 
 interface SetMatricVigiaConfig {
     suspend operator fun invoke(matric: String): Result<Boolean>
 }
 
-class ISetMatricVigiaConfig(
+class ISetMatricVigiaConfig @Inject constructor(
     private val configRepository: ConfigRepository,
 ): SetMatricVigiaConfig {
 

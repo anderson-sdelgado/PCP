@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.FluxoDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.FluxoRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.FluxoRoomModel
+import javax.inject.Inject
 
-class IFluxoRoomDatasource(
+class IFluxoRoomDatasource @Inject constructor(
     private val fluxoDao: FluxoDao
 ) : FluxoRoomDatasource {
 

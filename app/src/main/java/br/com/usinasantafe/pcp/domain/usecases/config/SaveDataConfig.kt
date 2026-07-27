@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.config
 
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
+import javax.inject.Inject
 
 interface SaveDataConfig {
     suspend operator fun invoke(
@@ -12,7 +13,7 @@ interface SaveDataConfig {
     ): Result<Boolean>
 }
 
-class ISaveDataConfig(
+class ISaveDataConfig @Inject constructor(
     private val configRepository: ConfigRepository
 ): SaveDataConfig {
 

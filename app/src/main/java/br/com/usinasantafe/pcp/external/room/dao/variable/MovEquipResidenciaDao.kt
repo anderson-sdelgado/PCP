@@ -6,10 +6,10 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipResidenciaRoomModel
-import br.com.usinasantafe.pcp.utils.StatusData
-import br.com.usinasantafe.pcp.utils.StatusForeigner
-import br.com.usinasantafe.pcp.utils.StatusSend
-import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_RESIDENCIA
+import br.com.usinasantafe.pcp.lib.StatusData
+import br.com.usinasantafe.pcp.lib.StatusForeigner
+import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_RESIDENCIA
 
 @Dao
 interface MovEquipResidenciaDao {

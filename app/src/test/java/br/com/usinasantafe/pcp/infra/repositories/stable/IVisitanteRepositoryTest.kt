@@ -7,7 +7,6 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.stable.VisitanteRetrofitMod
 import br.com.usinasantafe.pcp.infra.models.room.stable.VisitanteRoomModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -71,7 +70,7 @@ class IVisitanteRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.recoverAll(token)
+        val result = repository.listAll(token)
         assertEquals(
             result.isFailure,
             true
@@ -97,7 +96,7 @@ class IVisitanteRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val result = repository.recoverAll(token)
+        val result = repository.listAll(token)
         assertEquals(
             result.isSuccess,
             true

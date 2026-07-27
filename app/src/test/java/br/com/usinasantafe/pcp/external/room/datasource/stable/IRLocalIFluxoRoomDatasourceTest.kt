@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.external.room.datasource.stable
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcp.external.room.AppDatabaseRoom
+import br.com.usinasantafe.pcp.external.room.DatabaseRoom
 import br.com.usinasantafe.pcp.external.room.dao.stable.RLocalFluxoDao
 import br.com.usinasantafe.pcp.infra.models.room.stable.RLocalFluxoRoomModel
 import kotlinx.coroutines.test.runTest
@@ -18,13 +18,13 @@ import org.robolectric.RobolectricTestRunner
 class IRLocalIFluxoRoomDatasourceTest {
 
     private lateinit var rLocalFluxoDao: RLocalFluxoDao
-    private lateinit var db: AppDatabaseRoom
+    private lateinit var db: DatabaseRoom
 
     @Before
     fun before() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabaseRoom::class.java).allowMainThreadQueries().build()
+            context, DatabaseRoom::class.java).allowMainThreadQueries().build()
         rLocalFluxoDao = db.rLocalFluxoDao()
     }
 

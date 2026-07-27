@@ -4,16 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // <<<--- IMPORT ADICIONADO
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateTerceiro
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateVisitante
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.CheckCpfVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetCpfVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetTitleCpfVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableTerceiro
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableVisitante
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.CheckCpfVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetCpfVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetTitleCpfVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeButton
-import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.lib.TypeOcupante
 import br.com.usinasantafe.pcp.utils.percentage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -37,8 +37,8 @@ class CpfVisitTercViewModelTest {
     private val getTitleCpfVisitTerc = mock<GetTitleCpfVisitTerc>()
     private val checkCpfVisitTerc = mock<CheckCpfVisitTerc>()
     private val getCpfVisitTerc = mock<GetCpfVisitTerc>()
-    private val updateTerceiro = mock<UpdateTerceiro>()
-    private val updateVisitante = mock<UpdateVisitante>()
+    private val updateTableTerceiro = mock<UpdateTableTerceiro>()
+    private val updateTableVisitante = mock<UpdateTableVisitante>()
 
     // PADRONIZADO: Helper function para criar ViewModel
     private fun getViewModel(
@@ -48,8 +48,8 @@ class CpfVisitTercViewModelTest {
         getTitleCpfVisitTerc,
         checkCpfVisitTerc,
         getCpfVisitTerc,
-        updateTerceiro,
-        updateVisitante
+        updateTableTerceiro,
+        updateTableVisitante
     )
     private val sizeAll = 7f // Mantido para testes de update
 
@@ -77,7 +77,7 @@ class CpfVisitTercViewModelTest {
             true
         )
         assertEquals(
-            Errors.FIELDEMPTY,
+            Errors.FIELD_EMPTY,
             state.errors
         )
         
@@ -120,7 +120,7 @@ class CpfVisitTercViewModelTest {
         // PADRONIZADO: Mocks não são mais criados aqui
         // PADRONIZADO: Mock retorna a falha originada no use case
         whenever(
-            updateTerceiro(
+            updateTableTerceiro(
                 sizeAll = sizeAll,
                 count = (qtdBefore + 1)
             )
@@ -207,7 +207,7 @@ class CpfVisitTercViewModelTest {
     fun `Check return failure if have error in CleanVisitante`() = runTest {
         // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
-            updateTerceiro(
+            updateTableTerceiro(
                 sizeAll = sizeAll,
                 count = 1f
             )
@@ -232,7 +232,7 @@ class CpfVisitTercViewModelTest {
         )
         // PADRONIZADO: Mock retorna a falha originada no use case
         whenever(
-            updateVisitante(
+            updateTableVisitante(
                 sizeAll = sizeAll,
                 count = 2f
             )
@@ -343,7 +343,7 @@ class CpfVisitTercViewModelTest {
     fun `Check return success if UpdateAllTable execute successfully`() = runTest {
         // PADRONIZADO: Mocks não são mais criados aqui
         whenever(
-            updateTerceiro(
+            updateTableTerceiro(
                 sizeAll = sizeAll,
                 count = 1f
             )
@@ -367,7 +367,7 @@ class CpfVisitTercViewModelTest {
             )
         )
         whenever(
-            updateVisitante(
+            updateTableVisitante(
                 sizeAll = sizeAll,
                 count = 2f
             )

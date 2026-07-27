@@ -3,8 +3,8 @@ package br.com.usinasantafe.pcp.external.retrofit.datasource.variable
 import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovEquipVisitTercApi
 import br.com.usinasantafe.pcp.external.retrofit.provideRetrofitTest
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovEquipVisitTercRetrofitModelOutput
-import br.com.usinasantafe.pcp.utils.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer

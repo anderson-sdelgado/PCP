@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.infra.datasource.sharepreferences
 
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.TypeVisitTerc
+import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 
 interface MovEquipVisitTercSharedPreferencesDatasource {
     suspend fun clear(): Result<Boolean>

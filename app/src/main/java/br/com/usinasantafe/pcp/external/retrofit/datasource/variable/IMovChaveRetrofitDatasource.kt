@@ -5,8 +5,9 @@ import br.com.usinasantafe.pcp.external.retrofit.api.variable.MovChaveApi
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovChaveRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovChaveRetrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.MovChaveRetrofitModelOutput
+import javax.inject.Inject
 
-class IMovChaveRetrofitDatasource(
+class IMovChaveRetrofitDatasource @Inject constructor(
     private val api: MovChaveApi
 ): MovChaveRetrofitDatasource {
 

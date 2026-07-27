@@ -1,11 +1,10 @@
 package br.com.usinasantafe.pcp.presenter.residencia.moveditlist
 
 import br.com.usinasantafe.pcp.MainCoroutineRule
-import br.com.usinasantafe.pcp.domain.usecases.residencia.CloseAllMovResidencia
-import br.com.usinasantafe.pcp.domain.usecases.residencia.GetMovEquipResidenciaOpenList
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.CloseAllMovResidencia
+import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetMovEquipResidenciaOpenList
 import br.com.usinasantafe.pcp.presenter.residencia.model.MovEquipResidenciaModel
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // Adicionado/Confirmado
-import br.com.usinasantafe.pcp.utils.Errors // <<<--- IMPORT ADICIONADO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcp.domain.usecases.initial
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.savetable.SaveLocal
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveLocal
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer

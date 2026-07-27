@@ -3,12 +3,11 @@ package br.com.usinasantafe.pcp.presenter.visitterc.nome
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.GetNomeVisitTerc
-import br.com.usinasantafe.pcp.domain.usecases.visitterc.SetIdVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetNomeVisitTerc
+import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.SetIdVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.Errors
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeOcupante
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeOcupante
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

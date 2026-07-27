@@ -3,11 +3,11 @@ package br.com.usinasantafe.pcp.presenter.proprio.notafiscal
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
-import br.com.usinasantafe.pcp.domain.usecases.proprio.GetNotaFiscalProprio
-import br.com.usinasantafe.pcp.domain.usecases.proprio.SetNotaFiscalProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetNotaFiscalProprio
+import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetNotaFiscalProprio
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeButton
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

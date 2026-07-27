@@ -70,7 +70,7 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.recoverAll(token)
+        val result = repository.listAll(token)
         assertEquals(
             result.isFailure,
             true
@@ -100,7 +100,7 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success(retrofitModelList)
         )
-        val result = repository.recoverAll(token)
+        val result = repository.listAll(token)
         assertEquals(
             result.isSuccess,
             true

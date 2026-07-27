@@ -7,8 +7,8 @@ import br.com.usinasantafe.pcp.domain.usecases.chave.SetMatricColabMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartReceiptMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetNomeColab
 import br.com.usinasantafe.pcp.presenter.Args
-import br.com.usinasantafe.pcp.utils.FlowApp
-import br.com.usinasantafe.pcp.utils.TypeMovKey
+import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.TypeMovKey
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

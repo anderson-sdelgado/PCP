@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.external.room
 import android.content.Context
 import androidx.room.*
 
-fun provideRoomTest(appContext: Context): AppDatabaseRoom {
+fun provideRoomTest(appContext: Context): DatabaseRoom {
     return Room.inMemoryDatabaseBuilder(
-        appContext, AppDatabaseRoom::class.java).allowMainThreadQueries().build()
+        appContext, DatabaseRoom::class.java).allowMainThreadQueries().build()
 }

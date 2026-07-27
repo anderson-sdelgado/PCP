@@ -4,10 +4,11 @@ import android.content.SharedPreferences
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovChaveEquipSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveEquipSharedPreferencesModel
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE_EQUIP
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE_EQUIP
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class IMovChaveEquipSharedPreferencesDatasource(
+class IMovChaveEquipSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): MovChaveEquipSharedPreferencesDatasource {
 
@@ -15,7 +16,7 @@ class IMovChaveEquipSharedPreferencesDatasource(
         try {
             val editor = sharedPreferences.edit()
             editor.putString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE_EQUIP,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE_EQUIP,
                 null
             )
             editor.apply()
@@ -32,7 +33,7 @@ class IMovChaveEquipSharedPreferencesDatasource(
     override suspend fun get(): Result<MovChaveEquipSharedPreferencesModel> {
         try {
             val movChaveEquip = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE_EQUIP,
+                BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE_EQUIP,
                 null
             )!!
             return Result.success(
@@ -53,8 +54,14 @@ class IMovChaveEquipSharedPreferencesDatasource(
     override suspend fun setIdEquip(idEquip: Int): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveEquipSharedPreferencesDatasource.setIdEquip",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.idEquipMovChaveEquip = idEquip
             save(movChave)
@@ -71,8 +78,14 @@ class IMovChaveEquipSharedPreferencesDatasource(
     override suspend fun setMatricColab(matricColab: Int): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveEquipSharedPreferencesDatasource.setMatricColab",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.matricColabMovChaveEquip = matricColab
             save(movChave)
@@ -89,8 +102,14 @@ class IMovChaveEquipSharedPreferencesDatasource(
     override suspend fun setObserv(observ: String?): Result<Boolean> {
         try {
             val resultGet = get()
-            if (resultGet.isFailure)
-                return Result.failure(resultGet.exceptionOrNull()!!)
+            if (resultGet.isFailure){
+                val e = resultGet.exceptionOrNull()!!
+                return resultFailure(
+                    context = "IMovChaveEquipSharedPreferencesDatasource.setObserv",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
             val movChave = resultGet.getOrNull()!!
             movChave.observMovChaveEquip = observ
             save(movChave)
@@ -120,7 +139,7 @@ class IMovChaveEquipSharedPreferencesDatasource(
     fun save(movChaveEquip: MovChaveEquipSharedPreferencesModel) {
         val editor = sharedPreferences.edit()
         editor.putString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_CHAVE_EQUIP,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_CHAVE_EQUIP,
             Gson().toJson(movChaveEquip)
         )
         editor.apply()

@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.VisitanteDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.VisitanteRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.VisitanteRoomModel
+import javax.inject.Inject
 
-class IVisitanteRoomDatasource(
+class IVisitanteRoomDatasource @Inject constructor(
     private val visitanteDao: VisitanteDao
 ): VisitanteRoomDatasource {
 

@@ -2,13 +2,14 @@ package br.com.usinasantafe.pcp.domain.usecases.common
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
-import br.com.usinasantafe.pcp.utils.token
+import br.com.usinasantafe.pcp.lib.token
+import javax.inject.Inject
 
 interface GetToken {
     suspend operator fun invoke(): Result<String>
 }
 
-class IGetToken(
+class IGetToken @Inject constructor(
     private val configRepository: ConfigRepository
 ): GetToken {
 

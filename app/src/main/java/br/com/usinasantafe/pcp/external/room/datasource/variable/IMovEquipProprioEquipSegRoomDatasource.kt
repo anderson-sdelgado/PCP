@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipProprioEquipSegDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioEquipSegRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioEquipSegRoomModel
+import javax.inject.Inject
 
-class IMovEquipProprioEquipSegRoomDatasource(
+class IMovEquipProprioEquipSegRoomDatasource @Inject constructor(
     private val movEquipProprioEquipSegDao: MovEquipProprioEquipSegDao
 ) : MovEquipProprioEquipSegRoomDatasource {
 

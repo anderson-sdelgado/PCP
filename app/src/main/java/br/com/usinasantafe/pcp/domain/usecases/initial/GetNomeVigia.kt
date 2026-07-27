@@ -3,12 +3,13 @@ package br.com.usinasantafe.pcp.domain.usecases.initial
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import javax.inject.Inject
 
 interface GetNomeVigia {
     suspend operator fun invoke(): Result<String>
 }
 
-class IGetNomeVigia(
+class IGetNomeVigia @Inject constructor(
     private val configRepository: ConfigRepository,
     private val colabRepository: ColabRepository,
 ): GetNomeVigia {

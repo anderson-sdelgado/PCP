@@ -4,8 +4,9 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalTrabDao
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalTrabRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.stable.LocalTrabRoomModel
+import javax.inject.Inject
 
-class ILocalTrabRoomDatasource(
+class ILocalTrabRoomDatasource @Inject constructor(
     private val localTrabDao: LocalTrabDao
 ): LocalTrabRoomDatasource {
 

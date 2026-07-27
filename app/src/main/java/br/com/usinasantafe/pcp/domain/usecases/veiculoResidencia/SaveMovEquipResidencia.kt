@@ -1,0 +1,84 @@
+package br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia
+
+import br.com.usinasantafe.pcp.domain.errors.resultFailure
+import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
+import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
+import br.com.usinasantafe.pcp.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import javax.inject.Inject
+
+interface SaveMovEquipResidencia {
+    suspend operator fun invoke(
+        typeMov: TypeMovEquip,
+        id: Int
+    ): Result<Boolean>
+}
+
+class ISaveMovEquipResidencia @Inject constructor(
+    private val configRepository: ConfigRepository,
+    private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
+    private val startProcessSendData: StartProcessSendData
+) : SaveMovEquipResidencia {
+
+    override suspend fun invoke(
+        typeMov: TypeMovEquip,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            if (typeMov == TypeMovEquip.OUTPUT) {
+                val resultClose = movEquipResidenciaRepository.setOutside(id)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISaveMovEquipResidencia",
+                        message = e.message,
+                                cause = e.cause
+                            )
+                }
+            }
+            val resultConfig = configRepository.getConfig()
+            if (resultConfig.isFailure) {
+                val e = resultConfig.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovEquipResidencia",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
+            val config = resultConfig.getOrNull()!!
+            val resultSave = movEquipResidenciaRepository.save(
+                config.matricVigia!!,
+                config.idLocal!!
+            )
+            if (resultSave.isFailure) {
+                val e = resultSave.exceptionOrNull()!!
+                return resultFailure(
+                    context = "ISaveMovEquipResidencia",
+                    message = e.message,
+                    cause = e.cause
+                )
+            }
+            val idSave = resultSave.getOrNull()!!
+            if (typeMov == TypeMovEquip.OUTPUT) {
+                val resultClose = movEquipResidenciaRepository.setOutside(idSave)
+                if (resultClose.isFailure) {
+                    val e = resultClose.exceptionOrNull()!!
+                    return resultFailure(
+                        context = "ISaveMovEquipResidencia",
+                        message = e.message,
+                                cause = e.cause
+                            )
+                }
+            }
+            startProcessSendData()
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = "ISaveMovEquipResidencia",
+                message = "-",
+                cause = e
+            )
+        }
+    }
+
+}

@@ -1,8 +1,8 @@
-package br.com.usinasantafe.pcp.domain.usecases.updatetable
+package br.com.usinasantafe.pcp.domain.usecases.updateTable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.usecases.updatetable.update.UpdateChave
+import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableChave
 import br.com.usinasantafe.pcp.external.room.dao.stable.ChaveDao
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
@@ -20,7 +20,7 @@ import org.koin.test.inject
 class IUpdateChaveTest : KoinTest {
 
     private val configSharedPreferences: ConfigSharedPreferencesDatasource by inject()
-    private val usecase: UpdateChave by inject()
+    private val usecase: UpdateTableChave by inject()
     private val chaveDao: ChaveDao by inject()
 
     @Test

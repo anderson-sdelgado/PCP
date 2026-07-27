@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioPassagRoomModel
-import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_PROPRIO_PASSAG
+import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_PROPRIO_PASSAG
 
 @Dao
 interface MovEquipProprioPassagDao {

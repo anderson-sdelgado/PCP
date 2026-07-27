@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercPassagRoomModel
-import br.com.usinasantafe.pcp.utils.TB_MOV_EQUIP_VISIT_TERC_PASSAG
+import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_VISIT_TERC_PASSAG
 
 @Dao
 interface MovEquipVisitTercPassagDao {

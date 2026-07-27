@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.external.sharedpreferences.datasource
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcp.utils.BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG
+import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -55,7 +55,7 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasourceTest {
     fun `Check return list if have data in table internal`() = runTest {
         IMovEquipVisitTercPassagSharedPreferencesDatasource.add(1)
         val result = sharedPreferences.getString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG,
             null
         )
         assertEquals(
@@ -78,7 +78,7 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasourceTest {
     fun `Check return true if clear execute successfully`() = runTest {
         IMovEquipVisitTercPassagSharedPreferencesDatasource.add(1)
         val result = sharedPreferences.getString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG,
             null
         )
         assertEquals(
@@ -121,7 +121,7 @@ class IMovEquipVisitTercPassagSharedPreferencesDatasourceTest {
         IMovEquipVisitTercPassagSharedPreferencesDatasource.add(10)
         IMovEquipVisitTercPassagSharedPreferencesDatasource.add(20)
         val result = sharedPreferences.getString(
-            BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG,
+            BASE_SHARED_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG,
             null
         )
         assertEquals(
