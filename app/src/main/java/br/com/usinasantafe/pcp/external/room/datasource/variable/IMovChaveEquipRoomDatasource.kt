@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovChaveEquipDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovChaveEquipRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveEquipRoomModel
@@ -17,7 +16,7 @@ class IMovChaveEquipRoomDatasource @Inject constructor(
 ): MovChaveEquipRoomDatasource {
 
     suspend fun updateModel(id: Int, block: MovChaveEquipRoomModel.() -> Unit) {
-        val model = get(id).getOrThrow()
+        val model = getById(id).getOrThrow()
         model.block()
         update(model).getOrThrow()
     }
@@ -32,7 +31,7 @@ class IMovChaveEquipRoomDatasource @Inject constructor(
             movChaveEquipDao.hasByStatusSend(StatusSend.SEND)
         }
 
-    override suspend fun get(id: Int): Result<MovChaveEquipRoomModel> =
+    override suspend fun getById(id: Int): Result<MovChaveEquipRoomModel> =
         result(getClassAndMethod()) {
             movChaveEquipDao.getById(id)
         }

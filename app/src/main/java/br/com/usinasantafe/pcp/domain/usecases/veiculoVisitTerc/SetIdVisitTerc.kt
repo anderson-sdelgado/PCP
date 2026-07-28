@@ -49,8 +49,8 @@ class ISetIdVisitTerc @Inject constructor(
             }
             val typeVisitTerc = resultGetType.getOrNull()!!
             val resultGetId = when (typeVisitTerc) {
-                TypeVisitTerc.VISITANTE -> visitanteRepository.getId(cpf)
-                TypeVisitTerc.TERCEIRO -> terceiroRepository.getId(cpf)
+                TypeVisitTerc.VISITANTE -> visitanteRepository.getIdByCpf(cpf)
+                TypeVisitTerc.TERCEIRO -> terceiroRepository.getIdByCpf(cpf)
             }
             if (resultGetId.isFailure) {
                 val e = resultGetId.exceptionOrNull()!!

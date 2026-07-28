@@ -58,7 +58,7 @@ class IGetPassagVisitTercList @Inject constructor(
                 when (typeVisitTerc) {
                     TypeVisitTerc.VISITANTE -> {
                         val resultCPF =
-                            visitanteRepository.getCpf(it.idVisitTerc!!)
+                            visitanteRepository.getCpfById(it.idVisitTerc!!)
                         if (resultCPF.isFailure) {
                             val e = resultCPF.exceptionOrNull()!!
                             return resultFailure(
@@ -68,7 +68,7 @@ class IGetPassagVisitTercList @Inject constructor(
                             )
                         }
                         val cpf = resultCPF.getOrNull()!!
-                        val resultNome = visitanteRepository.getNome(cpf)
+                        val resultNome = visitanteRepository.getNomeByCpf(cpf)
                         if (resultNome.isFailure) {
                             val e = resultNome.exceptionOrNull()!!
                             return resultFailure(
@@ -87,7 +87,7 @@ class IGetPassagVisitTercList @Inject constructor(
 
                     TypeVisitTerc.TERCEIRO -> {
                         val resultCPF =
-                            terceiroRepository.getCpf(it.idVisitTerc!!)
+                            terceiroRepository.getCpfById(it.idVisitTerc!!)
                         if (resultCPF.isFailure) {
                             val e = resultCPF.exceptionOrNull()!!
                             return resultFailure(
@@ -97,7 +97,7 @@ class IGetPassagVisitTercList @Inject constructor(
                             )
                         }
                         val cpf = resultCPF.getOrNull()!!
-                        val resultNome = terceiroRepository.getNome(cpf)
+                        val resultNome = terceiroRepository.getNomeByCpf(cpf)
                         if (resultNome.isFailure) {
                             val e = resultNome.exceptionOrNull()!!
                             return resultFailure(

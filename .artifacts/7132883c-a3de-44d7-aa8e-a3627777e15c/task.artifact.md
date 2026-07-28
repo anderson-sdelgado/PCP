@@ -1,0 +1,8 @@
+- [ ] Refactor `ITerceiroRepository.kt`
+    - [ ] Update `getEmpresasByCpf` to use `call` and `joinToString`
+    - [ ] Update other functions to use `call` consistently
+- [ ] Refactor `IVisitanteRepository.kt`
+    - [ ] Update all functions to use `call`
+    - [ ] Change return types to `EmptyResult` where applicable
+- [ ] Update `ITerceiroRepositoryTest.kt` to match refactored repository
+- [ ] Verify changes with unit tests

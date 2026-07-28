@@ -46,7 +46,7 @@ class GetMotoristaVisitTercImplTest {
     @Test
     fun `Check return failure if have error in TerceiroRepository `() = runTest{
         whenever(
-            terceiroRepository.get(1)
+            terceiroRepository.getById(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -99,7 +99,7 @@ class GetMotoristaVisitTercImplTest {
         val terceiroRepository = mock<TerceiroRepository>()
         val visitanteRepository = mock<VisitanteRepository>()
         whenever(
-            terceiroRepository.get(1)
+            terceiroRepository.getById(1)
         ).thenReturn(
             Result.success(
                 Terceiro(

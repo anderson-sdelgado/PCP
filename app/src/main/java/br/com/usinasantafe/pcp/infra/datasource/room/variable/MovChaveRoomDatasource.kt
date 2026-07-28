@@ -12,18 +12,9 @@ interface MovChaveRoomDatasource {
     suspend fun listSend(): Result<List<MovChaveRoomModel>>
     suspend fun save(movChaveRoomModel: MovChaveRoomModel): Result<Long>
     suspend fun setClose(id: Int): EmptyResult
-    suspend fun setIdChave(
-        idChave: Int,
-        id: Int
-    ): EmptyResult
-    suspend fun setObserv(
-        observ: String?,
-        id: Int
-    ): EmptyResult
-    suspend fun setMatricColab(
-        matric: Int,
-        id: Int
-    ): EmptyResult
+    suspend fun setIdChave(idChave: Int, id: Int): EmptyResult
+    suspend fun setObserv(observ: String?, id: Int): EmptyResult
+    suspend fun setMatricColab(matric: Int, id: Int): EmptyResult
     suspend fun setSent(id: Int): EmptyResult
     suspend fun setOutside(id: Int): EmptyResult
 }

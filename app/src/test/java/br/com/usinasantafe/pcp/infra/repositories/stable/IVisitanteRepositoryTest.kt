@@ -64,7 +64,7 @@ class IVisitanteRepositoryTest {
     @Test
     fun `Check failure Datasource in recover data`() = runTest {
         whenever(
-            visitanteRetrofitDatasource.recoverAll(token)
+            visitanteRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -77,7 +77,7 @@ class IVisitanteRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "IVisitanteRepository.recoverAll -> Unknown Error"
+            "IVisitanteRepository.listAll -> Unknown Error"
         )
     }
 
@@ -92,7 +92,7 @@ class IVisitanteRepositoryTest {
             )
         )
         whenever(
-            visitanteRetrofitDatasource.recoverAll(token)
+            visitanteRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.success(retrofitModelList)
         )
@@ -195,14 +195,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.checkCPF("123.456.789-00")
+            val result = repository.hasCPF("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IVisitanteRepository.checkCPF -> Unknown Error"
+                "IVisitanteRepository.hasCPF -> Unknown Error"
             )
         }
 
@@ -214,7 +214,7 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkCPF("123.456.789-00")
+            val result = repository.hasCPF("123.456.789-00")
             assertTrue(result.isSuccess)
             assertTrue(result.getOrNull()!!)
         }
@@ -227,7 +227,7 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkCPF("123.456.789-00")
+            val result = repository.hasCPF("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true
@@ -295,14 +295,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getCpf(1)
+            val result = repository.getCpfById(1)
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IVisitanteRepository.getCpf -> Unknown Error"
+                "IVisitanteRepository.getCpfById -> Unknown Error"
             )
         }
 
@@ -320,7 +320,7 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getCpf(1)
+            val result = repository.getCpfById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -341,14 +341,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getId("123.456.789-00")
+            val result = repository.getIdByCpf("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IVisitanteRepository.getId -> Unknown Error"
+                "IVisitanteRepository.getIdByCpf -> Unknown Error"
             )
         }
 
@@ -366,7 +366,7 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getId("123.456.789-00")
+            val result = repository.getIdByCpf("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true
@@ -387,14 +387,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getNome("123.456.789-00")
+            val result = repository.getNomeByCpf("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IVisitanteRepository.getNome -> Unknown Error"
+                "IVisitanteRepository.getNomeByCpf -> Unknown Error"
             )
         }
 
@@ -412,7 +412,7 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getNome("123.456.789-00")
+            val result = repository.getNomeByCpf("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true
@@ -433,14 +433,14 @@ class IVisitanteRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getEmpresas("123.456.789-00")
+            val result = repository.getEmpresasByCpf("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IVisitanteRepository.getEmpresas -> Unknown Error"
+                "IVisitanteRepository.getEmpresasByCpf -> Unknown Error"
             )
         }
 
@@ -458,7 +458,7 @@ class IVisitanteRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getEmpresas("123.456.789-00")
+            val result = repository.getEmpresasByCpf("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true

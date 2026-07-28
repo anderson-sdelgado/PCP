@@ -16,15 +16,13 @@ interface MovEquipProprioPassagDao {
     @Insert
     suspend fun insertAll(list: List<MovEquipProprioPassagRoomModel>)
 
-    @Delete
-    suspend fun delete(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel)
+    @Query("DELETE FROM $TB_MOV_EQUIP_PROPRIO_PASSAG WHERE idMovEquipProprio = :idMov")
+    suspend fun deleteByIdMov(idMov: Int)
+
+    @Query("DELETE FROM $TB_MOV_EQUIP_PROPRIO_PASSAG WHERE idMovEquipProprio = :idMov AND matricColab = :matricColab")
+    suspend fun deleteByIdMovAndMatric(idMov: Int, matricColab: Int)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_PASSAG WHERE idMovEquipProprio = :idMov")
-    suspend fun list(idMov: Int): List<MovEquipProprioPassagRoomModel>
+    suspend fun listById(idMov: Int): List<MovEquipProprioPassagRoomModel>
 
-    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_PASSAG WHERE idMovEquipProprio = :idMov AND matricColab = :matricColab")
-    suspend fun get(idMov: Int, matricColab: Int): MovEquipProprioPassagRoomModel
-
-    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_PASSAG WHERE idMovEquipProprio = :idMov")
-    suspend fun get(idMov: Int): List<MovEquipProprioPassagRoomModel>
 }

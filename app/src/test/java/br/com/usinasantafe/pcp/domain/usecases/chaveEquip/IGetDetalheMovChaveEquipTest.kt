@@ -27,7 +27,7 @@ class IGetDetalheMovChaveEquipTest {
     fun `Check return failure if have error in MovChaveEquipRepository get`() =
         runTest {
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -59,12 +59,12 @@ class IGetDetalheMovChaveEquipTest {
                     observMovChaveEquip = "teste",
                 )
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -96,19 +96,19 @@ class IGetDetalheMovChaveEquipTest {
                     observMovChaveEquip = "teste",
                 )
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.success(
                     "ANDERSON DA SILVA DELGADO"
                 )
             )
             whenever(
-                equipRepository.getDescr(1)
+                equipRepository.getDescrById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -140,19 +140,19 @@ class IGetDetalheMovChaveEquipTest {
                     observMovChaveEquip = "teste",
                 )
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.success(
                     "ANDERSON DA SILVA DELGADO"
                 )
             )
             whenever(
-                equipRepository.getDescr(1)
+                equipRepository.getDescrById(1)
             ).thenReturn(
                 Result.success("TRATOR")
             )

@@ -18,7 +18,7 @@ class IGetMatricColabMovChaveTest {
     fun `Check return failure if have error in MovChaveRepository getMatricColab`() =
         runTest {
             whenever(
-                movChaveRepository.getMatricColab(1)
+                movChaveRepository.getMatricColabById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -39,7 +39,7 @@ class IGetMatricColabMovChaveTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                movChaveRepository.getMatricColab(1)
+                movChaveRepository.getMatricColabById(1)
             ).thenReturn(
                 Result.success(19759)
             )

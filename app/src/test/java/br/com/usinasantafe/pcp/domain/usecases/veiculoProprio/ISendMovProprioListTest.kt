@@ -312,7 +312,7 @@ class ISendMovProprioListTest {
                 Config(
                     number = 16997417840,
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
         )
@@ -416,7 +416,7 @@ class ISendMovProprioListTest {
                 Config(
                     number = 16997417840,
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
         )

@@ -12,7 +12,7 @@ class ILocalRetrofitDatasource @Inject constructor(
     private val localApi: LocalApi
 ): LocalRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<LocalRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<LocalRetrofitModel>> =
         result(getClassAndMethod()) {
             localApi.all(token).body()!!
         }

@@ -33,7 +33,7 @@ class IGetMovEquipProprioOpenList @Inject constructor(
             }
             val list = resultList.getOrNull()!!
             val modelList = list.map {
-                val resultNro = equipRepository.getDescr(it.idEquipMovEquipProprio!!)
+                val resultNro = equipRepository.getDescrById(it.idEquipMovEquipProprio!!)
                 if (resultNro.isFailure) {
                     val e = resultNro.exceptionOrNull()!!
                     return resultFailure(
@@ -43,7 +43,7 @@ class IGetMovEquipProprioOpenList @Inject constructor(
                             )
                 }
                 val descrEquip = resultNro.getOrNull()!!
-                val resultGetNome = colabRepository.getNome(it.matricColabMovEquipProprio!!)
+                val resultGetNome = colabRepository.getNomeByMatric(it.matricColabMovEquipProprio!!)
                 if (resultGetNome.isFailure) {
                     val e = resultGetNome.exceptionOrNull()!!
                     return resultFailure(

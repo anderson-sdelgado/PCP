@@ -1,13 +1,15 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Chave
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ChaveRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ChaveRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IChaveRepository @Inject constructor(
@@ -15,107 +17,34 @@ class IChaveRepository @Inject constructor(
     private val chaveRetrofitDatasource: ChaveRetrofitDatasource
 ): ChaveRepository {
 
-    override suspend fun addAll(list: List<Chave>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<Chave>): EmptyResult =
+        call(getClassAndMethod()) {
             val roomModelList = list.map { it.entityToRoomModel() }
-            val result = chaveRoomDatasource.addAll(roomModelList)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IChaveRepository.addAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IChaveRepository.addAll",
-                message = "-",
-                cause = e
-            )
+            chaveRoomDatasource.addAll(roomModelList).getOrThrow()
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        val result = chaveRoomDatasource.deleteAll()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IChaveRepository.deleteAll",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun deleteAll(): EmptyResult =
+        call(getClassAndMethod()) {
+            chaveRoomDatasource.deleteAll()
         }
-        return result
-    }
 
-    override suspend fun get(id: Int): Result<Chave> {
-        try {
-            val result = chaveRoomDatasource.get(id).map {
-                it.roomModelToEntity()
-            }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IChaveRepository.get",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRepository.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun get(id: Int): Result<Chave> =
+        call(getClassAndMethod()) {
+            val model = chaveRoomDatasource.get(id).getOrThrow()
+            model.roomModelToEntity()
         }
-    }
 
-    override suspend fun listAll(): Result<List<Chave>> {
-        try {
-            val resultRoomList = chaveRoomDatasource.listAll()
-            if (resultRoomList.isFailure) {
-                val e = resultRoomList.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IChaveRepository.listAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = resultRoomList.getOrNull()!!.map { it.roomModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRepository.listAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(): Result<List<Chave>> =
+        call(getClassAndMethod()) {
+            val modelList = chaveRoomDatasource.listAll().getOrThrow()
+            modelList.map { it.roomModelToEntity() }
         }
-    }
 
-    override suspend fun listAll(token: String): Result<List<Chave>> {
-        try {
-            val result = chaveRetrofitDatasource.recoverAll(token)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IChaveRepository.recoverAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IChaveRepository.recoverAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(token: String): Result<List<Chave>> =
+        call(getClassAndMethod()) {
+            val modelList = chaveRetrofitDatasource.listAll(token).getOrThrow()
+            modelList.map { it.retrofitModelToEntity() }
         }
-    }
 
 
 }

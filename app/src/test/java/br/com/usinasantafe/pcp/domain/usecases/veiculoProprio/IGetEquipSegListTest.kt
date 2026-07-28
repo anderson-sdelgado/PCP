@@ -100,7 +100,7 @@ class IGetEquipSegListTest {
             )
         )
         whenever(
-            equipRepository.get(10)
+            equipRepository.getById(10)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -137,7 +137,7 @@ class IGetEquipSegListTest {
             )
         )
         whenever(
-            equipRepository.get(10)
+            equipRepository.getById(10)
         ).thenReturn(
             Result.success(
                 Equip(

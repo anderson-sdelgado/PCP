@@ -1,13 +1,15 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.EquipRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.EquipRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IEquipRepository @Inject constructor(
@@ -15,173 +17,52 @@ class IEquipRepository @Inject constructor(
     private val equipRetrofitDatasource: EquipRetrofitDatasource
 ): EquipRepository {
     
-    override suspend fun addAll(list: List<Equip>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<Equip>): EmptyResult =
+        call(getClassAndMethod()) {
             val equipModelList = list.map { it.entityToRoomModel() }
-            val result = equipRoomDatasource.addAll(equipModelList)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IEquipRepository.addAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IEquipRepository.add",
-                message = "-",
-                cause = e
-            )
+            equipRoomDatasource.addAll(equipModelList)
         }
-    }
 
-    override suspend fun checkNro(nroEquip: Long): Result<Boolean> {
-        val result = equipRoomDatasource.checkNro(nroEquip)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IEquipRepository.checkNro",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun hasNro(nroEquip: Long): Result<Boolean> =
+        call(getClassAndMethod()) {
+            equipRoomDatasource.hasNro(nroEquip).getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        val result = equipRoomDatasource.deleteAll()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IEquipRepository.deleteAll",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun deleteAll(): EmptyResult =
+        call(getClassAndMethod()) {
+            equipRoomDatasource.deleteAll().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun get(idEquip: Int): Result<Equip> {
-        try{
-            val result = equipRoomDatasource.getById(idEquip)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IEquipRepository.get",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entity = result.getOrNull()!!.roomModelToEntity()
-            return Result.success(entity)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRepository.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getById(idEquip: Int): Result<Equip> =
+        call(getClassAndMethod()) {
+            val model = equipRoomDatasource.getById(idEquip).getOrThrow()
+            model.roomModelToEntity()
         }
-    }
 
-    override suspend fun getId(nroEquip: Long): Result<Int> {
-        try{
-            val result = equipRoomDatasource.getIdByNro(nroEquip)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IEquipRepository.getId",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val id = result.getOrNull()!!
-            if (id == 0)
-                return resultFailure(
-                    context = "IEquipRepository.getId",
-                    message = "-",
-                    cause = Exception("Id is 0")
-                )
-            return Result.success(result.getOrNull()!!)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRepository.getId",
-                message = "-",
-                cause = Exception("Id is 0")
-            )
+    override suspend fun getIdByNro(nroEquip: Long): Result<Int> =
+        call(getClassAndMethod()) {
+            val id = equipRoomDatasource.getIdByNro(nroEquip).getOrThrow()
+            if (id == 0) throw Exception("Id is 0")
+            id
         }
-    }
 
-    override suspend fun getNro(idEquip: Int): Result<Long> {
-        try{
-            val result = equipRoomDatasource.getNroById(idEquip)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IEquipRepository.getNro",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val id = result.getOrNull()!!
-            if (id == 0L)
-                return resultFailure(
-                    context = "IEquipRepository.getNro",
-                    message = "-",
-                    cause = Exception("Nro is 0")
-                )
-            return Result.success(result.getOrNull()!!)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRepository.getNro",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun getNroById(idEquip: Int): Result<Long> =
+        call(getClassAndMethod()) {
+            val nro = equipRoomDatasource.getNroById(idEquip).getOrThrow()
+            if (nro == 0L) throw Exception("Nro is 0")
+            nro
         }
-    }
 
-    override suspend fun getDescr(idEquip: Int): Result<String> {
-        try{
-            val result = equipRoomDatasource.getById(idEquip)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IEquipRepository.getDescr",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entity = result.getOrNull()!!.roomModelToEntity()
-            return Result.success("${entity.nroEquip} - ${entity.descrEquip}")
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRepository.getDescr",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getDescrById(idEquip: Int): Result<String> =
+        call(getClassAndMethod()) {
+            val model = equipRoomDatasource.getById(idEquip).getOrThrow()
+            val entity = model.roomModelToEntity()
+            "${entity.nroEquip} - ${entity.descrEquip}"
         }
-    }
 
-    override suspend fun listAll(token: String): Result<List<Equip>> {
-        try {
-            val result =  equipRetrofitDatasource.recoverAll(token)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IEquipRepository.recoverAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IEquipRepository.recoverAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(token: String): Result<List<Equip>> =
+        call(getClassAndMethod()) {
+            val modelList = equipRetrofitDatasource.listAll(token).getOrThrow()
+            modelList.map { it.retrofitModelToEntity() }
         }
-    }
 }

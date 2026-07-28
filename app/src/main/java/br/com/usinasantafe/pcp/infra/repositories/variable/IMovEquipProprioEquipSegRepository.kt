@@ -8,6 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipProprio
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioEquipSegRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.modelRoomToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IMovEquipProprioEquipSegRepository @Inject constructor(
@@ -15,150 +18,56 @@ class IMovEquipProprioEquipSegRepository @Inject constructor(
     private val movEquipProprioEquipSegRoomDatasource: MovEquipProprioEquipSegRoomDatasource
 ) : MovEquipProprioEquipSegRepository {
 
-    override suspend fun add(
-        idEquip: Int,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        val result =
+    override suspend fun add(idEquip: Int, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
             when (flowApp) {
-                FlowApp.ADD -> movEquipProprioEquipSegSharedPreferencesDatasource.add(idEquip)
-                FlowApp.CHANGE -> movEquipProprioEquipSegRoomDatasource.add(idEquip, id)
-            }
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipProprioEquipSegRepository.add",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun clean(): Result<Boolean> {
-        val result = movEquipProprioEquipSegSharedPreferencesDatasource.clean()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipProprioEquipSegRepository.clean",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun delete(id: Int): Result<Boolean> {
-        val result = movEquipProprioEquipSegRoomDatasource.delete(id)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipProprioEquipSegRepository.delete",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun list(
-        flowApp: FlowApp,
-        id: Int
-    ): Result<List<MovEquipProprioEquipSeg>> {
-        when(flowApp) {
-            FlowApp.ADD -> {
-                val result = movEquipProprioEquipSegSharedPreferencesDatasource.list()
-                if (result.isFailure) {
-                    val e = result.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "IMovEquipProprioEquipSegRepository.list",
-                        message = e.message,
-                                cause = e.cause
-                            )
-                }
-                val list = result.getOrNull()!!
-                val movEquipProprioEquipSegList = list.map {
-                    MovEquipProprioEquipSeg(
-                        idEquip = it
-                    )
-                }
-                return Result.success(movEquipProprioEquipSegList)
-            }
-            FlowApp.CHANGE -> {
-                val result = movEquipProprioEquipSegRoomDatasource.list(id)
-                if (result.isFailure) {
-                    val e = result.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "IMovEquipProprioEquipSegRepository.list",
-                        message = e.message,
-                                cause = e.cause
-                            )
-                }
-                val list = result.getOrNull()!!
-                val movEquipProprioEquipSegList = list.map { it.modelRoomToEntity() }
-                return Result.success(movEquipProprioEquipSegList)
+                FlowApp.ADD -> movEquipProprioEquipSegSharedPreferencesDatasource.add(idEquip).getOrThrow()
+                FlowApp.CHANGE -> movEquipProprioEquipSegRoomDatasource.add(idEquip, id).getOrThrow()
             }
         }
-    }
 
-    override suspend fun delete(
-        idEquip: Int,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        val result =
+    override suspend fun clean(): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipProprioEquipSegSharedPreferencesDatasource.clean().getOrThrow()
+        }
+
+    override suspend fun delete(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipProprioEquipSegRoomDatasource.delete(id).getOrThrow()
+        }
+
+    override suspend fun list(flowApp: FlowApp, id: Int): Result<List<MovEquipProprioEquipSeg>> =
+        call(getClassAndMethod()) {
+            when(flowApp) {
+                FlowApp.ADD -> {
+                    val list = movEquipProprioEquipSegSharedPreferencesDatasource.list().getOrThrow()
+                    list.map { MovEquipProprioEquipSeg(idEquip = it) }
+                }
+                FlowApp.CHANGE -> {
+                    val list = movEquipProprioEquipSegRoomDatasource.list(id).getOrThrow()
+                    list.map { it.modelRoomToEntity() }
+                }
+            }
+        }
+
+    override suspend fun delete(idEquip: Int, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
             when (flowApp) {
-                FlowApp.ADD -> movEquipProprioEquipSegSharedPreferencesDatasource.delete(idEquip)
-                FlowApp.CHANGE -> movEquipProprioEquipSegRoomDatasource.delete(idEquip, id)
+                FlowApp.ADD -> movEquipProprioEquipSegSharedPreferencesDatasource.delete(idEquip).getOrThrow()
+                FlowApp.CHANGE -> movEquipProprioEquipSegRoomDatasource.delete(idEquip, id).getOrThrow()
             }
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipProprioEquipSegRepository.delete",
-                message = e.message,
-                cause = e.cause
-            )
         }
-        return result
-    }
 
-    override suspend fun save(id: Int): Result<Boolean> {
-        try {
-            val resultList = movEquipProprioEquipSegSharedPreferencesDatasource.list()
-            if (resultList.isFailure) {
-                val e = resultList.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioEquipSegRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val list = resultList.getOrNull()!!
+    override suspend fun save(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            val list = movEquipProprioEquipSegSharedPreferencesDatasource.list().getOrThrow()
             val movEquipProprioEquipSegRoomModelList = list.map {
                 MovEquipProprioEquipSegRoomModel(
                     idMovEquipProprio = id,
                     idEquip = it
                 )
             }
-            val resultAddAll =
-                movEquipProprioEquipSegRoomDatasource.addAll(movEquipProprioEquipSegRoomModelList)
-            if (resultAddAll.isFailure) {
-                val e = resultAddAll.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipProprioEquipSegRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioEquipSegRepository.save",
-                message = "-",
-                cause = e
-            )
+            movEquipProprioEquipSegRoomDatasource.addAll(movEquipProprioEquipSegRoomModelList).getOrThrow()
         }
-    }
 
 }

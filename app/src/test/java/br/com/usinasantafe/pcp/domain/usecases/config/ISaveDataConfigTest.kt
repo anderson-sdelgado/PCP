@@ -18,7 +18,7 @@ class ISaveDataConfigTest {
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         ).thenReturn(
             Result.success(true)
@@ -72,7 +72,7 @@ class ISaveDataConfigTest {
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         ).thenReturn(
             Result.failure(

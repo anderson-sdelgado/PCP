@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcp.external.retrofit.datasource.stable
 
-import br.com.usinasantafe.pcp.domain.entities.stable.Terceiro
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.TerceiroApi
 import br.com.usinasantafe.pcp.external.retrofit.provideRetrofitTest
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.TerceiroRetrofitModel
@@ -21,7 +20,7 @@ class ITerceiroRetrofitDatasourceTest {
         val retrofit = provideRetrofitTest(server.url("").toString())
         val service: TerceiroApi = retrofit.create(TerceiroApi::class.java)
         val datasource = ITerceiroRetrofitDatasource(service)
-        val result = datasource.recoverAll("12345")
+        val result = datasource.listAll("12345")
         assertEquals(
             result.isFailure,
             true
@@ -44,7 +43,7 @@ class ITerceiroRetrofitDatasourceTest {
         val retrofit = provideRetrofitTest(server.url("").toString())
         val service: TerceiroApi = retrofit.create(TerceiroApi::class.java)
         val datasource = ITerceiroRetrofitDatasource(service)
-        val result = datasource.recoverAll("12345")
+        val result = datasource.listAll("12345")
         assertEquals(
             result.isFailure,
             true
@@ -67,7 +66,7 @@ class ITerceiroRetrofitDatasourceTest {
         val retrofit = provideRetrofitTest(server.url("").toString())
         val service: TerceiroApi = retrofit.create(TerceiroApi::class.java)
         val datasource = ITerceiroRetrofitDatasource(service)
-        val result = datasource.recoverAll("12345")
+        val result = datasource.listAll("12345")
         assertEquals(
             result.isSuccess,
             true

@@ -1,13 +1,15 @@
 package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Fluxo
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.FluxoRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.FluxoRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.FluxoRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IFluxoRepository @Inject constructor(
@@ -15,82 +17,27 @@ class IFluxoRepository @Inject constructor(
     private val fluxoRetrofitDatasource: FluxoRetrofitDatasource
 ): FluxoRepository {
 
-    override suspend fun addAll(list: List<Fluxo>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<Fluxo>): EmptyResult =
+        call(getClassAndMethod()) {
             val roomModelList = list.map { it.entityToRoomModel() }
-            val result = fluxoRoomDatasource.addAll(roomModelList)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IFluxoRepository.addAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IFluxoRepository.add",
-                message = "-",
-                cause = e
-            )
+            fluxoRoomDatasource.addAll(roomModelList).getOrThrow()
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        val result = fluxoRoomDatasource.deleteAll()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IFluxoRepository.deleteAll",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun deleteAll(): EmptyResult =
+        call(getClassAndMethod()) {
+            fluxoRoomDatasource.deleteAll().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun get(id: Int): Result<Fluxo> {
-        try {
-            val result = fluxoRoomDatasource.getById(id).map { it.roomModelToEntity() }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IFluxoRepository.get",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IFluxoRepository.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getById(id: Int): Result<Fluxo> =
+        call(getClassAndMethod()) {
+            val model = fluxoRoomDatasource.getById(id).getOrThrow()
+            model.roomModelToEntity()
         }
-    }
 
-    override suspend fun listAll(token: String): Result<List<Fluxo>> {
-        try {
-            val result = fluxoRetrofitDatasource.recoverAll(token)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IFluxoRepository.recoverAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IFluxoRepository.recoverAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(token: String): Result<List<Fluxo>> =
+        call(getClassAndMethod()) {
+            val modelList = fluxoRetrofitDatasource.listAll(token).getOrThrow()
+            modelList.map { it.retrofitModelToEntity() }
         }
-    }
 
 }

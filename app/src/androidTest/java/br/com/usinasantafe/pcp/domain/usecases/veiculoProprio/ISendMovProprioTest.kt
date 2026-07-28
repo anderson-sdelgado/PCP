@@ -52,7 +52,7 @@ class ISendMovProprioTest : KoinTest {
         movEquipProprioDao.insert(movEquipProprioRoomModel)
         configSharedPreferencesDatasource.save(
             Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "6.00",
                 password = "12345"
@@ -166,7 +166,7 @@ class ISendMovProprioTest : KoinTest {
         movEquipProprioDao.insert(movEquipProprioRoomModel)
         configSharedPreferencesDatasource.save(
             Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "6.00",
                 password = "12345"
@@ -215,7 +215,7 @@ class ISendMovProprioTest : KoinTest {
         movEquipProprioDao.insert(movEquipProprioRoomModel)
         configSharedPreferencesDatasource.save(
             Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "6.00",
                 password = "12345"

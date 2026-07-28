@@ -123,7 +123,7 @@ class ISendMovChaveListTest {
                     Config(
                         number = 16997417840,
                         version = "1.00",
-                        idBD = 1
+                        idServ = 1
                     )
                 )
             )
@@ -191,7 +191,7 @@ class ISendMovChaveListTest {
                     Config(
                         number = 16997417840,
                         version = "1.00",
-                        idBD = 1
+                        idServ = 1
                     )
                 )
             )

@@ -48,7 +48,7 @@ class IGetNroEquipProprioTest {
             Result.success(10)
         )
         whenever(
-            equipRepository.getNro(
+            equipRepository.getNroById(
                 idEquip = 10
             )
         ).thenReturn(
@@ -76,7 +76,7 @@ class IGetNroEquipProprioTest {
         ).thenReturn(
             Result.success(10)
         )
-        whenever(equipRepository.getNro(idEquip = 10)).thenReturn(
+        whenever(equipRepository.getNroById(idEquip = 10)).thenReturn(
             Result.success(100)
         )
         val result = usecase(id = 1)

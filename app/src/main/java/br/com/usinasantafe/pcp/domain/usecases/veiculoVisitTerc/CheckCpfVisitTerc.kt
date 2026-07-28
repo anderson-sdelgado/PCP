@@ -39,8 +39,8 @@ class ICheckCpfVisitTerc @Inject constructor(
             }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
             val resultCheck = when (typeVisitTerc) {
-                TypeVisitTerc.VISITANTE -> visitanteRepository.checkCPF(cpf)
-                TypeVisitTerc.TERCEIRO -> terceiroRepository.checkCPF(cpf)
+                TypeVisitTerc.VISITANTE -> visitanteRepository.hasCPF(cpf)
+                TypeVisitTerc.TERCEIRO -> terceiroRepository.hasCPF(cpf)
             }
             if (resultCheck.isFailure) {
                 val e = resultCheck.exceptionOrNull()!!

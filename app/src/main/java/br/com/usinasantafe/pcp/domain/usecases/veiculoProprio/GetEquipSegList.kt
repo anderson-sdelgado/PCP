@@ -38,7 +38,7 @@ class IGetEquipSegList @Inject constructor(
             }
             val equipList = resultList.getOrNull()!!
             val equipSegList = equipList.map {
-                val resultNroEquip = equipRepository.get(it.idEquip!!)
+                val resultNroEquip = equipRepository.getById(it.idEquip!!)
                 if (resultNroEquip.isFailure) {
                     val e = resultNroEquip.exceptionOrNull()!!
                     return resultFailure(

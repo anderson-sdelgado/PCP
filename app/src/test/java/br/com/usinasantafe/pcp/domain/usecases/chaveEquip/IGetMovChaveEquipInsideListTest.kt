@@ -66,7 +66,7 @@ class IGetMovChaveEquipInsideListTest {
                 )
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -105,14 +105,14 @@ class IGetMovChaveEquipInsideListTest {
                 )
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.success(
                     "ANDERSON DA SILVA DELGADO"
                 )
             )
             whenever(
-                equipRepository.getDescr(1)
+                equipRepository.getDescrById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -151,14 +151,14 @@ class IGetMovChaveEquipInsideListTest {
                 )
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.success(
                     "ANDERSON DA SILVA DELGADO"
                 )
             )
             whenever(
-                equipRepository.getDescr(1)
+                equipRepository.getDescrById(1)
             ).thenReturn(
                 Result.success("TRATOR")
             )

@@ -97,7 +97,7 @@ class GetCpfVisitTercImplTest {
             Result.success(10)
         )
         whenever(
-            terceiroRepository.getCpf(
+            terceiroRepository.getCpfById(
                 id = 10
             )
         ).thenReturn(
@@ -136,7 +136,7 @@ class GetCpfVisitTercImplTest {
             Result.success(10)
         )
         whenever(
-            visitanteRepository.getCpf(
+            visitanteRepository.getCpfById(
                 id = 10
             )
         ).thenReturn(
@@ -175,7 +175,7 @@ class GetCpfVisitTercImplTest {
             Result.success(10)
         )
         whenever(
-            terceiroRepository.getCpf(
+            terceiroRepository.getCpfById(
                 id = 10
             )
         ).thenReturn(
@@ -212,7 +212,7 @@ class GetCpfVisitTercImplTest {
             Result.success(10)
         )
         whenever(
-            visitanteRepository.getCpf(
+            visitanteRepository.getCpfById(
                 id = 10
             )
         ).thenReturn(

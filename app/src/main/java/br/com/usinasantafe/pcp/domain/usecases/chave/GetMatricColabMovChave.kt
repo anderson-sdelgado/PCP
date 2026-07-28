@@ -14,7 +14,7 @@ class IGetMatricColabMovChave @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<String> {
         try {
-            val resultGetMatricColab = movChaveRepository.getMatricColab(id)
+            val resultGetMatricColab = movChaveRepository.getMatricColabById(id)
             if (resultGetMatricColab.isFailure) {
                 val e = resultGetMatricColab.exceptionOrNull()!!
                 return resultFailure(

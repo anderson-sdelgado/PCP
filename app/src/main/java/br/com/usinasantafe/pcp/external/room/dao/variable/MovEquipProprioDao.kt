@@ -22,13 +22,19 @@ interface MovEquipProprioDao {
     @Delete
     suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel)
 
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :statusData)")
+    suspend fun hasByStatusData(statusData: StatusData): Boolean
+
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusSendMovEquipProprio = :statusSend)")
+    suspend fun hasByStatusSend(statusSend: StatusSend): Boolean
+
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE idMovEquipProprio = :idMov")
     suspend fun get(idMov: Int): MovEquipProprioRoomModel
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :statusData")
-    suspend fun listStatusData(statusData: StatusData): List<MovEquipProprioRoomModel>
+    suspend fun listByStatusData(statusData: StatusData): List<MovEquipProprioRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusSendMovEquipProprio = :statusSend")
-    suspend fun listStatusSend(statusSend: StatusSend): List<MovEquipProprioRoomModel>
+    suspend fun listByStatusSend(statusSend: StatusSend): List<MovEquipProprioRoomModel>
 
 }

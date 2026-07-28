@@ -28,7 +28,7 @@ class ISaveDataConfig @Inject constructor(
                 number = number.toLong(),
                 password= password,
                 version = version,
-                idBD = idBD
+                idServ = idBD
             )
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!

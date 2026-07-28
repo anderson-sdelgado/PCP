@@ -55,7 +55,7 @@ class IGetDescrFullChaveTest {
                 )
             )
             whenever(
-                localTrabRepository.getDescr(1)
+                localTrabRepository.getDescrById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -91,7 +91,7 @@ class IGetDescrFullChaveTest {
                 )
             )
             whenever(
-                localTrabRepository.getDescr(1)
+                localTrabRepository.getDescrById(1)
             ).thenReturn(
                 Result.success("TI")
             )

@@ -114,7 +114,7 @@ class ISendMovVisitTercListTest: KoinTest {
             )
             configSharedPreferencesDatasource.save(
                 Config(
-                    idBD = 1,
+                    idServ = 1,
                     number = 16997417840,
                     version = "6.00",
                     password = "12345"
@@ -158,7 +158,7 @@ class ISendMovVisitTercListTest: KoinTest {
             )
             configSharedPreferencesDatasource.save(
                 Config(
-                    idBD = 1,
+                    idServ = 1,
                     number = 16997417840,
                     version = "6.00",
                     password = "12345"
@@ -206,7 +206,7 @@ class ISendMovVisitTercListTest: KoinTest {
             )
             configSharedPreferencesDatasource.save(
                 Config(
-                    idBD = 1,
+                    idServ = 1,
                     number = 16997417840,
                     version = "6.00",
                     password = "12345"
@@ -261,7 +261,7 @@ class ISendMovVisitTercListTest: KoinTest {
             )
             configSharedPreferencesDatasource.save(
                 Config(
-                    idBD = 1,
+                    idServ = 1,
                     number = 16997417840,
                     version = "6.00",
                     password = "12345"

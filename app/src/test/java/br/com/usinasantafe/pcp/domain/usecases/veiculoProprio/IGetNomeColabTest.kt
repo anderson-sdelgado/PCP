@@ -19,7 +19,7 @@ class IGetNomeColabTest {
     @Test
     fun `Check return failure if have failure in getNome`() = runTest {
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -40,7 +40,7 @@ class IGetNomeColabTest {
     fun `Check return NomeVigia if the process execute success`() = runTest {
         val colabRepository = mock<ColabRepository>()
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )

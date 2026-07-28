@@ -128,7 +128,7 @@ class ILocalTrabRepositoryTest {
     fun `RecoverAll - Check return failure if have error`() =
         runTest {
             whenever(
-                localTrabRetrofitDatasource.recoverAll("token")
+                localTrabRetrofitDatasource.listAll("token")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -161,7 +161,7 @@ class ILocalTrabRepositoryTest {
                 )
             )
             whenever(
-                localTrabRetrofitDatasource.recoverAll("token")
+                localTrabRetrofitDatasource.listAll("token")
             ).thenReturn(
                 Result.success(
                     retrofitModelList
@@ -188,7 +188,7 @@ class ILocalTrabRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getDescr(1)
+            val result = repository.getDescrById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -207,7 +207,7 @@ class ILocalTrabRepositoryTest {
             ).thenReturn(
                 Result.success("TI")
             )
-            val result = repository.getDescr(1)
+            val result = repository.getDescrById(1)
             assertEquals(
                 result.isSuccess,
                 true

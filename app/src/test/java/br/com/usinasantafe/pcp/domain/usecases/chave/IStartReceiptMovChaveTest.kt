@@ -24,7 +24,7 @@ class IStartReceiptMovChaveTest {
     fun `Check return failure if have error in MovChaveRepository get`() =
         runTest {
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -58,7 +58,7 @@ class IStartReceiptMovChaveTest {
                 statusForeignerMovChave = StatusForeigner.INSIDE
             )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
@@ -101,7 +101,7 @@ class IStartReceiptMovChaveTest {
                 statusForeignerMovChave = StatusForeigner.INSIDE
             )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )

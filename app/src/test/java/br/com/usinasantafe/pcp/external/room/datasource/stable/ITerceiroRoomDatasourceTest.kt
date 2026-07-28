@@ -112,7 +112,7 @@ class ITerceiroRoomDatasourceTest {
     @Test
     fun `Check return false if not exist Cpf researched`() = runTest {
         val datasource = ITerceiroRoomDatasource(terceiroDao)
-        val result = datasource.checkCpf("123.456.789-00")
+        val result = datasource.hasCpf("123.456.789-00")
         assertEquals(
             result.isSuccess,
             true
@@ -144,7 +144,7 @@ class ITerceiroRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.checkCpf("123.456.789-00")
+        val result = datasource.hasCpf("123.456.789-00")
         assertEquals(
             result.isSuccess,
             true

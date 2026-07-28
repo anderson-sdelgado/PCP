@@ -5,8 +5,8 @@ import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface TerceiroRoomDatasource {
     suspend fun addAll(list: List<TerceiroRoomModel>): EmptyResult
-    suspend fun checkCpf(cpf: String): Result<Boolean>
+    suspend fun hasCpf(cpf: String): Result<Boolean>
     suspend fun deleteAll(): EmptyResult
-    suspend fun getById(id: Int): Result<List<TerceiroRoomModel>>
+    suspend fun getById(id: Int): Result<TerceiroRoomModel>
     suspend fun getByCpf(cpf: String): Result<List<TerceiroRoomModel>>
 }

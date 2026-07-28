@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface ColabRoomDatasource {
     suspend fun addAll(list: List<ColabRoomModel>): EmptyResult
-    suspend fun checkMatric(matric: Int): Result<Boolean>
+    suspend fun hasMatric(matric: Int): Result<Boolean>
     suspend fun getNomeByMatric(matric: Int): Result<String>
     suspend fun deleteAll(): EmptyResult
 }

@@ -22,7 +22,7 @@ interface TerceiroDao {
     suspend fun getByCpf(cpf: String): List<TerceiroRoomModel>
 
     @Query("SELECT * FROM $TB_TERCEIRO WHERE idBDTerceiro = :id")
-    suspend fun getById(id: Int): List<TerceiroRoomModel>
+    suspend fun getById(id: Int): TerceiroRoomModel
 
     @Query("SELECT * FROM $TB_TERCEIRO")
     suspend fun listAll(): List<TerceiroRoomModel>

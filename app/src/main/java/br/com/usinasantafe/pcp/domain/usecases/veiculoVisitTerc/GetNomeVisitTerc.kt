@@ -43,8 +43,8 @@ class IGetNomeVisitTerc @Inject constructor(
             }
             val typeVisitTerc = resultTypeVisitTerc.getOrNull()!!
             val resultNomeVisitTerc = when (typeVisitTerc) {
-                TypeVisitTerc.VISITANTE -> visitanteRepository.getNome(cpf)
-                TypeVisitTerc.TERCEIRO -> terceiroRepository.getNome(cpf)
+                TypeVisitTerc.VISITANTE -> visitanteRepository.getNomeByCpf(cpf)
+                TypeVisitTerc.TERCEIRO -> terceiroRepository.getNomeByCpf(cpf)
             }
             if (resultNomeVisitTerc.isFailure) {
                 val e = resultNomeVisitTerc.exceptionOrNull()!!
@@ -55,8 +55,8 @@ class IGetNomeVisitTerc @Inject constructor(
                 )
             }
             val resultEmpresaVisitTerc = when (typeVisitTerc) {
-                TypeVisitTerc.VISITANTE -> visitanteRepository.getEmpresas(cpf)
-                TypeVisitTerc.TERCEIRO -> terceiroRepository.getEmpresas(cpf)
+                TypeVisitTerc.VISITANTE -> visitanteRepository.getEmpresasByCpf(cpf)
+                TypeVisitTerc.TERCEIRO -> terceiroRepository.getEmpresasByCpf(cpf)
             }
             if (resultEmpresaVisitTerc.isFailure) {
                 val e = resultEmpresaVisitTerc.exceptionOrNull()!!

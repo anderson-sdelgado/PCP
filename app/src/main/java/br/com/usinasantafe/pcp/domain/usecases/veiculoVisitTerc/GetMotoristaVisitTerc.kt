@@ -40,7 +40,7 @@ class IGetMotoristaVisitTerc @Inject constructor(
 
             TypeVisitTerc.TERCEIRO -> {
                 val resultGetTerc =
-                    terceiroRepository.get(idVisitTerc)
+                    terceiroRepository.getById(idVisitTerc)
                 if (resultGetTerc.isFailure) {
                     val e = resultGetTerc.exceptionOrNull()!!
                     return resultFailure(

@@ -27,7 +27,7 @@ class ISetIdEquipMovChaveEquip @Inject constructor(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultId = equipRepository.getId(nroEquip.toLong())
+            val resultId = equipRepository.getIdByNro(nroEquip.toLong())
             if (resultId.isFailure) {
                 val e = resultId.exceptionOrNull()!!
                 return resultFailure(

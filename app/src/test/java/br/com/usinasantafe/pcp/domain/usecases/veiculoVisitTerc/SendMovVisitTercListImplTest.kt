@@ -192,7 +192,7 @@ class SendMovVisitTercListImplTest {
                     )
                 )
             val entityConfig = Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "1.00"
             )
@@ -221,7 +221,7 @@ class SendMovVisitTercListImplTest {
             val token = token(
                 number = entityConfig.number!!,
                 version = entityConfig.version!!,
-                idBD = entityConfig.idBD!!
+                idBD = entityConfig.idServ!!
             )
             whenever(
                 movEquipVisitTercRepository.send(
@@ -276,7 +276,7 @@ class SendMovVisitTercListImplTest {
                     )
                 )
             val entityConfig = Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "1.00"
             )
@@ -305,7 +305,7 @@ class SendMovVisitTercListImplTest {
             val token = token(
                 number = entityConfig.number!!,
                 version = entityConfig.version!!,
-                idBD = entityConfig.idBD!!
+                idBD = entityConfig.idServ!!
             )
             whenever(
                 movEquipVisitTercRepository.send(

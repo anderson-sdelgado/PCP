@@ -2,12 +2,14 @@ package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Visitante
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.VisitanteRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.VisitanteRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IVisitanteRepository @Inject constructor(
@@ -15,179 +17,51 @@ class IVisitanteRepository @Inject constructor(
     private val visitanteRetrofitDatasource: VisitanteRetrofitDatasource
 ): VisitanteRepository {
     
-    override suspend fun addAll(list: List<Visitante>): Result<Boolean> {
-        try {
-            val visitanteModelList = list.map { it.entityToRoomModel() }
-            val result = visitanteRoomDatasource.addAll(visitanteModelList)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.addAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IVisitanteRepository.addAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun addAll(list: List<Visitante>): EmptyResult =
+        call(getClassAndMethod()) {
+            val modelList = list.map { it.entityToRoomModel() }
+            visitanteRoomDatasource.addAll(modelList).getOrThrow()
         }
-    }
 
-    override suspend fun checkCPF(cpf: String): Result<Boolean> {
-        val result = visitanteRoomDatasource.checkCpf(cpf)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IVisitanteRepository.checkCPF",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun hasCPF(cpf: String): Result<Boolean> =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.checkCpf(cpf).getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        val result = visitanteRoomDatasource.deleteAll()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IVisitanteRepository.deleteAll",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun deleteAll(): EmptyResult =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.deleteAll().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun get(id: Int): Result<Visitante> {
-        try {
-            val result = visitanteRoomDatasource.getById(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.get",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.roomModelToEntity())
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IVisitanteRepository.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun get(id: Int): Result<Visitante> =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.getById(id).getOrThrow().roomModelToEntity()
         }
-    }
 
-    override suspend fun getCpf(id: Int): Result<String> {
-        try {
-            val result = visitanteRoomDatasource.getById(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.getCpf",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.roomModelToEntity().cpfVisitante)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IVisitanteRepository.getCpf",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getCpfById(id: Int): Result<String> =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.getById(id).getOrThrow().cpfVisitante
         }
-    }
 
-    override suspend fun getId(cpf: String): Result<Int> {
-        try {
-            val result = visitanteRoomDatasource.getByCpf(cpf)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.getId",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.roomModelToEntity().idVisitante)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IVisitanteRepository.getId",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getIdByCpf(cpf: String): Result<Int> =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.getByCpf(cpf).getOrThrow().idVisitante
         }
-    }
 
-    override suspend fun getNome(cpf: String): Result<String> {
-        try {
-            val result = visitanteRoomDatasource.getByCpf(cpf)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.getNome",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.roomModelToEntity().nomeVisitante)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IVisitanteRepository.getNome",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getNomeByCpf(cpf: String): Result<String> =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.getByCpf(cpf).getOrThrow().nomeVisitante
         }
-    }
 
-    override suspend fun getEmpresas(cpf: String): Result<String> {
-        try {
-            val result = visitanteRoomDatasource.getByCpf(cpf)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.getEmpresas",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.roomModelToEntity().empresaVisitante)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IVisitanteRepository.getEmpresas",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getEmpresasByCpf(cpf: String): Result<String> =
+        call(getClassAndMethod()) {
+            visitanteRoomDatasource.getByCpf(cpf).getOrThrow().empresaVisitante
         }
-    }
 
-    override suspend fun listAll(token: String): Result<List<Visitante>> {
-        try {
-            val result = visitanteRetrofitDatasource.recoverAll(token)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IVisitanteRepository.recoverAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IVisitanteRepository.recoverAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(token: String): Result<List<Visitante>> =
+        call(getClassAndMethod()) {
+            val modelList = visitanteRetrofitDatasource.listAll(token).getOrThrow()
+            modelList.map { it.retrofitModelToEntity() }
         }
-    }
 
 }

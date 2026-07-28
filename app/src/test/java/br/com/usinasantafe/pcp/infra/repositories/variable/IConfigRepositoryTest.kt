@@ -239,7 +239,7 @@ class IConfigRepositoryTest {
             number = 16997417840,
         )
         val configRetrofitModelInput = ConfigRetrofitModelInput(
-            idBD = 1
+            idServ = 1
         )
         whenever(
             configRetrofitDatasource.recoverToken(

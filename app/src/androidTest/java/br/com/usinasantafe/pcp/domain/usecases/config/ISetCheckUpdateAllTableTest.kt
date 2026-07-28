@@ -36,7 +36,7 @@ class ISetCheckUpdateAllTableTest: KoinTest {
             number = 16997417840,
             password = "12345",
             version = "6.00",
-            idBD = 1,
+            idServ = 1,
         )
         configSharedPreferences.save(config)
         val result = usecase(FlagUpdate.UPDATED)

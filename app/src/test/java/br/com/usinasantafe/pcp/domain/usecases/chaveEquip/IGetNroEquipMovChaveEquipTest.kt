@@ -21,7 +21,7 @@ class IGetNroEquipMovChaveEquipTest {
     fun `Check return failure if have error in MovChaveEquipRepository getIdEquip`() =
         runTest {
             whenever(
-                movChaveEquipRepository.getIdEquip(1)
+                movChaveEquipRepository.getIdEquipById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -42,12 +42,12 @@ class IGetNroEquipMovChaveEquipTest {
     fun `Check return failure if have error in EquipRepository getNro`() =
         runTest {
             whenever(
-                movChaveEquipRepository.getIdEquip(1)
+                movChaveEquipRepository.getIdEquipById(1)
             ).thenReturn(
                 Result.success(100)
             )
             whenever(
-                equipRepository.getNro(100)
+                equipRepository.getNroById(100)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -68,12 +68,12 @@ class IGetNroEquipMovChaveEquipTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                movChaveEquipRepository.getIdEquip(1)
+                movChaveEquipRepository.getIdEquipById(1)
             ).thenReturn(
                 Result.success(100)
             )
             whenever(
-                equipRepository.getNro(100)
+                equipRepository.getNroById(100)
             ).thenReturn(
                 Result.success(300)
             )

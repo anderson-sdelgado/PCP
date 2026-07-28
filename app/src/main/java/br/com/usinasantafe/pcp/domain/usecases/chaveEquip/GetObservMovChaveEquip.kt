@@ -13,7 +13,7 @@ class IGetObservMovChaveEquip @Inject constructor(
 ): GetObservMovChaveEquip {
 
     override suspend fun invoke(id: Int): Result<String?> {
-        val result = movChaveEquipRepository.getObserv(id)
+        val result = movChaveEquipRepository.getObservById(id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

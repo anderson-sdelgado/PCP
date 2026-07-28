@@ -100,7 +100,7 @@ class IGetFlowListTest {
                 )
             )
             whenever(
-                fluxoRepository.get(1)
+                fluxoRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -143,7 +143,7 @@ class IGetFlowListTest {
                 )
             )
             whenever(
-                fluxoRepository.get(1)
+                fluxoRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     Fluxo(

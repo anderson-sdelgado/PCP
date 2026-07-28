@@ -164,7 +164,7 @@ class IMovChaveEquipRoomDatasourceTest{
             )
             movChaveEquipDao.insert(roomModel)
             val datasource = IMovChaveEquipRoomDatasource(movChaveEquipDao)
-            val result = datasource.get(1)
+            val result = datasource.getById(1)
             assertEquals(
                 result.isSuccess,
                 true

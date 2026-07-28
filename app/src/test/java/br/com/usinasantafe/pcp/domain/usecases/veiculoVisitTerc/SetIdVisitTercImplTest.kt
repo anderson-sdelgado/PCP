@@ -72,7 +72,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getId(
+                visitanteRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -110,7 +110,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                terceiroRepository.getId(
+                terceiroRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -148,7 +148,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                terceiroRepository.getId(
+                terceiroRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -195,7 +195,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getId(
+                visitanteRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -242,7 +242,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getId(
+                visitanteRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -296,7 +296,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                terceiroRepository.getId(
+                terceiroRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -341,7 +341,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getId(
+                visitanteRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -386,7 +386,7 @@ class SetIdVisitTercImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getId(
+                visitanteRepository.getIdByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(

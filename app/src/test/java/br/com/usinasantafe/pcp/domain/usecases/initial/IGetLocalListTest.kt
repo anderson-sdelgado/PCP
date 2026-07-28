@@ -20,7 +20,7 @@ class IGetLocalListTest {
     fun `Check return failure if have failure in getAll`() = runTest {
 
         whenever(
-            localRepository.list()
+            localRepository.listAll()
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -40,7 +40,7 @@ class IGetLocalListTest {
     @Test
     fun `Check return success`() = runTest {
         whenever(
-            localRepository.list()
+            localRepository.listAll()
         ).thenReturn(
             Result.success(
                 listOf(

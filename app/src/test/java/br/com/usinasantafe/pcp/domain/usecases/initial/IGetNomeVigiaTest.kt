@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.domain.usecases.initial
 
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
-import br.com.usinasantafe.pcp.domain.repositories.stable.LocalRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -51,7 +50,7 @@ class IGetNomeVigiaTest {
             Result.success(config)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -79,7 +78,7 @@ class IGetNomeVigiaTest {
             Result.success(config)
         )
         whenever(
-            colabRepository.getNome(19759))
+            colabRepository.getNomeByMatric(19759))
             .thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )

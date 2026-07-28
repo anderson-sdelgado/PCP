@@ -32,7 +32,7 @@ class IConfigRetrofitDatasourceTest {
         )
         assertEquals(
             result.getOrNull(),
-            ConfigRetrofitModelInput(idBD = 1)
+            ConfigRetrofitModelInput(idServ = 1)
         )
     }
 

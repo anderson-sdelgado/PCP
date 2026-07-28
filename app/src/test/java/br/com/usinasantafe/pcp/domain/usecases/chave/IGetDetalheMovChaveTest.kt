@@ -28,7 +28,7 @@ class IGetDetalheMovChaveTest {
     fun `Check return failure if have error in MovChaveRepository`() =
         runTest {
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -60,12 +60,12 @@ class IGetDetalheMovChaveTest {
                     observMovChave = "teste",
                 )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -97,12 +97,12 @@ class IGetDetalheMovChaveTest {
                     observMovChave = "teste",
                 )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.success(
                     "ANDERSON DA SILVA DELGADO"
@@ -141,12 +141,12 @@ class IGetDetalheMovChaveTest {
                     observMovChave = "TESTE",
                 )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
             whenever(
-                colabRepository.getNome(19759)
+                colabRepository.getNomeByMatric(19759)
             ).thenReturn(
                 Result.success(
                     "ANDERSON DA SILVA DELGADO"

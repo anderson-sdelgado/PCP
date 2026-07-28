@@ -12,7 +12,7 @@ class IChaveRetrofitDatasource @Inject constructor(
     private val chaveApi: ChaveApi
 ): ChaveRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<ChaveRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<ChaveRetrofitModel>> =
         result(getClassAndMethod()) {
             chaveApi.all(token).body()!!
         }

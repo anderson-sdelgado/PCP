@@ -25,7 +25,7 @@ class ISetIdEquipMovChaveEquipTest {
     fun `Check return failure if have error in EquipRepository getId`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -50,7 +50,7 @@ class ISetIdEquipMovChaveEquipTest {
     fun `Check return failure if have error in MovChaveEquipRepository setIdChave`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.success(1)
             )
@@ -84,7 +84,7 @@ class ISetIdEquipMovChaveEquipTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.success(1)
             )

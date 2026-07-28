@@ -26,7 +26,7 @@ class IGetNomeVigia @Inject constructor(
                 )
             }
             val matric = resultGetConfig.getOrNull()!!.matricVigia!!
-            val resultGetNome = colabRepository.getNome(matric)
+            val resultGetNome = colabRepository.getNomeByMatric(matric)
             if (resultGetNome.isFailure) {
                 val e = resultGetNome.exceptionOrNull()!!
                 return resultFailure(

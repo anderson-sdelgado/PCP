@@ -23,14 +23,20 @@ interface MovEquipVisitTercDao {
     @Delete
     suspend fun delete(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
 
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipVisitTerc = :status)")
+    suspend fun hasByStatusData(status: StatusData): Boolean
+
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusSendMovEquipVisitTerc = :statusEnvio)")
+    suspend fun hasByStatusSend(statusEnvio: StatusSend): Boolean
+
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipVisitTerc = :status")
-    suspend fun listStatusData(status: StatusData): List<MovEquipVisitTercRoomModel>
+    suspend fun listByStatusData(status: StatusData): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipForeigVisitTerc = :statusForeigner")
-    suspend fun listStatusForeigner(statusForeigner: StatusForeigner): List<MovEquipVisitTercRoomModel>
+    suspend fun listByStatusForeigner(statusForeigner: StatusForeigner): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusSendMovEquipVisitTerc = :statusEnvio")
-    suspend fun listStatusSend(statusEnvio: StatusSend): List<MovEquipVisitTercRoomModel>
+    suspend fun listByStatusSend(statusEnvio: StatusSend): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE idMovEquipVisitTerc = :idMov")
     suspend fun get(idMov: Int): MovEquipVisitTercRoomModel

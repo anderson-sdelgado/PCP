@@ -17,7 +17,7 @@ class IStartReceiptMovChave @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<Boolean> {
         try {
-            val resultGet = movChaveRepository.get(id)
+            val resultGet = movChaveRepository.getById(id)
             if (resultGet.isFailure) {
                 val e = resultGet.exceptionOrNull()!!
                 return resultFailure(

@@ -63,7 +63,7 @@ class ILocalRepositoryTest {
     @Test
     fun `Check failure Datasource in recover data`() = runTest {
         whenever(
-            localRetrofitDatasource.recoverAll(token)
+            localRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -95,7 +95,7 @@ class ILocalRepositoryTest {
             )
         )
         whenever(
-            localRetrofitDatasource.recoverAll(token)
+            localRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.success(retrofitModelList)
         )
@@ -183,7 +183,7 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.list()
+        val result = repository.listAll()
         assertEquals(
             result.isFailure,
             true
@@ -215,7 +215,7 @@ class ILocalRepositoryTest {
                 localRoomModels
             )
         )
-        val result = repository.list()
+        val result = repository.listAll()
         assertEquals(
             result.isSuccess,
             true
@@ -238,7 +238,7 @@ class ILocalRepositoryTest {
         ).thenReturn(
             Result.success("USINA")
         )
-        val result = repository.getDescr(1)
+        val result = repository.getDescrById(1)
         assertEquals(
             result.isSuccess,
             true
@@ -258,7 +258,7 @@ class ILocalRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.getDescr(1)
+        val result = repository.getDescrById(1)
         assertEquals(
             result.isFailure,
             true

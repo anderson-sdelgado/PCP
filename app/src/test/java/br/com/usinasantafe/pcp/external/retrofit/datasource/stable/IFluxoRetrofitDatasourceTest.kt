@@ -24,7 +24,7 @@ class IFluxoRetrofitDatasourceTest {
             val retrofit = provideRetrofitTest(server.url("").toString())
             val service = retrofit.create(FluxoApi::class.java)
             val datasource = IFluxoRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isFailure,
                 true
@@ -50,7 +50,7 @@ class IFluxoRetrofitDatasourceTest {
             val retrofit = provideRetrofitTest(server.url("").toString())
             val service = retrofit.create(FluxoApi::class.java)
             val datasource = IFluxoRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isFailure,
                 true
@@ -78,7 +78,7 @@ class IFluxoRetrofitDatasourceTest {
             val retrofit = provideRetrofitTest(server.url("").toString())
             val service = retrofit.create(FluxoApi::class.java)
             val datasource = IFluxoRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isSuccess,
                 true

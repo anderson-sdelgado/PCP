@@ -24,7 +24,7 @@ class IStartRemoveMovChaveEquipTest {
     fun `Check return failure if have error in MovChaveRepository get`() =
         runTest {
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -58,7 +58,7 @@ class IStartRemoveMovChaveEquipTest {
                 statusForeignerMovChaveEquip = StatusForeigner.INSIDE
             )
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
@@ -101,7 +101,7 @@ class IStartRemoveMovChaveEquipTest {
                 statusForeignerMovChaveEquip = StatusForeigner.INSIDE
             )
             whenever(
-                movChaveEquipRepository.get(1)
+                movChaveEquipRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )

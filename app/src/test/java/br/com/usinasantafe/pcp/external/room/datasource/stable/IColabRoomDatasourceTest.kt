@@ -101,7 +101,7 @@ class IColabRoomDatasourceTest {
     @Test
     fun `Check return false if not exist Colab`() = runTest {
         val datasource = IColabRoomDatasource(colabDao)
-        val result = datasource.checkMatric(19759)
+        val result = datasource.hasMatric(19759)
         assertEquals(
             result.isSuccess,
             true
@@ -127,7 +127,7 @@ class IColabRoomDatasourceTest {
                 )
             )
         )
-        val result = datasource.checkMatric(19759)
+        val result = datasource.hasMatric(19759)
         assertEquals(
             result.isSuccess,
             true

@@ -469,13 +469,13 @@ class IMovChaveEquipRepositoryTest {
     fun `get - Check return failure if have error in MovChaveEquipRoomDatasource get`() =
         runTest {
             whenever(
-                movChaveEquipRoomDatasource.get(1)
+                movChaveEquipRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -504,11 +504,11 @@ class IMovChaveEquipRepositoryTest {
                 uuidMainMovChaveEquip = "UUID"
             )
             whenever(
-                movChaveEquipRoomDatasource.get(1)
+                movChaveEquipRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -821,11 +821,11 @@ class IMovChaveEquipRepositoryTest {
                 uuidMainMovChaveEquip = "UUID"
             )
             whenever(
-                movChaveEquipRoomDatasource.get(1)
+                movChaveEquipRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getMatricColab(1)
+            val result = repository.getMatricColabById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -956,11 +956,11 @@ class IMovChaveEquipRepositoryTest {
                 uuidMainMovChaveEquip = "UUID"
             )
             whenever(
-                movChaveEquipRoomDatasource.get(1)
+                movChaveEquipRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -989,11 +989,11 @@ class IMovChaveEquipRepositoryTest {
                 uuidMainMovChaveEquip = "UUID"
             )
             whenever(
-                movChaveEquipRoomDatasource.get(1)
+                movChaveEquipRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getIdEquip(1)
+            val result = repository.getIdEquipById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1014,7 +1014,7 @@ class IMovChaveEquipRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isFailure,
                 true
@@ -1033,7 +1033,7 @@ class IMovChaveEquipRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.getOrNull()!!,
                 true
@@ -1274,7 +1274,7 @@ class IMovChaveEquipRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isFailure,
                 true
@@ -1293,7 +1293,7 @@ class IMovChaveEquipRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.getOrNull()!!,
                 true

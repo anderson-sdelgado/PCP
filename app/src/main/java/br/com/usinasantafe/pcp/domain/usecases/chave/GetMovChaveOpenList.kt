@@ -31,7 +31,7 @@ class IGetMovChaveOpenList @Inject constructor(
                 )
             }
             val entityList = resultList.getOrNull()!!.map {
-                val resultNomeColab = colabRepository.getNome(it.matricColabMovChave!!)
+                val resultNomeColab = colabRepository.getNomeByMatric(it.matricColabMovChave!!)
                 if (resultNomeColab.isFailure) {
                     val e = resultNomeColab.exceptionOrNull()!!
                     return resultFailure(

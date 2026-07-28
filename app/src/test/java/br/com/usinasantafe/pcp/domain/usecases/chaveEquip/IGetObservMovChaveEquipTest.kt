@@ -18,7 +18,7 @@ class IGetObservMovChaveEquipTest {
     fun `Check return failure if have error in MovChaveEquipRepository getObserv`() =
         runTest {
             whenever(
-                movChaveEquipRepository.getObserv(1)
+                movChaveEquipRepository.getObservById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -39,7 +39,7 @@ class IGetObservMovChaveEquipTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                movChaveEquipRepository.getObserv(1)
+                movChaveEquipRepository.getObservById(1)
             ).thenReturn(
                 Result.success("OBSERV")
             )

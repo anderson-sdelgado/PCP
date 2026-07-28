@@ -41,7 +41,7 @@ class ISendMovResidenciaList @Inject constructor(
             val token = token(
                 number = config.number!!,
                 version = config.version!!,
-                idBD = config.idBD!!
+                idBD = config.idServ!!
             )
             val resultSend = movEquipResidenciaRepository.send(
                 list = listSend,

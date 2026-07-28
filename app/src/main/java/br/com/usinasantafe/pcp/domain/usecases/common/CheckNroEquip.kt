@@ -14,7 +14,7 @@ class ICheckNroEquip @Inject constructor(
 
     override suspend fun invoke(nroEquip: String): Result<Boolean> {
         try {
-            val result = equipRepository.checkNro(nroEquip.toLong())
+            val result = equipRepository.hasNro(nroEquip.toLong())
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

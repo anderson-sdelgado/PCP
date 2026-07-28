@@ -12,7 +12,7 @@ class IRLocalFluxoRetrofitDatasource @Inject constructor(
     private val rLocalFluxoApi: RLocalFluxoApi
 ): RLocalFluxoRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<RLocalFluxoRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<RLocalFluxoRetrofitModel>> =
         result(getClassAndMethod()) {
             rLocalFluxoApi.all(token).body()!!
         }

@@ -1,9 +1,7 @@
 package br.com.usinasantafe.pcp.external.retrofit.datasource.stable
 
-import br.com.usinasantafe.pcp.external.retrofit.api.stable.ChaveApi
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.LocalTrabApi
 import br.com.usinasantafe.pcp.external.retrofit.provideRetrofitTest
-import br.com.usinasantafe.pcp.infra.models.retrofit.stable.ChaveRetrofitModel
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.LocalTrabRetrofitModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -26,7 +24,7 @@ class ILocalTrabRetrofitDatasourceTest {
             )
             val service = retrofit.create(LocalTrabApi::class.java)
             val datasource = ILocalTrabRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isFailure,
                 true
@@ -54,7 +52,7 @@ class ILocalTrabRetrofitDatasourceTest {
             )
             val service = retrofit.create(LocalTrabApi::class.java)
             val datasource = ILocalTrabRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isFailure,
                 true
@@ -82,7 +80,7 @@ class ILocalTrabRetrofitDatasourceTest {
             )
             val service = retrofit.create(LocalTrabApi::class.java)
             val datasource = ILocalTrabRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isSuccess,
                 true

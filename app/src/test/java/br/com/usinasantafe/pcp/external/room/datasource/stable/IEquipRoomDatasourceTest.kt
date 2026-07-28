@@ -104,7 +104,7 @@ class IEquipRoomDatasourceTest {
     @Test
     fun `Check return false if not exist Equip`() = runTest {
         val datasource = IEquipRoomDatasource(equipDao)
-        val result = datasource.checkNro(100)
+        val result = datasource.hasNro(100)
         assertEquals(
             result.isSuccess,
             true
@@ -127,7 +127,7 @@ class IEquipRoomDatasourceTest {
                 ),
             )
         )
-        val result = datasource.checkNro(100)
+        val result = datasource.hasNro(100)
         assertEquals(
             result.isSuccess,
             true

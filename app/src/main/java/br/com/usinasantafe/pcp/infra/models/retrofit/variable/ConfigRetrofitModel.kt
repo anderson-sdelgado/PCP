@@ -8,7 +8,7 @@ data class ConfigRetrofitModelOutput(
 )
 
 data class ConfigRetrofitModelInput(
-    var idBD: Int,
+    var idServ: Int,
 )
 
 fun Config.entityToRetrofitModel(): ConfigRetrofitModelOutput {
@@ -23,7 +23,7 @@ fun Config.entityToRetrofitModel(): ConfigRetrofitModelOutput {
 fun ConfigRetrofitModelInput.retrofitToEntity(): Config {
     return with(this){
         Config(
-            idBD = this.idBD
+            idServ = this.idServ
         )
     }
 }

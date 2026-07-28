@@ -46,8 +46,8 @@ class IGetCpfVisitTerc @Inject constructor(
             }
             val idVisitTerc = resultGetIdVisitTerc.getOrNull()!!
             val resultGetCpf = when(typeVisitTerc) {
-                TypeVisitTerc.VISITANTE -> visitanteRepository.getCpf(idVisitTerc)
-                TypeVisitTerc.TERCEIRO -> terceiroRepository.getCpf(idVisitTerc)
+                TypeVisitTerc.VISITANTE -> visitanteRepository.getCpfById(idVisitTerc)
+                TypeVisitTerc.TERCEIRO -> terceiroRepository.getCpfById(idVisitTerc)
             }
             if (resultGetCpf.isFailure) {
                 val e = resultGetCpf.exceptionOrNull()!!

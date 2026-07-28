@@ -122,7 +122,7 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getCpf(
+                visitanteRepository.getCpfById(
                     id = 1
                 )
             ).thenReturn(
@@ -172,14 +172,14 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getCpf(
+                visitanteRepository.getCpfById(
                     id = 1
                 )
             ).thenReturn(
                 Result.success("123.456.789-00")
             )
             whenever(
-                visitanteRepository.getNome(
+                visitanteRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -229,14 +229,14 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                visitanteRepository.getCpf(
+                visitanteRepository.getCpfById(
                     id = 1
                 )
             ).thenReturn(
                 Result.success("123.456.789-00")
             )
             whenever(
-                visitanteRepository.getNome(
+                visitanteRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -336,7 +336,7 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                terceiroRepository.getCpf(
+                terceiroRepository.getCpfById(
                     id = 1
                 )
             ).thenReturn(
@@ -386,14 +386,14 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                terceiroRepository.getCpf(
+                terceiroRepository.getCpfById(
                     id = 1
                 )
             ).thenReturn(
                 Result.success("123.456.789-00")
             )
             whenever(
-                terceiroRepository.getNome(
+                terceiroRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -443,14 +443,14 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                terceiroRepository.getCpf(
+                terceiroRepository.getCpfById(
                     id = 1
                 )
             ).thenReturn(
                 Result.success("123.456.789-00")
             )
             whenever(
-                terceiroRepository.getNome(
+                terceiroRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(

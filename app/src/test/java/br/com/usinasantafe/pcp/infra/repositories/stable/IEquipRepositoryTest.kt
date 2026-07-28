@@ -63,7 +63,7 @@ class IEquipRepositoryTest {
     @Test
     fun `Check failure Datasource in recover data`() = runTest {
         whenever(
-            equipRetrofitDatasource.recoverAll(token)
+            equipRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -97,7 +97,7 @@ class IEquipRepositoryTest {
             )
         )
         whenever(
-            equipRetrofitDatasource.recoverAll(token)
+            equipRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.success(retrofitModelList)
         )
@@ -183,11 +183,11 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return false if not exist Equip`() = runTest {
         whenever(
-            equipRoomDatasource.checkNro(100)
+            equipRoomDatasource.hasNro(100)
         ).thenReturn(
             Result.success(false)
         )
-        val result = repository.checkNro(100)
+        val result = repository.hasNro(100)
         assertEquals(
             result.isSuccess,
             true
@@ -201,11 +201,11 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return true if exist Equip`() = runTest {
         whenever(
-            equipRoomDatasource.checkNro(100)
+            equipRoomDatasource.hasNro(100)
         ).thenReturn(
             Result.success(true)
         )
-        val result = repository.checkNro(100)
+        val result = repository.hasNro(100)
         assertEquals(
             result.isSuccess,
             true
@@ -219,13 +219,13 @@ class IEquipRepositoryTest {
     @Test
     fun `Check return failure if have error in checkNro Datasource`() = runTest {
         whenever(
-            equipRoomDatasource.checkNro(100)
+            equipRoomDatasource.hasNro(100)
         ).thenReturn(
             Result.failure(
                 Exception()
             )
         )
-        val result = repository.checkNro(100)
+        val result = repository.hasNro(100)
         assertEquals(
             result.isFailure,
             true
@@ -245,7 +245,7 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.getNro(1)
+        val result = repository.getNroById(1)
         assertEquals(
             result.isFailure,
             true
@@ -263,7 +263,7 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(0)
         )
-        val result = repository.getNro(1)
+        val result = repository.getNroById(1)
         assertEquals(
             result.isFailure,
             true
@@ -282,7 +282,7 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(100)
         )
-        val result = repository.getNro(1)
+        val result = repository.getNroById(1)
         assertEquals(
             result.isSuccess,
             true
@@ -303,7 +303,7 @@ class IEquipRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.getId(1)
+        val result = repository.getIdByNro(1)
         assertEquals(
             result.isFailure,
             true
@@ -321,7 +321,7 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(0)
         )
-        val result = repository.getId(100)
+        val result = repository.getIdByNro(100)
         assertEquals(
             result.isFailure,
             true
@@ -340,7 +340,7 @@ class IEquipRepositoryTest {
         ).thenReturn(
             Result.success(10)
         )
-        val result = repository.getId(100)
+        val result = repository.getIdByNro(100)
         assertEquals(
             result.isSuccess,
             true

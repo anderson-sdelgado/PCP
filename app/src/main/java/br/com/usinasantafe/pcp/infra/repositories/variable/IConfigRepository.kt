@@ -6,8 +6,14 @@ import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlagUpdate
 import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.required
 import javax.inject.Inject
 
 class IConfigRepository @Inject constructor(
@@ -15,280 +21,73 @@ class IConfigRepository @Inject constructor(
     private val configRetrofitDatasource: ConfigRetrofitDatasource,
 ) : ConfigRepository {
 
-    override suspend fun hasConfig(): Result<Boolean> {
-        val result = configSharedPreferencesDatasource.has()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IConfigRepository.hasConfig",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun hasConfig(): Result<Boolean> =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.has().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun saveInitial(
-        number: Long,
-        password: String,
-        version: String,
-        idBD: Int
-    ): Result<Boolean> {
-        val config = Config(
-            number = number,
-            password = password,
-            version = version,
-            idBD = idBD,
-            statusSend = StatusSend.SENT
-        )
-        val result = configSharedPreferencesDatasource.save(config)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IConfigRepository.saveInitial",
-                message = e.message,
-                cause = e.cause
+    override suspend fun saveInitial(number: Long, password: String, version: String, idServ: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            val config = ConfigSharedPreferencesModel(
+                number = number,
+                password = password,
+                version = version,
+                idServ = idServ,
+                statusSend = StatusSend.SENT
             )
+            configSharedPreferencesDatasource.save(config).getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun getPassword(): Result<String> {
-        try {
-            val result = configSharedPreferencesDatasource.get()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.getPassword",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.password!!)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.getPassword",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getPassword(): Result<String> =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.get().getOrThrow()::password.required()
         }
-    }
 
-    override suspend fun getFlagUpdate(): Result<FlagUpdate> {
-        try {
-            val result = configSharedPreferencesDatasource.get()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.getFlagUpdate",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.flagUpdate)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.getFlagUpdate",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getFlagUpdate(): Result<FlagUpdate> =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.get().getOrThrow()::flagUpdate.required()
         }
-    }
 
-    override suspend fun getMatricVigia(): Result<Int> {
-        try {
-            val result = configSharedPreferencesDatasource.get()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.getMatricVigia",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.matricVigia!!)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.getMatricVigia",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getMatricVigia(): Result<Int> =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.get().getOrThrow()::matricVigia.required()
         }
-    }
 
-    override suspend fun clean(): Result<Boolean> {
-        val result = configSharedPreferencesDatasource.clean()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IConfigRepository.clean",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun clean(): EmptyResult =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.clean().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun getConfig(): Result<Config> {
-        val result = configSharedPreferencesDatasource.get()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IConfigRepository.getConfig",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun getConfig(): Result<Config> =
+        call(getClassAndMethod()) {
+            val model = configSharedPreferencesDatasource.get().getOrThrow()
+            model.sharedPreferencesModelToEntity()
         }
-        return result
-    }
 
-    override suspend fun send(config: Config): Result<Int> {
-        try {
-            val result = configRetrofitDatasource.recoverToken(config.entityToRetrofitModel())
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.send",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.idBD)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.send",
-                message = "-",
-                cause = e
-            )
+    override suspend fun send(config: Config): Result<Int> =
+        call(getClassAndMethod()) {
+            val model = config.entityToRetrofitModel()
+            configRetrofitDatasource.recoverToken(model).getOrThrow().idServ
         }
-    }
 
-    override suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean> {
-        try {
-            val resultConfig = configSharedPreferencesDatasource.get()
-            if (resultConfig.isFailure) {
-                val e = resultConfig.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setFlagUpdate",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val config = resultConfig.getOrNull()!!
-            config.flagUpdate = flagUpdate
-            val resultSave = configSharedPreferencesDatasource.save(config)
-            if (resultSave.isFailure) {
-                val e = resultSave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setFlagUpdate",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.setFlagUpdate",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setFlagUpdate(flagUpdate: FlagUpdate): EmptyResult =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.setFlagUpdate(flagUpdate).getOrThrow()
         }
-    }
 
-    override suspend fun setIdLocal(idLocal: Int): Result<Boolean> {
-        try {
-            val resultConfig = configSharedPreferencesDatasource.get()
-            if (resultConfig.isFailure) {
-                val e = resultConfig.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setIdLocal",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val config = resultConfig.getOrNull()!!
-            config.idLocal = idLocal
-            val resultSave = configSharedPreferencesDatasource.save(config)
-            if (resultSave.isFailure) {
-                val e = resultSave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setIdLocal",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.setIdLocal",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setIdLocal(idLocal: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.setIdLocal(idLocal).getOrThrow()
         }
-    }
 
-    override suspend fun setMatricVigia(matric: Int): Result<Boolean> {
-        try {
-            val resultConfig = configSharedPreferencesDatasource.get()
-            if (resultConfig.isFailure) {
-                val e = resultConfig.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setIdLocal",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val config = resultConfig.getOrNull()!!
-            config.matricVigia = matric
-            val resultSave = configSharedPreferencesDatasource.save(config)
-            if (resultSave.isFailure) {
-                val e = resultSave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setMatricVigia",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.setMatricVigia",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setMatricVigia(matric: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.setMatricVigia(matric).getOrThrow()
         }
-    }
 
-    override suspend fun setStatusSend(statusSend: StatusSend): Result<Boolean> {
-        try {
-            val resultConfig = configSharedPreferencesDatasource.get()
-            if (resultConfig.isFailure) {
-                val e = resultConfig.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setStatusSend",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val config = resultConfig.getOrNull()!!
-            config.statusSend = statusSend
-            val resultSave = configSharedPreferencesDatasource.save(config)
-            if (resultSave.isFailure) {
-                val e = resultSave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IConfigRepository.setStatusSend",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IConfigRepository.setStatusSend",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setStatusSend(statusSend: StatusSend): EmptyResult =
+        call(getClassAndMethod()) {
+            configSharedPreferencesDatasource.setStatusSend(statusSend).getOrThrow()
         }
-    }
 
 }

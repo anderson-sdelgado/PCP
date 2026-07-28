@@ -823,7 +823,7 @@ class MovVisitTercFlowTest : KoinTest {
                 password = "12345",
                 number = 16997417840,
                 version = VERSION,
-                idBD = 1,
+                idServ = 1,
                 flagUpdate = FlagUpdate.UPDATED,
                 matricVigia = 19759,
                 idLocal = 1,

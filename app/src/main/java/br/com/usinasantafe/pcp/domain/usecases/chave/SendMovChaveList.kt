@@ -41,7 +41,7 @@ class ISendMovChaveList @Inject constructor(
             val token = token(
                 number = config.number!!,
                 version = config.version!!,
-                idBD = config.idBD!!
+                idBD = config.idServ!!
             )
             val resultSend = movChaveRepository.send(
                 list = listSend,

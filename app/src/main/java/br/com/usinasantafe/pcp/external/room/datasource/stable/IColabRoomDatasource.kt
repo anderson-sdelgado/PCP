@@ -18,7 +18,7 @@ class IColabRoomDatasource @Inject constructor(
             colabDao.insertAll(list)
         }
 
-    override suspend fun checkMatric(matric: Int): Result<Boolean> =
+    override suspend fun hasMatric(matric: Int): Result<Boolean> =
         result(getClassAndMethod()) {
             colabDao.check(matric) > 0
         }

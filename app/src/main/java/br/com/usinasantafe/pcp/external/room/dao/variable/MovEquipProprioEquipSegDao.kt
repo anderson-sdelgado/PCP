@@ -28,9 +28,4 @@ interface MovEquipProprioEquipSegDao {
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov")
     suspend fun listById(idMov: Int): List<MovEquipProprioEquipSegRoomModel>
 
-    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov AND idEquip = :idEquip")
-    suspend fun get(idMov: Int, idEquip: Int): MovEquipProprioEquipSegRoomModel
-
-    @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_EQUIP_SEG WHERE idMovEquipProprio = :idMov")
-    suspend fun get(idMov: Int): List<MovEquipProprioEquipSegRoomModel>
 }

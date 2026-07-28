@@ -26,7 +26,7 @@ class IGetDescrFullChave @Inject constructor(
                 )
             }
             val entity = resultChave.getOrNull()!!
-            val resultDescrLocalTrab = localTrabRepository.getDescr(
+            val resultDescrLocalTrab = localTrabRepository.getDescrById(
                 entity.idLocalTrab
             )
             if (resultDescrLocalTrab.isFailure) {

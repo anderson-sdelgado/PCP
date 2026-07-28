@@ -1,260 +1,128 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipProprioDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipProprioRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.result
 import javax.inject.Inject
 
 class IMovEquipProprioRoomDatasource @Inject constructor(
     private val movEquipProprioDao: MovEquipProprioDao
 ): MovEquipProprioRoomDatasource {
 
-    override suspend fun checkOpen(): Result<Boolean> {
-        return try {
-            Result.success(
-                movEquipProprioDao.listStatusData(StatusData.OPEN).isNotEmpty()
-            )
-        } catch (e: Exception){
-            resultFailure(
-                context = "IMovEquipProprioRoomDatasource.checkOpen",
-                message = "-",
-                cause = e
-            )
-        }
+    suspend fun updateModel(id: Int, block: MovEquipProprioRoomModel.() -> Unit) {
+        val model = get(id).getOrThrow()
+        model.block()
+        update(model).getOrThrow()
     }
 
-    override suspend fun checkSend(): Result<Boolean> {
-        return try {
-            Result.success(
-                movEquipProprioDao.listStatusSend(StatusSend.SEND).isNotEmpty()
-            )
-        } catch (e: Exception){
-            resultFailure(
-                context = "IMovEquipProprioRoomDatasource.checkSend",
-                message = "-",
-                cause = e
-            )
+    override suspend fun checkOpen(): Result<Boolean> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.hasByStatusData(StatusData.OPEN)
         }
-    }
 
-    override suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel): Result<Boolean> {
-        try {
+    override suspend fun checkSend(): Result<Boolean> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.hasByStatusSend(StatusSend.SEND)
+        }
+
+    override suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel): EmptyResult =
+        result(getClassAndMethod()) {
             movEquipProprioDao.delete(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.delete",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun get(id: Int): Result<MovEquipProprioRoomModel> {
-        return try {
-            Result.success(movEquipProprioDao.get(id))
-        } catch (e: Exception){
-            resultFailure(
-                context = "IMovEquipProprioRoomDatasource.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun get(id: Int): Result<MovEquipProprioRoomModel> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.get(id)
         }
-    }
 
-    override suspend fun listOpen(): Result<List<MovEquipProprioRoomModel>> {
-        try {
-            val list = movEquipProprioDao.listStatusData(StatusData.OPEN)
-            return Result.success(list)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.listOpen",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listOpen(): Result<List<MovEquipProprioRoomModel>> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.listByStatusData(StatusData.OPEN)
         }
-    }
 
-    override suspend fun listSend(): Result<List<MovEquipProprioRoomModel>> {
-        try {
-            val list = movEquipProprioDao.listStatusSend(StatusSend.SEND)
-            return Result.success(list)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.listSend",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listSend(): Result<List<MovEquipProprioRoomModel>> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.listByStatusSend(StatusSend.SEND)
         }
-    }
 
-    override suspend fun listSent(): Result<List<MovEquipProprioRoomModel>> {
-        try {
-            val list = movEquipProprioDao.listStatusSend(StatusSend.SENT)
-            return Result.success(list)
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.listSent",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listSent(): Result<List<MovEquipProprioRoomModel>> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.listByStatusSend(StatusSend.SENT)
         }
-    }
 
-    override suspend fun save(movEquipProprioRoomModel: MovEquipProprioRoomModel): Result<Long> {
-        try {
-            val id = movEquipProprioDao.insert(movEquipProprioRoomModel)
-            return Result.success(id)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.save",
-                message = "-",
-                cause = e
-            )
+    override suspend fun save(movEquipProprioRoomModel: MovEquipProprioRoomModel): Result<Long> =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.insert(movEquipProprioRoomModel)
         }
-    }
 
-    override suspend fun setClose(id: Int): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.statusMovEquipProprio = StatusData.CLOSE
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setClose",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setClose(id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.statusMovEquipProprio = StatusData.CLOSE
+            }
         }
-    }
 
-    override suspend fun setDestino(
-        destino: String,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.destinoMovEquipProprio = destino
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setDestino",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setDestino(destino: String, id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.destinoMovEquipProprio = destino
+                this.statusSendMovEquipProprio = StatusSend.SEND
+            }
         }
-    }
 
-    override suspend fun setIdEquip(
-        idEquip: Int,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.idEquipMovEquipProprio = idEquip
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setIdEquip",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setIdEquip(idEquip: Int, id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.idEquipMovEquipProprio = idEquip
+                this.statusSendMovEquipProprio = StatusSend.SEND
+            }
         }
-    }
 
-    override suspend fun setMatricColab(
-        matricColab: Int,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.matricColabMovEquipProprio = matricColab
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setMatricColab",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setMatricColab(matricColab: Int, id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.matricColabMovEquipProprio = matricColab
+                this.statusSendMovEquipProprio = StatusSend.SEND
+            }
         }
-    }
 
-    override suspend fun setNotaFiscal(
-        notaFiscal: Int?,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.notaFiscalMovEquipProprio = notaFiscal
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setNotaFiscal",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setNotaFiscal(notaFiscal: Int?, id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.notaFiscalMovEquipProprio = notaFiscal
+                this.statusSendMovEquipProprio = StatusSend.SEND
+            }
         }
-    }
 
-    override suspend fun setObserv(
-        observ: String?,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.observMovEquipProprio = observ
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setObserv",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setObserv(observ: String?, id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.observMovEquipProprio = observ
+                this.statusSendMovEquipProprio = StatusSend.SEND
+            }
         }
-    }
 
-    override suspend fun setSent(id: Int): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SENT
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setSent",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setSent(id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.statusSendMovEquipProprio = StatusSend.SENT
+            }
         }
-    }
 
-    override suspend fun setSend(id: Int): Result<Boolean> {
-        try {
-            val movEquipProprioRoomModel = movEquipProprioDao.get(id)
-            movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            movEquipProprioDao.update(movEquipProprioRoomModel)
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipProprioRoomDatasource.setSend",
-                message = "-",
-                cause = e
-            )
+    override suspend fun setSend(id: Int): EmptyResult =
+        result(getClassAndMethod()) {
+            updateModel(id) {
+                this.statusSendMovEquipProprio = StatusSend.SEND
+            }
         }
-    }
 
+    suspend fun update(model: MovEquipProprioRoomModel): EmptyResult =
+        result(getClassAndMethod()) {
+            movEquipProprioDao.update(model)
+        }
 }

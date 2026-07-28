@@ -12,7 +12,7 @@ class IFluxoRetrofitDatasource @Inject constructor(
     private val fluxoApi: FluxoApi
 ): FluxoRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<FluxoRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<FluxoRetrofitModel>> =
         result(getClassAndMethod()) {
             fluxoApi.all(token).body()!!
         }

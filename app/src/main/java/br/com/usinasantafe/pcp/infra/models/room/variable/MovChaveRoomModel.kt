@@ -13,15 +13,15 @@ import java.util.Date
 @Entity(tableName = TB_MOV_CHAVE)
 data class MovChaveRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovChave: Int? = null,
-    var uuidMainMovChave: String,
-    var matricVigiaMovChave: Int,
-    var idLocalMovChave: Int,
-    var tipoMovChave: TypeMovKey,
-    var dthrMovChave: Long,
-    var idChaveMovChave: Int,
-    var matricColabMovChave: Int,
-    var observMovChave: String?,
+    val idMovChave: Int? = null,
+    val uuidMainMovChave: String,
+    val matricVigiaMovChave: Int,
+    val idLocalMovChave: Int,
+    val tipoMovChave: TypeMovKey,
+    val dthrMovChave: Long,
+    val idChaveMovChave: Int,
+    val matricColabMovChave: Int,
+    val observMovChave: String?,
     var statusMovChave: StatusData,
     var statusSendMovChave: StatusSend,
     var statusForeignerMovChave: StatusForeigner

@@ -14,7 +14,7 @@ class IGetLocalList @Inject constructor(
 ): GetLocalList {
 
     override suspend fun invoke(): Result<List<Local>> {
-        val result = localRepository.list()
+        val result = localRepository.listAll()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

@@ -25,7 +25,7 @@ class IColabRetrofitDatasourceTest {
             )
             val service: ColabApi = retrofit.create(ColabApi::class.java)
             val datasource = IColabRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isFailure,
                 true
@@ -53,7 +53,7 @@ class IColabRetrofitDatasourceTest {
             )
             val service: ColabApi = retrofit.create(ColabApi::class.java)
             val datasource = IColabRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isFailure,
                 true
@@ -81,7 +81,7 @@ class IColabRetrofitDatasourceTest {
             )
             val service: ColabApi = retrofit.create(ColabApi::class.java)
             val datasource = IColabRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isSuccess,
                 true

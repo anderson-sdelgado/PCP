@@ -42,7 +42,7 @@ class IGetFlowList @Inject constructor(
             }
             val rLocalFluxoList = resultRLocalFluxo.getOrNull()!!
             val fluxoList = rLocalFluxoList.map {
-                val resultFluxo = fluxoRepository.get(it.idFluxo)
+                val resultFluxo = fluxoRepository.getById(it.idFluxo)
                 if (resultFluxo.isFailure) {
                     val e = resultFluxo.exceptionOrNull()!!
                     return resultFailure(

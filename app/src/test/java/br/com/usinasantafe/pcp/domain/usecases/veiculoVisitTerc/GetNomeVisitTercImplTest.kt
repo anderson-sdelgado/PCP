@@ -62,7 +62,7 @@ class GetNomeVisitTercImplTest {
                 Result.success(TypeVisitTerc.VISITANTE)
             )
             whenever(
-                visitanteRepository.getNome(
+                visitanteRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -97,7 +97,7 @@ class GetNomeVisitTercImplTest {
                 Result.success(TypeVisitTerc.TERCEIRO)
             )
             whenever(
-                terceiroRepository.getNome(
+                terceiroRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -132,14 +132,14 @@ class GetNomeVisitTercImplTest {
                 Result.success(TypeVisitTerc.VISITANTE)
             )
             whenever(
-                visitanteRepository.getNome(
+                visitanteRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
                 Result.success("Visitante")
             )
             whenever(
-                visitanteRepository.getEmpresas(
+                visitanteRepository.getEmpresasByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -174,14 +174,14 @@ class GetNomeVisitTercImplTest {
                 Result.success(TypeVisitTerc.TERCEIRO)
             )
             whenever(
-                terceiroRepository.getNome(
+                terceiroRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
                 Result.success("Terceiro")
             )
             whenever(
-                terceiroRepository.getEmpresas(
+                terceiroRepository.getEmpresasByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -216,14 +216,14 @@ class GetNomeVisitTercImplTest {
                 Result.success(TypeVisitTerc.VISITANTE)
             )
             whenever(
-                visitanteRepository.getNome(
+                visitanteRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
                 Result.success("Visitante")
             )
             whenever(
-                visitanteRepository.getEmpresas(
+                visitanteRepository.getEmpresasByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
@@ -265,14 +265,14 @@ class GetNomeVisitTercImplTest {
                 Result.success(TypeVisitTerc.TERCEIRO)
             )
             whenever(
-                terceiroRepository.getNome(
+                terceiroRepository.getNomeByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(
                 Result.success("Terceiro")
             )
             whenever(
-                terceiroRepository.getEmpresas(
+                terceiroRepository.getEmpresasByCpf(
                     cpf = "123.456.789-00"
                 )
             ).thenReturn(

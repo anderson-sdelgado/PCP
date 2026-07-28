@@ -33,7 +33,7 @@ class ICheckMatricColabTest {
     fun `Check return failure if have error in Repository`() = runTest {
         val colabRepository = mock<ColabRepository>()
         whenever(
-            colabRepository.checkMatric(19759)
+            colabRepository.hasMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -54,7 +54,7 @@ class ICheckMatricColabTest {
     @Test
     fun `Check return true in executed correctly`() = runTest {
         val colabRepository = mock<ColabRepository>()
-        whenever(colabRepository.checkMatric(19759)).thenReturn(
+        whenever(colabRepository.hasMatric(19759)).thenReturn(
             Result.success(true)
         )
         val usecase = ICheckMatricColab(colabRepository)
@@ -67,7 +67,7 @@ class ICheckMatricColabTest {
     fun `Check return false in executed correctly`() = runTest {
         val colabRepository = mock<ColabRepository>()
         whenever(
-            colabRepository.checkMatric(19759)
+            colabRepository.hasMatric(19759)
         ).thenReturn(
             Result.success(false)
         )

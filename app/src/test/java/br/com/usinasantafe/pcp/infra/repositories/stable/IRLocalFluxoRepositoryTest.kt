@@ -132,7 +132,7 @@ class IRLocalFluxoRepositoryTest {
     fun `RecoverAll - Check return failure if have error in RLocalFluxoRetrofitDatasource recoverAll`() =
         runTest {
             whenever(
-                rLocalFluxoRetrofitDatasource.recoverAll("token")
+                rLocalFluxoRetrofitDatasource.listAll("token")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -167,7 +167,7 @@ class IRLocalFluxoRepositoryTest {
                 )
             )
             whenever(
-                rLocalFluxoRetrofitDatasource.recoverAll("token")
+                rLocalFluxoRetrofitDatasource.listAll("token")
             ).thenReturn(
                 Result.success(
                     retrofitModelList

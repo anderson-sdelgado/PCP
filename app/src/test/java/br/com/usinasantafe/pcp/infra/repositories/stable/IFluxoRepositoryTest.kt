@@ -140,7 +140,7 @@ class IFluxoRepositoryTest {
     fun `RecoverAll - Check return failure if have error`() =
         runTest {
             whenever(
-                fluxoRetrofitDatasource.recoverAll(
+                fluxoRetrofitDatasource.listAll(
                     "token"
                 )
             ).thenReturn(
@@ -177,7 +177,7 @@ class IFluxoRepositoryTest {
                 )
             )
             whenever(
-                fluxoRetrofitDatasource.recoverAll(
+                fluxoRetrofitDatasource.listAll(
                     "token"
                 )
             ).thenReturn(
@@ -210,7 +210,7 @@ class IFluxoRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true

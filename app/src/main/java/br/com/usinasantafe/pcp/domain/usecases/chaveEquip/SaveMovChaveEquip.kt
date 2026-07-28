@@ -38,7 +38,7 @@ class ISaveMovChaveEquip @Inject constructor(
                                 cause = e.cause
                             )
                 }
-                val resultGet = movChaveEquipRepository.get(id)
+                val resultGet = movChaveEquipRepository.getById(id)
                 if (resultGet.isFailure) {
                     val e = resultGet.exceptionOrNull()!!
                     return resultFailure(

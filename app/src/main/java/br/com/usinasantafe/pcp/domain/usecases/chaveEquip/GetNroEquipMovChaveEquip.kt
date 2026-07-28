@@ -16,7 +16,7 @@ class IGetNroEquipMovChaveEquip @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<String> {
         try {
-            val resultIdEquip = movChaveEquipRepository.getIdEquip(id = id)
+            val resultIdEquip = movChaveEquipRepository.getIdEquipById(id = id)
             if (resultIdEquip.isFailure) {
                 val e = resultIdEquip.exceptionOrNull()!!
                 return resultFailure(
@@ -26,7 +26,7 @@ class IGetNroEquipMovChaveEquip @Inject constructor(
                 )
             }
             val idEquip = resultIdEquip.getOrNull()!!
-            val resultEquip = equipRepository.getNro(idEquip = idEquip)
+            val resultEquip = equipRepository.getNroById(idEquip = idEquip)
             if (resultEquip.isFailure) {
                 val e = resultEquip.exceptionOrNull()!!
                 return resultFailure(

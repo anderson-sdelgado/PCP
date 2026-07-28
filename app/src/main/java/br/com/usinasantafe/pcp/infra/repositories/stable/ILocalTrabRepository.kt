@@ -7,6 +7,9 @@ import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.LocalTrabRetrofi
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.LocalTrabRoomDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class ILocalTrabRepository @Inject constructor(
@@ -14,74 +17,26 @@ class ILocalTrabRepository @Inject constructor(
     private val localTrabRetrofitDatasource: LocalTrabRetrofitDatasource
 ): LocalTrabRepository {
 
-    override suspend fun addAll(list: List<LocalTrab>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<LocalTrab>): EmptyResult =
+        call(getClassAndMethod()) {
             val roomModelList = list.map { it.entityToRoomModel() }
-            val result = localTrabRoomDatasource.addAll(roomModelList)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "ILocalTrabRepository.addAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception){
-            return resultFailure(
-                context = "ILocalTrabRepository.add",
-                message = "-",
-                cause = e
-            )
+            localTrabRoomDatasource.addAll(roomModelList).getOrThrow()
         }
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        val result = localTrabRoomDatasource.deleteAll()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "ILocalTrabRepository.deleteAll",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun deleteAll(): EmptyResult =
+        call(getClassAndMethod()) {
+            localTrabRoomDatasource.deleteAll().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun getDescr(id: Int): Result<String> {
-        val result = localTrabRoomDatasource.getDescrById(id)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "ILocalTrabRepository.getDescr",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun getDescrById(id: Int): Result<String> =
+        call(getClassAndMethod()) {
+            localTrabRoomDatasource.getDescrById(id).getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun listAll(token: String): Result<List<LocalTrab>> {
-        try {
-            val result = localTrabRetrofitDatasource.recoverAll(token)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "ILocalTrabRepository.recoverAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = result.getOrNull()!!.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "ILocalTrabRepository.recoverAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(token: String): Result<List<LocalTrab>> =
+        call(getClassAndMethod()) {
+            val modelList = localTrabRetrofitDatasource.listAll(token).getOrThrow()
+            modelList.map { it.retrofitModelToEntity() }
         }
-    }
 
 }

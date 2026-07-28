@@ -12,7 +12,7 @@ class IColabRetrofitDatasource @Inject constructor(
     private val colabApi: ColabApi
 ): ColabRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<ColabRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<ColabRetrofitModel>> =
         result(getClassAndMethod()) {
             colabApi.all(token).body()!!
         }

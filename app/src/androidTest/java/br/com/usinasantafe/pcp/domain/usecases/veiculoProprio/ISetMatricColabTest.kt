@@ -200,7 +200,7 @@ class ISetMatricColabTest: KoinTest {
             result.getOrNull()!!,
             true
         )
-        val resultList = movEquipProprioPassagDao.list(1)
+        val resultList = movEquipProprioPassagDao.listById(1)
         assertEquals(
             resultList[0].matricColab,
             19759

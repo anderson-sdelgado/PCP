@@ -12,7 +12,7 @@ class ITerceiroRetrofitDatasource @Inject constructor(
     private val terceiroApi: TerceiroApi
 ): TerceiroRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<TerceiroRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<TerceiroRetrofitModel>> =
         result(getClassAndMethod()) {
             terceiroApi.all(token).body()!!
         }

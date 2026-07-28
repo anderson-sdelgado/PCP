@@ -15,7 +15,7 @@ class ICheckMatricColab @Inject constructor(
     override suspend fun invoke(matricColab: String): Result<Boolean> {
         try {
             val matric = matricColab.toInt()
-            val result = colabRepository.checkMatric(matric)
+            val result = colabRepository.hasMatric(matric)
             if (result.isFailure) {
                 val e = result.exceptionOrNull()!!
                 return resultFailure(

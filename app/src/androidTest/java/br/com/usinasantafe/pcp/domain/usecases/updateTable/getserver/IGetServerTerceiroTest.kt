@@ -62,7 +62,7 @@ class RecoverTerceiroServerImplTest : KoinTest {
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         )
         val result = usecase()
@@ -97,7 +97,7 @@ class RecoverTerceiroServerImplTest : KoinTest {
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         )
         val result = usecase()
@@ -132,7 +132,7 @@ class RecoverTerceiroServerImplTest : KoinTest {
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         )
         val result = usecase()
@@ -167,7 +167,7 @@ class RecoverTerceiroServerImplTest : KoinTest {
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         )
         val result = usecase()

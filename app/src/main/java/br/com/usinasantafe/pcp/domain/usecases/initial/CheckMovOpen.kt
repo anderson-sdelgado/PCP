@@ -63,7 +63,7 @@ class ICheckMovOpen @Inject constructor(
                 )
             }
             if(resultCheckChave.getOrNull()!!) return Result.success(true)
-            val resultCheckChaveEquip = movChaveEquipRepository.checkOpen()
+            val resultCheckChaveEquip = movChaveEquipRepository.hasOpen()
             if (resultCheckChaveEquip.isFailure) {
                 val e = resultCheckChaveEquip.exceptionOrNull()!!
                 return resultFailure(

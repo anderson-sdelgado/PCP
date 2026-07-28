@@ -85,7 +85,7 @@ class IGetMovEquipProprioOpenListTest {
             Result.success(movEquipProprioList)
         )
         whenever(
-            equipRepository.getDescr(1)
+            equipRepository.getDescrById(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -117,12 +117,12 @@ class IGetMovEquipProprioOpenListTest {
             Result.success(movEquipProprioList)
         )
         whenever(
-            equipRepository.getDescr(1)
+            equipRepository.getDescrById(1)
         ).thenReturn(
             Result.success("Teste")
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -156,12 +156,12 @@ class IGetMovEquipProprioOpenListTest {
             Result.success(movEquipProprioList)
         )
         whenever(
-            equipRepository.getDescr(1)
+            equipRepository.getDescrById(1)
         ).thenReturn(
             Result.success("Teste")
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )

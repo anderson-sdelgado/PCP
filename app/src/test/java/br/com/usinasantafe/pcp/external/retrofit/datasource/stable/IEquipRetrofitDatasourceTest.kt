@@ -20,7 +20,7 @@ class IEquipRetrofitDatasourceTest {
         val retrofit = provideRetrofitTest(server.url("").toString())
         val service: EquipApi = retrofit.create(EquipApi::class.java)
         val datasource = IEquipRetrofitDatasource(service)
-        val result = datasource.recoverAll("12345")
+        val result = datasource.listAll("12345")
         assertEquals(
             result.isFailure,
             true
@@ -43,7 +43,7 @@ class IEquipRetrofitDatasourceTest {
         val retrofit = provideRetrofitTest(server.url("").toString())
         val service: EquipApi = retrofit.create(EquipApi::class.java)
         val datasource = IEquipRetrofitDatasource(service)
-        val result = datasource.recoverAll("12345")
+        val result = datasource.listAll("12345")
         assertEquals(
             result.isFailure,
             true
@@ -66,7 +66,7 @@ class IEquipRetrofitDatasourceTest {
         val retrofit = provideRetrofitTest(server.url("").toString())
         val service: EquipApi = retrofit.create(EquipApi::class.java)
         val datasource = IEquipRetrofitDatasource(service)
-        val result = datasource.recoverAll("12345")
+        val result = datasource.listAll("12345")
         assertEquals(
             result.isSuccess,
             true

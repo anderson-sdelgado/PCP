@@ -63,7 +63,7 @@ class ITerceiroRepositoryTest {
     @Test
     fun `Check failure Datasource in recover data`() = runTest {
         whenever(
-            terceiroRetrofitDatasource.recoverAll(token)
+            terceiroRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -76,7 +76,7 @@ class ITerceiroRepositoryTest {
         )
         assertEquals(
             result.exceptionOrNull()!!.message,
-            "ITerceiroRepository.recoverAll -> Unknown Error"
+            "ITerceiroRepository.listAll -> Unknown Error"
         )
     }
 
@@ -101,7 +101,7 @@ class ITerceiroRepositoryTest {
             )
         )
         whenever(
-            terceiroRetrofitDatasource.recoverAll(token)
+            terceiroRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.success(retrofitModelList)
         )
@@ -196,20 +196,20 @@ class ITerceiroRepositoryTest {
     fun `Check return failure if have error in TerceiroRoomDatasource checkCPF`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.checkCpf("123.456.789-00")
+                terceiroRoomDatasource.hasCpf("123.456.789-00")
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.checkCPF("123.456.789-00")
+            val result = repository.hasCPF("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ITerceiroRepository.checkCPF -> Unknown Error"
+                "ITerceiroRepository.hasCPF -> Unknown Error"
             )
         }
 
@@ -217,11 +217,11 @@ class ITerceiroRepositoryTest {
     fun `Check return true if CheckCPF execute successfully`() =
         runTest {
             whenever(
-                terceiroRoomDatasource.checkCpf("123.456.789-00")
+                terceiroRoomDatasource.hasCpf("123.456.789-00")
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkCPF("123.456.789-00")
+            val result = repository.hasCPF("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true
@@ -242,35 +242,33 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ITerceiroRepository.get -> Unknown Error"
+                "ITerceiroRepository.getById -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if TerceiroRepositoryImplTest Get execute successfully`() =
         runTest {
-            val list = listOf(
-                TerceiroRoomModel(
-                    idTerceiro = 1,
-                    idBDTerceiro = 1,
-                    nomeTerceiro = "Terceiro",
-                    cpfTerceiro = "123.456.789-00",
-                    empresaTerceiro = "Empresa Terceiro"
-                )
+            val model = TerceiroRoomModel(
+                idTerceiro = 1,
+                idBDTerceiro = 1,
+                nomeTerceiro = "Terceiro",
+                cpfTerceiro = "123.456.789-00",
+                empresaTerceiro = "Empresa Terceiro"
             )
             whenever(
                 terceiroRoomDatasource.getById(1)
             ).thenReturn(
-                Result.success(list)
+                Result.success(model)
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -292,35 +290,33 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getCpfById(1)
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ITerceiroRepository.get -> Unknown Error"
+                "ITerceiroRepository.getCpfById -> Unknown Error"
             )
         }
 
     @Test
     fun `Check return true if TerceiroRepositoryImplTest GetCpf execute successfully`() =
         runTest {
-            val list = listOf(
-                TerceiroRoomModel(
-                    idTerceiro = 1,
-                    idBDTerceiro = 1,
-                    nomeTerceiro = "Terceiro",
-                    cpfTerceiro = "123.456.789-00",
-                    empresaTerceiro = "Empresa Terceiro"
-                )
+            val model = TerceiroRoomModel(
+                idTerceiro = 1,
+                idBDTerceiro = 1,
+                nomeTerceiro = "Terceiro",
+                cpfTerceiro = "123.456.789-00",
+                empresaTerceiro = "Empresa Terceiro"
             )
             whenever(
                 terceiroRoomDatasource.getById(1)
             ).thenReturn(
-                Result.success(list)
+                Result.success(model)
             )
-            val result = repository.getCpf(1)
+            val result = repository.getCpfById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -341,14 +337,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getId("123.456.789-00")
+            val result = repository.getIdByCpf("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ITerceiroRepository.getId -> Unknown Error"
+                "ITerceiroRepository.getIdByCpf -> Unknown Error"
             )
         }
 
@@ -376,7 +372,7 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val result = repository.getId("123.456.789-00")
+            val result = repository.getIdByCpf("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true
@@ -397,14 +393,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getNome("123.456.789-00")
+            val result = repository.getNomeByCpf("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ITerceiroRepository.getNome -> Unknown Error"
+                "ITerceiroRepository.getNomeByCpf -> Unknown Error"
             )
         }
 
@@ -432,7 +428,7 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val result = repository.getNome("123.456.789-00")
+            val result = repository.getNomeByCpf("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true
@@ -453,14 +449,14 @@ class ITerceiroRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getEmpresas("123.456.789-00")
+            val result = repository.getEmpresasByCpf("123.456.789-00")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ITerceiroRepository.getEmpresas -> Unknown Error"
+                "ITerceiroRepository.getEmpresasByCpf -> Unknown Error"
             )
         }
 
@@ -488,7 +484,7 @@ class ITerceiroRepositoryTest {
             ).thenReturn(
                 Result.success(list)
             )
-            val result = repository.getEmpresas("123.456.789-00")
+            val result = repository.getEmpresasByCpf("123.456.789-00")
             assertEquals(
                 result.isSuccess,
                 true

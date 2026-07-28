@@ -65,7 +65,7 @@ class IGetMovChaveOpenListTest {
                 )
             )
             whenever(
-                colabRepository.getNome(
+                colabRepository.getNomeByMatric(
                     matric = 19759
                 )
             ).thenReturn(
@@ -106,7 +106,7 @@ class IGetMovChaveOpenListTest {
                 )
             )
             whenever(
-                colabRepository.getNome(
+                colabRepository.getNomeByMatric(
                     matric = 19759
                 )
             ).thenReturn(
@@ -154,7 +154,7 @@ class IGetMovChaveOpenListTest {
                 )
             )
             whenever(
-                colabRepository.getNome(
+                colabRepository.getNomeByMatric(
                     matric = 19759
                 )
             ).thenReturn(

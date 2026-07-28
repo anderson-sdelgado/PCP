@@ -2,11 +2,13 @@ package br.com.usinasantafe.pcp.infra.repositories.stable
 
 import br.com.usinasantafe.pcp.domain.entities.stable.Colab
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.stable.ColabRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.retrofitModelToEntity
 import br.com.usinasantafe.pcp.infra.models.room.stable.entityToRoomModel
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IColabRepository @Inject constructor(
@@ -14,88 +16,31 @@ class IColabRepository @Inject constructor(
     private val colabRetrofitDatasource: ColabRetrofitDatasource
 ): ColabRepository {
 
-    override suspend fun addAll(list: List<Colab>): Result<Boolean> {
-        try {
+    override suspend fun addAll(list: List<Colab>): EmptyResult =
+        call(getClassAndMethod()) {
             val colabModelList = list.map { it.entityToRoomModel() }
-            val result = colabRoomDatasource.addAll(colabModelList)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IColabRepository.addAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception){
-            return resultFailure(
-                context = "IColabRepository.add",
-                message = "-",
-                cause = e
-            )
+            colabRoomDatasource.addAll(colabModelList).getOrThrow()
         }
-    }
 
-    override suspend fun checkMatric(matric: Int): Result<Boolean> {
-        val result = colabRoomDatasource.checkMatric(matric)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IColabRepository.checkMatric",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun hasMatric(matric: Int): Result<Boolean> =
+        call(getClassAndMethod()) {
+            colabRoomDatasource.hasMatric(matric).getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun deleteAll(): Result<Boolean> {
-        val result = colabRoomDatasource.deleteAll()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IColabRepository.deleteAll",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun deleteAll(): EmptyResult =
+        call(getClassAndMethod()) {
+            colabRoomDatasource.deleteAll().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun getNome(matric: Int): Result<String> {
-        val result = colabRoomDatasource.getNomeByMatric(matric)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IColabRepository.getNome",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun getNomeByMatric(matric: Int): Result<String> =
+        call(getClassAndMethod()) {
+            colabRoomDatasource.getNomeByMatric(matric).getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun listAll(token: String): Result<List<Colab>> {
-        try {
-            val recoverAll = colabRetrofitDatasource.recoverAll(token)
-            if (recoverAll.isFailure) {
-                val e = recoverAll.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IColabRepository.recoverAll",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val resultAll = recoverAll.getOrNull()!!
-            val entityList = resultAll.map { it.retrofitModelToEntity() }
-            return Result.success(entityList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IColabRepository.recoverAll",
-                message = "-",
-                cause = e
-            )
+    override suspend fun listAll(token: String): Result<List<Colab>> =
+        call(getClassAndMethod()) {
+            val modelList = colabRetrofitDatasource.listAll(token).getOrThrow()
+            modelList.map { it.retrofitModelToEntity() }
         }
-    }
 
 }

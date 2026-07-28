@@ -78,7 +78,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -118,7 +118,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -180,7 +180,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -201,7 +201,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getNro(
+            equipRepository.getNroById(
                 idEquip = 100
             )
         ).thenReturn(
@@ -257,7 +257,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -278,12 +278,12 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getNro(idEquip = 100)
+            equipRepository.getNroById(idEquip = 100)
         ).thenReturn(
             Result.success(200)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -337,7 +337,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -358,12 +358,12 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getNro(100)
+            equipRepository.getNroById(100)
         ).thenReturn(
             Result.success(200)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
@@ -425,7 +425,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -446,12 +446,12 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getNro(100)
+            equipRepository.getNroById(100)
         ).thenReturn(
             Result.success(200)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
@@ -472,7 +472,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            colabRepository.getNome(19035)
+            colabRepository.getNomeByMatric(19035)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -526,7 +526,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -547,12 +547,12 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getNro(100)
+            equipRepository.getNroById(100)
         ).thenReturn(
             Result.success(200)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
@@ -573,7 +573,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            colabRepository.getNome(19035)
+            colabRepository.getNomeByMatric(19035)
         ).thenReturn(
             Result.success("JOSE DONIZETE")
         )
@@ -630,7 +630,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            equipRepository.getDescr(10)
+            equipRepository.getDescrById(10)
         ).thenReturn(
             Result.success("Teste")
         )
@@ -645,7 +645,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
@@ -666,7 +666,7 @@ class IGetDetalheProprioTest {
             )
         )
         whenever(
-            colabRepository.getNome(19035)
+            colabRepository.getNomeByMatric(19035)
         ).thenReturn(
             Result.success("JOSE DONIZETE")
         )

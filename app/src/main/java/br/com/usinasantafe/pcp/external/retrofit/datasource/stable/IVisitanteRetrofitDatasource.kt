@@ -12,7 +12,7 @@ class IVisitanteRetrofitDatasource @Inject constructor(
     private val visitanteApi: VisitanteApi
 ): VisitanteRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<VisitanteRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<VisitanteRetrofitModel>> =
         result(getClassAndMethod()) {
             visitanteApi.all(token).body()!!
         }

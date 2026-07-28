@@ -32,7 +32,7 @@ class ISetIdEquipProprio @Inject constructor(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultId = equipRepository.getId(
+            val resultId = equipRepository.getIdByNro(
                 nroEquip.toLong()
             )
             if (resultId.isFailure) {

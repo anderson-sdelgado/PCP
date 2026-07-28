@@ -31,7 +31,7 @@ class IGetMovChaveEquipInsideList @Inject constructor(
                 )
             }
             val entityList = resultList.getOrNull()!!.map {
-                val resultNomeColab = colabRepository.getNome(it.matricColabMovChaveEquip!!)
+                val resultNomeColab = colabRepository.getNomeByMatric(it.matricColabMovChaveEquip!!)
                 if (resultNomeColab.isFailure) {
                     val e = resultNomeColab.exceptionOrNull()!!
                     return resultFailure(
@@ -41,7 +41,7 @@ class IGetMovChaveEquipInsideList @Inject constructor(
                             )
                 }
                 val nomeColab = resultNomeColab.getOrNull()!!
-                val resultGetEquip = equipRepository.getDescr(it.idEquipMovChaveEquip!!)
+                val resultGetEquip = equipRepository.getDescrById(it.idEquipMovChaveEquip!!)
                 if (resultGetEquip.isFailure) {
                     val e = resultGetEquip.exceptionOrNull()!!
                     return resultFailure(

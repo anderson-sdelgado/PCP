@@ -474,7 +474,7 @@ class IMovChaveRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -507,7 +507,7 @@ class IMovChaveRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -824,7 +824,7 @@ class IMovChaveRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getMatricColab(1)
+            val result = repository.getMatricColabById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -959,7 +959,7 @@ class IMovChaveRepositoryTest {
             ).thenReturn(
                 Result.success(roomModel)
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isSuccess,
                 true

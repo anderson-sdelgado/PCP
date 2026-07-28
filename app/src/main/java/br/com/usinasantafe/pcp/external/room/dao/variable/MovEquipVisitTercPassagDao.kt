@@ -16,15 +16,13 @@ interface MovEquipVisitTercPassagDao {
     @Insert
     suspend fun insertAll(list: List<MovEquipVisitTercPassagRoomModel>)
 
-    @Delete
-    suspend fun delete(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel)
+    @Query("DELETE FROM $TB_MOV_EQUIP_VISIT_TERC_PASSAG WHERE idMovEquipVisitTerc = :idMov")
+    suspend fun deleteByIdMov(idMov: Int)
+
+    @Query("DELETE FROM $TB_MOV_EQUIP_VISIT_TERC_PASSAG WHERE idMovEquipVisitTerc = :idMov AND idVisitTerc = :idVisitTerc")
+    suspend fun deleteByIdMovAndIdVisitTerc(idMov: Int, idVisitTerc: Int)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC_PASSAG WHERE idMovEquipVisitTerc = :idMov")
     suspend fun list(idMov: Int): List<MovEquipVisitTercPassagRoomModel>
 
-    @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC_PASSAG WHERE idMovEquipVisitTerc = :idMov AND idVisitTerc = :idVisitTerc")
-    suspend fun get(idMov: Int, idVisitTerc: Int): MovEquipVisitTercPassagRoomModel
-
-    @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC_PASSAG WHERE idMovEquipVisitTerc = :idMov")
-    suspend fun get(idMov: Int): List<MovEquipVisitTercPassagRoomModel>
 }

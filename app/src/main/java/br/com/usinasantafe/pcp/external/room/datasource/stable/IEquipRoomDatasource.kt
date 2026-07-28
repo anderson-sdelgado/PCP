@@ -18,7 +18,7 @@ class IEquipRoomDatasource @Inject constructor(
             equipDao.insertAll(list)
         }
 
-    override suspend fun checkNro(nroEquip: Long): Result<Boolean> =
+    override suspend fun hasNro(nroEquip: Long): Result<Boolean> =
         result(getClassAndMethod()) {
             equipDao.checkNro(nroEquip) > 0
         }

@@ -121,7 +121,7 @@ class ISendMovChaveEquipListTest : KoinTest {
                 Config(
                     number = 16997417840,
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
             val result = usecase()
@@ -172,7 +172,7 @@ class ISendMovChaveEquipListTest : KoinTest {
                 Config(
                     number = 16997417840,
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
             val result = usecase()
@@ -225,7 +225,7 @@ class ISendMovChaveEquipListTest : KoinTest {
                 Config(
                     number = 16997417840,
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
             val result = usecase()

@@ -13,7 +13,7 @@ class ICheckSendMovChaveEquip @Inject constructor(
 ): CheckSendMovChaveEquip {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movChaveEquipRepository.checkSend()
+        val result = movChaveEquipRepository.hasSend()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

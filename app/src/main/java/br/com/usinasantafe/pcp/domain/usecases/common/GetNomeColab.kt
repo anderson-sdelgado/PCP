@@ -14,7 +14,7 @@ class IGetNomeColab @Inject constructor(
 
     override suspend fun invoke(matric: String): Result<String> {
         try {
-            val result = colabRepository.getNome(
+            val result = colabRepository.getNomeByMatric(
                 matric.toInt()
             )
             if (result.isFailure) {

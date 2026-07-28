@@ -12,7 +12,7 @@ class ILocalTrabRetrofitDatasource @Inject constructor(
     private val localTrabApi: LocalTrabApi
 ): LocalTrabRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<LocalTrabRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<LocalTrabRetrofitModel>> =
         result(getClassAndMethod()) {
             localTrabApi.all(token).body()!!
         }

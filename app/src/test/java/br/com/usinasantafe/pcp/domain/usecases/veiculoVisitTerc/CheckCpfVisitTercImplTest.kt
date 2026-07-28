@@ -60,7 +60,7 @@ class CheckCpfVisitTercImplTest {
             Result.success(TypeVisitTerc.VISITANTE)
         )
         whenever(
-            visitanteRepository.checkCPF(
+            visitanteRepository.hasCPF(
                 cpf = "326.949.728-88"
             )
         ).thenReturn(
@@ -94,7 +94,7 @@ class CheckCpfVisitTercImplTest {
             Result.success(TypeVisitTerc.TERCEIRO)
         )
         whenever(
-            terceiroRepository.checkCPF(
+            terceiroRepository.hasCPF(
                 cpf = "326.949.728-88"
             )
         ).thenReturn(
@@ -128,7 +128,7 @@ class CheckCpfVisitTercImplTest {
             Result.success(TypeVisitTerc.TERCEIRO)
         )
         whenever(
-            terceiroRepository.checkCPF(
+            terceiroRepository.hasCPF(
                 cpf = "326.949.728-88"
             )
         ).thenReturn(
@@ -160,7 +160,7 @@ class CheckCpfVisitTercImplTest {
             Result.success(TypeVisitTerc.TERCEIRO)
         )
         whenever(
-            terceiroRepository.checkCPF(
+            terceiroRepository.hasCPF(
                 cpf = "326.949.728-88"
             )
         ).thenReturn(

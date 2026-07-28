@@ -26,7 +26,7 @@ class IGetNroEquipProprio @Inject constructor(
                 )
             }
             val idEquip = resultIdEquip.getOrNull()!!
-            val resultEquip = equipRepository.getNro(idEquip = idEquip)
+            val resultEquip = equipRepository.getNroById(idEquip = idEquip)
             if (resultEquip.isFailure) {
                 val e = resultEquip.exceptionOrNull()!!
                 return resultFailure(

@@ -1,10 +1,8 @@
 package br.com.usinasantafe.pcp.external.retrofit.datasource.stable
 
 import br.com.usinasantafe.pcp.external.retrofit.api.stable.ChaveApi
-import br.com.usinasantafe.pcp.external.retrofit.api.stable.ColabApi
 import br.com.usinasantafe.pcp.external.retrofit.provideRetrofitTest
 import br.com.usinasantafe.pcp.infra.models.retrofit.stable.ChaveRetrofitModel
-import br.com.usinasantafe.pcp.infra.models.retrofit.stable.ColabRetrofitModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -26,7 +24,7 @@ class IChaveRetrofitDatasourceTest {
             )
             val service = retrofit.create(ChaveApi::class.java)
             val datasource = IChaveRetrofitDatasource(service)
-            val result = datasource.recoverAll("TOKEN")
+            val result = datasource.listAll("TOKEN")
             assertEquals(
                 result.isFailure,
                 true
@@ -54,7 +52,7 @@ class IChaveRetrofitDatasourceTest {
             )
             val service = retrofit.create(ChaveApi::class.java)
             val datasource = IChaveRetrofitDatasource(service)
-            val result = datasource.recoverAll("TOKEN")
+            val result = datasource.listAll("TOKEN")
             assertEquals(
                 result.isFailure,
                 true
@@ -82,7 +80,7 @@ class IChaveRetrofitDatasourceTest {
             )
             val service = retrofit.create(ChaveApi::class.java)
             val datasource = IChaveRetrofitDatasource(service)
-            val result = datasource.recoverAll("12345")
+            val result = datasource.listAll("12345")
             assertEquals(
                 result.isSuccess,
                 true

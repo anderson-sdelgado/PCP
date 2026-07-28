@@ -109,14 +109,14 @@ class ISendMovResidenciaListTest {
                 )
             )
             val entityConfig = Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "1.00"
             )
             val token = token(
                 number = entityConfig.number!!,
                 version = entityConfig.version!!,
-                idBD = entityConfig.idBD!!
+                idBD = entityConfig.idServ!!
             )
             whenever(
                 movEquipResidenciaRepository.listSend()
@@ -170,14 +170,14 @@ class ISendMovResidenciaListTest {
                 )
             )
             val entityConfig = Config(
-                idBD = 1,
+                idServ = 1,
                 number = 16997417840,
                 version = "1.00"
             )
             val token = token(
                 number = entityConfig.number!!,
                 version = entityConfig.version!!,
-                idBD = entityConfig.idBD!!
+                idBD = entityConfig.idServ!!
             )
             whenever(
                 movEquipResidenciaRepository.listSend()

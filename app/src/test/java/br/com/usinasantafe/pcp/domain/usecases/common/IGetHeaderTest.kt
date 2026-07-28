@@ -59,7 +59,7 @@ class IGetHeaderTest {
             Result.success(config)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -96,12 +96,12 @@ class IGetHeaderTest {
             Result.success(config)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
         whenever(
-            localRepository.getDescr(1)
+            localRepository.getDescrById(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -138,12 +138,12 @@ class IGetHeaderTest {
             Result.success(config)
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
         whenever(
-            localRepository.getDescr(1)
+            localRepository.getDescrById(1)
         ).thenReturn(
             Result.success("1 - USINA")
         )

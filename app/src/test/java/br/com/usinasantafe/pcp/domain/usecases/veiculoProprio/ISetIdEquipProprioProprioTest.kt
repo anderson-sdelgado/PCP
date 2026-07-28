@@ -73,7 +73,7 @@ class ISetIdEquipProprioProprioTest {
     @Test
     fun `Check return failure Datasource if have error in EquipRepository getNro`() = runTest {
         whenever(
-            equipRepository.getId(100)
+            equipRepository.getIdByNro(100)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -103,7 +103,7 @@ class ISetIdEquipProprioProprioTest {
     fun `Check return failure Datasource if have error in MovEquipProprioRepository setNroEquip in FlowApp ADD and TypeEquip VEICULO`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.success(10)
             )
@@ -141,7 +141,7 @@ class ISetIdEquipProprioProprioTest {
     @Test
     fun `Check return failure Datasource if have error in MovEquipProprioRepository setNroEquip in FlowApp CHANGE and TypeEquip VEICULO`() =
         runTest {
-            whenever(equipRepository.getId(100)).thenReturn(
+            whenever(equipRepository.getIdByNro(100)).thenReturn(
                 Result.success(10)
             )
             whenever(
@@ -178,7 +178,7 @@ class ISetIdEquipProprioProprioTest {
     @Test
     fun `Check return true if MovEquipProprioRepository setNroEquip execute success in FlowApp ADD and TypeEquip VEICULO`() = runTest {
         whenever(
-            equipRepository.getId(100)
+            equipRepository.getIdByNro(100)
         ).thenReturn(
             Result.success(10)
         )
@@ -210,7 +210,7 @@ class ISetIdEquipProprioProprioTest {
     @Test
     fun `Check return true if MovEquipProprioRepository setNroEquip execute success in FlowApp CHANGE and TypeEquip VEICULO`() = runTest {
         whenever(
-            equipRepository.getId(100)
+            equipRepository.getIdByNro(100)
         ).thenReturn(
             Result.success(10)
         )
@@ -243,7 +243,7 @@ class ISetIdEquipProprioProprioTest {
     fun `Check return failure Datasource if have error in MovEquipProprioEquipSegRepository add in FlowApp ADD and TypeEquip VEICULOSEG`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.success(10)
             )
@@ -282,7 +282,7 @@ class ISetIdEquipProprioProprioTest {
     fun `Check return failure Datasource if have error in MovEquipProprioEquipSegRepository add in FlowApp CHANGE and TypeEquip VEICULOSEG`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.success(10)
             )
@@ -321,7 +321,7 @@ class ISetIdEquipProprioProprioTest {
     fun `Check return failure if have error in setSend in MovEquipProprioModelRoom in FlowApp CHANGE and TypeEquip VEICULOSEG`() =
         runTest {
             whenever(
-                equipRepository.getId(100)
+                equipRepository.getIdByNro(100)
             ).thenReturn(
                 Result.success(10)
             )
@@ -364,7 +364,7 @@ class ISetIdEquipProprioProprioTest {
     @Test
     fun `Check return true if MovEquipProprioEquipSegRepository add execute success in FlowApp ADD and TypeEquip VEICULOSEG`() = runTest {
         whenever(
-            equipRepository.getId(100)
+            equipRepository.getIdByNro(100)
         ).thenReturn(
             Result.success(10)
         )
@@ -396,7 +396,7 @@ class ISetIdEquipProprioProprioTest {
     @Test
     fun `Check return true if MovEquipProprioEquipSegRepository add execute success in FlowApp CHANGE and TypeEquip VEICULOSEG`() = runTest {
         whenever(
-            equipRepository.getId(100)
+            equipRepository.getIdByNro(100)
         ).thenReturn(
             Result.success(10)
         )

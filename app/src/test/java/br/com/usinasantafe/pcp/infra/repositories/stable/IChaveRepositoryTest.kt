@@ -132,7 +132,7 @@ class IChaveRepositoryTest {
     fun `recoverAll - Check return failure if have error`() =
         runTest {
             whenever(
-                chaveRetrofitDatasource.recoverAll("token")
+                chaveRetrofitDatasource.listAll("token")
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -167,7 +167,7 @@ class IChaveRepositoryTest {
                 )
             )
             whenever(
-                chaveRetrofitDatasource.recoverAll("token")
+                chaveRetrofitDatasource.listAll("token")
             ).thenReturn(
                 Result.success(
                     retrofitModelList

@@ -167,7 +167,7 @@ class ISaveMovChaveTest {
                 Result.success(true)
             )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -196,7 +196,7 @@ class ISaveMovChaveTest {
                 Result.success(true)
             )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     MovChave(
@@ -234,7 +234,7 @@ class ISaveMovChaveTest {
                 Result.success(true)
             )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     MovChave(
@@ -286,7 +286,7 @@ class ISaveMovChaveTest {
                 Result.success(true)
             )
             whenever(
-                movChaveRepository.get(1)
+                movChaveRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     MovChave(

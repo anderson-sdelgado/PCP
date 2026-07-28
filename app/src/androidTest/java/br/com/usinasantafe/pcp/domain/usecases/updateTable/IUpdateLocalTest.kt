@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcp.domain.usecases.updateTable
 
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocal
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalDao
 import br.com.usinasantafe.pcp.generateTestAppComponent
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
@@ -42,7 +41,7 @@ class UpdateTableLocalImplTest : KoinTest {
                     number = 16997417840,
                     password = "12345",
                     version = "6.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
             val result = usecase(

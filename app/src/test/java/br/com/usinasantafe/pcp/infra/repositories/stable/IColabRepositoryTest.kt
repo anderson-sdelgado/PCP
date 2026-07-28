@@ -64,7 +64,7 @@ class IColabRepositoryTest {
     @Test
     fun `Check failure Datasource in recover data`() = runTest {
         whenever(
-            colabRetrofitDatasource.recoverAll(token)
+            colabRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -96,7 +96,7 @@ class IColabRepositoryTest {
             )
         )
         whenever(
-            colabRetrofitDatasource.recoverAll(token)
+            colabRetrofitDatasource.listAll(token)
         ).thenReturn(
             Result.success(retrofitModelList)
         )
@@ -178,11 +178,11 @@ class IColabRepositoryTest {
     @Test
     fun `Check return false if not exist Colab`() = runTest {
         whenever(
-            colabRoomDatasource.checkMatric(19759)
+            colabRoomDatasource.hasMatric(19759)
         ).thenReturn(
             Result.success(false)
         )
-        val result = repository.checkMatric(19759)
+        val result = repository.hasMatric(19759)
         assertEquals(
             result.isSuccess,
             true
@@ -196,11 +196,11 @@ class IColabRepositoryTest {
     @Test
     fun `Check return true if exist Colab`() = runTest {
         whenever(
-            colabRoomDatasource.checkMatric(19759)
+            colabRoomDatasource.hasMatric(19759)
         ).thenReturn(
             Result.success(true)
         )
-        val result = repository.checkMatric(19759)
+        val result = repository.hasMatric(19759)
         assertEquals(
             result.isSuccess,
             true
@@ -214,13 +214,13 @@ class IColabRepositoryTest {
     @Test
     fun `Check return failure if have error in checkMatric Datasource`() = runTest {
         whenever(
-            colabRoomDatasource.checkMatric(19759)
+            colabRoomDatasource.hasMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
             )
         )
-        val result = repository.checkMatric(19759)
+        val result = repository.hasMatric(19759)
         assertEquals(
             result.isFailure,
             true
@@ -238,7 +238,7 @@ class IColabRepositoryTest {
         ).thenReturn(
             Result.success("ANDERSON DA SILVA DELGADO")
         )
-        val result = repository.getNome(19759)
+        val result = repository.getNomeByMatric(19759)
         assertEquals(
             result.isSuccess,
             true
@@ -258,7 +258,7 @@ class IColabRepositoryTest {
                 Exception()
             )
         )
-        val result = repository.getNome(19759)
+        val result = repository.getNomeByMatric(19759)
         assertEquals(
             result.isFailure,
             true

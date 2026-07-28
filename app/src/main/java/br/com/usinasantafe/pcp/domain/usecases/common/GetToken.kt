@@ -28,7 +28,7 @@ class IGetToken @Inject constructor(
             val token = token(
                 number = config.number!!,
                 version = config.version!!,
-                idBD = config.idBD!!
+                idBD = config.idServ!!
             )
             return Result.success(token)
         } catch (e: Exception) {

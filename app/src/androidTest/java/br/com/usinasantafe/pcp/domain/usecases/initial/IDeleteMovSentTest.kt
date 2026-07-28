@@ -187,23 +187,23 @@ class IDeleteMovSentTest : KoinTest {
                     statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
                 )
             )
-            val movProprioListBefore = movEquipProprioDao.listStatusData(StatusData.CLOSE)
+            val movProprioListBefore = movEquipProprioDao.listByStatusData(StatusData.CLOSE)
             assertEquals(
                 movProprioListBefore.size,
                 2
             )
-            val movVisitTercListBefore = movEquipVisitTercDao.listStatusData(StatusData.CLOSE)
+            val movVisitTercListBefore = movEquipVisitTercDao.listByStatusData(StatusData.CLOSE)
             assertEquals(
                 movVisitTercListBefore.size,
                 2
             )
-            val movResidenciaListBefore = movEquipResidenciaDao.listStatusData(StatusData.CLOSE)
+            val movResidenciaListBefore = movEquipResidenciaDao.listByStatusData(StatusData.CLOSE)
             assertEquals(
                 movResidenciaListBefore.size,
                 2
             )
 
-            val movProprioPassagListBefore = movEquipProprioPassagDao.list(1)
+            val movProprioPassagListBefore = movEquipProprioPassagDao.listById(1)
             assertEquals(
                 movProprioPassagListBefore.size,
                 1
@@ -229,23 +229,23 @@ class IDeleteMovSentTest : KoinTest {
                 true
             )
 
-            val movProprioListAfter = movEquipProprioDao.listStatusData(StatusData.CLOSE)
+            val movProprioListAfter = movEquipProprioDao.listByStatusData(StatusData.CLOSE)
             assertEquals(
                 movProprioListAfter.size,
                 1
             )
-            val movVisitTercListAfter = movEquipVisitTercDao.listStatusData(StatusData.CLOSE)
+            val movVisitTercListAfter = movEquipVisitTercDao.listByStatusData(StatusData.CLOSE)
             assertEquals(
                 movVisitTercListAfter.size,
                 1
             )
-            val movResidenciaListAfter = movEquipResidenciaDao.listStatusData(StatusData.CLOSE)
+            val movResidenciaListAfter = movEquipResidenciaDao.listByStatusData(StatusData.CLOSE)
             assertEquals(
                 movResidenciaListAfter.size,
                 1
             )
 
-            val movProprioPassagListAfter = movEquipProprioPassagDao.list(1)
+            val movProprioPassagListAfter = movEquipProprioPassagDao.listById(1)
             assertEquals(
                 movProprioPassagListAfter.size,
                 0

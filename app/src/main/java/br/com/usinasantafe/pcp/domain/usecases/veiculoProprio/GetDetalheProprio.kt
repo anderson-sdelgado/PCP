@@ -45,7 +45,7 @@ class IGetDetalheProprio @Inject constructor(
                 Locale("pt", "BR")
             ).format(mov.dthrMovEquipProprio)
             val tipoMov = if (mov.tipoMovEquipProprio!!.ordinal == 0) "ENTRADA" else "SAÍDA"
-            val resultGetDescr = equipRepository.getDescr(mov.idEquipMovEquipProprio!!)
+            val resultGetDescr = equipRepository.getDescrById(mov.idEquipMovEquipProprio!!)
             if (resultGetDescr.isFailure) {
                 val e = resultGetDescr.exceptionOrNull()!!
                 return resultFailure(
@@ -68,7 +68,7 @@ class IGetDetalheProprio @Inject constructor(
             val equipSegList = resultEquipSegList.getOrNull()!!
             var veicSeg = ""
             for (equipSeg in equipSegList) {
-                val resultNroEquipSeg = equipRepository.getNro(equipSeg.idEquip!!)
+                val resultNroEquipSeg = equipRepository.getNroById(equipSeg.idEquip!!)
                 if (resultNroEquipSeg.isFailure) {
                     val e = resultNroEquipSeg.exceptionOrNull()!!
                     return resultFailure(
@@ -80,7 +80,7 @@ class IGetDetalheProprio @Inject constructor(
                 val nroEquipSeg = resultNroEquipSeg.getOrNull()!!
                 veicSeg += "$nroEquipSeg - "
             }
-            val resultGetNome = colabRepository.getNome(mov.matricColabMovEquipProprio!!)
+            val resultGetNome = colabRepository.getNomeByMatric(mov.matricColabMovEquipProprio!!)
             if (resultGetNome.isFailure) {
                 val e = resultGetNome.exceptionOrNull()!!
                 return resultFailure(
@@ -107,7 +107,7 @@ class IGetDetalheProprio @Inject constructor(
             val passagList = resultPassagList.getOrNull()!!
             var passageiro = ""
             for (passag in passagList) {
-                val resultGetNomePassag = colabRepository.getNome(passag.matricColab!!)
+                val resultGetNomePassag = colabRepository.getNomeByMatric(passag.matricColab!!)
                 if (resultGetNomePassag.isFailure) {
                     val e = resultGetNomePassag.exceptionOrNull()!!
                     return resultFailure(

@@ -21,7 +21,7 @@ class IGetDetalheMovChave @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<DetalheChaveModel> {
         try {
-            val resultMovChave = movChaveRepository.get(id)
+            val resultMovChave = movChaveRepository.getById(id)
             if (resultMovChave.isFailure) {
                 val e = resultMovChave.exceptionOrNull()!!
                 return resultFailure(
@@ -31,7 +31,7 @@ class IGetDetalheMovChave @Inject constructor(
                 )
             }
             val entity = resultMovChave.getOrNull()!!
-            val resultNomeColab = colabRepository.getNome(entity.matricColabMovChave!!)
+            val resultNomeColab = colabRepository.getNomeByMatric(entity.matricColabMovChave!!)
             if (resultNomeColab.isFailure) {
                 val e = resultNomeColab.exceptionOrNull()!!
                 return resultFailure(

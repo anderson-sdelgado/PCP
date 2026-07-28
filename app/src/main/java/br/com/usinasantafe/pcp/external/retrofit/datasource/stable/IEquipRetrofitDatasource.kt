@@ -12,7 +12,7 @@ class IEquipRetrofitDatasource @Inject constructor(
     private val equipApi: EquipApi
 ): EquipRetrofitDatasource {
 
-    override suspend fun recoverAll(token: String): Result<List<EquipRetrofitModel>> =
+    override suspend fun listAll(token: String): Result<List<EquipRetrofitModel>> =
         result(getClassAndMethod()) {
             equipApi.all(token).body()!!
         }

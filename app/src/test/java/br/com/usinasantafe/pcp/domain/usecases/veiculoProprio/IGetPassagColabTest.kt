@@ -98,7 +98,7 @@ class IGetPassagColabTest {
             )
         )
         whenever(
-            colabRepository.getNome(19759)
+            colabRepository.getNomeByMatric(19759)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -134,7 +134,7 @@ class IGetPassagColabTest {
                 )
             )
         )
-        whenever(colabRepository.getNome(19759)).thenReturn(
+        whenever(colabRepository.getNomeByMatric(19759)).thenReturn(
             Result.success(
                 "ANDERSON DA SILVA DELGADO"
             )

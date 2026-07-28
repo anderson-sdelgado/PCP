@@ -136,7 +136,7 @@ class NroEquipScreenTest: KoinTest {
                 password = "12345",
                 number = 16997417840,
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         )
         setContent()
@@ -164,7 +164,7 @@ class NroEquipScreenTest: KoinTest {
                 password = "12345",
                 number = 16997417840,
                 version = "6.00",
-                idBD = 1
+                idServ = 1
             )
         )
         setContent()

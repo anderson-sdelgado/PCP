@@ -23,17 +23,22 @@ interface MovEquipResidenciaDao {
     @Delete
     suspend fun delete(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
 
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipResidencia = :status)")
+    suspend fun hasByStatusData(status: StatusData): Boolean
+
+    @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusSendMovEquipResidencia = :statusEnvio)")
+    suspend fun hasByStatusSend(statusEnvio: StatusSend): Boolean
+
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE idMovEquipResidencia = :idMov")
     suspend fun get(idMov: Int): MovEquipResidenciaRoomModel
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipResidencia = :status")
-    suspend fun listStatusData(status: StatusData): List<MovEquipResidenciaRoomModel>
+    suspend fun listByStatusData(status: StatusData): List<MovEquipResidenciaRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipForeignerResidencia = :statusForeigner")
-    suspend fun listStatusForeigner(statusForeigner: StatusForeigner): List<MovEquipResidenciaRoomModel>
+    suspend fun listByStatusForeigner(statusForeigner: StatusForeigner): List<MovEquipResidenciaRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusSendMovEquipResidencia = :statusEnvio")
-    suspend fun listStatusSend(statusEnvio: StatusSend): List<MovEquipResidenciaRoomModel>
-
+    suspend fun listByStatusSend(statusEnvio: StatusSend): List<MovEquipResidenciaRoomModel>
 
 }

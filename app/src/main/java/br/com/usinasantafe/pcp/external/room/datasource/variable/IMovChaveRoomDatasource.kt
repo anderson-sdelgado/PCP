@@ -1,9 +1,7 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovChaveDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovChaveRoomDatasource
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveEquipRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveRoomModel
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusForeigner

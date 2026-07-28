@@ -35,7 +35,7 @@ class IGetPassagColabList @Inject constructor(
             }
             val passagList = resultList.getOrNull()!!
             val passagColabList = passagList.map {
-                val resultNomeColab = colabRepository.getNome(it.matricColab!!)
+                val resultNomeColab = colabRepository.getNomeByMatric(it.matricColab!!)
                 if (resultNomeColab.isFailure) {
                     val e = resultNomeColab.exceptionOrNull()!!
                     return resultFailure(

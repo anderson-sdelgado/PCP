@@ -32,7 +32,7 @@ class ICheckNroEquipTest {
     @Test
     fun `Check return failure if have error in Repository`() = runTest {
         whenever(
-            equipRepository.checkNro(100)
+            equipRepository.hasNro(100)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -52,7 +52,7 @@ class ICheckNroEquipTest {
     @Test
     fun `Check return true in executed correctly`() = runTest {
         whenever(
-            equipRepository.checkNro(19759)
+            equipRepository.hasNro(19759)
         ).thenReturn(
             Result.success(true)
         )
@@ -70,7 +70,7 @@ class ICheckNroEquipTest {
     @Test
     fun `Check return false in executed correctly`() = runTest {
         whenever(
-            equipRepository.checkNro(19759)
+            equipRepository.hasNro(19759)
         ).thenReturn(
             Result.success(false)
         )

@@ -20,7 +20,7 @@ fun ConfigSharedPreferencesModel.sharedPreferencesModelToEntity(): Config {
         Config(
             number = number,
             password = password,
-            idBD = idServ,
+            idServ = idServ,
             version = version,
             flagUpdate = flagUpdate,
             matricVigia = matricVigia,
@@ -35,7 +35,7 @@ fun Config.sharedPreferencesModelToEntity(): ConfigSharedPreferencesModel {
         ConfigSharedPreferencesModel(
             number = number,
             password = password,
-            idServ = idBD,
+            idServ = idServ,
             version = version,
             flagUpdate = flagUpdate,
             matricVigia = matricVigia,

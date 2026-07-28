@@ -17,7 +17,7 @@ class ITerceiroRoomDatasource @Inject constructor(
             terceiroDao.insertAll(list)
         }
 
-    override suspend fun checkCpf(cpf: String): Result<Boolean> =
+    override suspend fun hasCpf(cpf: String): Result<Boolean> =
         result(getClassAndMethod()) {
             terceiroDao.has(cpf)
         }
@@ -27,7 +27,7 @@ class ITerceiroRoomDatasource @Inject constructor(
             terceiroDao.deleteAll()
         }
 
-    override suspend fun getById(id: Int): Result<List<TerceiroRoomModel>> =
+    override suspend fun getById(id: Int): Result<TerceiroRoomModel> =
         result(getClassAndMethod()) {
             terceiroDao.getById(id)
         }

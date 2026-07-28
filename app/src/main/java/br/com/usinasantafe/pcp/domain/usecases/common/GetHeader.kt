@@ -29,7 +29,7 @@ class IGetHeader @Inject constructor(
                 )
             }
             val config = resultConfig.getOrNull()!!
-            val resultNomeColab = colabRepository.getNome(config.matricVigia!!)
+            val resultNomeColab = colabRepository.getNomeByMatric(config.matricVigia!!)
             if (resultNomeColab.isFailure) {
                 val e = resultNomeColab.exceptionOrNull()!!
                 return resultFailure(
@@ -39,7 +39,7 @@ class IGetHeader @Inject constructor(
                 )
             }
             val nomeColab = resultNomeColab.getOrNull()!!
-            val resultLocal = localRepository.getDescr(config.idLocal!!)
+            val resultLocal = localRepository.getDescrById(config.idLocal!!)
             if (resultLocal.isFailure) {
                 val e = resultLocal.exceptionOrNull()!!
                 return resultFailure(
