@@ -20,7 +20,7 @@ class GetTitleCpfVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository getTypeVisitTerc`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -46,7 +46,7 @@ class GetTitleCpfVisitTercImplTest {
     @Test
     fun `Check return title if GetTitleCpfVisitTercImpl execute success`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.ADD,
                 id = 0
             )

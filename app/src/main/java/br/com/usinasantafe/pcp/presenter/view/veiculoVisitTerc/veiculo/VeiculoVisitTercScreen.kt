@@ -131,7 +131,7 @@ fun VeiculoVisitTercContent(
             }
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

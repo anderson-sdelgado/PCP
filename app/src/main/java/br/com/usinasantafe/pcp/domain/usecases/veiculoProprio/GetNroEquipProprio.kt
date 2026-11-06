@@ -16,7 +16,7 @@ class IGetNroEquipProprio @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<String> {
         try {
-            val resultIdEquip = movEquipProprioRepository.getIdEquip(id = id)
+            val resultIdEquip = movEquipProprioRepository.getIdEquipById(id = id)
             if (resultIdEquip.isFailure) {
                 val e = resultIdEquip.exceptionOrNull()!!
                 return resultFailure(

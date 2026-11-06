@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcp.di.usecase
 
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.*
+import br.com.usinasantafe.pcp.domain.usecases.update.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

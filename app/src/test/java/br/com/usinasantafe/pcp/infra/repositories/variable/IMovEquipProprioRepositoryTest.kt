@@ -483,7 +483,7 @@ class IMovEquipProprioRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getTipoMov()
+            val result = repository.getTipoMovById()
             assertEquals(
                 result.isFailure,
                 true
@@ -506,7 +506,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.getTipoMov()
+            val result = repository.getTipoMovById()
             assertEquals(
                 result.isSuccess,
                 true
@@ -946,13 +946,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return failure if have errors in MovEquipProprioRoomDatasource checkSend`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.checkSend()
+                movEquipProprioRoomDatasource.hasSend()
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isFailure,
                 true
@@ -967,11 +967,11 @@ class IMovEquipProprioRepositoryTest {
     fun `CheckSend - Check return false if not have MovEquipProprio to send`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.checkSend()
+                movEquipProprioRoomDatasource.hasSend()
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isSuccess,
                 true
@@ -986,11 +986,11 @@ class IMovEquipProprioRepositoryTest {
     fun `CheckSend - Check return true if have MovEquipProprio to send`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.checkSend()
+                movEquipProprioRoomDatasource.hasSend()
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1303,13 +1303,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return failure if have error in MovEquipProprioRoomDatasource get`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1324,7 +1324,7 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return model if MovEquipProprioRepository get execute successfully`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipProprioRoomModel(
@@ -1343,7 +1343,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1363,13 +1363,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check failure if have error in MovEquipProprioRoomDatasource GetDestino`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.getDestino(1)
+            val result = repository.getDestinoById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1384,7 +1384,7 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return destino if MovEquipProprioRoomDatasource Get execute successfully`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipProprioRoomModel(
@@ -1403,7 +1403,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.getDestino(1)
+            val result = repository.getDestinoById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1418,13 +1418,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check failure if have error in MovEquipProprioRoomDatasource GetNotaFiscal`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.getNotaFiscal(1)
+            val result = repository.getNotaFiscalById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1439,7 +1439,7 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return Nota Fiscal if MovEquipProprioRoomDatasource Get execute successfully`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipProprioRoomModel(
@@ -1458,7 +1458,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.getNotaFiscal(1)
+            val result = repository.getNotaFiscalById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1473,7 +1473,7 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return Nota Fiscal if MovEquipProprioRoomDatasource Get execute successfully and field is null`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipProprioRoomModel(
@@ -1492,7 +1492,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.getNotaFiscal(1)
+            val result = repository.getNotaFiscalById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1507,13 +1507,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check failure if have error in MovEquipProprioRoomDatasource GetObserv`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1528,7 +1528,7 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return Observ if MovEquipProprioRoomDatasource Get execute successfully`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipProprioRoomModel(
@@ -1547,7 +1547,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1562,7 +1562,7 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return Observ if MovEquipProprioRoomDatasource Get execute successfully and field is null`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipProprioRoomModel(
@@ -1581,7 +1581,7 @@ class IMovEquipProprioRepositoryTest {
                     )
                 )
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1636,13 +1636,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return failure if have error in movEquipProprioRoomDatasource get`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1671,7 +1671,7 @@ class IMovEquipProprioRepositoryTest {
                 statusSendMovEquipProprio = StatusSend.SEND
             )
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(model)
             )
@@ -1682,7 +1682,7 @@ class IMovEquipProprioRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1711,7 +1711,7 @@ class IMovEquipProprioRepositoryTest {
                 statusSendMovEquipProprio = StatusSend.SEND
             )
             whenever(
-                movEquipProprioRoomDatasource.get(1)
+                movEquipProprioRoomDatasource.getById(1)
             ).thenReturn(
                 Result.success(model)
             )
@@ -1720,7 +1720,7 @@ class IMovEquipProprioRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1807,13 +1807,13 @@ class IMovEquipProprioRepositoryTest {
     fun `Check return failure if have errors in MovEquipProprioRoomDatasource checkOpen`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.checkOpen()
+                movEquipProprioRoomDatasource.hasOpen()
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isFailure,
                 true
@@ -1828,11 +1828,11 @@ class IMovEquipProprioRepositoryTest {
     fun `CheckOpen - Check return false if not have MovEquipProprio to open`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.checkOpen()
+                movEquipProprioRoomDatasource.hasOpen()
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1847,11 +1847,11 @@ class IMovEquipProprioRepositoryTest {
     fun `CheckSend - Check return true if have MovEquipProprio to open`() =
         runTest {
             whenever(
-                movEquipProprioRoomDatasource.checkOpen()
+                movEquipProprioRoomDatasource.hasOpen()
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isSuccess,
                 true

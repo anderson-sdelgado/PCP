@@ -30,7 +30,7 @@ class IGetDetalheProprio @Inject constructor(
         id: Int
     ): Result<DetalheProprioModel> {
         try {
-            val resultGet = movEquipProprioRepository.get(id)
+            val resultGet = movEquipProprioRepository.getById(id)
             if (resultGet.isFailure) {
                 val e = resultGet.exceptionOrNull()!!
                 return resultFailure(

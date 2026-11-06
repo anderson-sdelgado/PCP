@@ -111,12 +111,12 @@ class ISetStatusSentMovResidenciaTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val entity1 = movEquipResidenciaDao.get(1)
+            val entity1 = movEquipResidenciaDao.getById(1)
             assertEquals(
                 entity1.statusSendMovEquipResidencia,
                 StatusSend.SENT
             )
-            val entity2 = movEquipResidenciaDao.get(2)
+            val entity2 = movEquipResidenciaDao.getById(2)
             assertEquals(
                 entity2.statusSendMovEquipResidencia,
                 StatusSend.SENT

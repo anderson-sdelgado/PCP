@@ -13,7 +13,7 @@ class ICheckSendMovProprio @Inject constructor(
 ): CheckSendMovProprio {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movEquipProprioRepository.checkSend()
+        val result = movEquipProprioRepository.hasSend()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

@@ -116,12 +116,12 @@ class ISetStatusSentMovVisitTercTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val entity1 = movEquipVisitTercDao.get(1)
+            val entity1 = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entity1.statusSendMovEquipVisitTerc,
                 StatusSend.SENT
             )
-            val entity2 = movEquipVisitTercDao.get(2)
+            val entity2 = movEquipVisitTercDao.getById(2)
             assertEquals(
                 entity2.statusSendMovEquipVisitTerc,
                 StatusSend.SENT

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.utils
 
+import br.com.usinasantafe.pcp.lib.Errors
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
@@ -32,13 +33,33 @@ suspend fun <T> result (
 
 suspend fun FlowCollector<UiStatusStateUpdate>.flowCall(
     context: String,
+    errors: Errors = Errors.UPDATE,
     block: suspend () -> Unit
 ) {
     try {
         block()
     } catch (e: Exception) {
         val failure = failure(context, e)
-        emitFailure(failure)
+        emitFailure(failure, errors)
+    }
+}
+
+//fun <T> flowCall(
+//    context: String,
+//    block: () -> Flow<T>
+//): Flow<T> =
+//    block().catch { e ->
+//        throw resultFailure(context, e).exceptionOrNull() ?: e
+//    }
+
+suspend fun <T> tryCatch (
+    context: String,
+    block: suspend () -> T
+): T {
+    try {
+        return block()
+    } catch (e: Exception) {
+        throw AppError(context, null, e)
     }
 }
 
@@ -49,14 +70,3 @@ fun <T> callFlow(
     block().catch { e ->
         throw resultFailure(context, e).exceptionOrNull() ?: e
     }
-
-suspend fun <T> tryCatch (
-    context: String,
-    block: suspend () -> T
-): T {
-    try {
-        return block()
-    } catch (e: Exception) {
-        throw Exception(context, e)
-    }
-}

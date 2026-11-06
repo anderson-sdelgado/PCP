@@ -71,7 +71,7 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -112,7 +112,7 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -162,7 +162,7 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -219,7 +219,7 @@ class GetPassagVisitTercListImplTest {
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -275,7 +275,7 @@ class GetPassagVisitTercListImplTest {
     fun `Check return failure if have error in MovEquipVisitTercPassagRepository list Terceiro`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -312,7 +312,7 @@ class GetPassagVisitTercListImplTest {
     fun `Check return failure if have error in TerceiroRepository getCpf`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -362,7 +362,7 @@ class GetPassagVisitTercListImplTest {
     fun `Check return failure if have error in TerceiroRepository getNome`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -419,7 +419,7 @@ class GetPassagVisitTercListImplTest {
     fun `Check return list if GetPassagVisitTercListImpl execute successfully Terceiro`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )

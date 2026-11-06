@@ -24,6 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import br.com.usinasantafe.pcp.lib.errors
+import br.com.usinasantafe.pcp.lib.msg
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 const val TAG_BUTTON_YES_ALERT_DIALOG_CHECK = "tag_button_yes_alert_dialog_check"
 
@@ -98,7 +101,7 @@ const val BUTTON_OK_ALERT_DIALOG_SIMPLE = "button_ok_alert_dialog_simple"
 @Composable
 fun AlertDialogSimpleDesign(
     text: String,
-    setCloseDialog: () -> Unit
+    onClickOk: () -> Unit
 ) {
     return AlertDialog(
         title = {
@@ -113,10 +116,10 @@ fun AlertDialogSimpleDesign(
                 modifier = Modifier.testTag("text_alert_dialog_simple")
             )
         },
-        onDismissRequest = setCloseDialog,
+        onDismissRequest = onClickOk,
         confirmButton = {
             Button(
-                onClick = setCloseDialog,
+                onClick = onClickOk,
                 modifier = Modifier.testTag(BUTTON_OK_ALERT_DIALOG_SIMPLE)
             ) {
                 Text("OK")
@@ -276,5 +279,29 @@ fun TextButtonCleanDesign(
         fontSize = 17.sp,
         modifier = Modifier
             .fillMaxWidth()
+    )
+}
+
+@Composable
+fun MsgUpdate(status : UiStatusStateUpdate, onClickOk: () -> Unit, value: String = ""){
+    val text =
+        if (status.flagFailure) {
+            errors(status.errors, status.failure, value)
+        } else {
+            msg(status.levelUpdate, status.failure, status.tableUpdate)
+        }
+
+    AlertDialogSimpleDesign(
+        text = text,
+        onClickOk = onClickOk,
+    )
+}
+
+@Composable
+fun Progress(status : UiStatusStateUpdate){
+    val msgProgress = msg(status.levelUpdate, status.failure, status.tableUpdate)
+    AlertDialogProgressDesign(
+        currentProgress = status.currentProgress,
+        msgProgress = msgProgress
     )
 }

@@ -35,7 +35,7 @@ class ISetIdVisitTerc @Inject constructor(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultGetType = movEquipVisitTercRepository.getTypeVisitTerc(
+            val resultGetType = movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = flowApp,
                 id = id
             )

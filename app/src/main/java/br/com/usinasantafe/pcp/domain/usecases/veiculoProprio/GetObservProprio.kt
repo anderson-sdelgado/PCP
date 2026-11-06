@@ -17,7 +17,7 @@ class IGetObservProprio @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String?> {
-        val result = movEquipProprioRepository.getObserv(id = id)
+        val result = movEquipProprioRepository.getObservById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

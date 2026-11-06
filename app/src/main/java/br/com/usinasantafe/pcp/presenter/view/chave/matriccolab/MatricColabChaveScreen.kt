@@ -153,7 +153,7 @@ fun MatricColabChaveContent(
             }
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

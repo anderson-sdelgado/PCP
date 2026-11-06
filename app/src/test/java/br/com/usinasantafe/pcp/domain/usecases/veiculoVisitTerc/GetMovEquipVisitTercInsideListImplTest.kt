@@ -104,7 +104,7 @@ class GetMovEquipVisitTercInsideListImplTest {
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -157,7 +157,7 @@ class GetMovEquipVisitTercInsideListImplTest {
                 )
             )
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )

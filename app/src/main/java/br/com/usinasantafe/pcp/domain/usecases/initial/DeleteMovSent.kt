@@ -59,7 +59,7 @@ class IDeleteMovSent @Inject constructor(
             )
                     }
                     val resultDelMovProprio =
-                        movEquipProprioRepository.delete(movProprio.idMovEquipProprio!!)
+                        movEquipProprioRepository.deleteById(movProprio.idMovEquipProprio!!)
                     if (resultDelMovProprio.isFailure) {
                         val e = resultDelMovProprio.exceptionOrNull()!!
                         return resultFailure(
@@ -82,7 +82,7 @@ class IDeleteMovSent @Inject constructor(
             val movVisitTercList = resultMovVisitTercList.getOrNull()!!
             for(movVisitTerc in movVisitTercList){
                 if(movVisitTerc.dthrMovEquipVisitTerc < dateToDelete()){
-                    val resultDelMovVisitTerc = movEquipVisitTercRepository.delete(movVisitTerc.idMovEquipVisitTerc!!)
+                    val resultDelMovVisitTerc = movEquipVisitTercRepository.deleteById(movVisitTerc.idMovEquipVisitTerc!!)
                     if (resultDelMovVisitTerc.isFailure) {
                         val e = resultDelMovVisitTerc.exceptionOrNull()!!
                         return resultFailure(
@@ -114,7 +114,7 @@ class IDeleteMovSent @Inject constructor(
             val movResidenciaList = resultMovResidenciaList.getOrNull()!!
             for(movResidencia in movResidenciaList){
                 if(movResidencia.dthrMovEquipResidencia < dateToDelete()){
-                    val resultDelMovResidencia = movEquipResidenciaRepository.delete(movResidencia.idMovEquipResidencia!!)
+                    val resultDelMovResidencia = movEquipResidenciaRepository.deleteById(movResidencia.idMovEquipResidencia!!)
                     if (resultDelMovResidencia.isFailure) {
                         val e = resultDelMovResidencia.exceptionOrNull()!!
                         return resultFailure(

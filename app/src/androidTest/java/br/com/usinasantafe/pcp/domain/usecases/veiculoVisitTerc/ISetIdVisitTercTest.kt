@@ -593,7 +593,7 @@ class ISetIdVisitTercTest : KoinTest {
                     )
                 )
             )
-            val entityBefore = movEquipVisitTercDao.get(1)
+            val entityBefore = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entityBefore.idVisitTercMovEquipVisitTerc,
                 10
@@ -612,7 +612,7 @@ class ISetIdVisitTercTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val entityAfter = movEquipVisitTercDao.get(1)
+            val entityAfter = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entityAfter.idVisitTercMovEquipVisitTerc,
                 20
@@ -651,7 +651,7 @@ class ISetIdVisitTercTest : KoinTest {
                     )
                 )
             )
-            val entityBefore = movEquipVisitTercDao.get(1)
+            val entityBefore = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entityBefore.idVisitTercMovEquipVisitTerc,
                 10
@@ -670,7 +670,7 @@ class ISetIdVisitTercTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val entityAfter = movEquipVisitTercDao.get(1)
+            val entityAfter = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entityAfter.idVisitTercMovEquipVisitTerc,
                 20

@@ -5,6 +5,8 @@ import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
 import br.com.usinasantafe.pcp.presenter.view.chave.detalhe.DetalheChaveModel
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -19,28 +21,10 @@ class IGetDetalheMovChave @Inject constructor(
     private val getDescrFullChave: GetDescrFullChave
 ): GetDetalheMovChave {
 
-    override suspend fun invoke(id: Int): Result<DetalheChaveModel> {
-        try {
-            val resultMovChave = movChaveRepository.getById(id)
-            if (resultMovChave.isFailure) {
-                val e = resultMovChave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IGetDetalheMovChave",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entity = resultMovChave.getOrNull()!!
-            val resultNomeColab = colabRepository.getNomeByMatric(entity.matricColabMovChave!!)
-            if (resultNomeColab.isFailure) {
-                val e = resultNomeColab.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IGetDetalheMovChave",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val nomeColab = resultNomeColab.getOrNull()!!
+    override suspend fun invoke(id: Int): Result<DetalheChaveModel> =
+        call(getClassAndMethod()) {
+            val entity = movChaveRepository.getById(id).getOrThrow()
+            val nomeColab = colabRepository.getNomeByMatric(entity.matricColabMovChave!!).getOrThrow()
             val resultGetDescrFullChave = getDescrFullChave(entity.idChaveMovChave!!)
             if (resultGetDescrFullChave.isFailure) {
                 val e = resultGetDescrFullChave.exceptionOrNull()!!
@@ -66,13 +50,6 @@ class IGetDetalheMovChave @Inject constructor(
                     observ = entity.observMovChave
                 )
             )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IGetDetalheMovChave",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
 }

@@ -17,7 +17,7 @@ class IGetDestinoProprio @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String> {
-        val result = movEquipProprioRepository.getDestino(id = id)
+        val result = movEquipProprioRepository.getDestinoById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

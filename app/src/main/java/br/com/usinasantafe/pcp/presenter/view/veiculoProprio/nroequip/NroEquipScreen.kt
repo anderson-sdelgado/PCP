@@ -152,7 +152,7 @@ fun NroEquipContent(
             }
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

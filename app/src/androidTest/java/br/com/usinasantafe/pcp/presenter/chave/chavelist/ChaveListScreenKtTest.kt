@@ -7,8 +7,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import br.com.usinasantafe.pcp.domain.entities.stable.Chave
 import br.com.usinasantafe.pcp.domain.entities.stable.LocalTrab
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveChave
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.savetable.SaveLocalTrab
+import br.com.usinasantafe.pcp.domain.usecases.update.savetable.SaveChave
+import br.com.usinasantafe.pcp.domain.usecases.update.savetable.SaveLocalTrab
 import br.com.usinasantafe.pcp.external.room.dao.stable.ChaveDao
 import br.com.usinasantafe.pcp.external.room.dao.stable.LocalTrabDao
 import br.com.usinasantafe.pcp.generateTestAppComponent

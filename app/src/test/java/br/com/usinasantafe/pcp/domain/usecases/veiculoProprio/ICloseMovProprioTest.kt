@@ -41,7 +41,7 @@ class ICloseMovProprioTest {
             idMovEquipProprio = 1
         )
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(movEquipProprio)
         )

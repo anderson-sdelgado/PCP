@@ -28,7 +28,7 @@ class ICheckCpfVisitTerc @Inject constructor(
         id: Int
     ): Result<Boolean> {
         try {
-            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTerc(flowApp, id)
+            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(flowApp, id)
             if (resultTypeVisitTerc.isFailure) {
                 val e = resultTypeVisitTerc.exceptionOrNull()!!
                 return resultFailure(

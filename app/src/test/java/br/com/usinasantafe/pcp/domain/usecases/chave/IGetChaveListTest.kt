@@ -111,7 +111,7 @@ class IGetChaveListTest {
                 1
             )
             assertEquals(
-                model.descr,
+                model.description,
                 "01 - SALA TI - TI"
             )
         }

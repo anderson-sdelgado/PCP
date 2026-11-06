@@ -160,7 +160,7 @@ class IMovEquipResidenciaRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -193,7 +193,7 @@ class IMovEquipResidenciaRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipResidenciaRoomModel)
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -223,7 +223,7 @@ class IMovEquipResidenciaRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getMotorista(1)
+            val result = repository.getMotoristaById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -256,7 +256,7 @@ class IMovEquipResidenciaRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipResidenciaRoomModel)
             )
-            val result = repository.getMotorista(1)
+            val result = repository.getMotoristaById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -277,7 +277,7 @@ class IMovEquipResidenciaRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -310,7 +310,7 @@ class IMovEquipResidenciaRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipResidenciaRoomModel)
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -331,7 +331,7 @@ class IMovEquipResidenciaRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getPlaca(1)
+            val result = repository.getPlacaById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -364,7 +364,7 @@ class IMovEquipResidenciaRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipResidenciaRoomModel)
             )
-            val result = repository.getPlaca(1)
+            val result = repository.getPlacaById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -384,7 +384,7 @@ class IMovEquipResidenciaRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getVeiculo(1)
+            val result = repository.getVeiculoById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -417,7 +417,7 @@ class IMovEquipResidenciaRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipResidenciaRoomModel)
             )
-            val result = repository.getVeiculo(1)
+            val result = repository.getVeiculoById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1236,13 +1236,13 @@ class IMovEquipResidenciaRepositoryTest {
     fun `Check return failure if have errors in MovEquipResidenciaRoomDatasource checkSend`() =
         runTest {
             whenever(
-                movEquipResidenciaRoomDatasource.checkSend()
+                movEquipResidenciaRoomDatasource.hasSend()
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isFailure,
                 true
@@ -1257,11 +1257,11 @@ class IMovEquipResidenciaRepositoryTest {
     fun `CheckSend - Check return false if not have MovEquipResidencia to send`() =
         runTest {
             whenever(
-                movEquipResidenciaRoomDatasource.checkSend()
+                movEquipResidenciaRoomDatasource.hasSend()
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1276,11 +1276,11 @@ class IMovEquipResidenciaRepositoryTest {
     fun `CheckSend - Check return true if have MovEquipResidencia to send`() =
         runTest {
             whenever(
-                movEquipResidenciaRoomDatasource.checkSend()
+                movEquipResidenciaRoomDatasource.hasSend()
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1597,7 +1597,7 @@ class IMovEquipResidenciaRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1631,13 +1631,13 @@ class IMovEquipResidenciaRepositoryTest {
                 Result.success(roomModel)
             )
             whenever(
-                movEquipResidenciaRoomDatasource.delete(roomModel)
+                movEquipResidenciaRoomDatasource.deleteById(roomModel)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -1671,11 +1671,11 @@ class IMovEquipResidenciaRepositoryTest {
                 Result.success(roomModel)
             )
             whenever(
-                movEquipResidenciaRoomDatasource.delete(roomModel)
+                movEquipResidenciaRoomDatasource.deleteById(roomModel)
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1757,13 +1757,13 @@ class IMovEquipResidenciaRepositoryTest {
     fun `Check return failure if have errors in MovEquipResidenciaRoomDatasource checkOpen`() =
         runTest {
             whenever(
-                movEquipResidenciaRoomDatasource.checkOpen()
+                movEquipResidenciaRoomDatasource.hasOpen()
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isFailure,
                 true
@@ -1778,11 +1778,11 @@ class IMovEquipResidenciaRepositoryTest {
     fun `CheckOpen - Check return false if not have MovEquipResidencia to open`() =
         runTest {
             whenever(
-                movEquipResidenciaRoomDatasource.checkOpen()
+                movEquipResidenciaRoomDatasource.hasOpen()
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1797,11 +1797,11 @@ class IMovEquipResidenciaRepositoryTest {
     fun `CheckSend - Check return true if have MovEquipResidencia to open`() =
         runTest {
             whenever(
-                movEquipResidenciaRoomDatasource.checkOpen()
+                movEquipResidenciaRoomDatasource.hasOpen()
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isSuccess,
                 true

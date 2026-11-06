@@ -17,7 +17,7 @@ class IGetDestinoVisitTerc @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String> {
-        val result = movEquipVisitTercRepository.getDestino(id = id)
+        val result = movEquipVisitTercRepository.getDestinoById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

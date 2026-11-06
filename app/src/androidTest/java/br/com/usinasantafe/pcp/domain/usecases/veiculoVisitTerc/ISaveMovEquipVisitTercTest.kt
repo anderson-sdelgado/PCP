@@ -197,7 +197,7 @@ class ISaveMovEquipVisitTercTest: KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val roomModel1 = movEquipVisitTercDao.get(1)
+            val roomModel1 = movEquipVisitTercDao.getById(1)
             assertEquals(
                 roomModel1.idMovEquipVisitTerc,
                 1
@@ -214,7 +214,7 @@ class ISaveMovEquipVisitTercTest: KoinTest {
                 roomModel1.statusMovEquipForeigVisitTerc,
                 StatusForeigner.OUTSIDE
             )
-            val roomModel2 = movEquipVisitTercDao.get(2)
+            val roomModel2 = movEquipVisitTercDao.getById(2)
             assertEquals(
                 roomModel2.idMovEquipVisitTerc,
                 2
@@ -314,7 +314,7 @@ class ISaveMovEquipVisitTercTest: KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val roomModel1 = movEquipVisitTercDao.get(1)
+            val roomModel1 = movEquipVisitTercDao.getById(1)
             assertEquals(
                 roomModel1.idMovEquipVisitTerc,
                 1

@@ -19,7 +19,7 @@ class CheckSendMovProprioImplTest {
     fun `Check return failure if have error in MovEquipProprioRepository checkSend`() =
         runTest {
             whenever(
-                movEquipProprioRepository.checkSend()
+                movEquipProprioRepository.hasSend()
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -40,7 +40,7 @@ class CheckSendMovProprioImplTest {
     fun `Check return true if have mov to send`() =
         runTest {
             whenever(
-                movEquipProprioRepository.checkSend()
+                movEquipProprioRepository.hasSend()
             ).thenReturn(
                 Result.success(true)
             )
@@ -59,7 +59,7 @@ class CheckSendMovProprioImplTest {
     fun `Check return false if not have mov to send`() =
         runTest {
             whenever(
-                movEquipProprioRepository.checkSend()
+                movEquipProprioRepository.hasSend()
             ).thenReturn(
                 Result.success(false)
             )

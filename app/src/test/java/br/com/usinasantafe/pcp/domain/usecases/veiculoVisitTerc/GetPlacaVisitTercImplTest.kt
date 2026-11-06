@@ -17,7 +17,7 @@ class GetPlacaVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getPlaca`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getPlaca(
+            movEquipVisitTercRepository.getPlacaById(
                 id = 1
             )
         ).thenReturn(
@@ -39,7 +39,7 @@ class GetPlacaVisitTercImplTest {
     @Test
     fun `Check return placa if GetPlaca execute success`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getPlaca(
+            movEquipVisitTercRepository.getPlacaById(
                 id = 1
             )
         ).thenReturn(

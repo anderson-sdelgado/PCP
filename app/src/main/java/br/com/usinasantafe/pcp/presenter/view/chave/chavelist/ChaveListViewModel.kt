@@ -3,24 +3,27 @@ package br.com.usinasantafe.pcp.presenter.view.chave.chavelist
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetChaveList
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetIdChaveMovChave
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableChave
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocalTrab
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableChave
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableLocalTrab
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
-import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.lib.LevelUpdate
+import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
+import br.com.usinasantafe.pcp.utils.executeUpdateSteps
+import br.com.usinasantafe.pcp.utils.onFailureUpdate
+import br.com.usinasantafe.pcp.utils.onSuccessUpdateAccess
+import br.com.usinasantafe.pcp.utils.sizeUpdate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class ChaveListState(
@@ -28,40 +31,15 @@ data class ChaveListState(
     val id: Int = 0,
     val flagFilter: Boolean = false,
     val chaveList: List<ChaveModel> = emptyList(),
+    val allChaveList: List<ChaveModel> = emptyList(),
     val field: String = "",
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-    val flagAccess: Boolean = false,
-    val flagFailure: Boolean = false,
-    val errors: Errors = Errors.FIELD_EMPTY,
-    val flagProgress: Boolean = false,
-    val msgProgress: String = "",
-    val currentProgress: Float = 0.0f,
-)
+    override val status: UiStatusStateUpdate = UiStatusStateUpdate()
+) : UiStateWithStatusUpdate<ChaveListState> {
 
-fun ResultUpdate.resultUpdateToState(): ChaveListState {
-    val fail = if(failure.isNotEmpty()){
-        val ret = "ChaveListViewModel.updateAllDatabase -> ${this.failure}"
-        Timber.e(ret)
-        ret
-    } else {
-        this.failure
-    }
-    val msg = if(failure.isNotEmpty()){
-        "ChaveListViewModel.updateAllDatabase -> ${this.failure}"
-    } else {
-        this.msgProgress
-    }
-    return ChaveListState(
-            flagDialog = this.flagDialog,
-            flagFailure = this.flagFailure,
-            errors = this.errors,
-            failure = fail,
-            flagProgress = this.flagProgress,
-            msgProgress = msg,
-            currentProgress = this.currentProgress,
-        )
-    }
+    override fun copyWithStatus(status: UiStatusStateUpdate): ChaveListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class ChaveListViewModel @Inject constructor(
@@ -78,6 +56,12 @@ class ChaveListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ChaveListState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: ChaveListState.() -> ChaveListState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -87,124 +71,73 @@ class ChaveListViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
     fun onFieldChanged(field: String) {
         val fieldUpper = field.uppercase()
-        if(fieldUpper.isNotEmpty()){
-            val chaveListFilter = _uiState.value.chaveList.filter {
-                it.descr.contains(fieldUpper)
-            }
-            _uiState.update {
-                it.copy(
-                    chaveList = chaveListFilter,
-                    flagFilter = true
+        val baseList = state.allChaveList.ifEmpty { state.chaveList }
+        updateState {
+            if (fieldUpper.isNotEmpty()) {
+                copy(
+                    chaveList = baseList.filter { it.description.contains(fieldUpper) },
+                    allChaveList = baseList,
+                    flagFilter = true,
+                    field = fieldUpper
+                )
+            } else {
+                copy(
+                    chaveList = baseList,
+                    flagFilter = false,
+                    field = fieldUpper
                 )
             }
-        } else {
-            _uiState.update {
-                it.copy(
-                    flagFilter = false
-                )
-            }
-            recoverList()
-        }
-        _uiState.update {
-            it.copy(
-                field = fieldUpper
-            )
         }
     }
 
     fun recoverList() = viewModelScope.launch {
-        if(!uiState.value.flagFilter) {
-            val resultList = getChaveList()
-            if (resultList.isFailure) {
-                val error = resultList.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        errors = Errors.EXCEPTION,
-                        flagDialog = true,
-                        flagFailure = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            val result = resultList.getOrNull()!!
-            _uiState.update {
-                it.copy(
-                    chaveList = result
-                )
-            }
+        runCatching {
+            if(uiState.value.flagFilter) return@launch
+            getChaveList().getOrThrow()
         }
+            .onSuccess { updateState { copy(chaveList = it, allChaveList = it) } }
+            .onFailureUpdate(getClassAndMethod(), ::updateState)
     }
 
     fun setIdChave(id: Int) = viewModelScope.launch {
-        val resultSet = setIdChaveMovChave(
-            idChave = id,
-            flowApp = uiState.value.flowApp,
-            id = uiState.value.id
-        )
-        if (resultSet.isFailure) {
-            val error = resultSet.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    errors = Errors.EXCEPTION,
-                    flagDialog = true,
-                    flagFailure = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            setIdChaveMovChave(id, uiState.value.flowApp, uiState.value.id).getOrThrow()
         }
-        _uiState.update {
-            it.copy(
-                flagAccess = true
-            )
-        }
+            .onSuccessUpdateAccess(::updateState)
+            .onFailureUpdate(getClassAndMethod(), ::updateState)
+
     }
 
     fun updateDatabase() = viewModelScope.launch {
-        viewModelScope.launch {
-            updateAllDatabase().collect { stateUpdate ->
-                _uiState.value = stateUpdate
-            }
+        updateAllDatabase().collect { stateUpdate ->
+            _uiState.value = stateUpdate
+        }
+        if (_uiState.value.status.levelUpdate == LevelUpdate.FINISH_UPDATE_COMPLETED) {
+            recoverList()
         }
     }
 
-    suspend fun updateAllDatabase(): Flow<ChaveListState> = flow {
-        val sizeUpdate = 7f
-        var chaveListState = ChaveListState()
-        updateTableChave(sizeUpdate, 1f).collect {
-            chaveListState = it.resultUpdateToState()
-            emit(it.resultUpdateToState())
-        }
-        if (chaveListState.flagFailure)
-            return@flow
-        updateTableLocalTrab(sizeUpdate, 2f).collect {
-            chaveListState = it.resultUpdateToState()
-            emit(it.resultUpdateToState())
-        }
-        if (chaveListState.flagFailure)
-            return@flow
-        emit(
-            ChaveListState(
-                flagDialog = true,
-                flagProgress = false,
-                flagFailure = false,
-                msgProgress = "Atualização de dados realizado com sucesso!",
-                currentProgress = 1f,
-            )
+    suspend fun updateAllDatabase(): Flow<ChaveListState> =
+        executeUpdateSteps(
+            steps = listUpdate(),
+            getState = { _uiState.value },
+            getStatus = { it.status },
+            copyStateWithStatus = { state, status -> state.copy(status = status) },
+            classAndMethod = getClassAndMethod(),
+            flagUpdateFinish = false
         )
+
+    suspend fun listUpdate() : List<Flow<UiStatusStateUpdate>> {
+        val sizeAll = sizeUpdate(2f)
+        val list = mutableListOf<Flow<UiStatusStateUpdate>>()
+        var count = 0f
+        list.add(updateTableChave(sizeAll, ++count))
+        list.add(updateTableLocalTrab(sizeAll, ++count))
+        return list
     }
 
 }

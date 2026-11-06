@@ -1,20 +1,21 @@
 package br.com.usinasantafe.pcp.infra.models.retrofit.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChave
+import br.com.usinasantafe.pcp.utils.required
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 data class MovChaveRetrofitModelOutput(
-    var uuidMainMovChave: String,
-    var idMovChave: Int,
-    var nroAparelhoMovChave: Long,
-    var matricVigiaMovChave: Int,
-    var idLocalMovChave: Int,
-    var tipoMovChave: Int,
-    var dthrMovChave: String,
-    var idChaveMovChave: Int,
-    var matricColabMovChave: Int,
-    var observMovChave: String?,
+    val uuidMainMovChave: String,
+    val idMovChave: Int,
+    val nroAparelhoMovChave: Long,
+    val matricVigiaMovChave: Int,
+    val idLocalMovChave: Int,
+    val tipoMovChave: Int,
+    val dthrMovChave: String,
+    val idChaveMovChave: Int,
+    val matricColabMovChave: Int,
+    val observMovChave: String?,
 )
 
 data class MovChaveRetrofitModelInput(
@@ -24,18 +25,18 @@ data class MovChaveRetrofitModelInput(
 fun MovChave.entityToRetrofitModelOutput(nroAparelho: Long): MovChaveRetrofitModelOutput {
     return with(this){
         MovChaveRetrofitModelOutput(
-            uuidMainMovChave = this.uuidMainMovChave!!,
-            idMovChave = this.idMovChave!!,
+            uuidMainMovChave = this::uuidMainMovChave.required(),
+            idMovChave = this::idMovChave.required(),
             nroAparelhoMovChave = nroAparelho,
-            matricVigiaMovChave = this.matricVigiaMovChave!!,
-            idLocalMovChave = this.idLocalMovChave!!,
-            tipoMovChave = this.tipoMovChave!!.ordinal + 1,
+            matricVigiaMovChave = this::matricVigiaMovChave.required(),
+            idLocalMovChave = this::idLocalMovChave.required(),
+            tipoMovChave = this::tipoMovChave.required().ordinal + 1,
             dthrMovChave = SimpleDateFormat(
                 "dd/MM/yyyy HH:mm",
                 Locale("pt", "BR")
             ).format(this.dthrMovChave),
-            idChaveMovChave = this.idChaveMovChave!!,
-            matricColabMovChave = this.matricColabMovChave!!,
+            idChaveMovChave = this::idChaveMovChave.required(),
+            matricColabMovChave = this::matricColabMovChave.required(),
             observMovChave = this.observMovChave,
         )
     }

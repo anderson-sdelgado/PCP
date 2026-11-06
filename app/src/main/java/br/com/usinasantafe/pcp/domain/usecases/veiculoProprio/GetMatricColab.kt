@@ -14,7 +14,7 @@ class IGetMatricColab @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<String> {
         try {
-            val resultMatricColab = movEquipProprioRepository.getMatricColab(id = id)
+            val resultMatricColab = movEquipProprioRepository.getMatricColabById(id = id)
             if (resultMatricColab.isFailure) {
                 val e = resultMatricColab.exceptionOrNull()!!
                 return resultFailure(

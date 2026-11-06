@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.pcp.MainCoroutineRule
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure // <<<--- IMPORT ADICIONADO
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableTerceiro
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableVisitante
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableTerceiro
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableVisitante
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.CheckCpfVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetCpfVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetTitleCpfVisitTerc

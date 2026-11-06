@@ -15,7 +15,7 @@ class GetDestinoVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getDestino`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getDestino(
+            movEquipVisitTercRepository.getDestinoById(
                 id = 1
             )
         ).thenReturn(
@@ -38,7 +38,7 @@ class GetDestinoVisitTercImplTest {
     fun `Check return destino if GetDestino execute success`() = runTest {
         val movEquipVisitTercRepository = mock<MovEquipVisitTercRepository>()
         whenever(
-            movEquipVisitTercRepository.getDestino(
+            movEquipVisitTercRepository.getDestinoById(
                 id = 1
             )
         ).thenReturn(

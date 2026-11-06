@@ -23,7 +23,7 @@ class ICheckMovOpen @Inject constructor(
     override suspend fun invoke(): Result<Boolean> {
         try {
 
-            val resultCheckProprio = movEquipProprioRepository.checkOpen()
+            val resultCheckProprio = movEquipProprioRepository.hasOpen()
             if (resultCheckProprio.isFailure) {
                 val e = resultCheckProprio.exceptionOrNull()!!
                 return resultFailure(
@@ -33,7 +33,7 @@ class ICheckMovOpen @Inject constructor(
                 )
             }
             if(resultCheckProprio.getOrNull()!!) return Result.success(true)
-            val resultCheckVisitTerc = movEquipVisitTercRepository.checkOpen()
+            val resultCheckVisitTerc = movEquipVisitTercRepository.hasOpen()
             if (resultCheckVisitTerc.isFailure) {
                 val e = resultCheckVisitTerc.exceptionOrNull()!!
                 return resultFailure(
@@ -43,7 +43,7 @@ class ICheckMovOpen @Inject constructor(
                 )
             }
             if(resultCheckVisitTerc.getOrNull()!!) return Result.success(true)
-            val resultCheckResidencia = movEquipResidenciaRepository.checkOpen()
+            val resultCheckResidencia = movEquipResidenciaRepository.hasOpen()
             if (resultCheckResidencia.isFailure) {
                 val e = resultCheckResidencia.exceptionOrNull()!!
                 return resultFailure(

@@ -215,7 +215,7 @@ class ISetIdEquipProprioTest: KoinTest {
             result.getOrNull()!!,
             true
         )
-        val resultMov = movEquipProprioDao.get(1)
+        val resultMov = movEquipProprioDao.getById(1)
         assertEquals(
             resultMov.idEquipMovEquipProprio,
             10
@@ -304,7 +304,7 @@ class ISetIdEquipProprioTest: KoinTest {
             resultList[0].idEquip,
             10
         )
-        val resultMov = movEquipProprioDao.get(1)
+        val resultMov = movEquipProprioDao.getById(1)
         assertEquals(
             resultMov.statusSendMovEquipProprio,
             StatusSend.SEND

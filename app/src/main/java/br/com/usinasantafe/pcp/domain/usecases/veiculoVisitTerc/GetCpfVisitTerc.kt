@@ -22,7 +22,7 @@ class IGetCpfVisitTerc @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<String> {
         try {
-            val resultGetType = movEquipVisitTercRepository.getTypeVisitTerc(
+            val resultGetType = movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = id
             )
@@ -35,7 +35,7 @@ class IGetCpfVisitTerc @Inject constructor(
                 )
             }
             val typeVisitTerc = resultGetType.getOrNull()!!
-            val resultGetIdVisitTerc = movEquipVisitTercRepository.getIdVisitTerc(id)
+            val resultGetIdVisitTerc = movEquipVisitTercRepository.getIdVisitTercById(id)
             if (resultGetIdVisitTerc.isFailure) {
                 val e = resultGetIdVisitTerc.exceptionOrNull()!!
                 return resultFailure(

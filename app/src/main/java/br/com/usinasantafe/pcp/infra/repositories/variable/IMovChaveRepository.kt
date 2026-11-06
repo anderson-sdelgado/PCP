@@ -90,7 +90,7 @@ class IMovChaveRepository @Inject constructor(
 
     override suspend fun setClose(id: Int): EmptyResult =
         call(getClassAndMethod()) {
-            movChaveRoomDatasource.setClose(id)
+            movChaveRoomDatasource.setClose(id).getOrThrow()
         }
 
     override suspend fun setIdChave(idChave: Int, flowApp: FlowApp, id: Int): EmptyResult =
@@ -124,7 +124,7 @@ class IMovChaveRepository @Inject constructor(
 
     override suspend fun setSent(list: List<MovChave>): EmptyResult =
         call(getClassAndMethod()) {
-            list.forEach { movChaveRoomDatasource.setSent(it::idMovChave.required()) }
+            list.forEach { movChaveRoomDatasource.setSent(it::idMovChave.required()).getOrThrow() }
         }
 
     override suspend fun start(): EmptyResult =

@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.external.room.dao.variable
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -19,8 +18,8 @@ interface MovEquipProprioDao {
     @Update
     suspend fun update(movEquipProprioRoomModel: MovEquipProprioRoomModel)
 
-    @Delete
-    suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel)
+    @Query("DELETE FROM $TB_MOV_EQUIP_PROPRIO WHERE idMovEquipProprio = :id")
+    suspend fun deleteById(id: Int)
 
     @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :statusData)")
     suspend fun hasByStatusData(statusData: StatusData): Boolean
@@ -29,7 +28,7 @@ interface MovEquipProprioDao {
     suspend fun hasByStatusSend(statusSend: StatusSend): Boolean
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE idMovEquipProprio = :idMov")
-    suspend fun get(idMov: Int): MovEquipProprioRoomModel
+    suspend fun getById(idMov: Int): MovEquipProprioRoomModel
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :statusData")
     suspend fun listByStatusData(statusData: StatusData): List<MovEquipProprioRoomModel>

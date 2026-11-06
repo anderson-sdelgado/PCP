@@ -18,7 +18,7 @@ class IGetObservResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository GetObserv`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getObserv(
+                movEquipResidenciaRepository.getObservById(
                     id = 1
                 )
             ).thenReturn(
@@ -41,7 +41,7 @@ class IGetObservResidenciaTest {
     fun `Check return observ if GetObservResidenciaImpl execute successfully`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getObserv(
+                movEquipResidenciaRepository.getObservById(
                     id = 1
                 )
             ).thenReturn(
@@ -63,7 +63,7 @@ class IGetObservResidenciaTest {
     fun `Check return observ if GetObservResidenciaImpl execute successfully and return null`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getObserv(
+                movEquipResidenciaRepository.getObservById(
                     id = 1
                 )
             ).thenReturn(

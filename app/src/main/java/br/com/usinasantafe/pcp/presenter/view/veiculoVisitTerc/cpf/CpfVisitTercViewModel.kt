@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableTerceiro
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableVisitante
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableTerceiro
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableVisitante
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.CheckCpfVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetCpfVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetTitleCpfVisitTerc

@@ -13,7 +13,7 @@ class ICheckSendMovResidencia @Inject constructor(
 ): CheckSendMovResidencia {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movEquipResidenciaRepository.checkSend()
+        val result = movEquipResidenciaRepository.hasSend()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

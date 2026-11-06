@@ -145,7 +145,7 @@ fun NroEquipChaveEquipContent(
             }
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

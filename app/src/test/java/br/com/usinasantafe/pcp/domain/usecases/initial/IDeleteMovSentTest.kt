@@ -115,7 +115,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -173,7 +173,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -236,7 +236,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -304,7 +304,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -374,7 +374,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -473,7 +473,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -493,7 +493,7 @@ class IDeleteMovSentTest {
                 Result.success(movVisitTercList)
             )
             whenever(
-                movEquipVisitTercRepository.delete(2)
+                movEquipVisitTercRepository.deleteById(2)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -577,7 +577,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -597,7 +597,7 @@ class IDeleteMovSentTest {
                 Result.success(movVisitTercList)
             )
             whenever(
-                movEquipVisitTercRepository.delete(2)
+                movEquipVisitTercRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -686,7 +686,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -706,7 +706,7 @@ class IDeleteMovSentTest {
                 Result.success(movVisitTercList)
             )
             whenever(
-                movEquipVisitTercRepository.delete(2)
+                movEquipVisitTercRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -793,7 +793,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -813,7 +813,7 @@ class IDeleteMovSentTest {
                 Result.success(movVisitTercList)
             )
             whenever(
-                movEquipVisitTercRepository.delete(2)
+                movEquipVisitTercRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -937,7 +937,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -957,7 +957,7 @@ class IDeleteMovSentTest {
                 Result.success(movVisitTercList)
             )
             whenever(
-                movEquipVisitTercRepository.delete(2)
+                movEquipVisitTercRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -972,7 +972,7 @@ class IDeleteMovSentTest {
                 Result.success(movResidenciaList)
             )
             whenever(
-                movEquipResidenciaRepository.delete(2)
+                movEquipResidenciaRepository.deleteById(2)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -1086,7 +1086,7 @@ class IDeleteMovSentTest {
                 Result.success(movProprioList)
             )
             whenever(
-                movEquipProprioRepository.delete(2)
+                movEquipProprioRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -1106,7 +1106,7 @@ class IDeleteMovSentTest {
                 Result.success(movVisitTercList)
             )
             whenever(
-                movEquipVisitTercRepository.delete(2)
+                movEquipVisitTercRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )
@@ -1121,7 +1121,7 @@ class IDeleteMovSentTest {
                 Result.success(movResidenciaList)
             )
             whenever(
-                movEquipResidenciaRepository.delete(2)
+                movEquipResidenciaRepository.deleteById(2)
             ).thenReturn(
                 Result.success(true)
             )

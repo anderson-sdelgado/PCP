@@ -18,7 +18,7 @@ class IGetMotoristaResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository GetMotorista`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getMotorista(
+                movEquipResidenciaRepository.getMotoristaById(
                     id = 1
                 )
             ).thenReturn(
@@ -41,7 +41,7 @@ class IGetMotoristaResidenciaTest {
     fun `Check return motorista if GetMotoristaResidenciaImpl execute successfully`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getMotorista(
+                movEquipResidenciaRepository.getMotoristaById(
                     id = 1
                 )
             ).thenReturn(

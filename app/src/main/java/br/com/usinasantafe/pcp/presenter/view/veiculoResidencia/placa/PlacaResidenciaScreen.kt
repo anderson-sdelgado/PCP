@@ -133,7 +133,7 @@ fun PlacaResidenciaContent(
             }
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

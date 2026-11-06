@@ -9,25 +9,26 @@ import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_VISIT_TERC
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
+import br.com.usinasantafe.pcp.utils.required
 import java.util.Date
 
 @Entity(tableName = TB_MOV_EQUIP_VISIT_TERC)
 data class MovEquipVisitTercRoomModel(
     @PrimaryKey(autoGenerate = true)
     var idMovEquipVisitTerc: Int? = null,
-    var nroMatricVigiaMovEquipVisitTerc: Int,
-    var idLocalMovEquipVisitTerc: Int,
-    var tipoMovEquipVisitTerc: TypeMovEquip,
-    var idVisitTercMovEquipVisitTerc: Int,
-    var tipoVisitTercMovEquipVisitTerc: TypeVisitTerc,
-    var dthrMovEquipVisitTerc: Long,
-    var veiculoMovEquipVisitTerc: String,
-    var placaMovEquipVisitTerc: String,
-    var destinoMovEquipVisitTerc: String?,
-    var observMovEquipVisitTerc: String?,
-    var statusMovEquipVisitTerc: StatusData,
-    var statusSendMovEquipVisitTerc: StatusSend,
-    var statusMovEquipForeigVisitTerc: StatusForeigner,
+    val nroMatricVigiaMovEquipVisitTerc: Int,
+    val idLocalMovEquipVisitTerc: Int,
+    val tipoMovEquipVisitTerc: TypeMovEquip,
+    val idVisitTercMovEquipVisitTerc: Int,
+    val tipoVisitTercMovEquipVisitTerc: TypeVisitTerc,
+    val dthrMovEquipVisitTerc: Long,
+    val veiculoMovEquipVisitTerc: String,
+    val placaMovEquipVisitTerc: String,
+    val destinoMovEquipVisitTerc: String,
+    val observMovEquipVisitTerc: String?,
+    val statusMovEquipVisitTerc: StatusData,
+    val statusSendMovEquipVisitTerc: StatusSend,
+    val statusMovEquipForeigVisitTerc: StatusForeigner,
 )
 
 fun MovEquipVisitTercRoomModel.roomModelToEntity(): MovEquipVisitTerc {
@@ -60,13 +61,13 @@ fun MovEquipVisitTerc.entityToRoomModel(
             idMovEquipVisitTerc = this.idMovEquipVisitTerc,
             nroMatricVigiaMovEquipVisitTerc = matricVigia,
             idLocalMovEquipVisitTerc = idLocal,
-            tipoMovEquipVisitTerc = this.tipoMovEquipVisitTerc!!,
-            idVisitTercMovEquipVisitTerc = this.idVisitTercMovEquipVisitTerc!!,
-            tipoVisitTercMovEquipVisitTerc = this.tipoVisitTercMovEquipVisitTerc!!,
+            tipoMovEquipVisitTerc = this::tipoMovEquipVisitTerc.required(),
+            idVisitTercMovEquipVisitTerc = this::idVisitTercMovEquipVisitTerc.required(),
+            tipoVisitTercMovEquipVisitTerc = this::tipoVisitTercMovEquipVisitTerc.required(),
             dthrMovEquipVisitTerc = this.dthrMovEquipVisitTerc.time,
-            veiculoMovEquipVisitTerc = this.veiculoMovEquipVisitTerc!!,
-            placaMovEquipVisitTerc = this.placaMovEquipVisitTerc!!,
-            destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
+            veiculoMovEquipVisitTerc = this::veiculoMovEquipVisitTerc.required(),
+            placaMovEquipVisitTerc = this::placaMovEquipVisitTerc.required(),
+            destinoMovEquipVisitTerc = this::destinoMovEquipVisitTerc.required(),
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
             statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,
             statusSendMovEquipVisitTerc = this.statusSendMovEquipVisitTerc,

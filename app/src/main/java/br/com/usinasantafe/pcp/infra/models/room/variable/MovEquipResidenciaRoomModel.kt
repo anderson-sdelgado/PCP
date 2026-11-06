@@ -8,23 +8,24 @@ import br.com.usinasantafe.pcp.lib.StatusForeigner
 import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_RESIDENCIA
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.utils.required
 import java.util.Date
 
 @Entity(tableName = TB_MOV_EQUIP_RESIDENCIA)
 data class MovEquipResidenciaRoomModel(
     @PrimaryKey(autoGenerate = true)
     var idMovEquipResidencia: Int? = null,
-    var matricVigiaMovEquipResidencia: Int,
-    var idLocalMovEquipResidencia: Int,
-    var tipoMovEquipResidencia: TypeMovEquip,
-    var dthrMovEquipResidencia: Long,
-    var motoristaMovEquipResidencia: String,
-    var veiculoMovEquipResidencia: String,
-    var placaMovEquipResidencia: String,
-    var observMovEquipResidencia: String?,
-    var statusMovEquipResidencia: StatusData,
-    var statusSendMovEquipResidencia: StatusSend,
-    var statusMovEquipForeignerResidencia: StatusForeigner,
+    val matricVigiaMovEquipResidencia: Int,
+    val idLocalMovEquipResidencia: Int,
+    val tipoMovEquipResidencia: TypeMovEquip,
+    val dthrMovEquipResidencia: Long,
+    val motoristaMovEquipResidencia: String,
+    val veiculoMovEquipResidencia: String,
+    val placaMovEquipResidencia: String,
+    val observMovEquipResidencia: String?,
+    val statusMovEquipResidencia: StatusData,
+    val statusSendMovEquipResidencia: StatusSend,
+    val statusMovEquipForeignerResidencia: StatusForeigner,
 )
 
 fun MovEquipResidenciaRoomModel.roomModelToEntity(): MovEquipResidencia {
@@ -53,10 +54,10 @@ fun MovEquipResidencia.entityToRoomModel(matricVigia: Int, idLocal: Int): MovEqu
             matricVigiaMovEquipResidencia = matricVigia,
             idLocalMovEquipResidencia = idLocal,
             dthrMovEquipResidencia = this.dthrMovEquipResidencia.time,
-            tipoMovEquipResidencia = this.tipoMovEquipResidencia!!,
-            motoristaMovEquipResidencia = this.motoristaMovEquipResidencia!!,
-            veiculoMovEquipResidencia = this.veiculoMovEquipResidencia!!,
-            placaMovEquipResidencia = this.placaMovEquipResidencia!!,
+            tipoMovEquipResidencia = this::tipoMovEquipResidencia.required(),
+            motoristaMovEquipResidencia = this::motoristaMovEquipResidencia.required(),
+            veiculoMovEquipResidencia = this::veiculoMovEquipResidencia.required(),
+            placaMovEquipResidencia = this::placaMovEquipResidencia.required(),
             observMovEquipResidencia = this.observMovEquipResidencia,
             statusMovEquipResidencia = this.statusMovEquipResidencia,
             statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,

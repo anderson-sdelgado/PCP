@@ -1,8 +1,9 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.LocalTrabRepository
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 interface GetDescrFullChave {
@@ -14,38 +15,11 @@ class IGetDescrFullChave @Inject constructor(
     private val localTrabRepository: LocalTrabRepository,
 ): GetDescrFullChave {
 
-    override suspend fun invoke(id: Int): Result<String> {
-        try {
-            val resultChave = chaveRepository.get(id)
-            if (resultChave.isFailure) {
-                val e = resultChave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IGetDescrFullChave",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entity = resultChave.getOrNull()!!
-            val resultDescrLocalTrab = localTrabRepository.getDescrById(
-                entity.idLocalTrab
-            )
-            if (resultDescrLocalTrab.isFailure) {
-                val e = resultDescrLocalTrab.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IGetDescrFullChave",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val descrLocalTrab = resultDescrLocalTrab.getOrNull()!!
-            return Result.success("${entity.descrChave} - $descrLocalTrab")
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IGetDescrFullChave",
-                message = "-",
-                cause = e
-            )
+    override suspend fun invoke(id: Int): Result<String> =
+        call(getClassAndMethod()) {
+            val entity = chaveRepository.get(id).getOrThrow()
+            val desc = localTrabRepository.getDescrById(entity.idLocalTrab).getOrThrow()
+            "${entity.descrChave} - $desc"
         }
-    }
 
 }

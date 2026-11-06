@@ -4,10 +4,10 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomMod
 import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface MovEquipProprioRoomDatasource {
-    suspend fun checkOpen(): Result<Boolean>
-    suspend fun checkSend(): Result<Boolean>
-    suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel): EmptyResult
-    suspend fun get(id: Int): Result<MovEquipProprioRoomModel>
+    suspend fun hasOpen(): Result<Boolean>
+    suspend fun hasSend(): Result<Boolean>
+    suspend fun deleteById(id: Int): EmptyResult
+    suspend fun getById(id: Int): Result<MovEquipProprioRoomModel>
     suspend fun listOpen(): Result<List<MovEquipProprioRoomModel>>
     suspend fun listSend(): Result<List<MovEquipProprioRoomModel>>
     suspend fun listSent(): Result<List<MovEquipProprioRoomModel>>

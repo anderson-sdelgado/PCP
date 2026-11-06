@@ -17,7 +17,7 @@ class IGetVeiculoResidencia @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String> {
-        val result = movEquipResidenciaRepository.getVeiculo(id = id)
+        val result = movEquipResidenciaRepository.getVeiculoById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

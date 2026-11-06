@@ -4,9 +4,9 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipResidenciaRoom
 import br.com.usinasantafe.pcp.utils.EmptyResult
 
 interface MovEquipResidenciaRoomDatasource {
-    suspend fun checkOpen(): Result<Boolean>
-    suspend fun checkSend(): Result<Boolean>
-    suspend fun delete(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): EmptyResult
+    suspend fun hasOpen(): Result<Boolean>
+    suspend fun hasSend(): Result<Boolean>
+    suspend fun deleteById(id: Int): EmptyResult
     suspend fun get(id: Int): Result<MovEquipResidenciaRoomModel>
     suspend fun listOpen(): Result<List<MovEquipResidenciaRoomModel>>
     suspend fun listInside(): Result<List<MovEquipResidenciaRoomModel>>

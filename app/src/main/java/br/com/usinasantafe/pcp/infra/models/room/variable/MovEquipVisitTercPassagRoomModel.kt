@@ -8,9 +8,9 @@ import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_VISIT_TERC_PASSAG
 @Entity(tableName = TB_MOV_EQUIP_VISIT_TERC_PASSAG)
 data class MovEquipVisitTercPassagRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovEquipVisitTercPassag: Int? = null,
-    var idMovEquipVisitTerc: Int,
-    var idVisitTerc: Int,
+    val idMovEquipVisitTercPassag: Int? = null,
+    val idMovEquipVisitTerc: Int,
+    val idVisitTerc: Int,
 )
 
 

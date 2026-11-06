@@ -25,7 +25,7 @@ class IStartOutputMovEquipResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository get`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -59,7 +59,7 @@ class IStartOutputMovEquipResidenciaTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )
@@ -102,7 +102,7 @@ class IStartOutputMovEquipResidenciaTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.success(entity)
             )

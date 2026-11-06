@@ -8,9 +8,9 @@ import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_PROPRIO_PASSAG
 @Entity(tableName = TB_MOV_EQUIP_PROPRIO_PASSAG)
 data class MovEquipProprioPassagRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovEquipProprioPassag: Int? = null,
-    var idMovEquipProprio: Int,
-    var matricColab: Int,
+    val idMovEquipProprioPassag: Int? = null,
+    val idMovEquipProprio: Int,
+    val matricColab: Int,
 )
 
 fun MovEquipProprioPassagRoomModel.modelRoomToEntity(): MovEquipProprioPassag {

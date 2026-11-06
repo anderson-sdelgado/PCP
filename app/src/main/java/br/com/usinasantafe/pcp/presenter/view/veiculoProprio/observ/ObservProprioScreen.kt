@@ -134,7 +134,7 @@ fun ObservProprioContent(
             val text = stringResource(id = R.string.text_failure, failure)
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

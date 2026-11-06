@@ -8,6 +8,7 @@ import br.com.usinasantafe.pcp.lib.StatusForeigner
 import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.lib.TB_MOV_CHAVE_EQUIP
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.utils.required
 import java.util.Date
 
 @Entity(tableName = TB_MOV_CHAVE_EQUIP)
@@ -57,10 +58,10 @@ fun MovChaveEquip.entityToRoomModel(
             uuidMainMovChaveEquip = uuid,
             matricVigiaMovChaveEquip = matricVigia,
             idLocalMovChaveEquip = idLocal,
-            idEquipMovChaveEquip = this.idEquipMovChaveEquip!!,
+            idEquipMovChaveEquip = this::idEquipMovChaveEquip.required(),
             dthrMovChaveEquip = this.dthrMovChaveEquip.time,
-            tipoMovChaveEquip = this.tipoMovChaveEquip!!,
-            matricColabMovChaveEquip = this.matricColabMovChaveEquip!!,
+            tipoMovChaveEquip = this::tipoMovChaveEquip.required(),
+            matricColabMovChaveEquip = this::matricColabMovChaveEquip.required(),
             observMovChaveEquip = this.observMovChaveEquip,
             statusMovChaveEquip = this.statusMovChaveEquip,
             statusSendMovChaveEquip = this.statusSendMovChaveEquip,

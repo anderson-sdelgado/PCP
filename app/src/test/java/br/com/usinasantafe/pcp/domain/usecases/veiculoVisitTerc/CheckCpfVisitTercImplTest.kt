@@ -25,7 +25,7 @@ class CheckCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
@@ -52,7 +52,7 @@ class CheckCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in VisitanteRepository CheckCPF`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
@@ -86,7 +86,7 @@ class CheckCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in TerceiroRepository CheckCPF`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
@@ -120,7 +120,7 @@ class CheckCpfVisitTercImplTest {
     @Test
     fun `Check return false if CheckCPF is invalid`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.ADD,
                 id = 0
             )
@@ -152,7 +152,7 @@ class CheckCpfVisitTercImplTest {
     @Test
     fun `Check return false if CheckCPF is valid`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.ADD,
                 id = 0
             )

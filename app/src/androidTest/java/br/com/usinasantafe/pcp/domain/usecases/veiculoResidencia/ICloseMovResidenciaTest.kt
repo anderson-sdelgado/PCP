@@ -68,7 +68,7 @@ class ICloseMovResidenciaTest : KoinTest {
             )
             movEquipResidenciaDao.insert(roomModel)
             val roomModelBefore =
-                movEquipResidenciaDao.get(1)
+                movEquipResidenciaDao.getById(1)
             assertEquals(
                 roomModelBefore.statusMovEquipResidencia,
                 StatusData.OPEN
@@ -83,7 +83,7 @@ class ICloseMovResidenciaTest : KoinTest {
                 true
             )
             val roomModelAfter =
-                movEquipResidenciaDao.get(1)
+                movEquipResidenciaDao.getById(1)
             assertEquals(
                 roomModelAfter.statusMovEquipResidencia,
                 StatusData.CLOSE

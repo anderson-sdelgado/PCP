@@ -21,7 +21,7 @@ class IGetTitleCpfVisitTerc @Inject constructor(
         id: Int
     ): Result<String> {
         try {
-            val result = movEquipVisitTercRepository.getTypeVisitTerc(
+            val result = movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = flowApp,
                 id = id
             )

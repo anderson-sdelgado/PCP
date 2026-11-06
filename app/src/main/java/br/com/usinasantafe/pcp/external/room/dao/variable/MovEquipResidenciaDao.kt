@@ -20,8 +20,8 @@ interface MovEquipResidenciaDao {
     @Update
     suspend fun update(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
 
-    @Delete
-    suspend fun delete(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
+    @Query("DELETE FROM $TB_MOV_EQUIP_RESIDENCIA WHERE idMovEquipResidencia = :idMov")
+    suspend fun deleteById(idMov: Int): MovEquipResidenciaRoomModel
 
     @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipResidencia = :status)")
     suspend fun hasByStatusData(status: StatusData): Boolean
@@ -30,7 +30,7 @@ interface MovEquipResidenciaDao {
     suspend fun hasByStatusSend(statusEnvio: StatusSend): Boolean
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE idMovEquipResidencia = :idMov")
-    suspend fun get(idMov: Int): MovEquipResidenciaRoomModel
+    suspend fun getById(idMov: Int): MovEquipResidenciaRoomModel
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipResidencia = :status")
     suspend fun listByStatusData(status: StatusData): List<MovEquipResidenciaRoomModel>

@@ -33,7 +33,7 @@ class SetIdVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -62,7 +62,7 @@ class SetIdVisitTercImplTest {
     fun `Check return failure if have error in VisitanteRepository GetId`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -100,7 +100,7 @@ class SetIdVisitTercImplTest {
     fun `Check return failure if have error in TerceiroRepository GetId`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -138,7 +138,7 @@ class SetIdVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository SetIdVisitTerc`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -185,7 +185,7 @@ class SetIdVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercPassagRepository Add`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -232,7 +232,7 @@ class SetIdVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository setSend`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -286,7 +286,7 @@ class SetIdVisitTercImplTest {
     fun `Check return true if SetIdVisitTercImpl execute successfully MOTORISTA`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -331,7 +331,7 @@ class SetIdVisitTercImplTest {
     fun `Check return true if SetIdVisitTercImpl execute successfully PASSAGEIRO`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.ADD,
                     id = 0
                 )
@@ -376,7 +376,7 @@ class SetIdVisitTercImplTest {
     fun `Check return true if SetIdVisitTercImpl execute successfully PASSAGEIRO and FlowApp CHANGE`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )

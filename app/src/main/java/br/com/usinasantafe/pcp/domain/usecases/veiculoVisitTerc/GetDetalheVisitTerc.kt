@@ -26,7 +26,7 @@ class IGetDetalheVisitTerc @Inject constructor(
         id: Int
     ): Result<DetalheVisitTercModel> {
         try {
-            val resultGet = movEquipVisitTercRepository.get(id)
+            val resultGet = movEquipVisitTercRepository.getById(id)
             if (resultGet.isFailure) {
                 val e = resultGet.exceptionOrNull()!!
                 return resultFailure(

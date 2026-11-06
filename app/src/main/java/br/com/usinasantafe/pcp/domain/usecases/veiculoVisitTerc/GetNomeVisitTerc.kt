@@ -29,7 +29,7 @@ class IGetNomeVisitTerc @Inject constructor(
         id: Int
     ): Result<NomeVisitTercModel> {
         try {
-            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTerc(
+            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = flowApp,
                 id = id
             )

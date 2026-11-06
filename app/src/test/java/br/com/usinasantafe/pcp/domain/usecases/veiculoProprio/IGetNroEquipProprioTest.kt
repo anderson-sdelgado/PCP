@@ -21,7 +21,7 @@ class IGetNroEquipProprioTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository get`() = runTest {
         whenever(
-            movEquipProprioRepository.getIdEquip(id = 1)
+            movEquipProprioRepository.getIdEquipById(id = 1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -41,7 +41,7 @@ class IGetNroEquipProprioTest {
     @Test
     fun `Check return failure if have error in EquipRepository getNro`() = runTest {
         whenever(
-            movEquipProprioRepository.getIdEquip(
+            movEquipProprioRepository.getIdEquipById(
                 id = 1
             )
         ).thenReturn(
@@ -70,7 +70,7 @@ class IGetNroEquipProprioTest {
     @Test
     fun `Check return nroEquip if GetNroEquipImpl execute success`() = runTest {
         whenever(
-            movEquipProprioRepository.getIdEquip(
+            movEquipProprioRepository.getIdEquipById(
                 id = 1
             )
         ).thenReturn(

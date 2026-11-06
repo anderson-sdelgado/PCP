@@ -14,7 +14,7 @@ class IGetTypeMov @Inject constructor(
 ) : GetTypeMov {
 
     override suspend fun invoke(): Result<TypeMovEquip> {
-        val result = movEquipProprioRepository.getTipoMov()
+        val result = movEquipProprioRepository.getTipoMovById()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

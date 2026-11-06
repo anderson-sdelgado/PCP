@@ -134,7 +134,7 @@ class ISetMatricColabTest: KoinTest {
             result.getOrNull()!!,
             true
         )
-        val resultMov = movEquipProprioDao.get(1)
+        val resultMov = movEquipProprioDao.getById(1)
         assertEquals(
             resultMov.matricColabMovEquipProprio,
             19759
@@ -205,7 +205,7 @@ class ISetMatricColabTest: KoinTest {
             resultList[0].matricColab,
             19759
         )
-        val resultMov = movEquipProprioDao.get(1)
+        val resultMov = movEquipProprioDao.getById(1)
         assertEquals(
             resultMov.matricColabMovEquipProprio,
             18017

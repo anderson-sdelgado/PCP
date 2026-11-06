@@ -18,7 +18,7 @@ class IGetDestinoProprioTest {
     fun `Check return failure if have error in MovEquipProprioRepository getDestino`() =
         runTest {
             whenever(
-                movEquipProprioRepository.getDestino(
+                movEquipProprioRepository.getDestinoById(
                     id = 1
                 )
             ).thenReturn(
@@ -41,7 +41,7 @@ class IGetDestinoProprioTest {
     fun `Check return destino if GetDestino execute success`() =
         runTest {
             whenever(
-                movEquipProprioRepository.getDestino(
+                movEquipProprioRepository.getDestinoById(
                     id = 1
                 )
             ).thenReturn(

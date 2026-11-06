@@ -10,9 +10,14 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitMo
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInputToEntity
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovEquipVisitTercSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.required
 import javax.inject.Inject
 
 class IMovEquipVisitTercRepository @Inject constructor(
@@ -21,678 +26,176 @@ class IMovEquipVisitTercRepository @Inject constructor(
     private val movEquipVisitTercRetrofitDatasource: MovEquipVisitTercRetrofitDatasource,
 ) : MovEquipVisitTercRepository {
 
-    override suspend fun checkOpen(): Result<Boolean> {
-        val result = movEquipVisitTercRoomDatasource.checkOpen()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.checkOpen",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun hasOpen(): Result<Boolean> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.checkOpen().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun checkSend(): Result<Boolean> {
-        val result = movEquipVisitTercRoomDatasource.checkSend()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.checkSend",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun hasSend(): Result<Boolean> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.checkSend().getOrThrow()
         }
-        return result
-    }
 
-    override suspend fun delete(id: Int): Result<Boolean> {
-        try {
-            val resultGet = movEquipVisitTercRoomDatasource.get(id)
-            if (resultGet.isFailure) {
-                val e = resultGet.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.delete",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val model = resultGet.getOrNull()!!
-            val resultDelete = movEquipVisitTercRoomDatasource.delete(model)
-            if (resultDelete.isFailure) {
-                val e = resultDelete.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.delete",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return resultDelete
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.delete",
-                message = "-",
-                cause = e
-            )
+    override suspend fun deleteById(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.deleteById(id).getOrThrow()
         }
-    }
 
-    override suspend fun get(id: Int): Result<MovEquipVisitTerc> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.get",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(result.getOrNull()!!.roomModelToEntity())
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.get",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getById(id: Int): Result<MovEquipVisitTerc> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.get(id).getOrThrow().roomModelToEntity()
         }
-    }
 
-    override suspend fun getDestino(id: Int): Result<String> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.getDestino",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(
-                result.getOrNull()!!.roomModelToEntity().destinoMovEquipVisitTerc!!
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.getDestino",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getDestinoById(id: Int): Result<String> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.get(id).getOrThrow()::destinoMovEquipVisitTerc.required()
         }
-    }
 
-    override suspend fun getIdVisitTerc(id: Int): Result<Int> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.getIdVisitTerc",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(
-                result.getOrNull()!!.roomModelToEntity().idVisitTercMovEquipVisitTerc!!
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.getIdVisitTerc",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getIdVisitTercById(id: Int): Result<Int> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.get(id).getOrThrow().idVisitTercMovEquipVisitTerc
         }
-    }
 
-    override suspend fun getObserv(id: Int): Result<String?> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.getObserv",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(
-                result.getOrNull()!!.roomModelToEntity().observMovEquipVisitTerc
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.getObserv",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getObservById(id: Int): Result<String?> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.get(id).getOrThrow().observMovEquipVisitTerc
         }
-    }
 
-    override suspend fun getPlaca(id: Int): Result<String> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.getPlaca",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(
-                result.getOrNull()!!.roomModelToEntity().placaMovEquipVisitTerc!!
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.getPlaca",
-                message = "-",
-                cause = e
-            )
+    override suspend fun getPlacaById(id: Int): Result<String> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.get(id).getOrThrow().placaMovEquipVisitTerc
         }
-    }
 
-    override suspend fun getTypeVisitTerc(
-        flowApp: FlowApp,
-        id: Int
-    ): Result<TypeVisitTerc> {
-        when (flowApp) {
-            FlowApp.ADD -> {
-                val result = movEquipVisitTercSharedPreferencesDatasource.get()
-                if (result.isFailure) {
-                    val e = result.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "IMovEquipVisitTercRepository.getTypeVisitTerc",
-                        message = e.message,
-                                cause = e.cause
-                            )
+    override suspend fun getTypeVisitTercByFlowAndId(flowApp: FlowApp, id: Int): Result<TypeVisitTerc> =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> {
+                    movEquipVisitTercSharedPreferencesDatasource.get().getOrThrow()::tipoVisitTercMovEquipVisitTerc.required()
                 }
-                return Result.success(result.getOrNull()!!.tipoVisitTercMovEquipVisitTerc!!)
-            }
-
-            FlowApp.CHANGE -> {
-                val result = movEquipVisitTercRoomDatasource.get(id)
-                if (result.isFailure) {
-                    val e = result.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "IMovEquipVisitTercRepository.getTypeVisitTerc",
-                        message = e.message,
-                                cause = e.cause
-                            )
-                }
-                return Result.success(result.getOrNull()!!.tipoVisitTercMovEquipVisitTerc)
-            }
-        }
-    }
-
-    override suspend fun getVeiculo(id: Int): Result<String> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.get(id)
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.getVeiculo",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(
-                result.getOrNull()!!.roomModelToEntity().veiculoMovEquipVisitTerc!!
-            )
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.getVeiculo",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun listOpen(): Result<List<MovEquipVisitTerc>> {
-        try {
-            val result = movEquipVisitTercRoomDatasource.listOpen()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.listOpen",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val list = result.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(list)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.listOpen",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun listInside(): Result<List<MovEquipVisitTerc>> {
-        try {
-            val result =
-                movEquipVisitTercRoomDatasource.listInside()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.listInside",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val list = result.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(list)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.listInside",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun listSend(): Result<List<MovEquipVisitTerc>> {
-        try {
-            val result =
-                movEquipVisitTercRoomDatasource.listSend()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.listSend",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val listSend = result.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(listSend)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.listSend",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun listSent(): Result<List<MovEquipVisitTerc>> {
-        try {
-            val result =
-                movEquipVisitTercRoomDatasource.listSent()
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.listSent",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val listSend = result.getOrNull()!!.map {
-                it.roomModelToEntity()
-            }
-            return Result.success(listSend)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.listSent",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun save(
-        matricVigia: Int,
-        idLocal: Int
-    ): Result<Int> {
-        try {
-            val resultGetMov =
-                movEquipVisitTercSharedPreferencesDatasource.get()
-            if (resultGetMov.isFailure) {
-                val e = resultGetMov.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val movEquipVisitTercRoomModel =
-                resultGetMov.getOrNull()!!.sharedPreferencesModelToEntity()
-                    .entityToRoomModel(matricVigia, idLocal)
-            val resultSave = movEquipVisitTercRoomDatasource.save(movEquipVisitTercRoomModel)
-            if (resultSave.isFailure) {
-                val e = resultSave.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val id = resultSave.getOrNull()!!.toInt()
-            if (id == 0) {
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.save",
-                    message = "-",
-                    cause = Exception("Id is 0")
-                )
-            }
-            val resultClear = movEquipVisitTercSharedPreferencesDatasource.clear()
-            if (resultClear.isFailure) {
-                val e = resultClear.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(id)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.save",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun send(
-        list: List<MovEquipVisitTerc>,
-        number: Long,
-        token: String
-    ): Result<List<MovEquipVisitTerc>> {
-        try {
-            val result = movEquipVisitTercRetrofitDatasource.send(
-                list = list.map { it.entityToRetrofitModelOutput(number) },
-                token = token
-            )
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.send",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val listInput = result.getOrNull()!!
-            val resultList = listInput.map {
-                it.retrofitModelInputToEntity()
-            }
-            return Result.success(resultList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.send",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setClose(id: Int): Result<Boolean> {
-        val result = movEquipVisitTercRoomDatasource.setClose(id)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setClose",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun setDestino(
-        destino: String,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result =
-                when (flowApp) {
-                    FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setDestino(destino)
-                    FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setDestino(destino, id)
-                }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.setDestino",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setClose",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setIdVisitTerc(
-        idVisitTerc: Int,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result =
-                when (flowApp) {
-                    FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setIdVisitTerc(
-                        idVisitTerc
-                    )
-
-                    FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setIdVisitTerc(idVisitTerc, id)
-                }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.setIdVisitTerc",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setIdVisitTerc",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setObserv(
-        observ: String?,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result =
-                when (flowApp) {
-                FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setObserv(observ)
-                FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setObserv(observ, id)
-            }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.setObserv",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setObserv",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setOutside(id: Int): Result<Boolean> {
-        val result = movEquipVisitTercRoomDatasource.setOutside(id)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setOutside",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun setPlaca(
-        placa: String,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result =
-                when (flowApp) {
-                    FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setPlaca(placa)
-                    FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setPlaca(placa, id)
-                }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.setPlaca",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setPlaca",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setTipoVisitTerc(typeVisitTerc: TypeVisitTerc): Result<Boolean> {
-        val result = movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(typeVisitTerc)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setTipoVisitTerc",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun setVeiculo(
-        veiculo: String,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result =
-                when (flowApp) {
-                    FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setVeiculo(veiculo)
-                    FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setVeiculo(veiculo, id)
-                }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.setVeiculo",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setVeiculo",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun setSent(list: List<MovEquipVisitTerc>): Result<Boolean> {
-        try {
-            for (entity in list) {
-                val result =
-                    movEquipVisitTercRoomDatasource.setSent(entity.idMovEquipVisitTerc!!)
-                if (result.isFailure) {
-                    val e = result.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "IMovEquipVisitTercRepository.setSent",
-                        message = e.message,
-                                cause = e.cause
-                            )
+                FlowApp.CHANGE -> {
+                    movEquipVisitTercRoomDatasource.get(id).getOrThrow().tipoVisitTercMovEquipVisitTerc
                 }
             }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setSent",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun setSend(id: Int): Result<Boolean> {
-        val result = movEquipVisitTercRoomDatasource.setSend(id)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.setSend",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun getVeiculoById(id: Int): Result<String> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.get(id).getOrThrow().veiculoMovEquipVisitTerc
         }
-        return result
-    }
 
-    override suspend fun start(): Result<Boolean> {
-        val result = movEquipVisitTercSharedPreferencesDatasource.save()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.start(INSIDE)",
-                message = e.message,
-                cause = e.cause
-            )
+    override suspend fun listOpen(): Result<List<MovEquipVisitTerc>> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.listOpen().getOrThrow().map { it.roomModelToEntity() }
         }
-        return result
-    }
 
-    override suspend fun start(movEquipVisitTerc: MovEquipVisitTerc): Result<Boolean> {
-        try {
-            val movEquipVisitTercSharedPreferencesModel =
-                movEquipVisitTerc.sharedPreferencesModelToEntity()
-            val result = movEquipVisitTercSharedPreferencesDatasource.save(
-                movEquipVisitTercSharedPreferencesModel
-            )
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercRepository.start(OUTSIDE)",
-                    message = e.message,
-                    cause = e.cause
-                )
+    override suspend fun listInside(): Result<List<MovEquipVisitTerc>> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.listInside().getOrThrow().map { it.roomModelToEntity() }
+        }
+
+    override suspend fun listSend(): Result<List<MovEquipVisitTerc>> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.listSend().getOrThrow().map { it.roomModelToEntity() }
+        }
+
+    override suspend fun listSent(): Result<List<MovEquipVisitTerc>> =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.listSent().getOrThrow().map { it.roomModelToEntity() }
+        }
+
+    override suspend fun save(matricVigia: Int, idLocal: Int): Result<Int> =
+        call(getClassAndMethod()) {
+            val sharedPreferencesModel = movEquipVisitTercSharedPreferencesDatasource.get().getOrThrow()
+            val roomModel = sharedPreferencesModel
+                .sharedPreferencesModelToEntity()
+                .entityToRoomModel(matricVigia, idLocal)
+            val id = movEquipVisitTercRoomDatasource.save(roomModel).getOrThrow().toInt()
+            if (id == 0) throw Exception("Id is 0")
+            movEquipVisitTercSharedPreferencesDatasource.clear().getOrThrow()
+            id
+        }
+
+    override suspend fun send(list: List<MovEquipVisitTerc>, number: Long, token: String): Result<List<MovEquipVisitTerc>> =
+        call(getClassAndMethod()) {
+            val retrofitModelOutputList = list.map { it.entityToRetrofitModelOutput(number) }
+            val retrofitModelInputList = movEquipVisitTercRetrofitDatasource.send(retrofitModelOutputList, token).getOrThrow()
+            retrofitModelInputList.map { it.retrofitModelInputToEntity() }
+        }
+
+    override suspend fun setClose(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.setClose(id).getOrThrow()
+        }
+
+    override suspend fun setDestino(destino: String, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setDestino(destino).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setDestino(destino, id).getOrThrow()
             }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercRepository.start(OUTSIDE)",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
+    override suspend fun setIdVisitTerc(idVisitTerc: Int, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setIdVisitTerc(idVisitTerc).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setIdVisitTerc(idVisitTerc, id).getOrThrow()
+            }
+        }
+
+    override suspend fun setObserv(observ: String?, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setObserv(observ).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setObserv(observ, id).getOrThrow()
+            }
+        }
+
+    override suspend fun setOutside(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.setOutside(id).getOrThrow()
+        }
+
+    override suspend fun setPlaca(placa: String, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setPlaca(placa).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setPlaca(placa, id).getOrThrow()
+            }
+        }
+
+    override suspend fun setTipoVisitTerc(typeVisitTerc: TypeVisitTerc): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercSharedPreferencesDatasource.setTipoVisitTerc(typeVisitTerc).getOrThrow()
+        }
+
+    override suspend fun setVeiculo(veiculo: String, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> movEquipVisitTercSharedPreferencesDatasource.setVeiculo(veiculo).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercRoomDatasource.setVeiculo(veiculo, id).getOrThrow()
+            }
+        }
+
+    override suspend fun setSent(list: List<MovEquipVisitTerc>): EmptyResult =
+        call(getClassAndMethod()) {
+            list.forEach { movEquipVisitTercRoomDatasource.setSent(it::idMovEquipVisitTerc.required()).getOrThrow() }
+        }
+
+    override suspend fun setSend(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercRoomDatasource.setSend(id).getOrThrow()
+        }
+
+    override suspend fun start(): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercSharedPreferencesDatasource.save(MovEquipVisitTercSharedPreferencesModel()).getOrThrow()
+        }
+
+    override suspend fun start(movEquipVisitTerc: MovEquipVisitTerc): EmptyResult =
+        call(getClassAndMethod()) {
+            val sharedPreferencesModel = movEquipVisitTerc.sharedPreferencesModelToEntity()
+            movEquipVisitTercSharedPreferencesDatasource.save(sharedPreferencesModel).getOrThrow()
+        }
 
 }

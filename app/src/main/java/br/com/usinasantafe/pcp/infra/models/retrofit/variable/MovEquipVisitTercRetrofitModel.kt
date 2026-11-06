@@ -1,23 +1,24 @@
 package br.com.usinasantafe.pcp.infra.models.retrofit.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipVisitTerc
+import br.com.usinasantafe.pcp.utils.required
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 data class MovEquipVisitTercRetrofitModelOutput(
-    var idMovEquipVisitTerc: Int,
-    var nroAparelhoMovEquipVisitTerc: Long,
-    var nroMatricVigiaMovEquipVisitTerc: Int,
-    var idLocalMovEquipVisitTerc: Int,
-    var dthrMovEquipVisitTerc: String,
-    var tipoMovEquipVisitTerc: Int,
-    var idVisitTercMovEquipVisitTerc: Int,
-    var tipoVisitTercMovEquipVisitTerc: Int,
-    var veiculoMovEquipVisitTerc: String,
-    var placaMovEquipVisitTerc: String,
-    var destinoMovEquipVisitTerc: String?,
-    var observMovEquipVisitTerc: String?,
-    var movEquipVisitTercPassagList: List<MovEquipVisitTercPassagRetrofitModelOutput>?,
+    val idMovEquipVisitTerc: Int,
+    val nroAparelhoMovEquipVisitTerc: Long,
+    val nroMatricVigiaMovEquipVisitTerc: Int,
+    val idLocalMovEquipVisitTerc: Int,
+    val dthrMovEquipVisitTerc: String,
+    val tipoMovEquipVisitTerc: Int,
+    val idVisitTercMovEquipVisitTerc: Int,
+    val tipoVisitTercMovEquipVisitTerc: Int,
+    val veiculoMovEquipVisitTerc: String,
+    val placaMovEquipVisitTerc: String,
+    val destinoMovEquipVisitTerc: String?,
+    val observMovEquipVisitTerc: String?,
+    val movEquipVisitTercPassagList: List<MovEquipVisitTercPassagRetrofitModelOutput>?,
 )
 
 data class MovEquipVisitTercRetrofitModelInput(
@@ -27,19 +28,19 @@ data class MovEquipVisitTercRetrofitModelInput(
 fun MovEquipVisitTerc.entityToRetrofitModelOutput(nroAparelho: Long): MovEquipVisitTercRetrofitModelOutput {
     return with(this){
         MovEquipVisitTercRetrofitModelOutput(
-            idMovEquipVisitTerc = this.idMovEquipVisitTerc!!,
+            idMovEquipVisitTerc = this::idMovEquipVisitTerc.required(),
             nroAparelhoMovEquipVisitTerc = nroAparelho,
-            nroMatricVigiaMovEquipVisitTerc = this.nroMatricVigiaMovEquipVisitTerc!!,
-            idLocalMovEquipVisitTerc = this.idLocalMovEquipVisitTerc!!,
+            nroMatricVigiaMovEquipVisitTerc = this::nroMatricVigiaMovEquipVisitTerc.required(),
+            idLocalMovEquipVisitTerc = this::idLocalMovEquipVisitTerc.required(),
             dthrMovEquipVisitTerc = SimpleDateFormat(
                 "dd/MM/yyyy HH:mm",
                 Locale("pt", "BR")
             ).format(this.dthrMovEquipVisitTerc),
-            tipoMovEquipVisitTerc = this.tipoMovEquipVisitTerc!!.ordinal + 1,
-            idVisitTercMovEquipVisitTerc = this.idVisitTercMovEquipVisitTerc!!,
-            tipoVisitTercMovEquipVisitTerc = this.tipoVisitTercMovEquipVisitTerc!!.ordinal + 1,
-            veiculoMovEquipVisitTerc = this.veiculoMovEquipVisitTerc!!,
-            placaMovEquipVisitTerc = this.placaMovEquipVisitTerc!!,
+            tipoMovEquipVisitTerc = this::tipoMovEquipVisitTerc.required().ordinal + 1,
+            idVisitTercMovEquipVisitTerc = this::idVisitTercMovEquipVisitTerc.required(),
+            tipoVisitTercMovEquipVisitTerc = this::tipoVisitTercMovEquipVisitTerc.required().ordinal + 1,
+            veiculoMovEquipVisitTerc = this::veiculoMovEquipVisitTerc.required(),
+            placaMovEquipVisitTerc = this::placaMovEquipVisitTerc.required(),
             destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
             movEquipVisitTercPassagList = this.movEquipVisitTercPassagList?.map { it.entityToRetrofitModel() }

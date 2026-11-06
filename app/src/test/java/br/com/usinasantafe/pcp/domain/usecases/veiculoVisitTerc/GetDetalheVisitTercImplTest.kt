@@ -28,7 +28,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository Get`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -48,7 +48,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return failure if have error in Motorista VisitanteRepository Get`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipVisitTerc(
@@ -88,7 +88,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return failure if have error in Motorista TerceiroRepository Get`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipVisitTerc(
@@ -129,7 +129,7 @@ class GetDetalheVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercPassagRepository List`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     MovEquipVisitTerc(
@@ -179,7 +179,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return failure if have error in  Passageiro VisitanteRepository Get`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipVisitTerc(
@@ -245,7 +245,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return failure if have error in  Passageiro TerceiroRepository Get`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipVisitTerc(
@@ -311,7 +311,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return detalhe if GetDetalheVisitTercImpl execute correctly Visitante`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipVisitTerc(
@@ -403,7 +403,7 @@ class GetDetalheVisitTercImplTest {
     @Test
     fun `Check return detalhe if GetDetalheVisitTercImpl execute correctly Terceiro`() = runTest {
         whenever(
-            movEquipVisitTercRepository.get(1)
+            movEquipVisitTercRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipVisitTerc(

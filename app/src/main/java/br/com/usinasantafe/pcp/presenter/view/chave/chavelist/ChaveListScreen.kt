@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -35,6 +36,9 @@ import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
+import br.com.usinasantafe.pcp.presenter.theme.Progress
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 const val TAG_FILTER_TEXT_FIELD_CHAVE_LIST_SCREEN = "tag_filter_text_field_chave_list_screen"
 
@@ -55,15 +59,8 @@ fun ChaveListScreen(
                 field = uiState.field,
                 onFieldChanged = viewModel::onFieldChanged,
                 updateDatabase = viewModel::updateDatabase,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                errors = uiState.errors,
-                failure = uiState.failure,
-                flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
-                currentProgress = uiState.currentProgress,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricColab,
                 onNavMenuControleList = onNavMenuControleList,
                 onNavDetalhe = onNavDetalhe,
@@ -82,15 +79,8 @@ fun ChaveListContent(
     field: String,
     onFieldChanged: (String) -> Unit,
     updateDatabase: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    errors: Errors,
-    failure: String,
-    flagProgress: Boolean,
-    msgProgress: String,
-    currentProgress: Float,
+    onCloseDialog: () -> Unit,
+    status: UiStatusStateUpdate,
     onNavMenuControleList: () -> Unit,
     onNavMatricColab: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -129,7 +119,7 @@ fun ChaveListContent(
         ) {
             items(chaveList) {
                 ItemListDesign(
-                    text = it.descr,
+                    text = it.description,
                     setActionItem = {
                         setIdChave(it.id)
                     },
@@ -157,42 +147,25 @@ fun ChaveListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            val text = if (flagFailure) {
-                when(errors) {
-                    Errors.UPDATE -> stringResource(
-                        id = R.string.text_update_failure,
-                        failure
-                    )
-                    else -> stringResource(
-                        id = R.string.text_failure,
-                        failure
-                    )
-                }
-            } else {
-                msgProgress
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                setCloseDialog = setCloseDialog,
-            )
+        if (status.flagDialog) {
+            MsgUpdate(status = status, onClickOk = onCloseDialog, value = stringResource(id = R.string.text_title_list_key))
         }
 
-        if (flagProgress) {
-            AlertDialogProgressDesign(
-                currentProgress = currentProgress,
-                msgProgress = msgProgress
-            )
+        if (status.flagProgress) {
+            Progress(status)
         }
 
-        if (flagAccess) {
-            when(flowApp){
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            when (flowApp) {
                 FlowApp.ADD -> onNavMatricColab()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -216,15 +189,18 @@ fun ChaveListPagePreview() {
                 field = "",
                 onFieldChanged = {},
                 updateDatabase = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(
+                    flagAccess = false,
+                    flagDialog = false,
+                    flagFailure = false,
+                    errors = Errors.FIELD_EMPTY,
+                    failure = "",
+                    flagProgress = false,
+                    levelUpdate = null,
+                    tableUpdate = "",
+                    currentProgress = 0f,
+                ),
                 onNavMenuControleList = {},
                 onNavMatricColab = {},
                 onNavDetalhe = {},

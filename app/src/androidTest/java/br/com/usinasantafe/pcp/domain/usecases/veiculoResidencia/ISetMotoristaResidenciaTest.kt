@@ -183,7 +183,7 @@ class ISetMotoristaResidenciaTest : KoinTest {
                     statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
                 )
             )
-            val entityBefore = movEquipResidenciaDao.get(1)
+            val entityBefore = movEquipResidenciaDao.getById(1)
             assertEquals(
                 entityBefore.motoristaMovEquipResidencia,
                 "MOTORISTA TESTE"
@@ -201,7 +201,7 @@ class ISetMotoristaResidenciaTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val entityAfter = movEquipResidenciaDao.get(1)
+            val entityAfter = movEquipResidenciaDao.getById(1)
             assertEquals(
                 entityAfter.motoristaMovEquipResidencia,
                 "Teste Motorista"

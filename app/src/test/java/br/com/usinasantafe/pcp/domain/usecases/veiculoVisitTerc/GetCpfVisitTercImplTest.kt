@@ -25,7 +25,7 @@ class GetCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetType`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
@@ -48,7 +48,7 @@ class GetCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository GetIdVisitTerc`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
@@ -58,7 +58,7 @@ class GetCpfVisitTercImplTest {
             )
         )
         whenever(
-            movEquipVisitTercRepository.getIdVisitTerc(
+            movEquipVisitTercRepository.getIdVisitTercById(
                 id = 1
             )
         ).thenReturn(
@@ -80,7 +80,7 @@ class GetCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in TerceiroRepository GetCpf`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
@@ -90,7 +90,7 @@ class GetCpfVisitTercImplTest {
             )
         )
         whenever(
-            movEquipVisitTercRepository.getIdVisitTerc(
+            movEquipVisitTercRepository.getIdVisitTercById(
                 id = 1
             )
         ).thenReturn(
@@ -119,7 +119,7 @@ class GetCpfVisitTercImplTest {
     @Test
     fun `Check return failure if have error in VisitanteRepository GetCpf`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
@@ -129,7 +129,7 @@ class GetCpfVisitTercImplTest {
             )
         )
         whenever(
-            movEquipVisitTercRepository.getIdVisitTerc(
+            movEquipVisitTercRepository.getIdVisitTercById(
                 id = 1
             )
         ).thenReturn(
@@ -158,7 +158,7 @@ class GetCpfVisitTercImplTest {
     @Test
     fun `Check return cpf if GetCpf execute successfully of Terceiro`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
@@ -168,7 +168,7 @@ class GetCpfVisitTercImplTest {
             )
         )
         whenever(
-            movEquipVisitTercRepository.getIdVisitTerc(
+            movEquipVisitTercRepository.getIdVisitTercById(
                 id = 1
             )
         ).thenReturn(
@@ -195,7 +195,7 @@ class GetCpfVisitTercImplTest {
     @Test
     fun `Check return cpf if GetCpf execute successfully of Visitante`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getTypeVisitTerc(
+            movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = FlowApp.CHANGE,
                 id = 1
             )
@@ -205,7 +205,7 @@ class GetCpfVisitTercImplTest {
             )
         )
         whenever(
-            movEquipVisitTercRepository.getIdVisitTerc(
+            movEquipVisitTercRepository.getIdVisitTercById(
                 id = 1
             )
         ).thenReturn(

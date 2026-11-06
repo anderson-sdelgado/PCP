@@ -1,8 +1,9 @@
 package br.com.usinasantafe.pcp.domain.usecases.chave
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ChaveRepository
 import br.com.usinasantafe.pcp.presenter.view.chave.chavelist.ChaveModel
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 interface GetChaveList {
@@ -14,42 +15,16 @@ class IGetChaveList @Inject constructor(
     private val getDescrFullChave: GetDescrFullChave
 ): GetChaveList {
 
-    override suspend fun invoke(): Result<List<ChaveModel>> {
-        try {
-            val resultChaveList = chaveRepository.listAll()
-            if(resultChaveList.isFailure){
-                val e = resultChaveList.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IGetChaveList",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val entityList = resultChaveList.getOrNull()!!
-            val modelScreenList = entityList.map {
-                val resultDescr = getDescrFullChave(it.idChave)
-                if(resultDescr.isFailure){
-                    val e = resultDescr.exceptionOrNull()!!
-                    return resultFailure(
-                        context = "IGetChaveList",
-                        message = e.message,
-                        cause = e.cause
-                    )
-                }
-                val descr = resultDescr.getOrNull()!!
+    override suspend fun invoke(): Result<List<ChaveModel>> =
+        call(getClassAndMethod()) {
+            val entityList = chaveRepository.listAll().getOrThrow()
+            entityList.map {
+                val desc = getDescrFullChave(it.idChave).getOrThrow()
                 ChaveModel(
                     id = it.idChave,
-                    descr = descr
+                    description = desc
                 )
             }
-            return Result.success(modelScreenList)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IGetChaveList-",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
 }

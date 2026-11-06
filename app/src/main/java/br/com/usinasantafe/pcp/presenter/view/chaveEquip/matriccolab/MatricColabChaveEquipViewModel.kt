@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetMatricColabMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableColab
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS

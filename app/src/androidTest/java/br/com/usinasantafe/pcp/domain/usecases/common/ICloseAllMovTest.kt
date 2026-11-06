@@ -144,17 +144,17 @@ class ICloseAllMovTest: KoinTest {
                 )
             )
 
-            val movEquipProprioRoomModelBefore = movEquipProprioDao.get(1)
+            val movEquipProprioRoomModelBefore = movEquipProprioDao.getById(1)
             assertEquals(
                 movEquipProprioRoomModelBefore.statusMovEquipProprio,
                 StatusData.OPEN
             )
-            val movEquipVisitTercRoomModelBefore = movEquipVisitTercDao.get(1)
+            val movEquipVisitTercRoomModelBefore = movEquipVisitTercDao.getById(1)
             assertEquals(
                 movEquipVisitTercRoomModelBefore.statusMovEquipVisitTerc,
                 StatusData.OPEN
             )
-            val movEquipResidenciaRoomModelBefore = movEquipResidenciaDao.get(1)
+            val movEquipResidenciaRoomModelBefore = movEquipResidenciaDao.getById(1)
             assertEquals(
                 movEquipResidenciaRoomModelBefore.statusMovEquipResidencia,
                 StatusData.OPEN
@@ -180,17 +180,17 @@ class ICloseAllMovTest: KoinTest {
                 true
             );
 
-            val movEquipProprioRoomModelAfter = movEquipProprioDao.get(1)
+            val movEquipProprioRoomModelAfter = movEquipProprioDao.getById(1)
             assertEquals(
                 movEquipProprioRoomModelAfter.statusMovEquipProprio,
                 StatusData.CLOSE
             )
-            val movEquipVisitTercRoomModelAfter = movEquipVisitTercDao.get(1)
+            val movEquipVisitTercRoomModelAfter = movEquipVisitTercDao.getById(1)
             assertEquals(
                 movEquipVisitTercRoomModelAfter.statusMovEquipVisitTerc,
                 StatusData.CLOSE
             )
-            val movEquipResidenciaRoomModelAfter = movEquipResidenciaDao.get(1)
+            val movEquipResidenciaRoomModelAfter = movEquipResidenciaDao.getById(1)
             assertEquals(
                 movEquipResidenciaRoomModelAfter.statusMovEquipResidencia,
                 StatusData.CLOSE

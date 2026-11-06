@@ -21,7 +21,7 @@ class IGetDetalheResidencia @Inject constructor(
         id: Int
     ): Result<DetalheResidenciaModel> {
         try {
-            val resultGet = movEquipResidenciaRepository.get(id)
+            val resultGet = movEquipResidenciaRepository.getById(id)
             if (resultGet.isFailure) {
                 val e = resultGet.exceptionOrNull()!!
                 return resultFailure(

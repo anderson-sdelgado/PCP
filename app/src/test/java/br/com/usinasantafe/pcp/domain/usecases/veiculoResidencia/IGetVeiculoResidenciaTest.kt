@@ -18,7 +18,7 @@ class IGetVeiculoResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository GetVeiculo`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getVeiculo(
+                movEquipResidenciaRepository.getVeiculoById(
                     id = 1
                 )
             ).thenReturn(
@@ -42,7 +42,7 @@ class IGetVeiculoResidenciaTest {
         runTest {
             val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
-                movEquipResidenciaRepository.getVeiculo(
+                movEquipResidenciaRepository.getVeiculoById(
                     id = 1
                 )
             ).thenReturn(

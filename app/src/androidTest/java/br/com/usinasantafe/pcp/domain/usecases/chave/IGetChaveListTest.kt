@@ -94,7 +94,7 @@ class IGetChaveListTest: KoinTest {
                 1
             )
             assertEquals(
-                entity.descr,
+                entity.description,
                 "01 - SALA TI - TI"
             )
         }

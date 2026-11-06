@@ -13,7 +13,7 @@ class ICheckSendMovVisitTerc @Inject constructor(
 ): CheckSendMovVisitTerc {
 
     override suspend fun invoke(): Result<Boolean> {
-        val result = movEquipVisitTercRepository.checkSend()
+        val result = movEquipVisitTercRepository.hasSend()
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

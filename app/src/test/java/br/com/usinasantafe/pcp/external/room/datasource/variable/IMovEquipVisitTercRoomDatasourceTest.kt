@@ -109,7 +109,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
         movEquipVisitTercDao.insert(
             movEquipVisitTercRoomModel
         )
-        val roomModelBefore = movEquipVisitTercDao.get(1)
+        val roomModelBefore = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelBefore.statusMovEquipVisitTerc,
             StatusData.OPEN
@@ -123,7 +123,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.statusMovEquipVisitTerc,
             StatusData.CLOSE
@@ -244,7 +244,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.destinoMovEquipVisitTerc,
             "TESTE ALTERAR DESTINO"
@@ -283,7 +283,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.idVisitTercMovEquipVisitTerc,
             10
@@ -322,7 +322,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.observMovEquipVisitTerc,
             "OBSERV TESTE ALTERAR"
@@ -361,7 +361,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.observMovEquipVisitTerc,
             null
@@ -400,7 +400,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.placaMovEquipVisitTerc,
             "PLACA TESTE ALTERAR"
@@ -439,7 +439,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.veiculoMovEquipVisitTerc,
             "VEICULO TESTE ALTERAR"
@@ -470,7 +470,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
         )
         val datasource = IMovEquipVisitTercRoomDatasource(movEquipVisitTercDao)
         datasource.save(movEquipVisitTercRoomModel)
-        val roomModelBefore = movEquipVisitTercDao.get(1)
+        val roomModelBefore = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelBefore.statusMovEquipForeigVisitTerc,
             StatusForeigner.INSIDE
@@ -484,7 +484,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.statusMovEquipForeigVisitTerc,
             StatusForeigner.OUTSIDE
@@ -654,7 +654,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val roomModelAfter = movEquipVisitTercDao.get(1)
+        val roomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             roomModelAfter.observMovEquipVisitTerc,
             "OBSERV TESTE"
@@ -711,7 +711,7 @@ class IMovEquipVisitTercRoomDatasourceTest {
             result.getOrNull()!!,
             true
         )
-        val movEquipProprioRoomModelAfter = movEquipVisitTercDao.get(1)
+        val movEquipProprioRoomModelAfter = movEquipVisitTercDao.getById(1)
         assertEquals(
             movEquipProprioRoomModelAfter.observMovEquipVisitTerc,
             "OBSERV TESTE"

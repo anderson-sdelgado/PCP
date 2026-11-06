@@ -8,6 +8,9 @@ import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.MovEquipVisitTe
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercPassagRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.modelRoomToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.EmptyResult
+import br.com.usinasantafe.pcp.utils.call
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import javax.inject.Inject
 
 class IMovEquipVisitTercPassagRepository @Inject constructor(
@@ -15,173 +18,55 @@ class IMovEquipVisitTercPassagRepository @Inject constructor(
     private val movEquipVisitTercPassagRoomDatasource: MovEquipVisitTercPassagRoomDatasource,
 ): MovEquipVisitTercPassagRepository {
 
-    override suspend fun add(
-        idVisitTerc: Int,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result = when(flowApp) {
-                FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.add(idVisitTerc)
-                FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.add(idVisitTerc, id)
+    override suspend fun add(idVisitTerc: Int, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when(flowApp) {
+                FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.add(idVisitTerc).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.add(idVisitTerc, id).getOrThrow()
             }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercPassagRepository.add",
-                    message = e.message,
-                    cause = e.cause
-                )
+        }
+
+    override suspend fun clean(): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercPassagSharedPreferencesDatasource.clean().getOrThrow()
+        }
+
+    override suspend fun delete(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            movEquipVisitTercPassagRoomDatasource.delete(id).getOrThrow()
+        }
+
+    override suspend fun delete(idVisitTerc: Int, flowApp: FlowApp, id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            when (flowApp) {
+                FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.delete(idVisitTerc).getOrThrow()
+                FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.delete(idVisitTerc, id).getOrThrow()
             }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.add",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun clean(): Result<Boolean> {
-        val result = movEquipVisitTercPassagSharedPreferencesDatasource.clean()
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.clean",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun delete(id: Int): Result<Boolean> {
-        val result = movEquipVisitTercPassagRoomDatasource.delete(id)
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.delete",
-                message = e.message,
-                cause = e.cause
-            )
-        }
-        return result
-    }
-
-    override suspend fun delete(
-        idVisitTerc: Int,
-        flowApp: FlowApp,
-        id: Int
-    ): Result<Boolean> {
-        try {
-            val result =
-                when (flowApp) {
-                    FlowApp.ADD -> movEquipVisitTercPassagSharedPreferencesDatasource.delete(idVisitTerc)
-                    FlowApp.CHANGE -> movEquipVisitTercPassagRoomDatasource.delete(idVisitTerc, id)
-                }
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercPassagRepository.delete",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return result
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.delete",
-                message = "-",
-                cause = e
-            )
-        }
-    }
-
-    override suspend fun list(
-        flowApp: FlowApp,
-        id: Int
-    ): Result<List<MovEquipVisitTercPassag>> {
-        try {
+    override suspend fun list(flowApp: FlowApp, id: Int): Result<List<MovEquipVisitTercPassag>> =
+        call(getClassAndMethod()) {
             when(flowApp) {
                 FlowApp.ADD -> {
-                    val result =
-                        movEquipVisitTercPassagSharedPreferencesDatasource.list()
-                    if (result.isFailure) {
-                        val e = result.exceptionOrNull()!!
-                        return resultFailure(
-                            context = "IMovEquipVisitTercPassagRepository.list",
-                            message = e.message,
-                cause = e.cause
-            )
-                    }
-                    val list = result.getOrNull()!!
-                    val movEquipVisitTercPassagList = list.map {
-                        MovEquipVisitTercPassag(
-                            idVisitTerc = it
-                        )
-                    }
-                    return Result.success(movEquipVisitTercPassagList)
+                    val list = movEquipVisitTercPassagSharedPreferencesDatasource.list().getOrThrow()
+                    list.map { MovEquipVisitTercPassag(idVisitTerc = it) }
                 }
                 FlowApp.CHANGE -> {
-                    val result =
-                        movEquipVisitTercPassagRoomDatasource.list(id)
-                    if (result.isFailure) {
-                        val e = result.exceptionOrNull()!!
-                        return resultFailure(
-                            context = "IMovEquipVisitTercPassagRepository.list",
-                            message = e.message,
-                cause = e.cause
-            )
-                    }
-                    val list = result.getOrNull()!!
-                    val movEquipVisitTercPassagList = list.map { it.modelRoomToEntity() }
-                    return Result.success(movEquipVisitTercPassagList)
+                    val list = movEquipVisitTercPassagRoomDatasource.list(id).getOrThrow()
+                    list.map { it.modelRoomToEntity() }
                 }
             }
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.list",
-                message = "-",
-                cause = e
-            )
         }
-    }
 
-    override suspend fun save(id: Int): Result<Boolean> {
-        try {
-            val resultList = movEquipVisitTercPassagSharedPreferencesDatasource.list()
-            if (resultList.isFailure) {
-                val e = resultList.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercPassagRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            val list = resultList.getOrNull()!!
+    override suspend fun save(id: Int): EmptyResult =
+        call(getClassAndMethod()) {
+            val list = movEquipVisitTercPassagSharedPreferencesDatasource.list().getOrThrow()
             val modelRoomList = list.map {
                 MovEquipVisitTercPassagRoomModel(
                     idMovEquipVisitTerc = id,
                     idVisitTerc = it
                 )
             }
-            val resultAddAll = movEquipVisitTercPassagRoomDatasource.addAll(modelRoomList)
-            if (resultAddAll.isFailure) {
-                val e = resultAddAll.exceptionOrNull()!!
-                return resultFailure(
-                    context = "IMovEquipVisitTercPassagRepository.save",
-                    message = e.message,
-                    cause = e.cause
-                )
-            }
-            return Result.success(true)
-        } catch (e: Exception) {
-            return resultFailure(
-                context = "IMovEquipVisitTercPassagRepository.save",
-                message = "-",
-                cause = e
-            )
+            movEquipVisitTercPassagRoomDatasource.addAll(modelRoomList).getOrThrow()
         }
-    }
 }

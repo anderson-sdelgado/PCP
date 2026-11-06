@@ -17,7 +17,7 @@ class IGetObservProprioTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository getObserv`() = runTest {
         whenever(
-            movEquipProprioRepository.getObserv(
+            movEquipProprioRepository.getObservById(
                 id = 1
             )
         ).thenReturn(
@@ -39,7 +39,7 @@ class IGetObservProprioTest {
     @Test
     fun `Check return observ if GetObservImpl execute success`() = runTest {
         whenever(
-            movEquipProprioRepository.getObserv(
+            movEquipProprioRepository.getObservById(
                 id = 1
             )
         ).thenReturn(
@@ -60,7 +60,7 @@ class IGetObservProprioTest {
     @Test
     fun `Check return null if GetObservImpl execute success and field is null`() = runTest {
         whenever(
-            movEquipProprioRepository.getObserv(
+            movEquipProprioRepository.getObservById(
                 id = 1
             )
         ).thenReturn(

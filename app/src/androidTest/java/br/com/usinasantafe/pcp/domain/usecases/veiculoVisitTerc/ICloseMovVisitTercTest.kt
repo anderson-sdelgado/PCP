@@ -70,7 +70,7 @@ class ICloseMovVisitTercTest: KoinTest {
         )
         movEquipVisitTercDao.insert(roomModel)
         val roomModelBefore =
-            movEquipVisitTercDao.get(roomModel.idMovEquipVisitTerc!!)
+            movEquipVisitTercDao.getById(roomModel.idMovEquipVisitTerc!!)
         assertEquals(
             roomModelBefore.statusMovEquipVisitTerc,
             StatusData.OPEN
@@ -85,7 +85,7 @@ class ICloseMovVisitTercTest: KoinTest {
             true
         )
         val roomModelAfter =
-            movEquipVisitTercDao.get(roomModel.idMovEquipVisitTerc!!)
+            movEquipVisitTercDao.getById(roomModel.idMovEquipVisitTerc!!)
         assertEquals(
             roomModelAfter.statusMovEquipVisitTerc,
             StatusData.CLOSE

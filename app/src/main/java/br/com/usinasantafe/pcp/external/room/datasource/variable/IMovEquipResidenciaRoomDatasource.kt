@@ -1,9 +1,7 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipResidenciaDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipResidenciaRoomDatasource
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipResidenciaRoomModel
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusForeigner
@@ -23,24 +21,24 @@ class IMovEquipResidenciaRoomDatasource @Inject constructor(
         update(model).getOrThrow()
     }
 
-    override suspend fun checkOpen(): Result<Boolean> =
+    override suspend fun hasOpen(): Result<Boolean> =
         result(getClassAndMethod()) {
             movEquipResidenciaDao.hasByStatusData(StatusData.OPEN)
         }
 
-    override suspend fun checkSend(): Result<Boolean> =
+    override suspend fun hasSend(): Result<Boolean> =
         result(getClassAndMethod()) {
             movEquipResidenciaDao.hasByStatusSend(StatusSend.SEND)
         }
 
-    override suspend fun delete(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): EmptyResult =
+    override suspend fun deleteById(id: Int): EmptyResult =
         result(getClassAndMethod()) {
-            movEquipResidenciaDao.delete(movEquipResidenciaRoomModel)
+            movEquipResidenciaDao.deleteById(id)
         }
 
     override suspend fun get(id: Int): Result<MovEquipResidenciaRoomModel> =
         result(getClassAndMethod()) {
-            movEquipResidenciaDao.get(id)
+            movEquipResidenciaDao.getById(id)
         }
 
     override suspend fun listOpen(): Result<List<MovEquipResidenciaRoomModel>> =

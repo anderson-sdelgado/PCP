@@ -17,7 +17,7 @@ class IGetPlacaVisitTerc @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String> {
-        val result = movEquipVisitTercRepository.getPlaca(id = id)
+        val result = movEquipVisitTercRepository.getPlacaById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

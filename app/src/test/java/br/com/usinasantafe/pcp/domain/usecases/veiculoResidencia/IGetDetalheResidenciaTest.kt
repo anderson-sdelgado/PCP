@@ -24,7 +24,7 @@ class IGetDetalheResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository Get`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -58,7 +58,7 @@ class IGetDetalheResidenciaTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.success(model)
             )
@@ -113,7 +113,7 @@ class IGetDetalheResidenciaTest {
             )
             val movEquipResidenciaRepository = mock<MovEquipResidenciaRepository>()
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.success(model)
             )

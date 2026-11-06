@@ -20,8 +20,8 @@ interface MovEquipVisitTercDao {
     @Update
     suspend fun update(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
 
-    @Delete
-    suspend fun delete(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
+    @Query("DELETE FROM $TB_MOV_EQUIP_VISIT_TERC WHERE idMovEquipVisitTerc = :idMov")
+    suspend fun deleteById(idMov: Int): MovEquipVisitTercRoomModel
 
     @Query("SELECT EXISTS (SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipVisitTerc = :status)")
     suspend fun hasByStatusData(status: StatusData): Boolean
@@ -39,6 +39,6 @@ interface MovEquipVisitTercDao {
     suspend fun listByStatusSend(statusEnvio: StatusSend): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE idMovEquipVisitTerc = :idMov")
-    suspend fun get(idMov: Int): MovEquipVisitTercRoomModel
+    suspend fun getById(idMov: Int): MovEquipVisitTercRoomModel
 
 }

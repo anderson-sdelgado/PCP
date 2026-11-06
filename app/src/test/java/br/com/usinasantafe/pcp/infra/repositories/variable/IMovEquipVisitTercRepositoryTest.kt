@@ -166,7 +166,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.get(1)
+            val result = repository.getById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -218,7 +218,7 @@ class IMovEquipVisitTercRepositoryTest {
                 movEquipVisitTercRoomModel
             )
         )
-        val result = repository.get(1)
+        val result = repository.getById(1)
         assertEquals(
             result.isSuccess,
             true
@@ -240,7 +240,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getDestino(1)
+            val result = repository.getDestinoById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -275,7 +275,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipVisitTercRoomModel)
             )
-            val result = repository.getDestino(1)
+            val result = repository.getDestinoById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -296,7 +296,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getIdVisitTerc(1)
+            val result = repository.getIdVisitTercById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -331,7 +331,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipVisitTercRoomModel)
             )
-            val result = repository.getIdVisitTerc(1)
+            val result = repository.getIdVisitTercById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -352,7 +352,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -387,7 +387,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipVisitTercRoomModel)
             )
-            val result = repository.getObserv(1)
+            val result = repository.getObservById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -408,7 +408,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getPlaca(1)
+            val result = repository.getPlacaById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -443,7 +443,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipVisitTercRoomModel)
             )
-            val result = repository.getPlaca(1)
+            val result = repository.getPlacaById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -464,7 +464,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getTypeVisitTerc(
+            val result = repository.getTypeVisitTercByFlowAndId(
                 FlowApp.ADD,
                 1
             )
@@ -490,7 +490,7 @@ class IMovEquipVisitTercRepositoryTest {
                     )
                 )
             )
-            val result = repository.getTypeVisitTerc(
+            val result = repository.getTypeVisitTercByFlowAndId(
                 FlowApp.ADD,
                 1
             )
@@ -514,7 +514,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getTypeVisitTerc(
+            val result = repository.getTypeVisitTercByFlowAndId(
                 FlowApp.CHANGE,
                 1
             )
@@ -553,7 +553,7 @@ class IMovEquipVisitTercRepositoryTest {
                     )
                 )
             )
-            val result = repository.getTypeVisitTerc(
+            val result = repository.getTypeVisitTercByFlowAndId(
                 FlowApp.CHANGE,
                 1
             )
@@ -577,7 +577,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.getVeiculo(1)
+            val result = repository.getVeiculoById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -612,7 +612,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(movEquipVisitTercRoomModel)
             )
-            val result = repository.getVeiculo(1)
+            val result = repository.getVeiculoById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -1606,7 +1606,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isFailure,
                 true
@@ -1625,7 +1625,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1644,7 +1644,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkSend()
+            val result = repository.hasSend()
             assertEquals(
                 result.isSuccess,
                 true
@@ -1985,7 +1985,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -2021,13 +2021,13 @@ class IMovEquipVisitTercRepositoryTest {
                 Result.success(model)
             )
             whenever(
-                movEquipVisitTercRoomDatasource.delete(model)
+                movEquipVisitTercRoomDatasource.deleteById(model)
             ).thenReturn(
                 Result.failure(
                     Exception()
                 )
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isFailure,
                 true
@@ -2063,11 +2063,11 @@ class IMovEquipVisitTercRepositoryTest {
                 Result.success(model)
             )
             whenever(
-                movEquipVisitTercRoomDatasource.delete(model)
+                movEquipVisitTercRoomDatasource.deleteById(model)
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.delete(1)
+            val result = repository.deleteById(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -2162,7 +2162,7 @@ class IMovEquipVisitTercRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isFailure,
                 true
@@ -2181,7 +2181,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(false)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isSuccess,
                 true
@@ -2200,7 +2200,7 @@ class IMovEquipVisitTercRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkOpen()
+            val result = repository.hasOpen()
             assertEquals(
                 result.isSuccess,
                 true

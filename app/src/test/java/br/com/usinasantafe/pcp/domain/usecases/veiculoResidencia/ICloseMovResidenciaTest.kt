@@ -59,7 +59,7 @@ class ICloseMovResidenciaTest {
                 statusMovEquipForeignerResidencia = StatusForeigner.INSIDE,
             )
             whenever(
-                movEquipResidenciaRepository.get(1)
+                movEquipResidenciaRepository.getById(1)
             ).thenReturn(
                 Result.success(mov)
             )

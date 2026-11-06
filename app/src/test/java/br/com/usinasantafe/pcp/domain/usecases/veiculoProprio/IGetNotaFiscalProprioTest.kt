@@ -17,7 +17,7 @@ class IGetNotaFiscalProprioTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository getNotaFiscal`() = runTest {
         whenever(
-            movEquipProprioRepository.getNotaFiscal(id = 1)
+            movEquipProprioRepository.getNotaFiscalById(id = 1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -38,7 +38,7 @@ class IGetNotaFiscalProprioTest {
     fun `Check return nota fiscal if GetNotaFiscalImpl execute success`() = runTest {
         val movEquipProprioRepository = mock<MovEquipProprioRepository>()
         whenever(
-            movEquipProprioRepository.getNotaFiscal(id = 1)
+            movEquipProprioRepository.getNotaFiscalById(id = 1)
         ).thenReturn(
             Result.success(123456)
         )
@@ -60,7 +60,7 @@ class IGetNotaFiscalProprioTest {
     fun `Check return null if GetNotaFiscalImpl execute success and field is null`() = runTest {
         val movEquipProprioRepository = mock<MovEquipProprioRepository>()
         whenever(
-            movEquipProprioRepository.getNotaFiscal(id = 1)
+            movEquipProprioRepository.getNotaFiscalById(id = 1)
         ).thenReturn(
             Result.success(null)
         )

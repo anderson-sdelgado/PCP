@@ -143,7 +143,7 @@ class ISetVeiculoVisitTercTest : KoinTest {
                     statusMovEquipForeigVisitTerc = StatusForeigner.INSIDE,
                 )
             )
-            val entityBefore = movEquipVisitTercDao.get(1)
+            val entityBefore = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entityBefore.veiculoMovEquipVisitTerc,
                 "VEICULO TESTE"
@@ -161,7 +161,7 @@ class ISetVeiculoVisitTercTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val entityAfter = movEquipVisitTercDao.get(1)
+            val entityAfter = movEquipVisitTercDao.getById(1)
             assertEquals(
                 entityAfter.veiculoMovEquipVisitTerc,
                 "Teste Veiculo"

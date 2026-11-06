@@ -7,23 +7,24 @@ import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_PROPRIO
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.utils.required
 import java.util.Date
 
 @Entity(tableName = TB_MOV_EQUIP_PROPRIO)
 data class MovEquipProprioRoomModel(
     @PrimaryKey(autoGenerate = true)
     var idMovEquipProprio: Int? = null,
-    var matricVigiaMovEquipProprio: Int,
-    var idLocalMovEquipProprio: Int,
-    var tipoMovEquipProprio: TypeMovEquip,
-    var dthrMovEquipProprio: Long,
-    var idEquipMovEquipProprio: Int,
-    var matricColabMovEquipProprio: Int,
-    var destinoMovEquipProprio: String,
-    var notaFiscalMovEquipProprio: Int?,
-    var observMovEquipProprio: String?,
-    var statusMovEquipProprio: StatusData,
-    var statusSendMovEquipProprio: StatusSend,
+    val matricVigiaMovEquipProprio: Int,
+    val idLocalMovEquipProprio: Int,
+    val tipoMovEquipProprio: TypeMovEquip,
+    val dthrMovEquipProprio: Long,
+    val idEquipMovEquipProprio: Int,
+    val matricColabMovEquipProprio: Int,
+    val destinoMovEquipProprio: String,
+    val notaFiscalMovEquipProprio: Int?,
+    val observMovEquipProprio: String?,
+    val statusMovEquipProprio: StatusData,
+    val statusSendMovEquipProprio: StatusSend,
 )
 
 fun MovEquipProprioRoomModel.roomModelToEntity(): MovEquipProprio {
@@ -54,11 +55,11 @@ fun MovEquipProprio.entityToRoomModel(
             idMovEquipProprio = idMovEquipProprio,
             matricVigiaMovEquipProprio = matricVigia,
             idLocalMovEquipProprio = idLocal,
-            tipoMovEquipProprio = this.tipoMovEquipProprio!!,
+            tipoMovEquipProprio = this::tipoMovEquipProprio.required(),
             dthrMovEquipProprio = this.dthrMovEquipProprio.time,
-            idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
-            matricColabMovEquipProprio = this.matricColabMovEquipProprio!!,
-            destinoMovEquipProprio = this.destinoMovEquipProprio!!,
+            idEquipMovEquipProprio = this::idEquipMovEquipProprio.required(),
+            matricColabMovEquipProprio = this::matricColabMovEquipProprio.required(),
+            destinoMovEquipProprio = this::destinoMovEquipProprio.required(),
             notaFiscalMovEquipProprio = this.notaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
             statusMovEquipProprio = this.statusMovEquipProprio,

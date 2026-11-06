@@ -16,7 +16,7 @@ class ICheckSendMovResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository checkSend`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.checkSend()
+                movEquipResidenciaRepository.hasSend()
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -37,7 +37,7 @@ class ICheckSendMovResidenciaTest {
     fun `Check return true if have mov to send`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.checkSend()
+                movEquipResidenciaRepository.hasSend()
             ).thenReturn(
                 Result.success(true)
             )
@@ -56,7 +56,7 @@ class ICheckSendMovResidenciaTest {
     fun `Check return false if not have mov to send`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.checkSend()
+                movEquipResidenciaRepository.hasSend()
             ).thenReturn(
                 Result.success(false)
             )

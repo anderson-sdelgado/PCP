@@ -8,6 +8,7 @@ import br.com.usinasantafe.pcp.lib.StatusForeigner
 import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.lib.TB_MOV_CHAVE
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.utils.required
 import java.util.Date
 
 @Entity(tableName = TB_MOV_CHAVE)
@@ -22,9 +23,9 @@ data class MovChaveRoomModel(
     val idChaveMovChave: Int,
     val matricColabMovChave: Int,
     val observMovChave: String?,
-    var statusMovChave: StatusData,
-    var statusSendMovChave: StatusSend,
-    var statusForeignerMovChave: StatusForeigner
+    val statusMovChave: StatusData,
+    val statusSendMovChave: StatusSend,
+    val statusForeignerMovChave: StatusForeigner
 )
 
 fun MovChaveRoomModel.roomModelToEntity(): MovChave {
@@ -57,10 +58,10 @@ fun MovChave.entityToRoomModel(
             idMovChave = this.idMovChave,
             matricVigiaMovChave = matricVigia,
             idLocalMovChave = idLocal,
-            idChaveMovChave = this.idChaveMovChave!!,
+            idChaveMovChave = this::idChaveMovChave.required(),
             dthrMovChave = this.dthrMovChave.time,
-            tipoMovChave = this.tipoMovChave!!,
-            matricColabMovChave = this.matricColabMovChave!!,
+            tipoMovChave = this::tipoMovChave.required(),
+            matricColabMovChave = this::matricColabMovChave.required(),
             observMovChave = this.observMovChave,
             statusMovChave = this.statusMovChave,
             statusSendMovChave = this.statusSendMovChave,

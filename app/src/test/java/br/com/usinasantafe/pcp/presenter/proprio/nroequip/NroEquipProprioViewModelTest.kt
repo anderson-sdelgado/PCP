@@ -7,7 +7,7 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetNroEquipProprio
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetIdEquipProprio
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableEquip
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableEquip
 import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp

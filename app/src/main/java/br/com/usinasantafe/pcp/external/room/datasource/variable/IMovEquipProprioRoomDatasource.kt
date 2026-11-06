@@ -15,29 +15,29 @@ class IMovEquipProprioRoomDatasource @Inject constructor(
 ): MovEquipProprioRoomDatasource {
 
     suspend fun updateModel(id: Int, block: MovEquipProprioRoomModel.() -> Unit) {
-        val model = get(id).getOrThrow()
+        val model = getById(id).getOrThrow()
         model.block()
         update(model).getOrThrow()
     }
 
-    override suspend fun checkOpen(): Result<Boolean> =
+    override suspend fun hasOpen(): Result<Boolean> =
         result(getClassAndMethod()) {
             movEquipProprioDao.hasByStatusData(StatusData.OPEN)
         }
 
-    override suspend fun checkSend(): Result<Boolean> =
+    override suspend fun hasSend(): Result<Boolean> =
         result(getClassAndMethod()) {
             movEquipProprioDao.hasByStatusSend(StatusSend.SEND)
         }
 
-    override suspend fun delete(movEquipProprioRoomModel: MovEquipProprioRoomModel): EmptyResult =
+    override suspend fun deleteById(id: Int): EmptyResult =
         result(getClassAndMethod()) {
-            movEquipProprioDao.delete(movEquipProprioRoomModel)
+            movEquipProprioDao.deleteById(id)
         }
 
-    override suspend fun get(id: Int): Result<MovEquipProprioRoomModel> =
+    override suspend fun getById(id: Int): Result<MovEquipProprioRoomModel> =
         result(getClassAndMethod()) {
-            movEquipProprioDao.get(id)
+            movEquipProprioDao.getById(id)
         }
 
     override suspend fun listOpen(): Result<List<MovEquipProprioRoomModel>> =

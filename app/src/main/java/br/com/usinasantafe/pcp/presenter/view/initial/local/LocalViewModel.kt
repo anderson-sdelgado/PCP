@@ -6,7 +6,7 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocal
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableLocal
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.lib.Errors
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -152,7 +152,7 @@ fun MenuInicialContent(
                 }
             AlertDialogSimpleDesign(
                 text = text,
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

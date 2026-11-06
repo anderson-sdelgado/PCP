@@ -17,7 +17,7 @@ class IGetObservResidencia @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String?> {
-        val result = movEquipResidenciaRepository.getObserv(id = id)
+        val result = movEquipResidenciaRepository.getObservById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

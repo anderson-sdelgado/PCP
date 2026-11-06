@@ -7,7 +7,7 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetNroEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.SetIdEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableEquip
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableEquip
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.theme.addTextField

@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.config.SetMatricVigiaConfig
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableColab
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.TypeButton
 import br.com.usinasantafe.pcp.utils.percentage

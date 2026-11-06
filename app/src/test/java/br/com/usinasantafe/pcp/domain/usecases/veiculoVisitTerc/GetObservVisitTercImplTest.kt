@@ -17,7 +17,7 @@ class GetObservVisitTercImplTest {
     @Test
     fun `Check return failure if have error in MovEquipVisitTercRepository getObserv`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getObserv(
+            movEquipVisitTercRepository.getObservById(
                 id = 1
             )
         ).thenReturn(
@@ -39,7 +39,7 @@ class GetObservVisitTercImplTest {
     @Test
     fun `Check return observ if GetObservImpl execute success`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getObserv(
+            movEquipVisitTercRepository.getObservById(
                 id = 1
             )
         ).thenReturn(
@@ -62,7 +62,7 @@ class GetObservVisitTercImplTest {
     @Test
     fun `Check return observ if GetObservImpl execute success and field is null`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getObserv(
+            movEquipVisitTercRepository.getObservById(
                 id = 1
             )
         ).thenReturn(

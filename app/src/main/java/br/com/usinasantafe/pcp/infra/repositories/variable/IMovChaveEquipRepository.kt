@@ -130,7 +130,7 @@ class IMovChaveEquipRepository @Inject constructor(
 
     override suspend fun setSent(list: List<MovChaveEquip>): EmptyResult =
         call(getClassAndMethod()) {
-            list.forEach { movChaveEquipRoomDatasource.setSent(it::idMovChaveEquip.required()) }
+            list.forEach { movChaveEquipRoomDatasource.setSent(it::idMovChaveEquip.required()).getOrThrow() }
         }
 
     override suspend fun start(): EmptyResult =

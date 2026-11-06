@@ -186,7 +186,7 @@ class ISaveMovEquipResidenciaTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val roomModel1 = movEquipResidenciaDao.get(1)
+            val roomModel1 = movEquipResidenciaDao.getById(1)
             assertEquals(
                 roomModel1.idMovEquipResidencia,
                 1
@@ -203,7 +203,7 @@ class ISaveMovEquipResidenciaTest : KoinTest {
                 roomModel1.statusMovEquipForeignerResidencia,
                 StatusForeigner.OUTSIDE
             )
-            val roomModel2 = movEquipResidenciaDao.get(2)
+            val roomModel2 = movEquipResidenciaDao.getById(2)
             assertEquals(
                 roomModel2.idMovEquipResidencia,
                 2
@@ -301,7 +301,7 @@ class ISaveMovEquipResidenciaTest : KoinTest {
                 result.getOrNull()!!,
                 true
             )
-            val roomModel1 = movEquipResidenciaDao.get(1)
+            val roomModel1 = movEquipResidenciaDao.getById(1)
             assertEquals(
                 roomModel1.idMovEquipResidencia,
                 1

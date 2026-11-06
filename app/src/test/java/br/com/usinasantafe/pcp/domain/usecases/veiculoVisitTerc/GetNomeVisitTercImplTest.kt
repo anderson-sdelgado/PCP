@@ -26,7 +26,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository GetTypeVisitTerc`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -54,7 +54,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if have error in VisitanteRepository GetNome`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -89,7 +89,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if have error in TerceiroRepository GetNome`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -124,7 +124,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if have error in VisitanteRepository GetEmpresas`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -166,7 +166,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if have error in TerceiroRepository GetEmpresas`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -208,7 +208,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if GetNomeVisitTercImpl execute successfully Visitante`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )
@@ -257,7 +257,7 @@ class GetNomeVisitTercImplTest {
     fun `Check return failure if GetNomeVisitTercImpl execute successfully Terceiro`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getTypeVisitTerc(
+                movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                     flowApp = FlowApp.CHANGE,
                     id = 1
                 )

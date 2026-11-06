@@ -6,7 +6,7 @@ import br.com.usinasantafe.pcp.utils.EmptyResult
 interface MovEquipVisitTercRoomDatasource {
     suspend fun checkOpen(): Result<Boolean>
     suspend fun checkSend(): Result<Boolean>
-    suspend fun delete(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): EmptyResult
+    suspend fun deleteById(id: Int): EmptyResult
     suspend fun get(id: Int): Result<MovEquipVisitTercRoomModel>
     suspend fun listOpen(): Result<List<MovEquipVisitTercRoomModel>>
     suspend fun listInside(): Result<List<MovEquipVisitTercRoomModel>>

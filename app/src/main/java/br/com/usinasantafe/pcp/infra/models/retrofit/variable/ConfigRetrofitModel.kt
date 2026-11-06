@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcp.infra.models.retrofit.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
+import br.com.usinasantafe.pcp.utils.required
 
 data class ConfigRetrofitModelOutput(
     val number: Long,
@@ -14,8 +15,8 @@ data class ConfigRetrofitModelInput(
 fun Config.entityToRetrofitModel(): ConfigRetrofitModelOutput {
     return with(this){
         ConfigRetrofitModelOutput(
-            number = this.number!!,
-            version = this.version!!,
+            number = this::number.required(),
+            version = this::version.required(),
         )
     }
 }

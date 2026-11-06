@@ -17,7 +17,7 @@ class IGetMatricColabTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository get`() = runTest {
         whenever(
-            movEquipProprioRepository.getMatricColab(id = 1)
+            movEquipProprioRepository.getMatricColabById(id = 1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -37,7 +37,7 @@ class IGetMatricColabTest {
     @Test
     fun `Check return matricColab if GetMatricColabImpl execute success`() = runTest {
         whenever(
-            movEquipProprioRepository.getMatricColab(id = 1)
+            movEquipProprioRepository.getMatricColabById(id = 1)
         ).thenReturn(
             Result.success(19759)
         )

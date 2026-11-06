@@ -20,7 +20,7 @@ class IStartOutputMovEquipVisitTerc @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<Boolean> {
         try {
-            val resultMov = movEquipVisitTercRepository.get(id)
+            val resultMov = movEquipVisitTercRepository.getById(id)
             if (resultMov.isFailure) {
                 val e = resultMov.exceptionOrNull()!!
                 return resultFailure(

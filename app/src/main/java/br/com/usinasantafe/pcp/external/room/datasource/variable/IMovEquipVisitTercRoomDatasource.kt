@@ -1,9 +1,7 @@
 package br.com.usinasantafe.pcp.external.room.datasource.variable
 
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.external.room.dao.variable.MovEquipVisitTercDao
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovEquipVisitTercRoomDatasource
-import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipProprioRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.MovEquipVisitTercRoomModel
 import br.com.usinasantafe.pcp.lib.StatusData
 import br.com.usinasantafe.pcp.lib.StatusForeigner
@@ -33,14 +31,14 @@ class IMovEquipVisitTercRoomDatasource @Inject constructor(
             movEquipVisitTercDao.hasByStatusSend(StatusSend.SEND)
         }
 
-    override suspend fun delete(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): EmptyResult =
+    override suspend fun deleteById(id: Int): EmptyResult =
         result(getClassAndMethod()) {
-            movEquipVisitTercDao.delete(movEquipVisitTercRoomModel)
+            movEquipVisitTercDao.deleteById(id)
         }
 
     override suspend fun get(id: Int): Result<MovEquipVisitTercRoomModel> =
         result(getClassAndMethod()) {
-            movEquipVisitTercDao.get(id)
+            movEquipVisitTercDao.getById(id)
         }
 
     override suspend fun listOpen(): Result<List<MovEquipVisitTercRoomModel>> =

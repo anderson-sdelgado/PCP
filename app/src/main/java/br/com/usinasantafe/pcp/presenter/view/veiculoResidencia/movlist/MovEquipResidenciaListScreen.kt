@@ -128,7 +128,7 @@ fun MovEquipResidenciaListContent(
         if (flagDialog) {
             AlertDialogSimpleDesign(
                 text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
+                onClickOk = setCloseDialog,
             )
         }
 

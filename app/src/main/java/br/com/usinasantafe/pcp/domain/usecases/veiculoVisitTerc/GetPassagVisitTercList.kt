@@ -41,7 +41,7 @@ class IGetPassagVisitTercList @Inject constructor(
             val passagList = resultList.getOrNull()!!
             if (passagList.isEmpty())
                 return Result.success(emptyList())
-            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTerc(
+            val resultTypeVisitTerc = movEquipVisitTercRepository.getTypeVisitTercByFlowAndId(
                 flowApp = flowApp,
                 id = id
             )

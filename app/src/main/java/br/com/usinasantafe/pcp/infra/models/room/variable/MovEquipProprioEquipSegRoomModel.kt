@@ -4,20 +4,21 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprioEquipSeg
 import br.com.usinasantafe.pcp.lib.TB_MOV_EQUIP_PROPRIO_EQUIP_SEG
+import br.com.usinasantafe.pcp.utils.required
 
 @Entity(tableName = TB_MOV_EQUIP_PROPRIO_EQUIP_SEG)
 data class MovEquipProprioEquipSegRoomModel(
     @PrimaryKey(autoGenerate = true)
-    var idMovEquipProprioEquipSeg: Int? = null,
-    var idMovEquipProprio: Int,
-    var idEquip: Int,
+    val idMovEquipProprioEquipSeg: Int? = null,
+    val idMovEquipProprio: Int,
+    val idEquip: Int,
 )
 
 fun MovEquipProprioEquipSeg.entityToRoomModel(id: Int): MovEquipProprioEquipSegRoomModel{
     return with(this){
         MovEquipProprioEquipSegRoomModel(
             idMovEquipProprio = id,
-            idEquip = this.idEquip!!,
+            idEquip = this::idEquip.required(),
         )
     }
 }

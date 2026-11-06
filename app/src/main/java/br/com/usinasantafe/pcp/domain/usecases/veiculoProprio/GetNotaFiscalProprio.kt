@@ -18,7 +18,7 @@ class IGetNotaFiscalProprio @Inject constructor(
         id: Int
     ): Result<String?> {
         try {
-            val resultNotaFiscal = movEquipProprioRepository.getNotaFiscal(id = id)
+            val resultNotaFiscal = movEquipProprioRepository.getNotaFiscalById(id = id)
             if (resultNotaFiscal.isFailure) {
                 val e = resultNotaFiscal.exceptionOrNull()!!
                 return resultFailure(

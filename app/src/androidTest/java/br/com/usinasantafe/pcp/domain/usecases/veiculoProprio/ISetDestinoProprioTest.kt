@@ -125,7 +125,7 @@ class ISetDestinoProprioTest: KoinTest {
             result.getOrNull()!!,
             true
         )
-        val resultMov = movEquipProprioDao.get(1)
+        val resultMov = movEquipProprioDao.getById(1)
         assertEquals(
             resultMov.destinoMovEquipProprio,
             "Teste"

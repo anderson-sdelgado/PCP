@@ -1,23 +1,24 @@
 package br.com.usinasantafe.pcp.infra.models.retrofit.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovEquipProprio
+import br.com.usinasantafe.pcp.utils.required
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 data class MovEquipProprioRetrofitModelOutput(
-    var idMovEquipProprio: Int,
-    var nroAparelhoMovEquipProprio: Long,
-    var matricVigiaMovEquipProprio: Int,
-    var idLocalMovEquipProprio: Int,
-    var dthrMovEquipProprio: String,
-    var tipoMovEquipProprio: Int,
-    var idEquipMovEquipProprio: Int,
-    var matricColabMovEquipProprio: Int,
-    var destinoMovEquipProprio: String,
-    var notaFiscalMovEquipProprio: Int?,
-    var observMovEquipProprio: String?,
-    var movEquipProprioEquipSegList: List<MovEquipProprioEquipSegWebServiceModelOutput>?,
-    var movEquipProprioPassagList: List<MovEquipProprioPassagRetrofitModelOutput>?,
+    val idMovEquipProprio: Int,
+    val nroAparelhoMovEquipProprio: Long,
+    val matricVigiaMovEquipProprio: Int,
+    val idLocalMovEquipProprio: Int,
+    val dthrMovEquipProprio: String,
+    val tipoMovEquipProprio: Int,
+    val idEquipMovEquipProprio: Int,
+    val matricColabMovEquipProprio: Int,
+    val destinoMovEquipProprio: String,
+    val notaFiscalMovEquipProprio: Int?,
+    val observMovEquipProprio: String?,
+    val movEquipProprioEquipSegList: List<MovEquipProprioEquipSegWebServiceModelOutput>?,
+    val movEquipProprioPassagList: List<MovEquipProprioPassagRetrofitModelOutput>?,
 )
 
 data class MovEquipProprioRetrofitModelInput(
@@ -27,18 +28,18 @@ data class MovEquipProprioRetrofitModelInput(
 fun MovEquipProprio.entityToRetrofitModelOutput(nroAparelho: Long): MovEquipProprioRetrofitModelOutput {
     return with(this){
         MovEquipProprioRetrofitModelOutput(
-            idMovEquipProprio = this.idMovEquipProprio!!,
+            idMovEquipProprio = this::idMovEquipProprio.required(),
             nroAparelhoMovEquipProprio = nroAparelho,
-            matricVigiaMovEquipProprio = this.matricVigiaMovEquipProprio!!,
-            idLocalMovEquipProprio = this.idLocalMovEquipProprio!!,
+            matricVigiaMovEquipProprio = this::matricVigiaMovEquipProprio.required(),
+            idLocalMovEquipProprio = this::idLocalMovEquipProprio.required(),
             dthrMovEquipProprio = SimpleDateFormat(
                 "dd/MM/yyyy HH:mm",
                 Locale("pt", "BR")
             ).format(this.dthrMovEquipProprio),
-            tipoMovEquipProprio = this.tipoMovEquipProprio!!.ordinal + 1,
-            idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
-            matricColabMovEquipProprio = this.matricColabMovEquipProprio!!,
-            destinoMovEquipProprio = this.destinoMovEquipProprio!!,
+            tipoMovEquipProprio = this::tipoMovEquipProprio.required().ordinal + 1,
+            idEquipMovEquipProprio = this::idEquipMovEquipProprio.required(),
+            matricColabMovEquipProprio = this::matricColabMovEquipProprio.required(),
+            destinoMovEquipProprio = this::destinoMovEquipProprio.required(),
             notaFiscalMovEquipProprio = this.notaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
             movEquipProprioEquipSegList = this.movEquipProprioEquipSegList?.map { it.entityToRetrofitModel() },

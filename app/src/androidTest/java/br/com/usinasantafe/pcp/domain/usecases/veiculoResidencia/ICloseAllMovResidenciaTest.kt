@@ -78,10 +78,10 @@ class ICloseAllMovResidenciaTest : KoinTest {
             movEquipResidenciaDao.insert(roomModel1)
             movEquipResidenciaDao.insert(roomModel2)
             val roomModelBefore1 =
-                movEquipResidenciaDao.get(1)
+                movEquipResidenciaDao.getById(1)
             assertEquals(roomModelBefore1.statusMovEquipResidencia, StatusData.OPEN)
             val roomModelBefore2 =
-                movEquipResidenciaDao.get(2)
+                movEquipResidenciaDao.getById(2)
             assertEquals(roomModelBefore2.statusMovEquipResidencia, StatusData.OPEN)
             val result = usecase()
             assertEquals(
@@ -93,13 +93,13 @@ class ICloseAllMovResidenciaTest : KoinTest {
                 true
             )
             val roomModelAfter1 =
-                movEquipResidenciaDao.get(1)
+                movEquipResidenciaDao.getById(1)
             assertEquals(
                 roomModelAfter1.statusMovEquipResidencia,
                 StatusData.CLOSE
             )
             val roomModelAfter2 =
-                movEquipResidenciaDao.get(2)
+                movEquipResidenciaDao.getById(2)
             assertEquals(
                 roomModelAfter2.statusMovEquipResidencia,
                 StatusData.CLOSE

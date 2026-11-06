@@ -18,7 +18,7 @@ class GetVeiculoVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository getVeiculo`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.getVeiculo(
+                movEquipVisitTercRepository.getVeiculoById(
                     id = 1
                 )
             ).thenReturn(
@@ -40,7 +40,7 @@ class GetVeiculoVisitTercImplTest {
     @Test
     fun `Check return veiculo if GetVeiculoVisitTercImpl execute successfully`() = runTest {
         whenever(
-            movEquipVisitTercRepository.getVeiculo(
+            movEquipVisitTercRepository.getVeiculoById(
                 id = 1
             )
         ).thenReturn(

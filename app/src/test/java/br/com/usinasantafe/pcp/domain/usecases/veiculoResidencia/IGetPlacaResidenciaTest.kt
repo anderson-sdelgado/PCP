@@ -18,7 +18,7 @@ class IGetPlacaResidenciaTest {
     fun `Check return failure if have error in MovEquipResidenciaRepository GetPlaca`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getPlaca(
+                movEquipResidenciaRepository.getPlacaById(
                     id = 1
                 )
             ).thenReturn(
@@ -41,7 +41,7 @@ class IGetPlacaResidenciaTest {
     fun `Check return placa if GetPlacaResidenciaImpl execute successfully`() =
         runTest {
             whenever(
-                movEquipResidenciaRepository.getPlaca(
+                movEquipResidenciaRepository.getPlacaById(
                     id = 1
                 )
             ).thenReturn(

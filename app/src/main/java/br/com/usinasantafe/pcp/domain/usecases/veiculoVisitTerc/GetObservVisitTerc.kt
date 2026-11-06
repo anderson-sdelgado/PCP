@@ -17,7 +17,7 @@ class IGetObservVisitTerc @Inject constructor(
     override suspend fun invoke(
         id: Int
     ): Result<String?> {
-        val result = movEquipVisitTercRepository.getObserv(id = id)
+        val result = movEquipVisitTercRepository.getObservById(id = id)
         if (result.isFailure) {
             val e = result.exceptionOrNull()!!
             return resultFailure(

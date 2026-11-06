@@ -18,7 +18,7 @@ class IGetTypeMovEquipTest {
     fun `Check return failure Datasource if have error in MovEquipProprioRepository getTipo`() =
         runTest {
             whenever(
-                movEquipProprioRepository.getTipoMov()
+                movEquipProprioRepository.getTipoMovById()
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -39,7 +39,7 @@ class IGetTypeMovEquipTest {
     fun `Check return typeMov if MovEquipProprioRepository getTipo execute success`() =
         runTest {
             whenever(
-                movEquipProprioRepository.getTipoMov()
+                movEquipProprioRepository.getTipoMovById()
             ).thenReturn(
                 Result.success(TypeMovEquip.INPUT)
             )

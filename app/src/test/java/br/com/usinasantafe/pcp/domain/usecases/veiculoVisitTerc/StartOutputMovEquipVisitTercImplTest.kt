@@ -29,7 +29,7 @@ class StartOutputMovEquipVisitTercImplTest {
     fun `Check return failure if have error in MovEquipVisitTercRepository get`() =
         runTest {
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.failure(
                     Exception()
@@ -61,7 +61,7 @@ class StartOutputMovEquipVisitTercImplTest {
                 observMovEquipVisitTerc = "Teste Observ"
             )
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     movEquipVisitTerc
@@ -104,7 +104,7 @@ class StartOutputMovEquipVisitTercImplTest {
                 observMovEquipVisitTerc = "Teste Observ"
             )
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     movEquipVisitTerc
@@ -155,7 +155,7 @@ class StartOutputMovEquipVisitTercImplTest {
                 observMovEquipVisitTerc = "Teste Observ"
             )
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     movEquipVisitTerc
@@ -206,7 +206,7 @@ class StartOutputMovEquipVisitTercImplTest {
                 observMovEquipVisitTerc = "Teste Observ"
             )
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     movEquipVisitTerc
@@ -274,7 +274,7 @@ class StartOutputMovEquipVisitTercImplTest {
                 observMovEquipVisitTerc = "Teste Observ"
             )
             whenever(
-                movEquipVisitTercRepository.get(1)
+                movEquipVisitTercRepository.getById(1)
             ).thenReturn(
                 Result.success(
                     movEquipVisitTerc

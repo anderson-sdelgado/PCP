@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.config.SetMatricVigiaConfig
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableColab
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.pcp.presenter.theme.addTextField
 import br.com.usinasantafe.pcp.presenter.theme.clearTextField
 import br.com.usinasantafe.pcp.lib.Errors

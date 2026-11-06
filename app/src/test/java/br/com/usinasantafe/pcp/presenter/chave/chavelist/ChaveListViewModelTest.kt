@@ -6,8 +6,8 @@ import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetChaveList
 import br.com.usinasantafe.pcp.domain.usecases.chave.SetIdChaveMovChave
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableChave
-import br.com.usinasantafe.pcp.domain.usecases.updateTable.update.UpdateTableLocalTrab
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableChave
+import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableLocalTrab
 import br.com.usinasantafe.pcp.presenter.Args
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
@@ -100,6 +100,36 @@ class ChaveListGetViewModelTest {
                 model.descr,
                 "01 - SALA TI - TI"
             )
+        }
+
+    @Test
+    fun `onFieldChanged - Check filter list correctly and reset when empty`() =
+        runTest {
+            whenever(
+                getChaveList()
+            ).thenReturn(
+                Result.success(
+                    listOf(
+                        ChaveModel(1, "01 - SALA TI - TI"),
+                        ChaveModel(2, "02 - PORTARIA - ENTRADA"),
+                    )
+                )
+            )
+            val viewModel = getViewModel()
+            viewModel.recoverList()
+
+            // Filter
+            viewModel.onFieldChanged("SALA")
+            assertEquals(true, viewModel.uiState.value.flagFilter)
+            assertEquals("SALA", viewModel.uiState.value.field)
+            assertEquals(1, viewModel.uiState.value.chaveList.size)
+            assertEquals("01 - SALA TI - TI", viewModel.uiState.value.chaveList[0].descr)
+
+            // Reset / Clear filter
+            viewModel.onFieldChanged("")
+            assertEquals(false, viewModel.uiState.value.flagFilter)
+            assertEquals("", viewModel.uiState.value.field)
+            assertEquals(2, viewModel.uiState.value.chaveList.size)
         }
 
     @Test

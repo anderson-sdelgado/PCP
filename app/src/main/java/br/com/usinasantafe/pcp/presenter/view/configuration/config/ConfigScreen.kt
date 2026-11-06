@@ -168,7 +168,7 @@ fun ConfigContent(
                 }
                 AlertDialogSimpleDesign(
                     text = text,
-                    setCloseDialog = setCloseDialog,
+                    onClickOk = setCloseDialog,
                 )
             } else {
                 AlertDialogSimpleDesign(

@@ -22,13 +22,14 @@ data class UiStatusStateUpdate(
 suspend fun Flow<UiStatusStateUpdate>.collectUpdateStep(
     classAndMethod: String,
     currentStatus: UiStatusStateUpdate,
+    flagProgressOnFailure: Boolean = false,
     emitState: suspend (UiStatusStateUpdate) -> Unit
 ): Boolean {
 
     var ok = true
 
     collect { result ->
-        val newStatus = result.toUiStatus(classAndMethod, currentStatus)
+        val newStatus = result.toUiStatus(classAndMethod, currentStatus, flagProgressOnFailure)
         emitState(newStatus)
 
         if (newStatus.flagFailure) {
@@ -42,22 +43,24 @@ suspend fun Flow<UiStatusStateUpdate>.collectUpdateStep(
 
 fun UiStatusStateUpdate.toUiStatus(
     classAndMethod: String,
-    current: UiStatusStateUpdate
+    current: UiStatusStateUpdate,
+    flagProgressOnFailure: Boolean = false,
 ): UiStatusStateUpdate {
 
-    val failMsg = failure.takeIf { it.isNotEmpty() }
-        ?.let { "$classAndMethod -> $it" }
-        ?: ""
-
-    if (failMsg.isNotEmpty()) {
-        Timber.e(failMsg)
+    if (flagFailure) {
+        return current.withFailure(
+            classAndMethod = classAndMethod,
+            message = failure,
+            errors = errors,
+            flagProgress = flagProgressOnFailure
+        )
     }
 
     return current.copy(
         flagDialog = flagDialog,
-        flagFailure = flagFailure,
+        flagFailure = false,
         errors = errors,
-        failure = failMsg,
+        failure = failure,
         flagProgress = flagProgress,
         currentProgress = currentProgress,
         levelUpdate = levelUpdate,
@@ -72,7 +75,7 @@ fun UiStatusStateUpdate.withFailure(
     flagProgress: Boolean = false
 ): UiStatusStateUpdate {
 
-    val failMsg = "$classAndMethod -> $message"
+    val failMsg = removeRepeatedCalls("$classAndMethod -> $message")
     Timber.e(failMsg)
 
     return copy(
@@ -81,7 +84,9 @@ fun UiStatusStateUpdate.withFailure(
         failure = failMsg,
         errors = errors,
         flagProgress = flagProgress,
-        currentProgress = 1f
+        currentProgress = 1f,
+        levelUpdate = null,
+        tableUpdate = ""
     )
 }
 
@@ -99,13 +104,13 @@ suspend fun FlowCollector<UiStatusStateUpdate>.emitProgress(
     count: Float,
     sizeAll: Float,
     level: LevelUpdate,
-    table: String,
+    table: String = "",
     flagProgress: Boolean = true
 ) {
     val step = when(level){
-        LevelUpdate.RECOVERY -> 1f
-        LevelUpdate.CLEAN -> 2f
-        LevelUpdate.SAVE -> 3f
+        LevelUpdate.RECOVERY, LevelUpdate.GET_TOKEN -> 1f
+        LevelUpdate.CLEAN, LevelUpdate.SAVE_TOKEN -> 2f
+        LevelUpdate.SAVE, LevelUpdate.FINISH_UPDATE_INITIAL -> 3f
         else -> 0f
     }
     emit(
@@ -120,11 +125,12 @@ suspend fun FlowCollector<UiStatusStateUpdate>.emitProgress(
 
 suspend fun FlowCollector<UiStatusStateUpdate>.emitFailure(
     failure: String,
+    errors: Errors
 ) {
     emit(
         UiStatusStateUpdate(
             flagProgress = false,
-            errors = Errors.UPDATE,
+            errors = errors,
             flagDialog = true,
             flagFailure = true,
             failure = failure,
@@ -140,13 +146,16 @@ fun <STATE> executeUpdateSteps(
     getStatus: (STATE) -> UiStatusStateUpdate,
     copyStateWithStatus: (STATE, UiStatusStateUpdate) -> STATE,
     classAndMethod: String,
-    flagUpdateFinish: Boolean = true
+    flagUpdateFinish: Boolean = true,
+    flagProgressOnFailure: Boolean = false,
+    flagDialog: Boolean = true
 ): Flow<STATE> = flow {
 
     for (step in steps) {
         val ok = step.collectUpdateStep(
             classAndMethod = classAndMethod,
-            currentStatus = getStatus(getState())
+            currentStatus = getStatus(getState()),
+            flagProgressOnFailure = flagProgressOnFailure
         ) { status ->
             val newState = copyStateWithStatus(getState(), status)
             emit(newState)
@@ -156,7 +165,7 @@ fun <STATE> executeUpdateSteps(
 
     if (flagUpdateFinish) {
         val finalStatus = getStatus(getState()).copy(
-            flagDialog = true,
+            flagDialog = flagDialog,
             flagProgress = false,
             flagFailure = false,
             levelUpdate = LevelUpdate.FINISH_UPDATE_COMPLETED,
@@ -168,6 +177,19 @@ fun <STATE> executeUpdateSteps(
 
 
 }
+
+fun <STATE> executeUpdateSteps(
+    steps: List<Flow<UiStatusStateUpdate>>,
+    getState: () -> STATE,
+    getStatus: (STATE) -> UiStatusStateUpdate,
+    copyStateWithStatus: (STATE, UiStatusStateUpdate) -> STATE,
+    flagUpdateFinish: Boolean = true,
+    flagProgressOnFailure: Boolean = false,
+    flagDialog: Boolean = true
+): Flow<STATE> = executeUpdateSteps(
+    steps, getState, getStatus, copyStateWithStatus, getClassAndMethod(),
+    flagUpdateFinish, flagProgressOnFailure, flagDialog
+)
 
 interface UiStateWithStatusUpdate<T : UiStateWithStatusUpdate<T>> {
     val status: UiStatusStateUpdate
@@ -195,7 +217,24 @@ interface UiStateWithStatusUpdate<T : UiStateWithStatusUpdate<T>> {
                 flagAccess = check,
                 flagDialog = !check,
                 flagFailure = !check,
-                errors = Errors.INVALID
+                errors = Errors.INVALID,
+                failure = "",
+                flagProgress = false,
+                currentProgress = 0f,
+                levelUpdate = null,
+                tableUpdate = ""
+            )
+        )
+
+    fun withFinishUpdate(): T =
+        copyWithStatus(
+            status.copy(
+                tableUpdate = "",
+                flagDialog = true,
+                flagProgress = false,
+                flagFailure = false,
+                levelUpdate = LevelUpdate.FINISH_UPDATE_COMPLETED,
+                currentProgress = 1f
             )
         )
 
@@ -216,11 +255,24 @@ fun <T : UiStateWithStatusUpdate<T>> UiStateWithStatusUpdate<T>.withFailure(
         )
     )
 
+fun <T : UiStateWithStatusUpdate<T>> T.withFailure(
+    error: Errors = Errors.INVALID,
+    flagProgress: Boolean = false,
+    failure: String = ""
+): T = withFailure(getClassAndMethod(), error, flagProgress, failure)
+
 fun <T : UiStateWithStatusUpdate<T>> Result<*>.onSuccessUpdateAccess(
     updateState: ((T.() -> T)) -> Unit
 ): Result<*> =
     onSuccess {
         updateState { withAccess(true) }
+    }
+
+fun <T : UiStateWithStatusUpdate<T>> Result<*>.onSuccessUpdateFinish(
+    updateState: ((T.() -> T)) -> Unit
+): Result<*> =
+    onSuccess {
+        updateState { withFinishUpdate() }
     }
 
 fun <T : UiStateWithStatusUpdate<T>> Result<Boolean>.onSuccessUpdateCheckAccess(

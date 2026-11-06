@@ -38,7 +38,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioRepository get`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.failure(
                 Exception()
@@ -58,7 +58,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in EquipRepository getNro`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -98,7 +98,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioEquipSegRepository list`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -146,7 +146,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in EquipRepository getNro EquipSeg`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -223,7 +223,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in ColabRepository getNome`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -303,7 +303,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in MovEquipProprioPassagRepository list`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -391,7 +391,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return failure if have error in ColabRepository getNome Passag`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -492,7 +492,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return model if RecoverDetalheProprio execute with success`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(
@@ -596,7 +596,7 @@ class IGetDetalheProprioTest {
     @Test
     fun `Check return model if Equip Seg is empty`() = runTest {
         whenever(
-            movEquipProprioRepository.get(1)
+            movEquipProprioRepository.getById(1)
         ).thenReturn(
             Result.success(
                 MovEquipProprio(

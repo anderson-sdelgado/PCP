@@ -25,11 +25,13 @@ fun getClassAndMethod(): String {
                     !it.contains("Test") &&
                     !it.contains("handleFailure") &&
                     !it.contains("DefaultImpls") &&
-                    !it.contains("SafeCallKt.call") &&
-                    !it.contains("SafeCallKt.flowCall") &&
+                    !it.contains("SafeCallKt") &&
+                    !it.contains("AppError") &&
                     !it.contains("lambda") &&
                     !it.contains("Screen") &&
                     !it.endsWith("Failure") &&
+                    !it.contains("onFailure") &&
+                    !it.contains("onSuccess") &&
                     !it.endsWith("getClassAndMethod") &&
                     !it.endsWith("default")
         }
