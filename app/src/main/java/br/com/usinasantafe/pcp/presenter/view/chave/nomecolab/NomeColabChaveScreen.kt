@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,11 +23,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun NomeColabChaveScreen(
@@ -38,20 +40,23 @@ fun NomeColabChaveScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverNomeColab()
+            }
+
             NomeColabChaveContent(
                 flowApp = uiState.flowApp,
                 nomeColab = uiState.nomeColab,
-                setMatric = viewModel::setMatricColab,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricColab,
                 onNavObserv = onNavObserv,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnNomeColab()
+
         }
     }
 }
@@ -60,11 +65,9 @@ fun NomeColabChaveScreen(
 fun NomeColabChaveContent(
     flowApp: FlowApp,
     nomeColab: String,
-    setMatric: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMatricColab: () -> Unit,
     onNavObserv: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -105,7 +108,7 @@ fun NomeColabChaveContent(
                 )
             }
             Button(
-                onClick = setMatric,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -113,21 +116,19 @@ fun NomeColabChaveContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavMatricColab() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if(flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if(status.flagAccess) {
             when(flowApp){
                 FlowApp.ADD -> onNavObserv()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
 }
 
@@ -139,11 +140,9 @@ fun NomeColabChavePagePreview() {
             NomeColabChaveContent(
                 flowApp = FlowApp.ADD,
                 nomeColab = "ANDERSON DA SILVA DELGADO",
-                setMatric = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavObserv = {},
                 onNavDetalhe = {},

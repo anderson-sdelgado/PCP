@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.chave.CloseMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetDetalheMovChave
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,9 +27,13 @@ data class DetalheChaveState(
     val observ: String? = "",
     val flagDialogCheck: Boolean = false,
     val flagCloseMov: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = ""
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<DetalheChaveState> {
+
+    override fun copyWithStatus(status: UiStatusState): DetalheChaveState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class DetalheChaveViewModel @Inject constructor(
@@ -40,6 +47,12 @@ class DetalheChaveViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(DetalheChaveState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: DetalheChaveState.() -> DetalheChaveState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -48,65 +61,28 @@ class DetalheChaveViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
+    fun onDialogCheck(flagDialogCheck: Boolean) {
         _uiState.update {
             it.copy(flagDialogCheck = flagDialogCheck)
         }
     }
 
     fun recoverDetalhe() = viewModelScope.launch {
-        val resultRecover = getDetalheMovChave(uiState.value.id)
-        if(resultRecover.isFailure) {
-            val error = resultRecover.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause?.toString() ?: "null"}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
-            }
-            return@launch
+        runCatching {
+            getDetalheMovChave(uiState.value.id).getOrThrow()
         }
-        val detalhe = resultRecover.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                dthr = detalhe.dthr,
-                tipoMov = detalhe.tipoMov,
-                chave = detalhe.chave,
-                colab = detalhe.colab,
-                observ = detalhe.observ
-            )
-        }
+            .onSuccess { updateState { copy(dthr = it.dthr, tipoMov = it.tipoMov, chave = it.chave, colab = it.colab, observ = it.observ) }}
+            .onFailureState(::updateState)
     }
 
-    fun closeMov() = viewModelScope.launch {
-        val resultCloseMov = closeMovChave(uiState.value.id)
-        if(resultCloseMov.isFailure) {
-            val error = resultCloseMov.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause?.toString() ?: "null"}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
-            }
-            return@launch
+    fun onCloseMov() = viewModelScope.launch {
+        runCatching {
+            closeMovChave(uiState.value.id).getOrThrow()
         }
-        val result = resultCloseMov.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flagDialogCheck = false,
-                flagCloseMov = result
-            )
-        }
+            .onSuccess { updateState { copy(flagCloseMov = true, flagDialogCheck = false) }}
+            .onFailureState(::updateState)
     }
 
 }

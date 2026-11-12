@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,11 +22,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TextSmallDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun ControleChaveListScreen(
@@ -38,23 +41,25 @@ fun ControleChaveListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverHeader()
+                viewModel.recoverMovList()
+            }
+
             ControleChaveListContent(
                 controleChaveModelList = uiState.controleChaveModelList,
                 descrVigia = uiState.descrVigia,
                 descrLocal = uiState.descrLocal,
                 startMov = viewModel::startMov,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavControleChaveEditList = onNavControleChaveEditList,
                 onNavMatricColab = onNavMatricColab,
                 onNavMenuApont = onNavMenuApont,
                 onNavChaveList = onNavChaveList,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnHeader()
-            viewModel.recoverMovList()
         }
     }
 }
@@ -65,10 +70,8 @@ fun ControleChaveListContent(
     descrVigia: String,
     descrLocal: String,
     startMov: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavControleChaveEditList: () -> Unit,
     onNavMatricColab: (Int) -> Unit,
     onNavMenuApont: () -> Unit,
@@ -136,17 +139,18 @@ fun ControleChaveListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             onNavChaveList()
         }
     }
+
 }
 
 @Preview(showBackground = true)
@@ -166,10 +170,8 @@ fun ControleChaveListPagePreview() {
                 descrVigia = "19759 - ANDERSON DA SILVA DELGADO",
                 descrLocal = "1 - USINA",
                 startMov = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavControleChaveEditList = {},
                 onNavMatricColab = {},
                 onNavMenuApont = {},

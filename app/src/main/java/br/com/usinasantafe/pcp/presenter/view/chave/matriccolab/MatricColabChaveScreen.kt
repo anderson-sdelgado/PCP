@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -33,6 +34,9 @@ import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
+import br.com.usinasantafe.pcp.presenter.theme.Progress
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 @Composable
 fun MatricColabChaveScreen(
@@ -45,27 +49,24 @@ fun MatricColabChaveScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverMatricColab()
+            }
+
             MatricColabChaveContent(
                 flowApp = uiState.flowApp,
                 typeMov = uiState.typeMov,
-                matricColab = uiState.matricColab,
-                setTextField = viewModel::setTextField,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                errors = uiState.errors,
-                failure = uiState.failure,
-                flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
-                currentProgress = uiState.currentProgress,
+                text = uiState.text,
+                onTextField = viewModel::onTextField,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavChaveList = onNavChaveList,
                 onNavDetalhe = onNavDetalhe,
                 onNavNomeColab = onNavNomeColab,
                 onNavMovList = onNavMovList,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.getMatricColab()
         }
     }
 }
@@ -74,17 +75,10 @@ fun MatricColabChaveScreen(
 fun MatricColabChaveContent(
     flowApp: FlowApp,
     typeMov: TypeMovKey,
-    matricColab: String,
-    setTextField: (String, TypeButton) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    errors: Errors,
-    failure: String,
-    flagProgress: Boolean,
-    msgProgress: String,
-    currentProgress: Float,
+    text: String,
+    onTextField: (String, TypeButton) -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusStateUpdate,
     onNavChaveList: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavNomeColab: (String) -> Unit,
@@ -112,13 +106,13 @@ fun MatricColabChaveContent(
                 fontSize = 28.sp,
             ),
             readOnly = true,
-            value = matricColab,
+            value = text,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        ButtonsGenericNumeric(setActionButton = setTextField)
+        ButtonsGenericNumeric(setActionButton = onTextField)
         BackHandler {
             when (flowApp) {
                 FlowApp.ADD -> {
@@ -131,41 +125,19 @@ fun MatricColabChaveContent(
             }
         }
 
-        if (flagDialog) {
-            val text = if (flagFailure) {
-                when (errors) {
-                    Errors.FIELD_EMPTY -> stringResource(
-                        id = R.string.text_field_empty,
-                        stringResource(id = R.string.text_title_matric_colab)
-                    )
-
-                    Errors.UPDATE -> stringResource(id = R.string.text_update_failure, failure)
-                    Errors.TOKEN,
-                    Errors.EXCEPTION -> stringResource(id = R.string.text_failure, failure)
-
-                    Errors.INVALID -> stringResource(
-                        id = R.string.text_input_data_invalid,
-                        stringResource(id = R.string.text_title_matric_colab)
-                    )
-                }
-            } else {
-                msgProgress
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if (status.flagDialog) {
+            MsgUpdate(status = status, onClickOk = onCloseDialog, value = stringResource(id = R.string.text_title_matric_colab))
         }
 
-        if (flagProgress) {
-            AlertDialogProgressDesign(
-                currentProgress = currentProgress,
-                msgProgress = msgProgress
-            )
+        if (status.flagProgress) {
+            Progress(status)
         }
 
-        if (flagAccess) {
-            onNavNomeColab(matricColab)
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            onNavNomeColab(text)
         }
     }
 }
@@ -176,19 +148,12 @@ fun MatricColabChavePagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabChaveContent(
-                matricColab = "19759",
+                text = "19759",
                 flowApp = FlowApp.ADD,
                 typeMov = TypeMovKey.REMOVE,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavChaveList = {},
                 onNavDetalhe = {},
                 onNavNomeColab = {},

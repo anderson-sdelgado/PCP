@@ -12,13 +12,15 @@ import br.com.usinasantafe.pcp.presenter.Args.MATRIC_COLAB_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class NomeColabChaveState(
@@ -27,10 +29,13 @@ data class NomeColabChaveState(
     val id: Int = 0,
     val matricColab: String = "",
     val nomeColab: String = "",
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<NomeColabChaveState> {
+
+    override fun copyWithStatus(status: UiStatusState): NomeColabChaveState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class NomeColabChaveViewModel @Inject constructor(
@@ -48,6 +53,12 @@ class NomeColabChaveViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NomeColabChaveState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: NomeColabChaveState.() -> NomeColabChaveState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -59,76 +70,24 @@ class NomeColabChaveViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun recoverNomeColab() = viewModelScope.launch {
+        runCatching {
+            getNomeColab(uiState.value.matricColab).getOrThrow()
         }
+            .onSuccess { updateState { copy(nomeColab = it) }}
+            .onFailureState(::updateState)
     }
 
-    fun returnNomeColab() = viewModelScope.launch {
-        val recoverNome = getNomeColab(uiState.value.matricColab)
-        if (recoverNome.isFailure) {
-            val error = recoverNome.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun set() = viewModelScope.launch {
+        runCatching {
+            val check = (uiState.value.typeMov == TypeMovKey.RECEIPT) && (uiState.value.flowApp == FlowApp.ADD)
+            if(check) startReceiptMovChave(uiState.value.id).getOrThrow()
+            setMatricColabMovChave(uiState.value.matricColab, uiState.value.flowApp, uiState.value.id).getOrThrow()
         }
-        val result = recoverNome.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                nomeColab = result
-            )
-        }
-    }
-
-    fun setMatricColab() = viewModelScope.launch {
-        if(
-            (uiState.value.typeMov == TypeMovKey.RECEIPT) &&
-            (uiState.value.flowApp == FlowApp.ADD)
-        ) {
-            val resultStart = startReceiptMovChave(uiState.value.id)
-            if(resultStart.isFailure) {
-                val error = resultStart.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-        }
-        val resultSetMatric = setMatricColabMovChave(
-            matricColab = uiState.value.matricColab,
-            flowApp = uiState.value.flowApp,
-            id = uiState.value.id
-        )
-        if (resultSetMatric.isFailure){
-            val error = resultSetMatric.exceptionOrNull()!!
-            val failure =
-                "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        _uiState.update {
-            it.copy(
-                flagDialog = false,
-                flagAccess = true
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 }

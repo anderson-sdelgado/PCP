@@ -6,7 +6,11 @@ import br.com.usinasantafe.pcp.domain.usecases.chave.GetMovChaveInsideList
 import br.com.usinasantafe.pcp.domain.usecases.chave.StartRemoveMovChave
 import br.com.usinasantafe.pcp.domain.usecases.common.GetHeader
 import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,10 +23,13 @@ data class ControleChaveListState(
     val controleChaveModelList: List<ControleChaveModel> = emptyList(),
     val descrVigia: String = "",
     val descrLocal: String = "",
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<ControleChaveListState> {
+
+    override fun copyWithStatus(status: UiStatusState): ControleChaveListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class ControleChaveListViewModel @Inject constructor(
@@ -33,77 +40,36 @@ class ControleChaveListViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ControleChaveListState())
     val uiState = _uiState.asStateFlow()
-        
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+
+    private val state get() = uiState.value
+
+    private fun updateState(block: ControleChaveListState.() -> ControleChaveListState) {
+        _uiState.update(block)
     }
 
-    fun returnHeader() = viewModelScope.launch {
-        val recoverHeader = getHeader()
-        if (recoverHeader.isFailure) {
-            val error = recoverHeader.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun recoverHeader() = viewModelScope.launch {
+        runCatching {
+            getHeader().getOrThrow()
         }
-        val result = recoverHeader.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                descrVigia = result.descrVigia,
-                descrLocal = result.descrLocal,
-            )
-        }
+            .onSuccess { updateState { copy(descrVigia = it.descrVigia, descrLocal = it.descrLocal) }}
+            .onFailureState(::updateState)
     }
 
     fun recoverMovList() = viewModelScope.launch {
-        val resultGetList = getMovChaveInsideList()
-        if (resultGetList.isFailure) {
-            val error = resultGetList.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            getMovChaveInsideList().getOrThrow()
         }
-        val result = resultGetList.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                controleChaveModelList = result
-            )
-        }
+            .onSuccess { updateState { copy(controleChaveModelList = it) }}
+            .onFailureState(::updateState)
     }
 
     fun startMov() = viewModelScope.launch {
-        val resultStart = startRemoveMovChave()
-        if (resultStart.isFailure) {
-            val error = resultStart.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            startRemoveMovChave().getOrThrow()
         }
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-                flagDialog = false,
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 }

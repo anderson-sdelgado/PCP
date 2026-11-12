@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,12 +21,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 @Composable
 fun ControleChaveEditListScreen(
@@ -36,20 +40,23 @@ fun ControleChaveEditListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverMovOpenList()
+            }
+
             ControleChaveEditListContent(
                 controleChaveModelList = uiState.controleChaveModelList,
-                closeAllMov = viewModel::closeAllMov,
-                flagDialog = uiState.flagDialog,
-                failure = uiState.failure,
+                onCloseAllMov = viewModel::onCloseAllMov,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setDialogCheck = viewModel::setDialogCheck,
-                setCloseDialog = viewModel::setCloseDialog,
+                onDialogCheck = viewModel::onDialogCheck,
+                onCloseDialog = viewModel::onCloseDialog,
                 flagCloseAllMov = uiState.flagCloseAllMov,
+                status = uiState.status,
                 onNavControleList = onNavControleList,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverMovOpenList()
         }
     }
 }
@@ -57,13 +64,12 @@ fun ControleChaveEditListScreen(
 @Composable
 fun ControleChaveEditListContent(
     controleChaveModelList: List<ControleChaveModel>,
-    closeAllMov: () -> Unit,
-    flagDialog: Boolean,
-    failure: String,
+    onCloseAllMov: () -> Unit,
     flagDialogCheck: Boolean,
-    setDialogCheck: (Boolean) -> Unit,
-    setCloseDialog: () -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    onCloseDialog: () -> Unit,
     flagCloseAllMov: Boolean,
+    status: UiStatusState,
     onNavControleList: () -> Unit,
     onNavDetalhe: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -96,7 +102,7 @@ fun ControleChaveEditListContent(
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
@@ -121,26 +127,24 @@ fun ControleChaveEditListContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavControleList() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_close_all_mov),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeAllMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseAllMov() }
             )
         }
 
+    }
+
+    LaunchedEffect(flagCloseAllMov) {
         if(flagCloseAllMov){
             onNavControleList()
         }
-
     }
 }
 
@@ -151,13 +155,12 @@ fun ControleChaveEditListPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ControleChaveEditListContent(
                 controleChaveModelList = emptyList(),
-                closeAllMov = {},
-                flagDialog = false,
-                failure = "",
+                onCloseAllMov = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                setCloseDialog = {},
+                onDialogCheck = {},
+                onCloseDialog = {},
                 flagCloseAllMov = false,
+                status = UiStatusState(),
                 onNavControleList = {},
                 onNavDetalhe = {},
                 modifier = Modifier.padding(innerPadding)
@@ -189,13 +192,12 @@ fun ControleChaveEditListPagePreviewWithData() {
                         colab = "19795 - ANDERSON DA SILVA DELGADO"
                     )
                 ),
-                closeAllMov = {},
-                flagDialog = false,
-                failure = "",
+                onCloseAllMov = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                setCloseDialog = {},
+                onDialogCheck = {},
+                onCloseDialog = {},
                 flagCloseAllMov = false,
+                status = UiStatusState(),
                 onNavControleList = {},
                 onNavDetalhe = {},
                 modifier = Modifier.padding(innerPadding)

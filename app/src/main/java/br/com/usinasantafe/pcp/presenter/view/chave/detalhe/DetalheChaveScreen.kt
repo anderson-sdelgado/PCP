@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,9 +22,11 @@ import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun DetalheChaveScreen(
@@ -35,25 +38,28 @@ fun DetalheChaveScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverDetalhe()
+            }
+
             DetalheChaveContent(
                 dthr = uiState.dthr,
                 tipoMov = uiState.tipoMov,
                 chave = uiState.chave,
                 colab = uiState.colab,
                 observ = uiState.observ,
-                flagDialog = uiState.flagDialog,
                 flagDialogCheck = uiState.flagDialogCheck,
                 flagCloseMov = uiState.flagCloseMov,
-                failure = uiState.failure,
-                setCloseDialog = viewModel::setCloseDialog,
-                closeMov = viewModel::closeMov,
-                setDialogCheck = viewModel::setDialogCheck,
+                onCloseDialog = viewModel::onCloseDialog,
+                onCloseMov = viewModel::onCloseMov,
+                status = uiState.status,
+                onDialogCheck = viewModel::onDialogCheck,
                 onNavControleChaveEditList = onNavControleChaveEditList,
                 onNavMatricColab = onNavMatricColab,
                 onNavObserv = onNavObserv,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverDetalhe()
         }
     }
 }
@@ -65,13 +71,12 @@ fun DetalheChaveContent(
     chave: String,
     colab: String,
     observ: String?,
-    flagDialog: Boolean,
     flagDialogCheck: Boolean,
     flagCloseMov: Boolean,
-    failure: String,
-    setCloseDialog: () -> Unit,
-    closeMov: () -> Unit,
-    setDialogCheck: (Boolean) -> Unit,
+    onCloseDialog: () -> Unit,
+    onCloseMov: () -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    status: UiStatusState,
     onNavControleChaveEditList: () -> Unit,
     onNavMatricColab: () -> Unit,
     onNavObserv: () -> Unit,
@@ -125,7 +130,7 @@ fun DetalheChaveContent(
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(text = stringResource(id = R.string.text_button_close_mov))
@@ -139,26 +144,24 @@ fun DetalheChaveContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavControleChaveEditList() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_close_mov),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseMov() }
             )
         }
 
+    }
+
+    LaunchedEffect(flagCloseMov) {
         if(flagCloseMov){
             onNavControleChaveEditList()
         }
-
     }
 }
 
@@ -173,13 +176,12 @@ fun DetalheChavePagePreview() {
                 chave = "01 - SALA TI - TI",
                 colab = "19759 - ANDERSON DA SILVA DELGADO",
                 observ = "TESTE",
-                flagDialog = false,
                 flagDialogCheck = false,
                 flagCloseMov = false,
-                failure = "",
-                setCloseDialog = {},
-                closeMov = {},
-                setDialogCheck = {},
+                onCloseDialog = {},
+                onCloseMov = {},
+                onDialogCheck = {},
+                status = UiStatusState(),
                 onNavControleChaveEditList = {},
                 onNavMatricColab = {},
                 onNavObserv = {},

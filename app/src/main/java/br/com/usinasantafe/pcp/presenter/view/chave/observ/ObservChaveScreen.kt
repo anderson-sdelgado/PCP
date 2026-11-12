@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -30,6 +31,8 @@ import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_OBSERV_TEXT_FIELD_CHAVE = "tag_observ_text_field_chave"
 
@@ -43,22 +46,24 @@ fun ObservChaveScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverObserv()
+            }
+
             ObservChaveContent(
                 flowApp = uiState.flowApp,
                 typeMov = uiState.typeMov,
                 observ = uiState.observ,
                 onObservChanged = viewModel::onObservChanged,
-                setObserv = viewModel::setObserv,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricColab,
                 onNavMovChaveList = onNavControleList,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.getObserv()
         }
     }
 }
@@ -69,11 +74,9 @@ fun ObservChaveContent(
     typeMov: TypeMovKey,
     observ: String?,
     onObservChanged: (String) -> Unit,
-    setObserv: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMatricColab: () -> Unit,
     onNavMovChaveList: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -128,7 +131,7 @@ fun ObservChaveContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setObserv,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -136,21 +139,19 @@ fun ObservChaveContent(
         }
         BackHandler {}
 
-        if(flagDialog){
-            val text = stringResource(id = R.string.text_failure, failure)
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if(flagAccess){
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if(status.flagAccess){
             when(flowApp){
                 FlowApp.ADD -> onNavMovChaveList()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
 }
 
@@ -164,11 +165,9 @@ fun ObservChavePagePreview() {
                 typeMov = TypeMovKey.REMOVE,
                 observ = "Teste",
                 onObservChanged = {},
-                setObserv = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                set = {},
+                status = UiStatusState(),
+                onCloseDialog = {},
                 onNavMatricColab = {},
                 onNavMovChaveList = {},
                 onNavDetalhe = {},

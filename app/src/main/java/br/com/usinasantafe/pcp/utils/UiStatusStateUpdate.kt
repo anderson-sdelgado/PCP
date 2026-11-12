@@ -262,10 +262,11 @@ fun <T : UiStateWithStatusUpdate<T>> T.withFailure(
 ): T = withFailure(getClassAndMethod(), error, flagProgress, failure)
 
 fun <T : UiStateWithStatusUpdate<T>> Result<*>.onSuccessUpdateAccess(
-    updateState: ((T.() -> T)) -> Unit
+    updateState: ((T.() -> T)) -> Unit,
+    flagAccess: Boolean = true
 ): Result<*> =
     onSuccess {
-        updateState { withAccess(true) }
+        updateState { withAccess(flagAccess) }
     }
 
 fun <T : UiStateWithStatusUpdate<T>> Result<*>.onSuccessUpdateFinish(

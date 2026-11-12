@@ -52,6 +52,11 @@ fun ChaveListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverList()
+            }
+
             ChaveListContent(
                 flowApp = uiState.flowApp,
                 chaveList = uiState.chaveList,
@@ -66,7 +71,6 @@ fun ChaveListScreen(
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverList()
         }
     }
 }

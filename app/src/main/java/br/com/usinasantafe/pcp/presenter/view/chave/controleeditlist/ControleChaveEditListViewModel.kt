@@ -5,7 +5,11 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.chave.CloseAllMovChave
 import br.com.usinasantafe.pcp.domain.usecases.chave.GetMovChaveOpenList
 import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,9 +22,13 @@ data class ControleChaveEditListState(
     val controleChaveModelList: List<ControleChaveModel> = listOf(),
     val flagDialogCheck: Boolean = false,
     val flagCloseAllMov: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<ControleChaveEditListState> {
+
+    override fun copyWithStatus(status: UiStatusState): ControleChaveEditListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class ControleChaveEditListViewModel @Inject constructor(
@@ -31,60 +39,33 @@ class ControleChaveEditListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ControleChaveEditListState())
     val uiState = _uiState.asStateFlow()
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: ControleChaveEditListState.() -> ControleChaveEditListState) {
+        _uiState.update(block)
     }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onDialogCheck(flagDialogCheck: Boolean) {
         _uiState.update {
             it.copy(flagDialogCheck = flagDialogCheck)
         }
     }
 
-    fun closeAllMov() = viewModelScope.launch {
-        val resultCloseAllMov = closeAllMovChave()
-        if (resultCloseAllMov.isFailure) {
-            val error = resultCloseAllMov.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onCloseAllMov() = viewModelScope.launch {
+        runCatching {
+            closeAllMovChave().getOrThrow()
         }
-        _uiState.update {
-            it.copy(
-                flagCloseAllMov = true,
-                flagDialog = false,
-            )
-        }
+            .onSuccess { updateState { copy(flagCloseAllMov = true, status = status.copy(flagDialog = false)) } }
+            .onFailureState(::updateState)
     }
 
     fun recoverMovOpenList() = viewModelScope.launch {
-        val resultGetList = getMovChaveOpenList()
-        if (resultGetList.isFailure) {
-            val error = resultGetList.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            getMovChaveOpenList().getOrThrow()
         }
-        val result = resultGetList.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                controleChaveModelList = result,
-                flagDialog = false
-            )
-        }
+            .onSuccess { updateState { copy(controleChaveModelList = it) } }
+            .onFailureState(::updateState)
     }
 }

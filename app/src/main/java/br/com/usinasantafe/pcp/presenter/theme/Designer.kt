@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.errors
 import br.com.usinasantafe.pcp.lib.msg
 import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
@@ -303,5 +304,14 @@ fun Progress(status : UiStatusStateUpdate){
     AlertDialogProgressDesign(
         currentProgress = status.currentProgress,
         msgProgress = msgProgress
+    )
+}
+
+@Composable
+fun MsgErrors(errors: Errors, onClickOk: () -> Unit, failure: String, value: String = ""){
+    val text = errors(errors, failure, value)
+    AlertDialogSimpleDesign(
+        text = text,
+        onClickOk = onClickOk,
     )
 }

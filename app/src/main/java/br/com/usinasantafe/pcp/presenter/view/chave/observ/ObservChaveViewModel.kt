@@ -11,6 +11,9 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.presenter.view.chave.detalhe.DetalheChaveState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,11 +28,13 @@ data class ObservChaveState(
     val typeMov: TypeMovKey = TypeMovKey.REMOVE,
     val id: Int = 0,
     val observ: String? = null,
-    val flagGetObserv: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<ObservChaveState> {
+
+    override fun copyWithStatus(status: UiStatusState): ObservChaveState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class ObservChaveViewModel @Inject constructor(
@@ -46,6 +51,12 @@ class ObservChaveViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ObservChaveState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: ObservChaveState.() -> ObservChaveState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -56,22 +67,13 @@ class ObservChaveViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun onObservChanged(observ: String) {
-        _uiState.update {
-            it.copy(observ = observ)
-        }
-    }
+    fun onObservChanged(observ: String) = updateState { copy(observ = observ) }
 
-    fun getObserv() = viewModelScope.launch {
+    fun recoverObserv() = viewModelScope.launch {
         if (
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.flagGetObserv)
+            (uiState.value.flowApp == FlowApp.CHANGE)
         ) {
             val resultGetObserv = getObservMovChave(uiState.value.id)
             if (resultGetObserv.isFailure) {
@@ -88,14 +90,13 @@ class ObservChaveViewModel @Inject constructor(
             }
             _uiState.update {
                 it.copy(
-                    observ = resultGetObserv.getOrNull(),
-                    flagGetObserv = false
+                    observ = resultGetObserv.getOrNull()
                 )
             }
         }
     }
 
-    fun setObserv() = viewModelScope.launch {
+    fun set() = viewModelScope.launch {
         val resultSetObserv = setObservMovChave(
             observ = uiState.value.observ,
             flowApp = uiState.value.flowApp,
