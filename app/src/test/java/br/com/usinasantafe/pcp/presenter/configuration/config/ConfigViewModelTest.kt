@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.usecases.config.GetConfigInternal
 import br.com.usinasantafe.pcp.domain.usecases.config.SaveDataConfig
 import br.com.usinasantafe.pcp.domain.usecases.config.SendDataConfig
-import br.com.usinasantafe.pcp.domain.usecases.config.SetCheckUpdateAllTable
+import br.com.usinasantafe.pcp.domain.usecases.config.SetFinishUpdateAllTable
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableChave
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableEquip
@@ -48,7 +48,7 @@ class ConfigViewModelTest {
     private val updateTableRLocalFluxo = mock<UpdateTableRLocalFluxo>()
     private val updateTableTerceiro = mock<UpdateTableTerceiro>()
     private val updateTableVisitante = mock<UpdateTableVisitante>()
-    private val setCheckUpdateAllTable = mock<SetCheckUpdateAllTable>()
+    private val setFinishUpdateAllTable = mock<SetFinishUpdateAllTable>()
     private val sizeAll = 28f
     private var contWhenever = 0f
     private var contResult = 0f
@@ -67,7 +67,7 @@ class ConfigViewModelTest {
         updateRLocalFluxo = updateTableRLocalFluxo,
         updateTerceiro = updateTableTerceiro,
         updateVisitante = updateTableVisitante,
-        setCheckUpdateAllTable = setCheckUpdateAllTable,
+        setCheckUpdateAllTable = setFinishUpdateAllTable,
     )
 
     @Test
@@ -862,7 +862,7 @@ class ConfigViewModelTest {
         wheneverSuccessTerceiro()
         wheneverSuccessVisitante()
         whenever(
-            setCheckUpdateAllTable(FlagUpdate.UPDATED)
+            setFinishUpdateAllTable(FlagUpdate.UPDATED)
         ).thenReturn(
             resultFailure(
                 "ISetCheckUpdateAllTable",
@@ -906,7 +906,7 @@ class ConfigViewModelTest {
         wheneverSuccessTerceiro()
         wheneverSuccessVisitante()
         whenever(
-            setCheckUpdateAllTable(FlagUpdate.UPDATED)
+            setFinishUpdateAllTable(FlagUpdate.UPDATED)
         ).thenReturn(
             Result.success(true)
         )

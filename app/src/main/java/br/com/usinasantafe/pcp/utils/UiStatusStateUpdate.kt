@@ -285,12 +285,13 @@ fun <T : UiStateWithStatusUpdate<T>> Result<Boolean>.onSuccessUpdateCheckAccess(
 
 
 fun <T : UiStateWithStatusUpdate<T>> Result<*>.onFailureUpdate(
-    classAndMethod: String,
-    updateState: ((T.() -> T)) -> Unit
+    updateState: ((T.() -> T)) -> Unit,
+    errors: Errors = Errors.EXCEPTION,
+    flagProgress: Boolean = false
 ): Result<*> =
     onFailure { failure ->
         updateState {
-            withFailure(classAndMethod, failure)
+            withFailure(getClassAndMethod(), failure, errors, flagProgress)
         }
     }
 

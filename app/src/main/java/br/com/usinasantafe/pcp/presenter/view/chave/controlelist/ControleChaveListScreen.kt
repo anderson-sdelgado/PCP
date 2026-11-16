@@ -17,17 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TextSmallDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
-import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.presenter.model.ControleChaveModel
 import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable

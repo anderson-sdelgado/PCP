@@ -8,10 +8,14 @@ import br.com.usinasantafe.pcp.domain.usecases.common.CloseAllMov
 import br.com.usinasantafe.pcp.domain.usecases.common.GetStatusSend
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetFlowList
 import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,11 +27,14 @@ data class MenuApontState(
     val descrLocal: String = "",
     val flagDialogCheck: Boolean = false,
     val flagReturn: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-    val failureStatus: String = "",
-    val statusSend: StatusSend = StatusSend.STARTED
-)
+    val statusSend: StatusSend = StatusSend.STARTED,
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<MenuApontState> {
+
+    override fun copyWithStatus(status: UiStatusState): MenuApontState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class MenuApontViewModel @Inject constructor(
@@ -40,106 +47,61 @@ class MenuApontViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MenuApontState())
     val uiState = _uiState.asStateFlow()
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+    private fun updateState(block: MenuApontState.() -> MenuApontState) {
+        _uiState.update(block)
     }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
-        _uiState.update {
-            it.copy(flagDialogCheck = flagDialogCheck)
-        }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false)) }
+
+    fun onDialogCheck(flag: Boolean) = updateState { copy(flagDialogCheck = flag) }
+
+    init {
+        observeStatusSend()
     }
 
-    fun recoverStatusSend() {
+    private fun observeStatusSend() =
         viewModelScope.launch {
-            getStatusSend().collect { statusSend ->
-                if (statusSend.isFailure) {
-                    val error = statusSend.exceptionOrNull()!!
-                    val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                    Timber.e(failure)
-                    _uiState.update {
-                        it.copy(
-                            failureStatus = failure
+            getStatusSend()
+                .catch {
+                    updateState {
+                        copy(
+                            status = status.copy(
+                                flagDialog = true,
+                                flagFailure = true,
+                                failure = it.message ?: ""
+                            )
                         )
                     }
-                    return@collect
                 }
-                val status = statusSend.getOrNull()!!
-                _uiState.update {
-                    it.copy(statusSend = status)
+                .collect { statusSend ->
+                    updateState {
+                        copy(statusSend = statusSend)
+                    }
                 }
-            }
         }
-    }
 
-    fun returnHeader() = viewModelScope.launch {
-        val resultRecoverHeader = getHeader()
-        if(resultRecoverHeader.isFailure){
-            val error = resultRecoverHeader.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun recoverHeader() = viewModelScope.launch {
+        runCatching {
+            getHeader().getOrThrow()
         }
-        val result = resultRecoverHeader.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                descrVigia = result.descrVigia,
-                descrLocal = result.descrLocal,
-            )
-        }
+            .onSuccess { updateState { copy(descrVigia = it.descrVigia, descrLocal = it.descrLocal) }}
+            .onFailureState(::updateState)
     }
 
     fun flowList() = viewModelScope.launch {
-        val resultRecoverFlows = getFlowList()
-        if(resultRecoverFlows.isFailure){
-            val error = resultRecoverFlows.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            getFlowList().getOrThrow()
         }
-        val result = resultRecoverFlows.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flows = result
-            )
-        }
+            .onSuccess { updateState { copy(flows = it) }}
+            .onFailureState(::updateState)
     }
 
-    fun closeAllMovOpen() = viewModelScope.launch {
-        val resultCloseAllMovOpen = closeAllMov()
-        if(resultCloseAllMovOpen.isFailure){
-            val error = resultCloseAllMovOpen.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onCloseAllMovOpen() = viewModelScope.launch {
+        runCatching {
+            closeAllMov().getOrThrow()
         }
-        val result = resultCloseAllMovOpen.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flagDialogCheck = false,
-                flagReturn = result
-            )
-        }
+            .onSuccess { updateState { copy(flagReturn = it, flagDialogCheck = false) }}
+            .onFailureState(::updateState)
     }
 
 }

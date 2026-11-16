@@ -9,7 +9,7 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
-class ISetCheckUpdateAllTableTest {
+class ISetFinishUpdateAllTableTest {
 
     @Test
     fun `Chech return failure Datasource if have error in ConfigRepository setFlagUpdate`() =
@@ -24,7 +24,7 @@ class ISetCheckUpdateAllTableTest {
                     Exception()
                 )
             )
-            val usecase = ISetCheckUpdateAllTable(configRepository)
+            val usecase = ISetFinishUpdateAllTable(configRepository)
             val result = usecase(FlagUpdate.UPDATED)
             assertEquals(
                 result.isFailure,
@@ -47,7 +47,7 @@ class ISetCheckUpdateAllTableTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val usecase = ISetCheckUpdateAllTable(configRepository)
+            val usecase = ISetFinishUpdateAllTable(configRepository)
             val result = usecase(FlagUpdate.UPDATED)
             assertEquals(
                 result.isSuccess,

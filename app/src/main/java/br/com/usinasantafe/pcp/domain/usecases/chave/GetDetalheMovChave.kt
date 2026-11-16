@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
-import br.com.usinasantafe.pcp.presenter.view.chave.detalhe.DetalheChaveModel
+import br.com.usinasantafe.pcp.presenter.model.DetalheChaveModel
 import br.com.usinasantafe.pcp.lib.TypeMovKey
 import br.com.usinasantafe.pcp.utils.call
 import br.com.usinasantafe.pcp.utils.getClassAndMethod

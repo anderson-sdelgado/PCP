@@ -11,23 +11,22 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
-import br.com.usinasantafe.pcp.presenter.view.chave.detalhe.DetalheChaveState
 import br.com.usinasantafe.pcp.utils.UiStateWithStatus
 import br.com.usinasantafe.pcp.utils.UiStatusState
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class ObservChaveState(
     val flowApp: FlowApp = FlowApp.ADD,
     val typeMov: TypeMovKey = TypeMovKey.REMOVE,
     val id: Int = 0,
-    val observ: String? = null,
+    val text: String? = null,
     override val status: UiStatusState = UiStatusState()
 ) : UiStateWithStatus<ObservChaveState> {
 
@@ -69,74 +68,23 @@ class ObservChaveViewModel @Inject constructor(
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun onObservChanged(observ: String) = updateState { copy(observ = observ) }
+    fun onObservChanged(observ: String) = updateState { copy(text = observ) }
 
     fun recoverObserv() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.CHANGE)
-        ) {
-            val resultGetObserv = getObservMovChave(uiState.value.id)
-            if (resultGetObserv.isFailure) {
-                val error = resultGetObserv.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            _uiState.update {
-                it.copy(
-                    observ = resultGetObserv.getOrNull()
-                )
-            }
+        runCatching {
+            if(uiState.value.flowApp == FlowApp.ADD) return@launch
+            getObservMovChave(uiState.value.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) } }
+            .onFailureState(::updateState)
     }
 
     fun set() = viewModelScope.launch {
-        val resultSetObserv = setObservMovChave(
-            observ = uiState.value.observ,
-            flowApp = uiState.value.flowApp,
-            id = uiState.value.id,
-        )
-        if(resultSetObserv.isFailure) {
-            val error = resultSetObserv.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            setObservMovChave(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
+            if(uiState.value.flowApp == FlowApp.ADD) saveMovChave(uiState.value.typeMov, uiState.value.id).getOrThrow()
         }
-        if(uiState.value.flowApp == FlowApp.ADD){
-            val resultSaveMov = saveMovChave(
-                typeMov = uiState.value.typeMov,
-                id = uiState.value.id
-            )
-            if (resultSaveMov.isFailure) {
-                val error = resultSaveMov.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-        }
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-                flagDialog = false
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 }

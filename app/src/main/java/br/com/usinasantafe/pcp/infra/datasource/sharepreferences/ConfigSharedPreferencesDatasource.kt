@@ -4,6 +4,7 @@ import br.com.usinasantafe.pcp.infra.models.sharedpreferences.ConfigSharedPrefer
 import br.com.usinasantafe.pcp.lib.FlagUpdate
 import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.utils.EmptyResult
+import kotlinx.coroutines.flow.Flow
 
 interface ConfigSharedPreferencesDatasource {
     suspend fun clean(): EmptyResult
@@ -14,4 +15,5 @@ interface ConfigSharedPreferencesDatasource {
     suspend fun setIdLocal(idLocal: Int): EmptyResult
     suspend fun setMatricVigia(matric: Int): EmptyResult
     suspend fun setStatusSend(statusSend: StatusSend): EmptyResult
+    fun getStatusSend(): Flow<StatusSend>
 }

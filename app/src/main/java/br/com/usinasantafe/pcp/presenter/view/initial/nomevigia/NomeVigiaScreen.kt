@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,13 +20,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun NomeVigiaScreen(
@@ -36,16 +40,19 @@ fun NomeVigiaScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverNomeVigia()
+            }
+
             NomeVigiaContent(
                 nomeVigia = uiState.nomeVigia,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricVigia = onNavMatricVigia,
                 onNavLocal = onNavLocal,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnNomeVigia()
         }
     }
 }
@@ -53,9 +60,8 @@ fun NomeVigiaScreen(
 @Composable
 fun NomeVigiaContent(
     nomeVigia: String,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMatricVigia: () -> Unit,
     onNavLocal: () -> Unit,
     modifier: Modifier = Modifier
@@ -99,12 +105,8 @@ fun NomeVigiaContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavMatricVigia() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
     }
@@ -117,9 +119,8 @@ fun NomeVigiaPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NomeVigiaContent(
                 nomeVigia = "ANDERSON DA SILVA DELGADO",
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricVigia = {},
                 onNavLocal = {},
                 modifier = Modifier.padding(innerPadding)
@@ -135,9 +136,8 @@ fun NomeVigiaPagePreviewShowDialog() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NomeVigiaContent(
                 nomeVigia = "ANDERSON DA SILVA DELGADO",
-                flagDialog = true,
-                setCloseDialog = {},
-                failure = "Datasource Failure",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricVigia = {},
                 onNavLocal = {},
                 modifier = Modifier.padding(innerPadding)

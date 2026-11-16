@@ -10,20 +10,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun DetalheChaveEquipScreen(
@@ -41,13 +44,12 @@ fun DetalheChaveEquipScreen(
                 equip = uiState.equip,
                 colab = uiState.colab,
                 observ = uiState.observ,
-                flagDialog = uiState.flagDialog,
                 flagDialogCheck = uiState.flagDialogCheck,
                 flagCloseMov = uiState.flagCloseMov,
-                failure = uiState.failure,
-                setCloseDialog = viewModel::setCloseDialog,
-                closeMov = viewModel::closeMov,
-                setDialogCheck = viewModel::setDialogCheck,
+                onCloseDialog = viewModel::onCloseDialog,
+                onCloseMov = viewModel::onCloseMov,
+                onDialogCheck = viewModel::onDialogCheck,
+                status = uiState.status,
                 onNavControleChaveEquipEditList = onNavControleChaveEquipEditList,
                 onNavMatricColab = onNavMatricColab,
                 onNavObserv = onNavObserv,
@@ -65,13 +67,12 @@ fun DetalheChaveEquipContent(
     equip: String,
     colab: String,
     observ: String?,
-    flagDialog: Boolean,
     flagDialogCheck: Boolean,
     flagCloseMov: Boolean,
-    failure: String,
-    setCloseDialog: () -> Unit,
-    closeMov: () -> Unit,
-    setDialogCheck: (Boolean) -> Unit,
+    onCloseDialog: () -> Unit,
+    onCloseMov: () -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    status: UiStatusState,
     onNavControleChaveEquipEditList: () -> Unit,
     onNavMatricColab: () -> Unit,
     onNavObserv: () -> Unit,
@@ -125,7 +126,7 @@ fun DetalheChaveEquipContent(
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(text = stringResource(id = R.string.text_button_close_mov))
@@ -139,27 +140,26 @@ fun DetalheChaveEquipContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavControleChaveEquipEditList() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_close_mov),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseMov() }
             )
         }
 
-        if(flagCloseMov){
+    }
+
+    LaunchedEffect(flagCloseMov) {
+        if (flagCloseMov) {
             onNavControleChaveEquipEditList()
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -173,13 +173,12 @@ fun DetalheChaveEquipPagePreview() {
                 equip = "300 - EQUIPAMENTO TESTE",
                 colab = "19759 - ANDERSON DA SILVA DELGADO",
                 observ = "TESTE",
-                flagDialog = false,
                 flagDialogCheck = false,
                 flagCloseMov = false,
-                failure = "",
-                setCloseDialog = {},
-                closeMov = {},
-                setDialogCheck = {},
+                onCloseDialog = {},
+                onCloseMov = {},
+                onDialogCheck = {},
+                status = UiStatusState(),
                 onNavControleChaveEquipEditList = {},
                 onNavMatricColab = {},
                 onNavObserv = {},

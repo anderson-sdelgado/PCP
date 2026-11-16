@@ -6,11 +6,19 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetDestinoProprio
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetTypeMov
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.SetDestinoProprio
+import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.observ.ObservChaveEquipState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onFailureUpdate
+import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,13 +30,15 @@ import javax.inject.Inject
 data class DestinoProprioState(
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
-    val destino: String = "",
+    val text: String = "",
     val typeMov: TypeMovEquip = TypeMovEquip.INPUT,
-    val flagGetDestino: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<DestinoProprioState> {
+
+    override fun copyWithStatus(status: UiStatusState): DestinoProprioState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class DestinoProprioViewModel @Inject constructor(
@@ -44,6 +54,12 @@ class DestinoProprioViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(DestinoProprioState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: DestinoProprioState.() -> DestinoProprioState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -53,58 +69,32 @@ class DestinoProprioViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onDestinoChanged(text: String) = updateState { copy(text = text) }
+
+    fun recoverDestino() = viewModelScope.launch {
+        runCatching {
+            if(uiState.value.flowApp == FlowApp.ADD) return@launch
+            getDestinoProprio(uiState.value.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) } }
+            .onFailureState(::updateState)
     }
 
-    fun onDestinoChanged(destino: String) {
-        _uiState.update {
-            it.copy(destino = destino)
-        }
-    }
-
-    fun getDestino() = viewModelScope.launch {
-        if (
-            uiState.value.flowApp == FlowApp.CHANGE &&
-            uiState.value.flagGetDestino
-        ) {
-            val resultGetDestino = getDestinoProprio(uiState.value.id)
-            if (resultGetDestino.isFailure) {
-                val error = resultGetDestino.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
+    fun set() = viewModelScope.launch {
+        runCatching {
+            if(state.text.isEmpty()) {
+                updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            val destino = resultGetDestino.getOrNull()!!
-            _uiState.update {
-                it.copy(
-                    destino = destino,
-                    flagGetDestino = false
-                )
-            }
+            setDestinoProprio(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
         }
-    }
+            .onSuccessUpdateCheckAccess(::updateState)
+            .onFailureUpdate(::updateState)
 
-    fun setDestino() {
-        if (uiState.value.destino.isEmpty()) {
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                )
-            }
-            return
-        }
-        viewModelScope.launch {
             val resultSetDestino = setDestinoProprio(
-                uiState.value.destino,
+                uiState.value.text,
                 uiState.value.flowApp,
                 uiState.value.id
             )
@@ -146,7 +136,6 @@ class DestinoProprioViewModel @Inject constructor(
                     flagAccess = true,
                 )
             }
-        }
     }
 
 }

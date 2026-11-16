@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -26,16 +27,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.Errors
-import br.com.usinasantafe.pcp.utils.percentage
+import br.com.usinasantafe.pcp.lib.LevelUpdate
+import br.com.usinasantafe.pcp.lib.msg
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 const val TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN = "tag_number_text_field_config_screen"
 const val TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN = "tag_password_text_field_config_screen"
@@ -48,25 +51,23 @@ fun ConfigScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverDataConfig()
+                viewModel.onVersionChanged(BuildConfig.VERSION_NAME)
+            }
+
             ConfigContent(
                 number = uiState.number,
                 onNumberChanged = viewModel::onNumberChanged,
                 password = uiState.password,
                 onPasswordChanged = viewModel::onPasswordChanged,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                errors = uiState.errors,
-                failure = uiState.failure,
-                flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
-                currentProgress = uiState.currentProgress,
-                onSaveAndUpdate = viewModel::saveTokenAndUpdateAllDatabase,
+                onSaveAndUpdate = viewModel::onSaveAndUpdate,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMenuInicial = onNavMenuInicial,
                 modifier = Modifier.padding(innerPadding),
             )
-            viewModel.returnDataConfig()
-            viewModel.updateVersion(BuildConfig.VERSION_NAME)
         }
     }
 }
@@ -77,14 +78,8 @@ fun ConfigContent(
     onNumberChanged: (String) -> Unit,
     password: String,
     onPasswordChanged: (String) -> Unit,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    errors: Errors,
-    failure: String,
-    msgProgress: String,
-    currentProgress: Float,
-    flagProgress: Boolean,
+    onCloseDialog: () -> Unit,
+    status: UiStatusStateUpdate,
     onSaveAndUpdate: () -> Unit,
     onNavMenuInicial: () -> Unit,
     modifier: Modifier = Modifier,
@@ -138,17 +133,17 @@ fun ConfigContent(
         ) {
             TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
         }
-        BackHandler {}
 
-        if (flagProgress) {
+        if (status.flagProgress) {
             Spacer(modifier = Modifier.padding(vertical = 16.dp))
             LinearProgressIndicator(
-                progress = { currentProgress },
+                progress = { status.currentProgress },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp),
             )
             Spacer(modifier = Modifier.padding(vertical = 4.dp))
+            val msgProgress = msg(status.levelUpdate, status.failure, status.tableUpdate)
             Text(
                 text = msgProgress,
                 textAlign = TextAlign.Center,
@@ -156,29 +151,17 @@ fun ConfigContent(
                     .fillMaxWidth()
             )
         }
+        BackHandler {}
 
-        if(flagDialog) {
-            if(flagFailure){
-                val text = when(errors){
-                    Errors.FIELD_EMPTY -> stringResource(id = R.string.text_field_empty_config)
-                    Errors.TOKEN -> stringResource(id = R.string.text_recover_token, failure)
-                    Errors.UPDATE -> stringResource(id = R.string.text_update_failure, failure)
-                    Errors.EXCEPTION,
-                    Errors.INVALID -> stringResource(id = R.string.text_failure, failure)
-                }
-                AlertDialogSimpleDesign(
-                    text = text,
-                    onClickOk = setCloseDialog,
-                )
-            } else {
-                AlertDialogSimpleDesign(
-                    text = stringResource(id = R.string.text_config_success),
-                    setCloseDialog = setCloseDialog,
-                    setActionButtonOK = onNavMenuInicial,
-                )
-            }
+        if (status.flagDialog) {
+            MsgUpdate(status = status, onClickOk = onCloseDialog)
         }
+    }
 
+    LaunchedEffect(status.flagAccess) {
+        if(status.flagAccess) {
+            onNavMenuInicial()
+        }
     }
 }
 
@@ -192,14 +175,17 @@ fun ConfigPagePreviewProgress() {
                 onNumberChanged = {},
                 password = "",
                 onPasswordChanged = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = true,
-                msgProgress = "Enviando Dados de Token",
-                currentProgress = percentage(1f, 3f),
+                status = UiStatusStateUpdate(
+                    flagProgress = true,
+                    currentProgress = 0.2f,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_colab",
+                    flagDialog = false,
+                    flagFailure = false,
+                    errors = Errors.FIELD_EMPTY,
+                    failure = "",
+                ),
+                onCloseDialog = {},
                 onSaveAndUpdate = {},
                 onNavMenuInicial = {},
                 modifier = Modifier.padding(innerPadding)
@@ -217,14 +203,8 @@ fun ConfigPagePreview() {
                 onNumberChanged = {},
                 password = "12345",
                 onPasswordChanged = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onSaveAndUpdate = {},
                 onNavMenuInicial = {},
                 modifier = Modifier.padding(innerPadding)
@@ -243,14 +223,15 @@ fun ConfigPagePreviewDialogOpenFieldEmpty() {
                 onNumberChanged = {},
                 password = "",
                 onPasswordChanged = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.FIELD_EMPTY,
+                    failure = "",
+                    flagProgress = false,
+                    currentProgress = 0.0f,
+                ),
                 onSaveAndUpdate = {},
                 onNavMenuInicial = {},
                 modifier = Modifier.padding(innerPadding)
@@ -269,14 +250,15 @@ fun ConfigPagePreviewDialogOpenFailureToken() {
                 onNumberChanged = {},
                 password = "",
                 onPasswordChanged = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.TOKEN,
-                failure = "Failure Usecase",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.TOKEN,
+                    failure = "Failure Usecase",
+                    flagProgress = false,
+                    currentProgress = 0.0f,
+                ),
                 onSaveAndUpdate = {},
                 onNavMenuInicial = {},
                 modifier = Modifier.padding(innerPadding)
@@ -295,14 +277,15 @@ fun ConfigPagePreviewDialogOpenFailureUpdate() {
                 onNumberChanged = {},
                 password = "",
                 onPasswordChanged = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.UPDATE,
-                failure = "Failure Usecase",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.UPDATE,
+                    failure = "Failure Usecase",
+                    flagProgress = false,
+                    currentProgress = 0.0f,
+                ),
                 onSaveAndUpdate = {},
                 onNavMenuInicial = {},
                 modifier = Modifier.padding(innerPadding)

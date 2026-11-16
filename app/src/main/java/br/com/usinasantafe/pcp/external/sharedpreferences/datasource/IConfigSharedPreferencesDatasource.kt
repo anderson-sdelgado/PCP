@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.ConfigSharedPreferencesModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.BASE_SHARED_PREFERENCES_TABLE_CONFIG
 import br.com.usinasantafe.pcp.lib.FlagUpdate
@@ -13,6 +12,10 @@ import br.com.usinasantafe.pcp.utils.EmptyResult
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.result
 import com.google.gson.Gson
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class IConfigSharedPreferencesDatasource @Inject constructor(
@@ -97,5 +100,26 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
                 this.statusSend = statusSend
             }
         }
+
+    override fun getStatusSend(): Flow<StatusSend> = callbackFlow {
+        suspend fun sendCurrentStatus() {
+            trySend(get().getOrThrow().statusSend)
+        }
+        launch {
+            sendCurrentStatus()
+        }
+        val listener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == BASE_SHARED_PREFERENCES_TABLE_CONFIG) {
+                    launch {
+                        sendCurrentStatus()
+                    }
+                }
+            }
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+        awaitClose {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
 
 }

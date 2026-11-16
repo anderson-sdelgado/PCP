@@ -15,7 +15,15 @@ import br.com.usinasantafe.pcp.presenter.theme.clearTextField
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.presenter.view.chave.matriccolab.MatricColabChaveState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
+import br.com.usinasantafe.pcp.utils.executeUpdateSteps
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureUpdate
+import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
+import br.com.usinasantafe.pcp.utils.sizeUpdate
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,43 +35,16 @@ import timber.log.Timber
 import javax.inject.Inject
 
 data class NroEquipChaveEquipState(
-    val nroEquip: String = "",
+    val text: String = "",
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
-    val checkGetMatricColab: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagFailure: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-    val errors: Errors = Errors.FIELD_EMPTY,
-    val flagProgress: Boolean = false,
-    val msgProgress: String = "",
-    val currentProgress: Float = 0.0f,
-)
+    override val status: UiStatusStateUpdate = UiStatusStateUpdate()
+) : UiStateWithStatusUpdate<NroEquipChaveEquipState> {
 
-fun ResultUpdate.resultUpdateToNroEquipChaveEquip(): NroEquipChaveEquipState {
-    val fail = if(failure.isNotEmpty()){
-        val ret = "NroEquipChaveEquipViewModel.updateAllDatabase -> ${this.failure}"
-        Timber.e(ret)
-        ret
-    } else {
-        this.failure
-    }
-    val msg = if(failure.isNotEmpty()){
-        "NroEquipChaveEquipViewModel.updateAllDatabase -> ${this.failure}"
-    } else {
-        this.msgProgress
-    }
-    return NroEquipChaveEquipState(
-            flagDialog = this.flagDialog,
-            flagFailure = this.flagFailure,
-            errors = this.errors,
-            failure = fail,
-            flagProgress = this.flagProgress,
-            msgProgress = msg,
-            currentProgress = this.currentProgress,
-        )
-    }
+    override fun copyWithStatus(status: UiStatusStateUpdate): NroEquipChaveEquipState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class NroEquipChaveEquipViewModel @Inject constructor(
@@ -80,6 +61,12 @@ class NroEquipChaveEquipViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NroEquipChaveEquipState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: NroEquipChaveEquipState.() -> NroEquipChaveEquipState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -89,150 +76,51 @@ class NroEquipChaveEquipViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun recoverNroEquip() = viewModelScope.launch {
+        runCatching {
+            if(uiState.value.flowApp == FlowApp.ADD) return@launch
+            getNroEquipMovChaveEquip(uiState.value.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) }}
+            .onFailureUpdate( ::updateState)
     }
 
-    fun setTextField(
-        text: String,
-        typeButton: TypeButton
-    ) {
-        when (typeButton) {
-            TypeButton.NUMERIC -> {
-                val nroEquip = addTextField(uiState.value.nroEquip, text)
-                _uiState.update {
-                    it.copy(nroEquip = nroEquip)
-                }
-            }
-
-            TypeButton.CLEAN -> {
-                val nroEquip = clearTextField(uiState.value.nroEquip)
-                _uiState.update {
-                    it.copy(nroEquip = nroEquip)
-                }
-            }
-
-            TypeButton.OK -> {
-                if (uiState.value.nroEquip.isEmpty()) {
-                    _uiState.update {
-                        it.copy(
-                            flagDialog = true,
-                            flagFailure = true,
-                            errors = Errors.FIELD_EMPTY
-                        )
-                    }
-                    return
-                }
-                setNroEquip()
-            }
-
+    fun onTextField(text: String, typeButton: TypeButton) {
+        when(typeButton) {
+            TypeButton.NUMERIC -> updateState { copy(text = addTextField(this.text, text)) }
+            TypeButton.CLEAN -> updateState { copy(text = clearTextField(this.text)) }
+            TypeButton.OK -> set()
             TypeButton.UPDATE -> {
-                viewModelScope.launch {
-                    updateAllDatabase().collect { stateUpdate ->
-                        _uiState.value = stateUpdate
-                    }
-                }
+                viewModelScope.launch { updateAllDatabase().collect { _uiState.value = it } }
             }
         }
     }
 
-    private fun setNroEquip() = viewModelScope.launch {
-        val resultCheckEquip = checkNroEquip(uiState.value.nroEquip)
-        if (resultCheckEquip.isFailure) {
-            val error = resultCheckEquip.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    flagFailure = true,
-                    errors = Errors.EXCEPTION,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        val result = resultCheckEquip.getOrNull()!!
-        if (result) {
-            val resultSetEquip = setIdEquipMovChaveEquip(
-                nroEquip = uiState.value.nroEquip,
-                flowApp = uiState.value.flowApp,
-                id = uiState.value.id
-            )
-            if (resultSetEquip.isFailure) {
-                val error = resultSetEquip.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        flagFailure = true,
-                        errors = Errors.EXCEPTION,
-                        failure = failure,
-                    )
-                }
+    private fun set() = viewModelScope.launch {
+        runCatching {
+            if(state.text.isEmpty()) {
+                updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
+            if(!checkNroEquip(uiState.value.text).getOrThrow()){
+                updateState { withFailure( Errors.INVALID) }
+                return@launch
+            }
+            setIdEquipMovChaveEquip(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
         }
-        _uiState.update {
-            it.copy(
-                flagAccess = result,
-                flagDialog = !result,
-                flagFailure = !result,
-                errors = Errors.INVALID,
-            )
-        }
+            .onSuccessUpdateCheckAccess(::updateState)
+            .onFailureUpdate(::updateState)
     }
 
-    suspend fun updateAllDatabase(): Flow<NroEquipChaveEquipState> = flow {
-        val sizeUpdate = 4f
-        var configState = NroEquipChaveEquipState()
-        updateTableEquip(sizeUpdate, 1f).collect {
-            configState = it.resultUpdateToNroEquipChaveEquip()
-            emit(it.resultUpdateToNroEquipChaveEquip())
-        }
-        if (configState.flagFailure)
-            return@flow
-        emit(
-            NroEquipChaveEquipState(
-                flagDialog = true,
-                flagProgress = false,
-                flagFailure = false,
-                msgProgress = "Atualização de dados realizado com sucesso!",
-                currentProgress = 1f,
-            )
+    suspend fun updateAllDatabase(): Flow<NroEquipChaveEquipState> =
+        executeUpdateSteps(
+            steps = listOf(updateTableEquip(sizeUpdate())),
+            getState = { _uiState.value },
+            getStatus = { it.status },
+            copyStateWithStatus = { state, status -> state.copy(status = status) },
+            classAndMethod = getClassAndMethod(),
         )
-    }
 
-    fun getNroEquip() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.checkGetMatricColab)
-        ) {
-            val resultGetNro = getNroEquipMovChaveEquip(uiState.value.id)
-            if (resultGetNro.isFailure) {
-                val error = resultGetNro.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        flagFailure = true,
-                        errors = Errors.EXCEPTION,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            val nroEquip = resultGetNro.getOrNull()!!
-            _uiState.update {
-                it.copy(
-                    nroEquip = nroEquip,
-                    checkGetMatricColab = false
-                )
-            }
-        }
-    }
 }

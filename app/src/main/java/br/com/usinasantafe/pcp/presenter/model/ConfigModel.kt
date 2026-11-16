@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.configuration.config
+package br.com.usinasantafe.pcp.presenter.model
 
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
 

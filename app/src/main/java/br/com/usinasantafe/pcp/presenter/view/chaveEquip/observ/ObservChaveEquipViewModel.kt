@@ -11,7 +11,11 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,12 +28,14 @@ data class ObservChaveEquipState(
     val flowApp: FlowApp = FlowApp.ADD,
     val typeMov: TypeMovKey = TypeMovKey.RECEIPT,
     val id: Int = 0,
-    val observ: String? = null,
-    val flagGetObserv: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    val text: String? = null,
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<ObservChaveEquipState> {
+
+    override fun copyWithStatus(status: UiStatusState): ObservChaveEquipState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class ObservChaveEquipViewModel @Inject constructor(
@@ -46,6 +52,12 @@ class ObservChaveEquipViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ObservChaveEquipState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: ObservChaveEquipState.() -> ObservChaveEquipState) {
+        _uiState.update(block)
+    }
+
     init {
         _uiState.update {
             it.copy(
@@ -56,86 +68,25 @@ class ObservChaveEquipViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onObservChanged(text: String) = updateState { copy(text = text) }
+
+    fun recoverObserv() = viewModelScope.launch {
+        runCatching {
+            if(uiState.value.flowApp == FlowApp.ADD) return@launch
+            getObservMovChaveEquip(uiState.value.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) } }
+            .onFailureState(::updateState)
     }
 
-    fun onObservChanged(observ: String) {
-        _uiState.update {
-            it.copy(observ = observ)
+    fun set() = viewModelScope.launch {
+        runCatching {
+            setObservMovChaveEquip(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
+            if(uiState.value.flowApp == FlowApp.ADD) saveMovChaveEquip(uiState.value.typeMov, uiState.value.id).getOrThrow()
         }
-    }
-
-    fun getObserv() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.flagGetObserv)
-        ) {
-            val resultGetObserv = getObservMovChaveEquip(uiState.value.id)
-            if (resultGetObserv.isFailure) {
-                val error = resultGetObserv.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            _uiState.update {
-                it.copy(
-                    observ = resultGetObserv.getOrNull(),
-                    flagGetObserv = false
-                )
-            }
-        }
-    }
-
-    fun setObserv() = viewModelScope.launch {
-        val resultSetObserv = setObservMovChaveEquip(
-            observ = uiState.value.observ,
-            flowApp = uiState.value.flowApp,
-            id = uiState.value.id,
-        )
-        if(resultSetObserv.isFailure) {
-            val error = resultSetObserv.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        if(uiState.value.flowApp == FlowApp.ADD){
-            val resultSaveMov = saveMovChaveEquip(
-                typeMov = uiState.value.typeMov,
-                id = uiState.value.id
-            )
-            if (resultSaveMov.isFailure) {
-                val error = resultSaveMov.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-        }
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-                flagDialog = false
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 }

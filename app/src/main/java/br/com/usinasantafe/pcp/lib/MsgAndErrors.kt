@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcp.lib
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import br.com.usinasantafe.pcp.R
+import kotlin.collections.isNotEmpty
 
 @Composable
 fun msg(levelUpdate: LevelUpdate?, failure: String, tableUpdate: String): String {
@@ -19,12 +20,12 @@ fun msg(levelUpdate: LevelUpdate?, failure: String, tableUpdate: String): String
 }
 
 @Composable
-fun errors(errors: Errors, failure: String, value: String = ""): String {
+fun errors(errors: Errors, failure: String, vararg values: String): String {
     return when (errors) {
         Errors.FIELD_EMPTY -> {
-            if(!value.isEmpty()) return stringResource(
+            if(values.isNotEmpty()) return stringResource(
                 id = R.string.text_field_empty,
-                value
+                *values
             )
             stringResource(id = R.string.text_field_empty_config)
         }
@@ -35,7 +36,12 @@ fun errors(errors: Errors, failure: String, value: String = ""): String {
         Errors.INVALID -> {
             stringResource(
                 id = R.string.text_input_data_invalid,
-                value
+                *values
+            )
+        }
+        Errors.PASSWORD_INVALID -> {
+            stringResource(
+                id = R.string.text_password_invalid
             )
         }
         else -> stringResource(

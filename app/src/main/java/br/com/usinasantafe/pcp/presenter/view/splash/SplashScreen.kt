@@ -24,14 +24,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun SplashScreen(
@@ -42,17 +45,19 @@ fun SplashScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.processInitial(BuildConfig.VERSION_NAME)
+            }
+
             SplashContent(
                 modifier = Modifier.padding(innerPadding),
-                flagAccess = uiState.flagAccess,
                 flagMovOpen = uiState.flagMovOpen,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagDialog = uiState.flagDialog,
-                failure = uiState.failure,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMenuInicial = onNavMenuInicial,
                 onNavMenuApont = onNavMenuApont,
             )
-            viewModel.processInitial(BuildConfig.VERSION_NAME)
         }
     }
 }
@@ -60,11 +65,9 @@ fun SplashScreen(
 @Composable
 fun SplashContent(
     modifier: Modifier = Modifier,
-    flagAccess: Boolean,
     flagMovOpen: Boolean,
-    setCloseDialog: () -> Unit,
-    flagDialog: Boolean,
-    failure: String,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMenuInicial: () -> Unit,
     onNavMenuApont: () -> Unit,
 ) {
@@ -77,7 +80,7 @@ fun SplashContent(
                 // Toggle visibility
                 visibility = !visibility
                 // Delay to control the toggle frequency
-                delay(2000) // Adjust delay as needed
+                delay(2000.milliseconds) // Adjust delay as needed
             }
         }
     }
@@ -99,16 +102,14 @@ fun SplashContent(
         }
     }
 
-    if(flagDialog) {
-        AlertDialogSimpleDesign(
-            text = stringResource(id = R.string.text_failure, failure),
-            setCloseDialog = setCloseDialog,
-            setActionButtonOK = { onNavMenuInicial() }
-        )
+    if(status.flagDialog) {
+        MsgErrors(status.errors, onCloseDialog, status.failure)
     }
 
-    if (flagAccess) {
-        if (flagMovOpen) onNavMenuApont() else onNavMenuInicial()
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            if (flagMovOpen) onNavMenuApont() else onNavMenuInicial()
+        }
     }
 
 }
@@ -120,11 +121,9 @@ fun SplashPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SplashContent(
                 modifier = Modifier.padding(innerPadding),
-                flagAccess = false,
                 flagMovOpen = false,
-                setCloseDialog = {},
-                flagDialog = false,
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMenuInicial = {},
                 onNavMenuApont = {}
             )
@@ -139,11 +138,9 @@ fun SplashPagePreviewFailure() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SplashContent(
                 modifier = Modifier.padding(innerPadding),
-                flagAccess = false,
                 flagMovOpen = false,
-                setCloseDialog = {},
-                flagDialog = true,
-                failure = "Failure",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMenuInicial = {},
                 onNavMenuApont = {}
             )

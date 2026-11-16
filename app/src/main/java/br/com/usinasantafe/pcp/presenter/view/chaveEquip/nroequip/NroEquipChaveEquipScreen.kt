@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -22,18 +23,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogProgressDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ButtonsGenericNumeric
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.nroequip.TAG_NUMBER_TEXT_FIELD_NRO_EQUIP_SCREEN
-import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
+import br.com.usinasantafe.pcp.presenter.theme.Progress
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 @Composable
 fun NroEquipChaveEquipScreen(
@@ -45,43 +46,33 @@ fun NroEquipChaveEquipScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverNroEquip()
+            }
+
             NroEquipChaveEquipContent(
-                nroEquip = uiState.nroEquip,
+                text = uiState.text,
                 flowApp = uiState.flowApp,
-                setTextField = viewModel::setTextField,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                errors = uiState.errors,
-                failure = uiState.failure,
-                flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
-                currentProgress = uiState.currentProgress,
+                onTextField = viewModel::onTextField,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricColab,
                 onNavControleList = onNavControleList,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.getNroEquip()
         }
     }
 }
 
 @Composable
 fun NroEquipChaveEquipContent(
-    nroEquip: String,
+    text: String,
     flowApp: FlowApp,
-    setTextField: (String, TypeButton) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    errors: Errors,
-    failure: String,
-    flagProgress: Boolean,
-    msgProgress: String,
-    currentProgress: Float,
+    onTextField: (String, TypeButton) -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusStateUpdate,
     onNavControleList: () -> Unit,
     onNavMatricColab: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -108,14 +99,14 @@ fun NroEquipChaveEquipContent(
                 fontSize = 28.sp
             ),
             readOnly = true,
-            value = nroEquip,
+            value = text,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .testTag(TAG_NUMBER_TEXT_FIELD_NRO_EQUIP_SCREEN)
         )
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        ButtonsGenericNumeric(setActionButton = setTextField)
+        ButtonsGenericNumeric(setActionButton = onTextField)
         BackHandler {
             when (flowApp) {
                 FlowApp.ADD -> onNavControleList()
@@ -123,40 +114,18 @@ fun NroEquipChaveEquipContent(
             }
         }
 
-        if (flagDialog) {
-            val text = if (flagFailure) {
-                when (errors) {
-                    Errors.FIELD_EMPTY -> stringResource(
-                        id = R.string.text_field_empty,
-                        stringResource(id = R.string.text_title_nro_equip)
-                    )
-
-                    Errors.UPDATE -> stringResource(id = R.string.text_update_failure, failure)
-                    Errors.TOKEN,
-                    Errors.EXCEPTION -> stringResource(id = R.string.text_failure, failure)
-
-                    Errors.INVALID -> stringResource(
-                        id = R.string.text_input_data_invalid,
-                        stringResource(id = R.string.text_title_nro_equip)
-                    )
-                }
-            } else {
-                msgProgress
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if (status.flagDialog) {
+            MsgUpdate(status = status, onClickOk = onCloseDialog, value = stringResource(id = R.string.text_title_matric_colab))
         }
 
-        if (flagProgress) {
-            AlertDialogProgressDesign(
-                currentProgress = currentProgress,
-                msgProgress = msgProgress
-            )
+        if (status.flagProgress) {
+            Progress(status)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             when (flowApp) {
                 FlowApp.ADD -> onNavMatricColab()
                 FlowApp.CHANGE -> onNavDetalhe()
@@ -172,18 +141,11 @@ fun NroEquipChaveEquipPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NroEquipChaveEquipContent(
-                nroEquip = "",
+                text = "",
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavControleList = {},
                 onNavMatricColab = {},
                 onNavDetalhe = {},

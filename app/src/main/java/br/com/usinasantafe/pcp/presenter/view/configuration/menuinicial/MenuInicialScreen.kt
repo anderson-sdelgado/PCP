@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcp.presenter.view.configuration.menuinicial
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.R
@@ -28,6 +30,10 @@ import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.StatusSend
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.presenter.theme.colorStatus
+import br.com.usinasantafe.pcp.presenter.theme.textStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun MenuInicialScreen(
@@ -40,32 +46,24 @@ fun MenuInicialScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             MenuInicialContent(
                 statusSend = uiState.statusSend,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                failure = uiState.failure,
-                failureStatus = uiState.failureStatus,
-                flagAccess = uiState.flagAccess,
-                onCheckAccess = viewModel::checkAccess,
+                onCloseDialog = viewModel::onCloseDialog,
+                onCheckAccess = viewModel::onCheckAccess,
+                status = uiState.status,
                 onNavMatricVigia = onNavMatricVigia,
                 onNavSenha = onNavSenha,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverStatusSend()
         }
     }
 }
 
+@SuppressLint("ContextCastToActivity")
 @Composable
 fun MenuInicialContent(
     statusSend: StatusSend,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    failure: String,
-    failureStatus: String,
-    flagAccess: Boolean,
+    onCloseDialog: () -> Unit,
     onCheckAccess: () -> Unit,
+    status: UiStatusState,
     onNavMatricVigia: () -> Unit,
     onNavSenha: () -> Unit,
     modifier: Modifier = Modifier
@@ -109,57 +107,25 @@ fun MenuInicialContent(
         }
         Text(
             textAlign = TextAlign.Left,
-            text =
-                if(failureStatus.isEmpty()) {
-                    when (statusSend) {
-                        StatusSend.STARTED -> stringResource(id = R.string.text_status_started)
-                        StatusSend.SEND -> stringResource(id = R.string.text_status_send)
-                        StatusSend.SENDING -> stringResource(id = R.string.text_status_sending)
-                        StatusSend.SENT -> stringResource(id = R.string.text_status_sent)
-                    }
-                } else {
-                    "Failure: $failureStatus"
-                }
-            ,
+            text = textStatus(status.failure, statusSend),
             fontSize = 22.sp,
-            color =
-                if(failureStatus.isEmpty()) {
-                    when (statusSend) {
-                        StatusSend.STARTED -> Color.Red
-                        StatusSend.SEND -> Color.Red
-                        StatusSend.SENDING -> Color.Yellow
-                        StatusSend.SENT -> Color.Green
-                    }
-                } else {
-                    Color.Red
-                }
-            ,
+            color = colorStatus(status.failure, statusSend),
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth()
         )
         BackHandler {}
 
-        if (flagDialog) {
-            val text =
-                if (!flagFailure) {
-                    stringResource(id = R.string.text_blocked_access_app)
-                } else {
-                    stringResource(
-                        id = R.string.text_failure,
-                        failure
-                    )
-                }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             onNavMatricVigia()
         }
-
     }
 }
 
@@ -170,12 +136,13 @@ fun MenuInicialPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MenuInicialContent(
                 statusSend = StatusSend.STARTED,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                flagAccess = false,
-                failure = "",
-                failureStatus = "",
+                onCloseDialog = {},
+                status = UiStatusState(
+                    flagDialog = false,
+                    flagFailure = false,
+                    flagAccess = false,
+                    failure = "",
+                ),
                 onCheckAccess = {},
                 onNavMatricVigia = {},
                 onNavSenha = {},
@@ -192,12 +159,13 @@ fun MenuInicialPagePreviewOpenDialog() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MenuInicialContent(
                 statusSend = StatusSend.SEND,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = false,
-                flagAccess = false,
-                failure = "",
-                failureStatus = "",
+                onCloseDialog = {},
+                status = UiStatusState(
+                    flagDialog = false,
+                    flagFailure = false,
+                    flagAccess = false,
+                    failure = "",
+                ),
                 onCheckAccess = {},
                 onNavMatricVigia = {},
                 onNavSenha = {},
@@ -214,13 +182,14 @@ fun MenuInicialPagePreviewOpenDialogFailure() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MenuInicialContent(
                 statusSend = StatusSend.SENT,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                flagAccess = false,
-                failure = "Failure Datasource",
+                onCloseDialog = {},
+                status = UiStatusState(
+                    flagDialog = true,
+                    flagFailure = true,
+                    flagAccess = false,
+                    failure = "Failure",
+                ),
                 onCheckAccess = {},
-                failureStatus = "",
                 onNavMatricVigia = {},
                 onNavSenha = {},
                 modifier = Modifier.padding(innerPadding)
@@ -236,12 +205,13 @@ fun MenuInicialPagePreviewError() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MenuInicialContent(
                 statusSend = StatusSend.STARTED,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                flagAccess = false,
-                failure = "",
-                failureStatus = "Error",
+                onCloseDialog = {},
+                status = UiStatusState(
+                    flagDialog = true,
+                    flagFailure = false,
+                    flagAccess = false,
+                    failure = "",
+                ),
                 onCheckAccess = {},
                 onNavMatricVigia = {},
                 onNavSenha = {},

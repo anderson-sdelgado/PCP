@@ -25,7 +25,7 @@ fun MovChaveEquipSharedPreferencesModel.sharedPreferencesModelToEntity(): MovCha
     }
 }
 
-fun MovChaveEquip.entityToSharedPreferencesModel(): MovChaveEquipSharedPreferencesModel {
+fun MovChaveEquip.sharedPreferencesModelToEntity(): MovChaveEquipSharedPreferencesModel {
     return with(this) {
         MovChaveEquipSharedPreferencesModel(
             dthrMovChaveEquip = this.dthrMovChaveEquip,

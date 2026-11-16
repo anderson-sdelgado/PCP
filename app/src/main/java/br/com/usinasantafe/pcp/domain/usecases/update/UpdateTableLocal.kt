@@ -15,7 +15,7 @@ import javax.inject.Inject
 interface UpdateTableLocal {
     suspend operator fun invoke(
         sizeAll: Float,
-        count: Float
+        count: Float = 1f
     ): Flow<UiStatusStateUpdate>
 }
 

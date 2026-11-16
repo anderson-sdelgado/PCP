@@ -44,13 +44,26 @@ suspend fun FlowCollector<UiStatusStateUpdate>.flowCall(
     }
 }
 
-//fun <T> flowCall(
-//    context: String,
-//    block: () -> Flow<T>
-//): Flow<T> =
-//    block().catch { e ->
-//        throw resultFailure(context, e).exceptionOrNull() ?: e
-//    }
+suspend fun FlowCollector<UiStatusStateUpdate>.flowCallUpdate(
+    context: String,
+    errors: Errors = Errors.UPDATE,
+    block: suspend () -> Unit
+) {
+    try {
+        block()
+    } catch (e: Exception) {
+        val failure = failure(context, e)
+        emitFailure(failure, errors)
+    }
+}
+
+fun <T> flowCall(
+    context: String,
+    block: () -> Flow<T>
+): Flow<T> =
+    block().catch { e ->
+        throw resultFailure(context, e).exceptionOrNull() ?: e
+    }
 
 suspend fun <T> tryCatch (
     context: String,

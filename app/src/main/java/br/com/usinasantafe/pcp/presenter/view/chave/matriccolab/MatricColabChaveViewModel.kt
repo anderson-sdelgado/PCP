@@ -24,6 +24,7 @@ import br.com.usinasantafe.pcp.utils.onSuccessUpdateAccess
 import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
 import br.com.usinasantafe.pcp.utils.onSuccessUpdateFinish
 import br.com.usinasantafe.pcp.utils.sizeUpdate
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -86,7 +87,7 @@ class MatricColabChaveViewModel @Inject constructor(
             getMatricColabMovChave(uiState.value.id).getOrThrow()
         }
             .onSuccess { updateState { copy(text = it) }}
-            .onFailureUpdate(getClassAndMethod(), ::updateState)
+            .onFailureUpdate(::updateState)
     }
 
     fun onTextField(text: String, typeButton: TypeButton) {
@@ -102,10 +103,14 @@ class MatricColabChaveViewModel @Inject constructor(
 
     private fun set() = viewModelScope.launch {
         runCatching {
+            if(state.text.isEmpty()) {
+                updateState { withFailure( Errors.FIELD_EMPTY) }
+                return@launch
+            }
             checkMatricColab(uiState.value.text).getOrThrow()
         }
             .onSuccessUpdateCheckAccess(::updateState)
-            .onFailureUpdate(getClassAndMethod(), ::updateState)
+            .onFailureUpdate(::updateState)
     }
 
     suspend fun updateAllDatabase(): Flow<MatricColabChaveState> =

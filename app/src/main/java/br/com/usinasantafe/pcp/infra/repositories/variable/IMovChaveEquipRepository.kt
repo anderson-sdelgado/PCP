@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.MovChaveEquip
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveEquipRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.MovChaveEquipRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.room.variable.MovChaveEquipRoomDatasource
@@ -11,7 +10,6 @@ import br.com.usinasantafe.pcp.infra.models.retrofit.variable.retrofitModelInput
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveEquipSharedPreferencesModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.utils.EmptyResult
@@ -140,7 +138,7 @@ class IMovChaveEquipRepository @Inject constructor(
 
     override suspend fun start(movChaveEquip: MovChaveEquip): EmptyResult =
         call(getClassAndMethod()) {
-            val sharedPreferenceModel = movChaveEquip.entityToSharedPreferencesModel()
+            val sharedPreferenceModel = movChaveEquip.sharedPreferencesModelToEntity()
             movChaveEquipSharedPreferencesDatasource.save(sharedPreferenceModel).getOrThrow()
         }
 }

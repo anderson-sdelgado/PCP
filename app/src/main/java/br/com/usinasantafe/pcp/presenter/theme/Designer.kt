@@ -19,12 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.lib.errors
 import br.com.usinasantafe.pcp.lib.msg
 import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
@@ -314,4 +317,33 @@ fun MsgErrors(errors: Errors, onClickOk: () -> Unit, failure: String, value: Str
         text = text,
         onClickOk = onClickOk,
     )
+}
+
+
+@Composable
+fun colorStatus(failure: String, statusSend: StatusSend): Color {
+    return if(failure.isEmpty()) {
+        when (statusSend) {
+            StatusSend.STARTED -> Color.Red
+            StatusSend.SEND -> Color.Red
+            StatusSend.SENT -> Color.Blue
+            StatusSend.SENDING -> Color.Yellow
+        }
+    } else {
+        Color.Red
+    }
+}
+
+@Composable
+fun textStatus(failure: String, statusSend: StatusSend): String {
+    return if (failure.isEmpty()) {
+        when (statusSend) {
+            StatusSend.STARTED -> stringResource(id = R.string.text_status_started)
+            StatusSend.SEND -> stringResource(id = R.string.text_status_send)
+            StatusSend.SENT -> stringResource(id = R.string.text_status_sent)
+            StatusSend.SENDING -> stringResource(id = R.string.text_status_sending)
+        }
+    } else {
+        "Failure: $failure"
+    }
 }

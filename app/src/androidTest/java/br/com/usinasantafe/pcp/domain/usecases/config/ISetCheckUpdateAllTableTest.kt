@@ -16,7 +16,7 @@ import org.koin.test.inject
 
 class ISetCheckUpdateAllTableTest: KoinTest {
 
-    private val usecase: SetCheckUpdateAllTable by inject()
+    private val usecase: SetFinishUpdateAllTable by inject()
     private val configSharedPreferences: ConfigSharedPreferencesDatasource by inject()
 
     @Before

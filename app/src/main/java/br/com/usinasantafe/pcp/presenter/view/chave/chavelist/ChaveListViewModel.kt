@@ -12,6 +12,7 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.LevelUpdate
+import br.com.usinasantafe.pcp.presenter.model.ChaveModel
 import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
 import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 import br.com.usinasantafe.pcp.utils.executeUpdateSteps
@@ -100,7 +101,7 @@ class ChaveListViewModel @Inject constructor(
             getChaveList().getOrThrow()
         }
             .onSuccess { updateState { copy(chaveList = it, allChaveList = it) } }
-            .onFailureUpdate(getClassAndMethod(), ::updateState)
+            .onFailureUpdate(::updateState)
     }
 
     fun setIdChave(id: Int) = viewModelScope.launch {
@@ -108,7 +109,7 @@ class ChaveListViewModel @Inject constructor(
             setIdChaveMovChave(id, uiState.value.flowApp, uiState.value.id).getOrThrow()
         }
             .onSuccessUpdateAccess(::updateState)
-            .onFailureUpdate(getClassAndMethod(), ::updateState)
+            .onFailureUpdate(::updateState)
 
     }
 

@@ -10,7 +10,7 @@ enum class TypeEquip { VEICULO, VEICULOSEG }
 enum class TypeOcupante { MOTORISTA, PASSAGEIRO }
 enum class TypeVisitTerc { VISITANTE, TERCEIRO }
 enum class FlowApp { ADD, CHANGE }
-enum class Errors { FIELD_EMPTY, TOKEN, UPDATE, EXCEPTION, INVALID }
+enum class Errors { FIELD_EMPTY, TOKEN, UPDATE, EXCEPTION, INVALID, PASSWORD_INVALID }
 enum class TypeButton { NUMERIC, CLEAN, OK, UPDATE }
 
 enum class LevelUpdate { RECOVERY, CLEAN, SAVE, GET_TOKEN, SAVE_TOKEN, FINISH_UPDATE_INITIAL, FINISH_UPDATE_COMPLETED }

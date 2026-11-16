@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -21,16 +22,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.presenter.view.chave.observ.TAG_OBSERV_TEXT_FIELD_CHAVE
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun ObservChaveEquipScreen(
@@ -42,22 +44,25 @@ fun ObservChaveEquipScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverObserv()
+            }
+
             ObservChaveEquipContent(
                 flowApp = uiState.flowApp,
                 typeMov = uiState.typeMov,
-                observ = uiState.observ,
+                text = uiState.text,
                 onObservChanged = viewModel::onObservChanged,
-                setObserv = viewModel::setObserv,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricColab,
                 onNavMovChaveList = onNavControleList,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.getObserv()
+
         }
     }
 }
@@ -66,13 +71,11 @@ fun ObservChaveEquipScreen(
 fun ObservChaveEquipContent(
     flowApp: FlowApp,
     typeMov: TypeMovKey,
-    observ: String?,
+    text: String?,
     onObservChanged: (String) -> Unit,
-    setObserv: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMatricColab: () -> Unit,
     onNavMovChaveList: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -93,7 +96,7 @@ fun ObservChaveEquipContent(
             )
         )
         OutlinedTextField(
-            value = if(observ.isNullOrEmpty()) "" else observ,
+            value = if(text.isNullOrEmpty()) "" else text,
             onValueChange = onObservChanged,
             modifier = Modifier
                 .fillMaxWidth()
@@ -127,7 +130,7 @@ fun ObservChaveEquipContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setObserv,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -135,22 +138,21 @@ fun ObservChaveEquipContent(
         }
         BackHandler {}
 
-        if(flagDialog){
-            val text = stringResource(id = R.string.text_failure, failure)
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if(flagAccess){
-            when(flowApp){
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            when (flowApp) {
                 FlowApp.ADD -> onNavMovChaveList()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -161,13 +163,11 @@ fun ObservChaveEquipPagePreview() {
             ObservChaveEquipContent(
                 flowApp = FlowApp.ADD,
                 typeMov = TypeMovKey.REMOVE,
-                observ = "Teste",
+                text = "Teste",
                 onObservChanged = {},
-                setObserv = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavMovChaveList = {},
                 onNavDetalhe = {},

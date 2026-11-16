@@ -3,7 +3,10 @@ package br.com.usinasantafe.pcp.presenter.view.configuration.senha
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.config.CheckPassword
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,14 +14,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.collections.copy
 
 data class SenhaState(
     val password: String = "",
-    val flagDialog: Boolean = false,
-    val flagAccess: Boolean = false,
-    val flagFailure: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<SenhaState> {
+
+    override fun copyWithStatus(status: UiStatusState): SenhaState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class SenhaViewModel @Inject constructor(
@@ -28,44 +34,22 @@ class SenhaViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SenhaState())
     val uiState = _uiState.asStateFlow()
 
-    fun updatePassword(password: String) {
-        _uiState.update {
-            it.copy(password = password)
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: SenhaState.() -> SenhaState) {
+        _uiState.update(block)
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun checkAccess() =
-        viewModelScope.launch {
-            val resultCheck = checkPassword(password = uiState.value.password)
-            if(resultCheck.isFailure) {
-                val error = resultCheck.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        flagAccess = false,
-                        flagFailure = true,
-                        failure = failure
-                    )
-                }
-                return@launch
-            }
-            val statusAccess = resultCheck.getOrNull()!!
-            val statusDialog = !statusAccess
-            _uiState.update {
-                it.copy(
-                    flagDialog = statusDialog,
-                    flagAccess = statusAccess,
-                    flagFailure = false,
-                )
-            }
+    fun onPasswordChanged(password: String) = updateState { copy(password = password) }
+
+    fun onCheckAccess() = viewModelScope.launch {
+        runCatching {
+            checkPassword(state.password).getOrThrow()
         }
+            .onSuccess { updateState { copy(status = status.copy(flagAccess = it)) } }
+            .onFailureState(getClassAndMethod(), ::updateState)
+    }
 
 }

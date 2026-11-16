@@ -30,7 +30,7 @@ fun ConfigSharedPreferencesModel.sharedPreferencesModelToEntity(): Config {
     }
 }
 
-fun Config.sharedPreferencesModelToEntity(): ConfigSharedPreferencesModel {
+fun Config.entityToSharedPreferencesModel(): ConfigSharedPreferencesModel {
     return with(this) {
         ConfigSharedPreferencesModel(
             number = number,

@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.domain.usecases.chave
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovChaveRepository
-import br.com.usinasantafe.pcp.presenter.view.chave.model.ControleChaveModel
+import br.com.usinasantafe.pcp.presenter.model.ControleChaveModel
 import br.com.usinasantafe.pcp.lib.TypeMovKey
 import java.text.SimpleDateFormat
 import java.util.Locale

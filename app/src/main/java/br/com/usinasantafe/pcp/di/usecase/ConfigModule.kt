@@ -33,10 +33,14 @@ interface ConfigModule {
 
     @Binds
     @Singleton
-    fun bindSetCheckUpdateAllTable(usecase: ISetCheckUpdateAllTable): SetCheckUpdateAllTable
+    fun bindSetCheckUpdateAllTable(usecase: ISetFinishUpdateAllTable): SetFinishUpdateAllTable
 
     @Binds
     @Singleton
     fun bindSetMatricVigiaConfig(usecase: ISetMatricVigiaConfig): SetMatricVigiaConfig
+
+    @Binds
+    @Singleton
+    fun bindUpdateConfig(usecase: IUpdateConfig): UpdateConfig
 
 }

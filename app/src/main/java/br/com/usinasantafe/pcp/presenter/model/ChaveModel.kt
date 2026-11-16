@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.chave.chavelist
+package br.com.usinasantafe.pcp.presenter.model
 
 data class ChaveModel(
     val id: Int,

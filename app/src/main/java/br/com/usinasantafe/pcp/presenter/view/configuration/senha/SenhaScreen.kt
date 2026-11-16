@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -22,13 +23,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_PASSWORD_TEXT_FIELD_SENHA_SCREEN = "tag_password_text_field_senha_screen"
 
@@ -43,13 +46,10 @@ fun SenhaScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             SenhaContent(
                 password = uiState.password,
-                onPasswordChanged =  viewModel::updatePassword,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                failure = uiState.failure,
-                flagAccess = uiState.flagAccess,
-                onCheckAccess = viewModel::checkAccess,
+                onPasswordChanged =  viewModel::onPasswordChanged,
+                onCloseDialog = viewModel::onCloseDialog,
+                onCheckAccess = viewModel::onCheckAccess,
+                status = uiState.status,
                 onNavMenuInicial = onNavMenuInicial,
                 onNavConfig = onNavConfig,
                 modifier = Modifier.padding(innerPadding)
@@ -63,12 +63,9 @@ fun SenhaScreen(
 fun SenhaContent(
     password: String,
     onPasswordChanged: (String) -> Unit,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    failure: String,
-    flagAccess: Boolean,
+    onCloseDialog: () -> Unit,
     onCheckAccess: () -> Unit,
+    status: UiStatusState,
     onNavMenuInicial: () -> Unit,
     onNavConfig: () -> Unit,
     modifier: Modifier = Modifier) {
@@ -110,23 +107,18 @@ fun SenhaContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            val text = if(!flagFailure) {
-                stringResource(id = R.string.text_password_invalid)
-            } else {
-                stringResource(id = R.string.text_failure, failure)
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
-        }
-
-        if(flagAccess) {
-            onNavConfig()
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
     }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            onNavConfig()
+        }
+    }
+
 }
 
 @Preview(showBackground = true)
@@ -137,12 +129,9 @@ fun SenhaPagePreview() {
             SenhaContent(
                 password = "teste",
                 onPasswordChanged = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                failure = "",
-                flagAccess = false,
+                onCloseDialog = {},
                 onCheckAccess = {},
+                status = UiStatusState(),
                 onNavMenuInicial = {},
                 onNavConfig = {},
                 modifier = Modifier.padding(innerPadding)
@@ -159,11 +148,13 @@ fun SenhaPagePreviewMsgOpen() {
             SenhaContent(
                 password = "",
                 onPasswordChanged = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = false,
-                failure = "",
-                flagAccess = false,
+                onCloseDialog = {},
+                status = UiStatusState(
+                    flagDialog = true,
+                    flagFailure = false,
+                    failure = "",
+                    flagAccess = false,
+                ),
                 onCheckAccess = {},
                 onNavMenuInicial = {},
                 onNavConfig = {},
@@ -181,11 +172,13 @@ fun SenhaPagePreviewMsgOpenFailure() {
             SenhaContent(
                 password = "",
                 onPasswordChanged = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                failure = "Error CheckPasswordConfig",
-                flagAccess = false,
+                onCloseDialog = {},
+                status = UiStatusState(
+                    flagDialog = true,
+                    flagFailure = true,
+                    failure = "Error CheckPasswordConfig",
+                    flagAccess = false,
+                ),
                 onCheckAccess = {},
                 onNavMenuInicial = {},
                 onNavConfig = {},

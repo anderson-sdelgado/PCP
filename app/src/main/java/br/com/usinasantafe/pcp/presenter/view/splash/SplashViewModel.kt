@@ -5,7 +5,12 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.initial.AdjustConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.CheckMovOpen
 import br.com.usinasantafe.pcp.domain.usecases.initial.DeleteMovSent
+import br.com.usinasantafe.pcp.presenter.view.initial.nomevigia.NomeVigiaState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,12 +20,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 data class SplashState(
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-    val flagAccess: Boolean = false,
     val flagMovOpen: Boolean = false,
-    val flagExecute: Boolean = true,
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<SplashState> {
+
+    override fun copyWithStatus(status: UiStatusState): SplashState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
@@ -32,69 +39,22 @@ class SplashViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SplashState())
     val uiState = _uiState.asStateFlow()
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: SplashState.() -> SplashState) {
+        _uiState.update(block)
     }
 
-    fun setOpenDialog() {
-        _uiState.update {
-            it.copy(flagDialog = true)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
     fun processInitial(version: String) = viewModelScope.launch {
-        if (!_uiState.value.flagExecute) return@launch
-        _uiState.update {
-            it.copy(flagExecute = false)
+        runCatching {
+            adjustConfig(version).getOrThrow()
+            deleteMovSent().getOrThrow()
+            checkMovOpen().getOrThrow()
         }
-        val resultAdjustConfig = adjustConfig(version)
-        if (resultAdjustConfig.isFailure) {
-            val error = resultAdjustConfig.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
-            }
-            return@launch
-        }
-        val resultDeleteMovSent = deleteMovSent()
-        if (resultDeleteMovSent.isFailure) {
-            val error = resultDeleteMovSent.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
-            }
-            return@launch
-        }
-        val resultCheckMovOpen = checkMovOpen()
-        if (resultCheckMovOpen.isFailure) {
-            val error = resultCheckMovOpen.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
-            }
-            return@launch
-        }
-        val result = resultCheckMovOpen.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-                flagMovOpen = result
-            )
-        }
+            .onSuccess{  updateState { copy(flagMovOpen = it, status = status.copy(flagAccess = true)) } }
+            .onFailureState(::updateState)
     }
 
 }

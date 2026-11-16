@@ -14,7 +14,7 @@ class ISaveDataConfigTest {
     fun `Chech return true if save is correct`() = runTest {
         val configRepository = mock<ConfigRepository>()
         whenever(
-            configRepository.saveInitial(
+            configRepository.save(
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",
@@ -68,7 +68,7 @@ class ISaveDataConfigTest {
     fun `Chech return Failure Datasource if have error in Datasource`() = runTest {
         val configRepository = mock<ConfigRepository>()
         whenever(
-            configRepository.saveInitial(
+            configRepository.save(
                 number = 16997417840,
                 password = "12345",
                 version = "6.00",

@@ -2,13 +2,20 @@ package br.com.usinasantafe.pcp.presenter.view.initial.local
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.entities.stable.Local
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableLocal
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.lib.Errors
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.matriccolab.MatricColabChaveEquipState
+import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
+import br.com.usinasantafe.pcp.utils.executeUpdateSteps
+import br.com.usinasantafe.pcp.utils.onFailureUpdate
+import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
+import br.com.usinasantafe.pcp.utils.sizeUpdate
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,39 +28,13 @@ import javax.inject.Inject
 
 data class LocalState(
     val locals: List<Local> = emptyList(),
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-    val flagAccess: Boolean = false,
-    val flagFailure: Boolean = false,
-    val errors: Errors = Errors.FIELD_EMPTY,
-    val flagProgress: Boolean = false,
-    val msgProgress: String = "",
-    val currentProgress: Float = 0.0f,
-)
+    override val status: UiStatusStateUpdate = UiStatusStateUpdate()
+) : UiStateWithStatusUpdate<LocalState> {
 
-fun ResultUpdate.resultUpdateToLocal(): LocalState {
-    val fail = if(failure.isNotEmpty()){
-        val ret = "LocalViewModel.updateAllDatabase -> ${this.failure}"
-        Timber.e(ret)
-        ret
-    } else {
-        this.failure
-    }
-    val msg = if(failure.isNotEmpty()){
-        "LocalViewModel.updateAllDatabase -> ${this.failure}"
-    } else {
-        this.msgProgress
-    }
-    return LocalState(
-            flagDialog = this.flagDialog,
-            flagFailure = this.flagFailure,
-            errors = this.errors,
-            failure = fail,
-            flagProgress = this.flagProgress,
-            msgProgress = msg,
-            currentProgress = this.currentProgress,
-        )
-    }
+    override fun copyWithStatus(status: UiStatusStateUpdate): LocalState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class LocalViewModel @Inject constructor(
@@ -65,86 +46,43 @@ class LocalViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LocalState())
     val uiState = _uiState.asStateFlow()
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: LocalState.() -> LocalState) {
+        _uiState.update(block)
     }
+
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
     fun localList() = viewModelScope.launch {
-        val resultRecoverLocals = getLocalList()
-        if (resultRecoverLocals.isFailure) {
-            val error = resultRecoverLocals.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    flagFailure = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+        runCatching {
+            getLocalList().getOrThrow()
         }
-        val result = resultRecoverLocals.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                locals = result
-            )
-        }
+            .onSuccess { updateState { copy(locals = it) }}
+            .onFailureUpdate(::updateState)
     }
 
-    fun setIdLocal(id: Int) = viewModelScope.launch {
-        val resultSetIdLocalConfig = setIdLocalConfig(id)
-        if (resultSetIdLocalConfig.isFailure) {
-            val error = resultSetIdLocalConfig.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun set(id: Int) = viewModelScope.launch {
+        runCatching {
+            setIdLocalConfig(id).getOrThrow()
         }
-        val result = resultSetIdLocalConfig.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flagAccess = result,
-                flagDialog = !result,
-            )
-        }
+            .onSuccessUpdateCheckAccess(::updateState)
+            .onFailureUpdate( ::updateState)
     }
 
     fun updateDatabase() = viewModelScope.launch {
-        viewModelScope.launch {
-            updateAllDatabase().collect { stateUpdate ->
-                _uiState.value = stateUpdate
-            }
+        updateAllDatabase().collect { stateUpdate ->
+            _uiState.value = stateUpdate
         }
     }
 
-    suspend fun updateAllDatabase(): Flow<LocalState> = flow {
-        val sizeUpdate = 4f
-        var state = LocalState()
-        updateTableLocal(sizeUpdate, 1f).collect {
-            state = it.resultUpdateToLocal()
-            emit(
-                it.resultUpdateToLocal()
-            )
-        }
-        if (state.flagFailure)
-            return@flow
-        emit(
-            LocalState(
-                flagDialog = true,
-                flagProgress = false,
-                flagFailure = false,
-                msgProgress = "Atualização de dados realizado com sucesso!",
-                currentProgress = 1f,
-            )
+    suspend fun updateAllDatabase(): Flow<LocalState> =
+        executeUpdateSteps(
+            steps = listOf(updateTableLocal(sizeUpdate())),
+            getState = { _uiState.value },
+            getStatus = { it.status },
+            copyStateWithStatus = { state, status -> state.copy(status = status) },
+            classAndMethod = getClassAndMethod(),
         )
-    }
 
 }

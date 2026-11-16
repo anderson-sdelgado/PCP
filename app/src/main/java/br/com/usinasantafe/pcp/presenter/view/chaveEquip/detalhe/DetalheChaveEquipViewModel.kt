@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.CloseMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetDetalheMovChaveEquip
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.presenter.view.chave.detalhe.DetalheChaveState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,9 +27,13 @@ data class DetalheChaveEquipState(
     val observ: String? = "",
     val flagDialogCheck: Boolean = false,
     val flagCloseMov: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = ""
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<DetalheChaveEquipState> {
+
+    override fun copyWithStatus(status: UiStatusState): DetalheChaveEquipState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class DetalheChaveEquipViewModel @Inject constructor(
@@ -48,13 +55,13 @@ class DetalheChaveEquipViewModel @Inject constructor(
         }
     }
 
-    fun setCloseDialog() {
+    fun onCloseDialog() {
         _uiState.update {
             it.copy(flagDialog = false)
         }
     }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
+    fun onDialogCheck(flagDialogCheck: Boolean) {
         _uiState.update {
             it.copy(flagDialogCheck = flagDialogCheck)
         }
@@ -86,7 +93,7 @@ class DetalheChaveEquipViewModel @Inject constructor(
         }
     }
 
-    fun closeMov() = viewModelScope.launch {
+    fun onCloseMov() = viewModelScope.launch {
         val resultCloseMov = closeMovChaveEquip(uiState.value.id)
         if(resultCloseMov.isFailure) {
             val error = resultCloseMov.exceptionOrNull()!!

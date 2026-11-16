@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -22,16 +23,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogProgressDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ButtonsGenericNumeric
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
+import br.com.usinasantafe.pcp.presenter.theme.Progress
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 const val TAG_NUMBER_TEXT_FIELD_MATRIC_VIGIA_SCREEN = "tag_number_text_field_matric_vigia_screen"
 
@@ -45,17 +47,10 @@ fun MatricVigiaScreen(
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             MatricVigiaContent(
-                matricVigia = uiState.matricVigia,
-                setTextField = viewModel::setTextField,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                errors = uiState.errors,
-                failure = uiState.failure,
-                flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
-                currentProgress = uiState.currentProgress,
+                text = uiState.text,
+                onTextField = viewModel::onTextField,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMenuInicial = onNavMenuInicial,
                 onNavNomeVigia = onNavNomeVigia,
                 modifier = Modifier.padding(innerPadding)
@@ -66,17 +61,10 @@ fun MatricVigiaScreen(
 
 @Composable
 fun MatricVigiaContent(
-    matricVigia: String,
-    setTextField: (String, TypeButton) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    errors: Errors,
-    failure: String,
-    flagProgress: Boolean,
-    msgProgress: String,
-    currentProgress: Float,
+    text: String,
+    onTextField: (String, TypeButton) -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusStateUpdate,
     onNavMenuInicial: () -> Unit,
     onNavNomeVigia: () -> Unit,
     modifier: Modifier = Modifier,
@@ -98,56 +86,33 @@ fun MatricVigiaContent(
                 fontSize = 24.sp
             ),
             readOnly = true,
-            value = matricVigia,
+            value = text,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .testTag(TAG_NUMBER_TEXT_FIELD_MATRIC_VIGIA_SCREEN)
         )
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        ButtonsGenericNumeric(setActionButton = setTextField)
+        ButtonsGenericNumeric(setActionButton = onTextField)
         BackHandler {
             onNavMenuInicial()
         }
 
-        if (flagDialog) {
-            val text = if (flagFailure) {
-                when (errors) {
-                    Errors.FIELD_EMPTY -> stringResource(
-                        id = R.string.text_field_empty,
-                        "MATRICULA VIGIA"
-                    )
-
-                    Errors.UPDATE -> stringResource(id = R.string.text_update_failure, failure)
-                    Errors.TOKEN,
-                    Errors.EXCEPTION -> stringResource(id = R.string.text_failure, failure)
-
-                    Errors.INVALID -> stringResource(
-                        id = R.string.text_input_data_invalid,
-                        "MATRICULA VIGIA"
-                    )
-                }
-            } else {
-                msgProgress
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if (status.flagDialog) {
+            MsgUpdate(status = status, onClickOk = onCloseDialog, value = stringResource(id = R.string.text_title_matric_colab))
         }
 
-        if (flagProgress) {
-            AlertDialogProgressDesign(
-                currentProgress = currentProgress,
-                msgProgress = msgProgress
-            )
+        if (status.flagProgress) {
+            Progress(status)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             onNavNomeVigia()
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -156,19 +121,12 @@ fun MatricVigiaPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricVigiaContent(
-                matricVigia = "",
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
+                text = "",
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavMenuInicial = {},
                 onNavNomeVigia = {},
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -181,19 +139,20 @@ fun MatricVigiaPagePreviewFieldEmpty() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricVigiaContent(
-                matricVigia = "",
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
+                text = "",
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
                 onNavMenuInicial = {},
                 onNavNomeVigia = {},
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                status = UiStatusStateUpdate(
+                    flagAccess = false,
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.FIELD_EMPTY,
+                    failure = "",
+                    flagProgress = false,
+                    currentProgress = 0.0f,
+                ),
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -206,94 +165,20 @@ fun MatricVigiaPagePreviewFailure() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricVigiaContent(
-                matricVigia = "",
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.EXCEPTION,
-                failure = "Datasource Failure",
+                text = "",
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
                 onNavMenuInicial = {},
                 onNavNomeVigia = {},
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MatricVigiaPagePreviewFailureUpdate() {
-    PCPTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            MatricVigiaContent(
-                matricVigia = "",
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.UPDATE,
-                failure = "Datasource Failure",
-                onNavMenuInicial = {},
-                onNavNomeVigia = {},
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MatricVigiaPagePreviewBlockedAccess() {
-    PCPTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            MatricVigiaContent(
-                matricVigia = "",
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.INVALID,
-                failure = "",
-                onNavMenuInicial = {},
-                onNavNomeVigia = {},
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MatricVigiaPagePreviewUpdate() {
-    PCPTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            MatricVigiaContent(
-                matricVigia = "",
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.EXCEPTION,
-                failure = "",
-                onNavMenuInicial = {},
-                onNavNomeVigia = {},
-                flagProgress = true,
-                msgProgress = "Atualizando dados",
-                currentProgress = 0.3333334f,
+                status = UiStatusStateUpdate(
+                    flagAccess = false,
+                    flagDialog = true,
+                    flagFailure = true,
+                    errors = Errors.EXCEPTION,
+                    failure = "Datasource Failure",
+                    flagProgress = false,
+                    currentProgress = 0.0f,
+                ),
                 modifier = Modifier.padding(innerPadding)
             )
         }

@@ -22,10 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
@@ -54,7 +53,7 @@ fun ObservChaveScreen(
             ObservChaveContent(
                 flowApp = uiState.flowApp,
                 typeMov = uiState.typeMov,
-                observ = uiState.observ,
+                text = uiState.text,
                 onObservChanged = viewModel::onObservChanged,
                 set = viewModel::set,
                 onCloseDialog = viewModel::onCloseDialog,
@@ -72,7 +71,7 @@ fun ObservChaveScreen(
 fun ObservChaveContent(
     flowApp: FlowApp,
     typeMov: TypeMovKey,
-    observ: String?,
+    text: String?,
     onObservChanged: (String) -> Unit,
     set: () -> Unit,
     onCloseDialog: () -> Unit,
@@ -97,7 +96,7 @@ fun ObservChaveContent(
             )
         )
         OutlinedTextField(
-            value = if(observ.isNullOrEmpty()) "" else observ,
+            value = if(text.isNullOrEmpty()) "" else text,
             onValueChange = onObservChanged,
             modifier = Modifier
                 .fillMaxWidth()
@@ -163,7 +162,7 @@ fun ObservChavePagePreview() {
             ObservChaveContent(
                 flowApp = FlowApp.ADD,
                 typeMov = TypeMovKey.REMOVE,
-                observ = "Teste",
+                text = "Teste",
                 onObservChanged = {},
                 set = {},
                 status = UiStatusState(),

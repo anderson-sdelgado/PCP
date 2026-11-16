@@ -10,7 +10,6 @@ import br.com.usinasantafe.pcp.infra.models.room.variable.MovChaveEquipRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.entityToRoomModel
 import br.com.usinasantafe.pcp.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.MovChaveEquipSharedPreferencesModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.StatusData
@@ -546,7 +545,7 @@ class IMovChaveEquipRepositoryTest {
             )
             whenever(
                 movChaveEquipSharedPreferencesDatasource.start(
-                    entity.entityToSharedPreferencesModel()
+                    entity.sharedPreferencesModelToEntity()
                 )
             ).thenReturn(
                 Result.failure(
@@ -582,7 +581,7 @@ class IMovChaveEquipRepositoryTest {
             )
             whenever(
                 movChaveEquipSharedPreferencesDatasource.start(
-                    entity.entityToSharedPreferencesModel()
+                    entity.sharedPreferencesModelToEntity()
                 )
             ).thenReturn(
                 Result.success(true)

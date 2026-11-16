@@ -11,21 +11,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TextSmallDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
-import br.com.usinasantafe.pcp.presenter.view.chaveEquip.model.ControleChaveEquipModel
+import br.com.usinasantafe.pcp.presenter.model.ControleChaveEquipModel
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun ControleChaveEquipListScreen(
@@ -38,23 +40,25 @@ fun ControleChaveEquipListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recoverHeader()
+                viewModel.recoverMovList()
+            }
+
             ControleChaveEquipListContent(
                 controleChaveEquipModelList = uiState.controleChaveEquipModelList,
                 descrVigia = uiState.descrVigia,
                 descrLocal = uiState.descrLocal,
                 startMov = viewModel::startMov,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavControleChaveEquipEditList = onNavControleChaveEquipEditList,
                 onNavMatricColab = onNavMatricColab,
                 onNavMenuApont = onNavMenuApont,
                 onNavEquip = onNavEquip,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnHeader()
-            viewModel.recoverMovList()
         }
     }
 }
@@ -65,10 +69,8 @@ fun ControleChaveEquipListContent(
     descrVigia: String,
     descrLocal: String,
     startMov: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavControleChaveEquipEditList: () -> Unit,
     onNavMatricColab: (Int) -> Unit,
     onNavMenuApont: () -> Unit,
@@ -138,17 +140,18 @@ fun ControleChaveEquipListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             onNavEquip()
         }
     }
+
 }
 
 @Preview(showBackground = true)
@@ -168,10 +171,8 @@ fun ControleChaveEquipListPagePreview() {
                 descrVigia = "19759 - ANDERSON DA SILVA DELGADO",
                 descrLocal = "1 - USINA",
                 startMov = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavControleChaveEquipEditList = {},
                 onNavMatricColab = {},
                 onNavMenuApont = {},

@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.chave.detalhe
+package br.com.usinasantafe.pcp.presenter.model
 
 data class DetalheChaveModel(
     val dthr: String,

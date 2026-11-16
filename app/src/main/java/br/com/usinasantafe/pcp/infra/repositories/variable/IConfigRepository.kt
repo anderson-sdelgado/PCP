@@ -1,12 +1,11 @@
 package br.com.usinasantafe.pcp.infra.repositories.variable
 
 import br.com.usinasantafe.pcp.domain.entities.variable.Config
-import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcp.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.pcp.infra.datasource.sharepreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.pcp.infra.models.retrofit.variable.entityToRetrofitModel
-import br.com.usinasantafe.pcp.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.pcp.infra.models.sharedpreferences.entityToSharedPreferencesModel
 import br.com.usinasantafe.pcp.infra.models.sharedpreferences.sharedPreferencesModelToEntity
 import br.com.usinasantafe.pcp.lib.FlagUpdate
 import br.com.usinasantafe.pcp.lib.StatusSend
@@ -14,6 +13,7 @@ import br.com.usinasantafe.pcp.utils.EmptyResult
 import br.com.usinasantafe.pcp.utils.call
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.required
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class IConfigRepository @Inject constructor(
@@ -26,16 +26,10 @@ class IConfigRepository @Inject constructor(
             configSharedPreferencesDatasource.has().getOrThrow()
         }
 
-    override suspend fun saveInitial(number: Long, password: String, version: String, idServ: Int): EmptyResult =
+    override suspend fun save(entity: Config): EmptyResult =
         call(getClassAndMethod()) {
-            val config = ConfigSharedPreferencesModel(
-                number = number,
-                password = password,
-                version = version,
-                idServ = idServ,
-                statusSend = StatusSend.SENT
-            )
-            configSharedPreferencesDatasource.save(config).getOrThrow()
+            val model = entity.entityToSharedPreferencesModel()
+            configSharedPreferencesDatasource.save(model).getOrThrow()
         }
 
     override suspend fun getPassword(): Result<String> =
@@ -64,10 +58,12 @@ class IConfigRepository @Inject constructor(
             model.sharedPreferencesModelToEntity()
         }
 
-    override suspend fun send(config: Config): Result<Int> =
+    override suspend fun send(entity: Config): Result<Config> =
         call(getClassAndMethod()) {
-            val model = config.entityToRetrofitModel()
-            configRetrofitDatasource.recoverToken(model).getOrThrow().idServ
+            val model = entity.entityToRetrofitModel()
+            val configRetrofitModel = configRetrofitDatasource.recoverToken(model).getOrThrow()
+            entity.idServ = configRetrofitModel.idServ
+            entity
         }
 
     override suspend fun setFlagUpdate(flagUpdate: FlagUpdate): EmptyResult =
@@ -89,5 +85,9 @@ class IConfigRepository @Inject constructor(
         call(getClassAndMethod()) {
             configSharedPreferencesDatasource.setStatusSend(statusSend).getOrThrow()
         }
+
+    override fun getStatusSend(): Flow<StatusSend> {
+        configSharedPreferencesDatasource.getStatusSend()
+    }
 
 }

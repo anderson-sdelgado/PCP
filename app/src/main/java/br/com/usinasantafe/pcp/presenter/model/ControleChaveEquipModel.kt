@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.chaveEquip.model
+package br.com.usinasantafe.pcp.presenter.model
 
 data class ControleChaveEquipModel(
     val id: Int,
