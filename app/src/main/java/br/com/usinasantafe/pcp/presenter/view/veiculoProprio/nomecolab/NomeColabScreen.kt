@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,12 +23,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeOcupante
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun NomeColabScreen(
@@ -39,22 +41,24 @@ fun NomeColabScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             NomeColabContent(
                 flowApp = uiState.flowApp,
                 typeOcupante = uiState.typeOcupante,
                 nomeColab = uiState.nomeColab,
-                setMatric = viewModel::setMatric,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricColab,
                 onNavPassagColabList = onNavPassagColabList,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
         }
-        viewModel.returnNomeColab()
     }
 }
 
@@ -63,11 +67,9 @@ fun NomeColabContent(
     flowApp: FlowApp,
     typeOcupante: TypeOcupante,
     nomeColab: String,
-    setMatric: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMatricColab: () -> Unit,
     onNavPassagColabList: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -110,7 +112,7 @@ fun NomeColabContent(
                 )
             }
             Button(
-                onClick = setMatric,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -118,26 +120,25 @@ fun NomeColabContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavMatricColab() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if(flagAccess) {
-            when(typeOcupante){
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            when (typeOcupante) {
                 TypeOcupante.MOTORISTA -> {
-                    when(flowApp){
+                    when (flowApp) {
                         FlowApp.ADD -> onNavPassagColabList()
                         FlowApp.CHANGE -> onNavDetalhe()
                     }
                 }
+
                 TypeOcupante.PASSAGEIRO -> onNavPassagColabList()
             }
         }
-
     }
 }
 
@@ -150,11 +151,9 @@ fun NomeColabPagePreview() {
                 flowApp = FlowApp.ADD,
                 typeOcupante = TypeOcupante.MOTORISTA,
                 nomeColab = "ANDERSON DA SILVA DELGADO",
-                setMatric = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavPassagColabList = {},
                 onNavDetalhe = {},
@@ -173,11 +172,9 @@ fun NomeColabPagePreviewFailure() {
                 flowApp = FlowApp.ADD,
                 typeOcupante = TypeOcupante.MOTORISTA,
                 nomeColab = "ANDERSON DA SILVA DELGADO",
-                setMatric = {},
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                failure = "Failure Usecase -> RecoverNomeColab -> java.lang.NullPointerException",
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavPassagColabList = {},
                 onNavDetalhe = {},

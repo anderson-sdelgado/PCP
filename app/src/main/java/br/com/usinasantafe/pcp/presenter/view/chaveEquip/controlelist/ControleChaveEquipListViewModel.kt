@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ControleChaveEquipListState(
-    val controleChaveEquipModelList: List<ControleChaveEquipModel> = emptyList(),
+    val list: List<ControleChaveEquipModel> = emptyList(),
     val descrVigia: String = "",
     val descrLocal: String = "",
     override val status: UiStatusState = UiStatusState()
@@ -47,7 +47,7 @@ class ControleChaveEquipListViewModel @Inject constructor(
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverHeader() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
             getHeader().getOrThrow()
         }
@@ -55,15 +55,15 @@ class ControleChaveEquipListViewModel @Inject constructor(
             .onFailureState(::updateState)
     }
 
-    fun recoverMovList() = viewModelScope.launch {
+    fun list() = viewModelScope.launch {
         runCatching {
             getMovChaveEquipInsideList().getOrThrow()
         }
-            .onSuccess { updateState { copy(controleChaveEquipModelList = it) }}
+            .onSuccess { updateState { copy(list = it) }}
             .onFailureState(::updateState)
     }
 
-    fun startMov() = viewModelScope.launch {
+    fun onStartMov() = viewModelScope.launch {
         runCatching {
             startReceiptMovChaveEquip().getOrThrow()
         }

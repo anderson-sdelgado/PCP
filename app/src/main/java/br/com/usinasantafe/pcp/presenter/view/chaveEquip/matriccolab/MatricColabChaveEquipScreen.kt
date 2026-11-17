@@ -48,7 +48,7 @@ fun MatricColabChaveEquipScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverMatricColab()
+                viewModel.recover()
             }
 
             MatricColabChaveEquipContent(

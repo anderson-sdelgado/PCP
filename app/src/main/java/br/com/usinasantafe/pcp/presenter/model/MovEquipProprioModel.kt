@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.veiculoProprio.movlist
+package br.com.usinasantafe.pcp.presenter.model
 
 data class MovEquipProprioModel(
     val id: Int,

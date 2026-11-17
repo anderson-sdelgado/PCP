@@ -7,25 +7,31 @@ import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.CloseAllMovProprio
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetMovEquipProprioOpenList
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.StartMovEquipProprio
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.presenter.model.MovEquipProprioModel
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class MovEquipProprioListState(
     val descrVigia: String = "",
     val descrLocal: String = "",
-    val movEquipProprioModelList: List<MovEquipProprioModel> = emptyList(),
+    val list: List<MovEquipProprioModel> = emptyList(),
     val flagDialogCheck: Boolean = false,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
     val flagCloseAllMov: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<MovEquipProprioListState> {
+
+    override fun copyWithStatus(status: UiStatusState): MovEquipProprioListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class MovEquipProprioListViewModel @Inject constructor(
@@ -38,105 +44,47 @@ class MovEquipProprioListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MovEquipProprioListState())
     val uiState = _uiState.asStateFlow()
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: MovEquipProprioListState.() -> MovEquipProprioListState) {
+        _uiState.update(block)
     }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
-        _uiState.update {
-            it.copy(flagDialogCheck = flagDialogCheck)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onDialogCheck(flag: Boolean) = updateState { copy(flagDialogCheck = flag) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            getHeader().getOrThrow()
         }
+            .onSuccess { updateState { copy(descrVigia = it.descrVigia, descrLocal = it.descrLocal) }}
+            .onFailureState(::updateState)
     }
 
-    fun returnHeader() = viewModelScope.launch {
-        val recoverHeader = getHeader()
-        if(recoverHeader.isFailure){
-            val error = recoverHeader.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun list() = viewModelScope.launch {
+        runCatching {
+            getMovEquipProprioOpenList().getOrThrow()
         }
-        val result = recoverHeader.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                descrVigia = result.descrVigia,
-                descrLocal = result.descrLocal,
-            )
-        }
+            .onSuccess { updateState { copy(list = it) }}
+            .onFailureState(::updateState)
     }
 
-    fun recoverMovEquipOpenList() = viewModelScope.launch {
-        val resultGetList = getMovEquipProprioOpenList()
-        if (resultGetList.isFailure) {
-            val error = resultGetList.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onStartMov(typeMov: TypeMovEquip) = viewModelScope.launch {
+        runCatching {
+            startMovEquipProprio(typeMov = typeMov).getOrThrow()
         }
-        val result = resultGetList.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                movEquipProprioModelList = result
-            )
-        }
-    }
-
-    fun startMov(typeMov: TypeMovEquip) = viewModelScope.launch {
-        val resultStart = startMovEquipProprio(typeMov = typeMov)
-        if(resultStart.isFailure){
-            val error = resultStart.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-                flagDialog = false,
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 
-    fun closeAllMov() = viewModelScope.launch {
-        val resultCloseAllMov = closeAllMovProprio()
-        if(resultCloseAllMov.isFailure) {
-            val error = resultCloseAllMov.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onCloseAllMov() = viewModelScope.launch {
+        runCatching {
+            closeAllMovProprio().getOrThrow()
         }
-        _uiState.update {
-            it.copy(
-                flagCloseAllMov = true,
-            )
-        }
+            .onSuccess { updateState { copy(flagCloseAllMov = true) }}
+            .onFailureState(::updateState)
     }
 
 }

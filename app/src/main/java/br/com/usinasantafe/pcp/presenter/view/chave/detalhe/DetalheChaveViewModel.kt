@@ -8,14 +8,12 @@ import br.com.usinasantafe.pcp.domain.usecases.chave.GetDetalheMovChave
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.utils.UiStateWithStatus
 import br.com.usinasantafe.pcp.utils.UiStatusState
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class DetalheChaveState(
@@ -53,23 +51,13 @@ class DetalheChaveViewModel @Inject constructor(
         _uiState.update(block)
     }
 
-    init {
-        _uiState.update {
-            it.copy(
-                id = id
-            )
-        }
-    }
+    init { updateState { copy(id = id) } }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun onDialogCheck(flagDialogCheck: Boolean) {
-        _uiState.update {
-            it.copy(flagDialogCheck = flagDialogCheck)
-        }
-    }
+    fun onDialogCheck(flag: Boolean) = updateState { copy(flagDialogCheck = flag) }
 
-    fun recoverDetalhe() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
             getDetalheMovChave(uiState.value.id).getOrThrow()
         }

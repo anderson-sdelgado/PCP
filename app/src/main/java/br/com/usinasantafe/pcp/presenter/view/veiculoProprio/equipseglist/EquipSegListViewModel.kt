@@ -12,26 +12,30 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_EQUIP_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeEquip
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class EquipSegListState(
-    val equipSegList: List<Equip> = emptyList(),
-    val flagClean: Boolean = true,
+    val list: List<Equip> = emptyList(),
     val flowApp: FlowApp = FlowApp.ADD,
     val typeEquip: TypeEquip = TypeEquip.VEICULO,
     val id: Int = 0,
     val idEquipSelected: Int? = null,
     val flagDialogCheck: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<EquipSegListState> {
+
+    override fun copyWithStatus(status: UiStatusState): EquipSegListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class EquipSegListViewModel @Inject constructor(
@@ -41,119 +45,50 @@ class EquipSegListViewModel @Inject constructor(
     private val deleteEquipSeg: DeleteEquipSeg,
 ) : ViewModel() {
 
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeEquip: Int = saveStateHandle[TYPE_EQUIP_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeEquipArgs: Int = saveStateHandle[TYPE_EQUIP_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(EquipSegListState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: EquipSegListState.() -> EquipSegListState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeEquip = TypeEquip.entries[typeEquip],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeEquip = TypeEquip.entries[typeEquipArgs]
+        updateState { copy(flowApp = flowApp, typeEquip = typeEquip, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun setCloseDialogCheck() {
-        _uiState.update {
-            it.copy(flagDialogCheck = false)
-        }
-    }
+    fun onCloseDialogCheck() = updateState { copy(flagDialogCheck = false) }
 
-    fun cleanVeicSeg() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.ADD) &&
-            (uiState.value.typeEquip == TypeEquip.VEICULO) &&
-            (uiState.value.flagClean)
-        ) {
-            val resultClean = cleanEquipSeg()
-            if (resultClean.isFailure) {
-                val error = resultClean.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
+    fun setDelete(idEquip: Int) = updateState { copy(idEquipSelected = idEquip, flagDialogCheck = true) }
+
+    fun recover(flagStart: Boolean) = viewModelScope.launch {
+        runCatching {
+            if(flagStart) {
+                val check = (state.flowApp == FlowApp.ADD) && (state.typeEquip == TypeEquip.VEICULO)
+                if (check) cleanEquipSeg().getOrThrow()
             }
-            _uiState.update {
-                it.copy(flagClean = false)
-            }
+            getEquipSegList(state.flowApp, state.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(list = it) } }
+            .onFailureState(::updateState)
     }
 
-
-    fun recoverVeicSeg() = viewModelScope.launch {
-        val resultRecoverEquipSeg = getEquipSegList(
-            flowApp = _uiState.value.flowApp,
-            id = _uiState.value.id
-        )
-        if (resultRecoverEquipSeg.isFailure) {
-            val error = resultRecoverEquipSeg.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onDelete() = viewModelScope.launch {
+        runCatching {
+            deleteEquipSeg(state.idEquipSelected!!, state.flowApp, state.id).getOrThrow()
+            updateState { copy(flagDialogCheck = false) }
         }
-        val equipSegList = resultRecoverEquipSeg.getOrNull()!!
-        _uiState.update {
-            it.copy(equipSegList = equipSegList)
-        }
-    }
-
-
-    fun setDelete(idEquip: Int) {
-        _uiState.update {
-            it.copy(
-                idEquipSelected = idEquip,
-                flagDialogCheck = true
-            )
-        }
-    }
-
-    fun deleteVeicSeg() = viewModelScope.launch {
-        val resultDeletePassag = deleteEquipSeg(
-            idEquip = _uiState.value.idEquipSelected!!,
-            flowApp = _uiState.value.flowApp,
-            id = _uiState.value.id
-        )
-        if (resultDeletePassag.isFailure) {
-            val error = resultDeletePassag.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    flagDialogCheck = false,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        _uiState.update {
-            it.copy(
-                flagDialogCheck = false,
-            )
-        }
-        recoverVeicSeg()
+            .onSuccess { recover(false) }
+            .onFailureState(::updateState)
     }
 
 }

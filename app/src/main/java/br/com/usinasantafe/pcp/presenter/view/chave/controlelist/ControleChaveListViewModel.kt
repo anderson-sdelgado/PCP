@@ -47,7 +47,7 @@ class ControleChaveListViewModel @Inject constructor(
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverHeader() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
             getHeader().getOrThrow()
         }
@@ -55,7 +55,7 @@ class ControleChaveListViewModel @Inject constructor(
             .onFailureState(::updateState)
     }
 
-    fun recoverMovList() = viewModelScope.launch {
+    fun list() = viewModelScope.launch {
         runCatching {
             getMovChaveInsideList().getOrThrow()
         }

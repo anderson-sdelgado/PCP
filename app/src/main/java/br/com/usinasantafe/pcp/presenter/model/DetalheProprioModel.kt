@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.veiculoProprio.detalhe
+package br.com.usinasantafe.pcp.presenter.model
 
 data class DetalheProprioModel(
     val dthr: String,

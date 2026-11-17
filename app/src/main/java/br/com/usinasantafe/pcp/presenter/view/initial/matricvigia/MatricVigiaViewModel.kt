@@ -73,11 +73,11 @@ class MatricVigiaViewModel @Inject constructor(
                 updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            if(!checkMatricColab(uiState.value.text).getOrThrow()){
+            if(!checkMatricColab(state.text).getOrThrow()){
                 updateState { withFailure( Errors.INVALID) }
                 return@launch
             }
-            setMatricVigiaConfig(uiState.value.text).getOrThrow()
+            setMatricVigiaConfig(state.text).getOrThrow()
         }
             .onSuccessUpdateCheckAccess(::updateState)
             .onFailureUpdate(::updateState)

@@ -48,7 +48,7 @@ fun NroEquipChaveEquipScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverNroEquip()
+                viewModel.recover()
             }
 
             NroEquipChaveEquipContent(

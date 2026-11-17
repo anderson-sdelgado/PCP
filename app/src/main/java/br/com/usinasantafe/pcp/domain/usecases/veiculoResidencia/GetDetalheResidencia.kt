@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia
 
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipResidenciaRepository
-import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.detalhe.DetalheResidenciaModel
+import br.com.usinasantafe.pcp.presenter.model.DetalheResidenciaModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject

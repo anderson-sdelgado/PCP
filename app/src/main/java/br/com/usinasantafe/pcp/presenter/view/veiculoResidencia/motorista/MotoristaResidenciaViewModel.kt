@@ -5,10 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetMotoristaResidencia
 import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.SetMotoristaResidencia
+import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,12 +26,15 @@ import javax.inject.Inject
 data class MotoristaResidenciaState(
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
-    val motorista: String = "",
-    val checkGetMotorista: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
+    val text: String = "",
     val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<MotoristaResidenciaState> {
+
+    override fun copyWithStatus(status: UiStatusState): MotoristaResidenciaState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class MotoristaResidenciaViewModel @Inject constructor(
@@ -34,94 +43,46 @@ class MotoristaResidenciaViewModel @Inject constructor(
     private val setMotoristaResidencia: SetMotoristaResidencia
 ) : ViewModel() {
 
-    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = savedStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = savedStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(MotoristaResidenciaState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: MotoristaResidenciaState.() -> MotoristaResidenciaState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        updateState { copy(flowApp = flowApp, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onChanged(motorista: String) = updateState { copy(text = motorista) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getMotoristaResidencia(state.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) } }
+            .onFailureState(::updateState)
     }
 
-    fun onMotoristaChanged(motorista: String) {
-        _uiState.update {
-            it.copy(motorista = motorista)
-        }
-    }
-
-    fun recoverMotorista() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.checkGetMotorista)
-        ) {
-            val resultGetMotorista = getMotoristaResidencia(id = uiState.value.id)
-            if (resultGetMotorista.isFailure) {
-                val error = resultGetMotorista.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
+    fun set() = viewModelScope.launch {
+        runCatching {
+            if(state.text.isEmpty()) {
+                updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            val motorista = resultGetMotorista.getOrNull()!!
-            _uiState.update {
-                it.copy(
-                    motorista = motorista,
-                    checkGetMotorista = false
-                )
-            }
+            setMotoristaResidencia(state.text, state.flowApp, state.id).getOrThrow()
         }
-    }
-
-    fun setMotorista() {
-        if (uiState.value.motorista.isEmpty()) {
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                )
-            }
-            return
-        }
-        viewModelScope.launch {
-            val resultSetMotorista = setMotoristaResidencia(
-                motorista = uiState.value.motorista,
-                flowApp = uiState.value.flowApp,
-                id = uiState.value.id
-            )
-            if (resultSetMotorista.isFailure) {
-                val error = resultSetMotorista.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            _uiState.update {
-                it.copy(
-                    flagAccess = true,
-                )
-            }
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 }

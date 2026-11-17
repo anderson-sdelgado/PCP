@@ -50,7 +50,7 @@ fun MenuApontScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverHeader()
+                viewModel.recover()
                 viewModel.flowList()
             }
 

@@ -42,8 +42,8 @@ fun ControleChaveListScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverHeader()
-                viewModel.recoverMovList()
+                viewModel.recover()
+                viewModel.list()
             }
 
             ControleChaveListContent(

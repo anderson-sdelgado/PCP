@@ -40,11 +40,11 @@ fun ControleChaveEditListScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverMovOpenList()
+                viewModel.list()
             }
 
             ControleChaveEditListContent(
-                controleChaveModelList = uiState.controleChaveModelList,
+                list = uiState.list,
                 onCloseAllMov = viewModel::onCloseAllMov,
                 flagDialogCheck = uiState.flagDialogCheck,
                 onDialogCheck = viewModel::onDialogCheck,
@@ -61,7 +61,7 @@ fun ControleChaveEditListScreen(
 
 @Composable
 fun ControleChaveEditListContent(
-    controleChaveModelList: List<ControleChaveModel>,
+    list: List<ControleChaveModel>,
     onCloseAllMov: () -> Unit,
     flagDialogCheck: Boolean,
     onDialogCheck: (Boolean) -> Unit,
@@ -85,7 +85,7 @@ fun ControleChaveEditListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(controleChaveModelList) { cont ->
+            items(list) { cont ->
                 ItemListDesign(
                     text = "DATA/HORA: ${cont.dthr}\n" +
                             "TIPO: ${cont.tipoMov}\n" +
@@ -152,7 +152,7 @@ fun ControleChaveEditListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ControleChaveEditListContent(
-                controleChaveModelList = emptyList(),
+                list = emptyList(),
                 onCloseAllMov = {},
                 flagDialogCheck = false,
                 onDialogCheck = {},
@@ -174,7 +174,7 @@ fun ControleChaveEditListPagePreviewWithData() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ControleChaveEditListContent(
-                controleChaveModelList = listOf(
+                list = listOf(
                     ControleChaveModel(
                         id = 1,
                         tipoMov = "RETIRADA",

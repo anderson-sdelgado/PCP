@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,15 +25,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogProgressDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ButtonsGenericNumeric
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
-import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
 import br.com.usinasantafe.pcp.lib.TypeOcupante
+import br.com.usinasantafe.pcp.presenter.theme.MsgUpdate
+import br.com.usinasantafe.pcp.presenter.theme.Progress
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 
 @Composable
 fun MatricColabScreen(
@@ -45,27 +46,24 @@ fun MatricColabScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             MatricColabContent(
                 flowApp = uiState.flowApp,
                 typeOcupante = uiState.typeOcupante,
-                matricColab = uiState.matricColab,
-                setTextField = viewModel::setTextField,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                flagFailure = uiState.flagFailure,
-                errors = uiState.errors,
-                failure = uiState.failure,
-                flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
-                currentProgress = uiState.currentProgress,
+                text = uiState.text,
+                onTextField = viewModel::onTextField,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavEquipSegList = onNavEquipSegList,
                 onNavPassagColabList = onNavPassagColabList,
                 onNavDetalheMovProprio = onNavDetalheMovProprio,
                 onNavNomeColab = onNavNomeColab,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.getMatricColab()
         }
     }
 }
@@ -74,17 +72,10 @@ fun MatricColabScreen(
 fun MatricColabContent(
     flowApp: FlowApp,
     typeOcupante: TypeOcupante,
-    matricColab: String,
-    setTextField: (String, TypeButton) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    flagFailure: Boolean,
-    errors: Errors,
-    failure: String,
-    flagProgress: Boolean,
-    msgProgress: String,
-    currentProgress: Float,
+    text: String,
+    onTextField: (String, TypeButton) -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusStateUpdate,
     onNavEquipSegList: () -> Unit,
     onNavPassagColabList: () -> Unit,
     onNavDetalheMovProprio: () -> Unit,
@@ -112,13 +103,13 @@ fun MatricColabContent(
                 fontSize = 28.sp,
             ),
             readOnly = true,
-            value = matricColab,
+            value = text,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        ButtonsGenericNumeric(setActionButton = setTextField)
+        ButtonsGenericNumeric(setActionButton = onTextField)
         BackHandler {
             when (flowApp) {
                 FlowApp.ADD -> {
@@ -131,41 +122,19 @@ fun MatricColabContent(
             }
         }
 
-        if (flagDialog) {
-            val text = if (flagFailure) {
-                when (errors) {
-                    Errors.FIELD_EMPTY -> stringResource(
-                        id = R.string.text_field_empty,
-                        stringResource(id = R.string.text_title_matric_colab)
-                    )
-
-                    Errors.UPDATE -> stringResource(id = R.string.text_update_failure, failure)
-                    Errors.TOKEN,
-                    Errors.EXCEPTION -> stringResource(id = R.string.text_failure, failure)
-
-                    Errors.INVALID -> stringResource(
-                        id = R.string.text_input_data_invalid,
-                        stringResource(id = R.string.text_title_matric_colab)
-                    )
-                }
-            } else {
-                msgProgress
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if (status.flagDialog) {
+            MsgUpdate(status = status, onClickOk = onCloseDialog, value = stringResource(id = R.string.text_title_matric_colab))
         }
 
-        if (flagProgress) {
-            AlertDialogProgressDesign(
-                currentProgress = currentProgress,
-                msgProgress = msgProgress
-            )
+        if (status.flagProgress) {
+            Progress(status)
         }
 
-        if (flagAccess) {
-            onNavNomeColab(matricColab)
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            onNavNomeColab(text)
         }
     }
 }
@@ -176,19 +145,12 @@ fun MatricColabPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabContent(
-                matricColab = "19759",
+                text = "19759",
                 typeOcupante = TypeOcupante.MOTORISTA,
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavEquipSegList = {},
                 onNavPassagColabList = {},
                 onNavDetalheMovProprio = {},
@@ -205,19 +167,12 @@ fun MatricColabPagePreviewFieldEmpty() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabContent(
-                matricColab = "",
+                text = "",
                 typeOcupante = TypeOcupante.MOTORISTA,
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.FIELD_EMPTY,
-                failure = "",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavEquipSegList = {},
                 onNavPassagColabList = {},
                 onNavDetalheMovProprio = {},
@@ -234,19 +189,12 @@ fun MatricColabPagePreviewFailure() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabContent(
-                matricColab = "",
+                text = "",
                 typeOcupante = TypeOcupante.MOTORISTA,
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.EXCEPTION,
-                failure = "Datasource Failure",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavEquipSegList = {},
                 onNavPassagColabList = {},
                 onNavDetalheMovProprio = {},
@@ -263,19 +211,12 @@ fun MatricColabPagePreviewFailureUpdate() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabContent(
-                matricColab = "",
+                text = "",
                 typeOcupante = TypeOcupante.MOTORISTA,
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.UPDATE,
-                failure = "Datasource Failure",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavEquipSegList = {},
                 onNavPassagColabList = {},
                 onNavDetalheMovProprio = {},
@@ -292,19 +233,12 @@ fun MatricColabPagePreviewBlockedAccess() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabContent(
-                matricColab = "",
+                text = "",
                 flowApp = FlowApp.ADD,
                 typeOcupante = TypeOcupante.MOTORISTA,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                flagFailure = true,
-                errors = Errors.INVALID,
-                failure = "Datasource Failure",
-                flagProgress = false,
-                msgProgress = "",
-                currentProgress = 0.0f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavEquipSegList = {},
                 onNavPassagColabList = {},
                 onNavDetalheMovProprio = {},
@@ -321,19 +255,12 @@ fun MatricColabPagePreviewUpdate() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MatricColabContent(
-                matricColab = "",
+                text = "",
                 typeOcupante = TypeOcupante.MOTORISTA,
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                flagFailure = false,
-                errors = Errors.INVALID,
-                failure = "Datasource Failure",
-                flagProgress = true,
-                msgProgress = "Atualizando dados",
-                currentProgress = 0.3333334f,
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusStateUpdate(),
                 onNavEquipSegList = {},
                 onNavPassagColabList = {},
                 onNavDetalheMovProprio = {},

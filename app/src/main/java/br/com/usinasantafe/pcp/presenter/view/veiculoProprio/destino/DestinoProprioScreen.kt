@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
@@ -49,13 +48,13 @@ fun DestinoProprioScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverDestino()
+                viewModel.recover()
             }
 
             DestinoProprioContent(
                 flowApp = uiState.flowApp,
                 text = uiState.text,
-                onDestinoChanged = viewModel::onDestinoChanged,
+                onChanged = viewModel::onChanged,
                 set = viewModel::set,
                 typeMov = uiState.typeMov,
                 onCloseDialog = viewModel::onCloseDialog,
@@ -74,7 +73,7 @@ fun DestinoProprioScreen(
 fun DestinoProprioContent(
     flowApp: FlowApp,
     text: String,
-    onDestinoChanged: (String) -> Unit,
+    onChanged: (String) -> Unit,
     set: () -> Unit,
     typeMov: TypeMovEquip,
     onCloseDialog: () -> Unit,
@@ -93,7 +92,7 @@ fun DestinoProprioContent(
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         OutlinedTextField(
             value = text,
-            onValueChange = onDestinoChanged,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -144,7 +143,6 @@ fun DestinoProprioContent(
                         TypeMovEquip.OUTPUT -> onNavNotaFiscal()
                     }
                 }
-
                 FlowApp.CHANGE -> onNavDetalheMovProprio()
             }
         }
@@ -160,7 +158,7 @@ fun DestinoProprioPagePreview() {
             DestinoProprioContent(
                 flowApp = FlowApp.ADD,
                 text = "Tabatinga",
-                onDestinoChanged = {},
+                onChanged = {},
                 set = {},
                 typeMov = TypeMovEquip.INPUT,
                 onCloseDialog = {},
@@ -183,7 +181,7 @@ fun DestinoProprioPagePreviewFieldEmpty() {
             DestinoProprioContent(
                 text = "Tabatinga",
                 flowApp = FlowApp.ADD,
-                onDestinoChanged = {},
+                onChanged = {},
                 set = {},
                 typeMov = TypeMovEquip.INPUT,
                 onCloseDialog = {},
@@ -206,7 +204,7 @@ fun DestinoProprioPagePreviewFailure() {
             DestinoProprioContent(
                 text = "Tabatinga",
                 flowApp = FlowApp.ADD,
-                onDestinoChanged = {},
+                onChanged = {},
                 set = {},
                 typeMov = TypeMovEquip.INPUT,
                 onCloseDialog = {},

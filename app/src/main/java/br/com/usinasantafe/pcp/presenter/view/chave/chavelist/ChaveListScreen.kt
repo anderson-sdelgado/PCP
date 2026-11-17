@@ -53,13 +53,13 @@ fun ChaveListScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverList()
+                viewModel.list()
             }
 
             ChaveListContent(
                 flowApp = uiState.flowApp,
-                chaveList = uiState.chaveList,
-                setIdChave = viewModel::setIdChave,
+                list = uiState.list,
+                set = viewModel::set,
                 field = uiState.field,
                 onFieldChanged = viewModel::onFieldChanged,
                 updateDatabase = viewModel::updateDatabase,
@@ -77,8 +77,8 @@ fun ChaveListScreen(
 @Composable
 fun ChaveListContent(
     flowApp: FlowApp,
-    chaveList: List<ChaveModel>,
-    setIdChave: (Int) -> Unit,
+    list: List<ChaveModel>,
+    set: (Int) -> Unit,
     field: String,
     onFieldChanged: (String) -> Unit,
     updateDatabase: () -> Unit,
@@ -120,11 +120,11 @@ fun ChaveListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(chaveList) {
+            items(list) {
                 ItemListDesign(
                     text = it.description,
                     setActionItem = {
-                        setIdChave(it.id)
+                        set(it.id)
                     },
                     id = it.id,
                     padding = 6
@@ -177,7 +177,7 @@ fun ChaveListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ChaveListContent(
-                chaveList = listOf(
+                list = listOf(
                     ChaveModel(
                         1,
                         "01 - SALA TI - TI"
@@ -188,7 +188,7 @@ fun ChaveListPagePreview() {
                     )
                 ),
                 flowApp = FlowApp.ADD,
-                setIdChave = {},
+                set = {},
                 field = "",
                 onFieldChanged = {},
                 updateDatabase = {},

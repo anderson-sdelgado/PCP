@@ -12,7 +12,12 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.observ.ObservProprioState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,12 +30,14 @@ data class ObservResidenciaState(
     val flowApp: FlowApp = FlowApp.ADD,
     val typeMov: TypeMovEquip = TypeMovEquip.INPUT,
     val id: Int = 0,
-    val observ: String? = null,
-    val flagGetObserv: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    val text: String? = null,
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<ObservResidenciaState> {
+
+    override fun copyWithStatus(status: UiStatusState): ObservResidenciaState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class ObservResidenciaViewModel @Inject constructor(
@@ -41,126 +48,47 @@ class ObservResidenciaViewModel @Inject constructor(
     private val saveMovEquipResidencia: SaveMovEquipResidencia
 ) : ViewModel() {
 
-    private val typeMov: Int = savedStateHandle[TYPE_MOV_ARGS]!!
-    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = savedStateHandle[ID_ARGS]!!
+    private val typeMovArgs: Int = savedStateHandle[TYPE_MOV_ARGS]!!
+    private val flowAppArgs: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = savedStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(ObservResidenciaState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: ObservResidenciaState.() -> ObservResidenciaState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeMov = TypeMovEquip.entries[typeMov],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeMov = TypeMovEquip.entries[typeMovArgs]
+        updateState { copy(flowApp = flowApp, typeMov = typeMov, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onChanged(text: String) = updateState { copy(text = text) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getObservResidencia(state.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) } }
+            .onFailureState(::updateState)
     }
 
-    fun onObservChanged(observ: String) {
-        _uiState.update {
-            it.copy(observ = observ)
+    fun set() = viewModelScope.launch {
+        runCatching {
+            val check = (state.typeMov == TypeMovEquip.OUTPUT) &&  (state.flowApp == FlowApp.ADD)
+            if(check) startOutputMovEquipResidencia(state.id).getOrThrow()
+            setObservResidencia(state.text, state.flowApp, state.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) saveMovEquipResidencia(state.typeMov, state.id).getOrThrow()
         }
-    }
-
-    fun recoverObserv() = viewModelScope.launch {
-        if(
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.flagGetObserv)
-        ) {
-            val resultGetObserv = getObservResidencia(
-                id = uiState.value.id
-            )
-            if (resultGetObserv.isFailure) {
-                val error = resultGetObserv.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            val observ = resultGetObserv.getOrNull()
-            _uiState.update {
-                it.copy(
-                    observ = observ,
-                    flagGetObserv = false,
-                )
-            }
-        }
-    }
-
-    fun setObserv() = viewModelScope.launch {
-        if (
-            (uiState.value.typeMov == TypeMovEquip.OUTPUT) &&
-            (uiState.value.flowApp == FlowApp.ADD)
-        ) {
-            val resultStart = startOutputMovEquipResidencia(
-                id = uiState.value.id
-            )
-            if(resultStart.isFailure) {
-                val error = resultStart.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-        }
-        val resultSetObserv = setObservResidencia(
-            observ = uiState.value.observ,
-            flowApp = uiState.value.flowApp,
-            id = uiState.value.id,
-        )
-        if(resultSetObserv.isFailure) {
-            val error = resultSetObserv.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        if(uiState.value.flowApp == FlowApp.ADD){
-            val resultSaveMovEquip = saveMovEquipResidencia(
-                typeMov = uiState.value.typeMov,
-                id = uiState.value.id
-            )
-            if (resultSaveMovEquip.isFailure) {
-                val error = resultSaveMovEquip.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-        }
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 }

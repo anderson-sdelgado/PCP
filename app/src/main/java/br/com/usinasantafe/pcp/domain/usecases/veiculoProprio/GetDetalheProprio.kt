@@ -6,7 +6,7 @@ import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioEquipSegRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
-import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.detalhe.DetalheProprioModel
+import br.com.usinasantafe.pcp.presenter.model.DetalheProprioModel
 import br.com.usinasantafe.pcp.lib.FlowApp
 import java.text.SimpleDateFormat
 import java.util.Locale

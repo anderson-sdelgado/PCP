@@ -5,18 +5,14 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.initial.AdjustConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.CheckMovOpen
 import br.com.usinasantafe.pcp.domain.usecases.initial.DeleteMovSent
-import br.com.usinasantafe.pcp.presenter.view.initial.nomevigia.NomeVigiaState
 import br.com.usinasantafe.pcp.utils.UiStateWithStatus
 import br.com.usinasantafe.pcp.utils.UiStatusState
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.onFailureState
-import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class SplashState(
@@ -47,7 +43,7 @@ class SplashViewModel @Inject constructor(
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun processInitial(version: String) = viewModelScope.launch {
+    fun initial(version: String) = viewModelScope.launch {
         runCatching {
             adjustConfig(version).getOrThrow()
             deleteMovSent().getOrThrow()

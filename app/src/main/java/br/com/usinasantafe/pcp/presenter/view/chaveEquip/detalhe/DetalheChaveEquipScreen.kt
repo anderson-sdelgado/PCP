@@ -20,7 +20,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
@@ -55,7 +54,7 @@ fun DetalheChaveEquipScreen(
                 onNavObserv = onNavObserv,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverDetalhe()
+            viewModel.recover()
         }
     }
 }

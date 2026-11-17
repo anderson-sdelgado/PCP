@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -24,12 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_OBSERV_TEXT_FIELD_PROPRIO = "tag_observ_text_field_proprio"
 
@@ -44,18 +46,21 @@ fun ObservProprioScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             ObservProprioContent(
                 flowApp = uiState.flowApp,
                 typeMov = uiState.typeMov,
-                observ = uiState.observ,
-                onObservChanged = viewModel::onObservChanged,
-                setObserv = viewModel::setObserv,
-                setReturn = viewModel::setReturn,
-                flagAccess = uiState.flagAccess,
+                text = uiState.text,
+                onChanged = viewModel::onChanged,
+                set = viewModel::set,
+                onReturn = viewModel::onReturn,
                 flagReturn = uiState.flagReturn,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavDestino = onNavDestino,
                 onNavNotaFiscal = onNavNotaFiscal,
                 onNavDetalhe = onNavDetalhe,
@@ -63,7 +68,6 @@ fun ObservProprioScreen(
                 modifier = Modifier.padding(innerPadding)
             )
         }
-        viewModel.getObserv()
     }
 }
 
@@ -71,15 +75,13 @@ fun ObservProprioScreen(
 fun ObservProprioContent(
     flowApp: FlowApp,
     typeMov: TypeMovEquip,
-    observ: String?,
-    onObservChanged: (String) -> Unit,
-    setObserv: () -> Unit,
-    setReturn: () -> Unit,
-    flagAccess: Boolean,
+    text: String?,
+    onChanged: (String) -> Unit,
+    set: () -> Unit,
+    onReturn: () -> Unit,
     flagReturn: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavDestino: () -> Unit,
     onNavNotaFiscal: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -93,8 +95,8 @@ fun ObservProprioContent(
         TitleDesign(text = stringResource(id = R.string.text_title_observ))
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         OutlinedTextField(
-            value = if(observ.isNullOrEmpty()) "" else observ,
-            onValueChange = onObservChanged,
+            value = if(text.isNullOrEmpty()) "" else text,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -113,7 +115,7 @@ fun ObservProprioContent(
             Button(
                 onClick = {
                     when (flowApp) {
-                        FlowApp.ADD -> setReturn()
+                        FlowApp.ADD -> onReturn()
                         FlowApp.CHANGE -> onNavDetalhe()
                     }
                 },
@@ -122,7 +124,7 @@ fun ObservProprioContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setObserv,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -130,34 +132,36 @@ fun ObservProprioContent(
         }
         BackHandler {}
 
-        if(flagDialog){
-            val text = stringResource(id = R.string.text_failure, failure)
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if(flagAccess){
-            when(flowApp){
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            when (flowApp) {
                 FlowApp.ADD -> onNavMovList()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
+    }
 
-        if(flagReturn){
-            when(flowApp){
+    LaunchedEffect(flagReturn) {
+        if (flagReturn) {
+            when (flowApp) {
                 FlowApp.ADD -> {
-                    when(typeMov){
+                    when (typeMov) {
                         TypeMovEquip.INPUT -> onNavDestino()
                         TypeMovEquip.OUTPUT -> onNavNotaFiscal()
                     }
                 }
+
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -166,17 +170,15 @@ fun ObservProprioPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ObservProprioContent(
-                observ = "Teste",
+                text = "Teste",
                 flowApp = FlowApp.ADD,
-                onObservChanged = {},
-                setObserv = {},
+                onChanged = {},
+                set = {},
                 typeMov = TypeMovEquip.INPUT,
-                setReturn = {},
-                flagAccess = false,
+                onReturn = {},
                 flagReturn = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDestino = {},
                 onNavNotaFiscal = {},
                 onNavDetalhe = {},
@@ -193,17 +195,15 @@ fun ObservProprioPagePreviewWithFailure() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ObservProprioContent(
-                observ = "Teste",
+                text = "Teste",
                 flowApp = FlowApp.ADD,
-                onObservChanged = {},
-                setObserv = {},
+                onChanged = {},
+                set = {},
                 typeMov = TypeMovEquip.INPUT,
-                setReturn = {},
-                flagAccess = false,
+                onReturn = {},
                 flagReturn = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                failure = "Failure Usecase",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDestino = {},
                 onNavNotaFiscal = {},
                 onNavDetalhe = {},

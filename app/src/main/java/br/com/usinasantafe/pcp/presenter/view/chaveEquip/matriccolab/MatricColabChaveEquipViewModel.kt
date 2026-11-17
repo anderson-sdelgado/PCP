@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.view.chaveEquip.matriccolab
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetMatricColabMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableColab
@@ -16,7 +15,6 @@ import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
 import br.com.usinasantafe.pcp.lib.TypeMovKey
-import br.com.usinasantafe.pcp.presenter.view.chave.matriccolab.MatricColabChaveState
 import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
 import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 import br.com.usinasantafe.pcp.utils.executeUpdateSteps
@@ -29,10 +27,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class MatricColabChaveEquipState(
@@ -56,9 +52,9 @@ class MatricColabChaveEquipViewModel @Inject constructor(
     private val getMatricColabMovChaveEquip: GetMatricColabMovChaveEquip
 ) : ViewModel() {
 
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeMov: Int = saveStateHandle[TYPE_MOV_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeMovArgs: Int = saveStateHandle[TYPE_MOV_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(MatricColabChaveEquipState())
     val uiState = _uiState.asStateFlow()
@@ -70,21 +66,17 @@ class MatricColabChaveEquipViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeMov = TypeMovKey.entries[typeMov],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeMov = TypeMovKey.entries[typeMovArgs]
+        updateState { copy(flowApp = flowApp, typeMov = typeMov, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverMatricColab() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            if(uiState.value.flowApp == FlowApp.ADD) return@launch
-            getMatricColabMovChaveEquip(uiState.value.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getMatricColabMovChaveEquip(state.id).getOrThrow()
         }
             .onSuccess { updateState { copy(text = it) }}
             .onFailureUpdate(::updateState)
@@ -121,4 +113,5 @@ class MatricColabChaveEquipViewModel @Inject constructor(
             copyStateWithStatus = { state, status -> state.copy(status = status) },
             classAndMethod = getClassAndMethod(),
         )
+
 }

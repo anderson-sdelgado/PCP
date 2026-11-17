@@ -22,9 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
@@ -42,11 +40,11 @@ fun NomeVigiaScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverNomeVigia()
+                viewModel.recover()
             }
 
             NomeVigiaContent(
-                nomeVigia = uiState.nomeVigia,
+                text = uiState.text,
                 onCloseDialog = viewModel::onCloseDialog,
                 status = uiState.status,
                 onNavMatricVigia = onNavMatricVigia,
@@ -59,7 +57,7 @@ fun NomeVigiaScreen(
 
 @Composable
 fun NomeVigiaContent(
-    nomeVigia: String,
+    text: String,
     onCloseDialog: () -> Unit,
     status: UiStatusState,
     onNavMatricVigia: () -> Unit,
@@ -80,7 +78,7 @@ fun NomeVigiaContent(
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = nomeVigia,
+                text = text,
                 fontSize = 26.sp,
             )
         }
@@ -118,7 +116,7 @@ fun NomeVigiaPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NomeVigiaContent(
-                nomeVigia = "ANDERSON DA SILVA DELGADO",
+                text = "ANDERSON DA SILVA DELGADO",
                 onCloseDialog = {},
                 status = UiStatusState(),
                 onNavMatricVigia = {},
@@ -135,7 +133,7 @@ fun NomeVigiaPagePreviewShowDialog() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NomeVigiaContent(
-                nomeVigia = "ANDERSON DA SILVA DELGADO",
+                text = "ANDERSON DA SILVA DELGADO",
                 onCloseDialog = {},
                 status = UiStatusState(),
                 onNavMatricVigia = {},

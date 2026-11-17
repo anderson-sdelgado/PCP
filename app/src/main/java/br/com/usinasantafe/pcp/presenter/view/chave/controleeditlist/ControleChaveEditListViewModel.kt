@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ControleChaveEditListState(
-    val controleChaveModelList: List<ControleChaveModel> = listOf(),
+    val list: List<ControleChaveModel> = listOf(),
     val flagDialogCheck: Boolean = false,
     val flagCloseAllMov: Boolean = false,
     override val status: UiStatusState = UiStatusState()
@@ -58,11 +58,11 @@ class ControleChaveEditListViewModel @Inject constructor(
             .onFailureState(::updateState)
     }
 
-    fun recoverMovOpenList() = viewModelScope.launch {
+    fun list() = viewModelScope.launch {
         runCatching {
             getMovChaveOpenList().getOrThrow()
         }
-            .onSuccess { updateState { copy(controleChaveModelList = it) } }
+            .onSuccess { updateState { copy(list = it) } }
             .onFailureState(::updateState)
     }
 }

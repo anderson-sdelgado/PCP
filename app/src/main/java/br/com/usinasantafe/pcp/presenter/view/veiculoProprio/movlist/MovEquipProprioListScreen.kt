@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,13 +22,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TextSmallDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
+import br.com.usinasantafe.pcp.presenter.model.MovEquipProprioModel
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun MovEquipProprioListScreen(
@@ -40,27 +43,29 @@ fun MovEquipProprioListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+                viewModel.list()
+            }
+
             MovEquipProprioListContent(
                 descrVigia = uiState.descrVigia,
                 descrLocal = uiState.descrLocal,
-                movEquipProprioModelList = uiState.movEquipProprioModelList,
-                startMov = viewModel::startMov,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
+                list = uiState.list,
+                onStartMov = viewModel::onStartMov,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setDialogCheck = viewModel::setDialogCheck,
-                closeAllMov = viewModel::closeAllMov,
+                onDialogCheck = viewModel::onDialogCheck,
+                onCloseAllMov = viewModel::onCloseAllMov,
                 flagCloseAllMov = uiState.flagCloseAllMov,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavNroEquip = onNavNroEquip,
                 onNavDetalhe = onNavDetalhe,
                 onNavMenuApont = onNavMenuApont,
                 onNavSplashScreen = onNavSplashScreen,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnHeader()
-            viewModel.recoverMovEquipOpenList()
         }
     }
 }
@@ -69,16 +74,14 @@ fun MovEquipProprioListScreen(
 fun MovEquipProprioListContent(
     descrVigia: String,
     descrLocal: String,
-    movEquipProprioModelList: List<MovEquipProprioModel>,
-    startMov: (TypeMovEquip) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
+    list: List<MovEquipProprioModel>,
+    onStartMov: (TypeMovEquip) -> Unit,
     flagDialogCheck: Boolean,
-    setDialogCheck: (Boolean) -> Unit,
-    closeAllMov: () -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    onCloseAllMov: () -> Unit,
     flagCloseAllMov: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavNroEquip: () -> Unit,
     onNavDetalhe: (Int) -> Unit,
     onNavMenuApont: () -> Unit,
@@ -97,7 +100,7 @@ fun MovEquipProprioListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(movEquipProprioModelList) { mov ->
+            items(list) { mov ->
                 ItemListDesign(
                     text = "DATA/HORA: ${mov.dthr}\n" +
                             "${mov.typeMov}\n" +
@@ -116,20 +119,20 @@ fun MovEquipProprioListContent(
             horizontalArrangement = Arrangement.Center,
         ) {
             Button(
-                onClick = { startMov(TypeMovEquip.INPUT) },
+                onClick = { onStartMov(TypeMovEquip.INPUT) },
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_input))
             }
             Button(
-                onClick = { startMov(TypeMovEquip.OUTPUT) },
+                onClick = { onStartMov(TypeMovEquip.OUTPUT) },
                 modifier = Modifier.weight(1f)
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_output))
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -144,29 +147,30 @@ fun MovEquipProprioListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
-        }
-
-        if (flagAccess) {
-            onNavNroEquip()
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_close_all_mov),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeAllMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseAllMov() }
             )
         }
 
-        if(flagCloseAllMov){
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            onNavNroEquip()
+        }
+    }
+
+    LaunchedEffect(flagCloseAllMov) {
+        if (flagCloseAllMov) {
             onNavSplashScreen()
         }
-
     }
 }
 
@@ -178,7 +182,7 @@ fun MovEquipProprioListPreview() {
             MovEquipProprioListContent(
                 descrVigia = "1975 - ANDERSON",
                 descrLocal = "1 - USINA",
-                movEquipProprioModelList = listOf(
+                list = listOf(
                     MovEquipProprioModel(
                         id = 1,
                         dthr = "08/08/2024 12:00",
@@ -194,15 +198,13 @@ fun MovEquipProprioListPreview() {
                         colab = "19759 - ANDERSON DA SILVA DELGADO"
                     )
                 ),
-                startMov = {},
+                onStartMov = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                flagAccess = false,
-                flagDialog = false,
-                closeAllMov = {},
+                onDialogCheck = {},
+                onCloseAllMov = {},
                 flagCloseAllMov = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavNroEquip = {},
                 onNavDetalhe = {},
                 onNavMenuApont = {},
@@ -221,7 +223,7 @@ fun MovEquipProprioListPreviewShowDialog() {
             MovEquipProprioListContent(
                 descrVigia = "1975 - ANDERSON",
                 descrLocal = "1 - USINA",
-                movEquipProprioModelList = listOf(
+                list = listOf(
                     MovEquipProprioModel(
                         id = 1,
                         dthr = "08/08/2024 12:00",
@@ -237,15 +239,13 @@ fun MovEquipProprioListPreviewShowDialog() {
                         colab = "19759 - ANDERSON DA SILVA DELGADO"
                     )
                 ),
-                startMov = {},
+                onStartMov = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                flagAccess = false,
-                flagDialog = true,
-                closeAllMov = {},
+                onDialogCheck = {},
+                onCloseAllMov = {},
                 flagCloseAllMov = false,
-                setCloseDialog = {},
-                failure = "Failure Datasource",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavNroEquip = {},
                 onNavDetalhe = {},
                 onNavMenuApont = {},

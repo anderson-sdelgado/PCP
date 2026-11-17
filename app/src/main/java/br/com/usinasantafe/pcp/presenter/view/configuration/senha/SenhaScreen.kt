@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
@@ -46,7 +45,7 @@ fun SenhaScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             SenhaContent(
                 password = uiState.password,
-                onPasswordChanged =  viewModel::onPasswordChanged,
+                onChanged =  viewModel::onChanged,
                 onCloseDialog = viewModel::onCloseDialog,
                 onCheckAccess = viewModel::onCheckAccess,
                 status = uiState.status,
@@ -62,7 +61,7 @@ fun SenhaScreen(
 @Composable
 fun SenhaContent(
     password: String,
-    onPasswordChanged: (String) -> Unit,
+    onChanged: (String) -> Unit,
     onCloseDialog: () -> Unit,
     onCheckAccess: () -> Unit,
     status: UiStatusState,
@@ -83,7 +82,7 @@ fun SenhaContent(
             ),
             visualTransformation = PasswordVisualTransformation(),
             value = password,
-            onValueChange = onPasswordChanged,
+            onValueChange = onChanged,
             modifier = Modifier.fillMaxWidth().testTag(TAG_PASSWORD_TEXT_FIELD_SENHA_SCREEN)
         )
         Row(
@@ -128,7 +127,7 @@ fun SenhaPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SenhaContent(
                 password = "teste",
-                onPasswordChanged = {},
+                onChanged = {},
                 onCloseDialog = {},
                 onCheckAccess = {},
                 status = UiStatusState(),
@@ -147,7 +146,7 @@ fun SenhaPagePreviewMsgOpen() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SenhaContent(
                 password = "",
-                onPasswordChanged = {},
+                onChanged = {},
                 onCloseDialog = {},
                 status = UiStatusState(
                     flagDialog = true,
@@ -171,7 +170,7 @@ fun SenhaPagePreviewMsgOpenFailure() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SenhaContent(
                 password = "",
-                onPasswordChanged = {},
+                onChanged = {},
                 onCloseDialog = {},
                 status = UiStatusState(
                     flagDialog = true,

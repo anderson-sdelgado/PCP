@@ -46,14 +46,14 @@ fun ObservChaveEquipScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverObserv()
+                viewModel.recover()
             }
 
             ObservChaveEquipContent(
                 flowApp = uiState.flowApp,
                 typeMov = uiState.typeMov,
                 text = uiState.text,
-                onObservChanged = viewModel::onObservChanged,
+                onChanged = viewModel::onChanged,
                 set = viewModel::set,
                 onCloseDialog = viewModel::onCloseDialog,
                 status = uiState.status,
@@ -72,7 +72,7 @@ fun ObservChaveEquipContent(
     flowApp: FlowApp,
     typeMov: TypeMovKey,
     text: String?,
-    onObservChanged: (String) -> Unit,
+    onChanged: (String) -> Unit,
     set: () -> Unit,
     onCloseDialog: () -> Unit,
     status: UiStatusState,
@@ -97,7 +97,7 @@ fun ObservChaveEquipContent(
         )
         OutlinedTextField(
             value = if(text.isNullOrEmpty()) "" else text,
-            onValueChange = onObservChanged,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -164,7 +164,7 @@ fun ObservChaveEquipPagePreview() {
                 flowApp = FlowApp.ADD,
                 typeMov = TypeMovKey.REMOVE,
                 text = "Teste",
-                onObservChanged = {},
+                onChanged = {},
                 set = {},
                 onCloseDialog = {},
                 status = UiStatusState(),

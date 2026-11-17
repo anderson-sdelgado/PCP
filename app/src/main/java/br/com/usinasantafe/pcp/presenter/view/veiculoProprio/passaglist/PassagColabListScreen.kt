@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,12 +23,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.domain.entities.stable.Colab
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun PassagColabListScreen(
@@ -40,24 +42,26 @@ fun PassagColabListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover(true)
+            }
+
             PassagColabListContent(
                 flowApp = uiState.flowApp,
-                passagList = uiState.passagList,
+                list = uiState.list,
                 setDelete = viewModel::setDelete,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setCloseDialogCheck = viewModel::setCloseDialogCheck,
-                setDeletePassag = viewModel::deletePassag,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialogCheck = viewModel::onCloseDialogCheck,
+                onDelete = viewModel::onDelete,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMatricColab = onNavMatricMotorista,
                 onNavDetalhe = onNavDetalhe,
                 onNavMatricPassag = onNavMatricPassag,
                 onNavDestino = onNavDestino,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.cleanPassag()
-            viewModel.recoverPassag()
         }
     }
 }
@@ -65,14 +69,13 @@ fun PassagColabListScreen(
 @Composable
 fun PassagColabListContent(
     flowApp: FlowApp,
-    passagList: List<Colab>,
+    list: List<Colab>,
     setDelete: (Int) -> Unit,
     flagDialogCheck: Boolean,
-    setCloseDialogCheck: () -> Unit,
-    setDeletePassag: () -> Unit,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialogCheck: () -> Unit,
+    onDelete: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMatricColab: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavMatricPassag: () -> Unit,
@@ -88,7 +91,7 @@ fun PassagColabListContent(
             modifier = Modifier
                 .weight(1f),
         ) {
-            items(passagList) { colab ->
+            items(list) { colab ->
                 ItemListDesign(
                     text = "${colab.matricColab} - ${colab.nomeColab}",
                     setActionItem = { setDelete(colab.matricColab) },
@@ -133,18 +136,15 @@ fun PassagColabListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if (flagDialogCheck) {
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_delete_passag),
-                setCloseDialog = setCloseDialogCheck,
-                setActionButtonYes = setDeletePassag
+                setCloseDialog = onCloseDialogCheck,
+                setActionButtonYes = onDelete
             )
         }
 
@@ -157,15 +157,14 @@ fun PassagColabListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             PassagColabListContent(
-                passagList = emptyList(),
+                list = emptyList(),
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeletePassag = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavDetalhe = {},
                 onNavMatricPassag = {},
@@ -182,7 +181,7 @@ fun PassagColabListPagePreviewList() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             PassagColabListContent(
-                passagList = listOf(
+                list = listOf(
                     Colab(
                         matricColab = 19759,
                         nomeColab = "ANDERSON DA SILVA DELGADO"
@@ -195,11 +194,10 @@ fun PassagColabListPagePreviewList() {
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeletePassag = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavDetalhe = {},
                 onNavMatricPassag = {},
@@ -216,7 +214,7 @@ fun PassagColabListPagePreviewFailure() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             PassagColabListContent(
-                passagList = listOf(
+                list = listOf(
                     Colab(
                         matricColab = 19759,
                         nomeColab = "ANDERSON DA SILVA DELGADO"
@@ -229,11 +227,10 @@ fun PassagColabListPagePreviewFailure() {
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeletePassag = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                failure = "Failure Usecase",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavDetalhe = {},
                 onNavMatricPassag = {},
@@ -250,7 +247,7 @@ fun PassagColabListPagePreviewMsgDelete() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             PassagColabListContent(
-                passagList = listOf(
+                list = listOf(
                     Colab(
                         matricColab = 19759,
                         nomeColab = "ANDERSON DA SILVA DELGADO"
@@ -263,11 +260,10 @@ fun PassagColabListPagePreviewMsgDelete() {
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = true,
-                setCloseDialogCheck = {},
-                setDeletePassag = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "Failure Usecase",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMatricColab = {},
                 onNavDetalhe = {},
                 onNavMatricPassag = {},

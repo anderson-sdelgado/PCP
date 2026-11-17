@@ -12,26 +12,31 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_OCUPANTE_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeOcupante
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class PassagColabListState(
     val flowApp: FlowApp = FlowApp.ADD,
     val typeOcupante: TypeOcupante = TypeOcupante.MOTORISTA,
     val id: Int = 0,
-    val passagList: List<Colab> = emptyList(),
+    val list: List<Colab> = emptyList(),
     val flagClean: Boolean = true,
     val matricColabSelected: Int? = null,
     val flagDialogCheck: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<PassagColabListState> {
+
+    override fun copyWithStatus(status: UiStatusState): PassagColabListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class PassagColabListViewModel @Inject constructor(
@@ -41,118 +46,50 @@ class PassagColabListViewModel @Inject constructor(
     private val deletePassagColab: DeletePassagColab,
 ) : ViewModel() {
 
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeOcupante: Int = saveStateHandle[TYPE_OCUPANTE_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeOcupanteArgs: Int = saveStateHandle[TYPE_OCUPANTE_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(PassagColabListState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: PassagColabListState.() -> PassagColabListState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeOcupante = TypeOcupante.entries[typeOcupante],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeOcupante = TypeOcupante.entries[typeOcupanteArgs]
+        updateState { copy(flowApp = flowApp, typeOcupante = typeOcupante, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun setCloseDialogCheck() {
-        _uiState.update {
-            it.copy(flagDialogCheck = false)
-        }
-    }
+    fun onCloseDialogCheck() = updateState { copy(flagDialogCheck = false) }
 
-    fun cleanPassag() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.ADD) &&
-            (uiState.value.typeOcupante == TypeOcupante.MOTORISTA) &&
-            (uiState.value.flagClean)
-        ) {
-            val resultClean = cleanPassagColab()
-            if (resultClean.isFailure) {
-                val error = resultClean.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
+    fun setDelete(matricColab: Int) = updateState { copy(matricColabSelected = matricColab, flagDialogCheck = true) }
+
+    fun recover(flagStart: Boolean) = viewModelScope.launch {
+        runCatching {
+            if(flagStart) {
+                val check = (state.flowApp == FlowApp.ADD) && (uiState.value.typeOcupante == TypeOcupante.MOTORISTA)
+                if (check) cleanPassagColab().getOrThrow()
             }
-            _uiState.update {
-                it.copy(flagClean = false)
-            }
+            getPassagColabList(state.flowApp, state.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(list = it) } }
+            .onFailureState(::updateState)
     }
 
-    fun recoverPassag() = viewModelScope.launch {
-        val resultRecoverPassag =
-            getPassagColabList(
-                flowApp = uiState.value.flowApp,
-                id = uiState.value.id
-            )
-        if (resultRecoverPassag.isFailure) {
-            val error = resultRecoverPassag.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun onDelete() = viewModelScope.launch {
+        runCatching {
+            deletePassagColab(state.matricColabSelected!!, state.flowApp, state.id).getOrThrow()
+            updateState { copy(flagDialogCheck = false) }
         }
-        val passagList = resultRecoverPassag.getOrNull()!!
-        _uiState.update {
-            it.copy(passagList = passagList)
-        }
-    }
-
-    fun setDelete(matricColab: Int) {
-        _uiState.update {
-            it.copy(
-                matricColabSelected = matricColab,
-                flagDialogCheck = true
-            )
-        }
-    }
-
-    fun deletePassag() = viewModelScope.launch {
-        val resultDeletePassag = deletePassagColab(
-            matricColab = uiState.value.matricColabSelected!!,
-            flowApp = uiState.value.flowApp,
-            id = uiState.value.id
-        )
-        if (resultDeletePassag.isFailure) {
-            val error = resultDeletePassag.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    flagDialogCheck = false,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        _uiState.update {
-            it.copy(
-                flagDialogCheck = false,
-            )
-        }
-        recoverPassag()
+            .onSuccess { recover(false) }
+            .onFailureState(::updateState)
     }
 
 }

@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
-import kotlin.collections.copy
 
 data class SenhaState(
     val password: String = "",
@@ -42,7 +40,7 @@ class SenhaViewModel @Inject constructor(
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun onPasswordChanged(password: String) = updateState { copy(password = password) }
+    fun onChanged(password: String) = updateState { copy(password = password) }
 
     fun onCheckAccess() = viewModelScope.launch {
         runCatching {

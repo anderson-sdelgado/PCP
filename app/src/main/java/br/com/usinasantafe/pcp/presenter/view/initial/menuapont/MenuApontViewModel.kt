@@ -10,7 +10,6 @@ import br.com.usinasantafe.pcp.domain.usecases.initial.GetFlowList
 import br.com.usinasantafe.pcp.lib.StatusSend
 import br.com.usinasantafe.pcp.utils.UiStateWithStatus
 import br.com.usinasantafe.pcp.utils.UiStatusState
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class MenuApontState(
@@ -80,7 +78,7 @@ class MenuApontViewModel @Inject constructor(
                 }
         }
 
-    fun recoverHeader() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
             getHeader().getOrThrow()
         }

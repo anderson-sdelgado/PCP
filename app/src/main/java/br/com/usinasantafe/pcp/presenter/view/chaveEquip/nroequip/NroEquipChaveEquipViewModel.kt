@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.view.chaveEquip.nroequip
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.GetNroEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.chaveEquip.SetIdEquipMovChaveEquip
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckNroEquip
@@ -15,7 +14,6 @@ import br.com.usinasantafe.pcp.presenter.theme.clearTextField
 import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
-import br.com.usinasantafe.pcp.presenter.view.chave.matriccolab.MatricColabChaveState
 import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
 import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 import br.com.usinasantafe.pcp.utils.executeUpdateSteps
@@ -28,10 +26,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class NroEquipChaveEquipState(
@@ -55,8 +51,8 @@ class NroEquipChaveEquipViewModel @Inject constructor(
     private val getNroEquipMovChaveEquip: GetNroEquipMovChaveEquip,
 ) : ViewModel() {
 
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(NroEquipChaveEquipState())
     val uiState = _uiState.asStateFlow()
@@ -68,23 +64,19 @@ class NroEquipChaveEquipViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        updateState { copy(flowApp = flowApp, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverNroEquip() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            if(uiState.value.flowApp == FlowApp.ADD) return@launch
-            getNroEquipMovChaveEquip(uiState.value.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getNroEquipMovChaveEquip(state.id).getOrThrow()
         }
             .onSuccess { updateState { copy(text = it) }}
-            .onFailureUpdate( ::updateState)
+            .onFailureUpdate(::updateState)
     }
 
     fun onTextField(text: String, typeButton: TypeButton) {
@@ -104,11 +96,11 @@ class NroEquipChaveEquipViewModel @Inject constructor(
                 updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            if(!checkNroEquip(uiState.value.text).getOrThrow()){
+            if(!checkNroEquip(state.text).getOrThrow()){
                 updateState { withFailure( Errors.INVALID) }
                 return@launch
             }
-            setIdEquipMovChaveEquip(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
+            setIdEquipMovChaveEquip(state.text, state.flowApp, state.id).getOrThrow()
         }
             .onSuccessUpdateCheckAccess(::updateState)
             .onFailureUpdate(::updateState)

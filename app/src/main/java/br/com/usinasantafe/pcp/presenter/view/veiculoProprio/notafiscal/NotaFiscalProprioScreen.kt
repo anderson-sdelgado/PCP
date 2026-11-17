@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -25,12 +26,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ButtonsGenericNumeric
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_NOTA_FISCAL_TEXT_FIELD_PROPRIO = "tag_nota_fiscal_text_field_proprio"
 
@@ -44,33 +46,34 @@ fun NotaFiscalProprioScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             NotaFiscalProprioContent(
-                notaFiscal = uiState.notaFiscal,
+                text = uiState.text,
                 flowApp = uiState.flowApp,
-                setTextField = viewModel::setTextField,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onTextField = viewModel::onTextField,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavDestino = onNavDestino,
                 onNavObserv = onNavObserv,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.getNotaFiscal()
+
         }
     }
 }
 
 @Composable
 fun NotaFiscalProprioContent(
-    notaFiscal: String?,
+    text: String?,
     flowApp: FlowApp,
-    setTextField: (String, TypeButton) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onTextField: (String, TypeButton) -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavDestino: () -> Unit,
     onNavObserv: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -93,7 +96,7 @@ fun NotaFiscalProprioContent(
                 fontSize = 28.sp
             ),
             readOnly = true,
-            value = if(notaFiscal.isNullOrEmpty()) "" else notaFiscal,
+            value = if(text.isNullOrEmpty()) "" else text,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,7 +104,7 @@ fun NotaFiscalProprioContent(
         )
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         ButtonsGenericNumeric(
-            setActionButton = setTextField,
+            setActionButton = onTextField,
             flagUpdate = false
         )
         BackHandler {
@@ -111,22 +114,21 @@ fun NotaFiscalProprioContent(
             }
         }
 
-        if(flagDialog){
-            val text = stringResource(id = R.string.text_failure, failure)
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             when (flowApp) {
                 FlowApp.ADD -> onNavObserv()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -135,13 +137,11 @@ fun NotaFiscalProprioPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NotaFiscalProprioContent(
-                notaFiscal = "",
+                text = "",
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDestino = {},
                 onNavObserv = {},
                 onNavDetalhe = {},
@@ -157,13 +157,11 @@ fun NotaFiscalProprioPagePreviewWithValue() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NotaFiscalProprioContent(
-                notaFiscal = "123456",
+                text = "123456",
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDestino = {},
                 onNavObserv = {},
                 onNavDetalhe = {},
@@ -180,13 +178,11 @@ fun NotaFiscalProprioPagePreviewWithFailure() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             NotaFiscalProprioContent(
-                notaFiscal = "123456",
+                text = "123456",
                 flowApp = FlowApp.ADD,
-                setTextField = { _, _ -> },
-                flagAccess = false,
-                flagDialog = true,
-                setCloseDialog = {},
-                failure = "Failure Repository",
+                onTextField = { _, _ -> },
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDestino = {},
                 onNavObserv = {},
                 onNavDetalhe = {},

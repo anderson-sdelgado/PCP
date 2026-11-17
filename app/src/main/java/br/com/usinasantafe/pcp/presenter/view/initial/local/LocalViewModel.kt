@@ -6,8 +6,6 @@ import br.com.usinasantafe.pcp.domain.entities.stable.Local
 import br.com.usinasantafe.pcp.domain.usecases.config.SetIdLocalConfig
 import br.com.usinasantafe.pcp.domain.usecases.initial.GetLocalList
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableLocal
-import br.com.usinasantafe.pcp.lib.Errors
-import br.com.usinasantafe.pcp.presenter.view.chaveEquip.matriccolab.MatricColabChaveEquipState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
 import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
@@ -15,15 +13,12 @@ import br.com.usinasantafe.pcp.utils.executeUpdateSteps
 import br.com.usinasantafe.pcp.utils.onFailureUpdate
 import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
 import br.com.usinasantafe.pcp.utils.sizeUpdate
-import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class LocalState(
@@ -54,7 +49,7 @@ class LocalViewModel @Inject constructor(
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun localList() = viewModelScope.launch {
+    fun list() = viewModelScope.launch {
         runCatching {
             getLocalList().getOrThrow()
         }

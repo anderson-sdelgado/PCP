@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcp.presenter.view.veiculoProprio.matriccolab
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcp.domain.entities.ResultUpdate
 import br.com.usinasantafe.pcp.domain.usecases.common.CheckMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.veiculoProprio.GetMatricColab
 import br.com.usinasantafe.pcp.domain.usecases.update.UpdateTableColab
@@ -16,56 +15,34 @@ import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
 import br.com.usinasantafe.pcp.lib.TypeOcupante
+import br.com.usinasantafe.pcp.utils.UiStateWithStatusUpdate
+import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
+import br.com.usinasantafe.pcp.utils.executeUpdateSteps
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureUpdate
+import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
+import br.com.usinasantafe.pcp.utils.sizeUpdate
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class MatricColabState(
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
-    val matricColab: String = "",
+    val text: String = "",
     val typeOcupante: TypeOcupante = TypeOcupante.MOTORISTA,
-    val checkGetMatricColab: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-    val flagFailure: Boolean = false,
-    val errors: Errors = Errors.FIELD_EMPTY,
-    val flagProgress: Boolean = false,
-    val msgProgress: String = "",
-    val currentProgress: Float = 0.0f,
-)
+    override val status: UiStatusStateUpdate = UiStatusStateUpdate()
+) : UiStateWithStatusUpdate<MatricColabState> {
 
-fun ResultUpdate.resultUpdateToMatricColab(): MatricColabState {
-    val fail = if(failure.isNotEmpty()){
-        val ret = "MatricColabViewModel.updateAllDatabase -> ${this.failure}"
-        Timber.e(ret)
-        ret
-    } else {
-        this.failure
-    }
-    val msg = if(failure.isNotEmpty()){
-        "MatricColabViewModel.updateAllDatabase -> ${this.failure}"
-    } else {
-        this.msgProgress
-    }
-    return MatricColabState(
-            flagDialog = this.flagDialog,
-            flagFailure = this.flagFailure,
-            errors = this.errors,
-            failure = fail,
-            flagProgress = this.flagProgress,
-            msgProgress = msg,
-            currentProgress = this.currentProgress,
-        )
-    }
+    override fun copyWithStatus(status: UiStatusStateUpdate): MatricColabState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class MatricColabViewModel @Inject constructor(
@@ -75,153 +52,67 @@ class MatricColabViewModel @Inject constructor(
     private val getMatricColab: GetMatricColab,
 ) : ViewModel() {
 
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeOcupante: Int = saveStateHandle[TYPE_OCUPANTE_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeOcupanteArgs: Int = saveStateHandle[TYPE_OCUPANTE_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(MatricColabState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: MatricColabState.() -> MatricColabState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeOcupante = TypeOcupante.entries[typeOcupante],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeOcupante = TypeOcupante.entries[typeOcupanteArgs]
+        updateState { copy(flowApp = flowApp, typeOcupante = typeOcupante, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            val check = (state.flowApp == FlowApp.CHANGE) && (state.typeOcupante == TypeOcupante.MOTORISTA)
+            if(!check) return@launch
+            getMatricColab(state.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) }}
+            .onFailureUpdate(::updateState)
     }
 
-    fun setTextField(
-        text: String,
-        typeButton: TypeButton
-    ) {
-        when (typeButton) {
-            TypeButton.NUMERIC -> {
-                val matricColab = addTextField(uiState.value.matricColab, text)
-                _uiState.update {
-                    it.copy(matricColab = matricColab)
-                }
-            }
-
-            TypeButton.CLEAN -> {
-                val matricColab = clearTextField(uiState.value.matricColab)
-                _uiState.update {
-                    it.copy(matricColab = matricColab)
-                }
-            }
-
-            TypeButton.OK -> {
-                if (uiState.value.matricColab.isEmpty()) {
-                    val failure = "${getClassAndMethod()} -> Campo vazio!"
-                    Timber.e(failure)
-                    _uiState.update {
-                        it.copy(
-                            flagDialog = true,
-                            flagFailure = true,
-                            errors = Errors.FIELD_EMPTY
-                        )
-                    }
-                    return
-                }
-                setMatricColab()
-            }
-
+    fun onTextField(text: String, typeButton: TypeButton) {
+        when(typeButton) {
+            TypeButton.NUMERIC -> updateState { copy(text = addTextField(this.text, text)) }
+            TypeButton.CLEAN -> updateState { copy(text = clearTextField(this.text)) }
+            TypeButton.OK -> set()
             TypeButton.UPDATE -> {
-                viewModelScope.launch {
-                    updateAllDatabase().collect { stateUpdate ->
-                        _uiState.value = stateUpdate
-                    }
-                }
+                viewModelScope.launch { updateAllDatabase().collect { _uiState.value = it } }
             }
         }
     }
 
-    fun getMatricColab() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.typeOcupante == TypeOcupante.MOTORISTA) &&
-            (uiState.value.checkGetMatricColab)
-        ) {
-            val resultGetMatric = getMatricColab(uiState.value.id)
-            if (resultGetMatric.isFailure) {
-                val error = resultGetMatric.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        flagFailure = true,
-                        errors = Errors.EXCEPTION,
-                        failure = failure,
-                    )
-                }
+    private fun set() = viewModelScope.launch {
+        runCatching {
+            if(state.text.isEmpty()) {
+                updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            val matricColab = resultGetMatric.getOrNull()!!
-            _uiState.update {
-                it.copy(
-                    matricColab = matricColab,
-                    checkGetMatricColab = false
-                )
-            }
+            checkMatricColab(uiState.value.text).getOrThrow()
         }
+            .onSuccessUpdateCheckAccess(::updateState)
+            .onFailureUpdate( ::updateState)
     }
 
-    private fun setMatricColab() = viewModelScope.launch {
-        val resultCheckMatric = checkMatricColab(uiState.value.matricColab)
-        if (resultCheckMatric.isFailure) {
-            val error = resultCheckMatric.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    flagFailure = true,
-                    errors = Errors.EXCEPTION,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        val result = resultCheckMatric.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flagAccess = result,
-                flagDialog = !result,
-                flagFailure = !result,
-                errors = Errors.INVALID,
-            )
-        }
-    }
-
-    suspend fun updateAllDatabase(): Flow<MatricColabState> = flow {
-        val sizeUpdate = 4f
-        var state = MatricColabState()
-        updateTableColab(sizeUpdate, 1f).collect {
-            state = it.resultUpdateToMatricColab()
-            emit(it.resultUpdateToMatricColab())
-        }
-        if (state.flagFailure) {
-            val failure = "${getClassAndMethod()} -> ${state.failure}"
-            Timber.e(failure)
-            return@flow
-        }
-        emit(
-            MatricColabState(
-                flagDialog = true,
-                flagProgress = false,
-                flagFailure = false,
-                msgProgress = "Atualização de dados realizado com sucesso!",
-                currentProgress = 1f,
-            )
+    suspend fun updateAllDatabase(): Flow<MatricColabState> =
+        executeUpdateSteps(
+            steps = listOf(updateTableColab(sizeUpdate())),
+            getState = { _uiState.value },
+            getStatus = { it.status },
+            copyStateWithStatus = { state, status -> state.copy(status = status) },
+            classAndMethod = getClassAndMethod(),
         )
-    }
 
 }

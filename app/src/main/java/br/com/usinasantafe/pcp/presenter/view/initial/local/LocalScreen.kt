@@ -41,12 +41,12 @@ fun LocalScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.localList()
+                viewModel.list()
             }
 
             LocalContent(
                 locals = uiState.locals,
-                setIdLocal = viewModel::set,
+                set = viewModel::set,
                 updateDatabase = viewModel::updateDatabase,
                 onCloseDialog = viewModel::onCloseDialog,
                 status = uiState.status,
@@ -61,7 +61,7 @@ fun LocalScreen(
 @Composable
 fun LocalContent(
     locals: List<Local>,
-    setIdLocal: (Int) -> Unit,
+    set: (Int) -> Unit,
     updateDatabase: () -> Unit,
     onCloseDialog: () -> Unit,
     status: UiStatusStateUpdate,
@@ -81,7 +81,7 @@ fun LocalContent(
             items(locals) { local ->
                 ItemListDesign(
                     text = local.descrLocal,
-                    setActionItem = { setIdLocal(local.idLocal) },
+                    setActionItem = { set(local.idLocal) },
                     font = 26
                 )
             }
@@ -139,7 +139,7 @@ fun DefaultPreview() {
                         "RESIDÊNCIA"
                     ),
                 ),
-                setIdLocal = {},
+                set = {},
                 updateDatabase = {},
                 onCloseDialog = {},
                 status = UiStatusStateUpdate(),
@@ -171,7 +171,7 @@ fun DefaultPreviewShowAlertDialog() {
                         "RESIDÊNCIA"
                     ),
                 ),
-                setIdLocal = {},
+                set = {},
                 updateDatabase = {},
                 onCloseDialog = {},
                 status = UiStatusStateUpdate(

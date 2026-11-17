@@ -45,10 +45,10 @@ class NomeColabChaveViewModel @Inject constructor(
     private val startReceiptMovChave: StartReceiptMovChave
 ) : ViewModel() {
 
-    private val matricColab: String = saveStateHandle[MATRIC_COLAB_ARGS]!!
-    private val typeMov: Int = saveStateHandle[TYPE_MOV_ARGS]!!
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val matricColabArgs: String = saveStateHandle[MATRIC_COLAB_ARGS]!!
+    private val typeMovArgs: Int = saveStateHandle[TYPE_MOV_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(NomeColabChaveState())
     val uiState = _uiState.asStateFlow()
@@ -60,21 +60,16 @@ class NomeColabChaveViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                matricColab = matricColab,
-                typeMov = TypeMovKey.entries[typeMov],
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeMov = TypeMovKey.entries[typeMovArgs]
+        updateState { copy(matricColab = matricColabArgs, flowApp = flowApp, typeMov = typeMov, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverNomeColab() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            getNomeColab(uiState.value.matricColab).getOrThrow()
+            getNomeColab(state.matricColab).getOrThrow()
         }
             .onSuccess { updateState { copy(nomeColab = it) }}
             .onFailureState(::updateState)
@@ -82,9 +77,9 @@ class NomeColabChaveViewModel @Inject constructor(
 
     fun set() = viewModelScope.launch {
         runCatching {
-            val check = (uiState.value.typeMov == TypeMovKey.RECEIPT) && (uiState.value.flowApp == FlowApp.ADD)
-            if(check) startReceiptMovChave(uiState.value.id).getOrThrow()
-            setMatricColabMovChave(uiState.value.matricColab, uiState.value.flowApp, uiState.value.id).getOrThrow()
+            val check = (state.typeMov == TypeMovKey.RECEIPT) && (state.flowApp == FlowApp.ADD)
+            if(check) startReceiptMovChave(state.id).getOrThrow()
+            setMatricColabMovChave(state.matricColab, state.flowApp, state.id).getOrThrow()
         }
             .onSuccessStateAccess(::updateState)
             .onFailureState(::updateState)

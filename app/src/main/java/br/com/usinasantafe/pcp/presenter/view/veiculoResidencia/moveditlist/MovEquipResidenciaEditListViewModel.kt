@@ -4,8 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.CloseAllMovResidencia
 import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetMovEquipResidenciaOpenList
-import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.presenter.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.presenter.view.chaveEquip.controleeditlist.ControleChaveEquipEditListState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,12 +19,16 @@ import timber.log.Timber
 import javax.inject.Inject
 
 data class MovEquipResidenciaEditListState(
-    val movEquipResidenciaModelList: List<MovEquipResidenciaModel> = listOf(),
+    val list: List<MovEquipResidenciaModel> = listOf(),
     val flagDialogCheck: Boolean = false,
     val flagCloseAllMov: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<MovEquipResidenciaEditListState> {
+
+    override fun copyWithStatus(status: UiStatusState): MovEquipResidenciaEditListState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class MovEquipResidenciaEditListViewModel @Inject constructor(
@@ -31,57 +39,29 @@ class MovEquipResidenciaEditListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MovEquipResidenciaEditListState())
     val uiState = _uiState.asStateFlow()
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: MovEquipResidenciaEditListState.() -> MovEquipResidenciaEditListState) {
+        _uiState.update(block)
     }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
-        _uiState.update {
-            it.copy(flagDialogCheck = flagDialogCheck)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onDialogCheck(flag: Boolean) = updateState { copy(flagDialogCheck = flag) }
+
+    fun onCloseAllMov() = viewModelScope.launch {
+        runCatching {
+            closeAllMovResidencia().getOrThrow()
         }
+            .onSuccess { updateState { copy(flagCloseAllMov = true, status = status.copy(flagDialog = false)) } }
+            .onFailureState(::updateState)
     }
 
-    fun closeAllMov() = viewModelScope.launch {
-        val resultCloseAllMov = closeAllMovResidencia()
-        if (resultCloseAllMov.isFailure) {
-            val error = resultCloseAllMov.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            getMovEquipResidenciaOpenList().getOrThrow()
         }
-        _uiState.update {
-            it.copy(
-                flagCloseAllMov = true,
-            )
-        }
-    }
-
-    fun recoverMovEquipEditList() = viewModelScope.launch {
-        val resultGetList = getMovEquipResidenciaOpenList()
-        if (resultGetList.isFailure) {
-            val error = resultGetList.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        val result = resultGetList.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                movEquipResidenciaModelList = result
-            )
-        }
+            .onSuccess { updateState { copy(list = it) } }
+            .onFailureState(::updateState)
     }
 }

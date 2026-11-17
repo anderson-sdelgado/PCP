@@ -42,7 +42,7 @@ fun NomeColabChaveScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverNomeColab()
+                viewModel.recover()
             }
 
             NomeColabChaveContent(

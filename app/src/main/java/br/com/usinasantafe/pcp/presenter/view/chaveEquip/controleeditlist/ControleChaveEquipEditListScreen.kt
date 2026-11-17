@@ -38,8 +38,13 @@ fun ControleChaveEquipEditListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.list()
+            }
+
             ControleChaveEquipEditListContent(
-                controleChaveEquipModelList = uiState.controleChaveEquipModelList,
+                list = uiState.list,
                 onCloseAllMov = viewModel::onCloseAllMov,
                 flagDialogCheck = uiState.flagDialogCheck,
                 onDialogCheck = viewModel::onDialogCheck,
@@ -51,13 +56,12 @@ fun ControleChaveEquipEditListScreen(
                 modifier = Modifier.padding(innerPadding)
             )
         }
-        viewModel.recoverMovOpenList()
     }
 }
 
 @Composable
 fun ControleChaveEquipEditListContent(
-    controleChaveEquipModelList: List<ControleChaveEquipModel>,
+    list: List<ControleChaveEquipModel>,
     onCloseAllMov: () -> Unit,
     flagDialogCheck: Boolean,
     onDialogCheck: (Boolean) -> Unit,
@@ -81,7 +85,7 @@ fun ControleChaveEquipEditListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(controleChaveEquipModelList) { cont ->
+            items(list) { cont ->
                 ItemListDesign(
                     text = "DATA/HORA: ${cont.dthr}\n" +
                             "TIPO: ${cont.tipoMov}\n" +
@@ -149,7 +153,7 @@ fun ControleChaveEquipEditListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ControleChaveEquipEditListContent(
-                controleChaveEquipModelList = listOf(
+                list = listOf(
                     ControleChaveEquipModel(
                         id = 1,
                         dthr = "20/10/2024",

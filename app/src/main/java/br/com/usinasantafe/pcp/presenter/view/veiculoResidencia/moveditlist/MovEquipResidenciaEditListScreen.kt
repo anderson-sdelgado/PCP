@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,7 +25,9 @@ import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
-import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.presenter.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun MovEquipResidenciaEditListScreen(
@@ -35,34 +38,36 @@ fun MovEquipResidenciaEditListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             MovEquipResidenciaEditListContent(
-                movEquipResidenciaModelList = uiState.movEquipResidenciaModelList,
-                closeAllMov = viewModel::closeAllMov,
-                flagDialog = uiState.flagDialog,
-                failure = uiState.failure,
+                list = uiState.list,
+                onCloseAllMov = viewModel::onCloseAllMov,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setDialogCheck = viewModel::setDialogCheck,
-                setCloseDialog = viewModel::setCloseDialog,
+                onDialogCheck = viewModel::onDialogCheck,
+                onCloseDialog = viewModel::onCloseDialog,
                 flagCloseAllMov = uiState.flagCloseAllMov,
+                status = uiState.status,
                 onNavMovEquipList = onNavMovEquipList,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverMovEquipEditList()
         }
     }
 }
 
 @Composable
 fun MovEquipResidenciaEditListContent(
-    movEquipResidenciaModelList: List<MovEquipResidenciaModel>,
-    closeAllMov: () -> Unit,
-    flagDialog: Boolean,
-    failure: String,
+    list: List<MovEquipResidenciaModel>,
+    onCloseAllMov: () -> Unit,
     flagDialogCheck: Boolean,
-    setDialogCheck: (Boolean) -> Unit,
-    setCloseDialog: () -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    onCloseDialog: () -> Unit,
     flagCloseAllMov: Boolean,
+    status: UiStatusState,
     onNavMovEquipList: () -> Unit,
     onNavDetalhe: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -77,7 +82,7 @@ fun MovEquipResidenciaEditListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(movEquipResidenciaModelList) { mov ->
+            items(list) { mov ->
                 ItemListDesign(
                     text = "DATA/HORA: ${mov.dthr}\n" +
                             "TIPO:  ${mov.tipoMov}\n" +
@@ -92,7 +97,7 @@ fun MovEquipResidenciaEditListContent(
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
@@ -109,27 +114,26 @@ fun MovEquipResidenciaEditListContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavMovEquipList() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_close_all_mov),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeAllMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseAllMov() }
             )
         }
 
-        if(flagCloseAllMov){
+    }
+
+    LaunchedEffect(flagCloseAllMov) {
+        if (flagCloseAllMov) {
             onNavMovEquipList()
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -138,14 +142,13 @@ fun MovEquipResidenciaEditListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MovEquipResidenciaEditListContent(
-                movEquipResidenciaModelList = emptyList(),
-                closeAllMov = {},
-                flagDialog = false,
-                failure = "",
+                list = emptyList(),
+                onCloseAllMov = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                setCloseDialog = {},
+                onDialogCheck = {},
+                onCloseDialog = {},
                 flagCloseAllMov = false,
+                status = UiStatusState(),
                 onNavMovEquipList = {},
                 onNavDetalhe = {},
                 modifier = Modifier.padding(innerPadding)
@@ -161,7 +164,7 @@ fun MovEquipResidenciaEditDataListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MovEquipResidenciaEditListContent(
-                movEquipResidenciaModelList = listOf(
+                list = listOf(
                     MovEquipResidenciaModel(
                         id = 1,
                         tipoMov = "ENTRADA",
@@ -171,13 +174,12 @@ fun MovEquipResidenciaEditDataListPagePreview() {
                         motorista = "Anderson"
                     )
                 ),
-                closeAllMov = {},
-                flagDialog = false,
-                failure = "",
+                onCloseAllMov = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                setCloseDialog = {},
+                onDialogCheck = {},
+                onCloseDialog = {},
                 flagCloseAllMov = false,
+                status = UiStatusState(),
                 onNavMovEquipList = {},
                 onNavDetalhe = {},
                 modifier = Modifier.padding(innerPadding)

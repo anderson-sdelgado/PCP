@@ -20,19 +20,15 @@ import br.com.usinasantafe.pcp.utils.UiStatusStateUpdate
 import br.com.usinasantafe.pcp.utils.executeUpdateSteps
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.onFailureUpdate
-import br.com.usinasantafe.pcp.utils.onSuccessUpdateAccess
 import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
-import br.com.usinasantafe.pcp.utils.onSuccessUpdateFinish
 import br.com.usinasantafe.pcp.utils.sizeUpdate
 import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class MatricColabChaveState(
@@ -56,9 +52,9 @@ class MatricColabChaveViewModel @Inject constructor(
     private val getMatricColabMovChave: GetMatricColabMovChave
 ) : ViewModel() {
 
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeMov: Int = saveStateHandle[TYPE_MOV_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeMovArgs: Int = saveStateHandle[TYPE_MOV_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(MatricColabChaveState())
     val uiState = _uiState.asStateFlow()
@@ -70,21 +66,17 @@ class MatricColabChaveViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeMov = TypeMovKey.entries[typeMov],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeMov = TypeMovKey.entries[typeMovArgs]
+        updateState { copy(flowApp = flowApp, typeMov = typeMov, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverMatricColab() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            if(uiState.value.flowApp == FlowApp.ADD) return@launch
-            getMatricColabMovChave(uiState.value.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getMatricColabMovChave(state.id).getOrThrow()
         }
             .onSuccess { updateState { copy(text = it) }}
             .onFailureUpdate(::updateState)

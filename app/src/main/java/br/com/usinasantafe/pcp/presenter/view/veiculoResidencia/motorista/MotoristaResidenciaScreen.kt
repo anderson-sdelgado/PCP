@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -24,11 +25,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_MOTORISTA_TEXT_FIELD_RESIDENCIA = "tag_motorista_text_field_residencia"
 
@@ -42,21 +44,23 @@ fun MotoristaResidenciaScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             MotoristaResidenciaContent(
                 flowApp = uiState.flowApp,
-                motorista = uiState.motorista,
-                onMotoristaChanged = viewModel::onMotoristaChanged,
-                setMotorista = viewModel::setMotorista,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                text = uiState.text,
+                onChanged = viewModel::onChanged,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavPlaca = onNavPlaca,
                 onNavDetalhe = onNavDetalhe,
                 onNavObserv = onNavObserv,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverMotorista()
         }
     }
 }
@@ -64,13 +68,11 @@ fun MotoristaResidenciaScreen(
 @Composable
 fun MotoristaResidenciaContent(
     flowApp: FlowApp,
-    motorista: String,
-    onMotoristaChanged: (String) -> Unit,
-    setMotorista: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    text: String,
+    onChanged: (String) -> Unit,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavPlaca: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavObserv: () -> Unit,
@@ -83,8 +85,8 @@ fun MotoristaResidenciaContent(
         TitleDesign(text = stringResource(id = R.string.text_title_motorista))
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         OutlinedTextField(
-            value = motorista,
-            onValueChange = onMotoristaChanged,
+            value = text,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -112,7 +114,7 @@ fun MotoristaResidenciaContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setMotorista,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -120,29 +122,21 @@ fun MotoristaResidenciaContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            val text = if (failure.isEmpty()) {
-                stringResource(
-                    R.string.text_field_empty,
-                    stringResource(id = R.string.text_title_destino)
-                )
-            } else {
-                stringResource(id = R.string.text_failure, failure)
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             when (flowApp) {
                 FlowApp.ADD -> onNavObserv()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -152,13 +146,11 @@ fun MotoristaResidenciaPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MotoristaResidenciaContent(
                 flowApp = FlowApp.ADD,
-                motorista = "Anderson",
-                onMotoristaChanged = {},
-                setMotorista = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                text = "Anderson",
+                onChanged = {},
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavPlaca = {},
                 onNavDetalhe = {},
                 onNavObserv = {},

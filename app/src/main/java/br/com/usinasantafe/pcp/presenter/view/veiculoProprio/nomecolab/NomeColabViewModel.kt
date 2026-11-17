@@ -11,7 +11,10 @@ import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_OCUPANTE_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeOcupante
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,10 +28,13 @@ data class NomeColabState(
     val id: Int = 0,
     val matricColab: String = "",
     val nomeColab: String = "",
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<NomeColabState> {
+
+    override fun copyWithStatus(status: UiStatusState): NomeColabState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class NomeColabViewModel @Inject constructor(
@@ -37,76 +43,42 @@ class NomeColabViewModel @Inject constructor(
     private val setMatricColab: SetMatricColab
 ) : ViewModel() {
 
-    private val matricColab: String = saveStateHandle[MATRIC_COLAB_ARGS]!!
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeOcupante: Int = saveStateHandle[TYPE_OCUPANTE_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val matricColabArgs: String = saveStateHandle[MATRIC_COLAB_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeOcupanteArgs: Int = saveStateHandle[TYPE_OCUPANTE_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(NomeColabState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: NomeColabState.() -> NomeColabState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                matricColab = matricColab,
-                flowApp = FlowApp.entries[flowApp],
-                typeOcupante = TypeOcupante.entries[typeOcupante],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeOcupante = TypeOcupante.entries[typeOcupanteArgs]
+        updateState { copy(matricColab = matricColabArgs, flowApp = flowApp, typeOcupante = typeOcupante, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            getNomeColab(state.matricColab).getOrThrow()
         }
+            .onSuccess { updateState { copy(nomeColab = it) }}
+            .onFailureState(::updateState)
     }
 
-    fun returnNomeColab() = viewModelScope.launch {
-        val recoverNome = getNomeColab(uiState.value.matricColab)
-        if (recoverNome.isFailure) {
-            val error = recoverNome.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
+    fun set() = viewModelScope.launch {
+        runCatching {
+            setMatricColab(state.matricColab, state.flowApp, state.typeOcupante, state.id).getOrThrow()
         }
-        val result = recoverNome.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                nomeColab = result
-            )
-        }
-    }
-
-    fun setMatric() = viewModelScope.launch {
-        val resultSetMatric = setMatricColab(
-            matricColab = uiState.value.matricColab,
-            flowApp = uiState.value.flowApp,
-            typeOcupante = uiState.value.typeOcupante,
-            id = uiState.value.id
-        )
-        if (resultSetMatric.isFailure){
-            val error = resultSetMatric.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} - ${error.cause.toString()}"
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        _uiState.update {
-            it.copy(
-                flagDialog = false,
-                flagAccess = true
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 }

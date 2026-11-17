@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.detalhe
+package br.com.usinasantafe.pcp.presenter.model
 
 data class DetalheResidenciaModel(
     val id: Int,

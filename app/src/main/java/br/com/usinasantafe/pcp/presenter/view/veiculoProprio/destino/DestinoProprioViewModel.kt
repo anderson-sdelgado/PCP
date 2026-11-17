@@ -11,20 +11,16 @@ import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
-import br.com.usinasantafe.pcp.presenter.view.chaveEquip.observ.ObservChaveEquipState
 import br.com.usinasantafe.pcp.utils.UiStateWithStatus
 import br.com.usinasantafe.pcp.utils.UiStatusState
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.onFailureState
-import br.com.usinasantafe.pcp.utils.onFailureUpdate
-import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class DestinoProprioState(
@@ -48,8 +44,8 @@ class DestinoProprioViewModel @Inject constructor(
     private val getTypeMov: GetTypeMov
 ) : ViewModel() {
 
-    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = savedStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = savedStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(DestinoProprioState())
     val uiState = _uiState.asStateFlow()
@@ -61,22 +57,18 @@ class DestinoProprioViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        updateState { copy(flowApp = flowApp, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun onDestinoChanged(text: String) = updateState { copy(text = text) }
+    fun onChanged(text: String) = updateState { copy(text = text) }
 
-    fun recoverDestino() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            if(uiState.value.flowApp == FlowApp.ADD) return@launch
-            getDestinoProprio(uiState.value.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getDestinoProprio(state.id).getOrThrow()
         }
             .onSuccess { updateState { copy(text = it) } }
             .onFailureState(::updateState)
@@ -88,54 +80,14 @@ class DestinoProprioViewModel @Inject constructor(
                 updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            setDestinoProprio(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
+            setDestinoProprio(state.text, state.flowApp, state.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) {
+                val typeMov = getTypeMov().getOrThrow()
+                updateState { copy(typeMov = typeMov) }
+            }
         }
-            .onSuccessUpdateCheckAccess(::updateState)
-            .onFailureUpdate(::updateState)
-
-            val resultSetDestino = setDestinoProprio(
-                uiState.value.text,
-                uiState.value.flowApp,
-                uiState.value.id
-            )
-            if (resultSetDestino.isFailure) {
-                val error = resultSetDestino.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            if (uiState.value.flowApp == FlowApp.ADD) {
-                val resultGetTypeMov = getTypeMov()
-                if (resultGetTypeMov.isFailure) {
-                    val error = resultGetTypeMov.exceptionOrNull()!!
-                    val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                    Timber.e(failure)
-                    _uiState.update {
-                        it.copy(
-                            flagDialog = true,
-                            failure = failure,
-                        )
-                    }
-                    return@launch
-                }
-                val typeMov = resultGetTypeMov.getOrNull()!!
-                _uiState.update {
-                    it.copy(
-                        typeMov = typeMov
-                    )
-                }
-            }
-            _uiState.update {
-                it.copy(
-                    flagAccess = true,
-                )
-            }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 }

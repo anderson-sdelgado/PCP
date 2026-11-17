@@ -42,15 +42,15 @@ fun ControleChaveEquipListScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.recoverHeader()
-                viewModel.recoverMovList()
+                viewModel.recover()
+                viewModel.list()
             }
 
             ControleChaveEquipListContent(
-                controleChaveEquipModelList = uiState.controleChaveEquipModelList,
+                list = uiState.list,
                 descrVigia = uiState.descrVigia,
                 descrLocal = uiState.descrLocal,
-                startMov = viewModel::startMov,
+                onStartMov = viewModel::onStartMov,
                 onCloseDialog = viewModel::onCloseDialog,
                 status = uiState.status,
                 onNavControleChaveEquipEditList = onNavControleChaveEquipEditList,
@@ -65,10 +65,10 @@ fun ControleChaveEquipListScreen(
 
 @Composable
 fun ControleChaveEquipListContent(
-    controleChaveEquipModelList: List<ControleChaveEquipModel>,
+    list: List<ControleChaveEquipModel>,
     descrVigia: String,
     descrLocal: String,
-    startMov: () -> Unit,
+    onStartMov: () -> Unit,
     onCloseDialog: () -> Unit,
     status: UiStatusState,
     onNavControleChaveEquipEditList: () -> Unit,
@@ -95,7 +95,7 @@ fun ControleChaveEquipListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(controleChaveEquipModelList) { cont ->
+            items(list) { cont ->
                 ItemListDesign(
                     text = "DATA/HORA: ${cont.dthr}\n" +
                             "EQUIPAMENTO: ${cont.equip}\n" +
@@ -109,7 +109,7 @@ fun ControleChaveEquipListContent(
             }
         }
         Button(
-            onClick = startMov,
+            onClick = onStartMov,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
@@ -160,7 +160,7 @@ fun ControleChaveEquipListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             ControleChaveEquipListContent(
-                controleChaveEquipModelList = listOf(
+                list = listOf(
                     ControleChaveEquipModel(
                         id = 1,
                         dthr = "08/08/2024 12:00",
@@ -170,7 +170,7 @@ fun ControleChaveEquipListPagePreview() {
                 ),
                 descrVigia = "19759 - ANDERSON DA SILVA DELGADO",
                 descrLocal = "1 - USINA",
-                startMov = {},
+                onStartMov = {},
                 onCloseDialog = {},
                 status = UiStatusState(),
                 onNavControleChaveEquipEditList = {},

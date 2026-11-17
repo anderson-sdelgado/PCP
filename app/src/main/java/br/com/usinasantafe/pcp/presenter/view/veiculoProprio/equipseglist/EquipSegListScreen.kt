@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,13 +23,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.domain.entities.stable.Equip
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeEquip
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun EquipSegListScreen(
@@ -40,38 +42,39 @@ fun EquipSegListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover(true)
+            }
+
             EquipSegListContent(
-                equipSegList = uiState.equipSegList,
+                list = uiState.list,
                 flowApp = uiState.flowApp,
                 setDelete = viewModel::setDelete,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setCloseDialogCheck = viewModel::setCloseDialogCheck,
-                setDeleteEquipSeg = viewModel::deleteVeicSeg,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialogCheck = viewModel::onCloseDialogCheck,
+                onDelete = viewModel::onDelete,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavDetalheMovProprio = onNavDetalheMovProprio,
                 onNavNroEquip = onNavNroEquip,
                 onNavMatricColab = onNavMatricColab,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.cleanVeicSeg()
-            viewModel.recoverVeicSeg()
         }
     }
 }
 
 @Composable
 fun EquipSegListContent(
-    equipSegList: List<Equip>,
+    list: List<Equip>,
     flowApp: FlowApp,
     setDelete: (Int) -> Unit,
     flagDialogCheck: Boolean,
-    setCloseDialogCheck: () -> Unit,
-    setDeleteEquipSeg: () -> Unit,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialogCheck: () -> Unit,
+    onDelete: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavDetalheMovProprio: () -> Unit,
     onNavNroEquip: (Int) -> Unit,
     onNavMatricColab: () -> Unit,
@@ -86,7 +89,7 @@ fun EquipSegListContent(
             modifier = Modifier
                 .weight(1f),
         ) {
-            items(equipSegList) { equip ->
+            items(list) { equip ->
                 ItemListDesign(
                     text = "${equip.nroEquip} - ${equip.descrEquip}",
                     setActionItem = { setDelete(equip.idEquip) },
@@ -131,18 +134,15 @@ fun EquipSegListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if (flagDialogCheck) {
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_delete_equip_seg),
-                setCloseDialog = setCloseDialogCheck,
-                setActionButtonYes = setDeleteEquipSeg
+                setCloseDialog = onCloseDialogCheck,
+                setActionButtonYes = onDelete
             )
         }
 
@@ -155,15 +155,14 @@ fun EquipSegListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             EquipSegListContent(
-                equipSegList = emptyList(),
+                list = emptyList(),
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeleteEquipSeg = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDetalheMovProprio = {},
                 onNavNroEquip = {},
                 onNavMatricColab = {},
@@ -179,7 +178,7 @@ fun EquipSegListPagePreviewList() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             EquipSegListContent(
-                equipSegList = listOf(
+                list = listOf(
                     Equip(
                         idEquip = 10,
                         nroEquip = 100,
@@ -194,11 +193,10 @@ fun EquipSegListPagePreviewList() {
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeleteEquipSeg = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDetalheMovProprio = {},
                 onNavNroEquip = {},
                 onNavMatricColab = {},
@@ -214,7 +212,7 @@ fun EquipSegListPagePreviewFailure() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             EquipSegListContent(
-                equipSegList = listOf(
+                list = listOf(
                     Equip(
                         idEquip = 10,
                         nroEquip = 100,
@@ -229,11 +227,10 @@ fun EquipSegListPagePreviewFailure() {
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeleteEquipSeg = {},
-                flagDialog = true,
-                setCloseDialog = {},
-                failure = "Failure Usecase",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDetalheMovProprio = {},
                 onNavNroEquip = {},
                 onNavMatricColab = {},
@@ -250,7 +247,7 @@ fun EquipSegListPagePreviewMsgDelete() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             EquipSegListContent(
-                equipSegList = listOf(
+                list = listOf(
                     Equip(
                         idEquip = 10,
                         nroEquip = 100,
@@ -265,11 +262,10 @@ fun EquipSegListPagePreviewMsgDelete() {
                 flowApp = FlowApp.ADD,
                 setDelete = {},
                 flagDialogCheck = true,
-                setCloseDialogCheck = {},
-                setDeleteEquipSeg = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "Failure Usecase",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavDetalheMovProprio = {},
                 onNavNroEquip = {},
                 onNavMatricColab = {},

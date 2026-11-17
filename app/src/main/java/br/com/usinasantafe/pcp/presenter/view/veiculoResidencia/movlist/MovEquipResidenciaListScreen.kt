@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,13 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TextSmallDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
-import br.com.usinasantafe.pcp.presenter.view.veiculoResidencia.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.presenter.model.MovEquipResidenciaModel
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun MovEquipResidenciaListScreen(
@@ -37,23 +39,26 @@ fun MovEquipResidenciaListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+                viewModel.list()
+            }
+
             MovEquipResidenciaListContent(
                 descrVigia = uiState.descrVigia,
                 descrLocal = uiState.descrLocal,
-                movEquipResidenciaModelList = uiState.movEquipResidenciaModelList,
-                startMov = viewModel::startMov,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                failure = uiState.failure,
-                setCloseDialog = viewModel::setCloseDialog,
+                list = uiState.list,
+                onStartMov = viewModel::onStartMov,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavVeiculo = onNavVeiculo,
                 onNavMovEquipEditList = onNavMovEquipEditList,
                 onNavObserv = onNavObserv,
                 onNavMenuApont = onNavMenuApont,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnHeader()
-            viewModel.recoverMovEquipList()
+
         }
     }
 }
@@ -62,12 +67,10 @@ fun MovEquipResidenciaListScreen(
 fun MovEquipResidenciaListContent(
     descrVigia: String,
     descrLocal: String,
-    movEquipResidenciaModelList: List<MovEquipResidenciaModel>,
-    startMov: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    failure: String,
-    setCloseDialog: () -> Unit,
+    list: List<MovEquipResidenciaModel>,
+    onStartMov: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavVeiculo: () -> Unit,
     onNavMovEquipEditList: () -> Unit,
     onNavObserv: (Int) -> Unit,
@@ -86,7 +89,7 @@ fun MovEquipResidenciaListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(movEquipResidenciaModelList) { mov ->
+            items(list) { mov ->
                 ItemListDesign(
                     text = "DATA/HORA: ${mov.dthr}\n" +
                             "VEÍCULO: ${mov.veiculo}\n" +
@@ -100,7 +103,7 @@ fun MovEquipResidenciaListContent(
             }
         }
         Button(
-            onClick = startMov,
+            onClick = onStartMov,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
@@ -125,14 +128,14 @@ fun MovEquipResidenciaListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             onNavVeiculo()
         }
     }
@@ -146,12 +149,10 @@ fun MovEquipResidenciaListPagePreview() {
             MovEquipResidenciaListContent(
                 descrVigia = "1975 - ANDERSON",
                 descrLocal = "1 - USINA",
-                movEquipResidenciaModelList = emptyList(),
-                startMov = {},
-                flagAccess = false,
-                flagDialog = false,
-                failure = "",
-                setCloseDialog = {},
+                list = emptyList(),
+                onStartMov = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavVeiculo = {},
                 onNavMovEquipEditList = {},
                 onNavObserv = {},
@@ -170,7 +171,7 @@ fun MovEquipResidenciaListDataPagePreview() {
             MovEquipResidenciaListContent(
                 descrVigia = "1975 - ANDERSON",
                 descrLocal = "1 - USINA",
-                movEquipResidenciaModelList = listOf(
+                list = listOf(
                     MovEquipResidenciaModel(
                         id = 1,
                         dthr = "20/10/2024",
@@ -179,11 +180,9 @@ fun MovEquipResidenciaListDataPagePreview() {
                         motorista = "Anderson"
                     )
                 ),
-                startMov = {},
-                flagAccess = false,
-                flagDialog = false,
-                failure = "",
-                setCloseDialog = {},
+                onStartMov = {},
+                status = UiStatusState(),
+                onCloseDialog = {},
                 onNavVeiculo = {},
                 onNavMovEquipEditList = {},
                 onNavObserv = {},

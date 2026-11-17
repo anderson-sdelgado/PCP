@@ -43,9 +43,9 @@ class ObservChaveViewModel @Inject constructor(
     private val getObservMovChave: GetObservMovChave
 ) : ViewModel() {
 
-    private val typeMov: Int = savedStateHandle[TYPE_MOV_ARGS]!!
-    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = savedStateHandle[ID_ARGS]!!
+    private val typeMovArgs: Int = savedStateHandle[TYPE_MOV_ARGS]!!
+    private val flowAppArgs: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = savedStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(ObservChaveState())
     val uiState = _uiState.asStateFlow()
@@ -57,23 +57,19 @@ class ObservChaveViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                typeMov = TypeMovKey.entries[typeMov],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeMov = TypeMovKey.entries[typeMovArgs]
+        updateState { copy(flowApp = flowApp, typeMov = typeMov, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun onObservChanged(observ: String) = updateState { copy(text = observ) }
+    fun onChanged(observ: String) = updateState { copy(text = observ) }
 
-    fun recoverObserv() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            if(uiState.value.flowApp == FlowApp.ADD) return@launch
-            getObservMovChave(uiState.value.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getObservMovChave(state.id).getOrThrow()
         }
             .onSuccess { updateState { copy(text = it) } }
             .onFailureState(::updateState)
@@ -81,8 +77,8 @@ class ObservChaveViewModel @Inject constructor(
 
     fun set() = viewModelScope.launch {
         runCatching {
-            setObservMovChave(uiState.value.text, uiState.value.flowApp, uiState.value.id).getOrThrow()
-            if(uiState.value.flowApp == FlowApp.ADD) saveMovChave(uiState.value.typeMov, uiState.value.id).getOrThrow()
+            setObservMovChave(state.text, state.flowApp, state.id).getOrThrow()
+            if(state.flowApp == FlowApp.ADD) saveMovChave(state.typeMov, state.id).getOrThrow()
         }
             .onSuccessStateAccess(::updateState)
             .onFailureState(::updateState)

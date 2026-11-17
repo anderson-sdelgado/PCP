@@ -12,10 +12,8 @@ import br.com.usinasantafe.pcp.presenter.Args.MATRIC_COLAB_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.TYPE_MOV_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeMovKey
-import br.com.usinasantafe.pcp.presenter.view.chave.nomecolab.NomeColabChaveState
 import br.com.usinasantafe.pcp.utils.UiStateWithStatus
 import br.com.usinasantafe.pcp.utils.UiStatusState
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
 import br.com.usinasantafe.pcp.utils.onFailureState
 import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +21,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class NomeColabChaveEquipState(
@@ -48,10 +45,10 @@ class NomeColabChaveEquipViewModel @Inject constructor(
     private val startRemoveMovChaveEquip: StartRemoveMovChaveEquip
 ) : ViewModel() {
 
-    private val matricColab: String = saveStateHandle[MATRIC_COLAB_ARGS]!!
-    private val flowApp: Int = saveStateHandle[FLOW_APP_ARGS]!!
-    private val typeMov: Int = saveStateHandle[TYPE_MOV_ARGS]!!
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val matricColabArgs: String = saveStateHandle[MATRIC_COLAB_ARGS]!!
+    private val flowAppArgs: Int = saveStateHandle[FLOW_APP_ARGS]!!
+    private val typeMovArgs: Int = saveStateHandle[TYPE_MOV_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(NomeColabChaveEquipState())
     val uiState = _uiState.asStateFlow()
@@ -63,21 +60,16 @@ class NomeColabChaveEquipViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                matricColab = matricColab,
-                typeMov = TypeMovKey.entries[typeMov],
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        val typeMov = TypeMovKey.entries[typeMovArgs]
+        updateState { copy(matricColab = matricColabArgs, flowApp = flowApp, typeMov = typeMov, id = idArgs) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverNomeColab() = viewModelScope.launch {
+    fun recover() = viewModelScope.launch {
         runCatching {
-            getNomeColab(uiState.value.matricColab).getOrThrow()
+            getNomeColab(state.matricColab).getOrThrow()
         }
             .onSuccess { updateState { copy(nomeColab = it) }}
             .onFailureState(::updateState)
@@ -85,9 +77,9 @@ class NomeColabChaveEquipViewModel @Inject constructor(
 
     fun set() = viewModelScope.launch {
         runCatching {
-            val check = (uiState.value.typeMov == TypeMovKey.REMOVE) && (uiState.value.flowApp == FlowApp.ADD)
-            if(check) startRemoveMovChaveEquip(uiState.value.id).getOrThrow()
-            setMatricColabMovChaveEquip(uiState.value.matricColab, uiState.value.flowApp, uiState.value.id).getOrThrow()
+            val check = (state.typeMov == TypeMovKey.REMOVE) && (state.flowApp == FlowApp.ADD)
+            if(check) startRemoveMovChaveEquip(state.id).getOrThrow()
+            setMatricColabMovChaveEquip(state.matricColab, state.flowApp, state.id).getOrThrow()
         }
             .onSuccessStateAccess(::updateState)
             .onFailureState(::updateState)

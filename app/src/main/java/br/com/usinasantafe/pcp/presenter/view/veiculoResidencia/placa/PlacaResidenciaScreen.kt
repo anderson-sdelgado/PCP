@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -31,6 +32,9 @@ import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
+
 const val TAG_PLACA_TEXT_FIELD_RESIDENCIA = "tag_placa_text_field_residencia"
 
 @Composable
@@ -43,21 +47,23 @@ fun PlacaResidenciaScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             PlacaResidenciaContent(
                 flowApp = uiState.flowApp,
-                placa = uiState.placa,
-                onPlacaChanged = viewModel::onPlacaChanged,
-                setPlaca = viewModel::setPlaca,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                text = uiState.text,
+                onChanged = viewModel::onChanged,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavVeiculo = onNavVeiculo,
                 onNavDetalhe = onNavDetalhe,
                 onNavMotorista = onNavMotorista,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverPlaca()
         }
     }
 }
@@ -65,13 +71,11 @@ fun PlacaResidenciaScreen(
 @Composable
 fun PlacaResidenciaContent(
     flowApp: FlowApp,
-    placa: String,
-    onPlacaChanged: (String) -> Unit,
-    setPlaca: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    text: String,
+    onChanged: (String) -> Unit,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavVeiculo: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavMotorista: () -> Unit,
@@ -84,8 +88,8 @@ fun PlacaResidenciaContent(
         TitleDesign(text = stringResource(id = R.string.text_title_placa))
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         OutlinedTextField(
-            value = placa,
-            onValueChange = onPlacaChanged,
+            value = text,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -114,7 +118,7 @@ fun PlacaResidenciaContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setPlaca,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -122,29 +126,21 @@ fun PlacaResidenciaContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            val text = if (failure.isEmpty()) {
-                stringResource(
-                    R.string.text_field_empty,
-                    stringResource(id = R.string.text_title_destino)
-                )
-            } else {
-                stringResource(id = R.string.text_failure, failure)
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             when (flowApp) {
                 FlowApp.ADD -> onNavMotorista()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -154,13 +150,11 @@ fun PlacaResidenciaPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             PlacaResidenciaContent(
                 flowApp = FlowApp.ADD,
-                placa = "Tabatinga",
-                onPlacaChanged = {},
-                setPlaca = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                text = "Tabatinga",
+                onChanged = {},
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavVeiculo = {},
                 onNavDetalhe = {},
                 onNavMotorista = {},

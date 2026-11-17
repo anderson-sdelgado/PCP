@@ -4,7 +4,7 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipProprioRepository
-import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.movlist.MovEquipProprioModel
+import br.com.usinasantafe.pcp.presenter.model.MovEquipProprioModel
 import br.com.usinasantafe.pcp.lib.TypeMovEquip
 import java.text.SimpleDateFormat
 import java.util.Locale

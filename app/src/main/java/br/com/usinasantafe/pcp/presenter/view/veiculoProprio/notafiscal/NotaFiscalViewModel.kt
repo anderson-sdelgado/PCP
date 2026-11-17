@@ -11,24 +11,28 @@ import br.com.usinasantafe.pcp.presenter.theme.addTextField
 import br.com.usinasantafe.pcp.presenter.theme.clearTextField
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeButton
-import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 data class NotaFiscalState(
-    val notaFiscal: String? = null,
+    val text: String = "",
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
-    val flagGetNotaFiscal: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<NotaFiscalState> {
+
+    override fun copyWithStatus(status: UiStatusState): NotaFiscalState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class NotaFiscalViewModel @Inject constructor(
@@ -37,106 +41,51 @@ class NotaFiscalViewModel @Inject constructor(
     private val getNotaFiscalProprio: GetNotaFiscalProprio
 ) : ViewModel() {
 
-    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = savedStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = savedStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(NotaFiscalState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: NotaFiscalState.() -> NotaFiscalState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        updateState { copy(flowApp = flowApp, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getNotaFiscalProprio(state.id).getOrThrow() ?: ""
         }
+            .onSuccess { updateState { copy(text = it) }}
+            .onFailureState(::updateState)
+
     }
 
-    fun setTextField(
-        text: String,
-        typeButton: TypeButton
-    ) {
-        val nf = if (uiState.value.notaFiscal.isNullOrEmpty()) "" else uiState.value.notaFiscal!!
-        when (typeButton) {
-            TypeButton.NUMERIC -> {
-                val notaFiscal = addTextField(nf, text)
-                _uiState.update {
-                    it.copy(notaFiscal = notaFiscal)
-                }
-            }
-
-            TypeButton.CLEAN -> {
-                val notaFiscal = clearTextField(nf)
-                _uiState.update {
-                    it.copy(notaFiscal = notaFiscal)
-                }
-            }
-
-            TypeButton.OK -> {
-                setNotaFiscal()
-            }
-
+    fun onTextField(text: String, typeButton: TypeButton) {
+        when(typeButton) {
+            TypeButton.NUMERIC -> updateState { copy(text = addTextField(this.text, text)) }
+            TypeButton.CLEAN -> updateState { copy(text = clearTextField(this.text)) }
+            TypeButton.OK -> set()
             TypeButton.UPDATE -> {}
         }
     }
 
-    fun getNotaFiscal() = viewModelScope.launch {
-        if (
-            uiState.value.flowApp == FlowApp.CHANGE &&
-            uiState.value.flagGetNotaFiscal
-        ) {
-            val resultSetNotaFiscal = getNotaFiscalProprio(uiState.value.id)
-            if (resultSetNotaFiscal.isFailure) {
-                val error = resultSetNotaFiscal.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            val notaFiscal = resultSetNotaFiscal.getOrNull()
-            _uiState.update {
-                it.copy(
-                    notaFiscal = notaFiscal,
-                    flagGetNotaFiscal = false
-                )
-            }
+    private fun set() = viewModelScope.launch {
+        runCatching {
+            val nf = if(state.text == "") null else state.text
+            setNotaFiscalProprio(nf, state.flowApp, state.id).getOrThrow()
         }
-    }
-
-    private fun setNotaFiscal() = viewModelScope.launch {
-        val resultSetNotaFiscal = setNotaFiscalProprio(
-            uiState.value.notaFiscal,
-            uiState.value.flowApp,
-            uiState.value.id
-        )
-        if (resultSetNotaFiscal.isFailure) {
-            val error = resultSetNotaFiscal.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure,
-                )
-            }
-            return@launch
-        }
-        _uiState.update {
-            it.copy(
-                flagAccess = true,
-            )
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState( ::updateState)
     }
 
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,11 +20,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun DetalheMovProprioScreen(
@@ -40,6 +42,11 @@ fun DetalheMovProprioScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             DetalheMovProprioContent(
                 dthr = uiState.dthr,
                 tipoMov = uiState.tipoMov,
@@ -50,13 +57,12 @@ fun DetalheMovProprioScreen(
                 veiculoSec = uiState.veiculoSec,
                 notaFiscal = uiState.notaFiscal,
                 observ = uiState.observ,
-                setCloseDialog = viewModel::setCloseDialog,
-                closeMov = viewModel::closeMov,
+                onCloseDialog = viewModel::onCloseDialog,
+                onCloseMov = viewModel::onCloseMov,
                 flagCloseMov = uiState.flagCloseMov,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setDialogCheck = viewModel::setDialogCheck,
-                flagDialog = uiState.flagDialog,
-                failure = uiState.failure,
+                onDialogCheck = viewModel::onDialogCheck,
+                status = uiState.status,
                 onNavMovProprioList = onNavMovProprioList,
                 onNavNroEquip = onNavNroEquip,
                 onNavEquipSegList = onNavEquipSegList,
@@ -67,7 +73,6 @@ fun DetalheMovProprioScreen(
                 onNavObserv = onNavObserv,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverDetalhe()
         }
     }
 }
@@ -83,13 +88,12 @@ fun DetalheMovProprioContent(
     veiculoSec: String,
     notaFiscal: String?,
     observ: String?,
-    setCloseDialog: () -> Unit,
-    closeMov: () -> Unit,
+    onCloseDialog: () -> Unit,
+    onCloseMov: () -> Unit,
     flagCloseMov: Boolean,
     flagDialogCheck: Boolean,
-    setDialogCheck: (Boolean) -> Unit,
-    flagDialog: Boolean,
-    failure: String,
+    onDialogCheck: (Boolean) -> Unit,
+    status: UiStatusState,
     onNavMovProprioList: () -> Unit,
     onNavNroEquip: () -> Unit,
     onNavEquipSegList: () -> Unit,
@@ -173,7 +177,7 @@ fun DetalheMovProprioContent(
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(text = stringResource(id = R.string.text_button_close_mov))
@@ -187,26 +191,24 @@ fun DetalheMovProprioContent(
         }
         BackHandler {}
 
-        if(flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavMovProprioList() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_return),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseMov() }
             )
         }
 
-        if(flagCloseMov){
+    }
+
+    LaunchedEffect(flagCloseMov) {
+        if (flagCloseMov) {
             onNavMovProprioList()
         }
-
     }
 }
 
@@ -225,12 +227,11 @@ fun DetalheMovProprioPagePreview() {
                 destino = "TESTE DESTINO",
                 notaFiscal = "NOTA FISCAL:",
                 observ = "TESTE OBSERVAÇÃO",
-                flagDialog = false,
-                failure = "",
-                setCloseDialog = {},
+                status = UiStatusState(),
+                onCloseDialog = {},
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                closeMov = {},
+                onDialogCheck = {},
+                onCloseMov = {},
                 flagCloseMov = false,
                 onNavMovProprioList = {},
                 onNavNroEquip = {},

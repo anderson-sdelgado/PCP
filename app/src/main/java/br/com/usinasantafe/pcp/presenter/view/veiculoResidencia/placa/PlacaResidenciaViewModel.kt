@@ -5,10 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.GetPlacaResidencia
 import br.com.usinasantafe.pcp.domain.usecases.veiculoResidencia.SetPlacaResidencia
+import br.com.usinasantafe.pcp.lib.Errors
 import br.com.usinasantafe.pcp.presenter.Args.FLOW_APP_ARGS
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.view.veiculoProprio.observ.ObservProprioState
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
+import br.com.usinasantafe.pcp.utils.onFailureUpdate
+import br.com.usinasantafe.pcp.utils.onSuccessStateAccess
+import br.com.usinasantafe.pcp.utils.onSuccessUpdateCheckAccess
+import br.com.usinasantafe.pcp.utils.withFailure
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,12 +29,14 @@ import javax.inject.Inject
 data class PlacaResidenciaState(
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
-    val placa: String = "",
-    val checkGetPlaca: Boolean = true,
-    val flagAccess: Boolean = false,
-    val flagDialog: Boolean = false,
-    val failure: String = "",
-)
+    val text: String = "",
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<PlacaResidenciaState> {
+
+    override fun copyWithStatus(status: UiStatusState): PlacaResidenciaState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class PlacaResidenciaViewModel @Inject constructor(
@@ -34,96 +45,46 @@ class PlacaResidenciaViewModel @Inject constructor(
     private val setPlacaResidencia: SetPlacaResidencia
 ) : ViewModel() {
 
-    private val flowApp: Int = savedStateHandle[FLOW_APP_ARGS]!!
-    private val id: Int = savedStateHandle[ID_ARGS]!!
+    private val flowAppArgs: Int = savedStateHandle[FLOW_APP_ARGS]!!
+    private val idArgs: Int = savedStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(PlacaResidenciaState())
     val uiState = _uiState.asStateFlow()
 
+    private val state get() = uiState.value
+
+    private fun updateState(block: PlacaResidenciaState.() -> PlacaResidenciaState) {
+        _uiState.update(block)
+    }
+
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowAppArgs]
+        updateState { copy(flowApp = flowApp, id = idArgs) }
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
+
+    fun onChanged(text: String) = updateState { copy(text = text) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            if(state.flowApp == FlowApp.ADD) return@launch
+            getPlacaResidencia(state.id).getOrThrow()
         }
+            .onSuccess { updateState { copy(text = it) } }
+            .onFailureState(::updateState)
     }
 
-    fun onPlacaChanged(placa: String) {
-        if (placa.length <= 7) {
-            _uiState.update {
-                it.copy(placa = placa)
-            }
-        }
-    }
-
-    fun recoverPlaca() = viewModelScope.launch {
-        if (
-            (uiState.value.flowApp == FlowApp.CHANGE) &&
-            (uiState.value.checkGetPlaca)
-        ) {
-            val resultGetPlaca = getPlacaResidencia(id = uiState.value.id)
-            if (resultGetPlaca.isFailure) {
-                val error = resultGetPlaca.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
+    fun set() = viewModelScope.launch {
+        runCatching {
+            if(state.text.isEmpty()) {
+                updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            val placa = resultGetPlaca.getOrNull()!!
-            _uiState.update {
-                it.copy(
-                    placa = placa,
-                    checkGetPlaca = false,
-                )
-            }
+            setPlacaResidencia(state.text, state.flowApp, state.id).getOrThrow()
         }
-    }
-
-    fun setPlaca() {
-        if (uiState.value.placa.isEmpty()) {
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                )
-            }
-            return
-        }
-        viewModelScope.launch {
-            val resultSetPlaca = setPlacaResidencia(
-                placa = uiState.value.placa,
-                flowApp = uiState.value.flowApp,
-                id = uiState.value.id
-            )
-            if (resultSetPlaca.isFailure) {
-                val error = resultSetPlaca.exceptionOrNull()!!
-                val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-                Timber.e(failure)
-                _uiState.update {
-                    it.copy(
-                        flagDialog = true,
-                        failure = failure,
-                    )
-                }
-                return@launch
-            }
-            _uiState.update {
-                it.copy(
-                    flagAccess = true,
-                )
-            }
-        }
+            .onSuccessStateAccess(::updateState)
+            .onFailureState(::updateState)
     }
 
 }

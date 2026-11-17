@@ -31,7 +31,7 @@ data class ChaveListState(
     val flowApp: FlowApp = FlowApp.ADD,
     val id: Int = 0,
     val flagFilter: Boolean = false,
-    val chaveList: List<ChaveModel> = emptyList(),
+    val list: List<ChaveModel> = emptyList(),
     val allChaveList: List<ChaveModel> = emptyList(),
     val field: String = "",
     override val status: UiStatusStateUpdate = UiStatusStateUpdate()
@@ -64,30 +64,26 @@ class ChaveListViewModel @Inject constructor(
     }
 
     init {
-        _uiState.update {
-            it.copy(
-                flowApp = FlowApp.entries[flowApp],
-                id = id
-            )
-        }
+        val flowApp = FlowApp.entries[flowApp]
+        updateState { copy(flowApp = flowApp, id = id) }
     }
 
     fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
     fun onFieldChanged(field: String) {
         val fieldUpper = field.uppercase()
-        val baseList = state.allChaveList.ifEmpty { state.chaveList }
+        val baseList = state.allChaveList.ifEmpty { state.list }
         updateState {
             if (fieldUpper.isNotEmpty()) {
                 copy(
-                    chaveList = baseList.filter { it.description.contains(fieldUpper) },
+                    list = baseList.filter { it.description.contains(fieldUpper) },
                     allChaveList = baseList,
                     flagFilter = true,
                     field = fieldUpper
                 )
             } else {
                 copy(
-                    chaveList = baseList,
+                    list = baseList,
                     flagFilter = false,
                     field = fieldUpper
                 )
@@ -95,16 +91,16 @@ class ChaveListViewModel @Inject constructor(
         }
     }
 
-    fun recoverList() = viewModelScope.launch {
+    fun list() = viewModelScope.launch {
         runCatching {
-            if(uiState.value.flagFilter) return@launch
+            if(state.flagFilter) return@launch
             getChaveList().getOrThrow()
         }
-            .onSuccess { updateState { copy(chaveList = it, allChaveList = it) } }
+            .onSuccess { updateState { copy(list = it, allChaveList = it) } }
             .onFailureUpdate(::updateState)
     }
 
-    fun setIdChave(id: Int) = viewModelScope.launch {
+    fun set(id: Int) = viewModelScope.launch {
         runCatching {
             setIdChaveMovChave(id, uiState.value.flowApp, uiState.value.id).getOrThrow()
         }
@@ -118,7 +114,7 @@ class ChaveListViewModel @Inject constructor(
             _uiState.value = stateUpdate
         }
         if (_uiState.value.status.levelUpdate == LevelUpdate.FINISH_UPDATE_COMPLETED) {
-            recoverList()
+            list()
         }
     }
 
