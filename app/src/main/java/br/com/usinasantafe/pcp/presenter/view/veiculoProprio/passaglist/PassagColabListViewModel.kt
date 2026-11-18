@@ -27,7 +27,6 @@ data class PassagColabListState(
     val typeOcupante: TypeOcupante = TypeOcupante.MOTORISTA,
     val id: Int = 0,
     val list: List<Colab> = emptyList(),
-    val flagClean: Boolean = true,
     val matricColabSelected: Int? = null,
     val flagDialogCheck: Boolean = false,
     override val status: UiStatusState = UiStatusState()
@@ -73,10 +72,8 @@ class PassagColabListViewModel @Inject constructor(
 
     fun recover(flagStart: Boolean) = viewModelScope.launch {
         runCatching {
-            if(flagStart) {
-                val check = (state.flowApp == FlowApp.ADD) && (uiState.value.typeOcupante == TypeOcupante.MOTORISTA)
-                if (check) cleanPassagColab().getOrThrow()
-            }
+            val check = (state.flowApp == FlowApp.ADD) && (uiState.value.typeOcupante == TypeOcupante.MOTORISTA) && (flagStart)
+            if (check) cleanPassagColab().getOrThrow()
             getPassagColabList(state.flowApp, state.id).getOrThrow()
         }
             .onSuccess { updateState { copy(list = it) } }

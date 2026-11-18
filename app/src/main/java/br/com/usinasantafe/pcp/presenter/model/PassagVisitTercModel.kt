@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.passaglist
+package br.com.usinasantafe.pcp.presenter.model
 
 data class PassagVisitTercModel(
     val id: Int,

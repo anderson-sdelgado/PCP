@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -29,6 +30,8 @@ import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_DESTINO_TEXT_FIELD_VISIT_TERC = "tag_destino_text_field_visit_terc"
 
@@ -42,21 +45,23 @@ fun DestinoVisitTercScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             DestinoVisitTercContent(
                 flowApp = uiState.flowApp,
-                destino = uiState.destino,
-                onDestinoChanged = viewModel::onDestinoChanged,
-                setDestino = viewModel::setDestino,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                text = uiState.text,
+                onChanged = viewModel::onChanged,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavPassagList = onNavPassagList,
                 onNavDetalhe = onNavDetalhe,
                 onNavObserv = onNavObserv,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverDestino()
         }
     }
 }
@@ -64,13 +69,11 @@ fun DestinoVisitTercScreen(
 @Composable
 fun DestinoVisitTercContent(
     flowApp: FlowApp,
-    destino: String,
-    onDestinoChanged: (String) -> Unit,
-    setDestino: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    text: String,
+    onChanged: (String) -> Unit,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavPassagList: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavObserv: () -> Unit,
@@ -83,8 +86,8 @@ fun DestinoVisitTercContent(
         TitleDesign(text = stringResource(id = R.string.text_title_destino))
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         OutlinedTextField(
-            value = destino,
-            onValueChange = onDestinoChanged,
+            value = text,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -112,7 +115,7 @@ fun DestinoVisitTercContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setDestino,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -120,23 +123,15 @@ fun DestinoVisitTercContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            val text = if (failure.isEmpty()) {
-                stringResource(
-                    R.string.text_field_empty,
-                    stringResource(id = R.string.text_title_destino)
-                )
-            } else {
-                stringResource(id = R.string.text_failure, failure)
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
-            when(flowApp) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            when (flowApp) {
                 FlowApp.ADD -> onNavObserv()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
@@ -151,13 +146,11 @@ fun DestinoVisitTercPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             DestinoVisitTercContent(
                 flowApp = FlowApp.ADD,
-                destino = "Tabatinga",
-                onDestinoChanged = {},
-                setDestino = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                text = "Tabatinga",
+                onChanged = {},
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavPassagList = {},
                 onNavDetalhe = {},
                 onNavObserv = {},

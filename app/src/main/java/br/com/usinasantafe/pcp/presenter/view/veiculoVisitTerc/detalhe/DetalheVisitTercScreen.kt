@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,11 +20,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
 import br.com.usinasantafe.pcp.presenter.theme.AlertDialogCheckDesign
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun DetalheVisitTercScreen(
@@ -39,6 +41,11 @@ fun DetalheVisitTercScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             DetalheVisitTercContent(
                 dthr = uiState.dthr,
                 tipoMov = uiState.tipoMov,
@@ -49,13 +56,12 @@ fun DetalheVisitTercScreen(
                 passageiro = uiState.passageiro,
                 destino = uiState.destino,
                 observ = uiState.observ,
-                flagDialog = uiState.flagDialog,
-                failure = uiState.failure,
-                setCloseDialog = viewModel::setCloseDialog,
-                closeMov = viewModel::closeMov,
+                onCloseDialog = viewModel::onCloseDialog,
+                onCloseMov = viewModel::onCloseMov,
                 flagCloseMov = uiState.flagCloseMov,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setDialogCheck = viewModel::setDialogCheck,
+                onDialogCheck = viewModel::onDialogCheck,
+                status = uiState.status,
                 onNavMovEquipEditList = onNavMovEquipEditList,
                 onNavVeiculo = onNavVeiculo,
                 onNavPlaca = onNavPlaca,
@@ -65,7 +71,6 @@ fun DetalheVisitTercScreen(
                 onNavObserv = onNavObserv,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverDetalhe()
         }
     }
 }
@@ -81,13 +86,12 @@ fun DetalheVisitTercContent(
     passageiro: String,
     destino: String?,
     observ: String?,
-    flagDialog: Boolean,
-    failure: String,
-    setCloseDialog: () -> Unit,
-    closeMov: () -> Unit,
+    onCloseDialog: () -> Unit,
+    onCloseMov: () -> Unit,
     flagCloseMov: Boolean,
     flagDialogCheck: Boolean,
-    setDialogCheck: (Boolean) -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    status: UiStatusState,
     onNavMovEquipEditList: () -> Unit,
     onNavVeiculo: () -> Unit,
     onNavPlaca: () -> Unit,
@@ -169,7 +173,7 @@ fun DetalheVisitTercContent(
             }
         }
         Button(
-            onClick = { setDialogCheck(true) },
+            onClick = { onDialogCheck(true) },
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(text = stringResource(id = R.string.text_button_close_mov))
@@ -183,27 +187,26 @@ fun DetalheVisitTercContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavMovEquipEditList() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if(flagDialogCheck){
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_question_close_mov),
-                setCloseDialog = { setDialogCheck(false)  },
-                setActionButtonYes = { closeMov() }
+                setCloseDialog = { onDialogCheck(false)  },
+                setActionButtonYes = { onCloseMov() }
             )
         }
 
-        if(flagCloseMov){
+    }
+
+    LaunchedEffect(flagCloseMov) {
+        if (flagCloseMov) {
             onNavMovEquipEditList()
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -221,13 +224,12 @@ fun DetalheVisitTercPagePreview() {
                 passageiro = "123.456.789-00 - JOSE DONIZETE;",
                 destino = null,
                 observ = "TESTE OBSERVAÇÃO",
-                setCloseDialog = {},
-                closeMov = {},
+                onCloseDialog = {},
+                onCloseMov = {},
                 flagCloseMov = false,
                 flagDialogCheck = false,
-                flagDialog = false,
-                failure = "",
-                setDialogCheck = {},
+                onDialogCheck = {},
+                status = UiStatusState(),
                 onNavMovEquipEditList = {},
                 onNavVeiculo = {},
                 onNavPlaca = {},

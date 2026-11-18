@@ -5,7 +5,7 @@ import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.passaglist.PassagVisitTercModel
+import br.com.usinasantafe.pcp.presenter.model.PassagVisitTercModel
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import javax.inject.Inject

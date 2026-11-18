@@ -15,7 +15,17 @@ fun addTextField(text: String, char: String): String {
 }
 
 fun clearTextField(text: String): String {
-    return if (text.length > 1) text.substring(0, text.length - 1) else ""
+
+    val reduced = text.dropLast(1)
+    val maskChars = listOf('(', '.', '-', ')', ' ')
+
+    var finalResult = reduced
+    while (finalResult.isNotEmpty() && finalResult.last() in maskChars) {
+        finalResult = finalResult.dropLast(1)
+    }
+
+    return finalResult
+
 }
 
 @Composable

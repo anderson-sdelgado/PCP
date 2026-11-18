@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -29,6 +30,8 @@ import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 const val TAG_VEICULO_TEXT_FIELD_VISIT_TERC = "tag_veiculo_text_field_visit_terc"
 
@@ -42,21 +45,23 @@ fun VeiculoVisitTercScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             VeiculoVisitTercContent(
                 flowApp = uiState.flowApp,
-                veiculo = uiState.veiculo,
-                onVeiculoChanged = viewModel::onVeiculoChanged,
-                setVeiculo = viewModel::setVeiculo,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                text = uiState.text,
+                onChanged = viewModel::onChanged,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavMovList = onNavMovList,
                 onNavDetalhe = onNavDetalhe,
                 onNavPlaca = onNavPlaca,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.recoverVeiculo()
         }
     }
 }
@@ -64,13 +69,11 @@ fun VeiculoVisitTercScreen(
 @Composable
 fun VeiculoVisitTercContent(
     flowApp: FlowApp,
-    veiculo: String = "",
-    onVeiculoChanged: (String) -> Unit = {},
-    setVeiculo: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    text: String,
+    onChanged: (String) -> Unit,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavMovList: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavPlaca: () -> Unit,
@@ -83,8 +86,8 @@ fun VeiculoVisitTercContent(
         TitleDesign(text = stringResource(id = R.string.text_title_veiculo))
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         OutlinedTextField(
-            value = veiculo,
-            onValueChange = onVeiculoChanged,
+            value = text,
+            onValueChange = onChanged,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -112,7 +115,7 @@ fun VeiculoVisitTercContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setVeiculo,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -120,29 +123,21 @@ fun VeiculoVisitTercContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            val text = if (failure.isEmpty()) {
-                stringResource(
-                    R.string.text_field_empty,
-                    stringResource(id = R.string.text_title_veiculo)
-                )
-            } else {
-                stringResource(id = R.string.text_failure, failure)
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             when (flowApp) {
                 FlowApp.ADD -> onNavPlaca()
                 FlowApp.CHANGE -> onNavDetalhe()
             }
         }
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -151,14 +146,12 @@ fun VeiculoVisitTercPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             VeiculoVisitTercContent(
-                veiculo = "GOL",
+                text = "GOL",
                 flowApp = FlowApp.ADD,
-                onVeiculoChanged = {},
-                setVeiculo = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onChanged = {},
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavMovList = {},
                 onNavDetalhe = {},
                 onNavPlaca = {},

@@ -39,8 +39,6 @@ class MovEquipResidenciaEditListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MovEquipResidenciaEditListState())
     val uiState = _uiState.asStateFlow()
 
-    private val state get() = uiState.value
-
     private fun updateState(block: MovEquipResidenciaEditListState.() -> MovEquipResidenciaEditListState) {
         _uiState.update(block)
     }

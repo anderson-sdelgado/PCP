@@ -4,7 +4,7 @@ import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcp.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.nome.NomeVisitTercModel
+import br.com.usinasantafe.pcp.presenter.model.NomeVisitTercModel
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import javax.inject.Inject

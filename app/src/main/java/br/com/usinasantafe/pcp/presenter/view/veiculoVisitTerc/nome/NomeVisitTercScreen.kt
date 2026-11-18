@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,8 @@ import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeOcupante
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun NomeVisitTercScreen(
@@ -39,23 +42,25 @@ fun NomeVisitTercScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+            }
+
             NomeVisitTercContent(
                 flowApp = uiState.flowApp,
                 typeOcupante = uiState.typeOcupante,
                 tipo = uiState.tipo,
                 nome = uiState.nome,
                 empresa = uiState.empresa,
-                setCPF = viewModel::setCPF,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavCpf = onNavCpf,
                 onNavPassag = onNavPassag,
                 onNavDetalhe = onNavDetalhe,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnNome()
         }
     }
 }
@@ -67,11 +72,9 @@ fun NomeVisitTercContent(
     tipo: String,
     nome: String,
     empresa: String,
-    setCPF: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    set: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavCpf: () -> Unit,
     onNavPassag: () -> Unit,
     onNavDetalhe: () -> Unit,
@@ -122,7 +125,7 @@ fun NomeVisitTercContent(
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_cancel))
             }
             Button(
-                onClick = setCPF,
+                onClick = set,
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(text = stringResource(id = R.string.text_pattern_ok))
@@ -130,18 +133,17 @@ fun NomeVisitTercContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                setCloseDialog = setCloseDialog,
-                setActionButtonOK = { onNavCpf() }
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
-            if ((flowApp == FlowApp.CHANGE) && (typeOcupante == TypeOcupante.MOTORISTA)) onNavDetalhe() else onNavPassag()
-        }
+    }
 
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            val check = (flowApp == FlowApp.CHANGE) && (typeOcupante == TypeOcupante.MOTORISTA)
+            if (check) onNavDetalhe() else onNavPassag()
+        }
     }
 }
 
@@ -156,11 +158,9 @@ fun NomeVisitTercPagePreview() {
                 tipo = "TERCEIRO",
                 nome = "NOME TESTE",
                 empresa = "EMPRESA TESTE",
-                setCPF = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavCpf = {},
                 onNavPassag = {},
                 onNavDetalhe = {},

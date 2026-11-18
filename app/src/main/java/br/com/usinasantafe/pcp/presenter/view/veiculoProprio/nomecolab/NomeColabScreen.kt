@@ -49,7 +49,7 @@ fun NomeColabScreen(
             NomeColabContent(
                 flowApp = uiState.flowApp,
                 typeOcupante = uiState.typeOcupante,
-                nomeColab = uiState.nomeColab,
+                nome = uiState.nome,
                 set = viewModel::set,
                 onCloseDialog = viewModel::onCloseDialog,
                 status = uiState.status,
@@ -66,7 +66,7 @@ fun NomeColabScreen(
 fun NomeColabContent(
     flowApp: FlowApp,
     typeOcupante: TypeOcupante,
-    nomeColab: String,
+    nome: String,
     set: () -> Unit,
     onCloseDialog: () -> Unit,
     status: UiStatusState,
@@ -93,7 +93,7 @@ fun NomeColabContent(
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = nomeColab,
+                text = nome,
                 fontSize = 28.sp,
             )
         }
@@ -150,7 +150,7 @@ fun NomeColabPagePreview() {
             NomeColabContent(
                 flowApp = FlowApp.ADD,
                 typeOcupante = TypeOcupante.MOTORISTA,
-                nomeColab = "ANDERSON DA SILVA DELGADO",
+                nome = "ANDERSON DA SILVA DELGADO",
                 set = {},
                 onCloseDialog = {},
                 status = UiStatusState(),
@@ -171,7 +171,7 @@ fun NomeColabPagePreviewFailure() {
             NomeColabContent(
                 flowApp = FlowApp.ADD,
                 typeOcupante = TypeOcupante.MOTORISTA,
-                nomeColab = "ANDERSON DA SILVA DELGADO",
+                nome = "ANDERSON DA SILVA DELGADO",
                 set = {},
                 onCloseDialog = {},
                 status = UiStatusState(),

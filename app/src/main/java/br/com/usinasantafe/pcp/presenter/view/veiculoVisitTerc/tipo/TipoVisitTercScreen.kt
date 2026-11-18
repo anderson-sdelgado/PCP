@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,6 +24,8 @@ import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun TipoVisitTercScreen(
@@ -34,11 +37,9 @@ fun TipoVisitTercScreen(
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             TipoVisitTercContent(
-                setTipoVisitTerc = viewModel::setTypeVisitTerc,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                set = viewModel::set,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavPlacaVisitTerc = onNavPlacaVisitTerc,
                 onNavCpfVisitTerc = onNavCpfVisitTerc,
                 modifier = Modifier.padding(innerPadding)
@@ -49,11 +50,9 @@ fun TipoVisitTercScreen(
 
 @Composable
 fun TipoVisitTercContent(
-    setTipoVisitTerc: (TypeVisitTerc) -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    set: (TypeVisitTerc) -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavPlacaVisitTerc: () -> Unit,
     onNavCpfVisitTerc: () -> Unit,
     modifier: Modifier = Modifier
@@ -71,14 +70,14 @@ fun TipoVisitTercContent(
             item {
                 ItemListDesign(
                     text = "TERCEIRO",
-                    setActionItem = { setTipoVisitTerc(TypeVisitTerc.TERCEIRO) },
+                    setActionItem = { set(TypeVisitTerc.TERCEIRO) },
                     font = 26
                 )
             }
             item {
                 ItemListDesign(
                     text = "VISITANTE",
-                    setActionItem = { setTipoVisitTerc(TypeVisitTerc.VISITANTE) },
+                    setActionItem = { set(TypeVisitTerc.VISITANTE) },
                     font = 26
                 )
             }
@@ -91,18 +90,18 @@ fun TipoVisitTercContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
-        }
-
-        if (flagAccess) {
-            onNavCpfVisitTerc()
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
     }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
+            onNavCpfVisitTerc()
+        }
+    }
+
 }
 
 @Preview(showBackground = true)
@@ -111,11 +110,9 @@ fun TipoVisitTercPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             TipoVisitTercContent(
-                setTipoVisitTerc = {},
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                set = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavPlacaVisitTerc = {},
                 onNavCpfVisitTerc = {},
                 modifier = Modifier.padding(innerPadding)

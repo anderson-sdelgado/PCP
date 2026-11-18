@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc
 import br.com.usinasantafe.pcp.domain.errors.resultFailure
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcp.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.detalhe.DetalheVisitTercModel
+import br.com.usinasantafe.pcp.presenter.model.DetalheVisitTercModel
 import br.com.usinasantafe.pcp.lib.FlowApp
 import br.com.usinasantafe.pcp.lib.TypeVisitTerc
 import java.text.SimpleDateFormat

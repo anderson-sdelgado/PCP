@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.nome
+package br.com.usinasantafe.pcp.presenter.model
 
 data class NomeVisitTercModel(
     val tipo: String,

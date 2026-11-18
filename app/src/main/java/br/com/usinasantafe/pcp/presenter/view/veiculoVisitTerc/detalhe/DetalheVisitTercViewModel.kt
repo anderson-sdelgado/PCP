@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.CloseMovVisitTerc
 import br.com.usinasantafe.pcp.domain.usecases.veiculoVisitTerc.GetDetalheVisitTerc
 import br.com.usinasantafe.pcp.presenter.Args.ID_ARGS
+import br.com.usinasantafe.pcp.utils.UiStateWithStatus
+import br.com.usinasantafe.pcp.utils.UiStatusState
 import br.com.usinasantafe.pcp.utils.getClassAndMethod
+import br.com.usinasantafe.pcp.utils.onFailureState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,11 +29,15 @@ data class DetalheVisitTercState(
     val passageiro: String = "",
     val destino: String? = "",
     val observ: String? = "",
-    val flagDialog: Boolean = false,
-    val failure: String = "",
     val flagDialogCheck: Boolean = false,
-    val flagCloseMov: Boolean = false
-)
+    val flagCloseMov: Boolean = false,
+    override val status: UiStatusState = UiStatusState()
+) : UiStateWithStatus<DetalheVisitTercState> {
+
+    override fun copyWithStatus(status: UiStatusState): DetalheVisitTercState =
+        copy(status = status)
+
+}
 
 @HiltViewModel
 class DetalheVisitTercViewModel @Inject constructor(
@@ -39,81 +46,51 @@ class DetalheVisitTercViewModel @Inject constructor(
     private val closeMovVisitTerc: CloseMovVisitTerc
 ) : ViewModel() {
 
-    private val id: Int = saveStateHandle[ID_ARGS]!!
+    private val idArgs: Int = saveStateHandle[ID_ARGS]!!
 
     private val _uiState = MutableStateFlow(DetalheVisitTercState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        _uiState.update {
-            it.copy(
-                id = id
-            )
-        }
+    private val state get() = uiState.value
+
+    private fun updateState(block: DetalheVisitTercState.() -> DetalheVisitTercState) {
+        _uiState.update(block)
     }
 
-    fun setCloseDialog() {
-        _uiState.update {
-            it.copy(flagDialog = false)
-        }
-    }
+    init { updateState { copy(id = idArgs) } }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
-        _uiState.update {
-            it.copy(flagDialogCheck = flagDialogCheck)
-        }
-    }
+    fun onCloseDialog() = updateState { copy(status = status.copy(flagDialog = false, flagFailure = false)) }
 
-    fun recoverDetalhe() = viewModelScope.launch {
-        val resultRecoverDetalhe = getDetalheVisitTerc(uiState.value.id)
-        if(resultRecoverDetalhe.isFailure) {
-            val error = resultRecoverDetalhe.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
+    fun onDialogCheck(flag: Boolean) = updateState { copy(flagDialogCheck = flag) }
+
+    fun recover() = viewModelScope.launch {
+        runCatching {
+            getDetalheVisitTerc(uiState.value.id).getOrThrow()
+        }
+            .onSuccess {
+                updateState {
+                    copy(
+                        dthr = it.dthr,
+                        tipoMov = it.tipoMov,
+                        veiculo = it.veiculo,
+                        placa = it.placa,
+                        tipoVisitTerc = it.tipoVisitTerc,
+                        motorista = it.motorista,
+                        passageiro = it.passageiro,
+                        destino = it.destino,
+                        observ = it.observ
+                    )
+                }
             }
-            return@launch
-        }
-        val detalhe = resultRecoverDetalhe.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                dthr = detalhe.dthr,
-                tipoMov = detalhe.tipoMov,
-                veiculo = detalhe.veiculo,
-                placa = detalhe.placa,
-                tipoVisitTerc = detalhe.tipoVisitTerc,
-                motorista = detalhe.motorista,
-                passageiro = detalhe.passageiro,
-                destino = detalhe.destino,
-                observ = detalhe.observ
-            )
-        }
+            .onFailureState(::updateState)
     }
 
-    fun closeMov() = viewModelScope.launch {
-        val resultCloseMov = closeMovVisitTerc(id)
-        if(resultCloseMov.isFailure) {
-            val error = resultCloseMov.exceptionOrNull()!!
-            val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
-            Timber.e(failure)
-            _uiState.update {
-                it.copy(
-                    flagDialog = true,
-                    failure = failure
-                )
-            }
-            return@launch
+    fun onCloseMov() = viewModelScope.launch {
+        runCatching {
+            closeMovVisitTerc(state.id).getOrThrow()
         }
-        val result = resultCloseMov.getOrNull()!!
-        _uiState.update {
-            it.copy(
-                flagDialogCheck = false,
-                flagCloseMov = result
-            )
-        }
+            .onSuccess { updateState { copy(flagCloseMov = it, flagDialogCheck = false) }}
+            .onFailureState(::updateState)
     }
+
 }

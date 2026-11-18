@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,6 +28,9 @@ import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
 import br.com.usinasantafe.pcp.lib.FlowApp
+import br.com.usinasantafe.pcp.presenter.model.PassagVisitTercModel
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun PassagVisitTercListScreen(
@@ -39,24 +43,27 @@ fun PassagVisitTercListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover(true)
+            }
+
             PassagVisitTercListContent(
                 flowApp = uiState.flowApp,
-                passagList = uiState.passagList,
+                list = uiState.list,
                 setDelete = viewModel::setDelete,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setCloseDialogCheck = viewModel::setCloseDialogCheck,
-                setDeletePassag = viewModel::deletePassag,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onCloseDialogCheck = viewModel::onCloseDialogCheck,
+                onDelete = viewModel::onDelete,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavCpf = onNavCpf,
                 onNavDetalhe = onNavDetalhe,
                 onNavCpfPassag = onNavCpfPassag,
                 onNavDestino = onNavDestino,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.cleanPassag()
-            viewModel.recoverPassag()
+
         }
     }
 }
@@ -64,14 +71,13 @@ fun PassagVisitTercListScreen(
 @Composable
 fun PassagVisitTercListContent(
     flowApp: FlowApp,
-    passagList: List<PassagVisitTercModel>,
+    list: List<PassagVisitTercModel>,
     setDelete: (Int) -> Unit,
     flagDialogCheck: Boolean,
-    setCloseDialogCheck: () -> Unit,
-    setDeletePassag: () -> Unit,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onCloseDialogCheck: () -> Unit,
+    onDelete: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavCpf: () -> Unit,
     onNavDetalhe: () -> Unit,
     onNavCpfPassag: () -> Unit,
@@ -87,7 +93,7 @@ fun PassagVisitTercListContent(
             modifier = Modifier
                 .weight(1f),
         ) {
-            items(passagList) { passag ->
+            items(list) { passag ->
                 ItemListDesign(
                     text = "${passag.cpf} - ${passag.nome}",
                     setActionItem = { setDelete(passag.id) },
@@ -140,18 +146,15 @@ fun PassagVisitTercListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
         if (flagDialogCheck) {
             AlertDialogCheckDesign(
                 text = stringResource(id = R.string.text_delete_passag),
-                setCloseDialog = setCloseDialogCheck,
-                setActionButtonYes = setDeletePassag
+                setCloseDialog = onCloseDialogCheck,
+                setActionButtonYes = onDelete
             )
         }
 
@@ -165,14 +168,13 @@ fun PassagVisitTercListPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             PassagVisitTercListContent(
                 flowApp = FlowApp.ADD,
-                passagList = emptyList(),
+                list = emptyList(),
                 setDelete = {},
                 flagDialogCheck = false,
-                setCloseDialogCheck = {},
-                setDeletePassag = {},
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialogCheck = {},
+                onDelete = {},
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavCpf = {},
                 onNavDetalhe = {},
                 onNavCpfPassag = {},

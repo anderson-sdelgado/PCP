@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.detalhe
+package br.com.usinasantafe.pcp.presenter.model
 
 data class DetalheVisitTercModel(
     val dthr: String,

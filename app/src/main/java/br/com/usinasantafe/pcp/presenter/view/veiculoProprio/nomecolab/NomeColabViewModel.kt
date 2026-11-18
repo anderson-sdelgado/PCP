@@ -27,7 +27,7 @@ data class NomeColabState(
     val typeOcupante: TypeOcupante = TypeOcupante.MOTORISTA,
     val id: Int = 0,
     val matricColab: String = "",
-    val nomeColab: String = "",
+    val nome: String = "",
     override val status: UiStatusState = UiStatusState()
 ) : UiStateWithStatus<NomeColabState> {
 
@@ -69,7 +69,7 @@ class NomeColabViewModel @Inject constructor(
         runCatching {
             getNomeColab(state.matricColab).getOrThrow()
         }
-            .onSuccess { updateState { copy(nomeColab = it) }}
+            .onSuccess { updateState { copy(nome = it) }}
             .onFailureState(::updateState)
     }
 

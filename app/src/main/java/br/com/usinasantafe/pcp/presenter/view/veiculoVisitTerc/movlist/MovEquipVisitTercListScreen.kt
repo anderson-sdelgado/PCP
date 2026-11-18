@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,13 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.pcp.R
-import br.com.usinasantafe.pcp.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.pcp.presenter.theme.ItemListDesign
 import br.com.usinasantafe.pcp.presenter.theme.PCPTheme
 import br.com.usinasantafe.pcp.presenter.theme.TextButtonDesign
 import br.com.usinasantafe.pcp.presenter.theme.TextSmallDesign
 import br.com.usinasantafe.pcp.presenter.theme.TitleDesign
-import br.com.usinasantafe.pcp.presenter.view.veiculoVisitTerc.model.MovEquipVisitTercModel
+import br.com.usinasantafe.pcp.presenter.model.MovEquipVisitTercModel
+import br.com.usinasantafe.pcp.presenter.theme.MsgErrors
+import br.com.usinasantafe.pcp.utils.UiStatusState
 
 @Composable
 fun MovEquipVisitTercListScreen(
@@ -38,37 +40,37 @@ fun MovEquipVisitTercListScreen(
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(Unit) {
+                viewModel.recover()
+                viewModel.list()
+            }
+
             MovEquipVisitTercListContent(
-                movEquipVisitTercModelList = uiState.movEquipVisitTercModelList,
+                list = uiState.list,
                 descrVigia = uiState.descrVigia,
                 descrLocal = uiState.descrLocal,
-                startMov = viewModel::startMov,
-                flagAccess = uiState.flagAccess,
-                flagDialog = uiState.flagDialog,
-                setCloseDialog = viewModel::setCloseDialog,
-                failure = uiState.failure,
+                onStartMov = viewModel::onStartMov,
+                onCloseDialog = viewModel::onCloseDialog,
+                status = uiState.status,
                 onNavVeiculo = onNavVeiculo,
                 onNavMovEquipEditList = onNavMovEquipEditList,
                 onNavObserv = onNavObserv,
                 onNavMenuApont = onNavMenuApont,
                 modifier = Modifier.padding(innerPadding)
             )
-            viewModel.returnHeader()
-            viewModel.recoverMovEquipList()
         }
     }
 }
 
 @Composable
 fun MovEquipVisitTercListContent(
-    movEquipVisitTercModelList: List<MovEquipVisitTercModel>,
+    list: List<MovEquipVisitTercModel>,
     descrVigia: String,
     descrLocal: String,
-    startMov: () -> Unit,
-    flagAccess: Boolean,
-    flagDialog: Boolean,
-    setCloseDialog: () -> Unit,
-    failure: String,
+    onStartMov: () -> Unit,
+    onCloseDialog: () -> Unit,
+    status: UiStatusState,
     onNavVeiculo: () -> Unit,
     onNavMovEquipEditList: () -> Unit,
     onNavObserv: (Int) -> Unit,
@@ -91,7 +93,7 @@ fun MovEquipVisitTercListContent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(movEquipVisitTercModelList) { mov ->
+            items(list) { mov ->
                 ItemListDesign(
                     text = "DATA/HORA: ${mov.dthr}\n" +
                             "VEÍCULO: ${mov.veiculo}\n" +
@@ -107,7 +109,7 @@ fun MovEquipVisitTercListContent(
             }
         }
         Button(
-            onClick = startMov,
+            onClick = onStartMov,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
@@ -132,14 +134,14 @@ fun MovEquipVisitTercListContent(
         }
         BackHandler {}
 
-        if (flagDialog) {
-            AlertDialogSimpleDesign(
-                text = stringResource(id = R.string.text_failure, failure),
-                onClickOk = setCloseDialog,
-            )
+        if(status.flagDialog) {
+            MsgErrors(status.errors, onCloseDialog, status.failure)
         }
 
-        if (flagAccess) {
+    }
+
+    LaunchedEffect(status.flagAccess) {
+        if (status.flagAccess) {
             onNavVeiculo()
         }
     }
@@ -151,10 +153,10 @@ fun MovEquipVisitTercListPagePreview() {
     PCPTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             MovEquipVisitTercListContent(
-                startMov = {},
+                onStartMov = {},
                 descrVigia = "19759 - ANDERSON DA SILVA DELGADO",
                 descrLocal = "1 - USINA",
-                movEquipVisitTercModelList = listOf(
+                list = listOf(
                     MovEquipVisitTercModel(
                         id = 1,
                         dthr = "08/08/2024 12:00",
@@ -172,10 +174,8 @@ fun MovEquipVisitTercListPagePreview() {
                         tipoVisitTerc = "TERCEIRO"
                     )
                 ),
-                flagAccess = false,
-                flagDialog = false,
-                setCloseDialog = {},
-                failure = "",
+                onCloseDialog = {},
+                status = UiStatusState(),
                 onNavVeiculo = {},
                 onNavMovEquipEditList = {},
                 onNavObserv = {},

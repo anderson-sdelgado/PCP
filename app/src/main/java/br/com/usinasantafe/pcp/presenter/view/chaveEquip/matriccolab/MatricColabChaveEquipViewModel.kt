@@ -99,7 +99,7 @@ class MatricColabChaveEquipViewModel @Inject constructor(
                 updateState { withFailure( Errors.FIELD_EMPTY) }
                 return@launch
             }
-            checkMatricColab(uiState.value.text).getOrThrow()
+            checkMatricColab(state.text).getOrThrow()
         }
             .onSuccessUpdateCheckAccess(::updateState)
             .onFailureUpdate( ::updateState)
